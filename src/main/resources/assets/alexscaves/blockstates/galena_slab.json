@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/galena_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/galena"
+    },
+    "type=top": {
+      "model": "alexscaves:block/galena_slab_top"
+    }
+  }
+}

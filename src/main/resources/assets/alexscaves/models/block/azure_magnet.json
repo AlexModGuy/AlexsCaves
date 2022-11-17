@@ -1,0 +1,8 @@
+{
+  "parent": "alexscaves:block/magnet",
+  "textures": {
+    "0": "alexscaves:block/neodymium/azure_magnet_0",
+    "1": "alexscaves:block/neodymium/azure_magnet_1",
+    "particle": "alexscaves:block/neodymium/azure_magnet_0"
+  }
+}

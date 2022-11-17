@@ -1,0 +1,6 @@
+{
+  "__comment": "all non-player mobs made out of magnetic materials.",
+  "values": [
+    "minecraft:iron_golem"
+  ]
+}

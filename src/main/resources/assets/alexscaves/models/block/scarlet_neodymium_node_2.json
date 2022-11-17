@@ -1,0 +1,13 @@
+{
+  "parent": "alexscaves:block/neodymium_node_2",
+  "textures": {
+    "1": "alexscaves:block/neodymium/scarlet_node_side_0",
+    "2": "alexscaves:block/neodymium/scarlet_node_side_1",
+    "3": "alexscaves:block/neodymium/scarlet_node_side_2",
+    "4": "alexscaves:block/neodymium/scarlet_node_side_3",
+    "5": "alexscaves:block/neodymium/scarlet_node_side_4",
+    "6": "alexscaves:block/neodymium/scarlet_node_side_5",
+    "7": "alexscaves:block/neodymium/scarlet_node_side_6",
+    "particle": "alexscaves:block/neodymium/scarlet_node_side_0"
+  }
+}

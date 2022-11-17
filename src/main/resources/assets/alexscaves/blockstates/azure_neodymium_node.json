@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "facing=down": [
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 180, "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 180, "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 180, "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 180, "y": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 180, "y": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 180, "y": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 180, "y": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 180, "y": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 180, "y": 270 }
+    ],
+    "facing=east": [
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 90, "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 90, "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 90, "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 90 }
+    ],
+    "facing=south": [
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 270 }
+    ],
+    "facing=up": [
+      { "model": "alexscaves:block/azure_neodymium_node_0" },
+      { "model": "alexscaves:block/azure_neodymium_node_1" },
+      { "model": "alexscaves:block/azure_neodymium_node_2" },
+      { "model": "alexscaves:block/azure_neodymium_node_0", "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "y": 90 },
+      { "model": "alexscaves:block/azure_neodymium_node_0", "y": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "y": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "y": 180 },
+      { "model": "alexscaves:block/azure_neodymium_node_0", "y": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "y": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "y": 270 }
+    ],
+    "facing=west": [
+      { "model": "alexscaves:block/azure_neodymium_node_0", "x": 90, "y": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_1", "x": 90, "y": 270 },
+      { "model": "alexscaves:block/azure_neodymium_node_2", "x": 90, "y": 270 }
+    ]
+  }
+}

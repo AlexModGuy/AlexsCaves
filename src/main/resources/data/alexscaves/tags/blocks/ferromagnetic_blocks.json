@@ -1,0 +1,25 @@
+{
+  "__comment": "all blocks pulled or pushed by magnets.",
+  "values": [
+    "alexscaves:scrap_metal",
+    "alexscaves:metal_swarf",
+    "#forge:storage_blocks/raw_iron",
+    "#forge:storage_blocks/iron",
+    "#forge:storage_blocks/netherite",
+    "#forge:ores/iron",
+    "#forge:ores/netherite_scrap",
+    "minecraft:cauldron",
+    "minecraft:chain",
+    "minecraft:hopper",
+    "minecraft:spawner",
+    "minecraft:iron_door",
+    "minecraft:iron_trapdoor",
+    "minecraft:iron_bars",
+    "minecraft:smithing_table",
+    "minecraft:lodestone",
+    "minecraft:stonecutter",
+    "#minecraft:rails",
+    "minecraft:heavy_weighted_pressure_plate",
+    "#minecraft:anvil"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "alexscaves:block/neodymium/azure_pillar_side_top",
+        "bottom": "alexscaves:block/neodymium/azure_pillar_bottom",
+        "top": "alexscaves:block/neodymium/azure_pillar_top"
+    }
+}

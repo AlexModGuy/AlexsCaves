@@ -1,0 +1,9 @@
+{
+  "feature": "alexscaves:magnetic_ruins",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 11
+    }
+  ]
+}

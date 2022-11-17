@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G  ",
+    "GG ",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:galena"
+    }
+  },
+  "result": {
+    "item": "alexscaves:galena_stairs",
+    "count": 4
+  }
+}

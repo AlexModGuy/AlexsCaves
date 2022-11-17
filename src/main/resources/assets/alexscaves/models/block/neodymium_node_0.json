@@ -1,0 +1,67 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"ambientocclusion": false,
+	"elements": [
+		{
+			"name": "neodysmium1",
+			"from": [8, 0, 3],
+			"to": [15, 9, 10],
+			"faces": {
+				"north": {"uv": [9, 0, 16, 9], "texture": "#4"},
+				"east": {"uv": [1, 0, 8, 9], "texture": "#4"},
+				"south": {"uv": [7, 7, 14, 16], "texture": "#7"},
+				"west": {"uv": [0, 7, 7, 16], "texture": "#7"},
+				"up": {"uv": [7, 16, 0, 9], "texture": "#4"},
+				"down": {"uv": [9, 9, 16, 16], "texture": "#4"}
+			}
+		},
+		{
+			"name": "neodysmium2",
+			"from": [3, 0, 7],
+			"to": [11, 12, 15],
+			"faces": {
+				"north": {"uv": [16, 0, 8, 12], "texture": "#3"},
+				"east": {"uv": [8, 4, 16, 16], "texture": "#6"},
+				"south": {"uv": [0, 0, 8, 12], "texture": "#2"},
+				"west": {"uv": [8, 4, 16, 16], "texture": "#6"},
+				"up": {"uv": [8, 8, 0, 0], "texture": "#5"},
+				"down": {"uv": [16, 0, 8, 8], "texture": "#5"}
+			}
+		},
+		{
+			"name": "neodysmium3",
+			"from": [11, 0, 10],
+			"to": [14, 5, 13],
+			"faces": {
+				"north": {"uv": [0, 2, 3, 7], "texture": "#7"},
+				"east": {"uv": [3, 2, 6, 7], "texture": "#7"},
+				"south": {"uv": [6, 2, 9, 7], "texture": "#7"},
+				"west": {"uv": [9, 2, 12, 7], "texture": "#7"},
+				"up": {"uv": [6, 3, 3, 0], "texture": "#6"},
+				"down": {"uv": [3, 0, 0, 3], "texture": "#6"}
+			}
+		},
+		{
+			"name": "neodysmium4",
+			"from": [1, 0, 1],
+			"to": [9, 16, 9],
+			"faces": {
+				"north": {"uv": [0, 0, 8, 16], "texture": "#1"},
+				"east": {"uv": [8, 0, 16, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 8, 16], "texture": "#3"},
+				"west": {"uv": [8, 0, 16, 16], "texture": "#3"},
+				"up": {"uv": [16, 16, 8, 8], "texture": "#5"},
+				"down": {"uv": [8, 8, 0, 16], "texture": "#5"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "neodysmium",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [0, 1, 2, 3]
+		}
+	]
+}

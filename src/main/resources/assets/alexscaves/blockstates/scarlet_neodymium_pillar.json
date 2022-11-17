@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "facing=down,top=false": { "model": "alexscaves:block/scarlet_neodymium_pillar", "x": 180 },
+    "facing=east,top=false": { "model": "alexscaves:block/scarlet_neodymium_pillar", "x": 90, "y": 90 },
+    "facing=north,top=false": { "model": "alexscaves:block/scarlet_neodymium_pillar", "x": 90 },
+    "facing=south,top=false": { "model": "alexscaves:block/scarlet_neodymium_pillar", "x": 270 },
+    "facing=up,top=false": { "model": "alexscaves:block/scarlet_neodymium_pillar" },
+    "facing=west,top=false": { "model": "alexscaves:block/scarlet_neodymium_pillar", "x": 90, "y": 270 },
+    "facing=down,top=true": { "model": "alexscaves:block/scarlet_neodymium_pillar_top", "x": 180 },
+    "facing=east,top=true": { "model": "alexscaves:block/scarlet_neodymium_pillar_top", "x": 90, "y": 90 },
+    "facing=north,top=true": { "model": "alexscaves:block/scarlet_neodymium_pillar_top", "x": 90 },
+    "facing=south,top=true": { "model": "alexscaves:block/scarlet_neodymium_pillar_top", "x": 270 },
+    "facing=up,top=true": { "model": "alexscaves:block/scarlet_neodymium_pillar_top" },
+    "facing=west,top=true": { "model": "alexscaves:block/scarlet_neodymium_pillar_top", "x": 90, "y": 270 }
+
+  }
+}

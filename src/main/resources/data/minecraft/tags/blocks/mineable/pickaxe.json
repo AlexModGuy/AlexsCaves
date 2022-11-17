@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:galena",
+    "alexscaves:galena_bricks",
+    "alexscaves:packed_galena",
+    "alexscaves:galena_slab",
+    "alexscaves:galena_stairs",
+    "alexscaves:galena_iron_ore",
+    "alexscaves:galena_wall",
+    "alexscaves:galena_brick_slab",
+    "alexscaves:galena_brick_stairs",
+    "alexscaves:galena_brick_wall",
+    "alexscaves:scarlet_neodymium_node",
+    "alexscaves:azure_neodymium_node",
+    "alexscaves:scarlet_neodymium_pillar",
+    "alexscaves:azure_neodymium_pillar",
+    "alexscaves:block_of_scarlet_neodymium",
+    "alexscaves:block_of_azure_neodymium",
+    "alexscaves:scarlet_magnet",
+    "alexscaves:azure_magnet"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    "N N",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:scarlet_neodymium_ingot"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "alexscaves:scarlet_magnet",
+    "count": 1
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "package": "com.github.alexmodguy.alexscaves.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "target": "@env(DEFAULT)",
+  "refmap": "alexscaves.refmap.json",
+  "mixins": [
+    "EntityMixin",
+    "FallingBlockEntityMixin",
+    "LivingEntityMixin"
+  ],
+  "client": [
+    "client.CameraMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

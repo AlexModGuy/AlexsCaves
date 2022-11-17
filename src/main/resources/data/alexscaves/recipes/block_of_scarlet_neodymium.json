@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:scarlet_neodymium_ingot"
+    }
+  },
+  "result": {
+    "item": "alexscaves:block_of_scarlet_neodymium",
+    "count": 1
+  }
+}

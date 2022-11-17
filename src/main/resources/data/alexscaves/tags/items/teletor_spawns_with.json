@@ -1,0 +1,10 @@
+{
+  "__comment": "all items a teletor can spawn in the game with.",
+  "values": [
+    "minecraft:iron_sword",
+    "minecraft:iron_pickaxe",
+    "minecraft:iron_axe",
+    "minecraft:iron_shovel",
+    "minecraft:iron_hoe"
+  ]
+}

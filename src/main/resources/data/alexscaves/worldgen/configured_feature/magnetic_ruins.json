@@ -1,0 +1,14 @@
+{
+  "type": "alexscaves:magnetic_ruins",
+  "config": {
+    "structures": [
+      "alexscaves:magnetic_ruins_0",
+      "alexscaves:magnetic_ruins_1",
+      "alexscaves:magnetic_ruins_2",
+      "alexscaves:magnetic_ruins_3",
+      "alexscaves:magnetic_ruins_4",
+      "alexscaves:magnetic_ruins_5",
+      "alexscaves:magnetic_ruins_6"
+    ]
+  }
+}

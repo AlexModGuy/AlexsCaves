@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NN",
+    "NN",
+    "NN"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:raw_scarlet_neodymium"
+    }
+  },
+  "result": {
+    "item": "alexscaves:scarlet_neodymium_pillar",
+    "count": 2
+  }
+}

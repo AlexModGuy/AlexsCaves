@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "alexscaves:packed_galena"
+  },
+  "result": "minecraft:iron_nugget",
+  "experience": 0.05,
+  "cookingtime": 100
+}

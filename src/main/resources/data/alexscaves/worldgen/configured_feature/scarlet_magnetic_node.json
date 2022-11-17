@@ -1,0 +1,17 @@
+{
+  "type": "alexscaves:magnetic_node",
+  "config": {
+    "pillar": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "alexscaves:scarlet_neodymium_pillar"
+      }
+    },
+    "node": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "alexscaves:scarlet_neodymium_node"
+      }
+    }
+  }
+}

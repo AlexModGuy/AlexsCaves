@@ -1,0 +1,7 @@
+{
+  "__comment": "all blocks that cannot pulled or pushed by magnets.",
+  "values": [
+    "minecraft:obsidian",
+    "minecraft:bedrock"
+  ]
+}

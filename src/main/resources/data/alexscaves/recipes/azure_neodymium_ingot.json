@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:raw_azure_neodymium"
+    },
+    {
+      "item": "alexscaves:raw_azure_neodymium"
+    },
+    {
+      "item": "alexscaves:raw_azure_neodymium"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    },
+    {
+      "tag": "forge:ingots/iron"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:azure_neodymium_ingot",
+    "count": 1
+  }
+}

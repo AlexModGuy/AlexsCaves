@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/galena_brick_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/galena_bricks"
+    },
+    "type=top": {
+      "model": "alexscaves:block/galena_brick_slab_top"
+    }
+  }
+}

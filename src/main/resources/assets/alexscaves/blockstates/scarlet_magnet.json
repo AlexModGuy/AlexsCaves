@@ -1,0 +1,17 @@
+{
+  "variants": {
+    "facing=down,powered=false": { "model": "alexscaves:block/scarlet_magnet", "x": 180 },
+    "facing=east,powered=false": { "model": "alexscaves:block/scarlet_magnet", "x": 90, "y": 90 },
+    "facing=north,powered=false": { "model": "alexscaves:block/scarlet_magnet", "x": 90 },
+    "facing=south,powered=false": { "model": "alexscaves:block/scarlet_magnet", "x": 270 },
+    "facing=up,powered=false": { "model": "alexscaves:block/scarlet_magnet" },
+    "facing=west,powered=false": { "model": "alexscaves:block/scarlet_magnet", "x": 90, "y": 270 },
+    "facing=down,powered=true": { "model": "alexscaves:block/active_magnet", "x": 180 },
+    "facing=east,powered=true": { "model": "alexscaves:block/active_magnet", "x": 90, "y": 90 },
+    "facing=north,powered=true": { "model": "alexscaves:block/active_magnet", "x": 90 },
+    "facing=south,powered=true": { "model": "alexscaves:block/active_magnet", "x": 270 },
+    "facing=up,powered=true": { "model": "alexscaves:block/active_magnet" },
+    "facing=west,powered=true": { "model": "alexscaves:block/active_magnet", "x": 90, "y": 270 }
+
+  }
+}

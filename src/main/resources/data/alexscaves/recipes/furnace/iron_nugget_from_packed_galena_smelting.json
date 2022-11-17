@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "alexscaves:packed_galena"
+  },
+  "result": "minecraft:iron_nugget",
+  "experience": 0.05,
+  "cookingtime": 200
+}

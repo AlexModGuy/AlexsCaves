@@ -1,0 +1,12 @@
+{
+  "type": "alexscaves:galena_hexagon",
+  "config": {
+    "hexagon_made_of": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "alexscaves:galena"
+      }
+    },
+    "ceiling": true
+  }
+}
