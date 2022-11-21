@@ -339,13 +339,13 @@ public class MagnetronEntity extends Monster {
             }
         }
         if (this.isFunctionallyMultipart()) {
-            double idealDistance = this.position().y - this.allParts[lowestPartIndex].getBoundingBox().minY;
+            double idealDistance = this.position().y - this.allParts[lowestPartIndex].getLowPoint();
             Vec3 bottom = new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
             Vec3 ground = getGroundBelowPosition(bottom);
-            Vec3 aboveGround = ground.add(0, idealDistance, 0);
+            Vec3 aboveGround = ground.add(0, idealDistance + 1, 0);
             Vec3 diff = aboveGround.subtract(bottom);
             this.gravityFlag = true;
-            if (this.isAlive() && bottom.distanceTo(ground) < 6 && ground.y > level.getMinBuildHeight()) {
+            if (this.isAlive() && bottom.distanceTo(ground) < 7 && ground.y > level.getMinBuildHeight()) {
                 if (diff.length() > 1) {
                     diff = diff.normalize();
                 }

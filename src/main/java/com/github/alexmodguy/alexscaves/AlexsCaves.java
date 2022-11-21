@@ -10,7 +10,10 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.MultipartEntityMessage;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.carver.ACCarverRegistry;
 import com.github.alexmodguy.alexscaves.server.level.feature.ACFeatureRegistry;
+import com.github.alexmodguy.alexscaves.server.level.structure.ACStructurePieceRegistry;
+import com.github.alexmodguy.alexscaves.server.level.structure.ACStructureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
 import com.mojang.logging.LogUtils;
@@ -57,6 +60,9 @@ public class AlexsCaves {
         ACEntityRegistry.DEF_REG.register(modEventBus);
         ACPOIRegistry.DEF_REG.register(modEventBus);
         ACFeatureRegistry.DEF_REG.register(modEventBus);
+        ACCarverRegistry.DEF_REG.register(modEventBus);
+        ACStructureRegistry.DEF_REG.register(modEventBus);
+        ACStructurePieceRegistry.DEF_REG.register(modEventBus);
         PROXY.init();
         ACBiomeRegistry.init();
     }

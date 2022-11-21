@@ -1,0 +1,17 @@
+{
+  "type": "alexscaves:covered_block_blob",
+  "config": {
+    "block": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "alexscaves:limestone"
+      }
+    },
+    "cover": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "minecraft:moss_carpet"
+      }
+    }
+  }
+}

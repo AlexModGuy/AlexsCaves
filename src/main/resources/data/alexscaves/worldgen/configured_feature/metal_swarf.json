@@ -10,7 +10,7 @@
         },
         "target": {
           "predicate_type": "minecraft:tag_match",
-          "tag": "alexscaves:galena_ore_replaceables"
+          "tag": "alexscaves:galena_gen_replaceables"
         }
       }
     ]

@@ -148,4 +148,8 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
     public void setBlockState(BlockState state){
         blockState = state;
     }
+
+    public double getLowPoint() {
+        return this.getBoundingBox().minY;
+    }
 }

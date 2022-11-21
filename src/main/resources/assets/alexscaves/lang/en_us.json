@@ -20,6 +20,10 @@
   "block.alexscaves.block_of_azure_neodymium": "Block of Azure Neodymium",
   "block.alexscaves.scarlet_magnet": "Scarlet Magnet",
   "block.alexscaves.azure_magnet": "Azure Magnet",
+  "block.alexscaves.limestone": "Limestone",
+  "block.alexscaves.limestone_stairs": "Limestone Stairs",
+  "block.alexscaves.limestone_slab": "Limestone Slab",
+  "block.alexscaves.limestone_wall": "Limestone Wall",
   "item.alexscaves.raw_scarlet_neodymium": "Raw Scarlet Neodymium",
   "item.alexscaves.raw_azure_neodymium": "Raw Azure Neodymium",
   "item.alexscaves.scarlet_neodymium_ingot": "Scarlet Neodymium Ingot",
@@ -30,5 +34,6 @@
   "entity.alexscaves.teletor": "Teletor",
   "entity.alexscaves.magnetic_weapon": "Magnetic Weapon",
   "entity.alexscaves.magnetron": "Magnetron",
-  "biome.alexscaves.magnetic_caves": "Magnetic Caves"
+  "biome.alexscaves.magnetic_caves": "Magnetic Caves",
+  "biome.alexscaves.primordial_caves": "Primordial Caves"
 }

@@ -1,10 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.level.feature.config.FloatingOrbFeatureConfig;
-import com.github.alexmodguy.alexscaves.server.level.feature.config.GalenaHexagonFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticNodeFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticRuinsFeatureConfiguration;
+import com.github.alexmodguy.alexscaves.server.level.feature.config.*;
 import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -20,6 +17,7 @@ public class ACFeatureRegistry {
     public static final RegistryObject<Feature<MagneticNodeFeatureConfiguration>> MAGNETIC_NODE = DEF_REG.register("magnetic_node", () -> new MagneticNodeFeature(MagneticNodeFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<MagneticRuinsFeatureConfiguration>> MAGNETIC_RUINS = DEF_REG.register("magnetic_ruins", () -> new MagneticRuinsFeature(MagneticRuinsFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<FloatingOrbFeatureConfig>> FLOATING_ORB = DEF_REG.register("floating_orb", () -> new FloatingOrbFeature(FloatingOrbFeatureConfig.CODEC));
+    public static final RegistryObject<Feature<CoveredBlockBlobConfiguration>> COVERED_BLOCK_BLOB = DEF_REG.register("covered_block_blob", () -> new CoveredBlockBlobFeature(CoveredBlockBlobConfiguration.CODEC));
 
     //TODO - will need to use these for the underground cabins...
 

@@ -1,0 +1,28 @@
+{
+  "type": "alexscaves:water_bubble_carver",
+  "config": {
+    "floor_level": {
+      "type": "minecraft:uniform",
+      "value": {
+        "max_exclusive": -0.4,
+        "min_inclusive": -1.0
+      }
+    },    "horizontal_radius_multiplier": 1.0,
+    "lava_level": {
+      "above_bottom": 0
+    },
+    "probability": 0.2,
+    "replaceable": "#alexscaves:water_carver_replaceables",
+    "vertical_radius_multiplier": 1.0,
+    "y": {
+      "type": "minecraft:uniform",
+      "max_inclusive": {
+        "above_bottom": 64
+      },
+      "min_inclusive": {
+        "above_bottom": 20
+      }
+    },
+    "yScale": 1.0
+  }
+}

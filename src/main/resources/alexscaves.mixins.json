@@ -10,7 +10,8 @@
     "LivingEntityMixin"
   ],
   "client": [
-    "client.CameraMixin"
+    "client.CameraMixin",
+    "client.LightTextureMixin"
   ],
   "injectors": {
     "defaultRequire": 1
