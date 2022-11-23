@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "half=lower,facing=north": {
+      "model": "alexscaves:block/curly_fern_bottom"
+    },
+    "half=upper,facing=north": {
+      "model": "alexscaves:block/curly_fern_top"
+    },
+    "half=lower,facing=east": {
+      "model": "alexscaves:block/curly_fern_bottom",
+      "y": 90
+    },
+    "half=upper,facing=east": {
+      "model": "alexscaves:block/curly_fern_top",
+      "y": 90
+    },
+    "half=lower,facing=south": {
+      "model": "alexscaves:block/curly_fern_bottom",
+      "y": 180
+    },
+    "half=upper,facing=south": {
+      "model": "alexscaves:block/curly_fern_top",
+      "y": 180
+    },
+    "half=lower,facing=west": {
+      "model": "alexscaves:block/curly_fern_bottom",
+      "y": 270
+    },
+    "half=upper,facing=west": {
+      "model": "alexscaves:block/curly_fern_top",
+      "y": 270
+    }
+  }
+}

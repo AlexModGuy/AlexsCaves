@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alexscaves:block/pewen/pewen_log_top",
+    "side": "alexscaves:block/pewen/pewen_log"
+  }
+}

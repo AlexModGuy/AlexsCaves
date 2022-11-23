@@ -12,19 +12,59 @@
                 "data": {
                   "Name": "minecraft:grass"
                 },
-                "weight": 2
+                "weight": 8
               },
               {
                 "data": {
                   "Name": "minecraft:fern"
                 },
-                "weight": 7
+                "weight": 20
               },
               {
                 "data": {
                   "Name": "minecraft:large_fern",
                   "Properties": {
                     "half": "lower"
+                  }
+                },
+                "weight": 5
+              },
+              {
+                "data": {
+                  "Name": "alexscaves:curly_fern",
+                  "Properties": {
+                    "half": "lower",
+                    "facing": "north"
+                  }
+                },
+                "weight": 1
+              },
+              {
+                "data": {
+                  "Name": "alexscaves:curly_fern",
+                  "Properties": {
+                    "half": "lower",
+                    "facing": "east"
+                  }
+                },
+                "weight": 1
+              },
+              {
+                "data": {
+                  "Name": "alexscaves:curly_fern",
+                  "Properties": {
+                    "half": "lower",
+                    "facing": "south"
+                  }
+                },
+                "weight": 1
+              },
+              {
+                "data": {
+                  "Name": "alexscaves:curly_fern",
+                  "Properties": {
+                    "half": "lower",
+                    "facing": "west"
                   }
                 },
                 "weight": 1

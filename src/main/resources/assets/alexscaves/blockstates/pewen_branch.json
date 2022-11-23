@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "pines=false,rotation=0": {
+      "model": "alexscaves:block/pewen_branch"
+    },
+    "pines=false,rotation=1": {
+      "model": "alexscaves:block/pewen_branch_ne"
+    },
+    "pines=false,rotation=2": {
+      "model": "alexscaves:block/pewen_branch",
+      "y": 90
+    },
+    "pines=false,rotation=3": {
+      "model": "alexscaves:block/pewen_branch_ne",
+      "y": 90
+    },
+    "pines=false,rotation=4": {
+      "model": "alexscaves:block/pewen_branch",
+      "y": 180
+    },
+    "pines=false,rotation=5": {
+      "model": "alexscaves:block/pewen_branch_ne",
+      "y": 180
+    },
+    "pines=false,rotation=6": {
+      "model": "alexscaves:block/pewen_branch",
+      "y": 270
+    },
+    "pines=false,rotation=7": {
+      "model": "alexscaves:block/pewen_branch_ne",
+      "y": 270
+    },
+    "pines=true,rotation=0": {
+      "model": "alexscaves:block/pewen_branch_pines"
+    },
+    "pines=true,rotation=1": {
+      "model": "alexscaves:block/pewen_branch_ne_pines"
+    },
+    "pines=true,rotation=2": {
+      "model": "alexscaves:block/pewen_branch_pines",
+      "y": 90
+    },
+    "pines=true,rotation=3": {
+      "model": "alexscaves:block/pewen_branch_ne_pines",
+      "y": 90
+    },
+    "pines=true,rotation=4": {
+      "model": "alexscaves:block/pewen_branch_pines",
+      "y": 180
+    },
+    "pines=true,rotation=5": {
+      "model": "alexscaves:block/pewen_branch_ne_pines",
+      "y": 180
+    },
+    "pines=true,rotation=6": {
+      "model": "alexscaves:block/pewen_branch_pines",
+      "y": 270
+    },
+    "pines=true,rotation=7": {
+      "model": "alexscaves:block/pewen_branch_ne_pines",
+      "y": 270
+    }
+  }
+}
