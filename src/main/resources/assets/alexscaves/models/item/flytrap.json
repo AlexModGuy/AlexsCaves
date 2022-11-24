@@ -1,0 +1,10 @@
+{
+  "parent": "alexscaves:block/flytrap_open",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 225, 0 ],
+      "translation": [ 0, -2.5, 0],
+      "scale":[ 0.75, 0.75, 0.75 ]
+    }
+  }
+}

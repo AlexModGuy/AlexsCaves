@@ -37,7 +37,6 @@ public class AlexsCaves {
     public static final String MODID = "alexscaves";
     public static final Logger LOGGER = LogUtils.getLogger();
     public static CommonProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
-
     private static final String PROTOCOL_VERSION = Integer.toString(1);
     private static final ResourceLocation PACKET_NETWORK_NAME = new ResourceLocation("alexscaves:main_channel");
     public static final SimpleChannel NETWORK_WRAPPER = NetworkRegistry.ChannelBuilder

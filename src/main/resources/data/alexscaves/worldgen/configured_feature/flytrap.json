@@ -1,0 +1,57 @@
+{
+  "type": "minecraft:random_patch",
+  "config": {
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:weighted_state_provider",
+            "entries": [
+              {
+                "data": {
+                  "Name": "alexscaves:flytrap",
+                  "Properties": {
+                    "open": "true"
+                  }
+                },
+                "weight": 1
+              },
+              {
+                "data": {
+                  "Name": "alexscaves:flytrap",
+                  "Properties": {
+                    "open": "false"
+                  }
+                },
+                "weight": 1
+              }
+            ]
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:all_of",
+            "predicates": [
+              {
+                "type": "minecraft:matching_blocks",
+                "blocks": [
+                  "minecraft:air",
+                  "minecraft:cave_air",
+                  "minecraft:void_air",
+                  "alexscaves:ambersol_light"
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "tries": 40,
+    "xz_spread": 7,
+    "y_spread": 3
+  }
+}

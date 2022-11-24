@@ -1,10 +1,9 @@
 package com.github.alexmodguy.alexscaves.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
-import com.github.alexmodguy.alexscaves.client.particle.GalenaDebrisParticle;
-import com.github.alexmodguy.alexscaves.client.particle.MagneticFlowParticle;
-import com.github.alexmodguy.alexscaves.client.particle.MagneticOrbitParticle;
+import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelFinalLayerFullbright;
+import com.github.alexmodguy.alexscaves.client.particle.*;
+import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.MagneticWeaponRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.MagnetronRenderer;
@@ -12,11 +11,13 @@ import com.github.alexmodguy.alexscaves.client.render.entity.MovingMetalBlockRen
 import com.github.alexmodguy.alexscaves.client.render.entity.TeletorRenderer;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.AmbersolBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
@@ -31,25 +32,29 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ViewportEvent;
+import net.minecraftforge.client.event.*;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.List;
 import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
 
+    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#");
     public void init() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientProxy::setupParticles);
     }
 
     public void clientInit() {
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(this::bakeModels);
         BlockEntityRenderers.register(ACBlockEntityRegistry.MAGNET.get(), MagnetBlockRenderer::new);
+        BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
@@ -63,6 +68,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.SCARLET_MAGNETIC_FLOW.get(), new MagneticFlowParticle.ScarletFactory());
         registry.register(ACParticleRegistry.AZURE_MAGNETIC_FLOW.get(), new MagneticFlowParticle.AzureFactory());
         registry.register(ACParticleRegistry.GALENA_DEBRIS.get(), GalenaDebrisParticle.Factory::new);
+        registry.register(ACParticleRegistry.FLY.get(), FlyParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -95,6 +101,12 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+    @SubscribeEvent
+    public void postRenderStage(RenderLevelStageEvent event) {
+        if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS){
+            AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick());
+        }
+    }
     private void rotateForAngle(LivingEntity entity, PoseStack matrixStackIn, Direction rotate, float f, float width, float height) {
         boolean down = entity.zza < 0.0F;
         switch (rotate) {
@@ -139,7 +151,13 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
-
+    private void bakeModels(final ModelEvent.BakingCompleted e) {
+        for (ResourceLocation id : e.getModels().keySet()) {
+            if (FULLBRIGHTS.contains(id.toString())) {
+                e.getModels().put(id, new BakedModelFinalLayerFullbright(e.getModels().get(id)));
+            }
+        }
+    }
 
     public Player getClientSidePlayer() {
         return Minecraft.getInstance().player;

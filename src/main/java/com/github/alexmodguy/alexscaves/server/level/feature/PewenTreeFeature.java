@@ -41,7 +41,7 @@ public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
         RandomSource randomsource = context.random();
         WorldGenLevel level = context.level();
         BlockPos treeBottom = context.origin().above();
-        int height = 10 + randomsource.nextInt(10);
+        int height = 11 + randomsource.nextInt(10);
         int penumbraLvls = 3 + randomsource.nextInt(2);
         if(!checkCanTreePlace(level, treeBottom, height, penumbraLvls)){
             return false;

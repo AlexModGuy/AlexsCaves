@@ -1,0 +1,52 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "alexscaves:block/flytrap_stem",
+		"1": "alexscaves:block/flytrap_mouth_closed_0",
+		"2": "alexscaves:block/flytrap_mouth_closed_1",
+		"particle": "alexscaves:block/flytrap_stem"
+	},
+	"elements": [
+		{
+			"from": [3.5, 13, 6.5],
+			"to": [12.5, 21, 9.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 9]},
+			"faces": {
+				"north": {"uv": [0.5, 8, 9, 16], "texture": "#1"},
+				"east": {"uv": [7, 6, 10, 14], "texture": "#2"},
+				"south": {"uv": [0, 0, 9, 8], "texture": "#1"},
+				"west": {"uv": [7, 6, 10, 14], "texture": "#2"},
+				"up": {"uv": [16, 0, 7, 3], "texture": "#2"},
+				"down": {"uv": [7, 6, 16, 3], "texture": "#2"}
+			}
+		},
+		{
+			"from": [0, 0, 8],
+			"to": [16, 14, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 7, 8]},
+			"faces": {
+				"north": {"uv": [16, 0, 0, 14], "texture": "#0"},
+				"east": {"uv": [0, 0, 0, 14], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 14], "texture": "#0"},
+				"west": {"uv": [0, 0, 0, 14], "texture": "#0"},
+				"up": {"uv": [16, 0, 0, 0], "texture": "#0"},
+				"down": {"uv": [16, 0, 0, 0], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 0, 8],
+			"to": [16, 14, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 7, 8]},
+			"faces": {
+				"north": {"uv": [16, 0, 0, 14], "texture": "#0"},
+				"east": {"uv": [0, 0, 0, 14], "texture": "#0"},
+				"south": {"uv": [0, 0, 16, 14], "texture": "#0"},
+				"west": {"uv": [0, 0, 0, 14], "texture": "#0"},
+				"up": {"uv": [16, 0, 0, 0], "texture": "#0"},
+				"down": {"uv": [16, 0, 0, 0], "texture": "#0"}
+			}
+		}
+	]
+}

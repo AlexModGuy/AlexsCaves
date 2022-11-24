@@ -17,4 +17,6 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> AZURE_MAGNETIC_FLOW = DEF_REG.register("azure_magnetic_flow", ()-> new SimpleParticleType(false));
 
     public static final RegistryObject<SimpleParticleType> GALENA_DEBRIS = DEF_REG.register("galena_debris", ()-> new SimpleParticleType(false));
+
+    public static final RegistryObject<SimpleParticleType> FLY = DEF_REG.register("fly", ()-> new SimpleParticleType(false));
 }

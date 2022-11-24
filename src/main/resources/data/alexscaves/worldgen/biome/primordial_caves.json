@@ -38,6 +38,7 @@
       "alexscaves:primordial_caves_lake"
     ],
     [
+      "alexscaves:ambersol",
       "alexscaves:primordial_forest_rock",
       "alexscaves:packed_mud_replace_dirt",
       "alexscaves:moss_replace_grass",
@@ -69,7 +70,8 @@
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "minecraft:disk_gravel",
-      "alexscaves:primordial_caves_grass"
+      "alexscaves:primordial_caves_grass",
+      "alexscaves:flytrap"
     ],
     [
     ],
@@ -77,6 +79,8 @@
     ],
     [
       "alexscaves:pewen_tree",
+      "alexscaves:ancient_tree",
+      "alexscaves:archaic_vine",
       "minecraft:glow_lichen",
       "minecraft:patch_tall_grass_2",
       "minecraft:trees_plains",

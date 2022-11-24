@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.ForgeRenderTypes;
 
 public class ACRenderTypes extends RenderType {
 
@@ -30,4 +31,16 @@ public class ACRenderTypes extends RenderType {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_EYES_SHADER).setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false)).setTransparencyState(EYES_ALPHA_TRANSPARENCY).setCullState(NO_CULL).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).setDepthTestState(EQUAL_DEPTH_TEST).createCompositeState(true);
         return create("eye_alpha", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, rendertype$compositestate);
     }
+
+    public static RenderType getAmbersolShine() {
+        return create("ambersol_shine", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setShaderState(RenderType.RENDERTYPE_LIGHTNING_SHADER)
+                .setTransparencyState(EYES_ALPHA_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(NO_LIGHTMAP)
+                .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
+                .setOutputState(RenderStateShard.PARTICLES_TARGET)
+                .createCompositeState(true));
+    }
+
 }

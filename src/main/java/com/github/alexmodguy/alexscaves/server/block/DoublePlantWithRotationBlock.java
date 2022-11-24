@@ -47,7 +47,8 @@ public class DoublePlantWithRotationBlock extends DoublePlantBlock {
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return super.getStateForPlacement(context).setValue(FACING, context.getHorizontalDirection().getOpposite());
+        BlockState prev = super.getStateForPlacement(context);
+        return prev == null ? null : prev.setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     public void setPlacedBy(Level level, BlockPos pos, BlockState state, LivingEntity livingEntity, ItemStack stack) {
