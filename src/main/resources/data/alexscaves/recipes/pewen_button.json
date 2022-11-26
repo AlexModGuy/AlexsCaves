@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "alexscaves:pewen_planks"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:pewen_button"
+  }
+}

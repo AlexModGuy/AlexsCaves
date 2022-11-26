@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.TreeStarBlock;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,7 +26,7 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         RandomSource randomsource = context.random();
         WorldGenLevel level = context.level();
-        BlockPos treeBottom = context.origin().above();
+        BlockPos treeBottom = context.origin();
         int height = 3 + randomsource.nextInt(4);
 
         if(!checkCanTreePlace(level, treeBottom, height)){
@@ -42,7 +44,7 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
                 for (int i = 1; i <= branchOut; i++){
                     level.setBlock(canopyPos.relative(direction, i), Blocks.JUNGLE_LOG.defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 4);
                 }
-                for (int i = 1; i <= branchUp; i++){
+                for (int i = 1; i <= branchUp + 1; i++){
                     level.setBlock(canopyPos.relative(direction, branchOut + 1).above(i), Blocks.JUNGLE_LOG.defaultBlockState(), 4);
                 }
                 drawLeafOrb(level, canopyPos.relative(direction, branchOut).above(branchUp + 2), randomsource, ACBlockRegistry.ANCIENT_LEAVES.get().defaultBlockState(), 2 + randomsource.nextInt(2), 4 + randomsource.nextInt(2), 2 + randomsource.nextInt(2));
@@ -86,6 +88,13 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
                     if(fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius - random.nextFloat() * 7){
                         if(canReplace(level.getBlockState(fill))){
                             level.setBlock(fill, blockState, 4);
+                            if(random.nextInt(5) == 0){
+                                Direction dir = Direction.getRandom(random);
+                                BlockPos starPos = fill.relative(dir);
+                                if(level.getBlockState(starPos).isAir()){
+                                    level.setBlock(starPos, ACBlockRegistry.TREE_STAR.get().defaultBlockState().setValue(TreeStarBlock.FACING, dir), 4);
+                                }
+                            }
                         }
                     }
                 }
@@ -94,7 +103,7 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.getMaterial().isReplaceable() || state.is(ACBlockRegistry.PEWEN_BRANCH.get())) && state.getFluidState().isEmpty();
+        return (state.isAir() || state.getMaterial().isReplaceable() || state.is(ACBlockRegistry.ANCIENT_LEAVES.get())|| state.is(ACBlockRegistry.TREE_STAR.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
     }
 
 

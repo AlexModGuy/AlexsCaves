@@ -10,6 +10,7 @@ import com.github.alexmodguy.alexscaves.client.render.entity.MagnetronRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.MovingMetalBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.TeletorRenderer;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.AmbersolBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
@@ -21,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.BlockPos;
@@ -59,6 +61,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETRON.get(), MagnetronRenderer::new);
+        Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -107,6 +110,11 @@ public class ClientProxy extends CommonProxy {
             AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick());
         }
     }
+
+    @SubscribeEvent
+    public void fogRenderColor(ViewportEvent.ComputeFogColor event){
+    }
+
     private void rotateForAngle(LivingEntity entity, PoseStack matrixStackIn, Direction rotate, float f, float width, float height) {
         boolean down = entity.zza < 0.0F;
         switch (rotate) {

@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.client.particle;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.chase.ChaseServer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -15,8 +16,8 @@ public class FlyParticle extends TextureSheetParticle {
     private final double orbitY;
     private final double orbitZ;
     private boolean reverseOrbit;
-    private final float orbitDistance;
     private float orbitSpeed = 1F;
+    private Vec3 orbitOffset;
 
     protected FlyParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -28,7 +29,7 @@ public class FlyParticle extends TextureSheetParticle {
         this.spriteSet = spriteSet;
         this.lifetime = (int) (Math.random() * 10.0D) + 40;
         this.friction = 0.8F;
-        this.orbitDistance = 0.5F + random.nextFloat();
+        this.orbitOffset = new Vec3((0.5F - random.nextFloat()) * 2.0F, 0, (0.5F - random.nextFloat()) * 2.0F);
         this.reverseOrbit = random.nextBoolean();
         this.orbitSpeed = 3 + random.nextFloat() * 3F;
     }
@@ -65,9 +66,8 @@ public class FlyParticle extends TextureSheetParticle {
 
     private Vec3 getOrbitPosition(float angle) {
         Vec3 center = new Vec3(orbitX, orbitY, orbitZ);
-        Vec3 add = new Vec3(orbitDistance, 0, 0);
         float rot = angle * (reverseOrbit ? -orbitSpeed : orbitSpeed) * (float) (Math.PI / 180F);
-        return center.add(add.yRot(rot));
+        return center.add(orbitOffset.yRot(rot));
     }
 
     @Override

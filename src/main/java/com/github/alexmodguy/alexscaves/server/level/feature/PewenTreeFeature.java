@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
 import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticRuinsFeatureConfiguration;
 import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -40,7 +41,7 @@ public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         RandomSource randomsource = context.random();
         WorldGenLevel level = context.level();
-        BlockPos treeBottom = context.origin().above();
+        BlockPos treeBottom = context.origin();
         int height = 11 + randomsource.nextInt(10);
         int penumbraLvls = 3 + randomsource.nextInt(2);
         if(!checkCanTreePlace(level, treeBottom, height, penumbraLvls)){
@@ -49,7 +50,10 @@ public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
         int j = height - penumbraLvls;
         for(int i = 0; i <= height; i++) {
             BlockPos trunkPos = treeBottom.above(i);
-            level.setBlock(trunkPos, i == height ? ACBlockRegistry.PEWEN_WOOD.get().defaultBlockState() : ACBlockRegistry.PEWEN_LOG.get().defaultBlockState(), 4);
+            level.setBlock(trunkPos, i == height ? ACBlockRegistry.PEWEN_WOOD.get().defaultBlockState() : ACBlockRegistry.PEWEN_LOG.get().defaultBlockState(), 3);
+            if(i == height){
+                level.setBlock(trunkPos.above(), ACBlockRegistry.PEWEN_PINES.get().defaultBlockState(), 3);
+            }
             if(i > j){
                 buildPenumbra(level, trunkPos, i - j, penumbraLvls, randomsource);
             }else if(i > j - 1){
@@ -58,7 +62,7 @@ public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
                 int branchRot = randomsource.nextInt(7);
                 BlockPos offset = trunkPos.subtract(PewenBranchBlock.getOffsetConnectToPos(branchRot));
                 if(canReplace(level.getBlockState(offset))){
-                    level.setBlock(offset, ACBlockRegistry.PEWEN_BRANCH.get().defaultBlockState().setValue(PewenBranchBlock.ROTATION, branchRot).setValue(PewenBranchBlock.PINES, true), 4);
+                    level.setBlock(offset, ACBlockRegistry.PEWEN_BRANCH.get().defaultBlockState().setValue(PewenBranchBlock.ROTATION, branchRot).setValue(PewenBranchBlock.PINES, true), 3);
                 }
             }
         }
@@ -73,7 +77,7 @@ public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
             for(int j = 1; j <= actualLength; j++){
                 BlockPos offset = trunkPos.subtract(PewenBranchBlock.getOffsetConnectToPos(i).multiply(j));
                 if(canReplace(level.getBlockState(offset))){
-                    level.setBlock(offset, ACBlockRegistry.PEWEN_BRANCH.get().defaultBlockState().setValue(PewenBranchBlock.ROTATION, i).setValue(PewenBranchBlock.PINES, j == actualLength), 4);
+                    level.setBlock(offset, ACBlockRegistry.PEWEN_BRANCH.get().defaultBlockState().setValue(PewenBranchBlock.ROTATION, i).setValue(PewenBranchBlock.PINES, j == actualLength), 3);
                 }
             }
         }
@@ -99,8 +103,6 @@ public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.getMaterial().isReplaceable() || state.is(ACBlockRegistry.PEWEN_BRANCH.get())) && state.getFluidState().isEmpty();
+        return (state.isAir() || state.getMaterial().isReplaceable() || state.is(ACBlockRegistry.PEWEN_BRANCH.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
     }
-
-
 }

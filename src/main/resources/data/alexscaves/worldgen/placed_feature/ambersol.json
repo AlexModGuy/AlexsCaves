@@ -2,15 +2,11 @@
   "feature": "alexscaves:ambersol",
   "placement": [
     {
-      "type": "minecraft:rarity_filter",
-      "chance": 3
-    },
-    {
       "type": "minecraft:count",
       "count": {
         "type": "minecraft:uniform",
         "value": {
-          "max_inclusive": 3,
+          "max_inclusive": 4,
           "min_inclusive": 1
         }
       }

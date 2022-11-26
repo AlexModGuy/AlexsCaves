@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/pewen_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/pewen_planks"
+    },
+    "type=top": {
+      "model": "alexscaves:block/pewen_slab_top"
+    }
+  }
+}

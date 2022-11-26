@@ -11,6 +11,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.MultipartEntityMess
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.carver.ACCarverRegistry;
+import com.github.alexmodguy.alexscaves.server.level.feature.ACConfiguredFeatureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.feature.ACFeatureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.ACStructurePieceRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.ACStructureRegistry;
@@ -59,6 +60,7 @@ public class AlexsCaves {
         ACEntityRegistry.DEF_REG.register(modEventBus);
         ACPOIRegistry.DEF_REG.register(modEventBus);
         ACFeatureRegistry.DEF_REG.register(modEventBus);
+        ACConfiguredFeatureRegistry.DEF_REG.register(modEventBus);
         ACCarverRegistry.DEF_REG.register(modEventBus);
         ACStructureRegistry.DEF_REG.register(modEventBus);
         ACStructurePieceRegistry.DEF_REG.register(modEventBus);
@@ -71,6 +73,7 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerControllerJumpMessage.class, PlayerControllerJumpMessage::write, PlayerControllerJumpMessage::read, PlayerControllerJumpMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         ACSurfaceRules.init();
+        ACBlockEntityRegistry.expandVanillaDefinitions();
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {

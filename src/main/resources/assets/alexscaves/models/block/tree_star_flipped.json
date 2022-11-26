@@ -1,0 +1,31 @@
+{
+	"parent": "minecraft:block/block",
+	"render_type": "cutout",
+	"textures": {
+		"particle": "alexscaves:block/tree_star",
+		"1": "alexscaves:block/tree_star",
+		"2": "alexscaves:block/tree_star_stem"
+	},
+	"elements": [
+		{
+			"from": [0, 3, 0],
+			"to": [15, 3, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"shade": false,
+			"faces": {
+				"up": {"uv": [0, 0, 15, 15], "texture": "#1"},
+				"down": {"uv": [0, 0, 15, 15], "rotation": 180, "texture": "#1"}
+			}
+		},
+		{
+			"from": [7, 0, 9],
+			"to": [8, 3, 9],
+			"shade": false,
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [15, 12, 16, 15], "texture": "#2"},
+				"south": {"uv": [15, 12, 16, 15], "texture": "#2"}
+			}
+		}
+	]
+}

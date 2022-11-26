@@ -31,7 +31,7 @@ public class ACBiomeRegistry {
     }
 
     public static ResourceKey<Biome> getBiomeForEvent(EventReplaceBiome event) {
-        if (event.testWeirdness(0.1F, 0.8F)  && event.testHumidity(-0.2F, 0.5F) && event.testContinentalness(-0.5F, 1F) && event.testTemperature(0.0F, 0.8F) && event.testDepth(0.2F, 1F)) {
+        if (event.testHumidity(-0.2F, 0.5F) && event.testContinentalness(-0.35F, 1F) && event.testTemperature(0.0F, 0.8F) && event.testDepth(0.2F, 1F)) {
             return PRIMORDIAL_CAVES;
         }
         if (event.testWeirdness(0.5F, 1F) && event.testErosion(-0.5F, 0.5F) && event.testContinentalness(-0.15F, 0.75F) && event.testDepth(0.2F, 1F)) {
@@ -43,6 +43,13 @@ public class ACBiomeRegistry {
     public static float getBiomeAmbientLight(Holder<Biome> value) {
         if(value.is(PRIMORDIAL_CAVES)){
             return 0.125F;
+        }
+        return 0.0F;
+    }
+
+    public static float getBiomeSkyOverride(Holder<Biome> value) {
+        if(value.is(PRIMORDIAL_CAVES)){
+            return 1.0F;
         }
         return 0.0F;
     }

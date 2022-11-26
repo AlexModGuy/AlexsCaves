@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "alexscaves:pewen_logs"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "alexscaves:pewen_planks"
+  }
+}
