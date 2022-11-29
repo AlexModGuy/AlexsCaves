@@ -2,7 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACSimplexNoise;
+import com.github.alexmodguy.alexscaves.server.message.misc.ACSimplexNoise;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -85,17 +85,25 @@ public class DinoBowlStructurePiece extends StructurePiece {
 
                     double targetRadius = yDist * (bowlRadius + widthSimplexNoise1 * widthSimplexNoise2 * bowlRadius) * bowlRadius;
                     if (distToCenter <= targetRadius) {
-                        if (isPillarBlocking(carve, yDist)) {
-                            if (!checkedGetBlock(level, carve).getFluidState().isEmpty()) {
-                                checkedSetBlock(level, carve, ACBlockRegistry.LIMESTONE.get().defaultBlockState());
-                            }
-                        } else if (carve.getY() > holeCenter.getY() - bowlHeight * 0.5 && !checkedGetBlock(level, carveAbove).getFluidState().isEmpty()) {
+                        double edgy = targetRadius - distToCenter;
+                        if (edgy <= 4F && !checkedGetBlock(level, carve).getFluidState().isEmpty()) {
+                            checkedSetBlock(level, carve, Blocks.SANDSTONE.defaultBlockState());
                             checkedSetBlock(level, carveAbove, Blocks.SANDSTONE.defaultBlockState());
                         } else {
-                            checkedSetBlock(level, carve, Blocks.CAVE_AIR.defaultBlockState());
-                            carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
-                            doFloor.setTrue();
+                            if (isPillarBlocking(carve, yDist)) {
+                                if (!checkedGetBlock(level, carve).getFluidState().isEmpty()) {
+                                    checkedSetBlock(level, carve, ACBlockRegistry.LIMESTONE.get().defaultBlockState());
+                                }
+                            } else {
+                                if (!checkedGetBlock(level, carveAbove).getFluidState().isEmpty()) {
+                                    checkedSetBlock(level, carveAbove, Blocks.SANDSTONE.defaultBlockState());
+                                }
+                                checkedSetBlock(level, carve, Blocks.CAVE_AIR.defaultBlockState());
+                                carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
+                                doFloor.setTrue();
+                            }
                         }
+
                     }
                 }
                 if (doFloor.isTrue() && !checkedGetBlock(level, carveBelow).isAir() && checkedIsGenBiome(level, carveBelow)) {
@@ -107,9 +115,9 @@ public class DinoBowlStructurePiece extends StructurePiece {
     }
 
     private boolean isPillarBlocking(BlockPos.MutableBlockPos carve, double yDist) {
-        float sample = sampleNoise3D(carve.getX(), 0, carve.getZ(), 60) + sampleNoise3D(carve.getX() - 440, 0, carve.getZ() + 412, 22) * 0.2F  + sampleNoise3D(carve.getX() - 100, carve.getY(), carve.getZ() - 400, 100) * 0.1F - 0.4F;
+        float sample = sampleNoise3D(carve.getX(), 0, carve.getZ(), 60) + sampleNoise3D(carve.getX() - 440, 0, carve.getZ() + 412, 22) * 0.2F + sampleNoise3D(carve.getX() - 100, carve.getY(), carve.getZ() - 400, 100) * 0.1F - 0.4F;
         float f = (float) (smin((float) yDist / 0.8F, 1, 0.2F) + 1F);
-        return sample >= 0.25F * f && sample <= smin(1, (float)yDist / 0.8F + 0.25F, 0.1F) * f;
+        return sample >= 0.25F * f && sample <= smin(1, (float) yDist / 0.8F + 0.25F, 0.1F) * f;
     }
 
     private float sampleNoise3D(int x, int y, int z, float simplexSampleRate) {

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "alexscaves:block/cycad_trunk"
+    },
+    "top=true": {
+      "model": "alexscaves:block/cycad_top"
+    }
+  }
+}

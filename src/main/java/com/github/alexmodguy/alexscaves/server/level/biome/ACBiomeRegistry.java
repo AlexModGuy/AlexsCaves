@@ -9,6 +9,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -31,13 +32,17 @@ public class ACBiomeRegistry {
     }
 
     public static ResourceKey<Biome> getBiomeForEvent(EventReplaceBiome event) {
-        if (event.testHumidity(-0.2F, 0.5F) && event.testContinentalness(-0.35F, 1F) && event.testTemperature(0.0F, 0.8F) && event.testDepth(0.2F, 1F)) {
-            return PRIMORDIAL_CAVES;
-        }
-        if (event.testWeirdness(0.5F, 1F) && event.testErosion(-0.5F, 0.5F) && event.testContinentalness(-0.15F, 0.75F) && event.testDepth(0.2F, 1F)) {
+        if (isFarEnoughFromSpawn(event, 300) && event.testWeirdness(0.5F, 1F) && event.testErosion(-0.5F, 0.5F) && event.testContinentalness(-0.15F, 0.75F) && event.testDepth(0.2F, 1F)) {
             return MAGNETIC_CAVES;
         }
+        if (isFarEnoughFromSpawn(event, 500) && event.testHumidity(-0.25F, 0.7F) && event.testContinentalness(0.1F, 1F) && event.testTemperature(0.0F, 0.8F) && event.testDepth(0.1F, 1F)) {
+            return PRIMORDIAL_CAVES;
+        }
         return null;
+    }
+
+    public static boolean isFarEnoughFromSpawn(EventReplaceBiome event, double dist){
+        return !event.getSamplePosition().closerThan(Vec3i.ZERO, dist);
     }
 
     public static float getBiomeAmbientLight(Holder<Biome> value) {

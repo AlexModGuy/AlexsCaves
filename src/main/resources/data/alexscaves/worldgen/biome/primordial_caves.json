@@ -42,6 +42,7 @@
       "alexscaves:primordial_forest_rock",
       "alexscaves:packed_mud_replace_dirt",
       "alexscaves:moss_replace_grass",
+      "alexscaves:cycad",
       "minecraft:ore_dirt",
       "minecraft:ore_gravel",
       "minecraft:ore_granite_upper",
@@ -106,7 +107,15 @@
     "monster": [],
     "underground_water_creature": [],
     "water_ambient": [],
-    "water_creature": []
+    "water_creature": [],
+    "alexscaves:cave_creature": [
+      {
+        "type": "alexscaves:subterranodon",
+        "maxCount": 5,
+        "minCount": 3,
+        "weight": 10
+      }
+    ]
   },
   "temperature": 0.95
 }

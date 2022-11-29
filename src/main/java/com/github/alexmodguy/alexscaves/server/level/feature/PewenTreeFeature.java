@@ -2,34 +2,16 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
-import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticRuinsFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
-import com.google.common.collect.Lists;
+import com.github.alexmodguy.alexscaves.server.message.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.StructureMode;
-import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PewenTreeFeature extends Feature<NoneFeatureConfiguration> {
 

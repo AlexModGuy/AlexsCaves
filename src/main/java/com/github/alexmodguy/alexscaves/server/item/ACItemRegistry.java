@@ -3,12 +3,8 @@ package com.github.alexmodguy.alexscaves.server.item;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTab;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.DoubleHighBlockItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SignItem;
-import net.minecraft.world.level.block.Blocks;
+import com.github.alexmodguy.alexscaves.server.message.misc.ACCreativeTab;
+import net.minecraft.world.item.*;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -28,6 +24,7 @@ public class ACItemRegistry {
     static {
         spawnEgg("teletor", ACEntityRegistry.TELETOR, 0X433B4A,0X0060EF);
         spawnEgg("magnetron", ACEntityRegistry.MAGNETRON, 0XFF002A,0X203070);
+        spawnEgg("subterranodon", ACEntityRegistry.SUBTERRANODON, 0X00B1B2,0XFFF11C);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2){

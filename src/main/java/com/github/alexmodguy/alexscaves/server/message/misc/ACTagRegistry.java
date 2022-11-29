@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.misc;
+package com.github.alexmodguy.alexscaves.server.message.misc;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.Registry;
@@ -19,7 +19,9 @@ public class ACTagRegistry {
     public static final TagKey<Block> MAGNETIC_CAVES_BASE_BLOCKS = registerBlockTag("magnetic_caves_base_blocks");
     public static final TagKey<Block> MAGNETRON_WEAPONS = registerBlockTag("magnetron_weapons");
     public static final TagKey<Block> PRIMORDIAL_CAVES_BASE_BLOCKS = registerBlockTag("primordial_caves_base_blocks");
+
     public static final TagKey<Block> PRIMORDIAL_CAVES_CARVER_PRESERVES = registerBlockTag("primordial_caves_carver_preserves");
+    public static final TagKey<Block> DINOSAURS_SPAWNABLE_ON = registerBlockTag("dinosaurs_spawnable_on");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
     public static final TagKey<EntityType<?>> MAGNETIC_ENTITIES = registerEntityTag("ferromagnetic_entities");

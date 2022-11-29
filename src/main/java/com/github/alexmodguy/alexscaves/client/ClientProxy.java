@@ -5,10 +5,7 @@ import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelFinalLayerF
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
-import com.github.alexmodguy.alexscaves.client.render.entity.MagneticWeaponRenderer;
-import com.github.alexmodguy.alexscaves.client.render.entity.MagnetronRenderer;
-import com.github.alexmodguy.alexscaves.client.render.entity.MovingMetalBlockRenderer;
-import com.github.alexmodguy.alexscaves.client.render.entity.TeletorRenderer;
+import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
@@ -61,6 +58,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETRON.get(), MagnetronRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.SUBTERRANODON.get(), SubterranodonRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
     }
 

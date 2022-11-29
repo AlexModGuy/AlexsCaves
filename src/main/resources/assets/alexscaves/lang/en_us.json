@@ -46,6 +46,7 @@
   "block.alexscaves.pewen_branch": "Pewen Branch",
   "block.alexscaves.curly_fern": "Curly Fern",
   "block.alexscaves.flytrap": "Flytrap",
+  "block.alexscaves.cycad": "Cycad",
   "block.alexscaves.archaic_vine": "Archaic Vine",
   "block.alexscaves.archaic_vine_plant": "Archaic Vine",
   "block.alexscaves.ancient_leaves": "Ancient Leaves",
@@ -56,10 +57,12 @@
   "item.alexscaves.azure_neodymium_ingot": "Azure Neodymium Ingot",
   "item.alexscaves.spawn_egg_teletor": "Teletor Spawn Egg",
   "item.alexscaves.spawn_egg_magnetron": "Magnetron Spawn Egg",
+  "item.alexscaves.spawn_egg_subterranodon": "Subterranodon Spawn Egg",
   "entity.alexscaves.moving_metal_block": "Magnetized Block",
   "entity.alexscaves.teletor": "Teletor",
   "entity.alexscaves.magnetic_weapon": "Magnetic Weapon",
   "entity.alexscaves.magnetron": "Magnetron",
+  "entity.alexscaves.subterranodon": "Subterranodon",
   "biome.alexscaves.magnetic_caves": "Magnetic Caves",
   "biome.alexscaves.primordial_caves": "Primordial Caves"
 }

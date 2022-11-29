@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/door_top_left_open",
+  "render_type": "cutout_mipped",
   "textures": {
     "bottom": "alexscaves:block/pewen/pewen_door_bottom",
     "top": "alexscaves:block/pewen/pewen_door_top"

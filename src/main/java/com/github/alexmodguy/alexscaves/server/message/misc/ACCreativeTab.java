@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.misc;
+package com.github.alexmodguy.alexscaves.server.message.misc;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
