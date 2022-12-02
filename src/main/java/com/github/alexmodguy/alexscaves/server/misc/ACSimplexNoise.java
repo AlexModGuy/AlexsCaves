@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.message.misc;
+package com.github.alexmodguy.alexscaves.server.misc;
 
 /*
  * A speed-improved simplex noise algorithm for 2D, 3D and 4D in Java.

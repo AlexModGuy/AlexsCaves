@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.AmbersolBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -11,7 +10,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;

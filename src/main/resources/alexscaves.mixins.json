@@ -7,6 +7,7 @@
   "mixins": [
     "EntityMixin",
     "FallingBlockEntityMixin",
+    "FrogMixin",
     "LivingEntityMixin",
     "NaturalSpawnerMixin"
   ],

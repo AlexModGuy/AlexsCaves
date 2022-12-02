@@ -3,7 +3,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACCreativeTab;
+import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTab;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;

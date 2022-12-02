@@ -112,8 +112,6 @@ public class AmbersolBlockRenderer<T extends AmbersolBlockEntity> implements Blo
             Matrix4f matrix4f = posestack$pose.pose();
             Matrix3f matrix3f = posestack$pose.normal();
             VertexConsumer lines = bufferIn.getBuffer(RenderType.lines());
-            shineOriginVertex(lines, matrix4f, matrix3f, 0, 0, 0);
-            shineLeftCornerVertex(lines, matrix4f, matrix3f, 0, 0, 0, 0);
             matrixStackIn.popPose();
         }
     }

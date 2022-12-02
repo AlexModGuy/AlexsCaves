@@ -1,9 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.carver;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.carver.CaveCarverConfiguration;
-import net.minecraft.world.level.levelgen.carver.NetherWorldCarver;
 import net.minecraft.world.level.levelgen.carver.WorldCarver;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

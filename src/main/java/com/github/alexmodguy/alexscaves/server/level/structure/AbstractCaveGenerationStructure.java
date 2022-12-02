@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.level.structure;
 
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;

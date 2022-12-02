@@ -39,7 +39,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'prealpha-0.2.4'
+version = 'prealpha-0.2.5'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 

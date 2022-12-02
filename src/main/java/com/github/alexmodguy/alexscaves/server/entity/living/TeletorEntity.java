@@ -2,7 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -87,6 +87,8 @@ public class TeletorEntity extends Monster {
         flyingpathnavigation.setCanPassDoors(true);
         return flyingpathnavigation;
     }
+
+
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
         return level.getBlockState(pos).isAir() ? 10.0F : 0.0F;

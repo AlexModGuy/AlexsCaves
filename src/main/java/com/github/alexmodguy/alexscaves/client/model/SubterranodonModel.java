@@ -4,13 +4,13 @@ package com.github.alexmodguy.alexscaves.client.model;// Made with Blockbench 4.
 
 
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
 
 public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity> {
 	private final AdvancedModelBox body;
@@ -209,6 +209,28 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		tailTip.rotateAngleY += tailYaw * 0.2F;
 		lleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
 		rleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
+	}
+
+	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+		if (this.young) {
+			float f = 1.5F;
+			head.setScale(f, f, f);
+			head.setShouldScaleChildren(true);
+			matrixStackIn.pushPose();
+			matrixStackIn.scale(0.35F, 0.35F, 0.35F);
+			matrixStackIn.translate(0.0D, 2.75D, 0.125D);
+			parts().forEach((p_228292_8_) -> {
+				p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			});
+			matrixStackIn.popPose();
+			head.setScale(1, 1, 1);
+		} else {
+			matrixStackIn.pushPose();
+			parts().forEach((p_228290_8_) -> {
+				p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+			});
+			matrixStackIn.popPose();
+		}
 	}
 
 	@Override

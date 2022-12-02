@@ -1,19 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.level.structure;
+
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.mojang.serialization.Codec;
-import net.minecraft.core.*;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeSource;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.*;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
-
-import java.util.Optional;
-import java.util.function.Consumer;
 
 public class DinoBowlStructure extends AbstractCaveGenerationStructure {
 

@@ -4,7 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
 import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

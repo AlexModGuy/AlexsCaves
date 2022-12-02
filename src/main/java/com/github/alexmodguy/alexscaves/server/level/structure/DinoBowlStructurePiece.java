@@ -2,7 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACSimplexNoise;
+import com.github.alexmodguy.alexscaves.server.misc.ACSimplexNoise;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;

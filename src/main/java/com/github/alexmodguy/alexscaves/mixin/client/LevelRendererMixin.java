@@ -1,20 +1,20 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.CubicSampler;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Final;
@@ -23,8 +23,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import javax.annotation.Nullable;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {

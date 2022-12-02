@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
+import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
@@ -32,7 +33,7 @@ public class SubterranodonFlightGoal extends Goal {
         } else {
             boolean flag = false;
             if (entity.isPackFollower()) {
-                if (entity.getPackLeader().isFlying()) {
+                if (((SubterranodonEntity)entity.getPackLeader()).isFlying()) {
                     this.isFlying = true;
                     flag = true;
                 }
@@ -72,7 +73,7 @@ public class SubterranodonFlightGoal extends Goal {
             }
             entity.getMoveControl().setWantedPosition(this.x, this.y, this.z, 1F);
         } else {
-            if(entity.isFlying() || entity.getPackLeader().landingFlag){
+            if(entity.isFlying() || ((SubterranodonEntity)entity.getPackLeader()).landingFlag){
                 entity.landingFlag = true;
             }
             entity.getNavigation().moveTo(this.x, this.y, this.z, 1F);
@@ -133,7 +134,7 @@ public class SubterranodonFlightGoal extends Goal {
     }
 
     private Vec3 findOrFollowFlightPos() {
-        SubterranodonEntity leader = entity.getPackLeader();
+        SubterranodonEntity leader = ((SubterranodonEntity)entity.getPackLeader());
         if (leader == entity || leader.lastFlightTargetPos == null) {
             Vec3 randOffsetMove = new Vec3(entity.getRandom().nextFloat() - 0.5F, entity.getRandom().nextFloat() - 0.5F, entity.getRandom().nextFloat() - 0.5F).scale(2);
             return findFlightPos().add(randOffsetMove);
@@ -149,10 +150,10 @@ public class SubterranodonFlightGoal extends Goal {
 
 
     private boolean isLeaderStillGoing() {
-        return entity.isPackFollower() && entity.getPackLeader().isFlying();
+        return entity.isPackFollower() && ((SubterranodonEntity)entity.getPackLeader()).isFlying();
     }
 
-    private int getPackPosition(SubterranodonEntity subterranodon, int index) {
+    private int getPackPosition(PackAnimal subterranodon, int index) {
         if (index < 16 && subterranodon.getPriorPackMember() != null) {
             return getPackPosition(subterranodon.getPriorPackMember(), index + 1);
         }

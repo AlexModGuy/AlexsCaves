@@ -1,8 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalJoinPackGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFlightGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonJoinPackGoal;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -28,16 +29,14 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class SubterranodonEntity extends Animal {
+public class SubterranodonEntity extends Animal implements PackAnimal {
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HOVERING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
@@ -54,7 +53,6 @@ public class SubterranodonEntity extends Animal {
     private float tailYaw;
     private float prevTailYaw;
     private boolean isLandNavigator;
-
     private SubterranodonEntity priorPackMember;
     private SubterranodonEntity afterPackMember;
     public int timeFlying;
@@ -63,6 +61,7 @@ public class SubterranodonEntity extends Animal {
 
     public boolean resetFlightAIFlag = false;
     public boolean landingFlag;
+
     public SubterranodonEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
         switchNavigator(true);
@@ -77,7 +76,7 @@ public class SubterranodonEntity extends Animal {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new SubterranodonJoinPackGoal(this));
+        this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 30,5));
         this.goalSelector.addGoal(2, new SubterranodonFlightGoal(this));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
@@ -158,7 +157,7 @@ public class SubterranodonEntity extends Animal {
             if (this.isLandNavigator) {
                 switchNavigator(false);
             }
-            if(this.getDeltaMovement().y < 0){
+            if (this.getDeltaMovement().y < 0) {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1, 0.6D, 1));
             }
         } else {
@@ -167,13 +166,13 @@ public class SubterranodonEntity extends Animal {
                 switchNavigator(true);
             }
         }
-        if(!level.isClientSide){
+        if (!level.isClientSide) {
             this.setHovering(isHoveringFromServer() && isFlying());
-            if(this.isHovering() && isFlying()){
-                if(timeFlying < 30){
-                    this.setDeltaMovement(this.getDeltaMovement().add(0, 0.06D, 0));
+            if (this.isHovering() && isFlying()) {
+                if (timeFlying < 30) {
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, 0.075D, 0));
                 }
-                if(landingFlag){
+                if (landingFlag) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, -0.3D, 0));
                 }
 
@@ -182,7 +181,7 @@ public class SubterranodonEntity extends Animal {
         tickRotation(yMov * -(float) (180F / (float) Math.PI));
     }
 
-    private boolean isHoveringFromServer(){
+    private boolean isHoveringFromServer() {
         return landingFlag || timeFlying < 30;
     }
 
@@ -207,7 +206,7 @@ public class SubterranodonEntity extends Animal {
             }
         }
         flightRoll = Mth.clamp(flightRoll, -60, 60);
-        tailYaw = Mth.approachDegrees(this.tailYaw, yBodyRot, 5);
+        tailYaw = Mth.approachDegrees(this.tailYaw, yBodyRot, 8);
     }
 
     public boolean isFlying() {
@@ -231,6 +230,7 @@ public class SubterranodonEntity extends Animal {
         }
         this.entityData.set(HOVERING, flying);
     }
+
     public float getFlapAmount(float partialTick) {
         return (prevFlapAmount + (flapAmount - prevFlapAmount) * partialTick) * 0.2F;
     }
@@ -266,53 +266,31 @@ public class SubterranodonEntity extends Animal {
     protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
     }
 
-    public void leavePack() {
-        if (this.priorPackMember != null) {
-            this.priorPackMember.afterPackMember = null;
-        }
-        this.priorPackMember = null;
+    public void resetPackFlags() {
         resetFlightAIFlag = true;
     }
 
-    public void joinPackOf(SubterranodonEntity caravanHeadIn) {
-        this.priorPackMember = caravanHeadIn;
-        this.priorPackMember.afterPackMember = this;
-        resetFlightAIFlag = true;
-    }
-
-    public boolean isPackFollower() {
-        return this.priorPackMember != null;
-    }
-
-    public boolean hasPackFollower() {
-        return this.afterPackMember != null;
-    }
-
-    public SubterranodonEntity getPriorPackMember() {
+    @Override
+    public PackAnimal getPriorPackMember() {
         return this.priorPackMember;
     }
-
-    public SubterranodonEntity getPackLeader() {
-        SubterranodonEntity leader = this;
-        while (leader.priorPackMember != null && leader.priorPackMember != this) {
-            leader = leader.priorPackMember;
-        }
-        return leader;
+    @Override
+    public PackAnimal getAfterPackMember() {
+        return afterPackMember;
+    }
+    @Override
+    public void setPriorPackMember(PackAnimal animal) {
+        this.priorPackMember = (SubterranodonEntity) animal;
     }
 
+    @Override
+    public void setAfterPackMember(PackAnimal animal) {
+        this.afterPackMember = (SubterranodonEntity) animal;
+    }
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
         return null;
-    }
-
-    public boolean isTargetBlocked(Vec3 target) {
-        Vec3 Vector3d = new Vec3(this.getX(), this.getEyeY(), this.getZ());
-        return this.level.clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() != HitResult.Type.MISS;
-    }
-
-    public boolean isValidLeader(SubterranodonEntity packLeader) {
-        return !packLeader.isPackFollower() && packLeader.isAlive();
     }
 
     public AABB getBoundingBoxForCulling() {

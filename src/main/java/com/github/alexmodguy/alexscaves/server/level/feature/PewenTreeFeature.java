@@ -2,7 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;

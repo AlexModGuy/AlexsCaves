@@ -58,11 +58,13 @@
   "item.alexscaves.spawn_egg_teletor": "Teletor Spawn Egg",
   "item.alexscaves.spawn_egg_magnetron": "Magnetron Spawn Egg",
   "item.alexscaves.spawn_egg_subterranodon": "Subterranodon Spawn Egg",
+  "item.alexscaves.spawn_egg_vallumraptor": "Vallumraptor Spawn Egg",
   "entity.alexscaves.moving_metal_block": "Magnetized Block",
   "entity.alexscaves.teletor": "Teletor",
   "entity.alexscaves.magnetic_weapon": "Magnetic Weapon",
   "entity.alexscaves.magnetron": "Magnetron",
   "entity.alexscaves.subterranodon": "Subterranodon",
+  "entity.alexscaves.vallumraptor": "Vallumraptor",
   "biome.alexscaves.magnetic_caves": "Magnetic Caves",
   "biome.alexscaves.primordial_caves": "Primordial Caves"
 }

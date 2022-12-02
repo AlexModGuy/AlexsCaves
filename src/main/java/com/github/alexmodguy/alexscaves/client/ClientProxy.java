@@ -9,37 +9,29 @@ import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.AmbersolBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
-import java.util.Map;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
@@ -59,6 +51,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETRON.get(), MagnetronRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBTERRANODON.get(), SubterranodonRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.VALLUMRAPTOR.get(), VallumraptorRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
     }
 
@@ -104,8 +97,8 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void postRenderStage(RenderLevelStageEvent event) {
-        if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS){
-            AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick());
+        if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS){
+            RenderSystem.runAsFancy(() -> AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
         }
     }
 

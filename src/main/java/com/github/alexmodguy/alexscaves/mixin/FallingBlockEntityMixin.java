@@ -1,6 +1,6 @@
 package com.github.alexmodguy.alexscaves.mixin;
 
-import com.github.alexmodguy.alexscaves.server.entity.util.IFallingBlockEntity;
+import com.github.alexmodguy.alexscaves.server.entity.util.FallingBlockEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexthe666.citadel.CitadelConstants;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(FallingBlockEntity.class)
-public abstract class FallingBlockEntityMixin extends Entity implements IFallingBlockEntity {
+public abstract class FallingBlockEntityMixin extends Entity implements FallingBlockEntityAccessor {
 
     @Shadow public int time;
     private static final EntityDataAccessor<Integer> FALL_BLOCK_TIME = SynchedEntityData.defineId(FallingBlockEntity.class, EntityDataSerializers.INT);

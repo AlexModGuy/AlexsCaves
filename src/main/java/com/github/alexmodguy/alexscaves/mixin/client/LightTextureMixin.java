@@ -3,10 +3,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Cursor3D;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.dimension.DimensionType;

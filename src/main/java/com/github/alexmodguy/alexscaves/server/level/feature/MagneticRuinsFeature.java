@@ -1,7 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticRuinsFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACLootTableRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;

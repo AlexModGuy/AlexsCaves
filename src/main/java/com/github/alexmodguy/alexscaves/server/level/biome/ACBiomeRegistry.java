@@ -3,23 +3,13 @@ package com.github.alexmodguy.alexscaves.server.level.biome;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import com.github.alexthe666.citadel.server.world.ExpandedBiomes;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.dimension.LevelStem;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ACBiomeRegistry {
 

@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.message.misc;
+package com.github.alexmodguy.alexscaves.server.misc;
 
 import net.minecraft.resources.ResourceLocation;
 

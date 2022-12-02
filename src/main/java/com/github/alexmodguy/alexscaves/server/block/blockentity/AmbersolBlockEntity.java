@@ -1,17 +1,13 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-
-import java.util.random.RandomGenerator;
 
 public class AmbersolBlockEntity extends BlockEntity {
 

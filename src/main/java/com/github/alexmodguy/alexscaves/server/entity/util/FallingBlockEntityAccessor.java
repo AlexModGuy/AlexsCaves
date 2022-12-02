@@ -1,6 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
-public interface IFallingBlockEntity {
+public interface FallingBlockEntityAccessor {
 
     boolean hasFallBlocking();
 

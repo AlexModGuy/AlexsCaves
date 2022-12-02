@@ -5,7 +5,7 @@ import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.MagnetronEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.MagnetronPartEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetronJoint;
-import com.github.alexmodguy.alexscaves.server.message.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.client.render.LightningBoltData;
 import com.github.alexthe666.citadel.client.render.LightningRender;
 import com.mojang.blaze3d.vertex.PoseStack;

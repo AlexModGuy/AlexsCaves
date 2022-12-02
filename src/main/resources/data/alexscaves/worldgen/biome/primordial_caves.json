@@ -114,6 +114,18 @@
         "maxCount": 5,
         "minCount": 3,
         "weight": 10
+      },
+      {
+        "type": "alexscaves:vallumraptor",
+        "maxCount": 7,
+        "minCount": 6,
+        "weight": 10
+      },
+      {
+        "type": "minecraft:frog",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 4
       }
     ]
   },

@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.AmbersolBlock;
-import com.github.alexmodguy.alexscaves.server.level.feature.config.CoveredBlockBlobConfiguration;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -11,7 +10,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class AmbersolFeature extends Feature<NoneFeatureConfiguration> {
 
