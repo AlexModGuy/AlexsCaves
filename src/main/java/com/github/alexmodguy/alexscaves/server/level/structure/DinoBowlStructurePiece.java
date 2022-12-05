@@ -2,18 +2,27 @@ package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACSimplexNoise;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.chunk.LevelChunkSection;
+import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePieceAccessor;
@@ -62,10 +71,11 @@ public class DinoBowlStructurePiece extends StructurePiece {
         tag.putInt("Radius", this.bowlRadius);
     }
 
-    public void postProcess(WorldGenLevel level, StructureManager featureManager, ChunkGenerator chunk, RandomSource random, BoundingBox boundingBox, ChunkPos chunkPos, BlockPos blockPos) {
+    public void postProcess(WorldGenLevel level, StructureManager featureManager, ChunkGenerator chunkGen, RandomSource random, BoundingBox boundingBox, ChunkPos chunkPos, BlockPos blockPos) {
         int cornerX = this.chunkCorner.getX();
         int cornerY = this.chunkCorner.getY();
         int cornerZ = this.chunkCorner.getZ();
+        boolean flag = false;
         BlockPos.MutableBlockPos carve = new BlockPos.MutableBlockPos();
         BlockPos.MutableBlockPos carveAbove = new BlockPos.MutableBlockPos();
         BlockPos.MutableBlockPos carveBelow = new BlockPos.MutableBlockPos();
@@ -80,16 +90,17 @@ public class DinoBowlStructurePiece extends StructurePiece {
                     carveAbove.set(carve.getX(), carve.getY() + 1, carve.getZ());
                     float widthSimplexNoise1 = sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), bowlRadius) - 0.5F;
                     float widthSimplexNoise2 = sampleNoise3D(carve.getX() + 120, carve.getY(), carve.getZ() - 120, bowlRadius / 2F) - 0.5F;
-                    double yDist = smin(0.8F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) bowlHeight, 0.8F, 0.2F);
+                    double yDist = ACMath.smin(0.8F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) bowlHeight, 0.8F, 0.2F);
                     double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY() - 1, this.holeCenter.getZ());
-
                     double targetRadius = yDist * (bowlRadius + widthSimplexNoise1 * widthSimplexNoise2 * bowlRadius) * bowlRadius;
                     if (distToCenter <= targetRadius) {
                         double edgy = targetRadius - distToCenter;
-                        if (edgy <= 4F && !checkedGetBlock(level, carve).getFluidState().isEmpty()) {
+                        if (edgy <= 16 && !checkedGetBlock(level, carve).getFluidState().isEmpty()) {
                             checkedSetBlock(level, carve, Blocks.SANDSTONE.defaultBlockState());
-                            checkedSetBlock(level, carveAbove, Blocks.SANDSTONE.defaultBlockState());
+                            carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
+                            doFloor.setTrue();
                         } else {
+                            flag = true;
                             if (isPillarBlocking(carve, yDist)) {
                                 if (!checkedGetBlock(level, carve).getFluidState().isEmpty()) {
                                     checkedSetBlock(level, carve, ACBlockRegistry.LIMESTONE.get().defaultBlockState());
@@ -106,18 +117,41 @@ public class DinoBowlStructurePiece extends StructurePiece {
 
                     }
                 }
-                if (doFloor.isTrue() && !checkedGetBlock(level, carveBelow).isAir() && checkedIsGenBiome(level, carveBelow)) {
+                if (doFloor.isTrue() && !checkedGetBlock(level, carveBelow).isAir()) {
                     decorateFloor(level, random, carveBelow.immutable());
                     doFloor.setFalse();
                 }
             }
         }
+        if (flag){
+            replaceBiomes(level);
+        }
+    }
+
+    private void replaceBiomes(WorldGenLevel level) {
+        Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getHolderOrThrow(ACBiomeRegistry.PRIMORDIAL_CAVES);
+        ChunkAccess chunkAccess = level.getChunk(this.chunkCorner);
+        int stopY = level.getSeaLevel() - 32;
+        if (chunkAccess != null) {
+            LevelChunkSection section = chunkAccess.getSection(chunkAccess.getSectionIndex(this.chunkCorner.getY()));
+            PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
+            if (section.bottomBlockY() < stopY) {
+                for (int biomeX = 0; biomeX < 4; ++biomeX) {
+                    for (int biomeY = 0; biomeY < 4; ++biomeY) {
+                        for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
+                            container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
+                        }
+                    }
+                }
+            }
+            section.biomes = container;
+        }
     }
 
     private boolean isPillarBlocking(BlockPos.MutableBlockPos carve, double yDist) {
         float sample = sampleNoise3D(carve.getX(), 0, carve.getZ(), 60) + sampleNoise3D(carve.getX() - 440, 0, carve.getZ() + 412, 22) * 0.2F + sampleNoise3D(carve.getX() - 100, carve.getY(), carve.getZ() - 400, 100) * 0.1F - 0.4F;
-        float f = (float) (smin((float) yDist / 0.8F, 1, 0.2F) + 1F);
-        return sample >= 0.25F * f && sample <= smin(1, (float) yDist / 0.8F + 0.25F, 0.1F) * f;
+        float f = (float) (ACMath.smin((float) yDist / 0.8F, 1, 0.2F) + 1F);
+        return sample >= 0.25F * f && sample <= ACMath.smin(1, (float) yDist / 0.8F + 0.25F, 0.1F) * f;
     }
 
     private float sampleNoise3D(int x, int y, int z, float simplexSampleRate) {
@@ -149,16 +183,8 @@ public class DinoBowlStructurePiece extends StructurePiece {
     }
 
     private boolean checkedIsGenBiome(WorldGenLevel level, BlockPos position) {
-        if (this.getBoundingBox().isInside(position) && level.getBiome(position).is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+        return true;
 
-    float smin(float a, float b, float k) {
-        float h = Math.max(k - Math.abs(a - b), 0.0F) / k;
-        return Math.min(a, b) - h * h * k * (1.0F / 4.0F);
     }
 
     public void addChildren(StructurePiece piece, StructurePieceAccessor accessor, RandomSource random) {

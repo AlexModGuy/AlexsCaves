@@ -6,13 +6,17 @@ import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.EnumSet;
 
 public class VallumraptorMeleeGoal extends Goal {
 
     private VallumraptorEntity raptor;
     public VallumraptorMeleeGoal(VallumraptorEntity raptor) {
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         this.raptor = raptor;
     }
 
@@ -59,7 +63,7 @@ public class VallumraptorMeleeGoal extends Goal {
                         checkAndDealDamage(target);
                     }
                 }else{
-                    if(dist > 3.0F && dist < 7.0F && raptor.getRandom().nextInt(20) == 0){
+                    if(dist > 3.0F && dist < 7.0F && raptor.getRandom().nextInt(10) == 0){
                         tryAnimation(VallumraptorEntity.ANIMATION_STARTLEAP);
                     }
                 }
@@ -69,7 +73,7 @@ public class VallumraptorMeleeGoal extends Goal {
 
     private void checkAndDealDamage(LivingEntity target) {
         if(raptor.hasLineOfSight(target) && raptor.distanceTo(target) < raptor.getBbWidth() + target.getBbWidth() + 1){
-            target.hurt(DamageSource.mobAttack(raptor), 1);
+            target.hurt(DamageSource.mobAttack(raptor), (float) raptor.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         }
     }
 

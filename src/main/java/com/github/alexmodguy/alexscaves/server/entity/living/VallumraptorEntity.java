@@ -17,6 +17,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -36,6 +37,7 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -109,7 +111,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 60, 8));
         this.goalSelector.addGoal(2, new FleeGoal());
         this.goalSelector.addGoal(3, new VallumraptorMeleeGoal(this));
-        this.goalSelector.addGoal(4, new VallumraptorWanderGoal(this, 1D, 45));
+        this.goalSelector.addGoal(4, new VallumraptorWanderGoal(this, 1D, 25));
         this.goalSelector.addGoal(5, new VallumraptorOpenDoorGoal(this));
         this.goalSelector.addGoal(6, new AnimalLootChestsGoal(this, 20));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
@@ -119,15 +121,15 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
                 super.start();
                 VallumraptorEntity.this.setRunning(true);
             }
-
-
             public void stop() {
                 super.stop();
                 VallumraptorEntity.this.setRunning(false);
             }
         });
         this.targetSelector.addGoal(2, (new HurtByTargetGoal(this, VallumraptorEntity.class)).setAlertOthers());
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Pig.class, true, false));
+        this.targetSelector.addGoal(3, new AnimalPackTargetGoal(this, GrottoceratopsEntity.class, 30, false, 5));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal(this, Frog.class, false));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal(this, Pig.class, false));
         this.targetSelector.addGoal(4, new MobTargetClosePlayers(this, 4));
     }
 
@@ -145,7 +147,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 28.0D);
+        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 3.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 28.0D);
     }
 
     public void tick() {
@@ -178,14 +180,14 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         }
         if (isElder() && !hasElderAttributes) {
             hasElderAttributes = true;
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(36.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(32.0D);
             this.getAttribute(Attributes.ARMOR).setBaseValue(5.0D);
             this.heal(36.0F);
         }
         if (!isElder() && hasElderAttributes) {
             hasElderAttributes = false;
             maxUpStep = 0.6F;
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(28.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
             this.getAttribute(Attributes.ARMOR).setBaseValue(0.0D);
             this.heal(28.0F);
         }
@@ -220,6 +222,22 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
             this.heal(5);
             if (!this.level.isClientSide) {
                 this.getMainHandItem().shrink(1);
+            }
+        }
+        LivingEntity target = this.getTarget();
+        if(target != null && target.isAlive()){
+            if(this.isElder()){
+                PackAnimal leader = this;
+                while(leader.getAfterPackMember() != null){
+                    leader = leader.getAfterPackMember();
+                    ((VallumraptorEntity)leader).setTarget(target);
+                }
+            }
+            if(target instanceof GrottoceratopsEntity && (tickCount + this.getId()) % 20 == 0 && getPackSize() < 4){
+                this.fleeFromPosition = target.position();
+                this.fleeTicks = 100 + random.nextInt(100);
+                this.setTarget(null);
+                this.setLastHurtByMob(null);
             }
         }
         tailYaw = Mth.approachDegrees(this.tailYaw, yBodyRot, 8);
@@ -433,7 +451,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
 
     @Override
     public boolean isValidLeader(PackAnimal packLeader) {
-        return !packLeader.isPackFollower() && packLeader instanceof VallumraptorEntity && ((VallumraptorEntity) packLeader).isAlive() && ((VallumraptorEntity) packLeader).isElder();
+        return packLeader instanceof VallumraptorEntity && ((VallumraptorEntity) packLeader).isAlive() && ((VallumraptorEntity) packLeader).isElder();
     }
 
     @Override

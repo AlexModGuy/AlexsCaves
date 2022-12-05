@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
@@ -551,7 +552,7 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
     private void setupAnimForAnimation(VallumraptorEntity entity, Animation animation, float limbSwing, float limbSwingAmount, float ageInTicks) {
         float partialTick = ageInTicks - entity.tickCount;
         if (animation == VallumraptorEntity.ANIMATION_SHAKE) {
-            float animationIntensity = cullAnimationTick(entity.getAnimationTick(), 3, animation, partialTick);
+            float animationIntensity = ACMath.cullAnimationTick(entity.getAnimationTick(), 3, animation, partialTick, 0);
             progressRotationPrev(neck, animationIntensity, (float) Math.toRadians(20), 0, 0, 1F);
             progressRotationPrev(head, animationIntensity, (float) Math.toRadians(-20), 0, 0, 1F);
             progressPositionPrev(head, animationIntensity, 0, -0.5F, 0, 1F);
@@ -574,17 +575,6 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
             this.flap(larm, 0.5F, 0.5F, false, -1F, 0F, ageInTicks, animationIntensity);
         }
     }
-
-    private float cullAnimationTick(int tick, float amplitude, Animation animation, float partialTick) {
-        float f = (float) Math.sin(((tick + partialTick) / (float) animation.getDuration()) * Math.PI) * amplitude;
-        return smin(f, 1.0F, 0.1F);
-    }
-
-    private float smin(float a, float b, float k) {
-        float h = Math.max(k - Math.abs(a - b), 0.0F) / k;
-        return Math.min(a, b) - h * h * k * (1.0F / 4.0F);
-    }
-
     public void translateToHand(PoseStack matrixStackIn, boolean left) {
         body.translateAndRotate(matrixStackIn);
         if(left){

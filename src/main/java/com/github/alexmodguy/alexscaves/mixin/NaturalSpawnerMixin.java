@@ -49,7 +49,8 @@ public class NaturalSpawnerMixin {
                     Optional<MobSpawnSettings.SpawnerData> optional = weightedrandomlist.getRandom(randomSource);
                     if (optional.isPresent()) {
                         MobSpawnSettings.SpawnerData mobspawnsettings$spawnerdata = optional.get();
-                        int k = mobspawnsettings$spawnerdata.minCount + randomSource.nextInt(1 + mobspawnsettings$spawnerdata.maxCount - mobspawnsettings$spawnerdata.minCount);
+                        int mobsToSpawn = 1 + mobspawnsettings$spawnerdata.maxCount - mobspawnsettings$spawnerdata.minCount;
+                        int k = mobspawnsettings$spawnerdata.minCount + randomSource.nextInt(Math.max(mobsToSpawn, 1));
                         SpawnGroupData spawngroupdata = null;
                         int l = i + randomSource.nextInt(16);
                         int i1 = j + randomSource.nextInt(16);
@@ -107,7 +108,8 @@ public class NaturalSpawnerMixin {
         List<Holder<Biome>> cavesWithCreatures = new ArrayList<>();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(chunkPos.getMiddleBlockX(), -1, chunkPos.getMiddleBlockZ());
         for (int i = 0; i < 5; i++) {
-            int height = level.getMinBuildHeight() + random.nextInt(5 + level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ()));
+            int heightRange = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, chunkPos.getMiddleBlockX(), chunkPos.getMiddleBlockZ()) - level.getMinBuildHeight();
+            int height = level.getMinBuildHeight() + Math.round(heightRange * random.nextFloat());
             mutableBlockPos.setY(height);
             Holder<Biome> holder = level.getBiome(mutableBlockPos);
             if (!holder.get().getMobSettings().getMobs(ACEntityRegistry.CAVE_CREATURE).isEmpty() && !cavesWithCreatures.contains(holder)) {

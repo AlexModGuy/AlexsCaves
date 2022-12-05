@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -34,7 +36,7 @@ public class CycadBlock extends BushBlock {
     );
 
     public CycadBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().dynamicShape().strength(1F, 2.0F).sound(SoundType.WOOD).offsetType(OffsetType.XZ));
+        super(Properties.of(Material.WOOD, MaterialColor.METAL).requiresCorrectToolForDrops().dynamicShape().strength(1F, 2.0F).sound(SoundType.WOOD).offsetType(OffsetType.XZ));
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)));
     }
 
@@ -95,5 +97,9 @@ public class CycadBlock extends BushBlock {
 
     private static VoxelShape buildShape(VoxelShape... from) {
         return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+    }
+
+    public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos pos, PathComputationType type) {
+        return false;
     }
 }

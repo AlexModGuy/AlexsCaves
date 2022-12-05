@@ -33,7 +33,7 @@ public class AnimalJoinPackGoal extends Goal {
             LivingEntity closestTail = null;
             double d0 = Double.MAX_VALUE;
             for (LivingEntity animal : list) {
-                if (!((PackAnimal)animal).hasPackFollower() && !animal.getUUID().equals(entity.getUUID()) && !((PackAnimal) animal).isInPack(packAnimal) && ((PackAnimal)animal).getPackSize() < packSize) {
+                if (!((PackAnimal)animal).hasPackFollower() && ((PackAnimal)animal).isValidLeader(((PackAnimal)animal).getPackLeader()) && !animal.getUUID().equals(entity.getUUID()) && !((PackAnimal) animal).isInPack(packAnimal) && ((PackAnimal)animal).getPackSize() < packSize) {
                     double d1 = this.entity.distanceToSqr(animal);
                     if (!(d1 > d0)) {
                         d0 = d1;

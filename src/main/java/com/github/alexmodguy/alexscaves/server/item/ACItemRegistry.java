@@ -28,6 +28,8 @@ public class ACItemRegistry {
         spawnEgg("magnetron", ACEntityRegistry.MAGNETRON, 0XFF002A,0X203070);
         spawnEgg("subterranodon", ACEntityRegistry.SUBTERRANODON, 0X00B1B2,0XFFF11C);
         spawnEgg("vallumraptor", ACEntityRegistry.VALLUMRAPTOR, 0X22389A,0XEEE5AB);
+        spawnEgg("grottoceratops", ACEntityRegistry.GROTTOCERATOPS, 0XAC3B03,0XD39B4E);
+        spawnEgg("trilocaris", ACEntityRegistry.TRILOCARIS, 0X713E0D,0X8B2010);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2){

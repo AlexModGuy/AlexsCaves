@@ -25,7 +25,7 @@ public class ACBiomeRegistry {
         if (isFarEnoughFromSpawn(event, 300) && event.testWeirdness(0.5F, 1F) && event.testErosion(-0.5F, 0.5F) && event.testContinentalness(-0.15F, 0.75F) && event.testDepth(0.2F, 1F)) {
             return MAGNETIC_CAVES;
         }
-        if (isFarEnoughFromSpawn(event, 500) && event.testHumidity(-0.25F, 0.7F) && event.testContinentalness(0.1F, 1F) && event.testTemperature(0.0F, 0.8F) && event.testDepth(0.1F, 1F)) {
+        if (isFarEnoughFromSpawn(event, 500) && event.testHumidity(0.05F, 0.4F) && event.testContinentalness(0.2F, 1F) && event.testTemperature(0.1F, 0.5F) && event.testDepth(0.1F, 1F)) {
             return PRIMORDIAL_CAVES;
         }
         return null;
