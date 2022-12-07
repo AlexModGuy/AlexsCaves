@@ -67,7 +67,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 50.0D).add(Attributes.ARMOR, 8.0D);
+        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.KNOCKBACK_RESISTANCE, 0.9D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 50.0D).add(Attributes.ARMOR, 8.0D);
     }
 
     @Override
@@ -95,41 +95,44 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
     }
 
     public boolean hurt(DamageSource damageSource, float f) {
-        if(damageSource.getDirectEntity() instanceof VallumraptorEntity){
-            f *= 0.5F;
+        if (damageSource.getDirectEntity() instanceof VallumraptorEntity) {
+            f *= 0.75F;
         }
         return super.hurt(damageSource, f);
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
         float tailSwing = getTailSwingRot();
         this.prevTailSwingRot = tailSwing;
-        if(this.getAnimation() == ANIMATION_MELEE_TAIL_1 || this.getAnimation() == ANIMATION_MELEE_TAIL_2){
+        if (this.getAnimation() == ANIMATION_MELEE_TAIL_1 || this.getAnimation() == ANIMATION_MELEE_TAIL_2) {
             float start = this.getAnimation() == ANIMATION_MELEE_TAIL_1 ? 30 : -30;
             float end = this.getAnimation() == ANIMATION_MELEE_TAIL_1 ? -180 : 180;
-            if(this.getAnimationTick() <= 7){
+            if (this.getAnimationTick() <= 7) {
                 this.setTailSwingRot(Mth.approachDegrees(tailSwing, start, 5));
-            }else{
+            } else {
                 this.setTailSwingRot(Mth.approachDegrees(tailSwing, end, 25));
             }
             this.animationSpeed = 1;
-        }else{
-            if(Math.abs(tailSwing) > 0.0F){
+        } else {
+            if (Math.abs(tailSwing) > 0.0F) {
                 this.setTailSwingRot(Mth.approachDegrees(tailSwing, 0, 20));
             }
             this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         }
-        if(this.getAnimation() == ANIMATION_CHEW || this.getAnimation() == ANIMATION_CHEW_FROM_GROUND){
-            if(this.getAnimationTick() > this.getAnimation().getDuration() - 1){
+        if (this.getAnimation() == ANIMATION_CHEW || this.getAnimation() == ANIMATION_CHEW_FROM_GROUND) {
+            if (this.getAnimationTick() > this.getAnimation().getDuration() - 1) {
                 this.heal(5);
             }
         }
-        if(resetAttackerCooldown > 0){
+        if (resetAttackerCooldown > 0) {
             resetAttackerCooldown--;
-        }else if(!level.isClientSide && !this.isBaby() && (this.getLastHurtByMob() == null || !this.getLastHurtByMob().isAlive())){
+        } else if (!level.isClientSide && !this.isBaby() && (this.getLastHurtByMob() == null || !this.getLastHurtByMob().isAlive())) {
             this.setTarget(this.getLastHurtByMob());
             resetAttackerCooldown = 30;
+        }
+        if (this.getAnimation() == ANIMATION_SPEAK_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_SPEAK_2 && this.getAnimationTick() == 8) {
+            actuallyPlayAmbientSound();
         }
         this.legSolver.update(this, this.yBodyRot + getTailSwingRot(), this.getScale());
         AnimationHandler.INSTANCE.updateAnimations(this);

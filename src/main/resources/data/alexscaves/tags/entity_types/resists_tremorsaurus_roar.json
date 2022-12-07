@@ -1,0 +1,6 @@
+{
+  "__comment": "all mobs that are not shaken by a tremorsaurus roar.",
+  "values": [
+    "alexscaves:tremorsaurus"
+  ]
+}

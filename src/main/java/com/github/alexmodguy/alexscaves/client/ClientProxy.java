@@ -10,33 +10,47 @@ import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.CubicSampler;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import java.util.List;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
 
     private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#");
+    private int lastTremorTick;
+    private float[] randomTremorOffsets = new float[3];
+
+    private List<UUID> blockedEntityRenders = new ArrayList<>();
+
     public void init() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientProxy::setupParticles);
     }
@@ -54,6 +68,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.VALLUMRAPTOR.get(), VallumraptorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GROTTOCERATOPS.get(), GrottoceratopsRenderer::new);
         EntityRenderers.register(ACEntityRegistry.TRILOCARIS.get(), TrilocarisRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.TREMORSAURUS.get(), TremorsaurusRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
     }
 
@@ -65,6 +80,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.AZURE_MAGNETIC_FLOW.get(), new MagneticFlowParticle.AzureFactory());
         registry.register(ACParticleRegistry.GALENA_DEBRIS.get(), GalenaDebrisParticle.Factory::new);
         registry.register(ACParticleRegistry.FLY.get(), FlyParticle.Factory::new);
+        registry.register(ACParticleRegistry.WATER_TREMOR.get(), WaterTremorParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -88,6 +104,11 @@ public class ClientProxy extends CommonProxy {
         if (event.getEntity() instanceof HeadRotationEntityAccessor magnetic) {
             magnetic.setMagnetHeadRotation();
         }
+        if(blockedEntityRenders.contains(event.getEntity().getUUID())){
+            event.setCanceled(true);
+            blockedEntityRenders.remove(event.getEntity().getUUID());
+            MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
+        }
     }
 
     @SubscribeEvent
@@ -104,8 +125,56 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+
     @SubscribeEvent
-    public void fogRenderColor(ViewportEvent.ComputeFogColor event){
+    public void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
+        Entity player = Minecraft.getInstance().getCameraEntity();
+        if(player != null && player.isOnGround()){
+            float tremorAmount = 0;
+            double shakeDistanceScale = 20D;
+            double distance = Double.MAX_VALUE;
+            float partialTick = Minecraft.getInstance().getPartialTick();
+            AABB aabb = player.getBoundingBox().inflate(shakeDistanceScale);
+            for(TremorsaurusEntity tremorsaurus : Minecraft.getInstance().level.getEntitiesOfClass(TremorsaurusEntity.class, aabb)){
+                tremorAmount = Math.max(tremorsaurus.getScreenShakeAmount(partialTick), 0);
+                if(tremorsaurus.distanceTo(player) < distance){
+                    distance = tremorsaurus.distanceTo(player);
+                }
+            }
+            if(tremorAmount > 0){
+                if(lastTremorTick != player.tickCount){
+                    RandomSource rng = player.getLevel().random;
+                    randomTremorOffsets[0] = rng.nextFloat();
+                    randomTremorOffsets[1] = rng.nextFloat();
+                    randomTremorOffsets[2] = rng.nextFloat();
+                    lastTremorTick = player.tickCount;
+                }
+                double intensity = (1D - (distance / shakeDistanceScale)) * tremorAmount * Minecraft.getInstance().options.screenEffectScale().get();
+                event.getCamera().move(randomTremorOffsets[0] * 0.2F * intensity, randomTremorOffsets[1] * 0.2F * intensity, randomTremorOffsets[2] * 0.5F * intensity);
+            }
+        }
+
+    }
+
+    @SubscribeEvent
+    public void fogRender(ViewportEvent.RenderFog event){
+        if(event.getMode() == FogRenderer.FogMode.FOG_TERRAIN){
+            Entity player = Minecraft.getInstance().player;
+            int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+            float nearness;
+            if (i == 0) {
+                nearness = ACBiomeRegistry.getBiomeFogNearness(player.level.getBiome(player.blockPosition()));
+            } else {
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeFogNearness(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                });
+                nearness = (float) vec31.x;
+            }
+            if(nearness != 1.0F){
+                event.setCanceled(true);
+                event.setNearPlaneDistance(event.getNearPlaneDistance() * nearness);
+            }
+        }
     }
 
     private void rotateForAngle(LivingEntity entity, PoseStack matrixStackIn, Direction rotate, float f, float width, float height) {
@@ -162,6 +231,15 @@ public class ClientProxy extends CommonProxy {
 
     public Player getClientSidePlayer() {
         return Minecraft.getInstance().player;
+    }
+
+
+    public void blockRenderingEntity(UUID id) {
+        blockedEntityRenders.add(id);
+    }
+
+    public void releaseRenderingEntity(UUID id) {
+        blockedEntityRenders.remove(id);
     }
 
 }

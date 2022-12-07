@@ -23,6 +23,8 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.UUID;
+
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CommonProxy {
 
@@ -64,6 +66,12 @@ public class CommonProxy {
             event.setResult(Event.Result.ALLOW);
             event.setBiomeToGenerate(event.getBiomeSource().getResourceKeyMap().get(biome));
         }
+    }
+
+    public void blockRenderingEntity(UUID id) {
+    }
+
+    public void releaseRenderingEntity(UUID id) {
     }
 
     public Player getClientSidePlayer() {

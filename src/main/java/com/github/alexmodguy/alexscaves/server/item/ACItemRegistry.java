@@ -30,6 +30,7 @@ public class ACItemRegistry {
         spawnEgg("vallumraptor", ACEntityRegistry.VALLUMRAPTOR, 0X22389A,0XEEE5AB);
         spawnEgg("grottoceratops", ACEntityRegistry.GROTTOCERATOPS, 0XAC3B03,0XD39B4E);
         spawnEgg("trilocaris", ACEntityRegistry.TRILOCARIS, 0X713E0D,0X8B2010);
+        spawnEgg("tremorsaurus", ACEntityRegistry.TREMORSAURUS, 0X53780E,0XDFA211);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2){

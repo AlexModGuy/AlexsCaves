@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalJoinPackGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFleeGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -39,7 +41,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class SubterranodonEntity extends Animal implements PackAnimal {
+public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAnimal {
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HOVERING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
@@ -81,9 +83,10 @@ public class SubterranodonEntity extends Animal implements PackAnimal {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 30,5));
-        this.goalSelector.addGoal(2, new SubterranodonFlightGoal(this));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new SubterranodonFleeGoal(this));
+        this.goalSelector.addGoal(3, new SubterranodonFlightGoal(this));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
@@ -161,7 +164,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal {
             if (this.isLandNavigator) {
                 switchNavigator(false);
             }
-            if (this.getDeltaMovement().y < 0) {
+            if (this.getDeltaMovement().y < 0 && this.isAlive()) {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1, 0.6D, 1));
             }
         } else {
@@ -172,7 +175,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal {
         }
         if (!level.isClientSide) {
             this.setHovering(isHoveringFromServer() && isFlying());
-            if (this.isHovering() && isFlying()) {
+            if (this.isHovering() && isFlying() && this.isAlive()) {
                 if (timeFlying < 30) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.075D, 0));
                 }

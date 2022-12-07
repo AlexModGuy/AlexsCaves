@@ -42,6 +42,13 @@ public class ACBiomeRegistry {
         return 0.0F;
     }
 
+    public static float getBiomeFogNearness(Holder<Biome> value) {
+        if(value.is(PRIMORDIAL_CAVES)){
+            return 0.5F;
+        }
+        return 1.0F;
+    }
+
     public static float getBiomeSkyOverride(Holder<Biome> value) {
         if(value.is(PRIMORDIAL_CAVES)){
             return 1.0F;
