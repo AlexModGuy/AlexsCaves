@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 public class PewenPinesBlock extends BushBlock {
 
@@ -29,7 +31,6 @@ public class PewenPinesBlock extends BushBlock {
         }
         return this.mayPlaceOn(levelReader.getBlockState(blockpos), levelReader, blockpos);
     }
-
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         Vec3 vec3 = state.getOffset(getter, pos);
         return SHAPE.move(vec3.x, vec3.y, vec3.z);

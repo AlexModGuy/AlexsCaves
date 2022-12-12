@@ -8,6 +8,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -27,10 +28,11 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
+public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock {
 
     public static final Map<Integer, VoxelShape> SHAPES_BY_ROTATION = Util.make(Maps.newHashMap(), (map) -> {
         map.put(0, Block.box(6, 2, 0, 10, 6, 16));
@@ -53,6 +55,10 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(ROTATION, Integer.valueOf(0)).setValue(PINES, true));
     }
 
+    public SoundType getSoundType(BlockState state, LevelReader level, BlockPos pos, @Nullable Entity entity) {
+        return state.getValue(PINES) ? SoundType.GRASS : super.getSoundType(state, level, pos, entity);
+    }
+
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         return SHAPES_BY_ROTATION.getOrDefault(state.getValue(ROTATION), Shapes.empty());
     }
@@ -64,12 +70,12 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        int rot = Mth.floor((double)(context.getRotation() * 8.0F / 360.0F) + 0.5D) & 7;
+        int rot = Mth.floor((double) (context.getRotation() * 8.0F / 360.0F) + 0.5D) & 7;
         BlockPos checkPos = blockpos.offset(getOffsetConnectToPos(rot));
         int loops = 0;
-        while(!isGoodBase(levelaccessor.getBlockState(checkPos), levelaccessor, checkPos) && loops <  7){
+        while (!isGoodBase(levelaccessor.getBlockState(checkPos), levelaccessor, checkPos) && loops < 7) {
             rot++;
-            if(rot > 7){
+            if (rot > 7) {
                 rot = 0;
             }
             checkPos = blockpos.offset(getOffsetConnectToPos(rot));
@@ -92,18 +98,18 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
         return isGoodBase(state1, level, blockpos);
     }
 
-    public boolean isGoodBase(BlockState state, LevelReader level, BlockPos pos){
+    public boolean isGoodBase(BlockState state, LevelReader level, BlockPos pos) {
         return state.getBlock() == this || state.isCollisionShapeFullBlock(level, pos);
     }
 
-    public boolean hasPines(int rot, LevelReader levelReader, BlockPos pos){
+    public boolean hasPines(int rot, LevelReader levelReader, BlockPos pos) {
         BlockPos checkAt = pos.subtract(getOffsetConnectToPos(rot));
         return levelReader.getBlockState(checkAt).getBlock() != this;
     }
 
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
         if (!state.canSurvive(level, pos)) {
-            for(BlockPos tick : BlockPos.betweenClosed(pos.offset(-1, 0, -1), pos.offset(1, 1, 1))){
+            for (BlockPos tick : BlockPos.betweenClosed(pos.offset(-1, 0, -1), pos.offset(1, 1, 1))) {
                 level.scheduleTick(tick, this, 1);
             }
             level.destroyBlock(pos, true);
@@ -123,7 +129,7 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
             levelAccessor.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
         boolean shouldHavePines = hasPines(state.getValue(ROTATION), levelAccessor, blockPos);
-        if(shouldHavePines != state.getValue(PINES)){
+        if (shouldHavePines != state.getValue(PINES)) {
             return state.setValue(PINES, shouldHavePines);
         }
         return super.updateShape(state, direction, state1, levelAccessor, blockPos, blockPos1);
@@ -132,9 +138,11 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
     public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
+
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(ROTATION, WATERLOGGED, PINES);
     }
+
     @Override
     public float getMaxHorizontalOffset() {
         return 0.0F;
@@ -145,8 +153,8 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock{
         return 0.75F;
     }
 
-    public static Vec3i getOffsetConnectToPos(int rotationValue){
-        switch (rotationValue){
+    public static Vec3i getOffsetConnectToPos(int rotationValue) {
+        switch (rotationValue) {
             case 0: //North
                 return new Vec3i(0, 0, 1);
             case 1: //North East

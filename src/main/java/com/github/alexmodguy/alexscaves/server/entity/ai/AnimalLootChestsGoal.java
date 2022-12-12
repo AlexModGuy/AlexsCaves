@@ -57,6 +57,15 @@ public class AnimalLootChestsGoal extends MoveToBlockGoal {
         return false;
     }
 
+    protected BlockPos getMoveToTarget() {
+        return this.blockPos;
+    }
+
+    protected void moveMobToBlock() {
+        BlockPos pos = getMoveToTarget();
+        this.mob.getNavigation().moveTo((double)((float)pos.getX()) + 0.5D, (double)(pos.getY() + 1), (double)((float)pos.getZ()) + 0.5D, this.speedModifier);
+    }
+
     @Override
     public boolean canUse() {
         if (this.entity instanceof TamableAnimal && ((TamableAnimal) entity).isTame()) {

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:smooth_limestone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:smooth_limestone_wall",
+    "count": 6
+  }
+}

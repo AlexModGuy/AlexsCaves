@@ -8,7 +8,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.FallingBlockEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
-import com.github.alexmodguy.alexscaves.server.entity.util.MovingMetalBlockData;
+import com.github.alexmodguy.alexscaves.server.entity.util.MovingBlockData;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
@@ -70,12 +70,12 @@ public class MagnetBlockEntity extends BlockEntity {
                         List<BlockPos> gathered = new ArrayList<>();
                         entity.gatherAttachedBlocks(checkMetalAt, gathered);
                         if (!gathered.isEmpty()) {
-                            List<MovingMetalBlockData> allData = new ArrayList<>();
+                            List<MovingBlockData> allData = new ArrayList<>();
                             for (BlockPos pos : gathered) {
                                 BlockState moveState = level.getBlockState(pos);
                                 BlockEntity te = level.getBlockEntity(pos);
                                 BlockPos offset = pos.subtract(checkMetalAt);
-                                MovingMetalBlockData data = new MovingMetalBlockData(moveState, moveState.getShape(level, pos), offset, te == null ? null : te.saveWithoutMetadata());
+                                MovingBlockData data = new MovingBlockData(moveState, moveState.getShape(level, pos), offset, te == null ? null : te.saveWithoutMetadata());
                                 level.removeBlockEntity(pos);
                                 allData.add(data);
                             }

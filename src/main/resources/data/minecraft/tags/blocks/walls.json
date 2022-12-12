@@ -3,6 +3,7 @@
   "values": [
     "alexscaves:galena_wall",
     "alexscaves:galena_brick_wall",
-    "alexscaves:limestone_wall"
+    "alexscaves:limestone_wall",
+    "alexscaves:smooth_limestone_wall"
   ]
 }

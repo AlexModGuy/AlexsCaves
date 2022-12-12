@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ai.MobTargetClosePlayers;
 import com.github.alexmodguy.alexscaves.server.entity.ai.TremorsaurusMeleeGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.*;
@@ -71,8 +72,10 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, TremorsaurusEntity.class)));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, GrottoceratopsEntity.class, true, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, SubterranodonEntity.class, true, false));
+        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 4));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, GrottoceratopsEntity.class, 100, true, false, null));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, SubterranodonEntity.class, true, false));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, RelicheirusEntity.class, 250, true, false, null));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 

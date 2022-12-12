@@ -24,6 +24,9 @@ public class ACTagRegistry {
     public static final TagKey<Block> DINOSAURS_SPAWNABLE_ON = registerBlockTag("dinosaurs_spawnable_on");
 
     public static final TagKey<Block> GROTTOCERATOPS_FOOD_BLOCKS = registerBlockTag("grottoceratops_food_blocks");
+    public static final TagKey<Block> RELICHEIRUS_NIBBLES = registerBlockTag("relicheirus_nibbles");
+    public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LEAVES = registerBlockTag("relicheirus_knockable_leaves");
+    public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LOGS = registerBlockTag("relicheirus_knockable_logs");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
 

@@ -51,6 +51,10 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> LIMESTONE_STAIRS = registerBlockAndItem("limestone_stairs", () -> new StairBlock(LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_SLAB = registerBlockAndItem("limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_WALL = registerBlockAndItem("limestone_wall", () -> new WallBlock(LIMESTONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_LIMESTONE = registerBlockAndItem("smooth_limestone", () -> new Block(LIMESTONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_LIMESTONE_STAIRS = registerBlockAndItem("smooth_limestone_stairs", () -> new StairBlock(SMOOTH_LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_LIMESTONE_SLAB = registerBlockAndItem("smooth_limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_LIMESTONE_WALL = registerBlockAndItem("smooth_limestone_wall", () -> new WallBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> AMBER = registerBlockAndItem("amber", () -> new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().strength(0.3F, 2.0F).sound(SoundType.GLASS)));
     public static final RegistryObject<Block> AMBERSOL = registerBlockAndItem("ambersol", () -> new AmbersolBlock());
     public static final RegistryObject<Block> AMBERSOL_LIGHT = DEF_REG.register("ambersol_light", () -> new AmbersolLightBlock(BlockBehaviour.Properties.of(Material.AIR).noOcclusion().strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().lightLevel(((state -> 15)))));

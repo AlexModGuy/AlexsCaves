@@ -22,6 +22,10 @@
     "alexscaves:limestone",
     "alexscaves:limestone_slab",
     "alexscaves:limestone_stairs",
-    "alexscaves:limestone_wall"
+    "alexscaves:limestone_wall",
+    "alexscaves:smooth_limestone",
+    "alexscaves:smooth_limestone_slab",
+    "alexscaves:smooth_limestone_stairs",
+    "alexscaves:smooth_limestone_wall"
   ]
 }

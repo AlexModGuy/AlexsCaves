@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
   "ingredient": {
-    "item": "alexscaves:metal_swarf"
+    "item": "alexscaves:limestone"
   },
-  "result": "alexscaves:scrap_metal",
+  "result": "alexscaves:smooth_limestone",
   "experience": 0.1,
   "cookingtime": 100
 }

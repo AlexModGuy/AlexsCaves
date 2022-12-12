@@ -12,7 +12,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class MovingMetalBlockData {
+public class MovingBlockData {
 
     private BlockState state;
     private VoxelShape shape;
@@ -20,14 +20,14 @@ public class MovingMetalBlockData {
     @Nullable
     public CompoundTag blockData;
 
-    public MovingMetalBlockData(BlockState state, VoxelShape shape, BlockPos offset, @Nullable CompoundTag blockData) {
+    public MovingBlockData(BlockState state, VoxelShape shape, BlockPos offset, @Nullable CompoundTag blockData) {
         this.state = state;
         this.shape = shape;
         this.offset = offset;
         this.blockData = blockData;
     }
 
-    public MovingMetalBlockData(CompoundTag tag) {
+    public MovingBlockData(CompoundTag tag) {
         this(NbtUtils.readBlockState(tag.getCompound("BlockState")), getShapeFromTag(tag.getCompound("VoxelShape")), new BlockPos(tag.getInt("OffsetX"), tag.getInt("OffsetY"), tag.getInt("OffsetZ")), tag.contains("BlockData") ? tag.getCompound("BlockData") : null);
     }
 

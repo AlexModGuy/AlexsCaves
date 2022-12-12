@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.util;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.item.AbstractMovingBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
 import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -292,12 +293,12 @@ public class MagnetUtil {
         if (aabb.getSize() < 1.0E-7D) {
             return List.of();
         } else {
-            List<MovingMetalBlockEntity> list = entity.level.getEntitiesOfClass(MovingMetalBlockEntity.class, aabb.inflate(1.0E-7D), (metalBlockEntity) -> true);
+            List<AbstractMovingBlockEntity> list = entity.level.getEntitiesOfClass(AbstractMovingBlockEntity.class, aabb.inflate(1.0E-7D), AbstractMovingBlockEntity::movesEntities);
             if (list.isEmpty()) {
                 return List.of();
             } else {
                 List<VoxelShape> shapes = new ArrayList<>();
-                for(MovingMetalBlockEntity metalEntity : list) {
+                for(AbstractMovingBlockEntity metalEntity : list) {
                     if(metalEntity != entity){
                         shapes.add(metalEntity.getShape());
                     }

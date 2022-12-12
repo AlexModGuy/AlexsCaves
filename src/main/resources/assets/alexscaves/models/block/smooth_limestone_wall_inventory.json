@@ -1,0 +1,7 @@
+{
+    "parent": "alexscaves:block/wall_inventory",
+    "textures": {
+        "wall": "alexscaves:block/smooth_limestone",
+        "top" : "alexscaves:block/smooth_limestone"
+    }
+}

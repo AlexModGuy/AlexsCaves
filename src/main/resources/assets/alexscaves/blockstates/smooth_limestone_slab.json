@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/smooth_limestone_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/smooth_limestone"
+    },
+    "type=top": {
+      "model": "alexscaves:block/smooth_limestone_slab_top"
+    }
+  }
+}
