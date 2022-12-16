@@ -20,12 +20,26 @@ import java.util.List;
 public class SmoothLimestoneBlock extends Block {
 
     private static final List<RegistryObject<Block>> CAVE_PAINTINGS = Util.make(Lists.newArrayList(), (list) -> {
+        list.add(ACBlockRegistry.CAVE_PAINTING_AMBERSOL);
+        list.add(ACBlockRegistry.CAVE_PAINTING_DARK);
+        list.add(ACBlockRegistry.CAVE_PAINTING_FOOTPRINT);
+        list.add(ACBlockRegistry.CAVE_PAINTING_FOOTPRINTS);
         list.add(ACBlockRegistry.CAVE_PAINTING_TREE_STARS);
+        list.add(ACBlockRegistry.CAVE_PAINTING_PEWEN);
+        list.add(ACBlockRegistry.CAVE_PAINTING_TRILOCARIS);
         list.add(ACBlockRegistry.CAVE_PAINTING_GROTTOCERATOPS);
         list.add(ACBlockRegistry.CAVE_PAINTING_GROTTOCERATOPS_FRIEND);
         list.add(ACBlockRegistry.CAVE_PAINTING_DINO_NUGGETS);
         list.add(ACBlockRegistry.CAVE_PAINTING_VALLUMRAPTOR_CHEST);
         list.add(ACBlockRegistry.CAVE_PAINTING_VALLUMRAPTOR_FRIEND);
+        list.add(ACBlockRegistry.CAVE_PAINTING_RELICHEIRUS);
+        list.add(ACBlockRegistry.CAVE_PAINTING_RELICHEIRUS_SLASH);
+        list.add(ACBlockRegistry.CAVE_PAINTING_ENDERMAN);
+        list.add(ACBlockRegistry.CAVE_PAINTING_PORTAL);
+        list.add(ACBlockRegistry.CAVE_PAINTING_SUBTERRANODON);
+        list.add(ACBlockRegistry.CAVE_PAINTING_SUBTERRANODON_RIDE);
+        list.add(ACBlockRegistry.CAVE_PAINTING_TREMORSAURUS);
+        list.add(ACBlockRegistry.CAVE_PAINTING_TREMORSAURUS_FRIEND);
     });
 
     public SmoothLimestoneBlock(Properties properties) {

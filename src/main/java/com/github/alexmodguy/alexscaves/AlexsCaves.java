@@ -17,7 +17,7 @@ import com.github.alexmodguy.alexscaves.server.level.structure.ACStructurePieceR
 import com.github.alexmodguy.alexscaves.server.level.structure.ACStructureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
-import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTab;
+import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabs;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -52,7 +52,7 @@ public class AlexsCaves {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
-        modEventBus.addListener(ACCreativeTab::registerTab);
+        modEventBus.addListener(ACCreativeTabs::registerTabs);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PROXY);
         ACBlockRegistry.DEF_REG.register(modEventBus);

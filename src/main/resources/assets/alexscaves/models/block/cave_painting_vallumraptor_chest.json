@@ -1,6 +1,6 @@
 {
   "parent": "alexscaves:block/cave_painting_base",
   "textures": {
-    "painting": "alexscaves:block/cave_painting_vallumraptor_chest"
+    "painting": "alexscaves:block/cave_painting/vallumraptor_chest"
   }
 }

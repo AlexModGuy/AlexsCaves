@@ -1,6 +1,6 @@
 {
   "parent": "alexscaves:block/cave_painting_base",
   "textures": {
-    "painting": "alexscaves:block/cave_painting_grottoceratops_friend"
+    "painting": "alexscaves:block/cave_painting/grottoceratops_friend"
   }
 }

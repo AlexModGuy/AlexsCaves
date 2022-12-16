@@ -1,6 +1,6 @@
 {
   "parent": "alexscaves:block/cave_painting_base",
   "textures": {
-    "painting": "alexscaves:block/cave_painting_tree_stars"
+    "painting": "alexscaves:block/cave_painting/tree_stars"
   }
 }
