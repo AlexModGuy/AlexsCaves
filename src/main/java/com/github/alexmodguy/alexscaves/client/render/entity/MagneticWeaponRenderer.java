@@ -2,7 +2,7 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -31,10 +31,10 @@ public class MagneticWeaponRenderer extends EntityRenderer<MagneticWeaponEntity>
         float strikeProgress = entity.getStrikeProgress(partialTicks);
         poseStack.pushPose();
         poseStack.translate(0, 0.1F + Math.sin(ageInTicks * 0.1F) * 0.1F, 0);
-        poseStack.mulPose(Vector3f.YN.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 180.0F));
-        poseStack.mulPose(Vector3f.XN.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot())));
+        poseStack.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 180.0F));
+        poseStack.mulPose(Axis.XN.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot())));
         poseStack.translate(0, 0F, - strikeProgress * 0.4F);
-        poseStack.mulPose(Vector3f.XN.rotationDegrees(strikeProgress * 90F));
+        poseStack.mulPose(Axis.XN.rotationDegrees(strikeProgress * 90F));
         Minecraft.getInstance().getItemRenderer().render(itemStack, ItemTransforms.TransformType.THIRD_PERSON_RIGHT_HAND, false, poseStack, source, i, OverlayTexture.NO_OVERLAY, bakedModel);
         poseStack.popPose();
 

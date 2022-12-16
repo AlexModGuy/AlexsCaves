@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -125,7 +126,6 @@ public class MagnetronEntity extends Monster {
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 
     public void removeParts() {
@@ -401,7 +401,7 @@ public class MagnetronEntity extends Monster {
             ListTag listTag = data.getList("BlockData", 10);
             for (int i = 0; i < listTag.size(); ++i) {
                 CompoundTag innerTag = listTag.getCompound(i);
-                list.add(NbtUtils.readBlockState(innerTag));
+                list.add(NbtUtils.readBlockState(this.level.holderLookup(Registries.BLOCK), innerTag));
             }
         }
         return list;

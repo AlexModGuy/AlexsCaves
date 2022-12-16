@@ -1,8 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.RelicheirusEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -13,6 +11,7 @@ import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.util.Mth;
 
 public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
@@ -259,6 +258,28 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         tailFeathers.setTextureOffset(127, 167).addBox(-12.0F, 0.0F, -14.0F, 24.0F, 18.0F, 38.0F, 0.0F, false);
         this.updateDefaultPose();
         animator = ModelAnimator.create();
+    }
+
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if (this.young) {
+            float f = 1.5F;
+            head.setScale(f, f, f);
+            head.setShouldScaleChildren(true);
+            matrixStackIn.pushPose();
+            matrixStackIn.scale(0.25F, 0.25F, 0.25F);
+            matrixStackIn.translate(0.0D, 4.5F, 0D);
+            parts().forEach((p_228292_8_) -> {
+                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
+            matrixStackIn.popPose();
+            head.setScale(1, 1, 1);
+        } else {
+            matrixStackIn.pushPose();
+            parts().forEach((p_228290_8_) -> {
+                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
+            matrixStackIn.popPose();
+        }
     }
 
     @Override
@@ -645,7 +666,7 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
                 animationIntensity = ACMath.cullAnimationTick(entity.getAnimationTick(), 3, animation, partialTick, 0);
             }
             float peckY = (float) (entity.getPeckY() - (entity.getEyePosition(partialTick).y - bodyDown / 16));
-            float peckYPixel = Mth.clamp(peckY, -2F, 2F) * animationIntensity;
+            float peckYPixel = Mth.clamp(peckY, -2F, 2F) * animationIntensity * entity.getScale();
             this.neck.rotateAngleX -= peckYPixel * 0.2F;
             this.head.rotateAngleX -= peckYPixel * 0.2F;
             this.neck.rotationPointY -= peckYPixel * 16 * 0.15F;

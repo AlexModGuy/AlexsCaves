@@ -1,7 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -38,22 +38,22 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
-        return TagKey.create(Registry.ENTITY_TYPE_REGISTRY, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Item> registerItemTag(String name) {
-        return TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.ITEM, new ResourceLocation(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Block> registerBlockTag(String name) {
-        return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.BLOCK, new ResourceLocation(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Biome> registerBiomeTag(String name) {
-        return TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Structure> registerStructureTag(String name) {
-        return TagKey.create(Registry.STRUCTURE_REGISTRY, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.STRUCTURE, new ResourceLocation(AlexsCaves.MODID, name));
     }
 }

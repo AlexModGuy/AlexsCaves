@@ -1,10 +1,9 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
-import com.github.alexmodguy.alexscaves.server.entity.item.AbstractMovingBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MovingBlockData;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -33,7 +32,7 @@ public class MovingMetalBlockRenderer extends EntityRenderer<MovingMetalBlockEnt
                 if(blockstate.getRenderShape() == RenderShape.ENTITYBLOCK_ANIMATED && blockstate.hasProperty(HorizontalDirectionalBlock.FACING)){
                     float f = blockstate.getValue(HorizontalDirectionalBlock.FACING).toYRot();
                     stack.translate(0.5D, 0.5D, 0.5D);
-                    stack.mulPose(Vector3f.YP.rotationDegrees(-f));
+                    stack.mulPose(Axis.YP.rotationDegrees(-f));
                     stack.translate(-0.5D, -0.5D, -0.5D);
                 }
                 Minecraft.getInstance().getBlockRenderer().renderSingleBlock(blockstate, stack, source, i, OverlayTexture.NO_OVERLAY);

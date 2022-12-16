@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -12,6 +11,7 @@ import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
     private final AdvancedModelBox body;
@@ -172,6 +172,28 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         tailTip.setTextureOffset(0, 111).addBox(-1.0F, -6.5F, 3.0F, 2.0F, 2.0F, 4.0F, 0.0F, false);
         this.updateDefaultPose();
         animator = ModelAnimator.create();
+    }
+
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if (this.young) {
+            float f = 1.5F;
+            head.setScale(f, f, f);
+            head.setShouldScaleChildren(true);
+            matrixStackIn.pushPose();
+            matrixStackIn.scale(0.25F, 0.25F, 0.25F);
+            matrixStackIn.translate(0.0D, 4.5F, 0D);
+            parts().forEach((p_228292_8_) -> {
+                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
+            matrixStackIn.popPose();
+            head.setScale(1, 1, 1);
+        } else {
+            matrixStackIn.pushPose();
+            parts().forEach((p_228290_8_) -> {
+                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
+            matrixStackIn.popPose();
+        }
     }
 
     @Override

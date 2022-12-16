@@ -18,7 +18,7 @@ import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.Sheets;
@@ -40,7 +40,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
@@ -64,6 +66,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETRON.get(), MagnetronRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.BOUNDROID.get(), BoundroidRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.BOUNDROID_WINCH.get(), BoundroidWinchRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBTERRANODON.get(), SubterranodonRenderer::new);
         EntityRenderers.register(ACEntityRegistry.VALLUMRAPTOR.get(), VallumraptorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GROTTOCERATOPS.get(), GrottoceratopsRenderer::new);
@@ -94,7 +98,7 @@ public class ClientProxy extends CommonProxy {
             float prevProg = 1F - progress;
             float bodyRot = 180.0F - event.getBodyYRot();
             if (magnetic.getMagneticAttachmentFace().getAxis() != Direction.Axis.Y) {
-                event.getPoseStack().mulPose(Vector3f.YN.rotationDegrees(1F * bodyRot));
+                event.getPoseStack().mulPose(Axis.YN.rotationDegrees(1F * bodyRot));
             }
             rotateForAngle(event.getEntity(), event.getPoseStack(), magnetic.getPrevMagneticAttachmentFace(), prevProg, width, height);
             rotateForAngle(event.getEntity(), event.getPoseStack(), magnetic.getMagneticAttachmentFace(), progress, width, height);
@@ -186,44 +190,44 @@ public class ClientProxy extends CommonProxy {
                 break;
             case UP:
                 matrixStackIn.translate(0.0D, height * f, 0.0D);
-                matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(-180.0F * f));
-                matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-180.0F * f));
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(-180.0F * f));
+                matrixStackIn.mulPose(Axis.YP.rotationDegrees(-180.0F * f));
                 break;
             case NORTH:
-                matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90.0F * f));
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
                 matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
                 if (down) {
-                    matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F * f));
+                    matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
                 break;
             case SOUTH:
-                matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180 * f));
-                matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90.0F * f));
+                matrixStackIn.mulPose(Axis.YP.rotationDegrees(180 * f));
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
                 matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
                 if (down) {
-                    matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F * f));
+                    matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
                 break;
             case WEST:
-                matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90 * f));
-                matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90.0F * f));
+                matrixStackIn.mulPose(Axis.YP.rotationDegrees(90 * f));
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
                 matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
                 if (down) {
-                    matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F * f));
+                    matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
                 break;
             case EAST:
-                matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(-90 * f));
-                matrixStackIn.mulPose(Vector3f.XP.rotationDegrees(90.0F * f));
+                matrixStackIn.mulPose(Axis.YP.rotationDegrees(-90 * f));
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
                 matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
                 if (down) {
-                    matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(180.0F * f));
+                    matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
                 break;
         }
     }
 
-    private void bakeModels(final ModelEvent.BakingCompleted e) {
+    private void bakeModels(final ModelEvent.ModifyBakingResult e) {
         for (ResourceLocation id : e.getModels().keySet()) {
             if (FULLBRIGHTS.contains(id.toString())) {
                 e.getModels().put(id, new BakedModelFinalLayerFullbright(e.getModels().get(id)));

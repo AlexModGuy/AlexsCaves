@@ -6,8 +6,7 @@ import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACSimplexNoise;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -15,7 +14,6 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -129,7 +127,7 @@ public class DinoBowlStructurePiece extends StructurePiece {
     }
 
     private void replaceBiomes(WorldGenLevel level) {
-        Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getHolderOrThrow(ACBiomeRegistry.PRIMORDIAL_CAVES);
+        Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(ACBiomeRegistry.PRIMORDIAL_CAVES);
         ChunkAccess chunkAccess = level.getChunk(this.chunkCorner);
         int stopY = level.getSeaLevel() - 32;
         if (chunkAccess != null) {

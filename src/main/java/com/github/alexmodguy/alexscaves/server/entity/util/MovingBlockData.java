@@ -1,9 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -27,8 +29,8 @@ public class MovingBlockData {
         this.blockData = blockData;
     }
 
-    public MovingBlockData(CompoundTag tag) {
-        this(NbtUtils.readBlockState(tag.getCompound("BlockState")), getShapeFromTag(tag.getCompound("VoxelShape")), new BlockPos(tag.getInt("OffsetX"), tag.getInt("OffsetY"), tag.getInt("OffsetZ")), tag.contains("BlockData") ? tag.getCompound("BlockData") : null);
+    public MovingBlockData(Level level, CompoundTag tag) {
+        this(NbtUtils.readBlockState(level.holderLookup(Registries.BLOCK), tag.getCompound("BlockState")), getShapeFromTag(tag.getCompound("VoxelShape")), new BlockPos(tag.getInt("OffsetX"), tag.getInt("OffsetY"), tag.getInt("OffsetZ")), tag.contains("BlockData") ? tag.getCompound("BlockData") : null);
     }
 
     public BlockState getState() {

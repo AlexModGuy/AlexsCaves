@@ -211,6 +211,7 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		rleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
 	}
 
+
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (this.young) {
 			float f = 1.5F;

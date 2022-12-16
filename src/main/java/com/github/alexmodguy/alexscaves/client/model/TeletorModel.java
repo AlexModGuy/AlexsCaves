@@ -6,11 +6,11 @@ import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
+import com.mojang.math.Axis;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 
 public class TeletorModel extends AdvancedEntityModel<TeletorEntity> {
     private final AdvancedModelBox body;
@@ -159,18 +159,18 @@ public class TeletorModel extends AdvancedEntityModel<TeletorEntity> {
 
     public Vec3 translateToHead(Vec3 in, float yawIn){
         PoseStack modelTranslateStack = new PoseStack();
-        modelTranslateStack.mulPose(Vector3f.YP.rotationDegrees(180.0F - yawIn));
+        modelTranslateStack.mulPose(Axis.YP.rotationDegrees(180.0F - yawIn));
         modelTranslateStack.translate((double)(body.rotationPointX / 16.0F), (double)(body.rotationPointY / 16.0F), (double)(body.rotationPointZ / 16.0F));
-        modelTranslateStack.mulPose(Vector3f.ZN.rotation(body.rotateAngleZ));
-        modelTranslateStack.mulPose(Vector3f.YN.rotation(body.rotateAngleY));
-        modelTranslateStack.mulPose(Vector3f.XN.rotation(body.rotateAngleX));
+        modelTranslateStack.mulPose(Axis.ZN.rotation(body.rotateAngleZ));
+        modelTranslateStack.mulPose(Axis.YN.rotation(body.rotateAngleY));
+        modelTranslateStack.mulPose(Axis.XN.rotation(body.rotateAngleX));
         modelTranslateStack.translate((double)(head.rotationPointX / 16.0F), (double)(head.rotationPointY / 16.0F), (double)(head.rotationPointZ / 16.0F));
-        modelTranslateStack.mulPose(Vector3f.ZN.rotation(head.rotateAngleZ));
-        modelTranslateStack.mulPose(Vector3f.YN.rotation(head.rotateAngleY));
-        modelTranslateStack.mulPose(Vector3f.XN.rotation(head.rotateAngleX));
+        modelTranslateStack.mulPose(Axis.ZN.rotation(head.rotateAngleZ));
+        modelTranslateStack.mulPose(Axis.YN.rotation(head.rotateAngleY));
+        modelTranslateStack.mulPose(Axis.XN.rotation(head.rotateAngleX));
 
         Vector4f bodyOffsetVec = new Vector4f((float)in.x, (float)in.y, (float)in.z, 1.0F);
-        bodyOffsetVec.transform(modelTranslateStack.last().pose());
+        bodyOffsetVec.mul(modelTranslateStack.last().pose());
         Vec3 offset = new Vec3(bodyOffsetVec.x(), bodyOffsetVec.y(), bodyOffsetVec.z());
         modelTranslateStack.popPose();
         return offset;

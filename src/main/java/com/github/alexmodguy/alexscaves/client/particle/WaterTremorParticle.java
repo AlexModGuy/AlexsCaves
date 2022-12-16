@@ -1,8 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
@@ -12,9 +11,10 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 public class WaterTremorParticle extends SimpleAnimatedParticle {
 
@@ -58,15 +58,15 @@ public class WaterTremorParticle extends SimpleAnimatedParticle {
         float f = (float) (Mth.lerp((double) partialTick, this.xo, this.x) - vec3.x());
         float f1 = (float) (Mth.lerp((double) partialTick, this.yo, this.y) - vec3.y());
         float f2 = (float) (Mth.lerp((double) partialTick, this.zo, this.z) - vec3.z());
-        Quaternion quaternion = Vector3f.XP.rotationDegrees(90F);
+        Quaternionf quaternion = Axis.XP.rotationDegrees(90F);
         Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        vector3f1.transform(quaternion);
+        vector3f1.rotate(quaternion);
         Vector3f[] avector3f = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
         float f4 = this.getQuadSize(partialTick);
 
         for (int i = 0; i < 4; ++i) {
             Vector3f vector3f = avector3f[i];
-            vector3f.transform(quaternion);
+            vector3f.rotate(quaternion);
             vector3f.mul(f4);
             vector3f.add(f, f1, f2);
         }

@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.MagnetronJoint;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -102,7 +103,7 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         throw new UnsupportedOperationException();
     }
 

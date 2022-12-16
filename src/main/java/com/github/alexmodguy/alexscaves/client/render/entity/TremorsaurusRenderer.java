@@ -1,18 +1,12 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
-import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.model.GrottoceratopsModel;
 import com.github.alexmodguy.alexscaves.client.model.TremorsaurusModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.TremorsaurusHeldMobLayer;
-import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 
 public class TremorsaurusRenderer extends MobRenderer<TremorsaurusEntity, TremorsaurusModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/tremorsaurus.png");

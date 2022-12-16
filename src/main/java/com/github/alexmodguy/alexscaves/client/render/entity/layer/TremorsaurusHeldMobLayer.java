@@ -6,16 +6,14 @@ import com.github.alexmodguy.alexscaves.client.render.entity.TremorsaurusRendere
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.CrashReport;
 import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.Entity;
 
@@ -38,12 +36,12 @@ public class TremorsaurusHeldMobLayer extends RenderLayer<TremorsaurusEntity, Tr
                 matrixStackIn.translate(0, subterranodon.getFlyProgress(partialTicks) * -0.5F, 0);
             }
             if(holdSideways){
-                matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(90F));
+                matrixStackIn.mulPose(Axis.ZP.rotationDegrees(90F));
             }
-            matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(180F));
-            matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(riderRot + 180F));
+            matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180F));
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(riderRot + 180F));
             if(!holdSideways){
-                matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90F));
+                matrixStackIn.mulPose(Axis.YP.rotationDegrees(90F));
             }
             matrixStackIn.translate(0, -heldMob.getBbHeight() * 0.5F, 0);
             renderEntity(heldMob, 0, 0, 0, 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);

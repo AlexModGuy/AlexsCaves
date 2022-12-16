@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.RelicheirusMeleeGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.RelicheirusNibblePewensGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.RelicheirusPushTreesGoal;
@@ -12,7 +13,6 @@ import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -34,17 +34,14 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.Nullable;
 
 public class RelicheirusEntity extends Animal implements IAnimatedEntity {
@@ -142,6 +139,9 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
         if (!shouldRaiseArms() && raiseArmsAmount > 0F) {
             raiseArmsAmount--;
         }
+        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+            this.heal(2);
+        }
         if (!level.isClientSide) {
             if (isStillEnough() && random.nextInt(200) == 0 && this.getAnimation() == NO_ANIMATION) {
                 Animation idle;
@@ -183,6 +183,12 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
         if (this.getAnimation() == ANIMATION_SPEAK_1 && this.getAnimationTick() == 1 || this.getAnimation() == ANIMATION_SPEAK_2 && this.getAnimationTick() == 1) {
             actuallyPlayAmbientSound();
         }
+    }
+
+    @Nullable
+    @Override
+    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
+        return ACEntityRegistry.RELICHEIRUS.get().create(level);
     }
 
     private Vec3 getTrilocarisPos() {
@@ -300,11 +306,8 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
         living.animationPosition += living.animationSpeed;
     }
 
-
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
-        return null;
+    public float getScale() {
+        return this.isBaby() ? 0.25F : 1.0F;
     }
 
     public BlockPos getStandAtTreePos(BlockPos target) {

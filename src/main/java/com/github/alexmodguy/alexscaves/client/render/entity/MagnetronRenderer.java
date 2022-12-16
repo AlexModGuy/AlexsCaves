@@ -10,8 +10,7 @@ import com.github.alexthe666.citadel.client.render.LightningBoltData;
 import com.github.alexthe666.citadel.client.render.LightningRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -28,6 +27,7 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -83,12 +83,12 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
                     }
                     if(blockstate.hasProperty(HorizontalDirectionalBlock.FACING)){
                         poseStack.translate(0.5D, 0.5D, 0.5D);
-                        poseStack.mulPose(Vector3f.YP.rotationDegrees(-blockstate.getValue(HorizontalDirectionalBlock.FACING).toYRot()));
+                        poseStack.mulPose(Axis.YP.rotationDegrees(-blockstate.getValue(HorizontalDirectionalBlock.FACING).toYRot()));
                         poseStack.translate(-0.5D, -0.5D, -0.5D);
                     }
                     if(blockstate.is(ACTagRegistry.MAGNETRON_WEAPONS) && part.getJoint() == MagnetronJoint.HAND){
                         poseStack.translate(0.5D, 0.5D, 0.5D);
-                        poseStack.mulPose(Vector3f.YP.rotationDegrees(-yaw));
+                        poseStack.mulPose(Axis.YP.rotationDegrees(-yaw));
                         float poseProgress = entityIn.getAttackPoseProgress(1.0F);
                         float priorPoseProgress = 1F - poseProgress;
                         rotateHandFor(poseStack, part, entityIn.getAttackPose(), poseProgress);
@@ -164,7 +164,7 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
 
     private void rotateHandFor(PoseStack poseStack, MagnetronPartEntity part, MagnetronEntity.AttackPose attackPose, float poseProgress) {
         if(attackPose.isRotatedJoint(part.getJoint(), part.left)){
-            poseStack.mulPose(Vector3f.XN.rotationDegrees(90 * poseProgress));
+            poseStack.mulPose(Axis.XN.rotationDegrees(90 * poseProgress));
         }
     }
 

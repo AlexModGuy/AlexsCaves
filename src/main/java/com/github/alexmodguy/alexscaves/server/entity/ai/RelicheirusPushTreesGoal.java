@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.FallingTreeBlockEntity;
-import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.RelicheirusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MovingBlockData;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -36,7 +35,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
     }
 
     public boolean canUse() {
-        return relicheirus.getPushingTreesFor() > 0 && super.canUse();
+        return relicheirus.getPushingTreesFor() > 0 && !relicheirus.isBaby() && super.canUse();
     }
 
     public boolean canContinueToUse() {

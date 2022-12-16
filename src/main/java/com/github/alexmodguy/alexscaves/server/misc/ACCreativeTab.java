@@ -1,28 +1,34 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
-import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import net.minecraft.core.NonNullList;
-import net.minecraft.world.item.CreativeModeTab;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.CustomTabBehavior;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.event.CreativeModeTabEvent;
+import net.minecraftforge.registries.RegistryObject;
 
-public class ACCreativeTab extends CreativeModeTab {
+public class ACCreativeTab {
 
-    public static final ACCreativeTab INSTANCE = new ACCreativeTab();
+    public static final ResourceLocation TAB = new ResourceLocation("alexscaves:alexscaves");
 
-    private ACCreativeTab() {
-        super(AlexsCaves.MODID);
+    private static ItemStack makeIcon() {
+        return new ItemStack(ACBlockRegistry.AMBERSOL.get());
     }
 
-    @Override
-    public ItemStack makeIcon() {
-        return new ItemStack(ACBlockRegistry.GALENA.get());
+    public static void registerTab(CreativeModeTabEvent.Register event){
+        event.registerCreativeModeTab(TAB, builder -> builder.title(Component.translatable("itemGroup.alexscaves")).icon(ACCreativeTab::makeIcon).displayItems((flags, output, isOp) -> {
+            for(RegistryObject<Item> item : ACItemRegistry.DEF_REG.getEntries()){
+                if(item.get() instanceof CustomTabBehavior customTabBehavior){
+                    customTabBehavior.fillItemCategory(output);
+                }else{
+                    output.accept(item.get());
+                }
+            }
+        }));
+
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public void fillItemList(NonNullList<ItemStack> items) {
-        super.fillItemList(items);
-    }
 }

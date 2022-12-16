@@ -4,10 +4,7 @@ import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.AmbersolBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -17,6 +14,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 
 import java.util.*;
 
@@ -82,14 +82,14 @@ public class AmbersolBlockRenderer<T extends AmbersolBlockEntity> implements Blo
             time = Minecraft.getInstance().getCameraEntity().tickCount + partialTicks;
         }
         if (scale > 0.0F) {
-            Quaternion camera = Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation().copy();
+            Quaternionf camera = Minecraft.getInstance().getEntityRenderDispatcher().cameraOrientation();
             float time1 = time * ambersol.getRotSpeed() * 0.3F;
             float time2 = time * 0.1F;
             matrixStackIn.pushPose();
             matrixStackIn.mulPose(camera);
             VertexConsumer lightConsumer = bufferIn.getBuffer(ACRenderTypes.getAmbersolShine());
             int lights = ambersol.getLights();
-            matrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(ambersol.getRotOffset()));
+            matrixStackIn.mulPose(Axis.ZN.rotationDegrees(ambersol.getRotOffset()));
             for (int i = 0; i < lights; i++) {
                 float length = (float) (3F + Math.sin(time2 + i * 2)) * scale;
                 float width = (float) (1F - 0.2F * Math.abs(Math.cos(time2 - i * Math.PI * 0.5F))) * scale;
@@ -97,7 +97,7 @@ public class AmbersolBlockRenderer<T extends AmbersolBlockEntity> implements Blo
                 float u = 0;
                 float v = 0;
                 matrixStackIn.pushPose();
-                matrixStackIn.mulPose(Vector3f.ZN.rotationDegrees(time1 - (i / (float) lights * 360)));
+                matrixStackIn.mulPose(Axis.ZN.rotationDegrees(time1 - (i / (float) lights * 360)));
                 PoseStack.Pose posestack$pose = matrixStackIn.last();
                 Matrix4f matrix4f = posestack$pose.pose();
                 Matrix3f matrix3f = posestack$pose.normal();

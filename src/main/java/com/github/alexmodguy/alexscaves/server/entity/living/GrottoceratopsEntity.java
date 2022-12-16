@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GrottoceratopsEatPlantsGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GrottoceratopsMeleeGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
@@ -29,10 +30,8 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -125,6 +124,9 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
                 this.heal(5);
             }
         }
+        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+            this.heal(2);
+        }
         if (resetAttackerCooldown > 0) {
             resetAttackerCooldown--;
         } else if (!level.isClientSide && !this.isBaby() && (this.getLastHurtByMob() == null || !this.getLastHurtByMob().isAlive())) {
@@ -152,8 +154,8 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
 
     @Nullable
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
-        return null;
+    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
+        return ACEntityRegistry.GROTTOCERATOPS.get().create(level);
     }
 
     @Override

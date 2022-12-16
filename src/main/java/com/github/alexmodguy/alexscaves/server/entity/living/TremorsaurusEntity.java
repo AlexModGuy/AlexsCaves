@@ -1,10 +1,14 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTargetClosePlayers;
 import com.github.alexmodguy.alexscaves.server.entity.ai.TremorsaurusMeleeGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
-import com.github.alexthe666.citadel.animation.*;
+import com.github.alexthe666.citadel.animation.Animation;
+import com.github.alexthe666.citadel.animation.AnimationHandler;
+import com.github.alexthe666.citadel.animation.IAnimatedEntity;
+import com.github.alexthe666.citadel.animation.LegSolver;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -104,7 +108,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
         if (screenShakeAmount > 0) {
             screenShakeAmount = Math.max(0, screenShakeAmount - 0.34F);
         }
-        if (this.isOnGround() && !this.isInFluidType() && animationSpeed > 0.1F) {
+        if (this.isOnGround() && !this.isInFluidType() && animationSpeed > 0.1F && !this.isBaby()) {
             float f = (float) Math.cos(animationPosition * 0.8F - 1.5F);
             if (Math.abs(f) < 0.2) {
                 if (screenShakeAmount <= 0.3) {
@@ -114,6 +118,9 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
                 screenShakeAmount = 1F;
             }
         }
+        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+            this.heal(2);
+        }
         if (isRunning() && !hasRunningAttributes) {
             hasRunningAttributes = true;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.35D);
@@ -122,7 +129,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
             hasRunningAttributes = false;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2D);
         }
-        if (this.getAnimation() == ANIMATION_ROAR && this.getAnimationTick() >= 5 && this.getAnimationTick() <= 40) {
+        if (this.getAnimation() == ANIMATION_ROAR && this.getAnimationTick() >= 5 && this.getAnimationTick() <= 40 && !this.isBaby()) {
             screenShakeAmount = 1F;
             if (this.getAnimationTick() % 5 == 0 && level.isClientSide) {
                 this.shakeWater();
@@ -262,15 +269,18 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
-        return null;
+        return ACEntityRegistry.TREMORSAURUS.get().create(level);
     }
-
 
     public void travel(Vec3 vec3d) {
         if (this.getAnimation() == ANIMATION_ROAR || this.getAnimation() == ANIMATION_SHAKE_PREY) {
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);
+    }
+
+    public float getScale() {
+        return this.isBaby() ? 0.25F : 1.0F;
     }
 
     public void calculateEntityAnimation(LivingEntity living, boolean flying) {

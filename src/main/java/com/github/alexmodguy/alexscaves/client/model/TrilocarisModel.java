@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.MagnetronEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TrilocarisEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;

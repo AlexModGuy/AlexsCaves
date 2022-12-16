@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.ChestThief;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
@@ -17,7 +18,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -137,6 +137,12 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         return levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty();
     }
 
+    @Nullable
+    @Override
+    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
+        return ACEntityRegistry.VALLUMRAPTOR.get().create(level);
+    }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
@@ -190,6 +196,9 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
             this.getAttribute(Attributes.ARMOR).setBaseValue(0.0D);
             this.heal(28.0F);
+        }
+        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+            this.heal(2);
         }
         if (!level.isClientSide) {
             puzzledTick(headPuzzleRot);
@@ -332,11 +341,6 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.entityData.set(ELDER, bool);
     }
 
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob mob) {
-        return null;
-    }
 
     @Override
     public int getAnimationTick() {

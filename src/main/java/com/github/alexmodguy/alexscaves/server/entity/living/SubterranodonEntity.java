@@ -35,7 +35,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -148,6 +147,9 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
         }
         if (!isHovering() && hoverProgress > 0F) {
             hoverProgress--;
+        }
+        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+            this.heal(2);
         }
         float yMov = (float) this.getDeltaMovement().y;
         if (yMov > 0 || this.isHovering()) {

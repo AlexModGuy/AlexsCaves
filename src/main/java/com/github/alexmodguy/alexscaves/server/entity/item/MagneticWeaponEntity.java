@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.google.common.collect.Multimap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -54,10 +55,9 @@ public class MagneticWeaponEntity extends Entity {
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
-        return NetworkHooks.getEntitySpawningPacket(this);
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
+        return (Packet<ClientGamePacketListener>)NetworkHooks.getEntitySpawningPacket(this);
     }
-
     @Override
     protected void defineSynchedData() {
         this.entityData.define(ITEMSTACK, new ItemStack(Items.IRON_SWORD));

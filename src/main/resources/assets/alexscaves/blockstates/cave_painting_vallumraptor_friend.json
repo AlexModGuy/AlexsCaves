@@ -1,0 +1,33 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "alexscaves:block/cave_painting_vallumraptor_friend",
+      "uvlock": true,
+      "x": 90
+    },
+    "facing=east": {
+      "model": "alexscaves:block/cave_painting_vallumraptor_friend",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "alexscaves:block/cave_painting_vallumraptor_friend",
+      "uvlock": true
+    },
+    "facing=south": {
+      "model": "alexscaves:block/cave_painting_vallumraptor_friend",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "alexscaves:block/cave_painting_vallumraptor_friend",
+      "x": 270,
+      "uvlock": true
+    },
+    "facing=west": {
+      "model": "alexscaves:block/cave_painting_vallumraptor_friend",
+      "y": 270,
+      "uvlock": true
+    }
+  }
+}

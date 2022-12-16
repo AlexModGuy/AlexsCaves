@@ -4,17 +4,16 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import com.github.alexthe666.citadel.server.world.ExpandedBiomes;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.dimension.LevelStem;
 
 public class ACBiomeRegistry {
-
-    public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(AlexsCaves.MODID, "magnetic_caves"));
-    public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(AlexsCaves.MODID, "primordial_caves"));
+    public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "magnetic_caves"));
+    public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "primordial_caves"));
 
     public static void init() {
         ExpandedBiomes.addExpandedBiome(MAGNETIC_CAVES, LevelStem.OVERWORLD);

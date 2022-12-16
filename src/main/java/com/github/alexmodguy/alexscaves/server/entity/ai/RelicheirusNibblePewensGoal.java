@@ -1,17 +1,13 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.RelicheirusEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
@@ -113,6 +109,9 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
 
     private boolean highEnough(LevelReader worldIn, BlockPos pos) {
         int height = getHeightOfBlock(worldIn, pos);
+        if (relicheirus.isBaby()){
+            return height <= 1;
+        }
         return height > 3 && height < 7;
     }
 

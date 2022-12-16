@@ -139,6 +139,12 @@
         "weight": 200
       },
       {
+        "type": "alexscaves:boundroid",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 230
+      },
+      {
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,

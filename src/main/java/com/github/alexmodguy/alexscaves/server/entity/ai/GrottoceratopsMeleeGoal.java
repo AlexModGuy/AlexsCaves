@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntit
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;

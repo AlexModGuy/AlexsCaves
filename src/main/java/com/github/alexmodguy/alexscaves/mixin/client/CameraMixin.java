@@ -15,7 +15,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Camera.class)
 public abstract class CameraMixin {
 
-    @Shadow protected abstract void move(double forwards, double up, double side);
+    @Shadow
+    public abstract void move(double forwards, double up, double side);
 
     @Shadow protected abstract void setPosition(Vec3 vec3);
 

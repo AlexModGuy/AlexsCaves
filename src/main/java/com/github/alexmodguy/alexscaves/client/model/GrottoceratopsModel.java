@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -11,6 +10,8 @@ import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.util.Mth;
 
 public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntity> {
@@ -297,6 +298,28 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         animator.resetKeyframe(5);
     }
 
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if (this.young) {
+            float f = 1.5F;
+            head.setScale(f, f, f);
+            head.setShouldScaleChildren(true);
+            matrixStackIn.pushPose();
+            matrixStackIn.scale(0.5F, 0.5F, 0.5F);
+            matrixStackIn.translate(0.0D, 1.5D, 0D);
+            parts().forEach((p_228292_8_) -> {
+                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
+            matrixStackIn.popPose();
+            head.setScale(1, 1, 1);
+        } else {
+            matrixStackIn.pushPose();
+            parts().forEach((p_228290_8_) -> {
+                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+            });
+            matrixStackIn.popPose();
+        }
+    }
+
     private void setupAnimForAnimation(GrottoceratopsEntity entity, Animation animation, float limbSwing, float limbSwingAmount, float ageInTicks) {
         float partialTick = ageInTicks - entity.tickCount;
         boolean chewing = animation == GrottoceratopsEntity.ANIMATION_CHEW_FROM_GROUND || animation == GrottoceratopsEntity.ANIMATION_CHEW;
@@ -359,7 +382,6 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         this.walk(lfoot, walkSpeed, walkDegree * 0.2F, false, 3F, 0F, limbSwing, limbSwingAmount);
         lleg.rotationPointY += Math.min(0, walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, true)) - bodyBob;
         lleg.rotationPointZ += walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 1F, true);
-
         this.walk(rleg, walkSpeed, walkDegree * 0.3F, true, 1F, 0F, limbSwing, limbSwingAmount);
         this.walk(rfoot, walkSpeed, walkDegree * 0.2F, true, 3F, 0F, limbSwing, limbSwingAmount);
         rleg.rotationPointY += Math.min(0, walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, false)) - bodyBob;

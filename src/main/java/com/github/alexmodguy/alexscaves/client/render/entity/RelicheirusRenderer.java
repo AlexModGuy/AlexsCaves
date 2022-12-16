@@ -1,10 +1,8 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.RelicheirusModel;
-import com.github.alexmodguy.alexscaves.client.model.TrilocarisModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.RelicheirusHeldTrilocarisLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.RelicheirusEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.TrilocarisEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
