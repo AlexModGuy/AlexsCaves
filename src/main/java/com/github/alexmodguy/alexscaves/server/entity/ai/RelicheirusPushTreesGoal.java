@@ -25,6 +25,7 @@ import java.util.List;
 public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
 
     private static final int MAXIMUM_BLOCKS_PUSHED = 256;
+    public static final int MAX_TREE_SPREAD = 10;
     private RelicheirusEntity relicheirus;
     private boolean madeTreeEntity = false;
 
@@ -74,7 +75,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
                         if(relicheirus.getAnimationTick() >= 35 && !madeTreeEntity){
                             madeTreeEntity = true;
                             List<BlockPos> gathered = new ArrayList<>();
-                            gatherAttachedBlocks(blockPos, gathered);
+                            gatherAttachedBlocks(blockPos, blockPos, gathered);
                             if (!gathered.isEmpty()) {
                                 List<MovingBlockData> allData = new ArrayList<>();
                                 for (BlockPos pos : gathered) {
@@ -147,14 +148,14 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
         return false;
     }
 
-    public void gatherAttachedBlocks(BlockPos pos, List<BlockPos> list) {
+    public void gatherAttachedBlocks(BlockPos origin, BlockPos pos, List<BlockPos> list) {
         if (list.size() < MAXIMUM_BLOCKS_PUSHED) {
             if(!list.contains(pos)){
                 list.add(pos);
                 for(BlockPos blockpos1 : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-                    if(!blockpos1.equals(pos)){
+                    if(!blockpos1.equals(pos) && pos.distToCenterSqr(origin.getX(), pos.getY(), origin.getZ()) < MAX_TREE_SPREAD){
                         if (isTreePart(blockpos1)) {
-                            gatherAttachedBlocks(blockpos1.immutable(), list);
+                            gatherAttachedBlocks(origin, blockpos1.immutable(), list);
                         }
                     }
                 }
