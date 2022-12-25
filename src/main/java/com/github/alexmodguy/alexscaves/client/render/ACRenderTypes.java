@@ -4,11 +4,13 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ACRenderTypes extends RenderType {
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_FEROUSSLIME_GEL_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeFerrouslimeGelShader);
 
     protected static final RenderStateShard.TransparencyStateShard EYES_ALPHA_TRANSPARENCY = new RenderStateShard.TransparencyStateShard("eyes_alpha_transparency", () -> {
         RenderSystem.enableBlend();
@@ -40,6 +42,26 @@ public class ACRenderTypes extends RenderType {
                 .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
                 .setOutputState(RenderStateShard.PARTICLES_TARGET)
                 .createCompositeState(true));
+    }
+
+    public static RenderType getGel(ResourceLocation locationIn) {
+        return create("ferrouslime_gel", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setCullState(NO_CULL)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setShaderState(RENDERTYPE_FEROUSSLIME_GEL_SHADER)
+                .setLightmapState(LIGHTMAP)
+                .createCompositeState(false));
+    }
+
+    public static RenderType getGelTriangles(ResourceLocation locationIn) {
+        return create("ferrouslime_gel_triangles", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setCullState(NO_CULL)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setShaderState(RENDERTYPE_FEROUSSLIME_GEL_SHADER)
+                .setLightmapState(LIGHTMAP)
+                .createCompositeState(false));
     }
 
 }

@@ -9,6 +9,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
+import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -36,12 +37,15 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
+public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDancesToJukebox {
 
     private static final EntityDataAccessor<Float> TAIL_SWING_ROT = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.BOOLEAN);
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(0.0F, 1.1F, 1.15F, 1.15F, 1);
     private Animation currentAnimation;
     private int animationTick;
@@ -53,7 +57,9 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
     public static final Animation ANIMATION_MELEE_TAIL_1 = Animation.create(20);
     public static final Animation ANIMATION_MELEE_TAIL_2 = Animation.create(20);
     private float prevTailSwingRot;
-
+    public float prevDanceProgress;
+    public float danceProgress;
+    private BlockPos jukeboxPosition;
     private int resetAttackerCooldown = 0;
 
     public GrottoceratopsEntity(EntityType<? extends Animal> type, Level level) {
@@ -73,6 +79,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TAIL_SWING_ROT, 0F);
+        this.entityData.define(DANCING, false);
     }
 
     protected PathNavigation createNavigation(Level level) {
@@ -81,6 +88,16 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
 
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+    }
+
+    public void travel(Vec3 vec3d) {
+        if (this.isDancing()) {
+            if (this.getNavigation().getPath() != null) {
+                this.getNavigation().stop();
+            }
+            vec3d = Vec3.ZERO;
+        }
+        super.travel(vec3d);
     }
 
     protected void registerGoals() {
@@ -104,6 +121,17 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
         super.tick();
         float tailSwing = getTailSwingRot();
         this.prevTailSwingRot = tailSwing;
+        prevDanceProgress = danceProgress;
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+            this.setDancing(false);
+            this.jukeboxPosition = null;
+        }
+        if (isDancing() && danceProgress < 5F) {
+            danceProgress++;
+        }
+        if (!isDancing() && danceProgress > 0F) {
+            danceProgress--;
+        }
         if (this.getAnimation() == ANIMATION_MELEE_TAIL_1 || this.getAnimation() == ANIMATION_MELEE_TAIL_2) {
             float start = this.getAnimation() == ANIMATION_MELEE_TAIL_1 ? 30 : -30;
             float end = this.getAnimation() == ANIMATION_MELEE_TAIL_1 ? -180 : 180;
@@ -124,7 +152,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
                 this.heal(5);
             }
         }
-        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+        if (this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()) {
             this.heal(2);
         }
         if (resetAttackerCooldown > 0) {
@@ -150,6 +178,23 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
 
     public void setTailSwingRot(float rot) {
         entityData.set(TAIL_SWING_ROT, rot);
+    }
+
+    public boolean isDancing() {
+        return this.entityData.get(DANCING);
+    }
+
+    public void setDancing(boolean bool) {
+        this.entityData.set(DANCING, bool);
+    }
+
+    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
+        this.onClientPlayMusicDisc(this.getId(), pos, playing);
+    }
+
+    @Override
+    public void setJukeboxPos(BlockPos blockPos) {
+        this.jukeboxPosition = blockPos;
     }
 
     @Nullable
@@ -189,6 +234,9 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity {
         }
     }
 
+    public float getDanceProgress(float partialTicks) {
+        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
+    }
     public void actuallyPlayAmbientSound() {
         SoundEvent soundevent = this.getAmbientSound();
         if (soundevent != null) {

@@ -147,6 +147,8 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		float pitchAmount = entity.getFlightPitch(partialTick) / 57.295776F * (flyProgress - hoverProgress);
 		float yaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
 		float tailYaw = Mth.wrapDegrees(entity.getTailYaw(partialTick) - yaw) / 57.295776F;
+		float danceAmount = entity.getDanceProgress(partialTick);
+		float danceSpeed = 0.5F;
 		progressPositionPrev(body, groundProgress, 0, -8, 2, 1F);
 		progressPositionPrev(rwing, groundProgress, 3, -1, 1, 1F);
 		progressPositionPrev(lwing, groundProgress, -3, -1, 1, 1F);
@@ -203,6 +205,11 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		this.walk(neck, 0.5F, 0.1F, false, 1F, 0F, ageInTicks, flyProgress);
 		this.bob(neck, 0.1F, 0.5F, false, ageInTicks, 1);
 		this.faceTarget(netHeadYaw, headPitch, 1, head, neck);
+		this.swing(neck, danceSpeed, 0.5F, true, 0F, 0F, ageInTicks, danceAmount);
+		this.swing(head, danceSpeed, 0.25F, true, 1F, 0F, ageInTicks, danceAmount);
+		this.flap(head, danceSpeed, 0.25F, true, 1F, 0F, ageInTicks, danceAmount);
+		this.walk(jaw, danceSpeed, 0.25F, false, 2F, 0.2F, ageInTicks, danceAmount);
+		this.swing(body, danceSpeed, 0.1F, false, 1, 0, ageInTicks, danceAmount);
 		body.rotateAngleX += pitchAmount;
 		body.rotateAngleZ += rollAmount;
 		tail.rotateAngleY += tailYaw * 0.8F;

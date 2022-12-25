@@ -23,7 +23,7 @@ public class TremorsaurusMeleeGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return tremorsaurus.getTarget() != null && tremorsaurus.getTarget().isAlive();
+        return tremorsaurus.getTarget() != null && tremorsaurus.getTarget().isAlive() && !tremorsaurus.isDancing();
     }
 
     public void start() {

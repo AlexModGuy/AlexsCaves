@@ -212,7 +212,7 @@ public class MagnetBlockEntity extends BlockEntity {
 
     public int getEffectiveRange() {
         int rangeModifier = extenderIngots - retracterIngots;
-        return Mth.clamp(5 + rangeModifier, 1, 32);
+        return Mth.clamp(5 + rangeModifier, 1, 64);
     }
 
 
@@ -224,7 +224,7 @@ public class MagnetBlockEntity extends BlockEntity {
 
     public boolean canAddRange() {
         int rangeModifier = extenderIngots - retracterIngots;
-        return 5 + rangeModifier < 32 && extenderIngots + retracterIngots < 64;
+        return 5 + rangeModifier < 64 && extenderIngots + retracterIngots < 64;
     }
 
     public boolean canRemoveRange() {

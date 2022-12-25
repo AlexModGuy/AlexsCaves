@@ -68,7 +68,9 @@ public abstract class LevelRendererMixin {
             FogType fogtype = camera.getFluidInCamera();
             if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !this.doesMobEffectBlockSky(camera)) {
                 RenderSystem.disableTexture();
-                Vec3 vec3 = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), partialTick);
+                Vec3 vec3 = CubicSampler.gaussianSampleVec3(this.minecraft.player.position(), (x, y, z) -> {
+                    return Vec3.fromRGB24((this.minecraft.player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getSkyColor()));
+                });
                 float f = (float)vec3.x;
                 float f1 = (float)vec3.y;
                 float f2 = (float)vec3.z;

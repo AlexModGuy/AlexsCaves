@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFleeGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -35,15 +36,17 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAnimal {
+public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAnimal, IDancesToJukebox {
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HOVERING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private float flyProgress;
     private float prevFlyProgress;
     private float flapAmount;
@@ -62,10 +65,11 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     public int timeFlying;
 
     public Vec3 lastFlightTargetPos;
-
     public boolean resetFlightAIFlag = false;
     public boolean landingFlag;
-
+    public float prevDanceProgress;
+    public float danceProgress;
+    private BlockPos jukeboxPosition;
     public SubterranodonEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
         switchNavigator(true);
@@ -109,6 +113,17 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
         super.defineSynchedData();
         this.entityData.define(FLYING, false);
         this.entityData.define(HOVERING, false);
+        this.entityData.define(DANCING, false);
+    }
+
+    public void travel(Vec3 vec3d) {
+        if (this.isDancing()) {
+            if (this.getNavigation().getPath() != null) {
+                this.getNavigation().stop();
+            }
+            vec3d = Vec3.ZERO;
+        }
+        super.travel(vec3d);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -136,6 +151,17 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
         prevFlightPitch = flightPitch;
         prevFlightRoll = flightRoll;
         prevTailYaw = tailYaw;
+        prevDanceProgress = danceProgress;
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+            this.setDancing(false);
+            this.jukeboxPosition = null;
+        }
+        if (isDancing() && danceProgress < 5F) {
+            danceProgress++;
+        }
+        if (!isDancing() && danceProgress > 0F) {
+            danceProgress--;
+        }
         if (isFlying() && flyProgress < 5F) {
             flyProgress++;
         }
@@ -169,6 +195,10 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
             if (this.getDeltaMovement().y < 0 && this.isAlive()) {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1, 0.6D, 1));
             }
+            if(this.isDancing()){
+                this.setHovering(false);
+                this.setFlying(false);
+            }
         } else {
             timeFlying = 0;
             if (!this.isLandNavigator) {
@@ -188,6 +218,11 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
             }
         }
         tickRotation(yMov * -(float) (180F / (float) Math.PI));
+    }
+
+
+    public float getDanceProgress(float partialTicks) {
+        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
     }
 
     private boolean isHoveringFromServer() {
@@ -300,6 +335,23 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     @Override
     public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
         return null;
+    }
+
+    public boolean isDancing() {
+        return this.entityData.get(DANCING);
+    }
+
+    public void setDancing(boolean bool) {
+        this.entityData.set(DANCING, bool);
+    }
+
+    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
+        this.onClientPlayMusicDisc(this.getId(), pos, playing);
+    }
+
+    @Override
+    public void setJukeboxPos(BlockPos blockPos) {
+        this.jukeboxPosition = blockPos;
     }
 
     public AABB getBoundingBoxForCulling() {

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alexscaves:block/radrock_top",
+    "side": "alexscaves:block/radrock"
+  }
+}

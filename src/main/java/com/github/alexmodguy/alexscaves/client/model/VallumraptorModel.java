@@ -459,6 +459,8 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         float puzzleRotPoint = puzzleRot * 0.05F;
         float yaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
         float tailYaw = Mth.wrapDegrees(entity.getTailYaw(partialTick) - yaw) / 57.295776F;
+        float danceAmount = entity.getDanceProgress(partialTick);
+        float danceSpeed = 0.5F;
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, limbSwingAmount, ageInTicks);
         }
@@ -481,6 +483,8 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         progressRotationPrev(lleg2, jumpProgress, (float) Math.toRadians(-30), 0, 0, 1F);
         progressRotationPrev(rfoot, jumpProgress, (float) Math.toRadians(10), 0, 0, 1F);
         progressRotationPrev(lfoot, jumpProgress, (float) Math.toRadians(10), 0, 0, 1F);
+        progressRotationPrev(rarm, danceAmount, (float) Math.toRadians(-50),  (float) Math.toRadians(50), 0, 1F);
+        progressRotationPrev(larm, danceAmount, (float) Math.toRadians(-50),  (float) Math.toRadians(-50), 0, 1F);
 
         this.swing(tail, 0.1F, 0.2F, false, 2F, 0F, ageInTicks, stillAmount);
         this.swing(tailTip, 0.1F, 0.2F, false, 1F, 0F, ageInTicks, stillAmount);
@@ -547,6 +551,16 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         tail.rotateAngleY += tailYaw * 0.8F;
         tailTip.rotateAngleY += tailYaw * 0.2F;
         this.faceTarget(netHeadYaw, headPitch, 1, neck, head);
+        this.swing(body, danceSpeed, 0.1F, false, 1, 0, ageInTicks, danceAmount);
+        this.flap(rarm, danceSpeed, 0.5F, false, 0, 0, ageInTicks, danceAmount);
+        this.flap(larm, danceSpeed, 0.5F, false, 0, 0, ageInTicks, danceAmount);
+        this.walk(rhand, danceSpeed, 0.5F, false, 1, 0, ageInTicks, danceAmount);
+        this.walk(lhand, danceSpeed, 0.5F, true, 1, 0, ageInTicks, danceAmount);
+        this.walk(neck, danceSpeed, 0.25F, false, 1, 0, ageInTicks, danceAmount);
+        this.walk(head, danceSpeed, 0.25F, false, 1, 0, ageInTicks, danceAmount);
+        this.walk(tail, danceSpeed, 0.15F, false, 2, 0, ageInTicks, danceAmount);
+        this.bob(rarm, danceSpeed, 1, false, ageInTicks, danceAmount);
+        this.bob(larm, danceSpeed, 1, false, ageInTicks, danceAmount);
     }
 
     private void setupAnimForAnimation(VallumraptorEntity entity, Animation animation, float limbSwing, float limbSwingAmount, float ageInTicks) {

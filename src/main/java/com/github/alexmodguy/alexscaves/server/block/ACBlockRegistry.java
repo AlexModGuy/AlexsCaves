@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.BlockItemWithSupplierLore;
@@ -16,6 +17,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Properties;
 import java.util.function.Supplier;
 
 public class ACBlockRegistry {
@@ -24,6 +26,7 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties LIMESTONE_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_YELLOW).requiresCorrectToolForDrops().strength(1.2F, 4.5F).sound(SoundType.DRIPSTONE_BLOCK);
     public static final BlockBehaviour.Properties PEWEN_LOG_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties PEWEN_PLANKS_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.0F, 3.0F).sound(SoundType.WOOD);
+    public static final BlockBehaviour.Properties RADROCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(4F, 11.0F).sound(SoundType.TUFF);
     public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(WoodType.create("alexscaves:pewen"));
 
     public static final DeferredRegister<Block> DEF_REG = DeferredRegister.create(ForgeRegistries.BLOCKS, AlexsCaves.MODID);
@@ -104,15 +107,15 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> ARCHAIC_VINE_PLANT = DEF_REG.register("archaic_vine_plant", () -> new ArchaicVinePlantBlock());
     public static final RegistryObject<Block> ANCIENT_LEAVES = registerBlockAndItem("ancient_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
     public static final RegistryObject<Block> TREE_STAR = registerBlockAndItem("tree_star", () -> new TreeStarBlock());
-
-
+    public static final RegistryObject<Block> RADROCK = registerBlockAndItem("radrock", () -> new Block(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)));
+    public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable()));
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, false);
     }
 
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, boolean itemLore){
         RegistryObject<Block> blockObj = DEF_REG.register(name, block);
-        //TODO
         ACItemRegistry.DEF_REG.register(name, () -> itemLore ?  new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
         return blockObj;
     }

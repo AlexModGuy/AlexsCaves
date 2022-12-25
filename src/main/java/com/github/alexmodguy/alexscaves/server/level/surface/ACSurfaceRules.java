@@ -13,6 +13,7 @@ public class ACSurfaceRules {
     public static void init() {
         SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.MAGNETIC_CAVES), createMagneticCavesRules());
         SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.PRIMORDIAL_CAVES), createPrimordialCavesRules());
+        SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.TOXIC_CAVES), createToxicCavesRules());
     }
 
     public static SurfaceRules.RuleSource createMagneticCavesRules() {
@@ -31,6 +32,11 @@ public class ACSurfaceRules {
         SurfaceRules.RuleSource grassWaterChecked = SurfaceRules.sequence(SurfaceRules.ifTrue(isUnderwater, grass), dirtOrPackedMud);
         SurfaceRules.RuleSource floorRules = SurfaceRules.sequence(SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, grassWaterChecked), SurfaceRules.ifTrue(SurfaceRules.UNDER_FLOOR, dirtOrPackedMud));
         return SurfaceRules.sequence(bedrock(), floorRules, createSandstoneBands(15, 1, 20), limestone);
+    }
+
+    public static SurfaceRules.RuleSource createToxicCavesRules() {
+        SurfaceRules.RuleSource radrock = SurfaceRules.state(ACBlockRegistry.RADROCK.get().defaultBlockState());
+        return SurfaceRules.sequence(bedrock(), radrock);
     }
 
     private static SurfaceRules.RuleSource bedrock() {

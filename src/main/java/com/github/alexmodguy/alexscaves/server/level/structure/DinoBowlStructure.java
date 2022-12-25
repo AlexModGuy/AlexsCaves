@@ -1,8 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.structure.piece.DinoBowlStructurePiece;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureType;
 
@@ -24,17 +26,17 @@ public class DinoBowlStructure extends AbstractCaveGenerationStructure {
     }
 
     @Override
-    public int getGenerateYHeight() {
+    public int getGenerateYHeight(WorldgenRandom random) {
         return BOWL_Y_CENTER;
     }
 
     @Override
-    public int getWidthRadius() {
+    public int getWidthRadius(WorldgenRandom random) {
         return BOWL_WIDTH_RADIUS;
     }
 
     @Override
-    public int getHeightRadius() {
+    public int getHeightRadius(WorldgenRandom random) {
         return BOWL_HEIGHT_RADIUS;
     }
 

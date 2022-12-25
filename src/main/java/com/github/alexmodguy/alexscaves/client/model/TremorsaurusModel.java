@@ -333,11 +333,13 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, limbSwingAmount, ageInTicks);
         }
-        this.glasses.showModel = false;
+        float partialTicks = ageInTicks - entity.tickCount;
+        float danceAmount = entity.getDanceProgress(partialTicks);
+        float danceSpeed = 0.5F;
+        this.glasses.showModel = danceAmount > 0;
         float walkSpeed = 0.8F;
         float walkDegree = 1F;
         float bodyIdleBob = walkValue(ageInTicks, 1, 0.1F, -1F, 1F, false);
-        float partialTicks = ageInTicks - entity.tickCount;
         this.walk(neck, 0.1F, 0.03F, false, 1F, 0F, ageInTicks, 1);
         this.walk(head, 0.1F, 0.03F, true, 2F, 0F, ageInTicks, 1);
         this.walk(jaw, 0.1F, 0.03F, true, 3F, 0F, ageInTicks, 1);
@@ -353,7 +355,7 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         this.rleg.rotationPointY -= bodyIdleBob + bodyWalkBob;
         this.swing(body, walkSpeed, walkDegree * 0.3F, false, 0F, 0F, limbSwing, limbSwingAmount);
         this.swing(tail, walkSpeed, walkDegree * 0.5F, false, -1F, 0F, limbSwing, limbSwingAmount);
-       this.swing(tailTip, walkSpeed, walkDegree * 0.5F, false, -2F, 0F, limbSwing, limbSwingAmount);
+        this.swing(tailTip, walkSpeed, walkDegree * 0.5F, false, -2F, 0F, limbSwing, limbSwingAmount);
         this.swing(body, walkSpeed, walkDegree * 0.3F, false, 0F, 0F, limbSwing, limbSwingAmount);
         this.swing(neck, walkSpeed, walkDegree * 0.3F, true, 0F, 0F, limbSwing, limbSwingAmount);
         this.swing(lleg, walkSpeed, walkDegree * 0.3F, true, 0F, 0F, limbSwing, limbSwingAmount);
@@ -363,7 +365,6 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         this.flap(lleg, walkSpeed, walkDegree * 0.5F, true, 1F, 0F, limbSwing, limbSwingAmount);
         this.flap(rleg, walkSpeed, walkDegree * 0.5F, true, 1F, 0F, limbSwing, limbSwingAmount);
         this.flap(neck, walkSpeed, walkDegree * 0.5F, true, 1F, 0F, limbSwing, limbSwingAmount);
-
         this.walk(lleg, walkSpeed, walkDegree * 0.6F, false, 1F, 0F, limbSwing, limbSwingAmount);
         this.walk(lleg2, walkSpeed, walkDegree * 0.6F, false, 1.5F, -0.1F, limbSwing, limbSwingAmount);
         this.walk(lfoot, walkSpeed, walkDegree * 1F, false, -1.5F, 0.35F, limbSwing, limbSwingAmount);
@@ -378,6 +379,15 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         this.flap(larm, walkSpeed, walkDegree * 0.1F, true, -1.5F, 0.2F, limbSwing, limbSwingAmount);
         this.faceTarget(netHeadYaw, headPitch, 1, neck, head);
         articulateLegs(entity.legSolver, partialTicks);
+        this.walk(neck, danceSpeed, 0.5F, false, 1F, 0.2F, ageInTicks, danceAmount);
+        this.swing(neck, danceSpeed, 0.35F, false, 0F, 0F, ageInTicks, danceAmount);
+        this.walk(head, danceSpeed, 0.5F, true, 1F, 0.2F, ageInTicks, danceAmount);
+        this.swing(head, danceSpeed, 0.35F, true, 1, 0F, ageInTicks, danceAmount);
+        this.swing(larm, danceSpeed, 0.6F, false, 1F, -0.3F, ageInTicks, danceAmount);
+        this.swing(rarm, danceSpeed, 0.6F, false, 1F, -0.3F, ageInTicks, danceAmount);
+        this.flap(larm, danceSpeed, 0.3F, false, 1F, -0.3F, ageInTicks, danceAmount);
+        this.flap(rarm, danceSpeed, 0.3F, false, 1F, 0.3F, ageInTicks, danceAmount);
+        this.swing(body, danceSpeed, 0.2F, false, -1F, 0F, ageInTicks, danceAmount);
     }
 
     private void articulateLegs(LegSolver legs, float partialTick) {

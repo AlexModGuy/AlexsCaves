@@ -18,7 +18,7 @@ public class SubterranodonFleeGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if(subterranodon.isFlying()){
+        if(subterranodon.isFlying() || subterranodon.isDancing()){
             return false;
         }
         long worldTime = subterranodon.level.getGameTime() % 10;

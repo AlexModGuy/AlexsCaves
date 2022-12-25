@@ -1,0 +1,16 @@
+{
+  "type": "alexscaves:underground_ruins",
+  "config": {
+    "structures": [
+      "alexscaves:caveman_house_0",
+      "alexscaves:caveman_house_1",
+      "alexscaves:caveman_house_2",
+      "alexscaves:caveman_house_3",
+      "alexscaves:caveman_house_4",
+      "alexscaves:caveman_house_5",
+      "alexscaves:caveman_house_6"
+    ],
+    "chest_loot": "alexscaves:chests/caveman_house",
+    "sink_by": 1
+  }
+}

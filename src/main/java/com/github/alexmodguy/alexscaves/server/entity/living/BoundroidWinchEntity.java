@@ -43,7 +43,7 @@ public class BoundroidWinchEntity extends Monster {
     private static final EntityDataAccessor<Optional<UUID>> HEAD_UUID = SynchedEntityData.defineId(BoundroidWinchEntity.class, EntityDataSerializers.OPTIONAL_UUID);
     private static final EntityDataAccessor<Integer> HEAD_ID = SynchedEntityData.defineId(BoundroidWinchEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> LATCHED = SynchedEntityData.defineId(BoundroidWinchEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final float MAX_DIST_TO_CEILING = 2;
+    private static final float MAX_DIST_TO_CEILING = 2.9F;
     private float latchProgress;
     private float prevLatchProgress;
     private float distanceToCeiling;
@@ -76,6 +76,10 @@ public class BoundroidWinchEntity extends Monster {
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 20.0D);
+    }
+
+    public boolean requiresCustomPersistence() {
+        return this.getHead() != null;
     }
 
     @Override
@@ -429,7 +433,7 @@ public class BoundroidWinchEntity extends Monster {
                 double width = parentEntity.getBoundingBox().getSize();
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * 0.035D / d0);
                 float verticalSpeed = 0.15F;
-                float y = parentEntity.horizontalCollision ? -0.2F : parentEntity.verticalCollision ? 0.1F : 1F;
+                float y = parentEntity.horizontalCollision ? -0.2F : parentEntity.verticalCollision ? 0.2F : 1.2F;
                 parentEntity.setDeltaMovement(parentEntity.getDeltaMovement().scale(0.95F).add(0, y, 0).add(vector3d1.multiply(1F, verticalSpeed, 1F)));
                 if (parentEntity.getTarget() != null) {
                     double d1 = parentEntity.getTarget().getZ() - parentEntity.getZ();

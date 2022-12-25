@@ -28,7 +28,7 @@ public class SubterranodonFlightGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger()) {
+        if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger() || entity.isDancing()) {
             return false;
         } else {
             boolean flag = false;
@@ -178,9 +178,9 @@ public class SubterranodonFlightGoal extends Goal {
 
     public boolean canContinueToUse() {
         if (isFlying) {
-            return entity.isFlying() && entity.distanceToSqr(x, y, z) > 5F;
+            return entity.isFlying() && entity.distanceToSqr(x, y, z) > 5F && !entity.isDancing();
         } else {
-            return (!entity.getNavigation().isDone()) && !entity.isVehicle();
+            return (!entity.getNavigation().isDone()) && !entity.isVehicle() && !entity.isDancing();
         }
     }
 

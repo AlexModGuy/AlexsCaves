@@ -20,4 +20,7 @@ public class ACMath {
         return ACMath.smin(f, 1.0F, 0.1F);
     }
 
+    public static float sampleNoise3D(int x, int y, int z, float simplexSampleRate) {
+        return (float) ((ACSimplexNoise.noise((x + simplexSampleRate) / simplexSampleRate, (y + simplexSampleRate) / simplexSampleRate, (z + simplexSampleRate) / simplexSampleRate)));
+    }
 }

@@ -681,8 +681,10 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         float partialTick = ageInTicks - entity.tickCount;
         float walkSpeed = 0.8F;
         float walkDegree = 2F;
-        float raisedArmsAmount = entity.getRaiseArmsAmount(partialTick);
+        float danceAmount = entity.getDanceProgress(partialTick);
+        float raisedArmsAmount = Math.max(danceAmount, entity.getRaiseArmsAmount(partialTick));
         float armsWalkAmount = 1F - raisedArmsAmount;
+        float danceSpeed = 0.3F;
         float f = articulateLegs(entity.legSolver, armsWalkAmount, partialTick);
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, f, ageInTicks);
@@ -726,6 +728,21 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         this.head.rotateAngleX += pitchAmount * 0.5F;
         this.neck.rotateAngleY += yawAmount * 0.5F;
         this.head.rotateAngleY += yawAmount * 0.5F;
+        progressPositionPrev(body, danceAmount, 0,-3, 0, 1F);
+        progressRotationPrev(rarm, danceAmount, 0, (float) Math.toRadians(30), (float) Math.toRadians(30), 1F);
+        progressRotationPrev(larm, danceAmount, 0, (float) Math.toRadians(-30), (float) Math.toRadians(-30), 1F);
+        progressRotationPrev(body, danceAmount, (float) Math.toRadians(-20), 0, 0, 1F);
+        progressRotationPrev(lleg, danceAmount, (float) Math.toRadians(20), 0, 0, 1F);
+        progressRotationPrev(rleg, danceAmount, (float) Math.toRadians(20), 0, 0, 1F);
+        this.walk(tail, danceSpeed, 0.2F, false, -0F, 0.2F, ageInTicks, danceAmount);
+        this.walk(tail2, danceSpeed, 0.2F, false, -0F, 0.2F, ageInTicks, danceAmount);
+        this.flap(neck, danceSpeed, 0.2F, false, -0F, 0.0F, ageInTicks, danceAmount);
+        this.flap(head, danceSpeed, 0.2F, false, -0F, 0.0F, ageInTicks, danceAmount);
+        this.flap(rarm, danceSpeed, 0.6F, false, -1F, 1.2F, ageInTicks, danceAmount);
+        this.flap(larm, danceSpeed, 0.6F, true, 1F, 1.2F, ageInTicks, danceAmount);
+        this.flap(rhand, danceSpeed, 0.6F, false, -2F, 0.2F, ageInTicks, danceAmount);
+        this.flap(lhand, danceSpeed, 0.6F, true, 2F, 0.2F, ageInTicks, danceAmount);
+        this.swing(body, danceSpeed, 0.1F, false, 1, 0, ageInTicks, danceAmount);
     }
 
     private float walkValue(float limbSwing, float limbSwingAmount, float speed, float offset, float degree, boolean inverse) {

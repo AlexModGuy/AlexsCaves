@@ -35,7 +35,7 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
         ChunkPos chunkpos = context.chunkPos();
         int i = chunkpos.getMiddleBlockX();
         int j = chunkpos.getMiddleBlockZ();
-        int k = getGenerateYHeight();
+        int k = getGenerateYHeight(context.random());
         return Optional.of(new Structure.GenerationStub(new BlockPos(i, k, j), builderConsumer));
     }
 
@@ -45,14 +45,16 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
         int i = context.chunkPos().getMinBlockX();
         int j = context.chunkPos().getMinBlockZ();
         int k = context.chunkGenerator().getSeaLevel();
-        BlockPos center = new BlockPos(i, getGenerateYHeight(), j);
-        int biomeUp = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.UP, center, getHeightRadius()) - 5;
-        int biomeDown = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.DOWN, center, getHeightRadius()) - 5;
+        BlockPos center = new BlockPos(i, getGenerateYHeight(context.random()), j);
+        int heightRad = getHeightRadius(context.random());
+        int widthRad = getWidthRadius(context.random());
+        int biomeUp = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.UP, center, heightRad) - 5;
+        int biomeDown = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.DOWN, center, heightRad) - 5;
         BlockPos ground = center.below(biomeDown - 2);
-        int biomeEast = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.EAST, ground, getWidthRadius());
-        int biomeWest = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.WEST, ground, getWidthRadius());
-        int biomeNorth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.NORTH, ground, getWidthRadius());
-        int biomeSouth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.SOUTH, ground, getWidthRadius());
+        int biomeEast = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.EAST, ground, widthRad);
+        int biomeWest = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.WEST, ground, widthRad);
+        int biomeNorth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.NORTH, ground, widthRad);
+        int biomeSouth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.SOUTH, ground, widthRad);
         int widthBlocks = (biomeEast + biomeWest + biomeNorth + biomeSouth) / 4;
         int heightBlocks = (biomeUp + biomeDown) / 2;
         int widthChunks = (int)Math.ceil((widthBlocks + 16) / 16F / 2F) + 2;
@@ -86,9 +88,9 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
         return Math.min(i, cutoff);
     }
 
-    public abstract int getGenerateYHeight();
-    public abstract int getWidthRadius();
-    public abstract int getHeightRadius();
+    public abstract int getGenerateYHeight(WorldgenRandom random);
+    public abstract int getWidthRadius(WorldgenRandom random);
+    public abstract int getHeightRadius(WorldgenRandom random);
 
     @Override
     public GenerationStep.Decoration step() {

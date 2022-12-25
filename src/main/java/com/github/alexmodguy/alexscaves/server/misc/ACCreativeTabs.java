@@ -20,6 +20,8 @@ public class ACCreativeTabs {
     public static final ResourceLocation MAGNETIC_CAVES = new ResourceLocation("alexscaves:magnetic_caves");
     public static final ResourceLocation PRIMORDIAL_CAVES = new ResourceLocation("alexscaves:primordial_caves");
 
+    public static final ResourceLocation TOXIC_CAVES = new ResourceLocation("alexscaves:toxic_caves");
+
 
     private static void add(CreativeModeTab.Output tab, ItemLike itemLike){
         if(itemLike instanceof CustomTabBehavior customTabBehavior){
@@ -31,6 +33,10 @@ public class ACCreativeTabs {
     public static void registerTabs(CreativeModeTabEvent.Register event){
         event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((flags, output, isOp) -> {
             ACItemRegistry.getSpawnEggsForTab(MAGNETIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
+            add(output, ACItemRegistry.RAW_SCARLET_NEODYMIUM.get());
+            add(output, ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get());
+            add(output, ACItemRegistry.RAW_AZURE_NEODYMIUM.get());
+            add(output, ACItemRegistry.AZURE_NEODYMIUM_INGOT.get());
             add(output, ACBlockRegistry.GALENA.get());
             add(output, ACBlockRegistry.GALENA_STAIRS.get());
             add(output, ACBlockRegistry.GALENA_SLAB.get());
@@ -108,6 +114,12 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.ARCHAIC_VINE.get());
             add(output, ACBlockRegistry.ANCIENT_LEAVES.get());
             add(output, ACBlockRegistry.TREE_STAR.get());
+        }));
+        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.RADROCK_URANIUM_ORE.get())).displayItems((flags, output, isOp) -> {
+            ACItemRegistry.getSpawnEggsForTab(TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
+            add(output, ACItemRegistry.ACID_BUCKET.get());
+            add(output, ACBlockRegistry.RADROCK.get());
+            add(output, ACBlockRegistry.RADROCK_URANIUM_ORE.get());
         }));
     }
 

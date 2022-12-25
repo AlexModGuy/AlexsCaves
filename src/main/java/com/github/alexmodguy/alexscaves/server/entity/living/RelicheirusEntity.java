@@ -11,6 +11,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
+import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -40,15 +41,18 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class RelicheirusEntity extends Animal implements IAnimatedEntity {
+public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox {
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(-0.15F, 0.6F, 0.5F, 0.75F, 1);
     private static final EntityDataAccessor<Integer> PECK_Y = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PUSHING_TREES_FOR = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.BOOLEAN);
     private Animation currentAnimation;
     private int animationTick;
     public static final Animation ANIMATION_SPEAK_1 = Animation.create(13);
@@ -63,7 +67,9 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
     public static final Animation ANIMATION_MELEE_SLASH_2 = Animation.create(20);
     private float prevRaiseArmsAmount = 0;
     private float raiseArmsAmount = 0;
-
+    public float prevDanceProgress;
+    public float danceProgress;
+    private BlockPos jukeboxPosition;
     public RelicheirusEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
         maxUpStep = 1.1F;
@@ -75,6 +81,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
         this.entityData.define(PECK_Y, 0);
         this.entityData.define(HELD_MOB_ID, -1);
         this.entityData.define(PUSHING_TREES_FOR, 0);
+        this.entityData.define(DANCING, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -125,8 +132,40 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
         }
     }
 
+    public float getDanceProgress(float partialTicks) {
+        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
+    }
+
+    public boolean isDancing() {
+        return this.entityData.get(DANCING);
+    }
+
+    public void setDancing(boolean bool) {
+        this.entityData.set(DANCING, bool);
+    }
+
+    @Override
+    public void setJukeboxPos(BlockPos blockPos) {
+        this.jukeboxPosition = blockPos;
+    }
+
+    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
+        this.onClientPlayMusicDisc(this.getId(), pos, playing);
+    }
+
     public void tick() {
         super.tick();
+        prevDanceProgress = danceProgress;
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+            this.setDancing(false);
+            this.jukeboxPosition = null;
+        }
+        if (isDancing() && danceProgress < 5F) {
+            danceProgress++;
+        }
+        if (!isDancing() && danceProgress > 0F) {
+            danceProgress--;
+        }
         if (this.getAnimation() != ANIMATION_EAT_TREE) {
             this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         }
@@ -143,7 +182,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
             this.heal(2);
         }
         if (!level.isClientSide) {
-            if (isStillEnough() && random.nextInt(200) == 0 && this.getAnimation() == NO_ANIMATION) {
+            if (isStillEnough() && random.nextInt(200) == 0 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
                 Animation idle;
                 float rand = random.nextFloat();
                 if (rand < 0.15F) {
@@ -185,6 +224,10 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
         }
     }
 
+    public AABB getBoundingBoxForCulling() {
+        return this.getBoundingBox().inflate(3, 3, 3);
+    }
+
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
@@ -224,7 +267,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity {
     }
 
     public void travel(Vec3 vec3d) {
-        if (this.getAnimation() == ANIMATION_EAT_TRILOCARIS) {
+        if (this.getAnimation() == ANIMATION_EAT_TRILOCARIS || this.isDancing()) {
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);

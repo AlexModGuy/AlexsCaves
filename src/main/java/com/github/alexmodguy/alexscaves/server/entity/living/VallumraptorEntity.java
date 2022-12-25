@@ -9,6 +9,7 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
+import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import com.github.alexthe666.citadel.server.entity.collision.ICustomCollisions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -45,6 +46,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -53,7 +55,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems {
+public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems, IDancesToJukebox {
 
     public static final Animation ANIMATION_CALL_1 = Animation.create(15);
     public static final Animation ANIMATION_CALL_2 = Animation.create(25);
@@ -65,12 +67,11 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     public static final Animation ANIMATION_MELEE_SLASH_1 = Animation.create(15);
     public static final Animation ANIMATION_MELEE_SLASH_2 = Animation.create(15);
     public static final Animation ANIMATION_GRAB = Animation.create(40);
-
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEAPING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ELDER = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> PUZZLED_HEAD_ROT = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.FLOAT);
-
+    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private Animation currentAnimation;
     private int animationTick;
     private float leapProgress;
@@ -92,7 +93,9 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     private float tailYaw;
     private float prevTailYaw;
     private int eatHeldItemIn;
-
+    public float prevDanceProgress;
+    public float danceProgress;
+    private BlockPos jukeboxPosition;
     public VallumraptorEntity(EntityType entityType, Level level) {
         super(entityType, level);
         tailYaw = this.getYRot();
@@ -150,6 +153,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.entityData.define(LEAPING, false);
         this.entityData.define(ELDER, false);
         this.entityData.define(RUNNING, false);
+        this.entityData.define(DANCING, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -161,7 +165,18 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         prevRunProgress = runProgress;
         prevLeapProgress = leapProgress;
         prevTailYaw = tailYaw;
+        prevDanceProgress = danceProgress;
         float headPuzzleRot = getPuzzledHeadRot();
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+            this.setDancing(false);
+            this.jukeboxPosition = null;
+        }
+        if (isDancing() && danceProgress < 5F) {
+            danceProgress++;
+        }
+        if (!isDancing() && danceProgress > 0F) {
+            danceProgress--;
+        }
         if (isRunning() && runProgress < 5F) {
             runProgress++;
         }
@@ -202,7 +217,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         }
         if (!level.isClientSide) {
             puzzledTick(headPuzzleRot);
-            if (isStillEnough() && random.nextInt(100) == 0 && this.getAnimation() == NO_ANIMATION) {
+            if (isStillEnough() && random.nextInt(100) == 0 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
                 Animation idle;
                 float rand = random.nextFloat();
                 if (rand < 0.45F) {
@@ -341,6 +356,22 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.entityData.set(ELDER, bool);
     }
 
+    public boolean isDancing() {
+        return this.entityData.get(DANCING);
+    }
+
+    public void setDancing(boolean bool) {
+        this.entityData.set(DANCING, bool);
+    }
+
+    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
+        this.onClientPlayMusicDisc(this.getId(), pos, playing);
+    }
+
+    @Override
+    public void setJukeboxPos(BlockPos blockPos) {
+        this.jukeboxPosition = blockPos;
+    }
 
     @Override
     public int getAnimationTick() {
@@ -419,12 +450,11 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     }
 
     public void travel(Vec3 vec3d) {
-        if (this.getAnimation() == ANIMATION_GRAB) {
+        if (this.getAnimation() == ANIMATION_GRAB || this.isDancing()) {
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);
     }
-
 
     @Override
     public PackAnimal getPriorPackMember() {
@@ -446,6 +476,9 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.afterPackMember = (VallumraptorEntity) animal;
     }
 
+    public float getDanceProgress(float partialTicks) {
+        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
+    }
     @Override
     public void afterSteal(BlockPos stealPos) {
         fleeFromPosition = Vec3.atCenterOf(stealPos);

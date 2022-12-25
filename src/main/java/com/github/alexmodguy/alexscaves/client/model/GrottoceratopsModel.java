@@ -344,6 +344,8 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         float walkDegree = 1F;
         float partialTick = ageInTicks - entity.tickCount;
         float stillAmount = 1 - limbSwingAmount;
+        float danceAmount = entity.getDanceProgress(partialTick);
+        float danceSpeed = 0.5F;
         boolean showGrass = entity.getAnimation() == GrottoceratopsEntity.ANIMATION_CHEW_FROM_GROUND && entity.getAnimationTick() > 15 || entity.getAnimation() == GrottoceratopsEntity.ANIMATION_CHEW;
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, limbSwingAmount, ageInTicks);
@@ -394,6 +396,11 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
             this.neck.rotateAngleY += yawAmount * 0.3F;
             this.head.rotateAngleY += yawAmount * 0.4F;
         }
+        neck.rotationPointY += walkValue(ageInTicks, danceAmount, danceSpeed * 1.5F, 1F, 1.5F, false);
+        neck.rotationPointX += walkValue(ageInTicks, danceAmount, danceSpeed * 1.5F, 0F, 3F, false);
+        this.swing(body, danceSpeed, 0.1F, false, 1, 0, ageInTicks, danceAmount);
+        this.swing(tail, danceSpeed, 0.5F, false, 1, 0, ageInTicks, danceAmount);
+        this.swing(tail2, danceSpeed, 0.5F, false, 1, 0, ageInTicks, danceAmount);
 
     }
 

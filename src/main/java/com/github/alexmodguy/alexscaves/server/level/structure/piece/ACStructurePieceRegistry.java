@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.level.structure;
+package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.registries.Registries;
@@ -10,5 +10,7 @@ public class ACStructurePieceRegistry {
     public static final DeferredRegister<StructurePieceType> DEF_REG = DeferredRegister.create(Registries.STRUCTURE_PIECE, AlexsCaves.MODID);
 
     public static final RegistryObject<StructurePieceType> DINO_BOWL = DEF_REG.register("dino_bowl", () -> DinoBowlStructurePiece::new);
+
+    public static final RegistryObject<StructurePieceType> ACID_PIT = DEF_REG.register("acid_pit", () -> AcidPitStructurePiece::new);
 
 }

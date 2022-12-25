@@ -9,6 +9,7 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolver;
+import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -40,14 +41,16 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
+public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox {
 
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.INT);
 
     public LegSolver legSolver = new LegSolver(new LegSolver.Leg(-0.45F, 0.75F, 1.0F, false), new LegSolver.Leg(-0.45F, -0.75F, 1.0F, false));
@@ -58,6 +61,9 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
     private int lastScareTimestamp = 0;
     private boolean hasRunningAttributes = false;
     private int roarCooldown = 0;
+    public float prevDanceProgress;
+    public float danceProgress;
+    private BlockPos jukeboxPosition;
     public static final Animation ANIMATION_SNIFF = Animation.create(30);
     public static final Animation ANIMATION_SPEAK = Animation.create(15);
     public static final Animation ANIMATION_ROAR = Animation.create(55);
@@ -91,6 +97,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(RUNNING, false);
+        this.entityData.define(DANCING, false);
         this.entityData.define(HELD_MOB_ID, -1);
     }
 
@@ -101,10 +108,21 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
     public void tick() {
         super.tick();
         prevScreenShakeAmount = screenShakeAmount;
+        prevDanceProgress = danceProgress;
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         this.legSolver.update(this, this.yBodyRot, this.getScale());
         // this.setAnimation(ANIMATION_SHAKE_PREY);
         AnimationHandler.INSTANCE.updateAnimations(this);
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+            this.setDancing(false);
+            this.jukeboxPosition = null;
+        }
+        if (isDancing() && danceProgress < 5F) {
+            danceProgress++;
+        }
+        if (!isDancing() && danceProgress > 0F) {
+            danceProgress--;
+        }
         if (screenShakeAmount > 0) {
             screenShakeAmount = Math.max(0, screenShakeAmount - 0.34F);
         }
@@ -140,7 +158,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
             actuallyPlayAmbientSound();
         }
         if (!level.isClientSide) {
-            if (this.getDeltaMovement().horizontalDistance() < 0.05 && this.getAnimation() == NO_ANIMATION) {
+            if (this.getDeltaMovement().horizontalDistance() < 0.05 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
                 if (random.nextInt(180) == 0) {
                     this.setAnimation(ANIMATION_SNIFF);
                 }
@@ -225,6 +243,19 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
         this.entityData.set(RUNNING, bool);
     }
 
+    public boolean isDancing() {
+        return this.entityData.get(DANCING);
+    }
+
+    public void setDancing(boolean bool) {
+        this.entityData.set(DANCING, bool);
+    }
+
+    @Override
+    public void setJukeboxPos(BlockPos blockPos) {
+        this.jukeboxPosition = blockPos;
+    }
+
     public void setHeldMobId(int i) {
         this.entityData.set(HELD_MOB_ID, i);
     }
@@ -232,6 +263,10 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
 
     public int getHeldMobId() {
         return this.entityData.get(HELD_MOB_ID);
+    }
+
+    public AABB getBoundingBoxForCulling() {
+        return this.getBoundingBox().inflate(3, 3, 3);
     }
 
     public Entity getHeldMob() {
@@ -244,6 +279,10 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
 
     public float getScreenShakeAmount(float partialTicks) {
         return prevScreenShakeAmount + (screenShakeAmount - prevScreenShakeAmount) * partialTicks;
+    }
+
+    public float getDanceProgress(float partialTicks) {
+        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
     }
 
     public Vec3 getShakePreyPos() {
@@ -276,6 +315,12 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
         if (this.getAnimation() == ANIMATION_ROAR || this.getAnimation() == ANIMATION_SHAKE_PREY) {
             vec3d = Vec3.ZERO;
         }
+        if (this.isDancing()) {
+            if (this.getNavigation().getPath() != null) {
+                this.getNavigation().stop();
+            }
+            vec3d = Vec3.ZERO;
+        }
         super.travel(vec3d);
     }
 
@@ -300,6 +345,10 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity {
         if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_SPEAK);
         }
+    }
+
+    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
+        this.onClientPlayMusicDisc(this.getId(), pos, playing);
     }
 
     public void actuallyPlayAmbientSound() {

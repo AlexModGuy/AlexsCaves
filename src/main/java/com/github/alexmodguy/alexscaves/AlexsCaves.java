@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
@@ -13,7 +14,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.carver.ACCarverRegistry;
 import com.github.alexmodguy.alexscaves.server.level.feature.ACFeatureRegistry;
-import com.github.alexmodguy.alexscaves.server.level.structure.ACStructurePieceRegistry;
+import com.github.alexmodguy.alexscaves.server.level.structure.piece.ACStructurePieceRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.ACStructureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
@@ -27,6 +28,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
@@ -52,6 +54,7 @@ public class AlexsCaves {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
+        modEventBus.addListener(this::loadComplete);
         modEventBus.addListener(ACCreativeTabs::registerTabs);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PROXY);
@@ -66,6 +69,8 @@ public class AlexsCaves {
         ACStructureRegistry.DEF_REG.register(modEventBus);
         ACStructurePieceRegistry.DEF_REG.register(modEventBus);
         ACFrogRegistry.DEF_REG.register(modEventBus);
+        ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
+        ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
         PROXY.init();
         ACBiomeRegistry.init();
     }
@@ -91,6 +96,11 @@ public class AlexsCaves {
             sendNonLocal(message, player);
         }
     }
+
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        event.enqueueWork(ACFluidRegistry::postInit);
+    }
+
 
     public static <MSG> void sendNonLocal(MSG msg, ServerPlayer player) {
         NETWORK_WRAPPER.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);

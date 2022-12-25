@@ -1,5 +1,5 @@
 {
-  "type": "alexscaves:magnetic_ruins",
+  "type": "alexscaves:underground_ruins",
   "config": {
     "structures": [
       "alexscaves:magnetic_ruins_0",
@@ -9,6 +9,8 @@
       "alexscaves:magnetic_ruins_4",
       "alexscaves:magnetic_ruins_5",
       "alexscaves:magnetic_ruins_6"
-    ]
+    ],
+    "chest_loot": "alexscaves:chests/magnetic_ruins",
+    "sink_by": 0
   }
 }

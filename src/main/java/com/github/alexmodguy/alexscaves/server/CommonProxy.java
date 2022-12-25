@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomePlacer;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import net.minecraft.core.Direction;
@@ -59,7 +60,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void onReplaceBiome(EventReplaceBiome event){
-        ResourceKey<Biome> biome = ACBiomeRegistry.getBiomeForEvent(event);
+        ResourceKey<Biome> biome = ACBiomePlacer.getBiomeForEvent(event);
         if(biome != null){
             event.setResult(Event.Result.ALLOW);
             event.setBiomeToGenerate(event.getBiomeSource().getResourceKeyMap().get(biome));

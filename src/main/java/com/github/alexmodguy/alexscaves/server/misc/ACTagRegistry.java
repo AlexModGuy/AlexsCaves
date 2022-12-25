@@ -37,6 +37,8 @@ public class ACTagRegistry {
 
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
 
+    public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");
+
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
     }

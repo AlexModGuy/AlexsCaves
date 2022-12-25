@@ -22,7 +22,7 @@ public class VallumraptorMeleeGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return raptor.getTarget() != null && raptor.getTarget().isAlive();
+        return raptor.getTarget() != null && raptor.getTarget().isAlive() && !raptor.isDancing();
     }
 
     public void stop(){

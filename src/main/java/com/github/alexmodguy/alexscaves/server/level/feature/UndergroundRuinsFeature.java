@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
-import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticRuinsFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
+import com.github.alexmodguy.alexscaves.server.level.feature.config.UndergroundRuinsFeatureConfiguration;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -26,14 +25,14 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagneticRuinsFeature extends Feature<MagneticRuinsFeatureConfiguration> {
+public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConfiguration> {
 
-    public MagneticRuinsFeature(Codec<MagneticRuinsFeatureConfiguration> codec) {
+    public UndergroundRuinsFeature(Codec<UndergroundRuinsFeatureConfiguration> codec) {
         super(codec);
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<MagneticRuinsFeatureConfiguration> context) {
+    public boolean place(FeaturePlaceContext<UndergroundRuinsFeatureConfiguration> context) {
         RandomSource randomsource = context.random();
         WorldGenLevel level = context.level();
         BlockPos chunkCenter = context.origin().atY(level.getMinBuildHeight() + 3);
@@ -55,7 +54,7 @@ public class MagneticRuinsFeature extends Feature<MagneticRuinsFeatureConfigurat
         BlockPos blockpos = genPos.size() <= 1 ? genPos.get(0) : genPos.get(randomsource.nextInt(genPos.size() - 1));
 
         Rotation rotation = Rotation.getRandom(randomsource);
-        MagneticRuinsFeatureConfiguration config = context.config();
+        UndergroundRuinsFeatureConfiguration config = context.config();
         int i = randomsource.nextInt(config.structures.size());
         StructureTemplateManager structuretemplatemanager = level.getLevel().getServer().getStructureManager();
         StructureTemplate structuretemplate = structuretemplatemanager.getOrCreate(config.structures.get(i));
@@ -67,14 +66,14 @@ public class MagneticRuinsFeature extends Feature<MagneticRuinsFeatureConfigurat
         while(canReplace(level.getBlockState(blockpos1)) && blockpos1.getY() < level.getMinBuildHeight()){
             blockpos1 = blockpos1.below();
         }
+        blockpos1 = blockpos1.below(config.sinkBy);
         BlockPos blockpos2 = structuretemplate.getZeroPositionWithTransform(blockpos1, Mirror.NONE, rotation);
         if (structuretemplate.placeInWorld(level, blockpos2, blockpos2, structureplacesettings, randomsource, 4)) {
             for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate.processBlockInfos(level, blockpos2, blockpos2, structureplacesettings, getDataMarkers(structuretemplate, blockpos2, rotation, false))) {
                 String marker = structuretemplate$structureblockinfo.nbt.getString("metadata");
-                if (marker.equals("magnetic_ruins_loot_chest")) {
+                if (marker.equals("loot_chest")) {
                     level.setBlock(structuretemplate$structureblockinfo.pos, Blocks.CAVE_AIR.defaultBlockState(), 4);
-                    RandomizableContainerBlockEntity.setLootTable(level, randomsource, structuretemplate$structureblockinfo.pos.below(), ACLootTableRegistry.MAGNETIC_RUINS_CHEST);
-
+                    RandomizableContainerBlockEntity.setLootTable(level, randomsource, structuretemplate$structureblockinfo.pos.below(), context.config().chestLoot);
                 }
             }
         }

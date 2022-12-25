@@ -86,12 +86,12 @@
     [
     ],
     [
-      "alexscaves:scarlet_magnetic_node",
-      "alexscaves:azure_magnetic_node",
       "minecraft:spring_water",
       "minecraft:spring_lava"
     ],
     [
+      "alexscaves:scarlet_magnetic_node",
+      "alexscaves:azure_magnetic_node",
       "minecraft:glow_lichen",
       "minecraft:patch_tall_grass_2",
       "minecraft:trees_plains",
@@ -136,13 +136,19 @@
         "type": "alexscaves:teletor",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 200
+        "weight": 300
       },
       {
         "type": "alexscaves:boundroid",
         "maxCount": 2,
         "minCount": 1,
-        "weight": 230
+        "weight": 300
+      },
+      {
+        "type": "alexscaves:ferrouslime",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 300
       },
       {
         "type": "minecraft:spider",
