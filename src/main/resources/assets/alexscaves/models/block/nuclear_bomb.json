@@ -1,0 +1,23 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "bottom": "alexscaves:block/nuclear_bomb_side_2",
+        "side1": "alexscaves:block/nuclear_bomb_side_0",
+        "side2": "alexscaves:block/nuclear_bomb_side_1",
+        "top": "alexscaves:block/nuclear_bomb_side_2",
+        "particle": "alexscaves:block/nuclear_bomb_side_2"
+    },
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#top", "cullface": "down" },
+                "up":    { "uv": [ 0, 16, 16, 0 ], "texture": "#top", "cullface": "up" },
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#side2", "cullface": "painting" },
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#side2", "cullface": "south" },
+                "west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side1", "cullface": "west" },
+                "east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#side1", "cullface": "east" }
+            }
+        }
+    ]
+}

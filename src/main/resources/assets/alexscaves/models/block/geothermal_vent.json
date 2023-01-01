@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alexscaves:block/geothermal_vent_top",
+    "side": "alexscaves:block/geothermal_vent"
+  }
+}

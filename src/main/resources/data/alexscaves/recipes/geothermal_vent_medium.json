@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G",
+    "G"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:geothermal_vent"
+    }
+  },
+  "result": {
+    "item": "alexscaves:geothermal_vent_medium",
+    "count": 3
+  }
+}

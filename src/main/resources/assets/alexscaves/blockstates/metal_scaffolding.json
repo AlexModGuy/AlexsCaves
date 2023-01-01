@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "bottom=false": {
+      "model": "alexscaves:block/metal_scaffolding"
+    },
+    "bottom=true": {
+      "model": "alexscaves:block/metal_scaffolding_bottom"
+    }
+  }
+}

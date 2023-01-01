@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
-import com.github.alexmodguy.alexscaves.server.misc.ACSimplexNoise;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -52,12 +51,10 @@ public class AcidPitStructurePiece extends AbstractCaveGenerationStructurePiece 
                     carveAbove.set(carve.getX(), carve.getY() + 1, carve.getZ());
                     float widthSimplexNoise1 = ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F;
                     float heightSimplexNoise1 = ACMath.sampleNoise3D(carve.getX() + 440, 0, carve.getZ() - 440, 20) * 0.5F + 0.5F;
-
-                    double yDist = ACMath.smin(1F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * heightSimplexNoise1), 0.8F, 0.1F);
+                    double yDist = ACMath.smin(1F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * heightSimplexNoise1), 0.8F, 0.3F);
                     double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY(), this.holeCenter.getZ());
                     double targetRadius = yDist * (radius + widthSimplexNoise1 * radius) * radius;
                     if (distToCenter <= targetRadius) {
-                        double edgy = targetRadius - distToCenter;
                         FluidState fluidState = checkedGetBlock(level, carve).getFluidState();
                         flag = true;
                         if (isPillarBlocking(carve, yDist)) {

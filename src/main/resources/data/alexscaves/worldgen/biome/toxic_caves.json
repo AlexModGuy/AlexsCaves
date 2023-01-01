@@ -42,6 +42,7 @@
     [
     ],
     [
+      "alexscaves:metal_swarf_replace_mud",
       "minecraft:ore_dirt",
       "minecraft:ore_gravel",
       "minecraft:ore_granite_upper",
@@ -77,9 +78,11 @@
     [
       "minecraft:spring_water",
       "minecraft:spring_lava",
-      "alexscaves:spring_acid"
+      "alexscaves:spring_acid",
+      "alexscaves:acid_vent"
     ],
     [
+      "alexscaves:underweed",
       "minecraft:glow_lichen",
       "minecraft:patch_tall_grass_2",
       "minecraft:trees_plains",

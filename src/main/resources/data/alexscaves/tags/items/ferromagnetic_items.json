@@ -3,6 +3,9 @@
   "values": [
     "alexscaves:metal_swarf",
     "alexscaves:scrap_metal",
+    "alexscaves:metal_scaffolding",
+    "alexscaves:metal_barrel",
+    "alexscaves:waste_drum",
     "minecraft:iron_boots",
     "minecraft:netherite_boots",
     "minecraft:chainmail_boots",

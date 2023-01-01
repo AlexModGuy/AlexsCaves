@@ -4,23 +4,47 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.google.common.collect.Maps;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Map;
+
 public class AcidBlock extends LiquidBlock {
+
+    @Deprecated
+    private static final Map<Block, Block> CORRODES_INTERACTIONS = Util.make(Maps.newHashMap(), (map) -> {
+        map.put(Blocks.WEATHERED_COPPER, Blocks.COPPER_BLOCK);
+        map.put(Blocks.EXPOSED_COPPER, Blocks.COPPER_BLOCK);
+        map.put(Blocks.OXIDIZED_COPPER, Blocks.COPPER_BLOCK);
+        map.put(Blocks.WEATHERED_CUT_COPPER, Blocks.CUT_COPPER);
+        map.put(Blocks.EXPOSED_CUT_COPPER, Blocks.CUT_COPPER);
+        map.put(Blocks.OXIDIZED_CUT_COPPER, Blocks.CUT_COPPER);
+        map.put(Blocks.WEATHERED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
+        map.put(Blocks.EXPOSED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
+        map.put(Blocks.OXIDIZED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
+        map.put(Blocks.WEATHERED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
+        map.put(Blocks.EXPOSED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
+        map.put(Blocks.OXIDIZED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
+    });
+    private static final Direction[] LIQUID_CHECK_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
+
     public AcidBlock(RegistryObject<FlowingFluid> flowingFluid, BlockBehaviour.Properties properties) {
         super(flowingFluid, properties);
     }
@@ -38,18 +62,44 @@ public class AcidBlock extends LiquidBlock {
             boolean armor = false;
             if (entity instanceof LivingEntity living && !(entity instanceof Player player && player.isCreative())) {
                 for (EquipmentSlot slot : EquipmentSlot.values()) {
-                    if(slot.isArmor()){
+                    if (slot.isArmor()) {
                         ItemStack item = living.getItemBySlot(slot);
                         if (item != null && item.isDamageableItem()) {
                             armor = true;
-                            if(living.getRandom().nextFloat() < 0.1F){
-                                item.hurtAndBreak(1, living,  e -> e.broadcastBreakEvent(slot));
+                            if (living.getRandom().nextFloat() < 0.1F) {
+                                item.hurtAndBreak(1, living, e -> e.broadcastBreakEvent(slot));
                             }
                         }
                     }
                 }
             }
             entity.hurt(ACDamageTypes.ACID, (float) (armor ? 0.01D : 3.0D));
+        }
+    }
+
+    public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState state2, boolean isMoving) {
+        super.onPlace(state, worldIn, pos, state2, isMoving);
+        tickCorrosion(worldIn, pos);
+    }
+
+    public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos, isMoving);
+        tickCorrosion(worldIn, pos);
+    }
+
+    public void tickCorrosion(Level worldIn, BlockPos pos){
+        for(Direction direction : LIQUID_CHECK_DIRECTIONS){
+            BlockPos offset = pos.relative(direction);
+            BlockState state1 = worldIn.getBlockState(offset);
+            if(CORRODES_INTERACTIONS.containsKey(state1.getBlock())){
+                BlockState transform = CORRODES_INTERACTIONS.get(state1.getBlock()).defaultBlockState();
+                for(Property prop : state1.getProperties()) {
+                    transform = transform.hasProperty(prop) ? transform.setValue(prop, state1.getValue(prop)) : transform;
+                }
+                worldIn.levelEvent(1501, offset, 0);
+
+                worldIn.setBlockAndUpdate(offset, transform);
+            }
         }
     }
 }

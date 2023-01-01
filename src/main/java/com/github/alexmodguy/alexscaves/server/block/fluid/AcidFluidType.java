@@ -9,18 +9,15 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidInteractionRegistry;
 import net.minecraftforge.fluids.FluidType;
 
-import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class AcidFluidType extends FluidType {
 
     public static final ResourceLocation FLUID_STILL = new ResourceLocation("alexscaves:block/acid_still");
     public static final ResourceLocation FLUID_FLOWING = new ResourceLocation("alexscaves:block/acid_flowing");
-
-    public static final ResourceLocation OVERLAY = new ResourceLocation("alexscaves:misc/under_acid.png");
+    public static final ResourceLocation OVERLAY = new ResourceLocation("alexscaves:textures/misc/under_acid.png");
 
     public AcidFluidType(Properties properties) {
         super(properties);

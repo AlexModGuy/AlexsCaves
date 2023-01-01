@@ -18,6 +18,7 @@ public class ACTagRegistry {
 
     public static final TagKey<Block> MAGNETIC_CAVES_BASE_BLOCKS = registerBlockTag("magnetic_caves_base_blocks");
     public static final TagKey<Block> MAGNETRON_WEAPONS = registerBlockTag("magnetron_weapons");
+    public static final TagKey<Block> SCAFFOLDING = registerBlockTag("scaffolding");
     public static final TagKey<Block> PRIMORDIAL_CAVES_BASE_BLOCKS = registerBlockTag("primordial_caves_base_blocks");
 
     public static final TagKey<Block> PRIMORDIAL_CAVES_CARVER_PRESERVES = registerBlockTag("primordial_caves_carver_preserves");
@@ -38,6 +39,8 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
 
     public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");
+
+    public static final TagKey<EntityType<?>> RESISTS_RADIATION = registerEntityTag("resists_radiation");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));

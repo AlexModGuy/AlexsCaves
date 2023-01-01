@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.BlockItemWithScaffolding;
 import com.github.alexmodguy.alexscaves.server.item.BlockItemWithSupplierLore;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.sounds.SoundEvents;
@@ -17,7 +18,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.Properties;
 import java.util.function.Supplier;
 
 public class ACBlockRegistry {
@@ -40,8 +40,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GALENA_BRICK_SLAB = registerBlockAndItem("galena_brick_slab", () -> new SlabBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_BRICK_WALL = registerBlockAndItem("galena_brick_wall", () -> new WallBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_IRON_ORE = registerBlockAndItem("galena_iron_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
-    public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new MetalSwarfBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE).strength(0.6F).sound(SoundType.SAND)));
+    public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> METAL_SCAFFOLDING = registerBlockAndItem("metal_scaffolding", () -> new MetalScaffoldingBlock(), 2);
     public static final RegistryObject<Block> SCARLET_NEODYMIUM_NODE = registerBlockAndItem("scarlet_neodymium_node", () -> new NeodymiumNodeBlock(false));
     public static final RegistryObject<Block> AZURE_NEODYMIUM_NODE = registerBlockAndItem("azure_neodymium_node", () -> new NeodymiumNodeBlock(true));
     public static final RegistryObject<Block> SCARLET_NEODYMIUM_PILLAR = registerBlockAndItem("scarlet_neodymium_pillar", () -> new NeodymiumPillarBlock(false));
@@ -50,7 +51,6 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> BLOCK_OF_AZURE_NEODYMIUM = registerBlockAndItem("block_of_azure_neodymium", () -> new NeodymiumOreBlock(true));
     public static final RegistryObject<Block> SCARLET_MAGNET = registerBlockAndItem("scarlet_magnet", () -> new MagnetBlock(false));
     public static final RegistryObject<Block> AZURE_MAGNET = registerBlockAndItem("azure_magnet", () -> new MagnetBlock(true));
-
     public static final RegistryObject<Block> LIMESTONE = registerBlockAndItem("limestone", () -> new Block(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_STAIRS = registerBlockAndItem("limestone_stairs", () -> new StairBlock(LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_SLAB = registerBlockAndItem("limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
@@ -59,26 +59,26 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_STAIRS = registerBlockAndItem("smooth_limestone_stairs", () -> new StairBlock(SMOOTH_LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_SLAB = registerBlockAndItem("smooth_limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_WALL = registerBlockAndItem("smooth_limestone_wall", () -> new WallBlock(LIMESTONE_PROPERTIES));
-    public static final RegistryObject<Block> CAVE_PAINTING_AMBERSOL = registerBlockAndItem("cave_painting_ambersol", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_DARK = registerBlockAndItem("cave_painting_dark", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_FOOTPRINT = registerBlockAndItem("cave_painting_footprint", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_FOOTPRINTS = registerBlockAndItem("cave_painting_footprints", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_TREE_STARS = registerBlockAndItem("cave_painting_tree_stars", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_PEWEN = registerBlockAndItem("cave_painting_pewen", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_TRILOCARIS = registerBlockAndItem("cave_painting_trilocaris", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_GROTTOCERATOPS = registerBlockAndItem("cave_painting_grottoceratops", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_GROTTOCERATOPS_FRIEND = registerBlockAndItem("cave_painting_grottoceratops_friend", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_DINO_NUGGETS = registerBlockAndItem("cave_painting_dino_nuggets", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_VALLUMRAPTOR_CHEST = registerBlockAndItem("cave_painting_vallumraptor_chest", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_VALLUMRAPTOR_FRIEND = registerBlockAndItem("cave_painting_vallumraptor_friend", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_RELICHEIRUS = registerBlockAndItem("cave_painting_relicheirus", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_RELICHEIRUS_SLASH = registerBlockAndItem("cave_painting_relicheirus_slash", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_ENDERMAN = registerBlockAndItem("cave_painting_enderman", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_PORTAL = registerBlockAndItem("cave_painting_portal", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_SUBTERRANODON = registerBlockAndItem("cave_painting_subterranodon", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_SUBTERRANODON_RIDE = registerBlockAndItem("cave_painting_subterranodon_ride", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS = registerBlockAndItem("cave_painting_tremorsaurus", () -> new CavePaintingBlock(), true);
-    public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS_FRIEND = registerBlockAndItem("cave_painting_tremorsaurus_friend", () -> new CavePaintingBlock(), true);
+    public static final RegistryObject<Block> CAVE_PAINTING_AMBERSOL = registerBlockAndItem("cave_painting_ambersol", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_DARK = registerBlockAndItem("cave_painting_dark", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_FOOTPRINT = registerBlockAndItem("cave_painting_footprint", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_FOOTPRINTS = registerBlockAndItem("cave_painting_footprints", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_TREE_STARS = registerBlockAndItem("cave_painting_tree_stars", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_PEWEN = registerBlockAndItem("cave_painting_pewen", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_TRILOCARIS = registerBlockAndItem("cave_painting_trilocaris", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_GROTTOCERATOPS = registerBlockAndItem("cave_painting_grottoceratops", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_GROTTOCERATOPS_FRIEND = registerBlockAndItem("cave_painting_grottoceratops_friend", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_DINO_NUGGETS = registerBlockAndItem("cave_painting_dino_nuggets", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_VALLUMRAPTOR_CHEST = registerBlockAndItem("cave_painting_vallumraptor_chest", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_VALLUMRAPTOR_FRIEND = registerBlockAndItem("cave_painting_vallumraptor_friend", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_RELICHEIRUS = registerBlockAndItem("cave_painting_relicheirus", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_RELICHEIRUS_SLASH = registerBlockAndItem("cave_painting_relicheirus_slash", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_ENDERMAN = registerBlockAndItem("cave_painting_enderman", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_PORTAL = registerBlockAndItem("cave_painting_portal", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_SUBTERRANODON = registerBlockAndItem("cave_painting_subterranodon", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_SUBTERRANODON_RIDE = registerBlockAndItem("cave_painting_subterranodon_ride", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS = registerBlockAndItem("cave_painting_tremorsaurus", () -> new CavePaintingBlock(), 1);
+    public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS_FRIEND = registerBlockAndItem("cave_painting_tremorsaurus_friend", () -> new CavePaintingBlock(), 1);
     public static final RegistryObject<Block> AMBER = registerBlockAndItem("amber", () -> new GlassBlock(BlockBehaviour.Properties.of(Material.GLASS, MaterialColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().strength(0.3F, 2.0F).sound(SoundType.GLASS)));
     public static final RegistryObject<Block> AMBERSOL = registerBlockAndItem("ambersol", () -> new AmbersolBlock());
     public static final RegistryObject<Block> AMBERSOL_LIGHT = DEF_REG.register("ambersol_light", () -> new AmbersolLightBlock(BlockBehaviour.Properties.of(Material.AIR).noOcclusion().strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().lightLevel(((state -> 15)))));
@@ -109,14 +109,21 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> TREE_STAR = registerBlockAndItem("tree_star", () -> new TreeStarBlock());
     public static final RegistryObject<Block> RADROCK = registerBlockAndItem("radrock", () -> new Block(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)));
+    public static final RegistryObject<Block> GEOTHERMAL_VENT = registerBlockAndItem("geothermal_vent", () -> new GeothermalVentBlock());
+    public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
+    public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
     public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of(Material.WATER).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable()));
+    public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.DIRT).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission()));
+    public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
+    public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock());
+    public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
-        return registerBlockAndItem(name, block, false);
+        return registerBlockAndItem(name, block, 0);
     }
 
-    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, boolean itemLore){
+    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, int itemType){
         RegistryObject<Block> blockObj = DEF_REG.register(name, block);
-        ACItemRegistry.DEF_REG.register(name, () -> itemLore ?  new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
+        ACItemRegistry.DEF_REG.register(name, () -> itemType == 2 ? new BlockItemWithScaffolding(blockObj, new Item.Properties()) : itemType == 1 ? new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
         return blockObj;
     }
 }

@@ -7,6 +7,8 @@ import net.minecraft.world.entity.LivingEntity;
 public class ACDamageTypes {
 
     public static final DamageSource ACID = new DamageSourceRandomMessages("acid", 1).bypassArmor();
+    public static final DamageSource NUKE = new DamageSourceRandomMessages("nuke", 3).bypassArmor().setExplosion();
+    public static final DamageSource RADIATION = new DamageSourceRandomMessages("radiation", 2).bypassArmor().bypassMagic();
 
     private static class DamageSourceRandomMessages extends DamageSource {
 

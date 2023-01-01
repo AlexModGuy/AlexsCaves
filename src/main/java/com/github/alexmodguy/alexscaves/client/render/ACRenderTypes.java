@@ -4,7 +4,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -61,6 +60,17 @@ public class ACRenderTypes extends RenderType {
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 .setShaderState(RENDERTYPE_FEROUSSLIME_GEL_SHADER)
                 .setLightmapState(LIGHTMAP)
+                .createCompositeState(false));
+    }
+
+    public static RenderType getNuclearBomb(ResourceLocation location) {
+        return create("nuclear_bomb", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
+                .setCullState(NO_CULL)
+                .setTransparencyState(EYES_ALPHA_TRANSPARENCY)
+                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
+                .setLightmapState(LIGHTMAP)
+                .setOutputState(RenderStateShard.PARTICLES_TARGET)
                 .createCompositeState(false));
     }
 

@@ -4,12 +4,10 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.fluids.DispenseFluidContainer;
 import net.minecraftforge.fluids.FluidInteractionRegistry;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -38,6 +36,5 @@ public class ACFluidRegistry {
                 ForgeMod.LAVA_TYPE.get(),
                 fluidState -> fluidState.isSource() ? ACBlockRegistry.RADROCK.get().defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState()
         ));
-        DispenserBlock.registerBehavior(ACItemRegistry.ACID_BUCKET.get(), DispenseFluidContainer.getInstance());
     }
 }

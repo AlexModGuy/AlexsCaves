@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.piece.AcidPitStructurePiece;
-import com.github.alexmodguy.alexscaves.server.level.structure.piece.DinoBowlStructurePiece;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
@@ -12,7 +11,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 public class AcidPitStructure extends AbstractCaveGenerationStructure {
 
     private static final int BOWL_WIDTH_RADIUS = 80;
-    private static final int BOWL_HEIGHT_RADIUS = 45;
+    private static final int BOWL_HEIGHT_RADIUS = 55;
 
     public static final Codec<AcidPitStructure> CODEC = simpleCodec((settings) -> new AcidPitStructure(settings));
     public AcidPitStructure(StructureSettings settings) {

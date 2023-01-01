@@ -13,6 +13,7 @@
   ],
   "client": [
     "client.CameraMixin",
+    "client.GameRendererMixin",
     "client.LevelRendererMixin",
     "client.LightTextureMixin"
   ],

@@ -1,12 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.level.biome;
 
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
-import com.github.alexthe666.citadel.server.world.ExpandedBiomeSource;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
-
-import java.util.HashMap;
 
 public class ACBiomePlacer {
 

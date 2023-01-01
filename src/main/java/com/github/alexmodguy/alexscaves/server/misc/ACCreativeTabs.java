@@ -6,14 +6,9 @@ import com.github.alexmodguy.alexscaves.server.item.CustomTabBehavior;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.event.CreativeModeTabEvent;
-
-import java.util.List;
 
 public class ACCreativeTabs {
 
@@ -48,8 +43,10 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GALENA_BRICK_SLAB.get());
             add(output, ACBlockRegistry.GALENA_BRICK_WALL.get());
             add(output, ACBlockRegistry.GALENA_IRON_ORE.get());
-            add(output, ACBlockRegistry.SCRAP_METAL.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
+            add(output, ACBlockRegistry.SCRAP_METAL.get());
+            add(output, ACBlockRegistry.METAL_SCAFFOLDING.get());
+            add(output, ACBlockRegistry.METAL_BARREL.get());
             add(output, ACBlockRegistry.SCARLET_NEODYMIUM_NODE.get());
             add(output, ACBlockRegistry.SCARLET_NEODYMIUM_PILLAR.get());
             add(output, ACBlockRegistry.BLOCK_OF_SCARLET_NEODYMIUM.get());
@@ -120,6 +117,15 @@ public class ACCreativeTabs {
             add(output, ACItemRegistry.ACID_BUCKET.get());
             add(output, ACBlockRegistry.RADROCK.get());
             add(output, ACBlockRegistry.RADROCK_URANIUM_ORE.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
+            add(output, ACBlockRegistry.METAL_SWARF.get());
+            add(output, ACBlockRegistry.METAL_SCAFFOLDING.get());
+            add(output, ACBlockRegistry.METAL_BARREL.get());
+            add(output, ACBlockRegistry.WASTE_DRUM.get());
+            add(output, ACBlockRegistry.UNDERWEED.get());
+            add(output, ACBlockRegistry.NUCLEAR_BOMB.get());
         }));
     }
 
