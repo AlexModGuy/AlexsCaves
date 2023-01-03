@@ -49,16 +49,19 @@ public class NuclearExplosionEntity extends Entity {
 
     public void tick() {
         super.tick();
+        int chunksAffected = (int) Math.ceil(this.getSize());
+        int radius = chunksAffected * 15;
         if (!spawnedParticle) {
             spawnedParticle = true;
-            float down = 0;
-            level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), this.getY() + 1 - down, this.getZ(), this.getSize() + 0.2F, 0, 0);
+            int particleY = (int)Math.ceil(this.getY());
+            while(particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(new BlockPos(this.getX(), particleY, this.getZ())))){
+                particleY--;
+            }
+            level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 1, this.getZ(), this.getSize() + 0.2F, 0, 0);
         }
         if (tickCount > 40 && destroyingChunks.isEmpty()) {
             this.remove(RemovalReason.DISCARDED);
         } else {
-            int chunksAffected = (int) Math.ceil(this.getSize());
-            int radius = chunksAffected * 15;
             if (!level.isClientSide) {
                 if (destroyingChunks.isEmpty()) {
                     BlockPos center = this.blockPosition();
@@ -92,19 +95,22 @@ public class NuclearExplosionEntity extends Entity {
     private void removeChunk(int radius) {
         BlockPos chunkCorner = destroyingChunks.pop();
         BlockPos.MutableBlockPos carve = new BlockPos.MutableBlockPos();
+        BlockPos.MutableBlockPos carveBelow = new BlockPos.MutableBlockPos();
         carve.set(chunkCorner);
+        carveBelow.set(chunkCorner);
         float itemDropModifier = 0.025F / Math.min(1, this.getSize());
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 for (int y = 15; y >= 0; y--) {
                     carve.set(chunkCorner.getX() + x, Mth.clamp(chunkCorner.getY() + y, level.getMinBuildHeight(), level.getMaxBuildHeight()), chunkCorner.getZ() + z);
                     float widthSimplexNoise1 = (ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F) * 0.45F + 0.55F;
-                    double yDist = ACMath.smin(0.8F - Math.abs(this.blockPosition().getY() - carve.getY()) / (float) radius, 0.6F, 0.2F);
+                    double yDist = ACMath.smin(0.6F - Math.abs(this.blockPosition().getY() - carve.getY()) / (float) radius, 0.6F, 0.2F);
                     double distToCenter = carve.distToLowCornerSqr(this.blockPosition().getX(), carve.getY() - 1, this.blockPosition().getZ());
                     double targetRadius = yDist * (radius + widthSimplexNoise1 * radius) * radius;
                     if (distToCenter <= targetRadius) {
                         BlockState state = level.getBlockState(carve);
-                        if ((!state.isAir() || !state.getFluidState().isEmpty()) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() < 1000) {
+                        if ((!state.isAir() || !state.getFluidState().isEmpty()) && isDestroyable(state)) {
+                            carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
                             if (random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
                                 level.destroyBlock(carve, true);
                             } else {
@@ -113,8 +119,15 @@ public class NuclearExplosionEntity extends Entity {
                         }
                     }
                 }
+                if(random.nextFloat() < 0.15 && !level.getBlockState(carveBelow).isAir()){
+                    level.setBlockAndUpdate(carveBelow.above(), Blocks.FIRE.defaultBlockState());
+                }
             }
         }
+    }
+
+    private boolean isDestroyable(BlockState state) {
+        return !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() < 1000;
     }
 
     @Override

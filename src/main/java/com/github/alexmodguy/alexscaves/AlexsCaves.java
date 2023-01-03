@@ -1,12 +1,15 @@
 package com.github.alexmodguy.alexscaves;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexmodguy.alexscaves.client.config.ACClientConfig;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
+import com.github.alexmodguy.alexscaves.server.config.ACServerConfig;
+import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.MultipartEntityMessage;
@@ -23,10 +26,14 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -35,6 +42,7 @@ import net.minecraftforge.network.NetworkDirection;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.minecraftforge.server.ServerLifecycleHooks;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 
 @Mod(AlexsCaves.MODID)
@@ -50,12 +58,29 @@ public class AlexsCaves {
             .serverAcceptedVersions(PROTOCOL_VERSION::equals)
             .networkProtocolVersion(() -> PROTOCOL_VERSION)
             .simpleChannel();
+    public static final ACServerConfig COMMON_CONFIG;
+    private static final ForgeConfigSpec COMMON_CONFIG_SPEC;
+    public static final ACClientConfig CLIENT_CONFIG;
+    private static final ForgeConfigSpec CLIENT_CONFIG_SPEC;
+
+    static {
+        final Pair<ACServerConfig, ForgeConfigSpec> serverPair = new ForgeConfigSpec.Builder().configure(ACServerConfig::new);
+        COMMON_CONFIG = serverPair.getLeft();
+        COMMON_CONFIG_SPEC = serverPair.getRight();
+        final Pair<ACClientConfig, ForgeConfigSpec> clientPair = new ForgeConfigSpec.Builder().configure(ACClientConfig::new);
+        CLIENT_CONFIG = clientPair.getLeft();
+        CLIENT_CONFIG_SPEC = clientPair.getRight();
+    }
 
     public AlexsCaves() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG_SPEC, "alexscaves-general.toml");
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, CLIENT_CONFIG_SPEC, "alexscaves-client.toml");
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::clientSetup);
         modEventBus.addListener(this::loadComplete);
+        modEventBus.addListener(this::loadConfig);
+        modEventBus.addListener(this::reloadConfig);
         modEventBus.addListener(ACCreativeTabs::registerTabs);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PROXY);
@@ -75,6 +100,16 @@ public class AlexsCaves {
         ACEffectRegistry.DEF_REG.register(modEventBus);
         PROXY.init();
         ACBiomeRegistry.init();
+    }
+
+    private void loadConfig(final ModConfigEvent.Loading event) {
+        final ModConfig config = event.getConfig();
+        BiomeGenerationConfig.reloadConfig();
+    }
+
+    private void reloadConfig(final ModConfigEvent.Reloading event) {
+        final ModConfig config = event.getConfig();
+        BiomeGenerationConfig.reloadConfig();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

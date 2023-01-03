@@ -14,8 +14,8 @@ public class ACBiomeRegistry {
     public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "magnetic_caves"));
     public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "primordial_caves"));
     public static final ResourceKey<Biome> TOXIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "toxic_caves"));
-
     private static final Vec3 ONE = new Vec3(1, 1, 1);
+
 
     public static void init() {
         ExpandedBiomes.addExpandedBiome(MAGNETIC_CAVES, LevelStem.OVERWORLD);
@@ -58,4 +58,5 @@ public class ACBiomeRegistry {
         }
         return ONE;
     }
+
 }

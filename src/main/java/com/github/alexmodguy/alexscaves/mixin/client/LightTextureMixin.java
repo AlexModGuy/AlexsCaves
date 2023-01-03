@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -27,20 +28,24 @@ public class LightTextureMixin {
             at = @At(value = "TAIL")
     )
     private static void ac_getBrightness(DimensionType dimensionType, int lightTextureIndex, CallbackInfoReturnable<Float> cir) {
-        float f = calculateBiomeAmbientLight(Minecraft.getInstance().player);
-        if(f != 0){
-            cir.setReturnValue(f + cir.getReturnValue());
+        if(AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()){
+            float f = calculateBiomeAmbientLight(Minecraft.getInstance().player);
+            if(f != 0){
+                cir.setReturnValue(f + cir.getReturnValue());
+            }
         }
     }
 
     @Redirect(method = "Lnet/minecraft/client/renderer/LightTexture;updateLightTexture(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;adjustLightmapColors(Lnet/minecraft/client/multiplayer/ClientLevel;FFFFIILorg/joml/Vector3f;)V"))
     private void ac_adjustLightmapColors(DimensionSpecialEffects specialEffects, ClientLevel clientLevel, float partialTicks, float skyDarken, float skyLight, float blockLight, int pixelX, int pixelY, Vector3f vector3f) {
         specialEffects.adjustLightmapColors(clientLevel, partialTicks, skyDarken, skyLight, blockLight, pixelX, pixelY, vector3f);
-        float f = calculateBiomeLightColorAmount(Minecraft.getInstance().player);
-        if(f > 0 && !clientLevel.effects().forceBrightLightmap()){
-            Vec3 in = new Vec3(vector3f);
-            Vec3 to = calculateBiomeLightColor(Minecraft.getInstance().player).scale(f);
-            vector3f.set(to.x * in.x, to.y * in.y, to.z * in.z);
+        if(AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get()){
+            float f = calculateBiomeLightColorAmount(Minecraft.getInstance().player);
+            if(f > 0 && !clientLevel.effects().forceBrightLightmap()){
+                Vec3 in = new Vec3(vector3f);
+                Vec3 to = calculateBiomeLightColor(Minecraft.getInstance().player).scale(f);
+                vector3f.set(to.x * in.x, to.y * in.y, to.z * in.z);
+            }
         }
     }
 

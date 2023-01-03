@@ -10,8 +10,6 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -47,7 +45,7 @@ public class GameRendererMixin {
     public void ac_render(float partialTick, long nanos, boolean idk, CallbackInfo ci) {
         float f = ((ClientProxy) AlexsCaves.PROXY).getNukeFlashAmount(partialTick) * Minecraft.getInstance().options.screenEffectScale().get().floatValue();
         float f1 = Minecraft.getInstance().options.screenEffectScale().get().floatValue();
-        if (f > 0) {
+        if (f > 0 && AlexsCaves.CLIENT_CONFIG.nuclearBombFlash.get()) {
             int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
             int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
             RenderSystem.disableDepthTest();

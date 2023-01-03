@@ -4,7 +4,7 @@ license="GNU LESSER GENERAL PUBLIC LICENSE"
 issueTrackerURL="https://github.com/AlexModGuy/alexscaves/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="0.3.1" #mandatory
+version="0.3.2" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
 authors="Alexthe668, Noon" #optional
@@ -15,7 +15,7 @@ modId="citadel" #mandatory
 # Does this dependency have to exist - if not, ordering below must be specified
 mandatory=true #mandatory
 # The version range of the dependency
-versionRange="[2.2.1,)" #mandatory
+versionRange="[2.2.3,)" #mandatory
 # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
 ordering="AFTER"
 # Side this dependency is applied on - BOTH, CLIENT or SERVER

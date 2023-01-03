@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -39,12 +40,14 @@ public abstract class LevelRendererMixin {
             at = @At("HEAD"),
             cancellable = true)
     private void ac_renderSky(PoseStack poseStack, Matrix4f matrix4f, float f, Camera camera, boolean b, Runnable runnable, CallbackInfo ci) {
-        float override = calculateBiomeSkyOverride(camera.getEntity());
-        if(override > 0.0F){
-            renderCaveBiomeSky(poseStack, matrix4f, f, camera, b, runnable, override);
-        }
-        if(override >= 1.0F){
-            ci.cancel();
+        if(AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()){
+            float override = calculateBiomeSkyOverride(camera.getEntity());
+            if(override > 0.0F){
+                renderCaveBiomeSky(poseStack, matrix4f, f, camera, b, runnable, override);
+            }
+            if(override >= 1.0F){
+                ci.cancel();
+            }
         }
     }
 

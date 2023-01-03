@@ -9,7 +9,6 @@ import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRen
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.NuclearBombBlock;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
@@ -21,7 +20,8 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -166,16 +166,15 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void postRenderStage(RenderLevelStageEvent event) {
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && AlexsCaves.CLIENT_CONFIG.ambersolShines.get()) {
             RenderSystem.runAsFancy(() -> AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
-        } else if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_WEATHER) {
         }
     }
 
     @SubscribeEvent
     public void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
-        if (player != null) {
+        if (player != null && AlexsCaves.CLIENT_CONFIG.screenShaking.get()) {
             float tremorAmount = renderNukeSkyDark ? 1.5F : 0;
             double shakeDistanceScale = 20D;
             double distance = Double.MAX_VALUE;

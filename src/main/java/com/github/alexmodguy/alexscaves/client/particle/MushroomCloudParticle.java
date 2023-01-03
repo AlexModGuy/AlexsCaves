@@ -34,7 +34,7 @@ public class MushroomCloudParticle extends Particle {
     protected MushroomCloudParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
         this.gravity = 0.0F;
-        this.lifetime = 90;
+        this.lifetime = 120;
         this.scale = scale;
         this.setSize(3.0F, 3.0F);
     }
@@ -56,7 +56,7 @@ public class MushroomCloudParticle extends Particle {
                 this.level.addParticle(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), from.x, from.y, from.z, away.x, away.y, away.z);
             }
             for(int j = 0; j < scale * scale; j++){
-                Vec3 explosionBase = new Vec3((level.random.nextFloat() - 0.5F) * explosionSpread, -0.6F + level.random.nextFloat() * 0.5F, (level.random.nextFloat() - 0.5F) * explosionSpread).add(this.x, this.y, this.z);
+                Vec3 explosionBase = new Vec3((level.random.nextFloat() - 0.5F) * explosionSpread, (-0.6F + level.random.nextFloat() * 0.5F) * explosionSpread * 0.1F, (level.random.nextFloat() - 0.5F) * explosionSpread).add(this.x, this.y, this.z);
                 this.level.addParticle(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), explosionBase.x, explosionBase.y, explosionBase.z, 0, 0, 0);
             }
         }
