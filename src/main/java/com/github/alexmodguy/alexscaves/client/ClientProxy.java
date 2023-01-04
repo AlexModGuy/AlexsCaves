@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelFinalLayerFullbright;
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
+import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
@@ -12,6 +13,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
@@ -20,6 +22,7 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -106,6 +109,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.FALLING_TREE_BLOCK.get(), FallingTreeBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NUCLEAR_EXPLOSION.get(), NuclearExplosionRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NUCLEAR_BOMB.get(), NuclearBombRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.NUCLEEPER.get(), NucleeperRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.RADGILL.get(), RadgillRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
     }
 
@@ -127,6 +132,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), MushroomCloudEffectParticle.Factory::new);
         registry.register(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), MushroomCloudEffectParticle.Factory::new);
         registry.register(ACParticleRegistry.NUCLEAR_BOMB.get(), NuclearBombParticle.Factory::new);
+        registry.register(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -281,7 +287,7 @@ public class ClientProxy extends CommonProxy {
         FluidState fluidstate = player.level.getFluidState(event.getCamera().getBlockPosition());
         if (!fluidstate.isEmpty() && fluidstate.getType().getFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setCanceled(true);
-            event.setFarPlaneDistance(3.0F);
+            event.setFarPlaneDistance(10.0F);
             event.setNearPlaneDistance(0.0F);
         } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();

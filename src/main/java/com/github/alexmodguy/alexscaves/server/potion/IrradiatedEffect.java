@@ -5,6 +5,11 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IrradiatedEffect extends MobEffect {
 
@@ -23,11 +28,16 @@ public class IrradiatedEffect extends MobEffect {
         if(level <= 0){
             return false;
         }
-        int j = 40 >> level;
+        int j = 100 / level;
         if (j > 0) {
             return tick1 % j == 0;
         } else {
             return true;
         }
     }
+
+    public List<ItemStack> getCurativeItems() {
+        return new ArrayList<>();
+    }
+
 }

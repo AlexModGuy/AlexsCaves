@@ -22,6 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
@@ -57,7 +58,7 @@ public class NuclearExplosionEntity extends Entity {
             while(particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(new BlockPos(this.getX(), particleY, this.getZ())))){
                 particleY--;
             }
-            level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 1, this.getZ(), this.getSize() + 0.2F, 0, 0);
+            level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize() + 0.2F, 0, 0);
         }
         if (tickCount > 40 && destroyingChunks.isEmpty()) {
             this.remove(RemovalReason.DISCARDED);
@@ -82,12 +83,14 @@ public class NuclearExplosionEntity extends Entity {
                 }
             }
             AABB killBox = this.getBoundingBox().inflate(radius, radius * 0.6, radius);
+            float flingStrength = getSize() * 0.33F;
             for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, killBox)) {
                 float dist = entity.distanceTo(this);
                 float dist2 = dist > 100 ? 5 : 105 - dist;
-                entity.setDeltaMovement(entity.position().subtract(this.position()).normalize().scale(dist2 * 0.1F));
+                Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
+                entity.setDeltaMovement(vec3.scale(dist2 * 0.1F * flingStrength));
                 entity.hurt(ACDamageTypes.NUKE, 1.5F * getSize() * dist2);
-                entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, 2, false, false, true));
+                entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));
             }
         }
     }

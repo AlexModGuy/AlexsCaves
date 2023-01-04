@@ -103,12 +103,10 @@ public class AlexsCaves {
     }
 
     private void loadConfig(final ModConfigEvent.Loading event) {
-        final ModConfig config = event.getConfig();
         BiomeGenerationConfig.reloadConfig();
     }
 
     private void reloadConfig(final ModConfigEvent.Reloading event) {
-        final ModConfig config = event.getConfig();
         BiomeGenerationConfig.reloadConfig();
     }
 

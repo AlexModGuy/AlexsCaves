@@ -118,6 +118,12 @@
     "misc": [],
     "monster": [
       {
+        "type": "alexscaves:nucleeper",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 70
+      },
+      {
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,
@@ -180,7 +186,14 @@
         "weight": 10
       }
     ],
-    "water_ambient": [],
+    "water_ambient": [
+      {
+        "type": "alexscaves:radgill",
+        "maxCount": 3,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
     "water_creature": []
   },
   "temperature": 0.5

@@ -40,6 +40,8 @@ public class ACItemRegistry {
         spawnEgg("trilocaris", ACEntityRegistry.TRILOCARIS, 0X713E0D,0X8B2010, ACCreativeTabs.PRIMORDIAL_CAVES);
         spawnEgg("tremorsaurus", ACEntityRegistry.TREMORSAURUS, 0X53780E,0XDFA211, ACCreativeTabs.PRIMORDIAL_CAVES);
         spawnEgg("relicheirus", ACEntityRegistry.RELICHEIRUS, 0X6AE4F9,0X5B2152, ACCreativeTabs.PRIMORDIAL_CAVES);
+        spawnEgg("nucleeper", ACEntityRegistry.NUCLEEPER, 0X95A1A5,0X00FF00, ACCreativeTabs.TOXIC_CAVES);
+        spawnEgg("radgill", ACEntityRegistry.RADGILL, 0X43302C,0XE8E400, ACCreativeTabs.TOXIC_CAVES);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName){

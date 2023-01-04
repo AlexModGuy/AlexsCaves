@@ -1,15 +1,19 @@
 package com.github.alexmodguy.alexscaves.client.render;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix4f;
 
 public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_FEROUSSLIME_GEL_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeFerrouslimeGelShader);
+
 
     protected static final RenderStateShard.TransparencyStateShard EYES_ALPHA_TRANSPARENCY = new RenderStateShard.TransparencyStateShard("eyes_alpha_transparency", () -> {
         RenderSystem.enableBlend();
@@ -18,6 +22,7 @@ public class ACRenderTypes extends RenderType {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
     });
+
 
     public ACRenderTypes(String s, VertexFormat format, VertexFormat.Mode mode, int i, boolean b1, boolean b2, Runnable runnable1, Runnable runnable2) {
         super(s, format, mode, i, b1, b2, runnable1, runnable2);
@@ -40,6 +45,16 @@ public class ACRenderTypes extends RenderType {
                 .setLightmapState(NO_LIGHTMAP)
                 .setLayeringState(RenderStateShard.VIEW_OFFSET_Z_LAYERING)
                 .setOutputState(RenderStateShard.PARTICLES_TARGET)
+                .createCompositeState(true));
+    }
+
+    public static RenderType getNucleeperLights() {
+        return create("nucleeper_lights", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setShaderState(RenderType.RENDERTYPE_LIGHTNING_SHADER)
+                .setTransparencyState(EYES_ALPHA_TRANSPARENCY)
+                .setCullState(CULL)
+                .setLightmapState(NO_LIGHTMAP)
+                .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
                 .createCompositeState(true));
     }
 

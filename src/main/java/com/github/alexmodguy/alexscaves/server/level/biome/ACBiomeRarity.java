@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ACBiomeRarity {
     private static long lastTestedSeed = 0;
-    private static final List<Integer> BIOME_OCTAVES = ImmutableList.of(-3, -2, -1, 0);
+    private static final List<Integer> BIOME_OCTAVES = ImmutableList.of(-1, 0);
     private static final Map<Integer, PerlinSimplexNoise> SIMPLEX_NOISE_HASH_MAP = new HashMap<>();
 
     public static boolean testBiomeRarity(long worldSeed, int rarityOffset, int x, int z, float min, float max) {

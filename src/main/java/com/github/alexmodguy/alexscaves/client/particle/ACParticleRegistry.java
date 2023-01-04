@@ -28,4 +28,6 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD_EXPLOSION = DEF_REG.register("mushroom_cloud_explosion", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> NUCLEAR_BOMB = DEF_REG.register("nuclear_bomb", ()-> new SimpleParticleType(false));
 
+    public static final RegistryObject<SimpleParticleType> RADGILL_SPLASH = DEF_REG.register("radgill_splash", ()-> new SimpleParticleType(false));
+
 }

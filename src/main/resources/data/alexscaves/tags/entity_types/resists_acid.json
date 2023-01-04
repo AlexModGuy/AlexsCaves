@@ -1,6 +1,8 @@
 {
   "__comment": "all mobs that are immune to the effects of acid.",
   "values": [
-    "minecraft:creeper"
+    "minecraft:creeper",
+    "alexscaves:nucleeper",
+    "alexscaves:radgill"
   ]
 }
