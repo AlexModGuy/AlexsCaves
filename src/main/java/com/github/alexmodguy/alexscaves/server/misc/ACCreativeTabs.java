@@ -115,10 +115,20 @@ public class ACCreativeTabs {
         event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.RADROCK_URANIUM_ORE.get())).displayItems((flags, output, isOp) -> {
             ACItemRegistry.getSpawnEggsForTab(TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.ACID_BUCKET.get());
+            add(output, ACItemRegistry.RADGILL_BUCKET.get());
             add(output, ACBlockRegistry.RADROCK.get());
+            add(output, ACBlockRegistry.RADROCK_STAIRS.get());
+            add(output, ACBlockRegistry.RADROCK_SLAB.get());
+            add(output, ACBlockRegistry.RADROCK_WALL.get());
+            add(output, ACBlockRegistry.RADROCK_BRICKS.get());
+            add(output, ACBlockRegistry.RADROCK_BRICK_STAIRS.get());
+            add(output, ACBlockRegistry.RADROCK_BRICK_SLAB.get());
+            add(output, ACBlockRegistry.RADROCK_BRICK_WALL.get());
+            add(output, ACBlockRegistry.RADROCK_CHISELED.get());
             add(output, ACBlockRegistry.RADROCK_URANIUM_ORE.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
             add(output, ACBlockRegistry.METAL_SCAFFOLDING.get());

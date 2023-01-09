@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G  ",
+    "GG ",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:radrock"
+    }
+  },
+  "result": {
+    "item": "alexscaves:radrock_stairs",
+    "count": 4
+  }
+}

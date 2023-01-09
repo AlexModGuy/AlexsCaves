@@ -108,6 +108,14 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> ANCIENT_LEAVES = registerBlockAndItem("ancient_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
     public static final RegistryObject<Block> TREE_STAR = registerBlockAndItem("tree_star", () -> new TreeStarBlock());
     public static final RegistryObject<Block> RADROCK = registerBlockAndItem("radrock", () -> new Block(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_STAIRS = registerBlockAndItem("radrock_stairs", () -> new StairBlock(RADROCK.get().defaultBlockState(), RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_SLAB = registerBlockAndItem("radrock_slab", () -> new SlabBlock(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_WALL = registerBlockAndItem("radrock_wall", () -> new WallBlock(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_BRICKS = registerBlockAndItem("radrock_bricks", () -> new Block(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_BRICK_STAIRS = registerBlockAndItem("radrock_brick_stairs", () -> new StairBlock(RADROCK_BRICKS.get().defaultBlockState(), RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_BRICK_SLAB = registerBlockAndItem("radrock_brick_slab", () -> new SlabBlock(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_BRICK_WALL = registerBlockAndItem("radrock_brick_wall", () -> new WallBlock(RADROCK_PROPERTIES));
+    public static final RegistryObject<Block> RADROCK_CHISELED = registerBlockAndItem("radrock_chiseled", () -> new Block(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)));
     public static final RegistryObject<Block> GEOTHERMAL_VENT = registerBlockAndItem("geothermal_vent", () -> new GeothermalVentBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));

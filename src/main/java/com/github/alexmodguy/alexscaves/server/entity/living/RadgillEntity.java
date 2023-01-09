@@ -3,12 +3,22 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AcidSwimNodeEvaluator;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,20 +32,29 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.Tags;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
+import java.util.Optional;
 
-public class RadgillEntity extends WaterAnimal {
+public class RadgillEntity extends WaterAnimal implements Bucketable{
 
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(RadgillEntity.class, EntityDataSerializers.BOOLEAN);
     private float landProgress;
     private float prevLandProgress;
     private float fishPitch = 0;
@@ -46,6 +65,11 @@ public class RadgillEntity extends WaterAnimal {
         super(type, level);
         this.moveControl = new AcidMoveControl();
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
+    }
+
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FROM_BUCKET, false);
     }
 
     protected void registerGoals() {
@@ -90,8 +114,24 @@ public class RadgillEntity extends WaterAnimal {
         return !this.fromBucket() && !this.hasCustomName();
     }
 
-    private boolean fromBucket() {
-        return false;
+    @Override
+    public boolean fromBucket() {
+        return this.entityData.get(FROM_BUCKET);
+    }
+
+    @Override
+    public void setFromBucket(boolean sit) {
+        this.entityData.set(FROM_BUCKET, sit);
+    }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("FromBucket", this.fromBucket());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setFromBucket(compound.getBoolean("FromBucket"));
     }
 
     protected int calculateFallDamage(float f, float f1) {
@@ -169,6 +209,59 @@ public class RadgillEntity extends WaterAnimal {
 
     public float getLandProgress(float partialTicks) {
         return (prevLandProgress + (landProgress - prevLandProgress) * partialTicks) * 0.2F;
+    }
+
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack itemstack = player.getItemInHand(hand);
+        InteractionResult type = super.mobInteract(player, hand);
+        if(!type.consumesAction()){
+            if (itemstack.getItem() == ACItemRegistry.ACID_BUCKET.get() && this.isAlive()) {
+                this.playSound(this.getPickupSound(), 1.0F, 1.0F);
+                ItemStack itemstack1 = this.getBucketItemStack();
+                this.saveToBucketTag(itemstack1);
+                ItemStack itemstack2 = ItemUtils.createFilledResult(itemstack, player, itemstack1, false);
+                player.setItemInHand(hand, itemstack2);
+                Level level = this.level;
+                if (!level.isClientSide) {
+                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, itemstack1);
+                }
+                return InteractionResult.sidedSuccess(this.level.isClientSide);
+            }
+        }
+        return type;
+    }
+    @Override
+    public void saveToBucketTag(@Nonnull ItemStack bucket) {
+        if (this.hasCustomName()) {
+            bucket.setHoverName(this.getCustomName());
+        }
+        CompoundTag platTag = new CompoundTag();
+        this.addAdditionalSaveData(platTag);
+        CompoundTag compound = bucket.getOrCreateTag();
+        compound.put("FishBucketTag", platTag);
+    }
+
+    @Override
+    public void loadFromBucketTag(@Nonnull CompoundTag compound) {
+        if (compound.contains("FishBucketTag")) {
+            this.readAdditionalSaveData(compound.getCompound("FishBucketTag"));
+        }
+        this.setAirSupply(2000);
+    }
+
+    @Override
+    public ItemStack getBucketItemStack() {
+        ItemStack stack = new ItemStack(ACItemRegistry.RADGILL_BUCKET.get());
+        if (this.hasCustomName()) {
+            stack.setHoverName(this.getCustomName());
+        }
+        return stack;
+    }
+
+    @Override
+    @Nonnull
+    public SoundEvent getPickupSound() {
+        return SoundEvents.BUCKET_FILL_FISH;
     }
 
     private class WanderGoal extends Goal {

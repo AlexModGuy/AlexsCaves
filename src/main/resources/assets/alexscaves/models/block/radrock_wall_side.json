@@ -1,0 +1,7 @@
+{
+    "parent": "minecraft:block/template_wall_side",
+    "textures": {
+        "wall": "alexscaves:block/radrock",
+        "top" : "alexscaves:block/radrock_top"
+    }
+}

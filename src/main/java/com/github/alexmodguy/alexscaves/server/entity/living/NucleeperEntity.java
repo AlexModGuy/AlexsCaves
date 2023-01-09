@@ -41,8 +41,6 @@ public class NucleeperEntity extends Monster {
     private static final EntityDataAccessor<Boolean> TRIGGERED = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CLOSE_TIME = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> EXPLODING = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
-    public static int CLOSE_MAX_TIME = AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();
-
 
     public NucleeperEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
@@ -132,14 +130,14 @@ public class NucleeperEntity extends Monster {
             explodeProgress--;
         }
         if(this.isTriggered()){
-            if(time < CLOSE_MAX_TIME){
+            if(time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()){
                 this.setCloseTime(time + 1);
             }else if(this.isAlive()){
                 this.setExploding(true);
             }
         }
         sirenAngle += (10F + 30F * closeProgress) % 360F;
-        closeProgress = (float)time / CLOSE_MAX_TIME;
+        closeProgress = (float)time / AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();
 
         if(this.isExploding() && explodeProgress >= 5F){
             this.discard();

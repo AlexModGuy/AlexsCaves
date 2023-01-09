@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "alexscaves:radrock_bricks"
+  },
+  "result": "alexscaves:radrock_brick_slab"
+}

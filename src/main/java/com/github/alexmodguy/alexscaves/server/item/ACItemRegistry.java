@@ -29,6 +29,8 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> PEWEN_SIGN = DEF_REG.register("pewen_sign", () -> new SignItem((new Item.Properties()).stacksTo(16), ACBlockRegistry.PEWEN_SIGN.get(), ACBlockRegistry.PEWEN_WALL_SIGN.get()));
     public static final RegistryObject<Item> ACID_BUCKET = DEF_REG.register("acid_bucket", () -> new BucketItem(ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
+    public static final RegistryObject<Item> RADGILL_BUCKET = DEF_REG.register("radgill_bucket", () -> new ModFishBucketItem(ACEntityRegistry.RADGILL, ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+
     static {
         spawnEgg("teletor", ACEntityRegistry.TELETOR, 0X433B4A,0X0060EF, ACCreativeTabs.MAGNETIC_CAVES);
         spawnEgg("magnetron", ACEntityRegistry.MAGNETRON, 0XFF002A,0X203070, ACCreativeTabs.MAGNETIC_CAVES);

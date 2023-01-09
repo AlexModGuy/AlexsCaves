@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/radrock_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/radrock"
+    },
+    "type=top": {
+      "model": "alexscaves:block/radrock_slab_top"
+    }
+  }
+}

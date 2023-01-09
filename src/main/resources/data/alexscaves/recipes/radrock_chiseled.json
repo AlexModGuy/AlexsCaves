@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G",
+    "G"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:radrock_slab"
+    }
+  },
+  "result": {
+    "item": "alexscaves:radrock_chiseled",
+    "count": 1
+  }
+}

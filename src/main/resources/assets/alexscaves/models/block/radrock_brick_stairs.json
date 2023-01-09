@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "alexscaves:block/radrock_bricks",
+    "side": "alexscaves:block/radrock_bricks",
+    "top": "alexscaves:block/radrock_bricks"
+  }
+}
