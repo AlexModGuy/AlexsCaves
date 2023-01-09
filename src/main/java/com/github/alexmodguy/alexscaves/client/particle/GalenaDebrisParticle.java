@@ -4,7 +4,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.phys.Vec3;
 
@@ -53,21 +52,6 @@ public class GalenaDebrisParticle extends TextureSheetParticle {
         }
     }
 
-    private static Vec3 getStartPosition(ClientLevel level, boolean goUp, double x, double y, double z) {
-        BlockPos pos = new BlockPos(x, y, z);
-        if (goUp) {
-            while (pos.getY() < level.getMaxBuildHeight() && level.getBlockState(pos).isAir()) {
-                pos = pos.above();
-            }
-        } else {
-            while (pos.getY() > level.getMinBuildHeight() && level.getBlockState(pos).isAir()) {
-                pos = pos.below();
-            }
-        }
-        return Vec3.atBottomCenterOf(pos).add(0, goUp ? 0 : 1, 0);
-    }
-
-
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         super.render(consumer, camera, partialTick);
     }
@@ -87,7 +71,7 @@ public class GalenaDebrisParticle extends TextureSheetParticle {
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             boolean riseOrFall = worldIn.random.nextBoolean();
-            Vec3 startPos = getStartPosition(worldIn, riseOrFall, x, y, z);
+            Vec3 startPos = MagneticCavesAmbientParticle.getStartPosition(worldIn, riseOrFall, x, y, z);
             GalenaDebrisParticle particle = new GalenaDebrisParticle(worldIn, x, startPos.y, z, riseOrFall, spriteSet);
             return particle;
         }

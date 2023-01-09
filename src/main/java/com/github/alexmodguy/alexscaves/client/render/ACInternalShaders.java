@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 public class ACInternalShaders {
 
     private static ShaderInstance renderTypeFerrouslimeGelShader;
+    private static ShaderInstance renderTypeIrradiatedShader;
 
     @Nullable
     public static ShaderInstance getRenderTypeFerrouslimeGelShader() {
@@ -15,6 +16,15 @@ public class ACInternalShaders {
 
     public static void setRenderTypeFerrouslimeGelShader(ShaderInstance instance){
         renderTypeFerrouslimeGelShader = instance;
+    }
+
+    @Nullable
+    public static ShaderInstance getRenderTypeIrradiatedShader() {
+        return renderTypeIrradiatedShader;
+    }
+
+    public static void setRenderTypeIrradiatedShader(ShaderInstance instance){
+        renderTypeIrradiatedShader = instance;
     }
 
 }

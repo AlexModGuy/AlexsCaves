@@ -4,16 +4,15 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelFinalLayerFullbright;
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
-import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
+import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
@@ -21,8 +20,9 @@ import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.pipeline.RenderTarget;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -59,6 +59,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,11 @@ public class ClientProxy extends CommonProxy {
     private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
+
+    public static boolean irradiatedOutlineFlag = false;
+    @Nullable
+    public static RenderTarget irradiatedTarget;
+
     protected final RandomSource random = RandomSource.create();
     private int lastTremorTick = -1;
     private int updateCounter = 0;
@@ -91,6 +97,7 @@ public class ClientProxy extends CommonProxy {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::bakeModels);
         bus.addListener(this::registerShaders);
+        bus.addListener(ClientLayerRegistry::addLayers);
         BlockEntityRenderers.register(ACBlockEntityRegistry.MAGNET.get(), MagnetBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
@@ -111,6 +118,9 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.NUCLEAR_BOMB.get(), NuclearBombRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NUCLEEPER.get(), NucleeperRenderer::new);
         EntityRenderers.register(ACEntityRegistry.RADGILL.get(), RadgillRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.BRAINIAC.get(), BrainiacRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.THROWN_WASTE_DRUM.get(), ThrownWasteDrumEntityRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.GAMMAROACH.get(), GammaroachRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
     }
 
@@ -120,7 +130,9 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.AZURE_MAGNETIC_ORBIT.get(), new MagneticOrbitParticle.AzureFactory());
         registry.register(ACParticleRegistry.SCARLET_MAGNETIC_FLOW.get(), new MagneticFlowParticle.ScarletFactory());
         registry.register(ACParticleRegistry.AZURE_MAGNETIC_FLOW.get(), new MagneticFlowParticle.AzureFactory());
+        registry.register(ACParticleRegistry.MAGNET_LIGHTNING.get(), new MagnetLightningParticle.Factory());
         registry.register(ACParticleRegistry.GALENA_DEBRIS.get(), GalenaDebrisParticle.Factory::new);
+        registry.register(ACParticleRegistry.MAGNETIC_CAVES_AMBIENT.get(), new MagneticCavesAmbientParticle.Factory());
         registry.register(ACParticleRegistry.FERROUSLIME.get(), FerrouslimeParticle.Factory::new);
         registry.register(ACParticleRegistry.FLY.get(), FlyParticle.Factory::new);
         registry.register(ACParticleRegistry.WATER_TREMOR.get(), WaterTremorParticle.Factory::new);
@@ -132,6 +144,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), MushroomCloudEffectParticle.Factory::new);
         registry.register(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), MushroomCloudEffectParticle.Factory::new);
         registry.register(ACParticleRegistry.NUCLEAR_BOMB.get(), NuclearBombParticle.Factory::new);
+        registry.register(ACParticleRegistry.GAMMAROACH.get(), GammaroachParticle.Factory::new);
         registry.register(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
     }
 
@@ -397,6 +410,7 @@ public class ClientProxy extends CommonProxy {
     private void registerShaders(final RegisterShadersEvent e) {
         try {
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_ferrouslime_gel"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeFerrouslimeGelShader);
+            e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_irradiated"), DefaultVertexFormat.POSITION_COLOR_TEX), ACInternalShaders::setRenderTypeIrradiatedShader);
             AlexsCaves.LOGGER.info("registered internal shaders");
         } catch (IOException exception) {
             AlexsCaves.LOGGER.error("could not register internal shaders");

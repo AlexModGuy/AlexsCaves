@@ -99,13 +99,15 @@
   ],
   "precipitation": "rain",
   "spawn_costs": {
-    "alexscaves:magnetron": {
-      "charge": 1.0,
-      "energy_budget": 0.2
-    }
   },
   "spawners": {
     "ambient": [
+      {
+        "type": "alexscaves:gammaroach",
+        "maxCount": 8,
+        "minCount": 8,
+        "weight": 20
+      },
       {
         "type": "minecraft:bat",
         "maxCount": 8,
@@ -118,10 +120,16 @@
     "misc": [],
     "monster": [
       {
+        "type": "alexscaves:brainiac",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 190
+      },
+      {
         "type": "alexscaves:nucleeper",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 70
+        "weight": 90
       },
       {
         "type": "minecraft:spider",

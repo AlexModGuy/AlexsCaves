@@ -22,7 +22,7 @@
     },
     "particle": {
       "options": {
-        "type": "alexscaves:galena_debris"
+        "type": "alexscaves:magnetic_caves_ambient"
       },
       "probability": 0.001
     },

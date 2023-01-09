@@ -1,11 +1,12 @@
 package com.github.alexmodguy.alexscaves.client.render;
 
-import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
@@ -13,14 +14,28 @@ import org.joml.Matrix4f;
 
 public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_FEROUSSLIME_GEL_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeFerrouslimeGelShader);
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeIrradiatedShader);
 
-
+    protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
+        if (ClientProxy.irradiatedTarget != null) {
+            ClientProxy.irradiatedTarget.bindWrite(false);
+        }
+    }, () -> {
+        Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+    });
     protected static final RenderStateShard.TransparencyStateShard EYES_ALPHA_TRANSPARENCY = new RenderStateShard.TransparencyStateShard("eyes_alpha_transparency", () -> {
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
     }, () -> {
         RenderSystem.disableBlend();
         RenderSystem.defaultBlendFunc();
+    });
+
+    protected static final RenderStateShard.TexturingStateShard IRRADIATED_TEXTURING = new RenderStateShard.TexturingStateShard("irradiated_texturing", () -> {
+        Matrix4f matrix4f = (new Matrix4f()).translation(0.0F, 0.0F, 0.0F);
+        RenderSystem.setTextureMatrix(matrix4f);
+        }, () -> {
+        RenderSystem.resetTextureMatrix();
     });
 
 
@@ -65,6 +80,18 @@ public class ACRenderTypes extends RenderType {
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 .setShaderState(RENDERTYPE_FEROUSSLIME_GEL_SHADER)
                 .setLightmapState(LIGHTMAP)
+                .createCompositeState(true));
+    }
+
+    public static RenderType getRadiationGlow(ResourceLocation locationIn){
+        return create("radiation_glow", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_IRRADIATED_SHADER)
+                .setCullState(NO_CULL)
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setOutputState(IRRADIATED_OUTPUT)
                 .createCompositeState(false));
     }
 
@@ -77,16 +104,4 @@ public class ACRenderTypes extends RenderType {
                 .setLightmapState(LIGHTMAP)
                 .createCompositeState(false));
     }
-
-    public static RenderType getNuclearBomb(ResourceLocation location) {
-        return create("nuclear_bomb", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
-                .setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
-                .setCullState(NO_CULL)
-                .setTransparencyState(EYES_ALPHA_TRANSPARENCY)
-                .setShaderState(RENDERTYPE_ENERGY_SWIRL_SHADER)
-                .setLightmapState(LIGHTMAP)
-                .setOutputState(RenderStateShard.PARTICLES_TARGET)
-                .createCompositeState(false));
-    }
-
 }

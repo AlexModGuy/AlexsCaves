@@ -111,7 +111,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         prevDanceProgress = danceProgress;
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         this.legSolver.update(this, this.yBodyRot, this.getScale());
-        // this.setAnimation(ANIMATION_SHAKE_PREY);
         AnimationHandler.INSTANCE.updateAnimations(this);
         if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
             this.setDancing(false);

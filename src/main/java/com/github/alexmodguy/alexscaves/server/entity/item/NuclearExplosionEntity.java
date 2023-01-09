@@ -54,8 +54,8 @@ public class NuclearExplosionEntity extends Entity {
         int radius = chunksAffected * 15;
         if (!spawnedParticle) {
             spawnedParticle = true;
-            int particleY = (int)Math.ceil(this.getY());
-            while(particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(new BlockPos(this.getX(), particleY, this.getZ())))){
+            int particleY = (int) Math.ceil(this.getY());
+            while (particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(new BlockPos(this.getX(), particleY, this.getZ())))) {
                 particleY--;
             }
             level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize() + 0.2F, 0, 0);
@@ -82,17 +82,26 @@ public class NuclearExplosionEntity extends Entity {
                     }
                 }
             }
-            AABB killBox = this.getBoundingBox().inflate(radius, radius * 0.6, radius);
+            AABB killBox = this.getBoundingBox().inflate(radius + radius * 0.5F, radius * 0.6, radius + radius * 0.5F);
             float flingStrength = getSize() * 0.33F;
+            float maximumDistance = radius + radius * 0.5F + 1;
             for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, killBox)) {
                 float dist = entity.distanceTo(this);
-                float dist2 = dist > 100 ? 5 : 105 - dist;
+                float damage = calculateDamage(dist, maximumDistance);
                 Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
-                entity.setDeltaMovement(vec3.scale(dist2 * 0.1F * flingStrength));
-                entity.hurt(ACDamageTypes.NUKE, 1.5F * getSize() * dist2);
+                entity.setDeltaMovement(vec3.scale(damage * 0.1F * flingStrength));
+                if (damage > 0) {
+                    entity.hurt(ACDamageTypes.NUKE, damage);
+                }
                 entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));
             }
         }
+    }
+
+    private float calculateDamage(float dist, float max) {
+        float revert = (max - dist) / max;
+        float baseDmg = this.getSize() <= 1.5F ? 100 : 100 + (this.getSize() - 1.5F) * 400;
+        return revert * baseDmg;
     }
 
     private void removeChunk(int radius) {
@@ -122,7 +131,7 @@ public class NuclearExplosionEntity extends Entity {
                         }
                     }
                 }
-                if(random.nextFloat() < 0.15 && !level.getBlockState(carveBelow).isAir()){
+                if (random.nextFloat() < 0.15 && !level.getBlockState(carveBelow).isAir()) {
                     level.setBlockAndUpdate(carveBelow.above(), Blocks.FIRE.defaultBlockState());
                 }
             }

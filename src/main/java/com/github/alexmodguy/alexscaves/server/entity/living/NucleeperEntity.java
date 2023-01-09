@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.item.NuclearExplosionEntity;
@@ -34,15 +35,13 @@ public class NucleeperEntity extends Monster {
     private float prevCloseProgress;
     private float explodeProgress;
     private float prevExplodeProgress;
-
     private float sirenAngle;
-
     private float prevSirenAngle;
 
     private static final EntityDataAccessor<Boolean> TRIGGERED = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CLOSE_TIME = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> EXPLODING = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
-    public static final int CLOSE_MAX_TIME = 300;
+    public static int CLOSE_MAX_TIME = AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();
 
 
     public NucleeperEntity(EntityType<? extends Monster> entityType, Level level) {

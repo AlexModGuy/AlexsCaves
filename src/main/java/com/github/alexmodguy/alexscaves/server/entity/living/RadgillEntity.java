@@ -16,7 +16,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -122,7 +121,7 @@ public class RadgillEntity extends WaterAnimal {
             }
             wasJustInAcid = inAcid;
         }
-        if(!isInWaterOrBubble() && this.isAlive()){
+        if(!isInLiquid() && this.isAlive()){
             if (this.isOnGround() && random.nextFloat() < 0.1F) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);

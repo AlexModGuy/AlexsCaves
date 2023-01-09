@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.living.*;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -41,6 +40,9 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<NuclearBombEntity>> NUCLEAR_BOMB = DEF_REG.register("nuclear_bomb", () -> (EntityType)EntityType.Builder.of(NuclearBombEntity::new, MobCategory.MISC).sized(0.98F, 0.98F).setCustomClientFactory(NuclearBombEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("nuclear_bomb"));
     public static final RegistryObject<EntityType<NucleeperEntity>> NUCLEEPER = DEF_REG.register("nucleeper", () -> (EntityType)EntityType.Builder.of(NucleeperEntity::new, MobCategory.MONSTER).sized(0.98F, 3.95F).build("nucleeper"));
     public static final RegistryObject<EntityType<RadgillEntity>> RADGILL = DEF_REG.register("radgill", () -> (EntityType)EntityType.Builder.of(RadgillEntity::new, MobCategory.WATER_AMBIENT).sized(0.9F, 0.6F).build("radgill"));
+    public static final RegistryObject<EntityType<BrainiacEntity>> BRAINIAC = DEF_REG.register("brainiac", () -> (EntityType)EntityType.Builder.of(BrainiacEntity::new, MobCategory.MONSTER).sized(1.3F, 2.5F).build("brainiac"));
+    public static final RegistryObject<EntityType<ThrownWasteDrumEntity>> THROWN_WASTE_DRUM = DEF_REG.register("thrown_waste_drum", () -> (EntityType)EntityType.Builder.of(ThrownWasteDrumEntity::new, MobCategory.MISC).sized(0.98F, 0.98F).setCustomClientFactory(ThrownWasteDrumEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("thrown_waste_drum"));
+    public static final RegistryObject<EntityType<GammaroachEntity>> GAMMAROACH = DEF_REG.register("gammaroach", () -> (EntityType)EntityType.Builder.of(GammaroachEntity::new, MobCategory.AMBIENT).sized(1.25F, 0.9F).build("gammaroach"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -57,6 +59,8 @@ public class ACEntityRegistry {
         event.put(RELICHEIRUS.get(), RelicheirusEntity.createAttributes().build());
         event.put(NUCLEEPER.get(), NucleeperEntity.createAttributes().build());
         event.put(RADGILL.get(), NucleeperEntity.createAttributes().build());
+        event.put(BRAINIAC.get(), BrainiacEntity.createAttributes().build());
+        event.put(GAMMAROACH.get(), GammaroachEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -74,6 +78,8 @@ public class ACEntityRegistry {
         event.register(RELICHEIRUS.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RelicheirusEntity::checkPrehistoricSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(NUCLEEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, NucleeperEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(RADGILL.get(), inAcid, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RadgillEntity::checkRadgillSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(BRAINIAC.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BrainiacEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GAMMAROACH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GammaroachEntity::checkGammaroachSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

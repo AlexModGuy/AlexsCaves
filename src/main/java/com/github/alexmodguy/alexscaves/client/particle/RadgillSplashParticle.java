@@ -1,12 +1,8 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.world.phys.Vec3;
 
 public class RadgillSplashParticle extends TextureSheetParticle {
 

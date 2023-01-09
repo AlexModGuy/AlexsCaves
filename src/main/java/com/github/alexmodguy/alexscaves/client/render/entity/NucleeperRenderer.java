@@ -1,16 +1,11 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
-import com.github.alexmodguy.alexscaves.client.model.BoundroidModel;
 import com.github.alexmodguy.alexscaves.client.model.NucleeperModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
-import com.github.alexmodguy.alexscaves.server.entity.living.BoundroidEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.MagnetronEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -23,7 +18,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.ForgeRenderTypes;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
