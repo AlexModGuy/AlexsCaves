@@ -27,6 +27,7 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties PEWEN_LOG_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties PEWEN_PLANKS_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.0F, 3.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties RADROCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(4F, 11.0F).sound(SoundType.TUFF);
+    public static final BlockBehaviour.Properties RADON_LAMP_PROPERTIES = BlockBehaviour.Properties.of(Material.BUILDABLE_GLASS, MaterialColor.TERRACOTTA_WHITE).requiresCorrectToolForDrops().lightLevel(state -> 15).strength(2F, 11.0F).sound(SoundType.GLASS);
     public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(WoodType.create("alexscaves:pewen"));
 
     public static final DeferredRegister<Block> DEF_REG = DeferredRegister.create(ForgeRegistries.BLOCKS, AlexsCaves.MODID);
@@ -117,6 +118,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RADROCK_BRICK_WALL = registerBlockAndItem("radrock_brick_wall", () -> new WallBlock(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_CHISELED = registerBlockAndItem("radrock_chiseled", () -> new Block(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)));
+    public static final RegistryObject<Block> ACIDIC_RADROCK = registerBlockAndItem("acidic_radrock", () -> new AcidicRadrockBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT = registerBlockAndItem("geothermal_vent", () -> new GeothermalVentBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
     public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
@@ -124,7 +126,31 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.DIRT).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission()));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock());
+    public static final RegistryObject<Block> RUSTY_BARREL = registerBlockAndItem("rusty_barrel", () -> new MetalBarrelBlock());
+    public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
+    public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_YELLOW).strength(2F, 4.0F).sound(SoundType.CALCITE)));
+    public static final RegistryObject<Block> SULFUR_BUD_SMALL = registerBlockAndItem("sulfur_bud_small", () -> new SulfurBudBlock(6, 4));
+    public static final RegistryObject<Block> SULFUR_BUD_MEDIUM = registerBlockAndItem("sulfur_bud_medium", () -> new SulfurBudBlock(6, 8));
+    public static final RegistryObject<Block> SULFUR_BUD_LARGE = registerBlockAndItem("sulfur_bud_large", () -> new SulfurBudBlock(6, 12));
+    public static final RegistryObject<Block> SULFUR_CLUSTER = registerBlockAndItem("sulfur_cluster", () -> new SulfurBudBlock(6, 14));
+    public static final RegistryObject<Block> WHITE_RADON_LAMP = registerBlockAndItem("radon_lamp_white", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> ORANGE_RADON_LAMP = registerBlockAndItem("radon_lamp_orange", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> MAGENTA_RADON_LAMP = registerBlockAndItem("radon_lamp_magenta", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> LIGHT_BLUE_RADON_LAMP = registerBlockAndItem("radon_lamp_light_blue", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> YELLOW_RADON_LAMP = registerBlockAndItem("radon_lamp_yellow", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> LIME_RADON_LAMP = registerBlockAndItem("radon_lamp_lime", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> PINK_RADON_LAMP = registerBlockAndItem("radon_lamp_pink", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> GRAY_RADON_LAMP = registerBlockAndItem("radon_lamp_gray", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> LIGHT_GRAY_RADON_LAMP = registerBlockAndItem("radon_lamp_light_gray", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> CYAN_RADON_LAMP = registerBlockAndItem("radon_lamp_cyan", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> PURPLE_RADON_LAMP = registerBlockAndItem("radon_lamp_purple", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> BLUE_RADON_LAMP = registerBlockAndItem("radon_lamp_blue", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> BROWN_RADON_LAMP = registerBlockAndItem("radon_lamp_brown", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> GREEN_RADON_LAMP = registerBlockAndItem("radon_lamp_green", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> RED_RADON_LAMP = registerBlockAndItem("radon_lamp_red", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> BLACK_RADON_LAMP = registerBlockAndItem("radon_lamp_black", () -> new Block(RADON_LAMP_PROPERTIES));
+
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, 0);
     }

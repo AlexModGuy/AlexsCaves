@@ -227,7 +227,7 @@ public class GammaroachModel extends AdvancedEntityModel<GammaroachEntity> {
     public void setupAnim(GammaroachEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         animate(entity);
-        float walkSpeed = 0.7F;
+        float walkSpeed = 1F;
         float walkDegree = 0.9F;
         float partialTicks = ageInTicks - entity.tickCount;
         float deathAmount = (entity.deathTime + partialTicks) / 20F;
@@ -258,9 +258,9 @@ public class GammaroachModel extends AdvancedEntityModel<GammaroachEntity> {
         this.swing(lleg2, walkSpeed, walkDegree, false, offset, 0F, limbSwing, limbSwingAmount);
         this.flap(lleg2, walkSpeed, walkDegree * 0.3F, false, offset - 1.5F, -offsetUp, limbSwing, limbSwingAmount);
         offset += 1.5F;
-        this.swing(rleg3, walkSpeed, walkDegree * 0.95F, false, offset, -0.1F, limbSwing, limbSwingAmount);
+        this.swing(rleg3, walkSpeed, walkDegree * 0.5F, false, offset, -0.1F, limbSwing, limbSwingAmount);
         this.flap(rleg3, walkSpeed, walkDegree * 0.3F, false, offset - 1.5F, offsetUp, limbSwing, limbSwingAmount);
-        this.swing(lleg3, walkSpeed, -walkDegree * 0.95F, false, offset + offsetleft, 0.1F, limbSwing, limbSwingAmount);
+        this.swing(lleg3, walkSpeed, -walkDegree * 0.5F, false, offset + offsetleft, 0.1F, limbSwing, limbSwingAmount);
         this.flap(lleg3, walkSpeed, walkDegree * 0.3F, false, offset + offsetleft - 1.5F, -offsetUp, limbSwing, limbSwingAmount);
 
         this.swing(body, walkSpeed, walkDegree * 0.2F, false, 3, 0, limbSwing, limbSwingAmount);

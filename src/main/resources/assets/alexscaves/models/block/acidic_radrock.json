@@ -1,0 +1,9 @@
+{
+  "parent": "alexscaves:block/partially_fullbright",
+  "render_type": "translucent",
+  "textures": {
+    "particle": "alexscaves:block/acidic_radrock",
+    "base": "alexscaves:block/acidic_radrock",
+    "fullbright": "alexscaves:block/acidic_radrock_glow"
+  }
+}

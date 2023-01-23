@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/cave_map",
+    "layer1": "alexscaves:item/cave_map_loading"
+  }
+}

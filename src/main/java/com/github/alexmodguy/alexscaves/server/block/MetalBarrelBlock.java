@@ -62,5 +62,10 @@ public class MetalBarrelBlock extends BarrelBlock {
             }
         }
     }
+    public void onRemove(BlockState state, Level level, BlockPos blockPos, BlockState newState, boolean force) {
+        if (state.hasBlockEntity() && (!(newState.getBlock() instanceof MetalBarrelBlock) || !newState.hasBlockEntity())) {
+            level.removeBlockEntity(blockPos);
+        }
+    }
 
 }

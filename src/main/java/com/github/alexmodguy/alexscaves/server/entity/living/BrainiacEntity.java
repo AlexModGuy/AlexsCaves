@@ -3,9 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
-import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.ThrownWasteDrumEntity;
-import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -17,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -32,15 +29,11 @@ import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.*;
+import java.util.EnumSet;
 
 public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
@@ -144,8 +137,8 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                 }
             }
         }
+        Entity tongueTarget = this.getTongueTarget();
         if (level.isClientSide) {
-            Entity tongueTarget = this.getTongueTarget();
             if (tongueTarget != null && tongueTarget.isAlive()) {
                 lastTongueDistance = this.distanceTo(tongueTarget) - 0.5F;
             }
@@ -156,18 +149,19 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                 if(attackTarget != null && attackTarget.isAlive() && this.hasLineOfSight(attackTarget)){
                     this.setTongueTargetId(attackTarget.getId());
                     this.lookAt(attackTarget, 50, 50);
-                    if(this.shootTongueAmount >= 5F){
-                        postAttackEffect(attackTarget);
-                        attackTarget.hurt(DamageSource.mobAttack(this), 4);
-                        attackTarget.knockback(0.3D, attackTarget.getX() - BrainiacEntity.this.getX(), attackTarget.getZ() - BrainiacEntity.this.getZ());
-                        this.setLickTicks(0);
-
-                    }
                 }else{
                     this.setTongueTargetId(-1);
                 }
             }else{
                 this.setTongueTargetId(-1);
+            }
+        }
+        if(tongueTarget instanceof LivingEntity living){
+            if(this.shootTongueAmount >= 5F) {
+                postAttackEffect(living);
+                tongueTarget.hurt(DamageSource.mobAttack(this), 4);
+                living.knockback(0.3D, living.getX() - this.getX(), tongueTarget.getZ() - this.getZ());
+                this.setLickTicks(0);
             }
         }
         AnimationHandler.INSTANCE.updateAnimations(this);

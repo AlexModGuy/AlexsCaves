@@ -24,11 +24,11 @@ import java.util.Map;
 public class BiomeGenerationConfig {
     public static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
     private static final BiomeGenerationNoiseCondition MAGNETIC_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(150).alexBiomeRarity(0.5F, 1F).alexscavesRarityOffset(0).continentalness(0.2F, 1F).depth(0.2F, 1F).build();
+            .distanceFromSpawn(150).alexBiomeRarity(0.65F, 1F).alexscavesRarityOffset(0).continentalness(0.2F, 1F).depth(0.2F, 1F).build();
     private static final BiomeGenerationNoiseCondition PRIMORDIAL_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(250).alexBiomeRarity(0.45F, 1F).alexscavesRarityOffset(1).continentalness(0.0F, 1F).depth(0.1F, 1.5F).build();
+            .distanceFromSpawn(250).alexBiomeRarity(0.65F, 1F).alexscavesRarityOffset(1).continentalness(0.0F, 1F).depth(0.15F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition TOXIC_CAVES_CONDITION =  new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(400).alexBiomeRarity(0.45F, 1F).alexscavesRarityOffset(2).continentalness(0.2F, 1F).depth(0.3F, 1.5F).build();
+            .distanceFromSpawn(400).alexBiomeRarity(0.6F, 1F).alexscavesRarityOffset(2).continentalness(0.2F, 1F).depth(0.3F, 1.5F).build();
     private static Map<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new HashMap<>();
 
     public static void reloadConfig(){

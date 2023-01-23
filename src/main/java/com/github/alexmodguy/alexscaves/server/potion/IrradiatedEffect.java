@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.potion;
 
+import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -20,15 +21,17 @@ public class IrradiatedEffect extends MobEffect {
         if (entity instanceof Player player) {
             player.causeFoodExhaustion(0.4F);
         }
-        entity.hurt(ACDamageTypes.RADIATION, 1.0F);
+        if(!(entity instanceof RaycatEntity)){
+            entity.hurt(ACDamageTypes.RADIATION, 1.0F);
+        }
     }
 
     public boolean isDurationEffectTick(int tick1, int level) {
         if(level <= 0){
             return false;
         }
-        int j = 100 / level;
-        if (j > 0) {
+        int j = 200 / level;
+        if (j > 1) {
             return tick1 % j == 0;
         } else {
             return true;

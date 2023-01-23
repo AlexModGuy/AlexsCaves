@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/cave_map"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "filled": 1
+      },
+      "model": "alexscaves:item/cave_map_filled"
+    },
+    {
+      "predicate": {
+        "loading": 1
+      },
+      "model": "alexscaves:item/cave_map_loading"
+    }
+  ]
+}

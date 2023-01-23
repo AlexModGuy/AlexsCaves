@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": [
+      { "model": "alexscaves:block/sulfur_bud_medium", "x": 180 }
+    ],
+    "facing=east": [
+      { "model": "alexscaves:block/sulfur_bud_medium", "x": 90, "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "alexscaves:block/sulfur_bud_medium", "x": 90 }
+    ],
+    "facing=south": [
+      { "model": "alexscaves:block/sulfur_bud_medium", "x": 270 }
+    ],
+    "facing=up": [
+      { "model": "alexscaves:block/sulfur_bud_medium" }
+    ],
+    "facing=west": [
+      { "model": "alexscaves:block/sulfur_bud_medium", "x": 90, "y": 270 }
+    ]
+  }
+}

@@ -4,6 +4,8 @@
     "alexscaves:galena_wall",
     "alexscaves:galena_brick_wall",
     "alexscaves:limestone_wall",
-    "alexscaves:smooth_limestone_wall"
+    "alexscaves:smooth_limestone_wall",
+    "alexscaves:radrock_wall",
+    "alexscaves:radrock_brick_wall"
   ]
 }

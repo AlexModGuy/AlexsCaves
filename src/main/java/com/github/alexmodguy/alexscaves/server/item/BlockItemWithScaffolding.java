@@ -32,7 +32,7 @@ public class BlockItemWithScaffolding extends BlockItemWithSupplier {
         Level level = context.getLevel();
         BlockState blockstate = level.getBlockState(blockpos);
         Block block = this.getBlock();
-        if (!blockstate.is(block)) {
+        if (!(blockstate.getBlock() instanceof MetalScaffoldingBlock)) {
             return MetalScaffoldingBlock.getDistance(level, blockpos) == MetalScaffoldingBlock.STABILITY_MAX_DISTANCE ? null :context;
         } else {
             Direction direction;
@@ -56,7 +56,7 @@ public class BlockItemWithScaffolding extends BlockItemWithSupplier {
                 }
 
                 blockstate = level.getBlockState(blockpos$mutableblockpos);
-                if (!blockstate.is(this.getBlock())) {
+                if (!(blockstate.getBlock() instanceof MetalScaffoldingBlock)) {
                     if (blockstate.canBeReplaced(context)) {
                         return BlockPlaceContext.at(context, blockpos$mutableblockpos, direction);
                     }

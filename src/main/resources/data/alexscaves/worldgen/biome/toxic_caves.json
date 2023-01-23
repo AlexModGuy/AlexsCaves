@@ -20,6 +20,12 @@
       "replace_current_music": false,
       "sound": "minecraft:music.overworld.dripstone_caves"
     },
+    "particle": {
+      "options": {
+        "type": "alexscaves:fallout"
+      },
+      "probability": 0.001
+    },
     "fog_color": 8781312,
     "sky_color": 582913,
     "water_color": 4944498,
@@ -39,8 +45,7 @@
       "minecraft:monster_room_deep"
     ],
     [],
-    [
-    ],
+    [],
     [
       "alexscaves:metal_swarf_replace_mud",
       "minecraft:ore_dirt",
@@ -71,7 +76,8 @@
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "minecraft:disk_gravel",
-      "alexscaves:radrock_uranium_ore"
+      "alexscaves:radrock_uranium_ore",
+      "alexscaves:sulfur_stack"
     ],
     [
     ],
@@ -100,13 +106,14 @@
   "precipitation": "rain",
   "spawn_costs": {
   },
+  "creature_spawn_probability": 0.025,
   "spawners": {
     "ambient": [
       {
         "type": "alexscaves:gammaroach",
         "maxCount": 8,
         "minCount": 8,
-        "weight": 20
+        "weight": 22
       },
       {
         "type": "minecraft:bat",
@@ -116,6 +123,14 @@
       }
     ],
     "axolotls": [],
+    "alexscaves:cave_creature": [
+      {
+        "type": "alexscaves:raycat",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 10
+      }
+    ],
     "creature": [],
     "misc": [],
     "monster": [
@@ -129,7 +144,7 @@
         "type": "alexscaves:nucleeper",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 90
+        "weight": 70
       },
       {
         "type": "minecraft:spider",

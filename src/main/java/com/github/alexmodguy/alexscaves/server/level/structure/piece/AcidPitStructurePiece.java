@@ -49,9 +49,9 @@ public class AcidPitStructurePiece extends AbstractCaveGenerationStructurePiece 
                 for (int y = 15; y >= 0; y--) {
                     carve.set(cornerX + x, Mth.clamp(cornerY + y, level.getMinBuildHeight(), level.getMaxBuildHeight()), cornerZ + z);
                     carveAbove.set(carve.getX(), carve.getY() + 1, carve.getZ());
-                    float widthSimplexNoise1 = ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F;
+                    float widthSimplexNoise1 = Math.min(ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F, 1.0F) * 0.94F;
                     float heightSimplexNoise1 = ACMath.sampleNoise3D(carve.getX() + 440, 0, carve.getZ() - 440, 20) * 0.5F + 0.5F;
-                    double yDist = ACMath.smin(1F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * heightSimplexNoise1), 0.8F, 0.3F);
+                    double yDist = ACMath.smin(1F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * heightSimplexNoise1), 0.7F, 0.3F);
                     double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY(), this.holeCenter.getZ());
                     double targetRadius = yDist * (radius + widthSimplexNoise1 * radius) * radius;
                     if (distToCenter <= targetRadius) {

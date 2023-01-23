@@ -6,6 +6,8 @@
     "alexscaves:metal_scaffolding",
     "alexscaves:metal_barrel",
     "alexscaves:waste_drum",
+    "alexscaves:rusty_barrel",
+    "alexscaves:rusty_scaffolding",
     "#forge:storage_blocks/raw_iron",
     "#forge:storage_blocks/iron",
     "#forge:storage_blocks/netherite",

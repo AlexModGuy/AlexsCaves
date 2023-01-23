@@ -21,6 +21,8 @@ public class ACItemRegistry {
     private static Map<RegistryObject<Item>, ResourceLocation> creativeTabSpawnEggMap = new HashMap<>();
     public static final DeferredRegister<Item> DEF_REG = DeferredRegister.create(ForgeRegistries.ITEMS, AlexsCaves.MODID);
 
+    public static final RegistryObject<Item> CAVE_MAP = DEF_REG.register("cave_map", () -> new CaveMapItem(new Item.Properties().stacksTo(1)));
+
     public static final RegistryObject<Item> RAW_SCARLET_NEODYMIUM = DEF_REG.register("raw_scarlet_neodymium", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> RAW_AZURE_NEODYMIUM = DEF_REG.register("raw_azure_neodymium", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SCARLET_NEODYMIUM_INGOT = DEF_REG.register("scarlet_neodymium_ingot", () -> new Item(new Item.Properties()));
@@ -30,6 +32,8 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> ACID_BUCKET = DEF_REG.register("acid_bucket", () -> new BucketItem(ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     public static final RegistryObject<Item> RADGILL_BUCKET = DEF_REG.register("radgill_bucket", () -> new ModFishBucketItem(ACEntityRegistry.RADGILL, ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+
+    public static final RegistryObject<Item> RADON_BOTTLE = DEF_REG.register("radon_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)));
 
     static {
         spawnEgg("teletor", ACEntityRegistry.TELETOR, 0X433B4A,0X0060EF, ACCreativeTabs.MAGNETIC_CAVES);
@@ -46,6 +50,7 @@ public class ACItemRegistry {
         spawnEgg("radgill", ACEntityRegistry.RADGILL, 0X43302C,0XE8E400, ACCreativeTabs.TOXIC_CAVES);
         spawnEgg("brainiac", ACEntityRegistry.BRAINIAC, 0X3E5136,0XE87C9E, ACCreativeTabs.TOXIC_CAVES);
         spawnEgg("gammaroach", ACEntityRegistry.GAMMAROACH, 0X56682A,0X2A2B19, ACCreativeTabs.TOXIC_CAVES);
+        spawnEgg("raycat", ACEntityRegistry.RAYCAT, 0X67FF00,0X030A00, ACCreativeTabs.TOXIC_CAVES);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName){

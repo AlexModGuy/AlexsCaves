@@ -28,21 +28,7 @@ import java.util.Map;
 
 public class AcidBlock extends LiquidBlock {
 
-    @Deprecated
-    private static final Map<Block, Block> CORRODES_INTERACTIONS = Util.make(Maps.newHashMap(), (map) -> {
-        map.put(Blocks.WEATHERED_COPPER, Blocks.COPPER_BLOCK);
-        map.put(Blocks.EXPOSED_COPPER, Blocks.COPPER_BLOCK);
-        map.put(Blocks.OXIDIZED_COPPER, Blocks.COPPER_BLOCK);
-        map.put(Blocks.WEATHERED_CUT_COPPER, Blocks.CUT_COPPER);
-        map.put(Blocks.EXPOSED_CUT_COPPER, Blocks.CUT_COPPER);
-        map.put(Blocks.OXIDIZED_CUT_COPPER, Blocks.CUT_COPPER);
-        map.put(Blocks.WEATHERED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
-        map.put(Blocks.EXPOSED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
-        map.put(Blocks.OXIDIZED_CUT_COPPER_SLAB, Blocks.CUT_COPPER_SLAB);
-        map.put(Blocks.WEATHERED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
-        map.put(Blocks.EXPOSED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
-        map.put(Blocks.OXIDIZED_CUT_COPPER_STAIRS, Blocks.CUT_COPPER_STAIRS);
-    });
+    private static Map<Block, Block> CORRODES_INTERACTIONS;
     private static final Direction[] LIQUID_CHECK_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public AcidBlock(RegistryObject<FlowingFluid> flowingFluid, BlockBehaviour.Properties properties) {
@@ -88,6 +74,7 @@ public class AcidBlock extends LiquidBlock {
     }
 
     public void tickCorrosion(Level worldIn, BlockPos pos){
+        initCorrosion();
         for(Direction direction : LIQUID_CHECK_DIRECTIONS){
             BlockPos offset = pos.relative(direction);
             BlockState state1 = worldIn.getBlockState(offset);
@@ -97,9 +84,30 @@ public class AcidBlock extends LiquidBlock {
                     transform = transform.hasProperty(prop) ? transform.setValue(prop, state1.getValue(prop)) : transform;
                 }
                 worldIn.levelEvent(1501, offset, 0);
-
                 worldIn.setBlockAndUpdate(offset, transform);
             }
         }
+    }
+
+    private void initCorrosion() {
+        if(CORRODES_INTERACTIONS != null){
+            return;
+        }
+        CORRODES_INTERACTIONS = Util.make(Maps.newHashMap(), (map) -> {
+            map.put(Blocks.COPPER_BLOCK, Blocks.WEATHERED_COPPER);
+            map.put(Blocks.WEATHERED_COPPER, Blocks.EXPOSED_COPPER);
+            map.put(Blocks.EXPOSED_COPPER, Blocks.OXIDIZED_COPPER);
+            map.put(Blocks.CUT_COPPER, Blocks.WEATHERED_CUT_COPPER);
+            map.put(Blocks.WEATHERED_CUT_COPPER, Blocks.EXPOSED_CUT_COPPER);
+            map.put(Blocks.EXPOSED_CUT_COPPER, Blocks.WEATHERED_CUT_COPPER);
+            map.put(Blocks.CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER_SLAB);
+            map.put(Blocks.WEATHERED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER_SLAB);
+            map.put(Blocks.EXPOSED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER_SLAB);
+            map.put(Blocks.CUT_COPPER_STAIRS, Blocks.WEATHERED_CUT_COPPER_STAIRS);
+            map.put(Blocks.WEATHERED_CUT_COPPER_STAIRS, Blocks.EXPOSED_CUT_COPPER_STAIRS);
+            map.put(Blocks.EXPOSED_CUT_COPPER_STAIRS, Blocks.OXIDIZED_CUT_COPPER_STAIRS);
+            map.put(ACBlockRegistry.METAL_BARREL.get(), ACBlockRegistry.RUSTY_BARREL.get());
+            map.put(ACBlockRegistry.METAL_SCAFFOLDING.get(), ACBlockRegistry.RUSTY_SCAFFOLDING.get());
+        });
     }
 }

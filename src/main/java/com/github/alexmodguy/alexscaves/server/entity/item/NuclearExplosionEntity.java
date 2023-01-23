@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -91,6 +92,11 @@ public class NuclearExplosionEntity extends Entity {
                 Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
                 entity.setDeltaMovement(vec3.scale(damage * 0.1F * flingStrength));
                 if (damage > 0) {
+                    if(entity instanceof RaycatEntity){
+                        damage = 0;
+                    }else if(entity.getType().is(ACTagRegistry.RESISTS_RADIATION)){
+                        damage *= 0.25F;
+                    }
                     entity.hurt(ACDamageTypes.NUKE, damage);
                 }
                 entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));

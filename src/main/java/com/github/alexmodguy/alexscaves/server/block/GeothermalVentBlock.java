@@ -3,10 +3,17 @@ package com.github.alexmodguy.alexscaves.server.block;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.GeothermalVentBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -24,6 +31,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class GeothermalVentBlock extends BaseEntityBlock {
@@ -71,6 +79,22 @@ public class GeothermalVentBlock extends BaseEntityBlock {
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
 
+    }
+
+    public InteractionResult use(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand hand, BlockHitResult result) {
+        ItemStack heldItem = player.getItemInHand(hand);
+        if(heldItem.is(Items.GLASS_BOTTLE) && blockState.getValue(SMOKE_TYPE) == 3 && blockState.getValue(SPAWNING_PARTICLES)){
+            ItemStack bottle = new ItemStack(ACItemRegistry.RADON_BOTTLE.get());
+            if(!player.addItem(bottle)){
+                player.drop(bottle, false);
+            }
+            if(!player.isCreative()){
+                heldItem.shrink(1);
+            }
+            player.playSound(SoundEvents.BOTTLE_FILL);
+            return InteractionResult.SUCCESS;
+        }
+        return super.use(blockState, level, blockPos, player, hand, result);
     }
 
     @javax.annotation.Nullable

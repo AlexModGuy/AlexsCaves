@@ -1,0 +1,9 @@
+{
+  "__comment": "all non chest, non furnace and non bed blocks raycats sleep on.",
+  "values": [
+    "alexscaves:metal_barrel",
+    "alexscaves:waste_drum",
+    "alexscaves:rusty_barrel",
+    "alexscaves:nuclear_bomb"
+  ]
+}

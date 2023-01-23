@@ -2,7 +2,9 @@ package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.item.CustomTabBehavior;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -14,7 +16,6 @@ public class ACCreativeTabs {
 
     public static final ResourceLocation MAGNETIC_CAVES = new ResourceLocation("alexscaves:magnetic_caves");
     public static final ResourceLocation PRIMORDIAL_CAVES = new ResourceLocation("alexscaves:primordial_caves");
-
     public static final ResourceLocation TOXIC_CAVES = new ResourceLocation("alexscaves:toxic_caves");
 
 
@@ -27,6 +28,7 @@ public class ACCreativeTabs {
     }
     public static void registerTabs(CreativeModeTabEvent.Register event){
         event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((flags, output, isOp) -> {
+            output.accept(CaveMapItem.createMap(ACBiomeRegistry.MAGNETIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(MAGNETIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.RAW_SCARLET_NEODYMIUM.get());
             add(output, ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get());
@@ -57,6 +59,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.AZURE_MAGNET.get());
         }));
         event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((flags, output, isOp) -> {
+            output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
             ACItemRegistry.getSpawnEggsForTab(PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACBlockRegistry.AMBER.get());
             add(output, ACBlockRegistry.AMBERSOL.get());
@@ -113,9 +116,11 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.TREE_STAR.get());
         }));
         event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.RADROCK_URANIUM_ORE.get())).displayItems((flags, output, isOp) -> {
+            output.accept(CaveMapItem.createMap(ACBiomeRegistry.TOXIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.ACID_BUCKET.get());
             add(output, ACItemRegistry.RADGILL_BUCKET.get());
+            add(output, ACItemRegistry.RADON_BOTTLE.get());
             add(output, ACBlockRegistry.RADROCK.get());
             add(output, ACBlockRegistry.RADROCK_STAIRS.get());
             add(output, ACBlockRegistry.RADROCK_SLAB.get());
@@ -126,16 +131,39 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.RADROCK_BRICK_WALL.get());
             add(output, ACBlockRegistry.RADROCK_CHISELED.get());
             add(output, ACBlockRegistry.RADROCK_URANIUM_ORE.get());
+            add(output, ACBlockRegistry.ACIDIC_RADROCK.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
-            add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
             add(output, ACBlockRegistry.METAL_SCAFFOLDING.get());
+            add(output, ACBlockRegistry.RUSTY_SCAFFOLDING.get());
             add(output, ACBlockRegistry.METAL_BARREL.get());
+            add(output, ACBlockRegistry.RUSTY_BARREL.get());
             add(output, ACBlockRegistry.WASTE_DRUM.get());
             add(output, ACBlockRegistry.UNDERWEED.get());
             add(output, ACBlockRegistry.NUCLEAR_BOMB.get());
+            add(output, ACBlockRegistry.SULFUR.get());
+            add(output, ACBlockRegistry.SULFUR_BUD_SMALL.get());
+            add(output, ACBlockRegistry.SULFUR_BUD_MEDIUM.get());
+            add(output, ACBlockRegistry.SULFUR_BUD_LARGE.get());
+            add(output, ACBlockRegistry.SULFUR_CLUSTER.get());
+            add(output, ACBlockRegistry.WHITE_RADON_LAMP.get());
+            add(output, ACBlockRegistry.ORANGE_RADON_LAMP.get());
+            add(output, ACBlockRegistry.MAGENTA_RADON_LAMP.get());
+            add(output, ACBlockRegistry.LIGHT_BLUE_RADON_LAMP.get());
+            add(output, ACBlockRegistry.YELLOW_RADON_LAMP.get());
+            add(output, ACBlockRegistry.LIME_RADON_LAMP.get());
+            add(output, ACBlockRegistry.PINK_RADON_LAMP.get());
+            add(output, ACBlockRegistry.GRAY_RADON_LAMP.get());
+            add(output, ACBlockRegistry.LIGHT_GRAY_RADON_LAMP.get());
+            add(output, ACBlockRegistry.CYAN_RADON_LAMP.get());
+            add(output, ACBlockRegistry.PURPLE_RADON_LAMP.get());
+            add(output, ACBlockRegistry.BLUE_RADON_LAMP.get());
+            add(output, ACBlockRegistry.BROWN_RADON_LAMP.get());
+            add(output, ACBlockRegistry.GREEN_RADON_LAMP.get());
+            add(output, ACBlockRegistry.RED_RADON_LAMP.get());
+            add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
         }));
     }
 

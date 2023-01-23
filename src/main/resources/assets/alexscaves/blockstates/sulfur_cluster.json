@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=down": [
+      { "model": "alexscaves:block/sulfur_cluster", "x": 180 }
+    ],
+    "facing=east": [
+      { "model": "alexscaves:block/sulfur_cluster", "x": 90, "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "alexscaves:block/sulfur_cluster", "x": 90 }
+    ],
+    "facing=south": [
+      { "model": "alexscaves:block/sulfur_cluster", "x": 270 }
+    ],
+    "facing=up": [
+      { "model": "alexscaves:block/sulfur_cluster" }
+    ],
+    "facing=west": [
+      { "model": "alexscaves:block/sulfur_cluster", "x": 90, "y": 270 }
+    ]
+  }
+}

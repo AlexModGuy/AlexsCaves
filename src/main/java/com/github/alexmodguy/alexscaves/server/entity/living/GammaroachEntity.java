@@ -24,7 +24,10 @@ import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
@@ -34,7 +37,7 @@ import java.util.function.Predicate;
 public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
 
     private static final Predicate<LivingEntity> IRRADIATED_TARGET = (mob) -> {
-        return mob.hasEffect(ACEffectRegistry.IRRADIATED.get());
+        return mob.hasEffect(ACEffectRegistry.IRRADIATED.get()) && !(mob instanceof RaycatEntity);
     };
     private Animation currentAnimation;
     private int animationTick;

@@ -26,9 +26,10 @@ public class ACBiomeRarity {
         if(noise == null){
             return false;
         }else{
-            double scale1 = Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
-            double simplex1 = noise.getValue(x / scale1,  z / scale1, false);
-            return simplex1 >= min && simplex1 <= max;
+            double simplexScale =  Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
+            double simplex = noise.getValue(x / simplexScale,  z / simplexScale, false);
+            double elevatedSimplex = Math.pow(simplex, 1.2F);
+            return elevatedSimplex >= min && elevatedSimplex <= max;
         }
     }
 }

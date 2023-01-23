@@ -38,6 +38,8 @@ public class NucleeperEntity extends Monster {
     private float sirenAngle;
     private float prevSirenAngle;
 
+    private int catScareTime = 0;
+
     private static final EntityDataAccessor<Boolean> TRIGGERED = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CLOSE_TIME = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> EXPLODING = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
@@ -49,10 +51,16 @@ public class NucleeperEntity extends Monster {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new MeleeGoal());
-        this.goalSelector.addGoal(2, new RandomStrollGoal(this, 1.0D, 45));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 15.0F));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, RaycatEntity.class, 10.0F, 1.0D, 1.2D){
+            public void tick(){
+                super.tick();
+                NucleeperEntity.this.catScareTime = 20;
+            }
+        });
+        this.goalSelector.addGoal(2, new MeleeGoal());
+        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D, 45));
+        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 15.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
@@ -129,8 +137,14 @@ public class NucleeperEntity extends Monster {
         if(!this.isExploding() && explodeProgress > 0F){
             explodeProgress--;
         }
-        if(this.isTriggered()){
-            if(time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()){
+        if(this.isTriggered() && !level.isClientSide){
+            if(this.catScareTime > 0 && !this.isExploding()){
+                if(time > 0){
+                    this.setCloseTime(time - 1);
+                }else{
+                    this.setTriggered(false);
+                }
+            }else if(time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()){
                 this.setCloseTime(time + 1);
             }else if(this.isAlive()){
                 this.setExploding(true);
@@ -138,7 +152,9 @@ public class NucleeperEntity extends Monster {
         }
         sirenAngle += (10F + 30F * closeProgress) % 360F;
         closeProgress = (float)time / AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();
-
+        if(this.catScareTime > 0){
+            this.catScareTime--;
+        }
         if(this.isExploding() && explodeProgress >= 5F){
             this.discard();
             if (!this.level.isClientSide) {

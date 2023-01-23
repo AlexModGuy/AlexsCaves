@@ -5,7 +5,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -94,6 +93,19 @@ public class ACRenderTypes extends RenderType {
                 .setOutputState(IRRADIATED_OUTPUT)
                 .createCompositeState(false));
     }
+
+    public static RenderType getRaycatLights() {
+        return create("raycat_lights", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_IRRADIATED_SHADER)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .setCullState(NO_CULL)
+                .setLightmapState(NO_LIGHTMAP)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
+                .createCompositeState(false));
+    }
+
 
     public static RenderType getGelTriangles(ResourceLocation locationIn) {
         return create("ferrouslime_gel_triangles", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, RenderType.CompositeState.builder()

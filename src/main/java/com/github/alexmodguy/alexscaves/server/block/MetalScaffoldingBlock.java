@@ -77,7 +77,9 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
         BlockPos blockpos = context.getClickedPos();
         Level level = context.getLevel();
         int i = getDistance(level, blockpos);
-        return this.defaultBlockState().setValue(LIQUID_LOGGED, getLiquidType(level.getFluidState(blockpos))).setValue(DISTANCE, Integer.valueOf(i)).setValue(BOTTOM, Boolean.valueOf(this.isBottom(level, blockpos, i)));
+        int fluid = getLiquidType(level.getFluidState(blockpos));
+        BlockState defaultState = fluid == 2 ? ACBlockRegistry.RUSTY_SCAFFOLDING.get().defaultBlockState() : defaultBlockState();
+        return defaultState.setValue(LIQUID_LOGGED, fluid).setValue(DISTANCE, Integer.valueOf(i)).setValue(BOTTOM, Boolean.valueOf(this.isBottom(level, blockpos, i)));
     }
 
     private int getLiquidType(FluidState fluidState) {
@@ -184,7 +186,12 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
                 if (fluidState.getType() == Fluids.WATER) {
                     levelAccessor.setBlock(pos, blockState.setValue(LIQUID_LOGGED, 1), 3);
                 } else if (fluidState.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()) {
-                    levelAccessor.setBlock(pos, blockState.setValue(LIQUID_LOGGED, 2), 3);
+                    BlockState state = blockState;
+                    if(blockState.getBlock() == ACBlockRegistry.METAL_SCAFFOLDING.get()){
+                        levelAccessor.levelEvent(1501, pos, 0);
+                        state = ACBlockRegistry.RUSTY_SCAFFOLDING.get().defaultBlockState().setValue(DISTANCE, blockState.getValue(DISTANCE));
+                    }
+                    levelAccessor.setBlock(pos, state.setValue(LIQUID_LOGGED, 2), 3);
                 }
                 levelAccessor.scheduleTick(pos, fluidState.getType(), fluidState.getType().getTickDelay(levelAccessor));
             }

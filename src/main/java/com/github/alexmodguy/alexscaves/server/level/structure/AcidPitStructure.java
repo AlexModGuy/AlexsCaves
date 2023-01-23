@@ -10,8 +10,8 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 
 public class AcidPitStructure extends AbstractCaveGenerationStructure {
 
-    private static final int BOWL_WIDTH_RADIUS = 80;
-    private static final int BOWL_HEIGHT_RADIUS = 55;
+    private static final int BOWL_WIDTH_RADIUS = 90;
+    private static final int BOWL_HEIGHT_RADIUS = 50;
 
     public static final Codec<AcidPitStructure> CODEC = simpleCodec((settings) -> new AcidPitStructure(settings));
     public AcidPitStructure(StructureSettings settings) {
