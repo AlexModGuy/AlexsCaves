@@ -26,7 +26,7 @@ public class DinoBowlStructure extends AbstractCaveGenerationStructure {
     }
 
     @Override
-    public int getGenerateYHeight(WorldgenRandom random) {
+    public int getGenerateYHeight(WorldgenRandom random, int x, int y) {
         return BOWL_Y_CENTER;
     }
 
@@ -36,7 +36,7 @@ public class DinoBowlStructure extends AbstractCaveGenerationStructure {
     }
 
     @Override
-    public int getHeightRadius(WorldgenRandom random) {
+    public int getHeightRadius(WorldgenRandom random, int seaLevel) {
         return BOWL_HEIGHT_RADIUS;
     }
 

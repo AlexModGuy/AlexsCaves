@@ -36,9 +36,12 @@ import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.ItemEntityRenderer;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -124,6 +127,9 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.THROWN_WASTE_DRUM.get(), ThrownWasteDrumEntityRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GAMMAROACH.get(), GammaroachRenderer::new);
         EntityRenderers.register(ACEntityRegistry.RAYCAT.get(), RaycatRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.CINDER_BRICK.get(), (context) -> {
+            return new ThrownItemRenderer<>(context, 1.25F, true);
+        });
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -309,11 +315,29 @@ public class ClientProxy extends CommonProxy {
     public void fogRender(ViewportEvent.RenderFog event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         FluidState fluidstate = player.level.getFluidState(event.getCamera().getBlockPosition());
+
         if (!fluidstate.isEmpty() && fluidstate.getType().getFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setCanceled(true);
             event.setFarPlaneDistance(10.0F);
             event.setNearPlaneDistance(0.0F);
-        } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
+            return;
+        }
+        if (event.getCamera().getFluidInCamera() == FogType.WATER) {
+            int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+            float farness;
+            if (i == 0) {
+                farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level.getBiome(player.blockPosition()));
+            } else {
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                });
+                farness = (float) vec31.x;
+            }
+            if (farness != 1.0F) {
+                event.setCanceled(true);
+                event.setFarPlaneDistance(event.getFarPlaneDistance() * farness);
+            }
+        }else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float nearness;
             if (i == 0) {
@@ -324,6 +348,7 @@ public class ClientProxy extends CommonProxy {
                 });
                 nearness = (float) vec31.x;
             }
+
             if (nearness != 1.0F) {
                 event.setCanceled(true);
                 event.setNearPlaneDistance(event.getNearPlaneDistance() * nearness);
@@ -350,7 +375,6 @@ public class ClientProxy extends CommonProxy {
                 override = (float) vec31.x;
             }
             if (override != 0.0F) {
-
                 Vec3 vec3;
                 if (i == 0) {
                     vec3 = ((ClientLevel) player.level).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), override);
@@ -362,6 +386,30 @@ public class ClientProxy extends CommonProxy {
                 event.setRed((float) (vec3.x));
                 event.setGreen((float) (vec3.y));
                 event.setBlue((float) (vec3.z));
+            }
+        } else if (event.getCamera().getFluidInCamera() == FogType.WATER) {
+            int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+            Vec3 vec3;
+            float override;
+            if (i == 0) {
+                override = ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiome(player.blockPosition()));
+            } else {
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                });
+                override = (float) vec31.x;
+            }
+            if(override != 0){
+                if (i == 0) {
+                    vec3 = Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
+                } else {
+                    vec3 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
+                        return Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getWaterFogColor());
+                    });
+                }
+                event.setRed((float) (event.getRed() + (vec3.x - event.getRed()) * override));
+                event.setGreen((float) (event.getGreen() + (vec3.y - event.getGreen()) * override));
+                event.setBlue((float) (event.getBlue() + (vec3.z - event.getBlue()) * override));
             }
         }
     }

@@ -1,0 +1,10 @@
+{
+  "parent": "alexscaves:block/metal_rebar_inventory",
+  "display": {
+    "gui": {
+      "rotation": [ 30, 225, 0 ],
+      "translation": [ 0, 0, 0],
+      "scale":[ 1.0, 1.0, 1.0 ]
+    }
+  }
+}

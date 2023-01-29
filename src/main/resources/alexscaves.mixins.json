@@ -8,8 +8,11 @@
     "EntityMixin",
     "FallingBlockEntityMixin",
     "FrogMixin",
+    "KelpFeatureMixin",
     "LivingEntityMixin",
-    "NaturalSpawnerMixin"
+    "MultifaceGrowthFeatureMixin",
+    "NaturalSpawnerMixin",
+    "SeagrassFeatureMixin"
   ],
   "client": [
     "client.CameraMixin",

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/cinder_block_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/cinder_block"
+    },
+    "type=top": {
+      "model": "alexscaves:block/cinder_block_slab_top"
+    }
+  }
+}

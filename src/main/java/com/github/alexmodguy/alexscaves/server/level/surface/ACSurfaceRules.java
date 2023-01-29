@@ -14,6 +14,7 @@ public class ACSurfaceRules {
         SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.MAGNETIC_CAVES), createMagneticCavesRules());
         SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.PRIMORDIAL_CAVES), createPrimordialCavesRules());
         SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.TOXIC_CAVES), createToxicCavesRules());
+        SurfaceRulesManager.registerOverworldSurfaceRule(SurfaceRules.isBiome(ACBiomeRegistry.ABYSSAL_CHASM), createAbyssalChasmRules());
     }
 
     public static SurfaceRules.RuleSource createMagneticCavesRules() {
@@ -38,6 +39,14 @@ public class ACSurfaceRules {
         SurfaceRules.RuleSource radrock = SurfaceRules.state(ACBlockRegistry.RADROCK.get().defaultBlockState());
         return SurfaceRules.sequence(bedrock(), radrock);
     }
+
+    public static SurfaceRules.RuleSource createAbyssalChasmRules() {
+        SurfaceRules.RuleSource abyssmarine = SurfaceRules.state(ACBlockRegistry.ABYSSMARINE.get().defaultBlockState());
+        SurfaceRules.RuleSource deepslate = SurfaceRules.state(Blocks.DEEPSLATE.defaultBlockState());
+        SurfaceRules.RuleSource stone = SurfaceRules.state(Blocks.STONE.defaultBlockState());
+        return SurfaceRules.sequence(bedrock(), SurfaceRules.ifTrue(SurfaceRules.DEEP_UNDER_FLOOR, stone), SurfaceRules.ifTrue(SurfaceRules.abovePreliminarySurface(), deepslate), abyssmarine);
+    }
+
 
     private static SurfaceRules.RuleSource bedrock() {
         SurfaceRules.RuleSource bedrock = SurfaceRules.state(Blocks.BEDROCK.defaultBlockState());

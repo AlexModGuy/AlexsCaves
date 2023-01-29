@@ -45,6 +45,8 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<GammaroachEntity>> GAMMAROACH = DEF_REG.register("gammaroach", () -> (EntityType)EntityType.Builder.of(GammaroachEntity::new, MobCategory.AMBIENT).sized(1.25F, 0.9F).build("gammaroach"));
     public static final RegistryObject<EntityType<RaycatEntity>> RAYCAT = DEF_REG.register("raycat", () -> (EntityType)EntityType.Builder.of(RaycatEntity::new, CAVE_CREATURE).sized(0.85F, 0.6F).build("raycat"));
 
+    public static final RegistryObject<EntityType<CinderBrickEntity>> CINDER_BRICK = DEF_REG.register("cinder_brick", () -> (EntityType)EntityType.Builder.of(CinderBrickEntity::new, MobCategory.MISC).sized(0.4F, 0.4F).setCustomClientFactory(CinderBrickEntity::new).setUpdateInterval(1).build("cinder_brick"));
+
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
         event.put(TELETOR.get(), TeletorEntity.createAttributes().build());

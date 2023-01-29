@@ -15,7 +15,6 @@ public class ACTagRegistry {
     public static final TagKey<Block> MAGNETIC_ATTACHABLES = registerBlockTag("magnetic_attachables");
     public static final TagKey<Block> MAGNETIC_BLOCKS = registerBlockTag("ferromagnetic_blocks");
     public static final TagKey<Block> UNMOVEABLE = registerBlockTag("unmovable");
-
     public static final TagKey<Block> MAGNETIC_CAVES_BASE_BLOCKS = registerBlockTag("magnetic_caves_base_blocks");
     public static final TagKey<Block> MAGNETRON_WEAPONS = registerBlockTag("magnetron_weapons");
     public static final TagKey<Block> SCAFFOLDING = registerBlockTag("scaffolding");
@@ -29,6 +28,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LEAVES = registerBlockTag("relicheirus_knockable_leaves");
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LOGS = registerBlockTag("relicheirus_knockable_logs");
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
+    public static final TagKey<Block> TRENCH_GENERATION_REPLACEABLES = registerBlockTag("trench_generation_replaceables");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
 
@@ -40,8 +40,8 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
 
     public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");
-
     public static final TagKey<EntityType<?>> RESISTS_RADIATION = registerEntityTag("resists_radiation");
+    public static final TagKey<EntityType<?>> SEAFLOOR_DENIZENS = registerEntityTag("seafloor_denizens");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));

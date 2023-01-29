@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.CreativeModeTabEvent;
 
@@ -17,6 +18,7 @@ public class ACCreativeTabs {
     public static final ResourceLocation MAGNETIC_CAVES = new ResourceLocation("alexscaves:magnetic_caves");
     public static final ResourceLocation PRIMORDIAL_CAVES = new ResourceLocation("alexscaves:primordial_caves");
     public static final ResourceLocation TOXIC_CAVES = new ResourceLocation("alexscaves:toxic_caves");
+    public static final ResourceLocation ABYSSAL_CHASM = new ResourceLocation("alexscaves:abyssal_chasm");
 
 
     private static void add(CreativeModeTab.Output tab, ItemLike itemLike){
@@ -47,6 +49,8 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GALENA_IRON_ORE.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
             add(output, ACBlockRegistry.SCRAP_METAL.get());
+            add(output, ACBlockRegistry.SCRAP_METAL_PLATE.get());
+            add(output, ACBlockRegistry.METAL_REBAR.get());
             add(output, ACBlockRegistry.METAL_SCAFFOLDING.get());
             add(output, ACBlockRegistry.METAL_BARREL.get());
             add(output, ACBlockRegistry.SCARLET_NEODYMIUM_NODE.get());
@@ -115,12 +119,13 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.ANCIENT_LEAVES.get());
             add(output, ACBlockRegistry.TREE_STAR.get());
         }));
-        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.RADROCK_URANIUM_ORE.get())).displayItems((flags, output, isOp) -> {
+        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.WASTE_DRUM.get())).displayItems((flags, output, isOp) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.TOXIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.ACID_BUCKET.get());
             add(output, ACItemRegistry.RADGILL_BUCKET.get());
             add(output, ACItemRegistry.RADON_BOTTLE.get());
+            add(output, ACItemRegistry.CINDER_BRICK.get());
             add(output, ACBlockRegistry.RADROCK.get());
             add(output, ACBlockRegistry.RADROCK_STAIRS.get());
             add(output, ACBlockRegistry.RADROCK_SLAB.get());
@@ -136,6 +141,12 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
+            add(output, ACBlockRegistry.SCRAP_METAL.get());
+            add(output, ACBlockRegistry.RUSTY_SCRAP_METAL.get());
+            add(output, ACBlockRegistry.SCRAP_METAL_PLATE.get());
+            add(output, ACBlockRegistry.RUSTY_SCRAP_METAL_PLATE.get());
+            add(output, ACBlockRegistry.METAL_REBAR.get());
+            add(output, ACBlockRegistry.RUSTY_REBAR.get());
             add(output, ACBlockRegistry.METAL_SCAFFOLDING.get());
             add(output, ACBlockRegistry.RUSTY_SCAFFOLDING.get());
             add(output, ACBlockRegistry.METAL_BARREL.get());
@@ -148,6 +159,10 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.SULFUR_BUD_MEDIUM.get());
             add(output, ACBlockRegistry.SULFUR_BUD_LARGE.get());
             add(output, ACBlockRegistry.SULFUR_CLUSTER.get());
+            add(output, ACBlockRegistry.CINDER_BLOCK.get());
+            add(output, ACBlockRegistry.CINDER_BLOCK_STAIRS.get());
+            add(output, ACBlockRegistry.CINDER_BLOCK_SLAB.get());
+            add(output, ACBlockRegistry.CINDER_BLOCK_WALL.get());
             add(output, ACBlockRegistry.WHITE_RADON_LAMP.get());
             add(output, ACBlockRegistry.ORANGE_RADON_LAMP.get());
             add(output, ACBlockRegistry.MAGENTA_RADON_LAMP.get());
@@ -164,6 +179,14 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GREEN_RADON_LAMP.get());
             add(output, ACBlockRegistry.RED_RADON_LAMP.get());
             add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
+        }));
+        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(Items.TROPICAL_FISH)).displayItems((flags, output, isOp) -> {
+            output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
+            add(output, ACBlockRegistry.ABYSSMARINE.get());
+            add(output, ACBlockRegistry.MUCK.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
+            add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
         }));
     }
 

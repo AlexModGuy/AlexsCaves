@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "alexscaves:scrap_metal"
+  },
+  "result": "alexscaves:scrap_metal_plate"
+}

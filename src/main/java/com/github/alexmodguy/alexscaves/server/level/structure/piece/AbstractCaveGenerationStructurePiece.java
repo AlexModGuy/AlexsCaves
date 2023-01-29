@@ -9,6 +9,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,7 +29,11 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
     protected final int radius;
 
     public AbstractCaveGenerationStructurePiece(StructurePieceType pieceType, BlockPos chunkCorner, BlockPos holeCenter, int height, int radius) {
-        super(pieceType, 0, createBoundingBox(chunkCorner));
+        this(pieceType, chunkCorner, holeCenter, height, radius, chunkCorner.getY() - 2, chunkCorner.getY() + 16);
+    }
+
+    public AbstractCaveGenerationStructurePiece(StructurePieceType pieceType, BlockPos chunkCorner, BlockPos holeCenter, int height, int radius, int minY, int maxY) {
+        super(pieceType, 0, createBoundingBox(chunkCorner, minY, maxY));
         this.chunkCorner = chunkCorner;
         this.holeCenter = holeCenter;
         this.height = height;
@@ -43,9 +48,9 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
         this.radius = tag.getInt("Radius");
     }
 
-    private static BoundingBox createBoundingBox(BlockPos origin) {
+    private static BoundingBox createBoundingBox(BlockPos origin, int minY, int maxY) {
         ChunkPos chunkPos = new ChunkPos(origin);
-        return new BoundingBox(chunkPos.getMinBlockX(), origin.getY() - 2, chunkPos.getMinBlockZ(), chunkPos.getMaxBlockX(), origin.getY() + 16, chunkPos.getMaxBlockZ());
+        return new BoundingBox(chunkPos.getMinBlockX(), minY, chunkPos.getMinBlockZ(), chunkPos.getMaxBlockX(), maxY, chunkPos.getMaxBlockZ());
     }
 
     protected void addAdditionalSaveData(StructurePieceSerializationContext context, CompoundTag tag) {
@@ -63,19 +68,25 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
         Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(with);
         ChunkAccess chunkAccess = level.getChunk(this.chunkCorner);
         int stopY = level.getSeaLevel() - belowLevel;
-        if (chunkAccess != null) {
-            LevelChunkSection section = chunkAccess.getSection(chunkAccess.getSectionIndex(this.chunkCorner.getY()));
-            PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
-            if (section.bottomBlockY() < stopY) {
-                for (int biomeX = 0; biomeX < 4; ++biomeX) {
-                    for (int biomeY = 0; biomeY < 4; ++biomeY) {
-                        for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
-                            container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
+        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        pos.set(this.chunkCorner.getX(), stopY, this.chunkCorner.getZ());
+        if (chunkAccess != null && !biomeHolder.is(Biomes.PLAINS)) {
+            while (pos.getY() > level.getMinBuildHeight()) {
+                pos.move(0, -8, 0);
+                int sectionIndex = chunkAccess.getSectionIndex(pos.getY());
+                if (sectionIndex >= 0 && sectionIndex < chunkAccess.getSections().length) {
+                    LevelChunkSection section = chunkAccess.getSection(sectionIndex);
+                    PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
+                    for (int biomeX = 0; biomeX < 4; ++biomeX) {
+                        for (int biomeY = 0; biomeY < 4; ++biomeY) {
+                            for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
+                                container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
+                            }
                         }
                     }
+                    section.biomes = container;
                 }
             }
-            section.biomes = container;
         }
     }
 

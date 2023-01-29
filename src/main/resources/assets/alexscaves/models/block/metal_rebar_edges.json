@@ -1,0 +1,6 @@
+{
+    "parent": "alexscaves:block/rebar_edges",
+	"textures": {
+		"rebar": "alexscaves:block/metal_rebar"
+	}
+}

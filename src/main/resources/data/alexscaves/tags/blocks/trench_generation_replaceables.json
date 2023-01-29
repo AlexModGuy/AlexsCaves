@@ -1,0 +1,10 @@
+{
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "minecraft:lava",
+    "minecraft:void_air",
+    "minecraft:cave_air",
+    "minecraft:air",
+    "#forge:ores"
+  ]
+}

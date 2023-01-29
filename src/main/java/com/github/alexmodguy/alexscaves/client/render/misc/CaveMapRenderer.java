@@ -164,6 +164,9 @@ public class CaveMapRenderer {
         if (biome.is(ACBiomeRegistry.TOXIC_CAVES)) {
             return DefaultMapBackgrounds.getMapColor(2, u, v);
         }
+        if (biome.is(ACBiomeRegistry.ABYSSAL_CHASM)) {
+            return DefaultMapBackgrounds.getMapColor(3, u, v);
+        }
         int foliage = biome.get().getFoliageColor();
         return foliage;
     }

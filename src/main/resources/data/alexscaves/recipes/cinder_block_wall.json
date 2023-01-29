@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:cinder_block"
+    }
+  },
+  "result": {
+    "item": "alexscaves:cinder_block_wall",
+    "count": 6
+  }
+}

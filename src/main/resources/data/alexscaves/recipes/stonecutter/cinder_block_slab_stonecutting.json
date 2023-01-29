@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "count": 2,
+  "ingredient": {
+    "item": "alexscaves:cinder_block"
+  },
+  "result": "alexscaves:cinder_block_slab"
+}

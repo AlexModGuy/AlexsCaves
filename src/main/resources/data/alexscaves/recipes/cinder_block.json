@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CC",
+    "CC"
+  ],
+  "key": {
+    "C": {
+      "item": "alexscaves:cinder_brick"
+    }
+  },
+  "result": {
+    "item": "alexscaves:cinder_block",
+    "count": 2
+  }
+}

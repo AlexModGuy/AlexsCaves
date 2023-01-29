@@ -106,8 +106,11 @@ public class AcidBlock extends LiquidBlock {
             map.put(Blocks.CUT_COPPER_STAIRS, Blocks.WEATHERED_CUT_COPPER_STAIRS);
             map.put(Blocks.WEATHERED_CUT_COPPER_STAIRS, Blocks.EXPOSED_CUT_COPPER_STAIRS);
             map.put(Blocks.EXPOSED_CUT_COPPER_STAIRS, Blocks.OXIDIZED_CUT_COPPER_STAIRS);
+            map.put(ACBlockRegistry.SCRAP_METAL.get(), ACBlockRegistry.RUSTY_SCRAP_METAL.get());
+            map.put(ACBlockRegistry.SCRAP_METAL_PLATE.get(), ACBlockRegistry.RUSTY_SCRAP_METAL_PLATE.get());
             map.put(ACBlockRegistry.METAL_BARREL.get(), ACBlockRegistry.RUSTY_BARREL.get());
             map.put(ACBlockRegistry.METAL_SCAFFOLDING.get(), ACBlockRegistry.RUSTY_SCAFFOLDING.get());
+            map.put(ACBlockRegistry.METAL_REBAR.get(), ACBlockRegistry.RUSTY_REBAR.get());
         });
     }
 }

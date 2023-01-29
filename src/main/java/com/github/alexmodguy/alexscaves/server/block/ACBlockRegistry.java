@@ -27,6 +27,7 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties PEWEN_LOG_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties PEWEN_PLANKS_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.0F, 3.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties RADROCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(4F, 11.0F).sound(SoundType.TUFF);
+    public static final BlockBehaviour.Properties CINDER_BLOCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops().strength(5F, 20.0F).sound(SoundType.POLISHED_DEEPSLATE);
     public static final BlockBehaviour.Properties RADON_LAMP_PROPERTIES = BlockBehaviour.Properties.of(Material.BUILDABLE_GLASS, MaterialColor.TERRACOTTA_WHITE).requiresCorrectToolForDrops().lightLevel(state -> 15).strength(2F, 11.0F).sound(SoundType.GLASS);
     public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(WoodType.create("alexscaves:pewen"));
 
@@ -41,8 +42,10 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GALENA_BRICK_SLAB = registerBlockAndItem("galena_brick_slab", () -> new SlabBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_BRICK_WALL = registerBlockAndItem("galena_brick_wall", () -> new WallBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_IRON_ORE = registerBlockAndItem("galena_iron_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
-    public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new MetalSwarfBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE).strength(0.6F).sound(SoundType.SAND)));
+    public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new FallingBlockWithColor(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE).strength(0.6F).sound(SoundType.SAND), 0X404253));
     public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> SCRAP_METAL_PLATE = registerBlockAndItem("scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> METAL_REBAR = registerBlockAndItem("metal_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> METAL_SCAFFOLDING = registerBlockAndItem("metal_scaffolding", () -> new MetalScaffoldingBlock(), 2);
     public static final RegistryObject<Block> SCARLET_NEODYMIUM_NODE = registerBlockAndItem("scarlet_neodymium_node", () -> new NeodymiumNodeBlock(false));
     public static final RegistryObject<Block> AZURE_NEODYMIUM_NODE = registerBlockAndItem("azure_neodymium_node", () -> new NeodymiumNodeBlock(true));
@@ -126,7 +129,11 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.DIRT).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission()));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock());
+    public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> RUSTY_SCRAP_METAL_PLATE = registerBlockAndItem("rusty_scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> RUSTY_BARREL = registerBlockAndItem("rusty_barrel", () -> new MetalBarrelBlock());
+
+    public static final RegistryObject<Block> RUSTY_REBAR = registerBlockAndItem("rusty_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
     public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_YELLOW).strength(2F, 4.0F).sound(SoundType.CALCITE)));
@@ -134,6 +141,10 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> SULFUR_BUD_MEDIUM = registerBlockAndItem("sulfur_bud_medium", () -> new SulfurBudBlock(6, 8));
     public static final RegistryObject<Block> SULFUR_BUD_LARGE = registerBlockAndItem("sulfur_bud_large", () -> new SulfurBudBlock(6, 12));
     public static final RegistryObject<Block> SULFUR_CLUSTER = registerBlockAndItem("sulfur_cluster", () -> new SulfurBudBlock(6, 14));
+    public static final RegistryObject<Block> CINDER_BLOCK = registerBlockAndItem("cinder_block", () -> new Block(CINDER_BLOCK_PROPERTIES));
+    public static final RegistryObject<Block> CINDER_BLOCK_STAIRS = registerBlockAndItem("cinder_block_stairs", () -> new StairBlock(CINDER_BLOCK.get().defaultBlockState(), CINDER_BLOCK_PROPERTIES));
+    public static final RegistryObject<Block> CINDER_BLOCK_SLAB = registerBlockAndItem("cinder_block_slab", () -> new SlabBlock(CINDER_BLOCK_PROPERTIES));
+    public static final RegistryObject<Block> CINDER_BLOCK_WALL = registerBlockAndItem("cinder_block_wall", () -> new WallBlock(CINDER_BLOCK_PROPERTIES));
     public static final RegistryObject<Block> WHITE_RADON_LAMP = registerBlockAndItem("radon_lamp_white", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> ORANGE_RADON_LAMP = registerBlockAndItem("radon_lamp_orange", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> MAGENTA_RADON_LAMP = registerBlockAndItem("radon_lamp_magenta", () -> new Block(RADON_LAMP_PROPERTIES));
@@ -150,6 +161,8 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GREEN_RADON_LAMP = registerBlockAndItem("radon_lamp_green", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> RED_RADON_LAMP = registerBlockAndItem("radon_lamp_red", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> BLACK_RADON_LAMP = registerBlockAndItem("radon_lamp_black", () -> new Block(RADON_LAMP_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE = registerBlockAndItem("abyssmarine", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.5F, 10.0F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> MUCK = registerBlockAndItem("muck", () -> new MuckBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_GRAY).strength(0.5F).sound(SoundType.FROGSPAWN)));
 
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, 0);

@@ -1,0 +1,33 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "alexscaves:block/rusty_scrap_metal"
+      },
+      {
+        "model": "alexscaves:block/rusty_scrap_metal",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/rusty_scrap_metal",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/rusty_scrap_metal",
+        "y": 270
+      },
+      {
+        "model": "alexscaves:block/rusty_scrap_metal",
+        "x": 90
+      },
+      {
+        "model": "alexscaves:block/rusty_scrap_metal",
+        "x": 180
+      },
+      {
+        "model": "alexscaves:block/rusty_scrap_metal",
+        "x": 270
+      }
+    ]
+  }
+}

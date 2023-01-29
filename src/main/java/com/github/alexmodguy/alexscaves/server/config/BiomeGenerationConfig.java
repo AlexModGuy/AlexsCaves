@@ -29,12 +29,16 @@ public class BiomeGenerationConfig {
             .distanceFromSpawn(250).alexBiomeRarity(0.65F, 1F).alexscavesRarityOffset(1).continentalness(0.0F, 1F).depth(0.15F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition TOXIC_CAVES_CONDITION =  new BiomeGenerationNoiseCondition.Builder()
             .distanceFromSpawn(400).alexBiomeRarity(0.6F, 1F).alexscavesRarityOffset(2).continentalness(0.2F, 1F).depth(0.3F, 1.5F).build();
+
+    private static final BiomeGenerationNoiseCondition ABYSSAL_CHASM_CONDITION = new BiomeGenerationNoiseCondition.Builder()
+            .distanceFromSpawn(200).alexBiomeRarity(0.5F, 1F).alexscavesRarityOffset(3).continentalness(-1.0F, -0.3F).depth(0.2F, 1.5F).build();
     private static Map<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new HashMap<>();
 
     public static void reloadConfig(){
         biomes.put(ACBiomeRegistry.MAGNETIC_CAVES, getConfigData("magnetic_caves", MAGNETIC_CAVES_CONDITION));
         biomes.put(ACBiomeRegistry.PRIMORDIAL_CAVES, getConfigData("primordial_caves", PRIMORDIAL_CAVES_CONDITION));
         biomes.put(ACBiomeRegistry.TOXIC_CAVES, getConfigData("toxic_caves", TOXIC_CAVES_CONDITION));
+        biomes.put(ACBiomeRegistry.ABYSSAL_CHASM, getConfigData("abyssal_chasm", ABYSSAL_CHASM_CONDITION));
     }
 
     @Nullable

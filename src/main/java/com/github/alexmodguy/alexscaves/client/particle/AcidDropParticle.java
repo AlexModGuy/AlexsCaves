@@ -19,13 +19,12 @@ public class AcidDropParticle extends TextureSheetParticle {
         this.xd = 0;
         this.yd = 0;
         this.zd = 0;
-        this.quadSize *= 1.1F + random.nextFloat() * 0.7F;
+        this.quadSize *= 1.2F + random.nextFloat();
         this.lifetime = 100 + random.nextInt(40);
         this.lifetime = Math.max(this.lifetime, 1);
         this.setSpriteFromAge(sprites);
         this.hasPhysics = true;
     }
-
 
     public float getQuadSize(float f) {
         return this.quadSize * Mth.clamp(((float) this.age + f) / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
@@ -35,7 +34,7 @@ public class AcidDropParticle extends TextureSheetParticle {
         if(this.age < this.lifetime * 0.25F){
             this.gravity = 0;
         }else{
-            this.gravity = 0.75F;
+            this.gravity = 1F;
             if(onGround){
                 onGroundTime++;
             }

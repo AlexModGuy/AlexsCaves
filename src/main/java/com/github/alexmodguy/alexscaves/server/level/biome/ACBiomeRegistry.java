@@ -14,13 +14,14 @@ public class ACBiomeRegistry {
     public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "magnetic_caves"));
     public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "primordial_caves"));
     public static final ResourceKey<Biome> TOXIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "toxic_caves"));
+    public static final ResourceKey<Biome> ABYSSAL_CHASM = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "abyssal_chasm"));
     private static final Vec3 ONE = new Vec3(1, 1, 1);
-
 
     public static void init() {
         ExpandedBiomes.addExpandedBiome(MAGNETIC_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(PRIMORDIAL_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(TOXIC_CAVES, LevelStem.OVERWORLD);
+        ExpandedBiomes.addExpandedBiome(ABYSSAL_CHASM, LevelStem.OVERWORLD);
     }
     public static float getBiomeAmbientLight(Holder<Biome> value) {
         if(value.is(PRIMORDIAL_CAVES)){
@@ -42,11 +43,28 @@ public class ACBiomeRegistry {
         return 1.0F;
     }
 
+    public static float getBiomeWaterFogFarness(Holder<Biome> value) {
+        if(value.is(ABYSSAL_CHASM)){
+            return 0.5F;
+        }
+        return 1.0F;
+    }
+
     public static float getBiomeSkyOverride(Holder<Biome> value) {
         if(value.is(PRIMORDIAL_CAVES)){
             return 1.0F;
         }
         if(value.is(TOXIC_CAVES)){
+            return 1.0F;
+        }
+        if(value.is(ABYSSAL_CHASM)){
+            return 1.0F;
+        }
+        return 0.0F;
+    }
+
+    public static float getBiomeFogOverrideUnderwater(Holder<Biome> value) {
+        if(value.is(ABYSSAL_CHASM)){
             return 1.0F;
         }
         return 0.0F;
@@ -55,6 +73,9 @@ public class ACBiomeRegistry {
     public static Vec3 getBiomeLightColorOverride(Holder<Biome> value) {
         if(value.is(TOXIC_CAVES)){
             return new Vec3(0.5, 1.5, 0.5);
+        }
+        if(value.is(ABYSSAL_CHASM)){
+            return new Vec3(0.5, 0.5, 1);
         }
         return ONE;
     }

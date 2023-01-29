@@ -1,0 +1,35 @@
+{
+    "multipart": [
+        {
+            "apply": {
+                "model": "alexscaves:block/rusty_rebar_center"
+            }
+        },
+        {
+            "when": {
+                "connect_x": true
+            },
+            "apply": {
+                "model": "alexscaves:block/rusty_rebar_edges",
+                "y": 90
+            }
+        },
+        {
+            "when": {
+                "connect_y": true
+            },
+            "apply": {
+                "model": "alexscaves:block/rusty_rebar_edges",
+                "x": 90
+            }
+        },
+        {
+            "when": {
+                "connect_z": true
+            },
+            "apply": {
+                "model": "alexscaves:block/rusty_rebar_edges"
+            }
+        }
+    ]
+}

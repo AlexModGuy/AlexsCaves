@@ -14,6 +14,7 @@ public class DefaultMapBackgrounds {
     private static final ResourceLocation MAGNETIC_CAVES_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/magnetic_caves_background.png");
     private static final ResourceLocation PRIMORDIAL_CAVES_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/primordial_caves_background.png");
     private static final ResourceLocation TOXIC_CAVES_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/toxic_caves_background.png");
+    private static final ResourceLocation ABYSSAL_CHASM_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/abyssal_chasm_background.png");
     private static final HashMap<Integer, MapBackgroundTexture> TEXTURE_HASH_MAP = new HashMap<>();
 
     public static MapBackgroundTexture getBackgroundTexture(int id){
@@ -34,6 +35,8 @@ public class DefaultMapBackgrounds {
                 return PRIMORDIAL_CAVES_BG;
             case 2:
                 return TOXIC_CAVES_BG;
+            case 3:
+                return ABYSSAL_CHASM_BG;
             default:
             case 0:
                 return MAGNETIC_CAVES_BG;

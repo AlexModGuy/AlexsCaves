@@ -10,7 +10,7 @@ public class ACStructurePieceRegistry {
     public static final DeferredRegister<StructurePieceType> DEF_REG = DeferredRegister.create(Registries.STRUCTURE_PIECE, AlexsCaves.MODID);
 
     public static final RegistryObject<StructurePieceType> DINO_BOWL = DEF_REG.register("dino_bowl", () -> DinoBowlStructurePiece::new);
-
     public static final RegistryObject<StructurePieceType> ACID_PIT = DEF_REG.register("acid_pit", () -> AcidPitStructurePiece::new);
+    public static final RegistryObject<StructurePieceType> OCEAN_TRENCH = DEF_REG.register("ocean_trench", () -> OceanTrenchStructurePiece::new);
 
 }

@@ -1,16 +1,16 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "STS",
+    "TTT",
     "S S",
     "S S"
   ],
   "key": {
     "S": {
-      "item": "alexscaves:scrap_metal"
+      "item": "alexscaves:metal_rebar"
     },
     "T": {
-      "tag": "forge:ingots/iron"
+      "item": "alexscaves:scrap_metal"
     }
   },
   "result": {
