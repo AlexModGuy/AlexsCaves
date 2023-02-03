@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -55,12 +56,14 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 MutableBoolean doFloor = new MutableBoolean(false);
-                int priorHeight = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, cornerX + x, cornerZ + z);
-                float seaFloorExtra = ACMath.sampleNoise3D(cornerX + x, 0, cornerZ + z, 100) * 8 + ACMath.sampleNoise3D(cornerX + x - 800, 0, cornerZ + z - 212, 400) * 30;
+                int carveX = cornerX + x;
+                int carveZ = cornerZ + z;
+                int priorHeight = getSeafloorHeight(level, carveX, carveZ);
+                float seaFloorExtra = ACMath.sampleNoise2D(carveX + 300, carveZ - 300, 15) * 3 + ACMath.sampleNoise2D(carveX, carveZ, 100) * 8 + ACMath.sampleNoise2D(carveX - 800, carveZ - 212, 400) * 30;
                 for (int y = priorHeight + 3; y >= level.getMinBuildHeight() + seaFloorExtra; y--) {
-                    carve.set(cornerX + x, Mth.clamp(y, level.getMinBuildHeight(), level.getMaxBuildHeight()), cornerZ + z);
+                    carve.set(carveX, Mth.clamp(y, level.getMinBuildHeight(), level.getMaxBuildHeight()), carveZ);
                     if (shouldDig(level, carve, chunkGen.getSeaLevel(), priorHeight)) {
-                        if(isSeaMountBlocking(carve, chunkGen.getSeaLevel(), priorHeight)){
+                        if(isSeaMountBlocking(carve)){
                             BlockState prior = checkedGetBlock(level, carve);
                             if(!prior.is(Blocks.BEDROCK)){
                                 checkedSetBlock(level, carve, Blocks.TUFF.defaultBlockState());
@@ -77,6 +80,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                 }
                 if (doFloor.isTrue()){
                     surroundTrenchBorder(level, carveBelow, priorHeight);
+                    decorateFloor(level, random, carveBelow);
                 }
             }
             if (flag) {
@@ -85,9 +89,22 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
         }
     }
 
+    private int getSeafloorHeight(WorldGenLevel level, int x, int z) {
+        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z), z);
+        boolean inFrozenOcean = level.getBiome(mutableBlockPos).is(ACTagRegistry.TRENCH_IGNORES_STONE_IN);
+        while(ignoreHeight(level, inFrozenOcean, level.getBlockState(mutableBlockPos), mutableBlockPos)){
+            mutableBlockPos.move(0, -1, 0);
+        }
+        return mutableBlockPos.getY();
+    }
+
+    private boolean ignoreHeight(WorldGenLevel level, boolean inFrozenOcean, BlockState blockState, BlockPos.MutableBlockPos mutableBlockPos) {
+        return blockState.isAir() || blockState.is(ACTagRegistry.TRENCH_GENERATION_IGNORES) || !blockState.getFluidState().isEmpty() || inFrozenOcean && blockState.is(BlockTags.OVERWORLD_CARVER_REPLACEABLES) && mutableBlockPos.getY() > level.getSeaLevel() - 2;
+    }
+
     private void surroundTrenchBorder(WorldGenLevel level, BlockPos carve, int priorHeight) {
         BlockState prior = checkedGetBlock(level, carve);
-        if(!prior.is(Blocks.BEDROCK) && !isSeaMountBlocking(carve, level.getSeaLevel(), priorHeight)){
+        if(!prior.is(Blocks.BEDROCK) && !prior.is(ACBlockRegistry.MUCK.get()) && !isSeaMountBlocking(carve)){
             int dist = priorHeight - carve.getY();
             BlockState toSet;
             int layerOffset = level.getRandom().nextInt(2);
@@ -124,7 +141,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
         return distToCenter <= targetRadius;
     }
 
-    private boolean isSeaMountBlocking(BlockPos carve, int seaLevel, int priorHeight) {
+    private boolean isSeaMountBlocking(BlockPos carve) {
         int bottomedY = carve.getY() + 64;
         float heightTarget = 20 + ACMath.sampleNoise3D(carve.getX() - 440, 0, carve.getZ() + 412, 30) * 10 + ACMath.sampleNoise3D(carve.getX() - 110, 0, carve.getZ() + 110, 10) * 3;
         float heightScale = (heightTarget - bottomedY) / (heightTarget + 15);
@@ -167,8 +184,16 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
         }
     }
 
-    private void decorateFloor(WorldGenLevel level, RandomSource rand, BlockPos.MutableBlockPos muckAt, int priorHeight, boolean placeMuck) {
-        checkedSetBlock(level, muckAt, ACBlockRegistry.MUCK.get().defaultBlockState());
-
+    private void decorateFloor(WorldGenLevel level, RandomSource rand, BlockPos.MutableBlockPos muckAt) {
+        if(!isSeaMountBlocking(muckAt)){
+            checkedSetBlock(level, muckAt, ACBlockRegistry.MUCK.get().defaultBlockState());
+            for(int i = 0; i < 1 + rand.nextInt(2); i++){
+                muckAt.move(0, -1, 0);
+                if(level.getBlockState(muckAt).is(ACTagRegistry.UNMOVEABLE)){
+                    break;
+                }
+                checkedSetBlock(level, muckAt, ACBlockRegistry.MUCK.get().defaultBlockState());
+            }
+        }
     }
 }

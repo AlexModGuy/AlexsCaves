@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.biome;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.google.common.collect.ImmutableList;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.PerlinSimplexNoise;
 
@@ -27,8 +28,9 @@ public class ACBiomeRarity {
             return false;
         }else{
             double simplexScale =  Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
+            double simplexElevation = Mth.clamp(AlexsCaves.COMMON_CONFIG.biomeRarityElevation.get(), 0.1D, 3D);
             double simplex = noise.getValue(x / simplexScale,  z / simplexScale, false);
-            double elevatedSimplex = Math.pow(simplex, 1.2F);
+            double elevatedSimplex = Math.min(Math.pow(simplex, simplexElevation), 1);
             return elevatedSimplex >= min && elevatedSimplex <= max;
         }
     }

@@ -132,9 +132,10 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> RUSTY_SCRAP_METAL_PLATE = registerBlockAndItem("rusty_scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> RUSTY_BARREL = registerBlockAndItem("rusty_barrel", () -> new MetalBarrelBlock());
-
     public static final RegistryObject<Block> RUSTY_REBAR = registerBlockAndItem("rusty_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);
+    public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock());
+    public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumOreBlock());
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
     public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_YELLOW).strength(2F, 4.0F).sound(SoundType.CALCITE)));
     public static final RegistryObject<Block> SULFUR_BUD_SMALL = registerBlockAndItem("sulfur_bud_small", () -> new SulfurBudBlock(6, 4));

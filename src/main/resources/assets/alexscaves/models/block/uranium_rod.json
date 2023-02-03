@@ -1,0 +1,48 @@
+{
+	"parent": "block/block",
+	"ambientocclusion" : false,
+	"render_type": "translucent",
+	"textures": {
+		"0": "alexscaves:block/uranium_rod",
+		"particle": "alexscaves:block/uranium_rod"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 5],
+			"to": [11, 2, 11],
+			"faces": {
+				"north": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"east": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"south": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"west": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"up": {"uv": [10, 12, 4, 6], "texture": "#0"},
+				"down": {"uv": [10, 0, 4, 6], "texture": "#0"}
+			}
+		},
+		{
+			"from": [5, 14, 5],
+			"to": [11, 16, 11],
+			"faces": {
+				"north": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"east": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"south": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"west": {"uv": [4, 12, 10, 14], "texture": "#0"},
+				"up": {"uv": [10, 6, 4, 0], "texture": "#0"},
+				"down": {"uv": [10, 6, 4, 12], "texture": "#0"}
+			}
+		},
+		{
+			"from": [6, 2, 6],
+			"to": [10, 14, 10],
+			"shade": false,
+			"faces": {
+				"north": {"uv": [0, 1, 4, 13], "texture": "#0"},
+				"east": {"uv": [0, 1, 4, 13], "texture": "#0"},
+				"south": {"uv": [0, 1, 4, 13], "texture": "#0"},
+				"west": {"uv": [0, 1, 4, 13], "texture": "#0"},
+				"up": {"uv": [20, 10, 16, 6], "texture": "#0"},
+				"down": {"uv": [20, 6, 16, 10], "texture": "#0"}
+			}
+		}
+	]
+}

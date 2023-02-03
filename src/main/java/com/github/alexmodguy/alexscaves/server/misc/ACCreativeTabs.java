@@ -153,6 +153,8 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.RUSTY_BARREL.get());
             add(output, ACBlockRegistry.WASTE_DRUM.get());
             add(output, ACBlockRegistry.UNDERWEED.get());
+            add(output, ACBlockRegistry.URANIUM_ROD.get());
+            add(output, ACBlockRegistry.BLOCK_OF_URANIUM.get());
             add(output, ACBlockRegistry.NUCLEAR_BOMB.get());
             add(output, ACBlockRegistry.SULFUR.get());
             add(output, ACBlockRegistry.SULFUR_BUD_SMALL.get());

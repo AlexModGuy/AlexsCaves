@@ -25,7 +25,7 @@ public class AcidPitStructure extends AbstractCaveGenerationStructure {
 
     @Override
     public int getGenerateYHeight(WorldgenRandom random, int x, int y) {
-        return random.nextInt(10) - 10;
+        return random.nextInt(30) - 25;
     }
 
     @Override

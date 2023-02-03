@@ -18,9 +18,6 @@ public class ACTagRegistry {
     public static final TagKey<Block> MAGNETIC_CAVES_BASE_BLOCKS = registerBlockTag("magnetic_caves_base_blocks");
     public static final TagKey<Block> MAGNETRON_WEAPONS = registerBlockTag("magnetron_weapons");
     public static final TagKey<Block> SCAFFOLDING = registerBlockTag("scaffolding");
-    public static final TagKey<Block> PRIMORDIAL_CAVES_BASE_BLOCKS = registerBlockTag("primordial_caves_base_blocks");
-
-    public static final TagKey<Block> PRIMORDIAL_CAVES_CARVER_PRESERVES = registerBlockTag("primordial_caves_carver_preserves");
     public static final TagKey<Block> DINOSAURS_SPAWNABLE_ON = registerBlockTag("dinosaurs_spawnable_on");
 
     public static final TagKey<Block> GROTTOCERATOPS_FOOD_BLOCKS = registerBlockTag("grottoceratops_food_blocks");
@@ -28,7 +25,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LEAVES = registerBlockTag("relicheirus_knockable_leaves");
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LOGS = registerBlockTag("relicheirus_knockable_logs");
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
-    public static final TagKey<Block> TRENCH_GENERATION_REPLACEABLES = registerBlockTag("trench_generation_replaceables");
+    public static final TagKey<Block> TRENCH_GENERATION_IGNORES = registerBlockTag("trench_generation_ignores");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
 
@@ -42,6 +39,8 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");
     public static final TagKey<EntityType<?>> RESISTS_RADIATION = registerEntityTag("resists_radiation");
     public static final TagKey<EntityType<?>> SEAFLOOR_DENIZENS = registerEntityTag("seafloor_denizens");
+
+    public static final TagKey<Biome> TRENCH_IGNORES_STONE_IN = registerBiomeTag("trench_ignores_stone_in");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));

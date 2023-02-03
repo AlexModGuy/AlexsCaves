@@ -52,9 +52,9 @@ public class NuclearBombEntity extends Entity {
         } else {
             this.setTime(i);
             this.updateInWaterStateAndDoFluidPushing();
-            if (this.level.isClientSide && MAX_TIME - i > 10) {
-                Vec3 randomOffset = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).normalize().scale(2).add(this.getEyePosition());
-                this.level.addParticle(ACParticleRegistry.NUCLEAR_BOMB.get(), randomOffset.x, randomOffset.y, randomOffset.z, this.getX(), this.getY() + 0.5D, this.getZ());
+            if (this.level.isClientSide && MAX_TIME - i > 10 && random.nextFloat() < 0.3F) {
+                Vec3 center = this.getEyePosition();
+                level.addParticle(ACParticleRegistry.PROTON.get(), center.x, center.y, center.z, center.x, center.y, center.z);
             }
         }
     }

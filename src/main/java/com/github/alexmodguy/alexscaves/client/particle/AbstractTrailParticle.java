@@ -122,21 +122,6 @@ public abstract class AbstractTrailParticle extends Particle {
         return 1;
     }
 
-    protected float getU0(){
-        return 0;
-    }
-
-    protected float getU1(){
-        return 1;
-    }
-
-    protected float getV0(){
-        return 0;
-    }
-
-    protected float getV1(){
-        return 1;
-    }
 
     public Vec3 getTrailPosition(int pointer, float partialTick) {
         if (this.removed) {

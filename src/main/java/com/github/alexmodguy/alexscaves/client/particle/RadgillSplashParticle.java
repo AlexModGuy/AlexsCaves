@@ -11,8 +11,8 @@ public class RadgillSplashParticle extends TextureSheetParticle {
         super(world, x, y, z);
         this.pickSprite(sprites);
         this.lifetime = 10 + random.nextInt(10);
-        this.quadSize = 0.1F + random.nextFloat() * 0.2F;
-        this.gravity = 0.15F;
+        this.quadSize = 0.1F + random.nextFloat() * 0.3F;
+        this.gravity = 0.1F;
         this.roll = 0;
         this.fallLeft = random.nextBoolean();
         this.xd = xSpeed;
@@ -42,6 +42,10 @@ public class RadgillSplashParticle extends TextureSheetParticle {
             this.move(this.xd, this.yd, this.zd);
             this.yd -= (double) this.gravity;
         }
+    }
+
+    public int getLightColor(float partialTicks) {
+        return 240;
     }
 
     @Override

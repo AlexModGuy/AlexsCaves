@@ -27,11 +27,10 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD = DEF_REG.register("mushroom_cloud", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD_SMOKE = DEF_REG.register("mushroom_cloud_smoke", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD_EXPLOSION = DEF_REG.register("mushroom_cloud_explosion", ()-> new SimpleParticleType(false));
-    public static final RegistryObject<SimpleParticleType> NUCLEAR_BOMB = DEF_REG.register("nuclear_bomb", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PROTON = DEF_REG.register("proton", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FALLOUT = DEF_REG.register("fallout", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> GAMMAROACH = DEF_REG.register("gammaroach", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> RADGILL_SPLASH = DEF_REG.register("radgill_splash", ()-> new SimpleParticleType(false));
-
     public static final RegistryObject<SimpleParticleType> ACID_DROP = DEF_REG.register("acid_drop", ()-> new SimpleParticleType(false));
 
 

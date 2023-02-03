@@ -15,15 +15,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class MagneticOrbitParticle extends AbstractTrailParticle {
 
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/trail.png");
-    private double orbitX;
-    private double orbitY;
-    private double orbitZ;
-    private double orbitDistance;
-    private Vec3 orbitOffset;
-    private boolean reverseOrbit;
-    private int orbitAxis;
+    protected double orbitX;
+    protected double orbitY;
+    protected double orbitZ;
+    protected double orbitDistance;
+    protected Vec3 orbitOffset;
+    protected boolean reverseOrbit;
+    protected int orbitAxis;
 
-    private float orbitSpeed = 1F;
+    protected float orbitSpeed = 1F;
 
     public MagneticOrbitParticle(ClientLevel world, double x, double y, double z, double xd, double yd, double zd) {
         super(world, x, y, z, 0, 0, 0);
