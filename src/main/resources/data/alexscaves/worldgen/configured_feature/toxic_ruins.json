@@ -1,0 +1,21 @@
+{
+  "type": "alexscaves:underground_ruins",
+  "config": {
+    "structures": [
+      "alexscaves:toxic_ruins_0",
+      "alexscaves:toxic_ruins_1",
+      "alexscaves:toxic_ruins_2",
+      "alexscaves:toxic_ruins_3",
+      "alexscaves:toxic_ruins_4",
+      "alexscaves:toxic_ruins_5",
+      "alexscaves:toxic_ruins_6",
+      "alexscaves:toxic_ruins_7",
+      "alexscaves:toxic_ruins_8",
+      "alexscaves:toxic_ruins_9",
+      "alexscaves:toxic_ruins_10",
+      "alexscaves:toxic_ruins_11"
+    ],
+    "chest_loot": "alexscaves:chests/toxic_ruins",
+    "sink_by": 1
+  }
+}

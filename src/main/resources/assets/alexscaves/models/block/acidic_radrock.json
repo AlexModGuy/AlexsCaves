@@ -1,6 +1,6 @@
 {
   "parent": "alexscaves:block/partially_fullbright",
-  "render_type": "translucent",
+  "render_type": "cutout",
   "textures": {
     "particle": "alexscaves:block/acidic_radrock",
     "base": "alexscaves:block/acidic_radrock",

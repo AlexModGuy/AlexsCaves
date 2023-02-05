@@ -9,7 +9,9 @@ import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccesso
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
@@ -102,5 +104,9 @@ public class CommonProxy {
 
     public Player getClientSidePlayer() {
         return null;
+    }
+
+    public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at){
+        return false;
     }
 }

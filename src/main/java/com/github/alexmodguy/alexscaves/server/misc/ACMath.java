@@ -2,6 +2,11 @@ package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
+
+import java.util.stream.Stream;
 
 public class ACMath {
 
@@ -27,4 +32,9 @@ public class ACMath {
     public static float sampleNoise3D(int x, int y, int z, float simplexSampleRate) {
         return (float) ((ACSimplexNoise.noise((x + simplexSampleRate) / simplexSampleRate, (y + simplexSampleRate) / simplexSampleRate, (z + simplexSampleRate) / simplexSampleRate)));
     }
+
+    public static VoxelShape buildShape(VoxelShape... from){
+        return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+    }
+
 }

@@ -1,0 +1,37 @@
+{
+	"parent": "minecraft:block/block",
+	"textures": {
+		"particle": "alexscaves:block/tube_worm",
+		"1": "alexscaves:block/tube_worm_turn",
+		"2": "alexscaves:block/tube_worm",
+		"3": "alexscaves:block/tube_worm_elbow"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 0],
+			"to": [12, 8, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 22]},
+			"faces": {
+				"north": {"uv": [8, 0, 16, 8], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [0, 0, 12, 8], "rotation": 180, "texture": "#1"},
+				"south": {"uv": [0, 8, 8, 16], "rotation": 180, "texture": "#1"},
+				"west": {"uv": [12, 0, 0, 8], "rotation": 180, "texture": "#1"},
+				"up": {"uv": [0, 0, 8, 12], "texture": "#3"},
+				"down": {"uv": [8, 12, 0, 0], "texture": "#3"}
+			}
+		},
+		{
+			"from": [4, 8, 4],
+			"to": [12, 16, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0, 22]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 8], "texture": "#2"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#2"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#2"},
+				"west": {"uv": [0, 0, 8, 8], "texture": "#2"},
+				"up": {"uv": [8, 0, 16, 8], "texture": "#2"},
+				"down": {"uv": [8, 0, 16, 8], "texture": "#2"}
+			}
+		}
+	]
+}

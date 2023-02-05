@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
+import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.level.feature.config.UndergroundRuinsFeatureConfiguration;
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -8,6 +9,7 @@ import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -38,13 +40,15 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         BlockPos chunkCenter = context.origin().atY(level.getMinBuildHeight() + 3);
         List<BlockPos> genPos = new ArrayList<>();
         int surface = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, chunkCenter.getX(), chunkCenter.getZ()) - 5;
+        int j  = 0;
         while (chunkCenter.getY() < surface) {
             BlockPos next = chunkCenter.above();
             BlockState currentState = level.getBlockState(chunkCenter);
             BlockState nextState = level.getBlockState(next);
-            if (!canReplace(currentState) && canReplace(nextState)) {
+            if (!canReplace(currentState, j) && canReplace(nextState, j + 1)) {
                 genPos.add(chunkCenter);
             }
+            j++;
             chunkCenter = next;
         }
 
@@ -63,12 +67,14 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         StructurePlaceSettings structureplacesettings = (new StructurePlaceSettings()).setRotation(rotation).setBoundingBox(boundingbox).setRandom(randomsource);
         Vec3i vec3i = structuretemplate.getSize(rotation);
         BlockPos blockpos1 = blockpos.offset(-vec3i.getX() / 2, 0, -vec3i.getZ() / 2);
-        while(canReplace(level.getBlockState(blockpos1)) && blockpos1.getY() < level.getMinBuildHeight()){
+        int replaceDown = 0;
+        while(canReplace(level.getBlockState(blockpos1), replaceDown) && blockpos1.getY() < level.getMinBuildHeight()){
             blockpos1 = blockpos1.below();
+            replaceDown++;
         }
         blockpos1 = blockpos1.below(config.sinkBy);
         BlockPos blockpos2 = structuretemplate.getZeroPositionWithTransform(blockpos1, Mirror.NONE, rotation);
-        if (structuretemplate.placeInWorld(level, blockpos2, blockpos2, structureplacesettings, randomsource, 4)) {
+        if (structuretemplate.placeInWorld(level, blockpos2, blockpos2, structureplacesettings, randomsource, 18)) {
             for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate.processBlockInfos(level, blockpos2, blockpos2, structureplacesettings, getDataMarkers(structuretemplate, blockpos2, rotation, false))) {
                 String marker = structuretemplate$structureblockinfo.nbt.getString("metadata");
                 if (marker.equals("loot_chest")) {
@@ -80,8 +86,8 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         return true;
     }
 
-    private static boolean canReplace(BlockState state) {
-        return state.isAir() || state.getMaterial().isReplaceable();
+    private static boolean canReplace(BlockState state, int already) {
+        return (state.isAir() || state.getMaterial().isReplaceable()) && (state.getFluidState().getFluidType() != ACFluidRegistry.ACID_FLUID_TYPE.get() || already < 3);
     }
 
     private static List<StructureTemplate.StructureBlockInfo> getDataMarkers(StructureTemplate structuretemplate, BlockPos p_227326_, Rotation p_227327_, boolean p_227328_) {

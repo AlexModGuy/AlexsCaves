@@ -1,7 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.structure;
 
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.piece.AcidPitStructurePiece;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.WorldgenRandom;

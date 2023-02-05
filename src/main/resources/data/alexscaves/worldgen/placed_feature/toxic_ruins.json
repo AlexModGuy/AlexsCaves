@@ -1,0 +1,17 @@
+{
+  "feature": "alexscaves:toxic_ruins",
+  "placement": [
+    {
+      "type": "minecraft:rarity_filter",
+      "chance": 13
+    },
+    {
+      "type": "minecraft:random_offset",
+      "xz_spread": 8,
+      "y_spread": 0
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

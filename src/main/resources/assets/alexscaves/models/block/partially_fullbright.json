@@ -1,7 +1,7 @@
 {
     "parent": "block/block",
     "ambientocclusion" : false,
-    "render_type": "translucent",
+    "render_type": "cutout",
     "elements": [
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 16, 16 ],

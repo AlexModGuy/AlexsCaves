@@ -189,6 +189,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
+            add(output, ACBlockRegistry.TUBE_WORM.get());
         }));
     }
 

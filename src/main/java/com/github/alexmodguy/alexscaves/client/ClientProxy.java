@@ -38,7 +38,9 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.util.Mth;
@@ -49,6 +51,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.AABB;
@@ -64,9 +67,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
@@ -86,6 +87,7 @@ public class ClientProxy extends CommonProxy {
     private long lastSystemTime;
     private float[] randomTremorOffsets = new float[3];
     private List<UUID> blockedEntityRenders = new ArrayList<>();
+    private Map<ClientLevel, List<BlockPos>> blockedParticleLocations = new HashMap<>();
     public int renderNukeFlashFor = 0;
 
     private float prevNukeFlashAmount = 0;
@@ -135,6 +137,7 @@ public class ClientProxy extends CommonProxy {
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("loading"), (stack, level, living, j) -> {
             return CaveMapItem.isLoading(stack) ? 1F : 0F;
         });
+        blockedParticleLocations.clear();
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -161,6 +164,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.GAMMAROACH.get(), GammaroachParticle.Factory::new);
         registry.register(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
         registry.register(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
+        registry.register(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
     }
 
     @SubscribeEvent
@@ -494,6 +498,32 @@ public class ClientProxy extends CommonProxy {
     public float getNukeFlashAmount(float partialTicks){
         return prevNukeFlashAmount + (nukeFlashAmount - prevNukeFlashAmount) * partialTicks;
     }
+
+    public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at){
+        if(!blockedParticleLocations.containsKey(Minecraft.getInstance().level)){
+            blockedParticleLocations.clear();
+            blockedParticleLocations.put(Minecraft.getInstance().level, new ArrayList<>());
+        }
+        if(simpleParticleType == ACParticleRegistry.TUBE_WORM.get()){
+            List blocked = blockedParticleLocations.get(Minecraft.getInstance().level);
+            if(blocked.contains(at)){
+                return false;
+            }else{
+                blocked.add(new BlockPos(at));
+                return true;
+            }
+        }
+        return true;
+    }
+
+    public void removeParticleAt(BlockPos at){
+        if(!blockedParticleLocations.containsKey(Minecraft.getInstance().level)){
+            blockedParticleLocations.clear();
+            blockedParticleLocations.put(Minecraft.getInstance().level, new ArrayList<>());
+        }
+        blockedParticleLocations.get(Minecraft.getInstance().level).remove(at);
+    }
+
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {

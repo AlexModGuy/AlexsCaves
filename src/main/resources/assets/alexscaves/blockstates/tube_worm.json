@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "type=straight,facing=east": { "model": "alexscaves:block/tube_worm" },
+    "type=straight,facing=north": { "model": "alexscaves:block/tube_worm" },
+    "type=straight,facing=south": { "model": "alexscaves:block/tube_worm" },
+    "type=straight,facing=west": { "model": "alexscaves:block/tube_worm" },
+    "type=turn,facing=east": { "model": "alexscaves:block/tube_worm_turn", "y": 90 },
+    "type=turn,facing=north": { "model": "alexscaves:block/tube_worm_turn" },
+    "type=turn,facing=south": { "model": "alexscaves:block/tube_worm_turn", "y": 180 },
+    "type=turn,facing=west": { "model": "alexscaves:block/tube_worm_turn", "y": 270 },
+    "type=elbow,facing=east": { "model": "alexscaves:block/tube_worm_elbow", "y": 90 },
+    "type=elbow,facing=north": { "model": "alexscaves:block/tube_worm_elbow" },
+    "type=elbow,facing=south": { "model": "alexscaves:block/tube_worm_elbow", "y": 180  },
+    "type=elbow,facing=west": { "model": "alexscaves:block/tube_worm_elbow", "y": 270  }
+  }
+}

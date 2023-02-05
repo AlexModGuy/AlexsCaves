@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;

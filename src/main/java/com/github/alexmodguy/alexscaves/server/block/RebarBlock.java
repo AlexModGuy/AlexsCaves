@@ -12,10 +12,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BucketPickup;
-import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -198,6 +195,19 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
         }else if(axis == Direction.Axis.Z && blockState.getValue(CONNECT_Z)){
             level.setBlock(blockPos, blockState.setValue(CONNECT_Z, false), 2);
         }
+    }
+
+    public BlockState rotate(BlockState state, Rotation rotation) {
+        BlockState def = state.setValue(CONNECT_X, false).setValue(CONNECT_Z, false);
+        if(rotation == Rotation.CLOCKWISE_90 || rotation == Rotation.COUNTERCLOCKWISE_90){
+            if(state.getValue(CONNECT_X)){
+                def = def.setValue(CONNECT_Z, true);
+            }
+            if(state.getValue(CONNECT_Z)){
+                def = def.setValue(CONNECT_X, true);
+            }
+        }
+        return def;
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

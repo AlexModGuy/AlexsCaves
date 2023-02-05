@@ -165,6 +165,8 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> ABYSSMARINE = registerBlockAndItem("abyssmarine", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.5F, 10.0F).sound(SoundType.STONE)));
     public static final RegistryObject<Block> MUCK = registerBlockAndItem("muck", () -> new MuckBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_GRAY).strength(0.5F).sound(SoundType.FROGSPAWN)));
 
+    public static final RegistryObject<Block> TUBE_WORM = registerBlockAndItem("tube_worm", () -> new TubeWormBlock());
+
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, 0);
     }
