@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "alexscaves:block/bone_nodule",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "alexscaves:block/bone_nodule",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "alexscaves:block/bone_nodule",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "alexscaves:block/bone_nodule",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "alexscaves:block/bone_nodule"
+    },
+    "facing=west": {
+      "model": "alexscaves:block/bone_nodule",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "facing=east,under=false": {"model": "alexscaves:block/bone_ribs", "y": 90},
+    "facing=north,under=false": {"model": "alexscaves:block/bone_ribs"},
+    "facing=south,under=false": {"model": "alexscaves:block/bone_ribs", "y": 180},
+    "facing=west,under=false": {"model": "alexscaves:block/bone_ribs", "y": 270},
+    "facing=east,under=true": {"model": "alexscaves:block/bone_ribs_flipped", "y": 90},
+    "facing=north,under=true": {"model": "alexscaves:block/bone_ribs_flipped"},
+    "facing=south,under=true": {"model": "alexscaves:block/bone_ribs_flipped", "y": 180},
+    "facing=west,under=true": {"model": "alexscaves:block/bone_ribs_flipped", "y": 270}
+  }
+}

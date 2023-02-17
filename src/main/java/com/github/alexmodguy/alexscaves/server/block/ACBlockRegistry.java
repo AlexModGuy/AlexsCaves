@@ -29,6 +29,7 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties RADROCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(4F, 11.0F).sound(SoundType.TUFF);
     public static final BlockBehaviour.Properties CINDER_BLOCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops().strength(5F, 20.0F).sound(SoundType.POLISHED_DEEPSLATE);
     public static final BlockBehaviour.Properties RADON_LAMP_PROPERTIES = BlockBehaviour.Properties.of(Material.BUILDABLE_GLASS, MaterialColor.TERRACOTTA_WHITE).requiresCorrectToolForDrops().lightLevel(state -> 15).strength(2F, 11.0F).sound(SoundType.GLASS);
+    public static final BlockBehaviour.Properties SMOOTH_BONE_PROPERTIES = BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK);
     public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(WoodType.create("alexscaves:pewen"));
 
     public static final DeferredRegister<Block> DEF_REG = DeferredRegister.create(ForgeRegistries.BLOCKS, AlexsCaves.MODID);
@@ -164,8 +165,16 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> BLACK_RADON_LAMP = registerBlockAndItem("radon_lamp_black", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> ABYSSMARINE = registerBlockAndItem("abyssmarine", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.5F, 10.0F).sound(SoundType.STONE)));
     public static final RegistryObject<Block> MUCK = registerBlockAndItem("muck", () -> new MuckBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_GRAY).strength(0.5F).sound(SoundType.FROGSPAWN)));
-
     public static final RegistryObject<Block> TUBE_WORM = registerBlockAndItem("tube_worm", () -> new TubeWormBlock());
+    public static final RegistryObject<Block> HOLLOW_BONE = registerBlockAndItem("hollow_bone", () -> new HollowBoneBlock());
+    public static final RegistryObject<Block> THIN_BONE = registerBlockAndItem("thin_bone", () -> new ThinBoneBlock());
+    public static final RegistryObject<Block> BONE_NODULE = registerBlockAndItem("bone_nodule", () -> new BoneNoduleBlock());
+    public static final RegistryObject<Block> BONE_RIBS = registerBlockAndItem("bone_ribs", () -> new BoneRibsBlock());
+    public static final RegistryObject<Block> BALEEN_BONE = registerBlockAndItem("baleen_bone", () -> new BaleenBoneBlock());
+    public static final RegistryObject<Block> SMOOTH_BONE = registerBlockAndItem("smooth_bone", () -> new Block(SMOOTH_BONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_BONE_STAIRS = registerBlockAndItem("smooth_bone_stairs", () -> new StairBlock(SMOOTH_BONE.get().defaultBlockState(), SMOOTH_BONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_BONE_SLAB = registerBlockAndItem("smooth_bone_slab", () -> new SlabBlock(SMOOTH_BONE_PROPERTIES));
+    public static final RegistryObject<Block> SMOOTH_BONE_WALL = registerBlockAndItem("smooth_bone_wall", () -> new WallBlock(SMOOTH_BONE_PROPERTIES));
 
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, 0);

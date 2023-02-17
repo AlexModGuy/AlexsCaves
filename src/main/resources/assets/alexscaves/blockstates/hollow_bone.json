@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/hollow_bone_horizontal",
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/hollow_bone"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/hollow_bone_horizontal"
+    }
+  }
+}

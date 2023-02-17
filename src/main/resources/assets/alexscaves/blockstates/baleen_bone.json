@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "x=false": {"model": "alexscaves:block/baleen_bone"},
+    "x=true": {"model": "alexscaves:block/baleen_bone", "y": 90}
+  }
+}

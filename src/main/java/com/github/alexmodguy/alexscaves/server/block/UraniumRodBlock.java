@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
@@ -21,19 +22,19 @@ import java.util.stream.Stream;
 
 public class UraniumRodBlock extends RotatedPillarBlock {
 
-    private static final VoxelShape SHAPE_X = buildShape(
+    private static final VoxelShape SHAPE_X = ACMath.buildShape(
             Block.box(2, 6, 6, 14, 10, 10),
             Block.box(14, 5, 5, 16, 11, 11),
             Block.box(0, 5, 5, 2, 11, 11)
     );
 
-    private static final VoxelShape SHAPE_Y = buildShape(
+    private static final VoxelShape SHAPE_Y = ACMath.buildShape(
             Block.box(6, 2, 6, 10, 14, 10),
             Block.box(5, 0, 5, 11, 2, 11),
             Block.box(5, 14, 5, 11, 16, 11)
     );
 
-    private static final VoxelShape SHAPE_Z = buildShape(
+    private static final VoxelShape SHAPE_Z = ACMath.buildShape(
             Block.box(6, 6, 2, 10, 10, 14),
             Block.box(5, 5, 14, 11, 11, 16),
             Block.box(5, 5, 0, 11, 11, 2)
@@ -55,10 +56,6 @@ public class UraniumRodBlock extends RotatedPillarBlock {
             default:
                 return SHAPE_Y;
         }
-    }
-
-    private static VoxelShape buildShape(VoxelShape... from){
-        return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {

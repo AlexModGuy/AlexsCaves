@@ -190,6 +190,16 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_THIN.get());
             add(output, ACBlockRegistry.TUBE_WORM.get());
+            add(output, ACBlockRegistry.SMOOTH_BONE.get());
+            add(output, ACBlockRegistry.SMOOTH_BONE_STAIRS.get());
+            add(output, ACBlockRegistry.SMOOTH_BONE_SLAB.get());
+            add(output, ACBlockRegistry.SMOOTH_BONE_WALL.get());
+            add(output, ACBlockRegistry.HOLLOW_BONE.get());
+            add(output, ACBlockRegistry.HOLLOW_BONE.get());
+            add(output, ACBlockRegistry.THIN_BONE.get());
+            add(output, ACBlockRegistry.BONE_NODULE.get());
+            add(output, ACBlockRegistry.BONE_RIBS.get());
+            add(output, ACBlockRegistry.BALEEN_BONE.get());
         }));
     }
 

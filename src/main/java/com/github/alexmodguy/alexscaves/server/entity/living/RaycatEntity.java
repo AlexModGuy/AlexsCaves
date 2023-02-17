@@ -64,7 +64,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
         this.goalSelector.addGoal(5, new LeapAtTargetGoal(this, 0.3F));
         this.goalSelector.addGoal(6, new OcelotAttackGoal(this));
         this.goalSelector.addGoal(7, new BreedGoal(this, 0.8D));
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.8D, 1.0000001E-5F));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.8D));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
     }

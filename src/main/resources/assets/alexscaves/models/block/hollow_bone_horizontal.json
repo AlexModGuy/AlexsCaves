@@ -1,0 +1,73 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "alexscaves:block/hollow_bone",
+		"1": "minecraft:block/bone_block_side",
+		"2": "minecraft:block/bone_block_top",
+		"particle": "alexscaves:block/hollow_bone"
+	},
+	"elements": [
+		{
+			"from": [0, 14, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 14, 16, 16], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [14, 0, 16, 16], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [0, 14, 16, 16], "rotation": 180, "texture": "#2"},
+				"west": {"uv": [14, 0, 16, 16], "rotation": 270, "texture": "#1"},
+				"up": {"uv": [16, 0, 0, 16], "texture": "#1"},
+				"down": {"uv": [16, 16, 0, 0], "texture": "#0"}
+			}
+		},
+		{
+			"from": [0, 0, 0],
+			"to": [16, 2, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 16, 2], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [2, 0, 0, 16], "rotation": 90, "texture": "#1"},
+				"south": {"uv": [0, 0, 16, 2], "rotation": 180, "texture": "#2"},
+				"west": {"uv": [0, 0, 2, 16], "rotation": 270, "texture": "#1"},
+				"up": {"uv": [16, 0, 0, 16], "texture": "#0"},
+				"down": {"uv": [16, 16, 0, 0], "texture": "#1"}
+			}
+		},
+		{
+			"from": [0, 2, 0],
+			"to": [2, 14, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [16, 2, 14, 14], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [2, 0, 14, 16], "rotation": 90, "texture": "#0"},
+				"south": {"uv": [14, 2, 16, 14], "rotation": 180, "texture": "#2"},
+				"west": {"uv": [2, 0, 14, 16], "rotation": 270, "texture": "#1"},
+				"up": {"uv": [20, 24, 18, 40], "texture": "#0"},
+				"down": {"uv": [18, 40, 16, 24], "texture": "#0"}
+			}
+		},
+		{
+			"from": [14, 2, 0],
+			"to": [16, 14, 16],
+			"rotation": {"angle": 0, "axis": "x", "origin": [8, 1, 8]},
+			"faces": {
+				"north": {"uv": [2, 2, 0, 14], "rotation": 180, "texture": "#2"},
+				"east": {"uv": [2, 0, 14, 16], "rotation": 270, "texture": "#1"},
+				"south": {"uv": [0, 2, 2, 14], "rotation": 180, "texture": "#2"},
+				"west": {"uv": [2, 0, 14, 16], "rotation": 90, "texture": "#0"},
+				"up": {"uv": [20, 24, 18, 40], "texture": "#0"},
+				"down": {"uv": [18, 40, 16, 24], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "VoxelShapes",
+			"origin": [8, 1, 8],
+			"color": 0,
+			"children": [0, 1, 2, 3]
+		}
+	]
+}

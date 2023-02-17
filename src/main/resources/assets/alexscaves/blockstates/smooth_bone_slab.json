@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/smooth_bone_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/smooth_bone"
+    },
+    "type=top": {
+      "model": "alexscaves:block/smooth_bone_slab_top"
+    }
+  }
+}

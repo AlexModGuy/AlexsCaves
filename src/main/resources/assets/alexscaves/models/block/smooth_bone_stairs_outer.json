@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "alexscaves:block/smooth_bone",
+    "side": "alexscaves:block/smooth_bone",
+    "top": "alexscaves:block/smooth_bone"
+  }
+}

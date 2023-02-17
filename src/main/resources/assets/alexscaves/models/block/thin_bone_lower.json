@@ -1,0 +1,23 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "alexscaves:block/thin_bone",
+		"particle": "alexscaves:block/thin_bone"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 0],
+			"to": [10, 4, 16],
+			"faces": {
+				"north": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"east": {"uv": [0, 0, 16, 4], "texture": "#0"},
+				"south": {"uv": [0, 4, 4, 8], "texture": "#0"},
+				"west": {"uv": [0, 0, 16, 4], "texture": "#0"},
+				"up": {"uv": [16, 4, 0, 0], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [0, 4, 16, 0], "rotation": 270, "texture": "#0"}
+			}
+		}
+	]
+}

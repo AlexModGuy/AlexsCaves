@@ -39,7 +39,7 @@ public class IrradiatedEffect extends MobEffect {
     }
 
     public List<ItemStack> getCurativeItems() {
-        return new ArrayList<>();
+        return List.of();
     }
 
 }
