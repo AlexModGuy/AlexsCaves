@@ -19,6 +19,7 @@ import com.github.alexmodguy.alexscaves.server.level.carver.ACCarverRegistry;
 import com.github.alexmodguy.alexscaves.server.level.feature.ACFeatureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.ACStructureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.piece.ACStructurePieceRegistry;
+import com.github.alexmodguy.alexscaves.server.level.structure.processor.ACStructureProcessorRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabs;
@@ -94,10 +95,11 @@ public class AlexsCaves {
         ACCarverRegistry.DEF_REG.register(modEventBus);
         ACStructureRegistry.DEF_REG.register(modEventBus);
         ACStructurePieceRegistry.DEF_REG.register(modEventBus);
+        ACStructureProcessorRegistry.DEF_REG.register(modEventBus);
+        ACEffectRegistry.DEF_REG.register(modEventBus);
         ACFrogRegistry.DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
-        ACEffectRegistry.DEF_REG.register(modEventBus);
         PROXY.init();
         ACBiomeRegistry.init();
     }

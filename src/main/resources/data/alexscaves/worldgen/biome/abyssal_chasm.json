@@ -20,7 +20,8 @@
     [],
     [],
     [
-      "alexscaves:black_vent"
+      "alexscaves:black_vent",
+      "alexscaves:whalefall"
     ],
     [],
     [],
@@ -58,6 +59,10 @@
     [],
     [
       "alexscaves:tube_worm",
+      "alexscaves:ping_pong_sponge",
+      "alexscaves:dusk_anemone",
+      "alexscaves:twilight_anemone",
+      "alexscaves:midnight_anemone",
       "minecraft:flower_default",
       "minecraft:patch_grass_badlands",
       "minecraft:brown_mushroom_normal",

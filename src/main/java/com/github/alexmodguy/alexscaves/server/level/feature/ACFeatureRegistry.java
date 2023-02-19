@@ -27,4 +27,7 @@ public class ACFeatureRegistry {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> FILL_IN_BUBBLES_WITH_WATER = DEF_REG.register("fill_in_bubbles_with_water", () -> new FillInBubblesWithWaterFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> BLACK_VENT = DEF_REG.register("black_vent", () -> new BlackVentFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> TUBE_WORM = DEF_REG.register("tube_worm", () -> new TubeWormFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<WhalefallFeatureConfiguration>> WHALEFALL = DEF_REG.register("whalefall", () -> new WhalefallFeature(WhalefallFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> PING_PONG_SPONGE = DEF_REG.register("ping_pong_sponge", () -> new PingPongSpongeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<AbyssalFloraFeatureConfiguration>> ABYSSAL_FLORA = DEF_REG.register("abyssal_flora", () -> new AbyssalFloraFeature(AbyssalFloraFeatureConfiguration.CODEC));
 }

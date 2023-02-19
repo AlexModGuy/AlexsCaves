@@ -1,0 +1,11 @@
+{
+  "type": "alexscaves:abyssal_flora",
+  "config": {
+    "flora": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "alexscaves:dusk_anemone"
+      }
+    }
+  }
+}

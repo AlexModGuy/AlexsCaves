@@ -38,7 +38,8 @@ public class BoneNoduleBlock extends Block implements SimpleWaterloggedBlock {
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         Direction direction = state.getValue(FACING);
         BlockPos blockpos = pos.relative(direction.getOpposite());
-        return level.getBlockState(blockpos).isFaceSturdy(level, blockpos, direction, SupportType.CENTER) || level.getBlockState(blockpos).is(BlockTags.LEAVES);
+        BlockState state1 = level.getBlockState(blockpos);
+        return state1.isFaceSturdy(level, blockpos, direction, SupportType.CENTER) || state1.is(BlockTags.LEAVES) || state1.getBlock() instanceof SlabBlock || state1.getBlock() instanceof StairBlock;
     }
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos1) {

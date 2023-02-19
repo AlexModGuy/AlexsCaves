@@ -56,7 +56,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                 int carveZ = cornerZ + z;
                 int priorHeight = getSeafloorHeight(level, carveX, carveZ);
                 float seaFloorExtra = ACMath.sampleNoise2D(carveX + 300, carveZ - 300, 15) * 3 + ACMath.sampleNoise2D(carveX, carveZ, 100) * 8 + ACMath.sampleNoise2D(carveX - 800, carveZ - 212, 400) * 30;
-                for (int y = priorHeight + 3; y >= level.getMinBuildHeight() + seaFloorExtra; y--) {
+                for (int y = priorHeight + 3; y >= level.getMinBuildHeight() + 2 + seaFloorExtra; y--) {
                     carve.set(carveX, Mth.clamp(y, level.getMinBuildHeight(), level.getMaxBuildHeight()), carveZ);
                     if (shouldDig(level, carve, chunkGen.getSeaLevel(), priorHeight)) {
                         if(isSeaMountBlocking(carve)){
@@ -169,15 +169,21 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
     private double calcYDist(WorldGenLevel level, BlockPos.MutableBlockPos carve, int seaLevel, int priorHeight) {
         if (carve.getY() >= seaLevel - 1 || priorHeight >= seaLevel || carve.getY() <= -62) {
             return 0;
-        } else if (checkedGetBlock(level, carve).isAir() || checkedGetBlock(level, carve).is(Blocks.WATER) || checkedGetBlock(level, carve).is(Blocks.BUBBLE_COLUMN)) {
+        } else if (destroyWithCarve(level, carve)) {
             return 1.0;
         } else {
             float belowSeaBy = ACMath.smin((seaLevel - priorHeight) / 30F, 1.0F, 0.2F);
             float bedrockCloseness = ACMath.smin(Math.abs(-64 - carve.getY()) / 64F, 1.0F, 0.2F);
             float df1 = ACMath.sampleNoise3D(carve.getX(), 0, carve.getZ(), 100) * 0.6F;
             float df2 = ACMath.sampleNoise3D(carve.getX() - 450, 0, carve.getZ() + 450, 300) * 0.25F;
-            return belowSeaBy * (bedrockCloseness - df1) - df2;
+            float df3 = ACMath.sampleNoise3D(carve.getX() + 450, 0, carve.getZ() - 450, 200) * 0.1F;
+            return ACMath.smin(belowSeaBy * (bedrockCloseness - df1) - df2, 0.9F, 0.2F) - df2;
         }
+    }
+
+    public boolean destroyWithCarve(WorldGenLevel level, BlockPos.MutableBlockPos carve){
+       BlockState state = checkedGetBlock(level, carve);
+       return state.isAir() || state.is(Blocks.WATER) || state.is(Blocks.BUBBLE_COLUMN);
     }
 
     private void decorateFloor(WorldGenLevel level, RandomSource rand, BlockPos.MutableBlockPos muckAt) {

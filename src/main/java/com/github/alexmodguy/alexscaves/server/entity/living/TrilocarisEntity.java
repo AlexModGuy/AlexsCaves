@@ -32,6 +32,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
 
@@ -62,7 +63,7 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
         this.goalSelector.addGoal(1, new WanderGoal());
         this.goalSelector.addGoal(2, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this)));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
     private static boolean isInCave(ServerLevelAccessor iServerWorld, BlockPos pos) {
@@ -73,7 +74,8 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
     }
 
     public static boolean checkTrilocarisSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        return spawnType == MobSpawnType.SPAWNER || level.getFluidState(pos).is(FluidTags.WATER) && isInCave(level, pos);
+        FluidState fluidState = level.getFluidState(pos);
+        return fluidState.is(FluidTags.WATER) && fluidState.getAmount() >= 8 && isInCave(level, pos);
     }
 
     protected PathNavigation createNavigation(Level worldIn) {

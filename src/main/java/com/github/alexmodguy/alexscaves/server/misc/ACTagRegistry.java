@@ -26,6 +26,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
     public static final TagKey<Block> TRENCH_GENERATION_IGNORES = registerBlockTag("trench_generation_ignores");
     public static final TagKey<Block> TUBE_WORM_AVOIDS = registerBlockTag("tube_worm_avoids");
+    public static final TagKey<Block> WHALEFALL_IGNORES = registerBlockTag("whalefall_ignores");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
 

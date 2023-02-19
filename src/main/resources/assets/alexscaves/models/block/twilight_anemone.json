@@ -1,0 +1,10 @@
+{
+  "parent": "alexscaves:block/anemone_base",
+  "textures": {
+    "tentacles": "alexscaves:block/twilight_anemone_tentacles",
+    "base": "alexscaves:block/twilight_anemone_base",
+    "particle": "alexscaves:block/twilight_anemone_base",
+    "bottom": "alexscaves:block/twilight_anemone_bottom",
+    "top": "alexscaves:block/twilight_anemone_top"
+  }
+}

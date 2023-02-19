@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "top=false": {
+      "model": "alexscaves:block/ping_pong_sponge"
+    },
+    "top=true": {
+      "model": "alexscaves:block/ping_pong_sponge_top"
+    }
+  }
+}

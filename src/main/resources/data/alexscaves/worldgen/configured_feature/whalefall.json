@@ -1,0 +1,22 @@
+{
+  "type": "alexscaves:whalefall",
+  "config": {
+    "head_structures": [
+      "alexscaves:whalefall_skull_0",
+      "alexscaves:whalefall_skull_1",
+      "alexscaves:whalefall_skull_2"
+    ],
+    "body_structures": [
+      "alexscaves:whalefall_body_0",
+      "alexscaves:whalefall_body_1",
+      "alexscaves:whalefall_body_2",
+      "alexscaves:whalefall_body_3"
+    ],
+    "tail_structures": [
+      "alexscaves:whalefall_tail_0",
+      "alexscaves:whalefall_tail_1",
+      "alexscaves:whalefall_tail_2",
+      "alexscaves:whalefall_tail_3"
+    ]
+  }
+}

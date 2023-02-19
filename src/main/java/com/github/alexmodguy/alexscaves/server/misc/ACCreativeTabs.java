@@ -195,11 +195,14 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.SMOOTH_BONE_SLAB.get());
             add(output, ACBlockRegistry.SMOOTH_BONE_WALL.get());
             add(output, ACBlockRegistry.HOLLOW_BONE.get());
-            add(output, ACBlockRegistry.HOLLOW_BONE.get());
             add(output, ACBlockRegistry.THIN_BONE.get());
             add(output, ACBlockRegistry.BONE_NODULE.get());
             add(output, ACBlockRegistry.BONE_RIBS.get());
             add(output, ACBlockRegistry.BALEEN_BONE.get());
+            add(output, ACBlockRegistry.PING_PONG_SPONGE.get());
+            add(output, ACBlockRegistry.DUSK_ANEMONE.get());
+            add(output, ACBlockRegistry.TWILIGHT_ANEMONE.get());
+            add(output, ACBlockRegistry.MIDNIGHT_ANEMONE.get());
         }));
     }
 

@@ -175,6 +175,10 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> SMOOTH_BONE_STAIRS = registerBlockAndItem("smooth_bone_stairs", () -> new StairBlock(SMOOTH_BONE.get().defaultBlockState(), SMOOTH_BONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_BONE_SLAB = registerBlockAndItem("smooth_bone_slab", () -> new SlabBlock(SMOOTH_BONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_BONE_WALL = registerBlockAndItem("smooth_bone_wall", () -> new WallBlock(SMOOTH_BONE_PROPERTIES));
+    public static final RegistryObject<Block> PING_PONG_SPONGE = registerBlockAndItem("ping_pong_sponge", () -> new PingPongSpongeBlock());
+    public static final RegistryObject<Block> DUSK_ANEMONE = registerBlockAndItem("dusk_anemone", () -> new OceanFloraBlock());
+    public static final RegistryObject<Block> TWILIGHT_ANEMONE = registerBlockAndItem("twilight_anemone", () -> new OceanFloraBlock());
+    public static final RegistryObject<Block> MIDNIGHT_ANEMONE = registerBlockAndItem("midnight_anemone", () -> new OceanFloraBlock());
 
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, 0);
