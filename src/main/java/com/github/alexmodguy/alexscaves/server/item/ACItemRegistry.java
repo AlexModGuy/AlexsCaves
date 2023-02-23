@@ -53,6 +53,7 @@ public class ACItemRegistry {
         spawnEgg("brainiac", ACEntityRegistry.BRAINIAC, 0X3E5136,0XE87C9E, ACCreativeTabs.TOXIC_CAVES);
         spawnEgg("gammaroach", ACEntityRegistry.GAMMAROACH, 0X56682A,0X2A2B19, ACCreativeTabs.TOXIC_CAVES);
         spawnEgg("raycat", ACEntityRegistry.RAYCAT, 0X67FF00,0X030A00, ACCreativeTabs.TOXIC_CAVES);
+        spawnEgg("lanternfish", ACEntityRegistry.LANTERNFISH, 0X182538,0XECA500, ACCreativeTabs.ABYSSAL_CHASM);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName){

@@ -20,6 +20,7 @@
 			"name": "tentacle1",
 			"from": [0, 11, 12.25],
 			"to": [16, 16, 12.25],
+			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 12]},
 			"faces": {
 				"north": {"uv": [16, 5, 0, 10], "texture": "#tentacles"},
@@ -34,6 +35,7 @@
 			"name": "tentacle2",
 			"from": [0, 11, 3.75],
 			"to": [16, 16, 3.75],
+			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 3.75]},
 			"faces": {
 				"north": {"uv": [16, 5, 0, 10], "texture": "#tentacles"},
@@ -48,6 +50,7 @@
 			"name": "tentacle3",
 			"from": [12.25, 11, 0],
 			"to": [12.25, 16, 16],
+			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13.5, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 5], "texture": "#tentacles"},
@@ -62,6 +65,7 @@
 			"name": "tentacle4",
 			"from": [3.75, 11, 0],
 			"to": [3.75, 16, 16],
+			"shade": false,
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13.5, 8]},
 			"faces": {
 				"north": {"uv": [0, 0, 0, 5], "texture": "#tentacles"},

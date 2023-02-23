@@ -184,6 +184,7 @@ public class ACCreativeTabs {
         }));
         event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(Items.TROPICAL_FISH)).displayItems((flags, output, isOp) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
+            ACItemRegistry.getSpawnEggsForTab(ABYSSAL_CHASM).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACBlockRegistry.ABYSSMARINE.get());
             add(output, ACBlockRegistry.MUCK.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
@@ -199,10 +200,12 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.BONE_NODULE.get());
             add(output, ACBlockRegistry.BONE_RIBS.get());
             add(output, ACBlockRegistry.BALEEN_BONE.get());
+            add(output, ACBlockRegistry.BONE_WORMS.get());
             add(output, ACBlockRegistry.PING_PONG_SPONGE.get());
             add(output, ACBlockRegistry.DUSK_ANEMONE.get());
             add(output, ACBlockRegistry.TWILIGHT_ANEMONE.get());
             add(output, ACBlockRegistry.MIDNIGHT_ANEMONE.get());
+            add(output, ACBlockRegistry.MUSSEL.get());
         }));
     }
 

@@ -84,10 +84,4 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
     public StructureType<?> type() {
         return ACStructureRegistry.OCEAN_TRENCH.get();
     }
-
-    @Override
-    public GenerationStep.Decoration step() {
-        return GenerationStep.Decoration.RAW_GENERATION;
-    }
-
 }

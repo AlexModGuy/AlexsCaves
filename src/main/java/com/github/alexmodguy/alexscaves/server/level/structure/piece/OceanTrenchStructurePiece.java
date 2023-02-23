@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
@@ -55,9 +56,10 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                 int carveX = cornerX + x;
                 int carveZ = cornerZ + z;
                 int priorHeight = getSeafloorHeight(level, carveX, carveZ);
-                float seaFloorExtra = ACMath.sampleNoise2D(carveX + 300, carveZ - 300, 15) * 3 + ACMath.sampleNoise2D(carveX, carveZ, 100) * 8 + ACMath.sampleNoise2D(carveX - 800, carveZ - 212, 400) * 30;
-                for (int y = priorHeight + 3; y >= level.getMinBuildHeight() + 2 + seaFloorExtra; y--) {
-                    carve.set(carveX, Mth.clamp(y, level.getMinBuildHeight(), level.getMaxBuildHeight()), carveZ);
+                float seaFloorExtra = (1.0F + ACMath.sampleNoise2D(carveX - 800, carveZ - 212, 20)) * 5;
+                int minY = (int) (level.getMinBuildHeight() + 2 + seaFloorExtra);
+                for (int y = priorHeight + 3; y >= minY; y--) {
+                    carve.set(carveX, Mth.clamp(y, minY, level.getMaxBuildHeight()), carveZ);
                     if (shouldDig(level, carve, chunkGen.getSeaLevel(), priorHeight)) {
                         if(isSeaMountBlocking(carve)){
                             BlockState prior = checkedGetBlock(level, carve);
@@ -88,7 +90,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
     private int getSeafloorHeight(WorldGenLevel level, int x, int z) {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, x, z), z);
         boolean inFrozenOcean = level.getBiome(mutableBlockPos).is(ACTagRegistry.TRENCH_IGNORES_STONE_IN);
-        while(ignoreHeight(level, inFrozenOcean, level.getBlockState(mutableBlockPos), mutableBlockPos)){
+        while(ignoreHeight(level, inFrozenOcean, checkedGetBlock(level, mutableBlockPos), mutableBlockPos) && mutableBlockPos.getY() >= -64){
             mutableBlockPos.move(0, -1, 0);
         }
         return mutableBlockPos.getY();
@@ -105,7 +107,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
             BlockState toSet;
             int layerOffset = level.getRandom().nextInt(2);
             if(dist <= 5 + layerOffset){
-                toSet = Blocks.STONE.defaultBlockState();
+                toSet = carve.getY() < 0 ? Blocks.DEEPSLATE.defaultBlockState() : Blocks.STONE.defaultBlockState();
             }else if(dist <= 12 + layerOffset){
                 toSet = Blocks.DEEPSLATE.defaultBlockState();
             }else{
@@ -154,7 +156,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
             offset.move(dir);
             if (shouldDig(level, offset, level.getSeaLevel(), priorHeight)) {
                 checkedSetBlock(level, offset, water);
-            } else if (!level.isEmptyBlock(offset) && level.getFluidState(offset).isEmpty()) {
+            } else if (!level.isEmptyBlock(offset) && !level.getFluidState(offset).is(FluidTags.WATER)) {
                 if (dir == Direction.DOWN) {
                     for (int y = offset.getY(); y >= level.getMinBuildHeight(); y--) {
                         surroundTrenchBorder(level, offset.atY(y), priorHeight);
@@ -167,16 +169,16 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
     }
 
     private double calcYDist(WorldGenLevel level, BlockPos.MutableBlockPos carve, int seaLevel, int priorHeight) {
-        if (carve.getY() >= seaLevel - 1 || priorHeight >= seaLevel || carve.getY() <= -62) {
+        int j = -64 - carve.getY();
+        if (carve.getY() >= seaLevel - 1 || priorHeight >= seaLevel || j > 0) {
             return 0;
         } else if (destroyWithCarve(level, carve)) {
             return 1.0;
         } else {
             float belowSeaBy = ACMath.smin((seaLevel - priorHeight) / 30F, 1.0F, 0.2F);
-            float bedrockCloseness = ACMath.smin(Math.abs(-64 - carve.getY()) / 64F, 1.0F, 0.2F);
+            float bedrockCloseness = ACMath.smin(Math.abs(j) / 50F - 0.1F, 1.0F, 0.2F);
             float df1 = ACMath.sampleNoise3D(carve.getX(), 0, carve.getZ(), 100) * 0.6F;
             float df2 = ACMath.sampleNoise3D(carve.getX() - 450, 0, carve.getZ() + 450, 300) * 0.25F;
-            float df3 = ACMath.sampleNoise3D(carve.getX() + 450, 0, carve.getZ() - 450, 200) * 0.1F;
             return ACMath.smin(belowSeaBy * (bedrockCloseness - df1) - df2, 0.9F, 0.2F) - df2;
         }
     }
@@ -191,7 +193,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
             checkedSetBlock(level, muckAt, ACBlockRegistry.MUCK.get().defaultBlockState());
             for(int i = 0; i < 1 + rand.nextInt(2); i++){
                 muckAt.move(0, -1, 0);
-                if(level.getBlockState(muckAt).is(ACTagRegistry.UNMOVEABLE)){
+                if(checkedGetBlock(level, muckAt).is(ACTagRegistry.UNMOVEABLE)){
                     break;
                 }
                 checkedSetBlock(level, muckAt, ACBlockRegistry.MUCK.get().defaultBlockState());

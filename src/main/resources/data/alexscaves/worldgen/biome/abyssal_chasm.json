@@ -18,7 +18,9 @@
   "features": [
     [],
     [],
-    [],
+    [
+      "alexscaves:abyssal_boulder"
+    ],
     [
       "alexscaves:black_vent",
       "alexscaves:whalefall"
@@ -56,9 +58,11 @@
       "minecraft:disk_gravel"
     ],
     [],
-    [],
+    [
+    ],
     [
       "alexscaves:tube_worm",
+      "alexscaves:mussel",
       "alexscaves:ping_pong_sponge",
       "alexscaves:dusk_anemone",
       "alexscaves:twilight_anemone",
@@ -154,10 +158,10 @@
     ],
     "water_ambient": [
       {
-        "type": "minecraft:cod",
-        "maxCount": 6,
-        "minCount": 3,
-        "weight": 10
+        "type": "alexscaves:lanternfish",
+        "maxCount": 20,
+        "minCount": 15,
+        "weight": 300
       }
     ],
     "water_creature": [

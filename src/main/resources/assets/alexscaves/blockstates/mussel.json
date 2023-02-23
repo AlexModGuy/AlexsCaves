@@ -1,0 +1,105 @@
+{
+  "variants": {
+    "facing=up,mussels=1": [
+      { "model": "alexscaves:block/mussel" },
+      { "model": "alexscaves:block/mussel", "y": 90 }
+    ],
+    "facing=down,mussels=1": [
+      { "model": "alexscaves:block/mussel", "x": 180 },
+      { "model": "alexscaves:block/mussel",  "x": 180 ,"y": 90 }
+    ],
+    "facing=east,mussels=1": [
+      { "model": "alexscaves:block/mussel", "x": 90, "y": 90 }
+    ],
+    "facing=north,mussels=1": [
+      { "model": "alexscaves:block/mussel", "x": 90 }
+    ],
+    "facing=south,mussels=1": [
+      { "model": "alexscaves:block/mussel", "x": 270 }
+    ],
+    "facing=west,mussels=1": [
+      { "model": "alexscaves:block/mussel", "x": 90, "y": 270 }
+    ],
+    "facing=up,mussels=2": [
+      { "model": "alexscaves:block/mussel_two" },
+      { "model": "alexscaves:block/mussel_two", "y": 90 }
+    ],
+    "facing=down,mussels=2": [
+      { "model": "alexscaves:block/mussel_two", "x": 180 },
+      { "model": "alexscaves:block/mussel_two",  "x": 180 ,"y": 90 }
+    ],
+    "facing=east,mussels=2": [
+      { "model": "alexscaves:block/mussel_two", "x": 90, "y": 90 }
+    ],
+    "facing=north,mussels=2": [
+      { "model": "alexscaves:block/mussel_two", "x": 90 }
+    ],
+    "facing=south,mussels=2": [
+      { "model": "alexscaves:block/mussel_two", "x": 270 }
+    ],
+    "facing=west,mussels=2": [
+      { "model": "alexscaves:block/mussel_two", "x": 90, "y": 270 }
+    ],
+    "facing=up,mussels=3": [
+      { "model": "alexscaves:block/mussel_three" },
+      { "model": "alexscaves:block/mussel_three", "y": 90 }
+    ],
+    "facing=down,mussels=3": [
+      { "model": "alexscaves:block/mussel_three", "x": 180 },
+      { "model": "alexscaves:block/mussel_three",  "x": 180 ,"y": 90 }
+    ],
+    "facing=east,mussels=3": [
+      { "model": "alexscaves:block/mussel_three", "x": 90, "y": 90 }
+    ],
+    "facing=north,mussels=3": [
+      { "model": "alexscaves:block/mussel_three", "x": 90 }
+    ],
+    "facing=south,mussels=3": [
+      { "model": "alexscaves:block/mussel_three", "x": 270 }
+    ],
+    "facing=west,mussels=3": [
+      { "model": "alexscaves:block/mussel_three", "x": 90, "y": 270 }
+    ],
+
+    "facing=up,mussels=4": [
+      { "model": "alexscaves:block/mussel_four" },
+      { "model": "alexscaves:block/mussel_four", "y": 90 }
+    ],
+    "facing=down,mussels=4": [
+      { "model": "alexscaves:block/mussel_four", "x": 180 },
+      { "model": "alexscaves:block/mussel_four",  "x": 180 ,"y": 90 }
+    ],
+    "facing=east,mussels=4": [
+      { "model": "alexscaves:block/mussel_four", "x": 90, "y": 90 }
+    ],
+    "facing=north,mussels=4": [
+      { "model": "alexscaves:block/mussel_four", "x": 90 }
+    ],
+    "facing=south,mussels=4": [
+      { "model": "alexscaves:block/mussel_four", "x": 270 }
+    ],
+    "facing=west,mussels=4": [
+      { "model": "alexscaves:block/mussel_four", "x": 90, "y": 270 }
+    ],
+    "facing=up,mussels=5": [
+      { "model": "alexscaves:block/mussel_five" },
+      { "model": "alexscaves:block/mussel_five", "y": 90 }
+    ],
+    "facing=down,mussels=5": [
+      { "model": "alexscaves:block/mussel_five", "x": 180 },
+      { "model": "alexscaves:block/mussel_five",  "x": 180 ,"y": 90 }
+    ],
+    "facing=east,mussels=5": [
+      { "model": "alexscaves:block/mussel_five", "x": 90, "y": 90 }
+    ],
+    "facing=north,mussels=5": [
+      { "model": "alexscaves:block/mussel_five", "x": 90 }
+    ],
+    "facing=south,mussels=5": [
+      { "model": "alexscaves:block/mussel_five", "x": 270 }
+    ],
+    "facing=west,mussels=5": [
+      { "model": "alexscaves:block/mussel_five", "x": 90, "y": 270 }
+    ]
+  }
+}

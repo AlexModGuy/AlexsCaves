@@ -1,7 +1,7 @@
 {
   "type": "alexscaves:ocean_trench",
   "biomes": "alexscaves:abyssal_chasm",
-  "step": "raw_generation",
+  "step": "underground_structures",
   "start_height": {
     "absolute": 0
   },
