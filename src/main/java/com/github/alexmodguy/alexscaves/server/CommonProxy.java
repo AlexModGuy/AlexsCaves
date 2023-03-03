@@ -106,6 +106,10 @@ public class CommonProxy {
         return null;
     }
 
+    public boolean isKeyDown(int keyType) {
+        return false;
+    }
+
     public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at){
         return false;
     }

@@ -2,11 +2,8 @@ package com.github.alexmodguy.alexscaves.server.level.feature.config;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
-
-import java.util.List;
 
 public class AbyssalFloraFeatureConfiguration implements FeatureConfiguration {
 

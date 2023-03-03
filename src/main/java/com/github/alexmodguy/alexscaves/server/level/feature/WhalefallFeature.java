@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.MusselBlock;
 import com.github.alexmodguy.alexscaves.server.level.feature.config.WhalefallFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.level.structure.processor.ACStructureProcessorRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.processor.WhalefallProcessor;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
@@ -24,7 +23,6 @@ import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraft.world.phys.AABB;
 
 public class WhalefallFeature extends Feature<WhalefallFeatureConfiguration> {
 

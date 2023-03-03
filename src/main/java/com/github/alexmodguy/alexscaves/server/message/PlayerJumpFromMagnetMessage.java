@@ -9,27 +9,27 @@ import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
-public class PlayerControllerJumpMessage {
+public class PlayerJumpFromMagnetMessage {
 
     private int entityID;
     private boolean jumping;
 
-    public PlayerControllerJumpMessage(int entityID, boolean jumping) {
+    public PlayerJumpFromMagnetMessage(int entityID, boolean jumping) {
         this.entityID = entityID;
         this.jumping = jumping;
     }
 
 
-    public static PlayerControllerJumpMessage read(FriendlyByteBuf buf) {
-        return new PlayerControllerJumpMessage(buf.readInt(), buf.readBoolean());
+    public static PlayerJumpFromMagnetMessage read(FriendlyByteBuf buf) {
+        return new PlayerJumpFromMagnetMessage(buf.readInt(), buf.readBoolean());
     }
 
-    public static void write(PlayerControllerJumpMessage message, FriendlyByteBuf buf) {
+    public static void write(PlayerJumpFromMagnetMessage message, FriendlyByteBuf buf) {
         buf.writeInt(message.entityID);
         buf.writeBoolean(message.jumping);
     }
 
-    public static void handle(PlayerControllerJumpMessage message, Supplier<NetworkEvent.Context> context) {
+    public static void handle(PlayerJumpFromMagnetMessage message, Supplier<NetworkEvent.Context> context) {
         context.get().setPacketHandled(true);
         Player player = context.get().getSender();
         if(player != null){

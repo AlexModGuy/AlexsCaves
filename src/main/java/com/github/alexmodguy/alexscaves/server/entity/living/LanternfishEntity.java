@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.entity.ai.AcidSwimNodeEvaluator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.mojang.datafixers.DataFixUtils;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -38,9 +37,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
@@ -88,13 +85,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new WaterBoundPathNavigation(this, level) {
-
-            protected PathFinder createPathFinder(int i) {
-                this.nodeEvaluator = new AcidSwimNodeEvaluator(false);
-                return new PathFinder(this.nodeEvaluator, i);
-            }
-        };
+        return new WaterBoundPathNavigation(this, level);
     }
 
     public void travel(Vec3 travelVector) {
@@ -300,8 +291,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
     }
 
     public static boolean checkLanternfishSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        FluidState fluidState = level.getFluidState(pos);
-        return fluidState.is(FluidTags.WATER) && fluidState.getAmount() >= 8;
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel();
     }
 
     public void moveToGroupLeader() {

@@ -1,0 +1,30 @@
+{
+    "targets": [
+        "minecraft:main",
+        "swap"
+    ],
+    "passes": [
+        {
+            "name": "alexscaves:submarine_light",
+            "intarget": "minecraft:main",
+            "outtarget": "swap",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                }
+            ]
+        },
+        {
+            "name": "blit",
+            "intarget": "swap",
+            "outtarget": "minecraft:main",
+            "auxtargets": [
+                {
+                    "name": "DiffuseDepthSampler",
+                    "id": "minecraft:main:depth"
+                }
+            ]
+        }
+    ]
+}

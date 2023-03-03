@@ -37,4 +37,21 @@ public class ACMath {
         return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 
+    public static float walkValue(float limbSwing, float limbSwingAmount, float speed, float offset, float degree, boolean inverse) {
+        return (float) ((Math.cos(limbSwing * speed + offset) * degree * limbSwingAmount) * (inverse ? -1 : 1));
+    }
+
+    public static float approachRotation(float current, float target, float max) {
+        float f = Mth.wrapDegrees(target - current);
+        if (f > max) {
+            f = max;
+        }
+
+        if (f < -max) {
+            f = -max;
+        }
+
+        return Mth.wrapDegrees(current + f);
+    }
+
 }

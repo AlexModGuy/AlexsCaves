@@ -29,8 +29,8 @@ public class ACTagRegistry {
     public static final TagKey<Block> WHALEFALL_IGNORES = registerBlockTag("whalefall_ignores");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
-
     public static final TagKey<Item> VALLUMRAPTOR_STEALS = registerItemTag("vallumraptor_steals");
+    public static final TagKey<Item> SEA_PIG_DIGESTS = registerItemTag("sea_pig_digests");
     public static final TagKey<EntityType<?>> MAGNETIC_ENTITIES = registerEntityTag("ferromagnetic_entities");
 
     public static final TagKey<EntityType<?>> SUBTERRANODON_FLEES = registerEntityTag("subterranodon_flees");

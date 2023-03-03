@@ -8,6 +8,7 @@ public class ACInternalShaders {
 
     private static ShaderInstance renderTypeFerrouslimeGelShader;
     private static ShaderInstance renderTypeIrradiatedShader;
+    private static ShaderInstance renderTypeSubmarineMaskShader;
 
     @Nullable
     public static ShaderInstance getRenderTypeFerrouslimeGelShader() {

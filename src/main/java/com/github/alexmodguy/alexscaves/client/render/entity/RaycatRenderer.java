@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.RaycatModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
+import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -61,7 +62,7 @@ public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
     }
 
     public void render(RaycatEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
-        ClientProxy.irradiatedOutlineFlag = true;
+        PostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
         float absorbAmount = entityIn.getAbsorbAmount(partialTicks);
         Entity absorbTarget = entityIn.getAbsorbTarget();
         if(absorbAmount > 0F && entityIn.isAlive() && absorbTarget != null){

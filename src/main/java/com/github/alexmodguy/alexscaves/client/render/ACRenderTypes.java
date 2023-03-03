@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.client.render;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
+import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -16,8 +18,9 @@ public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeIrradiatedShader);
 
     protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
-        if (ClientProxy.irradiatedTarget != null) {
-            ClientProxy.irradiatedTarget.bindWrite(false);
+        RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
+        if (target != null) {
+            target.bindWrite(false);
         }
     }, () -> {
         Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
@@ -94,19 +97,6 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
-    public static RenderType getRaycatLights() {
-        return create("raycat_lights", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
-                .setShaderState(RENDERTYPE_IRRADIATED_SHADER)
-                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
-                .setCullState(NO_CULL)
-                .setLightmapState(NO_LIGHTMAP)
-                .setDepthTestState(LEQUAL_DEPTH_TEST)
-                .setOutputState(RenderStateShard.ITEM_ENTITY_TARGET)
-                .createCompositeState(false));
-    }
-
-
     public static RenderType getGelTriangles(ResourceLocation locationIn) {
         return create("ferrouslime_gel_triangles", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
@@ -115,5 +105,13 @@ public class ACRenderTypes extends RenderType {
                 .setShaderState(RENDERTYPE_FEROUSSLIME_GEL_SHADER)
                 .setLightmapState(LIGHTMAP)
                 .createCompositeState(false));
+    }
+
+    public static RenderType getSubmarineMask() {
+        return create("submarine_mask", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder().setShaderState(RENDERTYPE_WATER_MASK_SHADER).setTextureState(NO_TEXTURE).setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST).setWriteMaskState(DEPTH_WRITE).setCullState(NO_CULL).createCompositeState(false));
+    }
+
+    public static RenderType getSubmarineLights() {
+        return create("submarine_lights", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(RENDERTYPE_LIGHTNING_SHADER).setWriteMaskState(COLOR_DEPTH_WRITE).setTransparencyState(ADDITIVE_TRANSPARENCY).setOutputState(WEATHER_TARGET).createCompositeState(false));
     }
 }

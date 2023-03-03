@@ -27,7 +27,7 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
 
-    private static final VoxelShape SHAPE_UP = Block.box(1.0D, 0.0D, 3.0D, 15.0D, 4.0D, 15.0D);
+    private static final VoxelShape SHAPE_UP = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 4.0D, 15.0D);
     private static final VoxelShape SHAPE_DOWN = Block.box(1.0D, 12.0D, 1.0D, 15.0D, 16.0D, 15.0D);
     private static final VoxelShape SHAPE_WEST = Block.box(12.0D, 1.0D, 1.0D, 16.0D, 15.0D, 15.0D);
     private static final VoxelShape SHAPE_EAST = Block.box(0.0D, 1.0D, 1.0D, 4.0D, 15.0D, 15.0D);

@@ -1,10 +1,7 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.google.gson.JsonSyntaxException;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,8 +10,10 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.material.FogType;
@@ -27,14 +26,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
-import java.io.IOException;
-
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
 
-    @Nullable
-    private PostChain irradiatedEffect;
     @Shadow
     private ClientLevel level;
     @Final
@@ -48,6 +42,8 @@ public abstract class LevelRendererMixin {
 
     @Shadow
     protected abstract boolean doesMobEffectBlockSky(Camera camera);
+
+    @Shadow @Final private RenderBuffers renderBuffers;
 
     @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",
             at = @At("HEAD"),
@@ -63,77 +59,6 @@ public abstract class LevelRendererMixin {
             }
         }
     }
-
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;initOutline()V",
-            at = @At("TAIL"))
-    private void ac_initOutline(CallbackInfo ci) {
-        if (this.irradiatedEffect != null) {
-            this.irradiatedEffect.close();
-        }
-
-        ResourceLocation resourcelocation = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
-        try {
-            this.irradiatedEffect = new PostChain(this.minecraft.getTextureManager(), this.minecraft.getResourceManager(), this.minecraft.getMainRenderTarget(), resourcelocation);
-            this.irradiatedEffect.resize(this.minecraft.getWindow().getWidth(), this.minecraft.getWindow().getHeight());
-            ClientProxy.irradiatedTarget = this.irradiatedEffect.getTempTarget("final");
-        } catch (IOException ioexception) {
-            AlexsCaves.LOGGER.warn("Failed to load shader: {}", resourcelocation, ioexception);
-            this.irradiatedEffect = null;
-            ClientProxy.irradiatedTarget = null;
-        } catch (JsonSyntaxException jsonsyntaxexception) {
-            AlexsCaves.LOGGER.warn("Failed to parse shader: {}", resourcelocation, jsonsyntaxexception);
-            this.irradiatedEffect = null;
-            ClientProxy.irradiatedTarget = null;
-        }
-    }
-
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;resize(II)V",
-            at = @At("TAIL"))
-    private void ac_resize(int x, int y, CallbackInfo ci) {
-        if (this.irradiatedEffect != null) {
-            this.irradiatedEffect.resize(x, y);
-        }
-    }
-
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;doEntityOutline()V",
-            at = @At("TAIL"))
-    private void ac_doEntityOutline(CallbackInfo ci) {
-        if (ClientProxy.irradiatedTarget != null&& AlexsCaves.CLIENT_CONFIG.radiationGlowEffect.get()) {
-            RenderSystem.enableBlend();
-            RenderSystem.enableDepthTest();
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            ClientProxy.irradiatedTarget.blitToScreen(this.minecraft.getWindow().getWidth(), this.minecraft.getWindow().getHeight(), false);
-            RenderSystem.disableBlend();
-            RenderSystem.defaultBlendFunc();
-        }
-
-    }
-
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/client/renderer/RenderBuffers;bufferSource()Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;",
-                    shift = At.Shift.BEFORE
-            ))
-    private void ac_renderLevel_clear(PoseStack poseStack, float f, long l, boolean b, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f matrix4f, CallbackInfo ci) {
-        if (ClientProxy.irradiatedTarget != null && AlexsCaves.CLIENT_CONFIG.radiationGlowEffect.get()) {
-            ClientProxy.irradiatedTarget.clear(Minecraft.ON_OSX);
-            ClientProxy.irradiatedTarget.copyDepthFrom(this.minecraft.getMainRenderTarget());
-            this.minecraft.getMainRenderTarget().bindWrite(false);
-        }
-    }
-
-
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
-            at = @At(value = "TAIL"))
-    private void ac_renderLevel_end(PoseStack poseStack, float f, long l, boolean b, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f matrix4f, CallbackInfo ci) {
-        if (ClientProxy.irradiatedOutlineFlag && irradiatedEffect != null && AlexsCaves.CLIENT_CONFIG.radiationGlowEffect.get()) {
-            this.irradiatedEffect.process(f);
-            this.minecraft.getMainRenderTarget().bindWrite(false);
-        }
-        ClientProxy.irradiatedOutlineFlag = false;
-    }
-
 
     private static float calculateBiomeSkyOverride(Entity player) {
         int i = Minecraft.getInstance().options.biomeBlendRadius().get();

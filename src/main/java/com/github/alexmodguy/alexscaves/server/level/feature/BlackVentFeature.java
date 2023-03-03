@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.GeothermalVentBlock;
 import com.github.alexmodguy.alexscaves.server.block.ThinGeothermalVentBlock;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;

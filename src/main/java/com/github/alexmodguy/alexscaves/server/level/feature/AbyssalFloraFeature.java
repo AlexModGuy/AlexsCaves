@@ -1,9 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
-import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.PingPongSpongeBlock;
 import com.github.alexmodguy.alexscaves.server.level.feature.config.AbyssalFloraFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
@@ -12,7 +9,6 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
 public class AbyssalFloraFeature extends Feature<AbyssalFloraFeatureConfiguration> {
 

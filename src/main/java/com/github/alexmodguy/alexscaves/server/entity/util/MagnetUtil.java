@@ -4,7 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.AbstractMovingBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
-import com.github.alexmodguy.alexscaves.server.message.PlayerControllerJumpMessage;
+import com.github.alexmodguy.alexscaves.server.message.PlayerJumpFromMagnetMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
@@ -74,7 +74,7 @@ public class MagnetUtil {
             if(entity instanceof LivingEntity living){
                 if(living.jumping && standingOnDirection == dir){
                     if(living.level.isClientSide){
-                        AlexsCaves.sendMSGToServer(new PlayerControllerJumpMessage(living.getId(), living.jumping));
+                        AlexsCaves.sendMSGToServer(new PlayerJumpFromMagnetMessage(living.getId(), living.jumping));
                     }
                     magneticAccessor.postMagnetJump();
                 }

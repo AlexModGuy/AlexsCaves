@@ -16,6 +16,7 @@
   ],
   "client": [
     "client.CameraMixin",
+    "client.ClientPacketListenerMixin",
     "client.GameRendererMixin",
     "client.ItemInHandRendererMixin",
     "client.LevelRendererMixin",

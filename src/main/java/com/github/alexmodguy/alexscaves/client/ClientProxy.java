@@ -13,16 +13,18 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
+import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -51,7 +53,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.AABB;
@@ -65,7 +66,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 
@@ -75,10 +75,8 @@ public class ClientProxy extends CommonProxy {
     private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
-
-    public static boolean irradiatedOutlineFlag = false;
-    @Nullable
-    public static RenderTarget irradiatedTarget;
+    public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
+    private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation("alexscaves:shaders/post/submarine_light.json");
 
     protected final RandomSource random = RandomSource.create();
     private int lastTremorTick = -1;
@@ -95,14 +93,16 @@ public class ClientProxy extends CommonProxy {
     public boolean renderNukeSkyDark = false;
 
     public void init() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(ClientProxy::setupParticles);
+        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(ClientProxy::setupParticles);
+        bus.addListener(this::registerKeybinds);
     }
 
     public void clientInit() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.addListener(ClientLayerRegistry::addLayers);
         bus.addListener(this::bakeModels);
         bus.addListener(this::registerShaders);
-        bus.addListener(ClientLayerRegistry::addLayers);
         BlockEntityRenderers.register(ACBlockEntityRegistry.MAGNET.get(), MagnetBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
@@ -131,6 +131,8 @@ public class ClientProxy extends CommonProxy {
             return new ThrownItemRenderer<>(context, 1.25F, true);
         });
         EntityRenderers.register(ACEntityRegistry.LANTERNFISH.get(), LanternfishRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.SEA_PIG.get(), SeaPigRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.SUBMARINE.get(), SubmarineRenderer::new);
 
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
@@ -140,6 +142,7 @@ public class ClientProxy extends CommonProxy {
             return CaveMapItem.isLoading(stack) ? 1F : 0F;
         });
         blockedParticleLocations.clear();
+        PostEffectRegistry.registerEffect(IRRADIATED_SHADER);
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -191,9 +194,9 @@ public class ClientProxy extends CommonProxy {
             magnetic.setMagnetHeadRotation();
         }
         if (blockedEntityRenders.contains(event.getEntity().getUUID())) {
+            MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
             event.setCanceled(true);
             blockedEntityRenders.remove(event.getEntity().getUUID());
-            MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
         }
     }
 
@@ -206,6 +209,17 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void postRenderStage(RenderLevelStageEvent event) {
+        Entity player = Minecraft.getInstance().getCameraEntity();
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
+            GameRenderer renderer = Minecraft.getInstance().gameRenderer;
+            if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
+                if (renderer.currentEffect() == null || !SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
+                    renderer.loadEffect(SUBMARINE_SHADER);
+                }
+            } else if (renderer.currentEffect() != null && SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
+                renderer.checkEntityPostEffect(null);
+            }
+        }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && AlexsCaves.CLIENT_CONFIG.ambersolShines.get()) {
             RenderSystem.runAsFancy(() -> AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
         }
@@ -239,6 +253,10 @@ public class ClientProxy extends CommonProxy {
                 double intensity = tremorAmount * Minecraft.getInstance().options.screenEffectScale().get();
                 event.getCamera().move(randomTremorOffsets[0] * 0.2F * intensity, randomTremorOffsets[1] * 0.2F * intensity, randomTremorOffsets[2] * 0.5F * intensity);
             }
+        }
+        if (player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && event.getCamera().isDetached()) {
+            event.getCamera().move(-event.getCamera().getMaxZoom(4F), 0, 0);
+
         }
     }
 
@@ -341,7 +359,7 @@ public class ClientProxy extends CommonProxy {
                 event.setCanceled(true);
                 event.setFarPlaneDistance(event.getFarPlaneDistance() * farness);
             }
-        }else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
+        } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float nearness;
             if (i == 0) {
@@ -403,7 +421,7 @@ public class ClientProxy extends CommonProxy {
                 });
                 override = (float) vec31.x;
             }
-            if(override != 0){
+            if (override != 0) {
                 if (i == 0) {
                     vec3 = Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
                 } else {
@@ -481,6 +499,11 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+    private void registerKeybinds(RegisterKeyMappingsEvent e){
+        e.register(ACKeybindRegistry.KEY_SUB_FLOODLIGHTS);
+    }
+
+
     public Player getClientSidePlayer() {
         return Minecraft.getInstance().player;
     }
@@ -497,20 +520,20 @@ public class ClientProxy extends CommonProxy {
     public void setVisualFlag(int flag) {
     }
 
-    public float getNukeFlashAmount(float partialTicks){
+    public float getNukeFlashAmount(float partialTicks) {
         return prevNukeFlashAmount + (nukeFlashAmount - prevNukeFlashAmount) * partialTicks;
     }
 
-    public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at){
-        if(!blockedParticleLocations.containsKey(Minecraft.getInstance().level)){
+    public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at) {
+        if (!blockedParticleLocations.containsKey(Minecraft.getInstance().level)) {
             blockedParticleLocations.clear();
             blockedParticleLocations.put(Minecraft.getInstance().level, new ArrayList<>());
         }
-        if(simpleParticleType == ACParticleRegistry.TUBE_WORM.get()){
+        if (simpleParticleType == ACParticleRegistry.TUBE_WORM.get()) {
             List blocked = blockedParticleLocations.get(Minecraft.getInstance().level);
-            if(blocked.contains(at)){
+            if (blocked.contains(at)) {
                 return false;
-            }else{
+            } else {
                 blocked.add(new BlockPos(at));
                 return true;
             }
@@ -518,8 +541,8 @@ public class ClientProxy extends CommonProxy {
         return true;
     }
 
-    public void removeParticleAt(BlockPos at){
-        if(!blockedParticleLocations.containsKey(Minecraft.getInstance().level)){
+    public void removeParticleAt(BlockPos at) {
+        if (!blockedParticleLocations.containsKey(Minecraft.getInstance().level)) {
             blockedParticleLocations.clear();
             blockedParticleLocations.put(Minecraft.getInstance().level, new ArrayList<>());
         }
@@ -539,6 +562,36 @@ public class ClientProxy extends CommonProxy {
                 nukeFlashAmount = Math.max(nukeFlashAmount - 0.05F, 0F);
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onRenderBlockScreenEffect(RenderBlockScreenEffectEvent event) {
+        Player player = event.getPlayer();
+        if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && event.getOverlayType() == RenderBlockScreenEffectEvent.OverlayType.WATER) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onComputeFOV(ViewportEvent.ComputeFov event) {
+        Player player = Minecraft.getInstance().player;
+        FogType fogtype = event.getCamera().getFluidInCamera();
+        if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && fogtype == FogType.WATER) {
+            float f = (float) Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get(), 1.0D, (double) 0.85714287F);
+            event.setFOV(event.getFOV() / f);
+        }
+    }
+    public boolean isKeyDown(int keyType) {
+        if (keyType == 0) {
+            return Minecraft.getInstance().options.keyJump.isDown();
+        }
+        if (keyType == 1) {
+            return Minecraft.getInstance().options.keySprint.isDown();
+        }
+        if (keyType == 2) {
+            return ACKeybindRegistry.KEY_SUB_FLOODLIGHTS.isDown();
+        }
+        return false;
     }
 }
 

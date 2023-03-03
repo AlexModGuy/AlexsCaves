@@ -325,14 +325,14 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         boolean chewing = animation == GrottoceratopsEntity.ANIMATION_CHEW_FROM_GROUND || animation == GrottoceratopsEntity.ANIMATION_CHEW;
         if (chewing) {
             float animationIntensity = ACMath.cullAnimationTick(entity.getAnimationTick(), 3, animation, partialTick, animation == GrottoceratopsEntity.ANIMATION_CHEW_FROM_GROUND ? 15 : 0);
-            float jawDown = Math.min(0, walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 1F, true));
-            this.head.rotateAngleX += walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 0.05F, false);
-            this.jaw.rotationPointX += walkValue(ageInTicks, animationIntensity, 0.4F, 0.5F, 2F, true);
+            float jawDown = Math.min(0, ACMath.walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 1F, true));
+            this.head.rotateAngleX += ACMath.walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 0.05F, false);
+            this.jaw.rotationPointX += ACMath.walkValue(ageInTicks, animationIntensity, 0.4F, 0.5F, 2F, true);
             this.jaw.rotationPointY -= jawDown;
             this.grassBunch.rotationPointY -= jawDown * 0.5F;
             this.grassBunch2.rotationPointY -= jawDown * 0.5F;
-            this.grassBunch.rotateAngleZ -= walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 0.3F, true);
-            this.grassBunch2.rotateAngleZ -= walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 0.3F, false);
+            this.grassBunch.rotateAngleZ -= ACMath.walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 0.3F, true);
+            this.grassBunch2.rotateAngleZ -= ACMath.walkValue(ageInTicks, animationIntensity, 0.4F, 2F, 0.3F, false);
         }
     }
 
@@ -372,22 +372,22 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         this.swing(tail, walkSpeed, walkDegree * 0.4F, false, -1F, 0F, limbSwing, limbSwingAmount);
         this.swing(tail2, walkSpeed, walkDegree * 0.2F, false, -1F, 0F, limbSwing, limbSwingAmount);
         articulateLegs(entity.legSolver, partialTick);
-        float bodyBob = walkValue(limbSwing, limbSwingAmount, walkSpeed * 1.5F, 0.5F, 2.4F, true);
+        float bodyBob = ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed * 1.5F, 0.5F, 2.4F, true);
         this.body.rotationPointY += bodyBob;
         this.walk(larm, walkSpeed, walkDegree * 0.4F, true, 0F, 0F, limbSwing, limbSwingAmount);
-        larm.rotationPointY += Math.min(0, walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 5F, false)) - bodyBob;
-        larm.rotationPointZ += walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 1F, false);
+        larm.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 5F, false)) - bodyBob;
+        larm.rotationPointZ += ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 1F, false);
         this.walk(rarm, walkSpeed, walkDegree * 0.4F, false, 0F, 0F, limbSwing, limbSwingAmount);
-        rarm.rotationPointY += Math.min(0, walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 5F, true)) - bodyBob;
-        rarm.rotationPointZ += walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 1F, true);
+        rarm.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 5F, true)) - bodyBob;
+        rarm.rotationPointZ += ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -1.5F, 1F, true);
         this.walk(lleg, walkSpeed, walkDegree * 0.3F, false, 1F, 0F, limbSwing, limbSwingAmount);
         this.walk(lfoot, walkSpeed, walkDegree * 0.2F, false, 3F, 0F, limbSwing, limbSwingAmount);
-        lleg.rotationPointY += Math.min(0, walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, true)) - bodyBob;
-        lleg.rotationPointZ += walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 1F, true);
+        lleg.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, true)) - bodyBob;
+        lleg.rotationPointZ += ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 1F, true);
         this.walk(rleg, walkSpeed, walkDegree * 0.3F, true, 1F, 0F, limbSwing, limbSwingAmount);
         this.walk(rfoot, walkSpeed, walkDegree * 0.2F, true, 3F, 0F, limbSwing, limbSwingAmount);
-        rleg.rotationPointY += Math.min(0, walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, false)) - bodyBob;
-        rleg.rotationPointZ += walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 1F, false);
+        rleg.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, false)) - bodyBob;
+        rleg.rotationPointZ += ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 1F, false);
         if(entity.getAnimation() != GrottoceratopsEntity.ANIMATION_MELEE_TAIL_1 && entity.getAnimation() != GrottoceratopsEntity.ANIMATION_MELEE_TAIL_2){
             float yawAmount = netHeadYaw / 57.295776F;
             float pitchAmount = headPitch / 57.295776F;
@@ -396,8 +396,8 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
             this.neck.rotateAngleY += yawAmount * 0.3F;
             this.head.rotateAngleY += yawAmount * 0.4F;
         }
-        neck.rotationPointY += walkValue(ageInTicks, danceAmount, danceSpeed * 1.5F, 1F, 1.5F, false);
-        neck.rotationPointX += walkValue(ageInTicks, danceAmount, danceSpeed * 1.5F, 0F, 3F, false);
+        neck.rotationPointY += ACMath.walkValue(ageInTicks, danceAmount, danceSpeed * 1.5F, 1F, 1.5F, false);
+        neck.rotationPointX += ACMath.walkValue(ageInTicks, danceAmount, danceSpeed * 1.5F, 0F, 3F, false);
         this.swing(body, danceSpeed, 0.1F, false, 1, 0, ageInTicks, danceAmount);
         this.swing(tail, danceSpeed, 0.5F, false, 1, 0, ageInTicks, danceAmount);
         this.swing(tail2, danceSpeed, 0.5F, false, 1, 0, ageInTicks, danceAmount);
@@ -418,7 +418,5 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
 
     }
 
-    private float walkValue(float limbSwing, float limbSwingAmount, float speed, float offset, float degree, boolean inverse) {
-        return (float) ((Math.cos(limbSwing * speed + offset) * degree * limbSwingAmount) * (inverse ? -1 : 1));
-    }
+
 }

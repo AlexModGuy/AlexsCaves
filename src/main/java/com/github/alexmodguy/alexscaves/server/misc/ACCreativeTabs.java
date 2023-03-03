@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.CreativeModeTabEvent;
 
@@ -182,9 +181,10 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.RED_RADON_LAMP.get());
             add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
         }));
-        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(Items.TROPICAL_FISH)).displayItems((flags, output, isOp) -> {
+        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(ACItemRegistry.SUBMARINE.get())).displayItems((flags, output, isOp) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
             ACItemRegistry.getSpawnEggsForTab(ABYSSAL_CHASM).forEach((spawnEgg -> add(output, spawnEgg.get())));
+            add(output, ACItemRegistry.SUBMARINE.get());
             add(output, ACBlockRegistry.ABYSSMARINE.get());
             add(output, ACBlockRegistry.MUCK.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());

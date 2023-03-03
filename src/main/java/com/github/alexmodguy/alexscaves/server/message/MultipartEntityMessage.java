@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.entity.living;
+package com.github.alexmodguy.alexscaves.server.message;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.network.FriendlyByteBuf;

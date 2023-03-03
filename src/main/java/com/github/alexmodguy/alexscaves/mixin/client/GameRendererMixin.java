@@ -3,13 +3,16 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexmodguy.alexscaves.client.render.entity.SubmarineRenderer;
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,6 +24,8 @@ public class GameRendererMixin {
 
     @Shadow
     private float darkenWorldAmount;
+
+    @Shadow @Final private RenderBuffers renderBuffers;
 
     @Inject(
             method = {"Lnet/minecraft/client/renderer/GameRenderer;tick()V"},
@@ -66,6 +71,27 @@ public class GameRendererMixin {
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        }
+    }
+
+
+    @Inject(
+            method = {"Lnet/minecraft/client/renderer/GameRenderer;renderLevel(FJLcom/mojang/blaze3d/vertex/PoseStack;)V"},
+            remap = true,
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/GameRenderer;renderItemInHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/Camera;F)V",
+                    shift = At.Shift.BEFORE
+            )
+    )
+    public void ac_renderLevel(float partialTicks, long time, PoseStack poseStack, CallbackInfo ci) {
+        Entity player = Minecraft.getInstance().cameraEntity;
+        if(player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
+            Vec3 offset = submarine.getPosition(partialTicks).subtract(player.getEyePosition(partialTicks));
+            poseStack.pushPose();
+            poseStack.translate(offset.x, offset.y, offset.z);
+            SubmarineRenderer.renderSubFirstPerson(submarine, partialTicks, poseStack, renderBuffers.bufferSource());
+            poseStack.popPose();
         }
     }
 }

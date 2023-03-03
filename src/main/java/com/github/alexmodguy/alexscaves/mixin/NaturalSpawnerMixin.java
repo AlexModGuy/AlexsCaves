@@ -29,8 +29,6 @@ import java.util.Optional;
 @Mixin(NaturalSpawner.class)
 public class NaturalSpawnerMixin {
 
-    private static final WeightedRandomList<MobSpawnSettings.SpawnerData> EMPTY = WeightedRandomList.create();
-
     @Inject(
             method = {"Lnet/minecraft/world/level/NaturalSpawner;spawnMobsForChunkGeneration(Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/core/Holder;Lnet/minecraft/world/level/ChunkPos;Lnet/minecraft/util/RandomSource;)V"},
             remap = true,
@@ -104,6 +102,7 @@ public class NaturalSpawnerMixin {
         }
     }
 
+
     private static Holder<Biome> getCaveCreaturesBiome(ServerLevelAccessor level, ChunkPos chunkPos, RandomSource random) {
         List<Holder<Biome>> cavesWithCreatures = new ArrayList<>();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(chunkPos.getMiddleBlockX(), -1, chunkPos.getMiddleBlockZ());
@@ -121,7 +120,7 @@ public class NaturalSpawnerMixin {
 
     private static BlockPos getCaveCreatureSpawnPos(ServerLevelAccessor level, RandomSource random, Holder<Biome> checkAgainst, EntityType<?> type, int x, int z) {
         int safeWorldHeight = Math.max(level.getHeight(SpawnPlacements.getHeightmapType(type), x, z), 0);
-        int height = level.getMinBuildHeight() + random.nextInt( 2 + safeWorldHeight);
+        int height = level.getMinBuildHeight() + random.nextInt(2 + safeWorldHeight);
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, height, z);
         while ((!level.getBlockState(mutableBlockPos).isAir() || level.getBiome(mutableBlockPos) != checkAgainst) && mutableBlockPos.getY() > level.getMinBuildHeight()) {
             mutableBlockPos.move(Direction.DOWN);

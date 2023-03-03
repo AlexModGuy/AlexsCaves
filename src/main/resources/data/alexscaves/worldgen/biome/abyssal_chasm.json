@@ -177,7 +177,16 @@
         "minCount": 1,
         "weight": 1
       }
+    ],
+    "alexscaves:deep_sea_creature": [
+      {
+        "type": "alexscaves:sea_pig",
+        "maxCount": 4,
+        "minCount": 3,
+        "weight": 20
+      }
     ]
   },
+
   "temperature": 0.5
 }

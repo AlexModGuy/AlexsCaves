@@ -2,21 +2,13 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -30,8 +22,13 @@ public class MuckBlock extends FallingBlockWithColor {
     }
 
     public void entityInside(BlockState state, Level level, BlockPos blockPos, Entity entity) {
-        if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this) && !entity.getType().is(ACTagRegistry.SEAFLOOR_DENIZENS)) {
-            entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.85D, 1.0D, 0.85D));
+        if (!(entity instanceof LivingEntity) || entity.getFeetBlockState().is(this)) {
+            if(entity.getType().is(ACTagRegistry.SEAFLOOR_DENIZENS)){
+                entity.setPos(entity.getX(), blockPos.getY() + 1.0F, entity.getZ());
+                entity.setDeltaMovement(entity.getDeltaMovement().add(0.0D, 0.1D, 0.0D));
+            }else{
+                entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.85D, 1.0D, 0.85D));
+            }
         }
     }
 

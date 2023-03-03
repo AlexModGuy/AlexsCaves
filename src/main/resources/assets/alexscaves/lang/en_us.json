@@ -161,6 +161,7 @@
   "item.alexscaves.radgill_bucket": "Bucket of Radgill",
   "item.alexscaves.radon_bottle": "Bottle of Radon",
   "item.alexscaves.cinder_brick": "Cinder Brick",
+  "item.alexscaves.submarine": "Submarine",
   "item.alexscaves.spawn_egg_teletor": "Teletor Spawn Egg",
   "item.alexscaves.spawn_egg_magnetron": "Magnetron Spawn Egg",
   "item.alexscaves.spawn_egg_boundroid": "Boundroid Spawn Egg",
@@ -177,6 +178,8 @@
   "item.alexscaves.spawn_egg_gammaroach": "Gammaroach Spawn Egg",
   "item.alexscaves.spawn_egg_raycat": "Raycat Spawn Egg",
   "item.alexscaves.spawn_egg_lanternfish": "Lanternfish Spawn Egg",
+  "item.alexscaves.spawn_egg_sea_pig": "Sea Pig Spawn Egg",
+  "item.alexscaves.spawn_egg_sea_pig": "Sea Pig Spawn Egg",
   "entity.alexscaves.moving_metal_block": "Magnetized Block",
   "entity.alexscaves.teletor": "Teletor",
   "entity.alexscaves.magnetic_weapon": "Magnetic Weapon",
@@ -201,6 +204,10 @@
   "entity.alexscaves.raycat": "Raycat",
   "entity.alexscaves.cinder_brick": "Cinder Brick",
   "entity.alexscaves.lanternfish": "Lanternfish",
+  "entity.alexscaves.sea_pig": "Sea Pig",
+  "entity.alexscaves.submarine": "Submarine",
+  "entity.alexscaves.submarine.mount_message": "%s: Ascend, %s: Descend, %s: Floodlights, %s: Dismount",
+  "entity.alexscaves.hullbreaker": "Hullbreaker",
   "entity.alexscaves.all.command_0": "%s is wandering",
   "entity.alexscaves.all.command_1": "%s is staying",
   "entity.alexscaves.all.command_2": "%s is following",
@@ -218,5 +225,6 @@
   "biome.alexscaves.magnetic_caves": "Magnetic Caves",
   "biome.alexscaves.primordial_caves": "Primordial Caves",
   "biome.alexscaves.toxic_caves": "Toxic Caves",
-  "biome.alexscaves.abyssal_chasm": "Abyssal Chasm"
+  "biome.alexscaves.abyssal_chasm": "Abyssal Chasm",
+  "key.sub_floodlights": "Toggle Submarine Lights"
 }
