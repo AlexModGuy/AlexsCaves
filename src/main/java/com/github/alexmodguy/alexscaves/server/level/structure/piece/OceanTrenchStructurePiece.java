@@ -72,7 +72,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                             doFloor.setTrue();
                             surroundWater(level, carve, priorHeight);
                         }
-                    } else if (carve.distToLowCornerSqr(holeCenter.getX(), carve.getY(), holeCenter.getZ()) < getRadiusSq(carve) + 12 && level.isEmptyBlock(carve) && level.getFluidState(carve).isEmpty()) {
+                    } else if (carve.getY() < chunkGen.getSeaLevel() && carve.distToLowCornerSqr(holeCenter.getX(), carve.getY(), holeCenter.getZ()) < getRadiusSq(carve) + 12 && level.isEmptyBlock(carve) && level.getFluidState(carve).isEmpty()) {
                         surroundTrenchBorder(level, carve, priorHeight);
                     }
                 }

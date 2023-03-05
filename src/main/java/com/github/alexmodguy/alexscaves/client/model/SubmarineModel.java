@@ -123,6 +123,7 @@ public class SubmarineModel extends AdvancedEntityModel<SubmarineEntity> {
         float leftPropellerRot = Mth.wrapDegrees(entity.getLeftPropellerRot(partialTicks));
         float rightPropellerRot = Mth.wrapDegrees(entity.getRightPropellerRot(partialTicks));
         float backPropellerRot = Mth.wrapDegrees(entity.getBackPropellerRot(partialTicks));
+        float shake = Math.max(entity.shakeTime - partialTicks, 0) / 10F;
         Entity controllingPlayer = entity.getFirstPassenger();
         this.rightpropeller.rotateAngleZ += Math.toRadians(leftPropellerRot);
         this.leftpropeller.rotateAngleZ += Math.toRadians(rightPropellerRot);
@@ -132,12 +133,20 @@ public class SubmarineModel extends AdvancedEntityModel<SubmarineEntity> {
             float headYaw = 180 + (living.yHeadRotO + (living.getYHeadRot() - living.yHeadRotO) * partialTicks);
             this.periscope.rotateAngleY += Math.toRadians(subYaw + headYaw);
         }
+        this.hull.rotateAngleX += Math.sin(ageInTicks * 0.7F + 1.0F) * shake * 0.05F;
+        this.hull.rotateAngleZ += Math.sin(ageInTicks * 0.7F) * shake * 0.1F;
+        if(entity.getDamageLevel() < 4){
+            this.rarm.showModel = true;
+        }else{
+            this.hull.rotateAngleZ += Math.toRadians(10);
+            this.rarm.showModel = false;
+        }
     }
 
     public void setupWaterMask(SubmarineEntity entity, float partialTicks) {
         float xRot = (float) Math.toRadians(-entity.getViewXRot(partialTicks));
         Vec3 vec3 = new Vec3(0F, entity.getWaterHeight(), 0F).xRot(xRot);
-        float waterLevel = (float) vec3.y;
+        /*float waterLevel = (float) vec3.y;
         if(waterLevel >= 1.2F && waterLevel < 3.0F){
             if(xRot < 0){
                 waterLevel += (xRot / 60F) * 3F;
@@ -147,6 +156,11 @@ public class SubmarineModel extends AdvancedEntityModel<SubmarineEntity> {
             watermask.setScale(1F, -f - 0.1F, 1F);
         }else{
             watermask.showModel = false;
-        }
+        }*/
+        watermask.rotateAngleX = hull.rotateAngleX;
+        watermask.rotateAngleZ = hull.rotateAngleZ;
+        watermask.rotationPointY -= 7;
+        watermask.setScale(1F, 0.25F, 1F);
+
     }
 }

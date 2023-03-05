@@ -113,4 +113,8 @@ public class CommonProxy {
     public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at){
         return false;
     }
+
+    public float getPartialTicks() {
+        return 1.0F;
+    }
 }

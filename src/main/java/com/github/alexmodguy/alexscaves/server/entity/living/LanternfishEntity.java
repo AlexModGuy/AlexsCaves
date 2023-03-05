@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.mojang.datafixers.DataFixUtils;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -42,6 +43,7 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
@@ -64,7 +66,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
 
     public LanternfishEntity(EntityType<? extends WaterAnimal> type, Level level) {
         super(type, level);
-        this.moveControl = new VerticalMoveControl();
+        this.moveControl = new VerticalSwimmingMoveControl(this, 0.02F, 60);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
@@ -356,6 +358,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
         boolean clockwise = false;
 
         public SwimInSchoolGoal(LanternfishEntity fish) {
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
             this.fish = fish;
         }
 
@@ -495,30 +498,6 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
             if (--this.timeToRecalcPath <= 0) {
                 this.timeToRecalcPath = this.adjustedTickDelay(10);
                 this.mob.moveToGroupLeader();
-            }
-        }
-    }
-
-    class VerticalMoveControl extends MoveControl {
-
-        public VerticalMoveControl() {
-            super(LanternfishEntity.this);
-        }
-
-        public void tick() {
-            if (this.operation == MoveControl.Operation.MOVE_TO && LanternfishEntity.this.isInWaterOrBubble()) {
-                final Vec3 vector3d = new Vec3(this.wantedX - LanternfishEntity.this.getX(), this.wantedY - LanternfishEntity.this.getY(), this.wantedZ - LanternfishEntity.this.getZ());
-                final double d5 = vector3d.length();
-                if (d5 < LanternfishEntity.this.getBoundingBox().getSize()) {
-                    this.operation = MoveControl.Operation.WAIT;
-                    LanternfishEntity.this.setDeltaMovement(LanternfishEntity.this.getDeltaMovement().scale(0.5D));
-                } else {
-                    LanternfishEntity.this.setDeltaMovement(LanternfishEntity.this.getDeltaMovement().add(vector3d.scale(this.speedModifier * 0.02D / d5)));
-                    final Vec3 vector3d1 = LanternfishEntity.this.getDeltaMovement();
-                    float f = -((float) Mth.atan2(vector3d1.x, vector3d1.z)) * 180.0F / (float) Math.PI;
-                    LanternfishEntity.this.setYRot(Mth.approachDegrees(LanternfishEntity.this.getYRot(), f, 60));
-                    LanternfishEntity.this.yBodyRot = LanternfishEntity.this.getYRot();
-                }
             }
         }
     }

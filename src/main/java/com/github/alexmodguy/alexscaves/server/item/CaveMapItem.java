@@ -33,7 +33,7 @@ public class CaveMapItem extends Item {
         if(!isLoading(itemstack) && !isFilled(itemstack)) {
             itemstack.getOrCreateTag().putBoolean("Loading", true);
             if(!level.isClientSide){
-                CaveBiomeFinder.fillOutCaveMap(itemstack, (ServerLevel) level, player.blockPosition());
+                CaveBiomeFinder.fillOutCaveMap(itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition());
             }
         }
         return InteractionResultHolder.success(itemstack);

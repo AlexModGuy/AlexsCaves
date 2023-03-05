@@ -29,6 +29,14 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/submarine/submarine.png");
+    private static final ResourceLocation TEXTURE_EXPOSED = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_exposed.png");
+    private static final ResourceLocation TEXTURE_WEATHERED = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_weathered.png");
+    private static final ResourceLocation TEXTURE_OXIDIZED = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_oxidized.png");
+    private static final ResourceLocation TEXTURE_NEW = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_new.png");
+    private static final ResourceLocation TEXTURE_LOW = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_low.png");
+    private static final ResourceLocation TEXTURE_MEDIUM = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_medium.png");
+    private static final ResourceLocation TEXTURE_HIGH = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_high.png");
+    private static final ResourceLocation TEXTURE_CRITICAL = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_critical.png");
     private static final ResourceLocation TEXTURE_BUTTONS = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_buttons.png");
     private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/submarine/submarine_glow.png");
     private static SubmarineModel MODEL = new SubmarineModel();
@@ -85,13 +93,17 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
             poseStack.popPose();
             AlexsCaves.PROXY.blockRenderingEntity(passenger.getUUID());
         }
-        VertexConsumer textureBuffer = source.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+        VertexConsumer textureBuffer = source.getBuffer(RenderType.entityCutoutNoCull(getSubmarineBaseTexture(entity)));
         MODEL.renderToBuffer(poseStack, textureBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        VertexConsumer buttonsBuffer = source.getBuffer(RenderType.eyes(TEXTURE_BUTTONS));
-        MODEL.renderToBuffer(poseStack, buttonsBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        if(entity.areLightsOn() && entity.isVehicle()){
-            VertexConsumer glowBuffer = source.getBuffer(RenderType.eyes(TEXTURE_GLOW));
-            MODEL.renderToBuffer(poseStack, glowBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        VertexConsumer damageBuffer = source.getBuffer(RenderType.entityTranslucent(getSubmarineDamageTexture(entity)));
+        MODEL.renderToBuffer(poseStack, damageBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        if(entity.getDamageLevel() <= 3){
+            VertexConsumer buttonsBuffer = source.getBuffer(RenderType.eyes(TEXTURE_BUTTONS));
+            MODEL.renderToBuffer(poseStack, buttonsBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            if(entity.areLightsOn() && entity.isVehicle()){
+                VertexConsumer glowBuffer = source.getBuffer(RenderType.eyes(TEXTURE_GLOW));
+                MODEL.renderToBuffer(poseStack, glowBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            }
         }
         if(maskWater){
             VertexConsumer waterMask = source.getBuffer(ACRenderTypes.getSubmarineMask());
@@ -128,6 +140,22 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
 
         poseStack.popPose();
         poseStack.popPose();
+    }
+
+    private static ResourceLocation getSubmarineDamageTexture(SubmarineEntity entity){
+        switch (entity.getDamageLevel()){
+            case 0:
+                return TEXTURE_NEW;
+            case 1:
+                return TEXTURE_LOW;
+            case 2:
+                return TEXTURE_MEDIUM;
+            case 3:
+                return TEXTURE_HIGH;
+            case 4:
+                return TEXTURE_CRITICAL;
+        }
+        return TEXTURE_NEW;
     }
 
     public static <E extends Entity> void renderPassenger(E entityIn, double x, double y, double z, float yaw, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int packedLight) {
@@ -167,6 +195,19 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
         p_114224_.vertex(p_114225_, HALF_SQRT_3 * p_114227_, p_114226_, 0).color(200, 235, 255, 0).uv(xOffset + 1, yOffset + 1).overlayCoords(NO_OVERLAY).uv2(240).normal(p_114092_, 0.0F, -1.0F, 0.0F).endVertex();
     }
 
+    private static ResourceLocation getSubmarineBaseTexture(SubmarineEntity entity){
+        switch (entity.getOxidizationLevel()){
+            case 0:
+                return TEXTURE;
+            case 1:
+                return TEXTURE_EXPOSED;
+            case 2:
+                return TEXTURE_WEATHERED;
+            case 3:
+                return TEXTURE_OXIDIZED;
+        }
+        return TEXTURE;
+    }
 
     public ResourceLocation getTextureLocation(SubmarineEntity entity) {
         return TEXTURE;

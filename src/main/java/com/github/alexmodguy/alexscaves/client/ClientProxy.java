@@ -133,6 +133,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.LANTERNFISH.get(), LanternfishRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SEA_PIG.get(), SeaPigRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBMARINE.get(), SubmarineRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.HULLBREAKER.get(), HullbreakerRenderer::new);
 
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
@@ -592,6 +593,10 @@ public class ClientProxy extends CommonProxy {
             return ACKeybindRegistry.KEY_SUB_FLOODLIGHTS.isDown();
         }
         return false;
+    }
+
+    public float getPartialTicks() {
+        return Minecraft.getInstance().getPartialTick();
     }
 }
 

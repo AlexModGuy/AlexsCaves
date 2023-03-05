@@ -1,0 +1,19 @@
+{
+  "__comment": "all non-player mobs that glow, used by hullbreaker.",
+  "values": [
+    "minecraft:glow_squid",
+    "minecraft:blaze",
+    "minecraft:blaze",
+    "minecraft:enderman",
+    "minecraft:allay",
+    "minecraft:magma_cube",
+    "minecraft:phantom",
+    "minecraft:warden",
+    "alexscaves:teletor",
+    "alexscaves:magnetron",
+    "alexscaves:boundroid",
+    "alexscaves:nucleeper",
+    "alexscaves:radgill",
+    "alexscaves:raycat"
+  ]
+}
