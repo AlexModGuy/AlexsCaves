@@ -39,7 +39,7 @@ public class WhalefallFeature extends Feature<WhalefallFeatureConfiguration> {
         while(!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()){
             trenchBottom.move(0, -1, 0);
         }
-        if(!level.getBlockState(trenchBottom.below()).is(Blocks.TUFF)){
+        if(level.getBlockState(trenchBottom.below()).is(ACBlockRegistry.MUCK.get())){
             Rotation rotation = Rotation.getRandom(randomsource);
             ResourceLocation head = context.config().headStructures.get(randomsource.nextInt(context.config().headStructures.size()));
             ResourceLocation body = context.config().bodyStructures.get(randomsource.nextInt(context.config().bodyStructures.size()));
@@ -47,7 +47,7 @@ public class WhalefallFeature extends Feature<WhalefallFeatureConfiguration> {
             Direction direction = rotation.rotate(Direction.SOUTH);
             Direction bendTo = randomsource.nextBoolean() ? direction.getClockWise() : direction.getCounterClockWise();
             StructureTemplateManager structuretemplatemanager = level.getLevel().getServer().getStructureManager();
-            BlockPos startAt = trenchBottom.immutable().relative(direction.getOpposite(), 5).above(2);
+            BlockPos startAt = trenchBottom.immutable().relative(direction.getOpposite(), 5);
             int i = generateStructurePiece(level, structuretemplatemanager, rotation, randomsource, head, startAt, false);
             int bendToDist = randomsource.nextInt(2);
             int j = generateStructurePiece(level, structuretemplatemanager, rotation, randomsource, body, startAt.relative(direction, i + randomsource.nextInt(1)).relative(bendTo, bendToDist), true) + 1;

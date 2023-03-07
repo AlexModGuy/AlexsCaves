@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerInspectMobGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerMeleeGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.RandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -17,14 +18,12 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
-import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
@@ -35,10 +34,10 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -46,7 +45,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
 
-import java.util.EnumSet;
 import java.util.function.Predicate;
 
 public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
@@ -97,10 +95,15 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         this.entityData.define(INTEREST_LEVEL, 0);
     }
 
+    public static boolean checkHullbreakerSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 25;
+    }
+
+
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new HullbreakerMeleeGoal(this));
         this.goalSelector.addGoal(1, new HullbreakerInspectMobGoal(this));
-        this.goalSelector.addGoal(2, new RandomSwimmingGoal());
+        this.goalSelector.addGoal(2, new RandomlySwimGoal(this, 10, 35, 15, 1.0D));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
@@ -248,7 +251,6 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         Vec3[] avector3d = new Vec3[this.allParts.length];
         for (int j = 0; j < this.allParts.length; ++j) {
             avector3d[j] = new Vec3(this.allParts[j].getX(), this.allParts[j].getY(), this.allParts[j].getZ());
-            this.allParts[j].copyPosition(this);
         }
         Vec3 center = this.position().add(0, this.getBbHeight() * 0.5F, 0);
         this.headPart.setPosCenteredY(this.rotateOffsetVec(new Vec3(0, 0, 3.5F), fishPitch + this.getXRot(), this.getYHeadRot()).add(center));
@@ -334,49 +336,6 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     @Override
     public Animation[] getAnimations() {
         return new Animation[]{ANIMATION_PUZZLE, ANIMATION_BITE, ANIMATION_BASH};
-    }
-
-    private class RandomSwimmingGoal extends Goal {
-
-        private BlockPos goal = null;
-        public RandomSwimmingGoal() {
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
-        }
-
-        @Override
-        public boolean canUse() {
-            LivingEntity target = HullbreakerEntity.this.getTarget();
-            return HullbreakerEntity.this.isInWaterOrBubble() && (target == null || !target.isAlive()) && HullbreakerEntity.this.getRandom().nextInt(10) == 0;
-        }
-
-        @Override
-        public boolean canContinueToUse() {
-            return goal != null && HullbreakerEntity.this.distanceToSqr(Vec3.atCenterOf(goal)) > 30 && !HullbreakerEntity.this.getNavigation().isDone();
-        }
-
-        public void start(){
-            goal = findSwimToPos(35);
-            HullbreakerEntity.this.getNavigation().moveTo(goal.getX(), goal.getY(), goal.getZ(), 0.7F);
-        }
-
-        public BlockPos findSwimToPos(int range) {
-            BlockPos around = HullbreakerEntity.this.blockPosition();
-            int surfaceY;
-            BlockPos.MutableBlockPos move = new BlockPos.MutableBlockPos();
-            move.set(HullbreakerEntity.this.getX(), HullbreakerEntity.this.getY(), HullbreakerEntity.this.getZ());
-            while (move.getY() < level.getMaxBuildHeight() && level.getFluidState(move).is(FluidTags.WATER)) {
-                move.move(0, 5, 0);
-            }
-            surfaceY = move.getY();
-            around = around.atY(Math.min(surfaceY - 10, around.getY()));
-            for (int i = 0; i < 15; i++) {
-                BlockPos blockPos = around.offset(random.nextInt(range) - range / 2, random.nextInt(range) - range / 2, random.nextInt(range) - range / 2);
-                if (HullbreakerEntity.this.level.getFluidState(blockPos).is(FluidTags.WATER) && !HullbreakerEntity.this.isTargetBlocked(Vec3.atCenterOf(blockPos)) && blockPos.getY() > level.getMinBuildHeight() + 1) {
-                    return blockPos;
-                }
-            }
-            return around;
-        }
     }
 
 }

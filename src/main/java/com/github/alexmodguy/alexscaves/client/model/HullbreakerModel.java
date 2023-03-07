@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
@@ -9,7 +8,6 @@ import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.util.Mth;
 
 public class HullbreakerModel extends AdvancedEntityModel<HullbreakerEntity> {
     private final AdvancedModelBox root;

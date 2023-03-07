@@ -1,19 +1,14 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -28,8 +23,6 @@ public class HullbreakerInspectMobGoal extends Goal {
     private boolean clockwise;
     private int phaseTime;
     private int maxPhaseTime;
-    private double circleDistance;
-
     private boolean staring = false;
 
     public HullbreakerInspectMobGoal(HullbreakerEntity hullbreaker) {
@@ -67,7 +60,6 @@ public class HullbreakerInspectMobGoal extends Goal {
 
     public void start(){
         staring = true;
-        circleDistance = 10;
         clockwise = entity.getRandom().nextBoolean();
         phaseTime = 0;
         maxPhaseTime = 60 + 40 * Math.min(0, 5 - entity.getInterestLevel());

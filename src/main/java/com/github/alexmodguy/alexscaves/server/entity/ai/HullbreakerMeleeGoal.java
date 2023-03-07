@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;

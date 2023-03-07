@@ -49,7 +49,9 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<LanternfishEntity>> LANTERNFISH = DEF_REG.register("lanternfish", () -> (EntityType)EntityType.Builder.of(LanternfishEntity::new, MobCategory.WATER_AMBIENT).sized(0.5F, 0.4F).build("lanternfish"));
     public static final RegistryObject<EntityType<SeaPigEntity>> SEA_PIG = DEF_REG.register("sea_pig", () -> (EntityType)EntityType.Builder.of(SeaPigEntity::new, DEEP_SEA_CREATURE).sized(0.5F, 0.65F).build("sea_pig"));
     public static final RegistryObject<EntityType<SubmarineEntity>> SUBMARINE = DEF_REG.register("submarine", () -> (EntityType)EntityType.Builder.of(SubmarineEntity::new, MobCategory.MISC).sized(3.5F, 3.3F).setCustomClientFactory(SubmarineEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("submarine"));
-    public static final RegistryObject<EntityType<HullbreakerEntity>> HULLBREAKER = DEF_REG.register("hullbreaker", () -> (EntityType)EntityType.Builder.of(HullbreakerEntity::new, DEEP_SEA_CREATURE).sized(4.65F, 4.5F).setShouldReceiveVelocityUpdates(true).clientTrackingRange(20).build("hullbreaker"));
+    public static final RegistryObject<EntityType<HullbreakerEntity>> HULLBREAKER = DEF_REG.register("hullbreaker", () -> (EntityType)EntityType.Builder.of(HullbreakerEntity::new, MobCategory.UNDERGROUND_WATER_CREATURE).sized(4.65F, 4.5F).setShouldReceiveVelocityUpdates(true).clientTrackingRange(20).build("hullbreaker"));
+    public static final RegistryObject<EntityType<GossamerWormEntity>> GOSSAMER_WORM = DEF_REG.register("gossamer_worm", () -> (EntityType)EntityType.Builder.of(GossamerWormEntity::new, DEEP_SEA_CREATURE).sized(1.15F, 0.5F).build("gossamer_worm"));
+    public static final RegistryObject<EntityType<TripodfishEntity>> TRIPODFISH = DEF_REG.register("tripodfish", () -> (EntityType)EntityType.Builder.of(TripodfishEntity::new, DEEP_SEA_CREATURE).sized(0.95F, 0.5F).build("tripodfish"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -72,6 +74,8 @@ public class ACEntityRegistry {
         event.put(LANTERNFISH.get(), LanternfishEntity.createAttributes().build());
         event.put(SEA_PIG.get(), SeaPigEntity.createAttributes().build());
         event.put(HULLBREAKER.get(), HullbreakerEntity.createAttributes().build());
+        event.put(GOSSAMER_WORM.get(), GossamerWormEntity.createAttributes().build());
+        event.put(TRIPODFISH.get(), TripodfishEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -94,6 +98,9 @@ public class ACEntityRegistry {
         event.register(RAYCAT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RaycatEntity::checkRaycatSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(LANTERNFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LanternfishEntity::checkLanternfishSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(SEA_PIG.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SeaPigEntity::checkSeaPigSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(HULLBREAKER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, HullbreakerEntity::checkHullbreakerSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GOSSAMER_WORM.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GossamerWormEntity::checkGossamerWormSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(TRIPODFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TripodfishEntity::checkTripodfishSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

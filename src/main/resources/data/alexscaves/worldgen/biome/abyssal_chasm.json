@@ -189,10 +189,21 @@
         "type": "alexscaves:sea_pig",
         "maxCount": 4,
         "minCount": 3,
-        "weight": 20
+        "weight": 30
+      },
+      {
+        "type": "alexscaves:gossamer_worm",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 25
+      },
+      {
+        "type": "alexscaves:tripodfish",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 30
       }
     ]
   },
-
   "temperature": 0.5
 }

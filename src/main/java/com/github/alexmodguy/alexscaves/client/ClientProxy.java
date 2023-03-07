@@ -134,7 +134,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.SEA_PIG.get(), SeaPigRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBMARINE.get(), SubmarineRenderer::new);
         EntityRenderers.register(ACEntityRegistry.HULLBREAKER.get(), HullbreakerRenderer::new);
-
+        EntityRenderers.register(ACEntityRegistry.GOSSAMER_WORM.get(), GossamerWormRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.TRIPODFISH.get(), TripodfishRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;

@@ -29,7 +29,7 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
         while(!level.getBlockState(ventBottom).getFluidState().isEmpty() && ventBottom.getY() > level.getMinBuildHeight()){
             ventBottom.move(0, -1, 0);
         }
-        if (level.getBlockState(ventBottom.below()).equals(Blocks.TUFF.defaultBlockState())) {
+        if (ventBottom.getY() < level.getSeaLevel() - 20 && level.getBlockState(ventBottom.below()).equals(Blocks.TUFF.defaultBlockState())) {
             for(int i = 0; i < 4 + randomsource.nextInt(4); i++){
                 BlockPos wormAt = ventBottom.immutable().offset(randomsource.nextInt(10) - 5, randomsource.nextInt(4), randomsource.nextInt(10) - 5);
                 Direction wormAttachDirection = Direction.DOWN;

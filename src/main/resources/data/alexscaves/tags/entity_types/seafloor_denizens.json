@@ -2,6 +2,9 @@
   "__comment": "all mobs that do not sink in mud.",
   "values": [
     "alexscaves:lanternfish",
-    "alexscaves:sea_pig"
+    "alexscaves:sea_pig",
+    "alexscaves:hullbreaker",
+    "alexscaves:gossamer_worm",
+    "alexscaves:tripodfish"
   ]
 }
