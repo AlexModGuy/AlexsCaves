@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.render;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -18,8 +19,18 @@ public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeIrradiatedShader);
 
     protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
-        RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
+        RenderTarget target = ACPostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
         if (target != null) {
+            target.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+            target.bindWrite(false);
+        }
+    }, () -> {
+        Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+    });
+    protected static final RenderStateShard.OutputStateShard HOLOGRAM_OUTPUT = new RenderStateShard.OutputStateShard("hologram_target", () -> {
+        RenderTarget target = ACPostEffectRegistry.getRenderTargetFor(ClientProxy.HOLOGRAM_SHADER);
+        if (target != null) {
+            target.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             target.bindWrite(false);
         }
     }, () -> {
@@ -75,6 +86,17 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(true));
     }
 
+    public static RenderType getHologramLights() {
+        return create("hologram_lights", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_LIGHTNING_SHADER)
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setCullState(CULL)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setLightmapState(NO_LIGHTMAP)
+                .setOutputState(HOLOGRAM_OUTPUT)
+                .createCompositeState(false));
+    }
+
     public static RenderType getGel(ResourceLocation locationIn) {
         return create("ferrouslime_gel", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
@@ -91,7 +113,6 @@ public class ACRenderTypes extends RenderType {
                 .setCullState(NO_CULL)
                 .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                .setWriteMaskState(COLOR_DEPTH_WRITE)
                 .setDepthTestState(LEQUAL_DEPTH_TEST)
                 .setOutputState(IRRADIATED_OUTPUT)
                 .createCompositeState(false));
@@ -127,5 +148,17 @@ public class ACRenderTypes extends RenderType {
 
     public static RenderType getSubmarineLights() {
         return create("submarine_lights", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(RENDERTYPE_LIGHTNING_SHADER).setWriteMaskState(COLOR_DEPTH_WRITE).setTransparencyState(ADDITIVE_TRANSPARENCY).setOutputState(WEATHER_TARGET).createCompositeState(false));
+    }
+
+    public static RenderType getHologram(ResourceLocation locationIn) {
+        return create("hologram", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_BEACON_BEAM_SHADER)
+                .setCullState(NO_CULL)
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setOutputState(HOLOGRAM_OUTPUT)
+                .createCompositeState(false));
     }
 }

@@ -30,7 +30,6 @@ public class GammaroachModel extends AdvancedEntityModel<GammaroachEntity> {
     private final AdvancedModelBox lleg;
     private final AdvancedModelBox lleg2;
     private final AdvancedModelBox lleg3;
-
     private final ModelAnimator animator;
 
     public GammaroachModel() {

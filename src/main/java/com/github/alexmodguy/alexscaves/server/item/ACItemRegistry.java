@@ -12,13 +12,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ACItemRegistry {
-    private static Map<RegistryObject<Item>, ResourceLocation> creativeTabSpawnEggMap = new HashMap<>();
+    private static Map<RegistryObject<Item>, ResourceLocation> creativeTabSpawnEggMap = new LinkedHashMap<>();
     public static final DeferredRegister<Item> DEF_REG = DeferredRegister.create(ForgeRegistries.ITEMS, AlexsCaves.MODID);
 
     public static final RegistryObject<Item> CAVE_MAP = DEF_REG.register("cave_map", () -> new CaveMapItem(new Item.Properties().stacksTo(1)));
@@ -40,6 +37,7 @@ public class ACItemRegistry {
         spawnEgg("magnetron", ACEntityRegistry.MAGNETRON, 0XFF002A,0X203070, ACCreativeTabs.MAGNETIC_CAVES);
         spawnEgg("boundroid", ACEntityRegistry.BOUNDROID, 0XBB1919,0XFFFFFF, ACCreativeTabs.MAGNETIC_CAVES);
         spawnEgg("ferrouslime", ACEntityRegistry.FERROUSLIME, 0X26272D,0X53556C, ACCreativeTabs.MAGNETIC_CAVES);
+        spawnEgg("notor", ACEntityRegistry.NOTOR, 0X5F5369,0XC6C6C6, ACCreativeTabs.MAGNETIC_CAVES);
         spawnEgg("subterranodon", ACEntityRegistry.SUBTERRANODON, 0X00B1B2,0XFFF11C, ACCreativeTabs.PRIMORDIAL_CAVES);
         spawnEgg("vallumraptor", ACEntityRegistry.VALLUMRAPTOR, 0X22389A,0XEEE5AB, ACCreativeTabs.PRIMORDIAL_CAVES);
         spawnEgg("grottoceratops", ACEntityRegistry.GROTTOCERATOPS, 0XAC3B03,0XD39B4E, ACCreativeTabs.PRIMORDIAL_CAVES);
@@ -56,10 +54,11 @@ public class ACItemRegistry {
         spawnEgg("hullbreaker", ACEntityRegistry.HULLBREAKER, 0X182538,0X76FFFD, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("gossamer_worm", ACEntityRegistry.GOSSAMER_WORM, 0XC8F1FF,0X96DEF6, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("tripodfish", ACEntityRegistry.TRIPODFISH, 0X34529D,0X81A1CF, ACCreativeTabs.ABYSSAL_CHASM);
+        spawnEgg("deep_one", ACEntityRegistry.DEEP_ONE, 0X0D2547,0X0A843B, ACCreativeTabs.ABYSSAL_CHASM);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName){
-        RegistryObject<Item> item = DEF_REG.register("spawn_egg_" + entityName, () -> new ForgeSpawnEggItem(type, color1,color2, new Item.Properties()));
+        RegistryObject<Item> item = DEF_REG.register("spawn_egg_" + entityName, () -> new ForgeSpawnEggItem(type, color1, color2, new Item.Properties()));
         creativeTabSpawnEggMap.put(item, tabName);
     }
 

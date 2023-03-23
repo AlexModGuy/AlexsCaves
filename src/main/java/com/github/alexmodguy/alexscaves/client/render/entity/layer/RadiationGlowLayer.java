@@ -3,8 +3,8 @@ package com.github.alexmodguy.alexscaves.client.render.entity.layer;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
-import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -26,7 +26,7 @@ public class RadiationGlowLayer extends RenderLayer {
     @Override
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, Entity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         if(entity instanceof LivingEntity living && living.hasEffect(ACEffectRegistry.IRRADIATED.get()) && AlexsCaves.CLIENT_CONFIG.radiationGlowEffect.get()) {
-            PostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
+            ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getRadiationGlow(getTextureLocation(entity)));
             int level = living.getEffect(ACEffectRegistry.IRRADIATED.get()).getAmplifier() + 1;
             float alpha = Math.min(level * 0.33F, 1F);

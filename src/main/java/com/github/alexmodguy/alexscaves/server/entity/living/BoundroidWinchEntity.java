@@ -50,8 +50,8 @@ public class BoundroidWinchEntity extends Monster {
     private boolean goingUp;
     private int lastStepTimestamp = -1;
     private boolean isUpsideDownNavigator = false;
-
     private int noLatchCooldown = 0;
+    private int changeLatchStateTime = 0;
 
     public BoundroidWinchEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -220,19 +220,29 @@ public class BoundroidWinchEntity extends Monster {
                 if (this.isLatched()) {
                     this.setNoGravity(true);
                     if (distanceToCeiling > MAX_DIST_TO_CEILING || !isAlive() || noLatchCooldown > 0) {
+                        changeLatchStateTime++;
+                    }else{
+                        changeLatchStateTime = 0;
+                    }
+                    if(changeLatchStateTime > 5){
                         this.setLatched(false);
                     }
-                    this.setDeltaMovement(this.getDeltaMovement().scale(0.85F));
+                    this.setDeltaMovement(this.getDeltaMovement().add(0, 0.14, 0).scale(0.85F));
                     goingUp = false;
                     boundroid.stopGravity = true;
                 } else {
                     this.setNoGravity(false);
                     boundroid.stopGravity = false;
                     if ((distanceToCeiling < MAX_DIST_TO_CEILING || verticalCollision && !verticalCollisionBelow) && noLatchCooldown <= 0) {
+                        changeLatchStateTime++;
+                    }else{
+                        changeLatchStateTime = 0;
+                    }
+                    if(changeLatchStateTime > 5){
                         this.setLatched(true);
                     }
                     if (goingUp) {
-                        this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, 1F, this.getDeltaMovement().z));
+                        this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, 1.5F, this.getDeltaMovement().z));
                     } else if (this.onGround && noLatchCooldown == 0 && this.isAlive() && random.nextInt(30) == 0 && distanceToCeiling > MAX_DIST_TO_CEILING && !this.level.canSeeSky(this.blockPosition())) {
                         goingUp = true;
                     }

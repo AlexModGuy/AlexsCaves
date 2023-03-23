@@ -22,14 +22,14 @@ public class MovingMetalBlockRenderer extends EntityRenderer<MovingMetalBlockEnt
         this.shadowRadius = 0.5F;
     }
 
-        public void render(MovingMetalBlockEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
-        for(MovingBlockData data : entity.getData()){
+    public void render(MovingMetalBlockEntity entity, float f1, float f2, PoseStack stack, MultiBufferSource source, int i) {
+        for (MovingBlockData data : entity.getData()) {
             BlockState blockstate = data.getState();
             if (blockstate.getRenderShape() != RenderShape.INVISIBLE) {
                 stack.pushPose();
                 stack.translate(-0.5D, -0.5D, -0.5D);
                 stack.translate(data.getOffset().getX(), data.getOffset().getY(), data.getOffset().getZ());
-                if(blockstate.getRenderShape() == RenderShape.ENTITYBLOCK_ANIMATED && blockstate.hasProperty(HorizontalDirectionalBlock.FACING)){
+                if (blockstate.getRenderShape() == RenderShape.ENTITYBLOCK_ANIMATED && blockstate.hasProperty(HorizontalDirectionalBlock.FACING)) {
                     float f = blockstate.getValue(HorizontalDirectionalBlock.FACING).toYRot();
                     stack.translate(0.5D, 0.5D, 0.5D);
                     stack.mulPose(Axis.YP.rotationDegrees(-f));

@@ -7,6 +7,8 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
@@ -32,7 +34,8 @@ public class MagneticNodeFeature extends Feature<MagneticNodeFeatureConfiguratio
         if(canReplace(level.getBlockState(pos))){
             List<Direction> possiblities = new ArrayList<>();
             for(Direction possible : Direction.values()){
-                if(level.getBlockState(pos.relative(possible)).is(ACTagRegistry.MAGNETIC_CAVES_BASE_BLOCKS)){
+                BlockPos check = pos.relative(possible);
+                if (isSameChunk(pos, check) && level.getBlockState(check).isFaceSturdy(level, check, possible.getOpposite())) {
                     possiblities.add(possible.getOpposite());
                 }
             }
@@ -41,10 +44,11 @@ public class MagneticNodeFeature extends Feature<MagneticNodeFeatureConfiguratio
                 int centerHeight = 3 + randomSource.nextInt(3);
                 generatePillar(level, pos, context.config().pillarBlock, context.config().nodeBlock, direction, randomSource, centerHeight);
                 int pillarSpread = 2;
+                Vec3i inverseVec = new Vec3i(1, 1, 1).subtract(new Vec3i(Math.abs(direction.getStepX()), Math.abs(direction.getStepY()), Math.abs(direction.getStepZ())));
                 for(int pillar = 0; pillar < 2 + randomSource.nextInt(3); pillar++){
-                    BlockPos genAt = pos.offset(randomSource.nextInt(pillarSpread * 2) - pillarSpread, randomSource.nextInt(pillarSpread * 2) - pillarSpread, randomSource.nextInt(pillarSpread * 2) - pillarSpread);
+                    BlockPos genAt = pos.offset((randomSource.nextInt(pillarSpread * 2) - pillarSpread) * inverseVec.getX(), (randomSource.nextInt(pillarSpread * 2) - pillarSpread) * inverseVec.getY(), (randomSource.nextInt(pillarSpread * 2) - pillarSpread) * inverseVec.getZ());
                     if(genAt.distManhattan(pos) > 0){
-                        int pillarHeight = (int) Math.max(centerHeight - genAt.distManhattan(pos) - randomSource.nextInt(2), 1);
+                        int pillarHeight = (int) Math.max(centerHeight - genAt.distManhattan(pos) - randomSource.nextInt(2), 1) + 2;
                         generatePillar(level, genAt, context.config().pillarBlock, context.config().nodeBlock, direction, randomSource, pillarHeight);
                     }
                 }
@@ -59,7 +63,12 @@ public class MagneticNodeFeature extends Feature<MagneticNodeFeatureConfiguratio
     }
 
     private static void generatePillar(WorldGenLevel level, BlockPos pos, BlockStateProvider pillarState, BlockStateProvider nodeState, Direction facing, RandomSource randomSource, int height){
-        BlockPos begin = pos.relative(facing, -3);
+        BlockPos begin = pos;
+        int j = 0;
+        while (j < 5 && canReplace(level.getBlockState(begin))){
+            j++;
+            begin = begin.relative(facing.getOpposite());
+        }
         BlockPos stopPillarAt = pos.relative(facing, height);
         while(!begin.equals(stopPillarAt)){
             begin = begin.relative(facing);
@@ -94,6 +103,11 @@ public class MagneticNodeFeature extends Feature<MagneticNodeFeatureConfiguratio
         level.setBlock(pos, state, 4);
 
     }
+
+    private boolean isSameChunk(BlockPos pos, BlockPos check) {
+        return SectionPos.blockToSectionCoord(pos.getX()) == SectionPos.blockToSectionCoord(check.getX()) && SectionPos.blockToSectionCoord(pos.getZ()) == SectionPos.blockToSectionCoord(check.getZ());
+    }
+
     private static Direction selectDirection(List<Direction> directionList, RandomSource randomSource){
         if(directionList.size() <= 0){
             return null;

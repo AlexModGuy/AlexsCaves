@@ -1,10 +1,11 @@
 {
-  "__comment": "all mobs that do not sink in mud.",
+  "__comment": "all mobs that do not sink in muck.",
   "values": [
     "alexscaves:lanternfish",
     "alexscaves:sea_pig",
     "alexscaves:hullbreaker",
     "alexscaves:gossamer_worm",
-    "alexscaves:tripodfish"
+    "alexscaves:tripodfish",
+    "alexscaves:deep_one"
   ]
 }

@@ -26,15 +26,17 @@ public class ACTagRegistry {
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
     public static final TagKey<Block> TRENCH_GENERATION_IGNORES = registerBlockTag("trench_generation_ignores");
     public static final TagKey<Block> TUBE_WORM_AVOIDS = registerBlockTag("tube_worm_avoids");
+    public static final TagKey<Block> GROWS_MUSSELS = registerBlockTag("grows_mussels");
     public static final TagKey<Block> WHALEFALL_IGNORES = registerBlockTag("whalefall_ignores");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
     public static final TagKey<Item> VALLUMRAPTOR_STEALS = registerItemTag("vallumraptor_steals");
     public static final TagKey<Item> SEA_PIG_DIGESTS = registerItemTag("sea_pig_digests");
+    public static final TagKey<Item> RESTRICTED_BIOME_LOCATORS = registerItemTag("restricted_biome_locators");
     public static final TagKey<EntityType<?>> MAGNETIC_ENTITIES = registerEntityTag("ferromagnetic_entities");
+    public static final TagKey<EntityType<?>> NOTOR_IGNORES = registerEntityTag("notor_ignores");
     public static final TagKey<EntityType<?>> SUBTERRANODON_FLEES = registerEntityTag("subterranodon_flees");
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
-
     public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");
     public static final TagKey<EntityType<?>> RESISTS_RADIATION = registerEntityTag("resists_radiation");
     public static final TagKey<EntityType<?>> SEAFLOOR_DENIZENS = registerEntityTag("seafloor_denizens");

@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.block.EnergizedGalenaBlock;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -10,12 +12,13 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.FogRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.RenderBuffers;
-import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.*;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
@@ -25,6 +28,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
@@ -45,6 +49,47 @@ public abstract class LevelRendererMixin {
 
     @Shadow @Final private RenderBuffers renderBuffers;
 
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;initOutline()V",
+            at = @At("TAIL"))
+    private void ac_initOutline(CallbackInfo ci) {
+        ACPostEffectRegistry.onInitializeOutline();
+    }
+
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;resize(II)V",
+            at = @At("TAIL"))
+    private void ac_resize(int x, int y, CallbackInfo ci) {
+        ACPostEffectRegistry.resize(x, y);
+    }
+
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/RenderBuffers;bufferSource()Lnet/minecraft/client/renderer/MultiBufferSource$BufferSource;",
+                    shift = At.Shift.BEFORE
+            ))
+    private void ac_renderLevel_beforeEntities(PoseStack poseStack, float f, long l, boolean b, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f matrix4f, CallbackInfo ci) {
+        ACPostEffectRegistry.copyDepth(this.minecraft.getMainRenderTarget());
+    }
+
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/OutlineBufferSource;endOutlineBatch()V",
+                    shift = At.Shift.BEFORE
+            ))
+    private void ac_renderLevel_process(PoseStack poseStack, float f, long l, boolean b, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f matrix4f, CallbackInfo ci) {
+        ACPostEffectRegistry.processEffects(this.minecraft.getMainRenderTarget(), f);
+    }
+
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderLevel(Lcom/mojang/blaze3d/vertex/PoseStack;FJZLnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/GameRenderer;Lnet/minecraft/client/renderer/LightTexture;Lorg/joml/Matrix4f;)V",
+            at = @At(
+                    value = "TAIL"
+            ))
+    private void ac_renderLevel_end(PoseStack poseStack, float f, long l, boolean b, Camera camera, GameRenderer gameRenderer, LightTexture lightTexture, Matrix4f matrix4f, CallbackInfo ci) {
+        ACPostEffectRegistry.blitEffects();
+    }
+
+    
     @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",
             at = @At("HEAD"),
             cancellable = true)
@@ -60,7 +105,22 @@ public abstract class LevelRendererMixin {
         }
     }
 
-    private static float calculateBiomeSkyOverride(Entity player) {
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;getLightColor(Lnet/minecraft/world/level/BlockAndTintGetter;Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/core/BlockPos;)I",
+            at = @At("HEAD"),
+            cancellable = true)
+    private static void ac_getLightColor(BlockAndTintGetter level, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+        if(state.getBlock() instanceof EnergizedGalenaBlock){
+            int i = level.getBrightness(LightLayer.SKY, pos);
+            int j = level.getBrightness(LightLayer.BLOCK, pos);
+            int k = state.getLightEmission(level, pos) - 1;
+            if (j < k) {
+                j = k;
+            }
+            cir.setReturnValue(i << 20 | (j) << 4);
+        }
+    }
+
+        private static float calculateBiomeSkyOverride(Entity player) {
         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
         if (i == 0) {
             return ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiome(player.blockPosition()));

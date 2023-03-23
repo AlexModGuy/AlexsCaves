@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 public class ACMath {
 
+    public static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
     public static float smin(float a, float b, float k) {
         float h = Math.max(k - Math.abs(a - b), 0.0F) / k;
         return Math.min(a, b) - h * h * k * (1.0F / 4.0F);

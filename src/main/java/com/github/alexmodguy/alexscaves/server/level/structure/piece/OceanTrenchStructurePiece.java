@@ -137,7 +137,12 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
     private boolean shouldDig(WorldGenLevel level, BlockPos.MutableBlockPos carve, int seaLevel, int priorHeight) {
         double yDist = calcYDist(level, carve, seaLevel, priorHeight);
         double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY() - 1, this.holeCenter.getZ());
-        double targetRadius = yDist * getRadiusSq(carve);
+        double radiusXZ = getRadiusSq(carve);
+        double cornerAmount = radiusXZ - distToCenter;
+        if(cornerAmount > 0 && cornerAmount <= 100){
+            yDist *= (float) (cornerAmount / 100F);
+        }
+        double targetRadius = yDist * radiusXZ;
         return distToCenter <= targetRadius;
     }
 
@@ -172,12 +177,12 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
 
     private double calcYDist(WorldGenLevel level, BlockPos.MutableBlockPos carve, int seaLevel, int priorHeight) {
         int j = -64 - carve.getY();
-        if (carve.getY() >= seaLevel - 1 || priorHeight >= seaLevel || j > 0) {
+        if (carve.getY() >= seaLevel - 1 || j > 0) {
             return 0;
         } else if (destroyWithCarve(level, carve)) {
             return 1.0;
         } else {
-            float belowSeaBy = ACMath.smin((seaLevel - priorHeight) / 30F, 1.0F, 0.2F);
+            float belowSeaBy = ACMath.smin((seaLevel - priorHeight) / 120F, 1.0F, 0.2F);
             float bedrockCloseness = ACMath.smin(Math.abs(j) / 50F - 0.1F, 1.0F, 0.2F);
             float df1 = ACMath.sampleNoise3D(carve.getX(), 0, carve.getZ(), 100) * 0.6F;
             float df2 = ACMath.sampleNoise3D(carve.getX() - 450, 0, carve.getZ() + 450, 300) * 0.25F;

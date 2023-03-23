@@ -3,30 +3,6 @@
     "": [
       {
         "model": "alexscaves:block/galena"
-      },
-      {
-        "model": "alexscaves:block/galena",
-        "y": 90
-      },
-      {
-        "model": "alexscaves:block/galena",
-        "y": 180
-      },
-      {
-        "model": "alexscaves:block/galena",
-        "y": 270
-      },
-      {
-        "model": "alexscaves:block/galena",
-        "x": 90
-      },
-      {
-        "model": "alexscaves:block/galena",
-        "x": 180
-      },
-      {
-        "model": "alexscaves:block/galena",
-        "x": 270
       }
     ]
   }

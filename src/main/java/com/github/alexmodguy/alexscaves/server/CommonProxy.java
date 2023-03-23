@@ -5,16 +5,22 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
+import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.frog.Frog;
@@ -22,6 +28,7 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
@@ -45,14 +52,15 @@ public class CommonProxy {
     public void resizeEntity(EntityEvent.Size event) {
         if(event.getEntity() instanceof MagneticEntityAccessor magnet && event.getEntity().getEntityData().isDirty()){
             Direction dir = magnet.getMagneticAttachmentFace();
+            float defaultHeight = event.getEntity().getDimensions(Pose.STANDING).height;
+            float defaultWidth = event.getEntity().getDimensions(Pose.STANDING).width;
+            float defaultEyeHeight = event.getEntity().getEyeHeight(Pose.STANDING);
             if(dir == Direction.DOWN && event.getEntity() instanceof Player && event.getEntity().getPose() == Pose.STANDING){
-                event.setNewEyeHeight(event.getNewSize().height * 0.9F);
+                event.setNewEyeHeight(defaultEyeHeight);
             }else if(dir == Direction.UP){
-                float eye = Mth.clamp(0.2F, event.getNewSize().height * 0.1F, event.getNewSize().height * 0.9F);
-                event.setNewEyeHeight(eye);
+                event.setNewEyeHeight(defaultHeight - defaultEyeHeight);
             }else if(dir.getAxis() != Direction.Axis.Y){
-                float eye = (event.getOldEyeHeight() / event.getOldSize().height) * event.getOldSize().width;
-                event.setNewEyeHeight(eye);
+                event.setNewEyeHeight(0.0F);
             }
         }
     }
@@ -90,6 +98,40 @@ public class CommonProxy {
         if(biome != null){
             event.setResult(Event.Result.ALLOW);
             event.setBiomeToGenerate(event.getBiomeSource().getResourceKeyMap().get(biome));
+        }
+    }
+
+    @SubscribeEvent
+    public void playerTick(TickEvent.PlayerTickEvent event) {
+        if(!event.player.isCreative()){
+            if(event.player.getItemInHand(InteractionHand.MAIN_HAND).is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)){
+                checkAndDestroyExploitItem(event.player, EquipmentSlot.MAINHAND);
+            }
+            if(event.player.getItemInHand(InteractionHand.OFF_HAND).is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)){
+                checkAndDestroyExploitItem(event.player, EquipmentSlot.OFFHAND);
+            }
+        }
+    }
+
+    private static void checkAndDestroyExploitItem(Player player, EquipmentSlot slot) {
+        ItemStack itemInHand = player.getItemBySlot(slot);
+        if(itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)){
+            boolean flag = false;
+            CompoundTag tag = itemInHand.getTag();
+            if(tag != null && tag.contains("BiomeKey")){
+                String biomeKey = tag.getString("BiomeKey");
+                if(biomeKey.contains("alexscaves:")){
+                    flag = true;
+                }
+            }
+            if(flag){
+                itemInHand.shrink(1);
+                player.broadcastBreakEvent(slot);
+                player.playSound(ACSoundRegistry.DISAPPOINTMENT.get());
+                if(!player.level.isClientSide){
+                    player.displayClientMessage(Component.translatable("item.alexscaves.natures_compass_warning"), true);
+                }
+            }
         }
     }
 

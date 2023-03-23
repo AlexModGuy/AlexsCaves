@@ -57,7 +57,7 @@ public class GossamerWormEntity extends WaterAnimal {
         tail4Part = new GossamerWormPartEntity(this, tail3Part, 0.8F, 0.5F);
         tail5Part = new GossamerWormPartEntity(this, tail4Part, 0.6F, 0.5F);
         allParts = new GossamerWormPartEntity[]{tail1Part, tail2Part, tail3Part, tail4Part, tail5Part};
-        this.moveControl = new VerticalSwimmingMoveControl(this, 0.01F, 4);
+        this.moveControl = new VerticalSwimmingMoveControl(this, 0.8F, 4);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.fakeYRot = getYRot();
     }
@@ -81,7 +81,7 @@ public class GossamerWormEntity extends WaterAnimal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.MAX_HEALTH, 10.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.08D).add(Attributes.MAX_HEALTH, 10.0D);
     }
 
     protected PathNavigation createNavigation(Level level) {

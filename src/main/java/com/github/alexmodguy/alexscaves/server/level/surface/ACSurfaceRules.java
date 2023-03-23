@@ -19,8 +19,13 @@ public class ACSurfaceRules {
 
     public static SurfaceRules.RuleSource createMagneticCavesRules() {
         SurfaceRules.RuleSource galena = SurfaceRules.state(ACBlockRegistry.GALENA.get().defaultBlockState());
-        SurfaceRules.RuleSource obsidian = SurfaceRules.state(Blocks.OBSIDIAN.defaultBlockState());
-        return SurfaceRules.sequence(bedrock(), SurfaceRules.ifTrue(SurfaceRules.noiseCondition(Noises.ICE, -0.05D, 0.05D), obsidian), galena);
+        SurfaceRules.RuleSource scarlet = SurfaceRules.state(ACBlockRegistry.ENERGIZED_GALENA_SCARLET.get().defaultBlockState());
+        SurfaceRules.RuleSource azure = SurfaceRules.state(ACBlockRegistry.ENERGIZED_GALENA_AZURE.get().defaultBlockState());
+        SurfaceRules.RuleSource neutral = SurfaceRules.state(ACBlockRegistry.ENERGIZED_GALENA_NEUTRAL.get().defaultBlockState());
+        SurfaceRules.ConditionSource azureCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.025F, 0.025F, 90, 0);
+        SurfaceRules.ConditionSource scarletCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.025F, 0.025F, 90, 1);
+
+        return SurfaceRules.sequence(bedrock(), SurfaceRules.ifTrue(azureCondition, SurfaceRules.ifTrue(scarletCondition, neutral)), SurfaceRules.ifTrue(scarletCondition, scarlet), SurfaceRules.ifTrue(azureCondition, azure), galena);
     }
 
     public static SurfaceRules.RuleSource createPrimordialCavesRules() {

@@ -8,6 +8,7 @@ import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockR
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
+import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
@@ -16,6 +17,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
@@ -23,7 +25,6 @@ import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
-import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -77,6 +78,7 @@ public class ClientProxy extends CommonProxy {
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
     private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation("alexscaves:shaders/post/submarine_light.json");
+    public static final ResourceLocation HOLOGRAM_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/hologram.json");
 
     protected final RandomSource random = RandomSource.create();
     private int lastTremorTick = -1;
@@ -112,6 +114,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.BOUNDROID.get(), BoundroidRenderer::new);
         EntityRenderers.register(ACEntityRegistry.BOUNDROID_WINCH.get(), BoundroidWinchRenderer::new);
         EntityRenderers.register(ACEntityRegistry.FERROUSLIME.get(), FerrouslimeRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.NOTOR.get(), NotorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBTERRANODON.get(), SubterranodonRenderer::new);
         EntityRenderers.register(ACEntityRegistry.VALLUMRAPTOR.get(), VallumraptorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GROTTOCERATOPS.get(), GrottoceratopsRenderer::new);
@@ -128,7 +131,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.GAMMAROACH.get(), GammaroachRenderer::new);
         EntityRenderers.register(ACEntityRegistry.RAYCAT.get(), RaycatRenderer::new);
         EntityRenderers.register(ACEntityRegistry.CINDER_BRICK.get(), (context) -> {
-            return new ThrownItemRenderer<>(context, 1.25F, true);
+            return new ThrownItemRenderer<>(context, 1.25F, false);
         });
         EntityRenderers.register(ACEntityRegistry.LANTERNFISH.get(), LanternfishRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SEA_PIG.get(), SeaPigRenderer::new);
@@ -136,6 +139,10 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.HULLBREAKER.get(), HullbreakerRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GOSSAMER_WORM.get(), GossamerWormRenderer::new);
         EntityRenderers.register(ACEntityRegistry.TRIPODFISH.get(), TripodfishRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.DEEP_ONE.get(), DeepOneRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.INK_BOMB.get(), (context) -> {
+            return new ThrownItemRenderer<>(context, 1.25F, false);
+        });
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -144,7 +151,8 @@ public class ClientProxy extends CommonProxy {
             return CaveMapItem.isLoading(stack) ? 1F : 0F;
         });
         blockedParticleLocations.clear();
-        PostEffectRegistry.registerEffect(IRRADIATED_SHADER);
+        ACPostEffectRegistry.registerEffect(IRRADIATED_SHADER);
+        ACPostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -177,7 +185,7 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void setupEntityRotations(EventLivingRenderer.SetupRotations event) {
         if (event.getEntity() instanceof MagneticEntityAccessor magnetic) {
-            float width = event.getEntity().getBbHeight();
+            float width = event.getEntity().getBbWidth();
             float height = event.getEntity().getBbHeight();
             float progress = magnetic.getAttachmentProgress(event.getPartialTicks());
             float prevProg = 1F - progress;
@@ -225,22 +233,26 @@ public class ClientProxy extends CommonProxy {
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && AlexsCaves.CLIENT_CONFIG.ambersolShines.get()) {
             RenderSystem.runAsFancy(() -> AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
         }
+        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
+            RenderSystem.runAsFancy(() -> NotorRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
+
+        }
     }
 
     @SubscribeEvent
     public void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         if (player != null && AlexsCaves.CLIENT_CONFIG.screenShaking.get()) {
-            float tremorAmount = renderNukeSkyDark ? 1.5F : 0;
-            double shakeDistanceScale = 20D;
+            float tremorAmount = renderNukeSkyDark ? 1.5F : 0F;
+            float shakeDistanceScale = 20F;
             double distance = Double.MAX_VALUE;
             float partialTick = Minecraft.getInstance().getPartialTick();
             if (player.isOnGround() && tremorAmount == 0) {
                 AABB aabb = player.getBoundingBox().inflate(shakeDistanceScale);
                 for (TremorsaurusEntity tremorsaurus : Minecraft.getInstance().level.getEntitiesOfClass(TremorsaurusEntity.class, aabb)) {
-                    tremorAmount = (1F - (float) (distance / shakeDistanceScale)) * Math.max(tremorsaurus.getScreenShakeAmount(partialTick), 0);
                     if (tremorsaurus.distanceTo(player) < distance) {
                         distance = tremorsaurus.distanceTo(player);
+                        tremorAmount = (1F - (float) (distance / shakeDistanceScale)) * Math.max(tremorsaurus.getScreenShakeAmount(partialTick), 0F);
                     }
                 }
             }
@@ -258,7 +270,6 @@ public class ClientProxy extends CommonProxy {
         }
         if (player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && event.getCamera().isDetached()) {
             event.getCamera().move(-event.getCamera().getMaxZoom(4F), 0, 0);
-
         }
     }
 
@@ -450,7 +461,7 @@ public class ClientProxy extends CommonProxy {
                 break;
             case NORTH:
                 matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
-                matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
+                matrixStackIn.translate(0.0D, -0.25f * f, 0.0D);
                 if (down) {
                     matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
@@ -458,7 +469,7 @@ public class ClientProxy extends CommonProxy {
             case SOUTH:
                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(180 * f));
                 matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
-                matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
+                matrixStackIn.translate(0.0D, -0.25f * f, 0.0D);
                 if (down) {
                     matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
@@ -466,7 +477,7 @@ public class ClientProxy extends CommonProxy {
             case WEST:
                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(90 * f));
                 matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
-                matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
+                matrixStackIn.translate(0.0D, -0.25f * f, 0.0D);
                 if (down) {
                     matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }
@@ -474,7 +485,7 @@ public class ClientProxy extends CommonProxy {
             case EAST:
                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(-90 * f));
                 matrixStackIn.mulPose(Axis.XP.rotationDegrees(90.0F * f));
-                matrixStackIn.translate(0.0D, -height * 0.2f * f, 0.0D);
+                matrixStackIn.translate(0.0D, -0.25f * f, 0.0D);
                 if (down) {
                     matrixStackIn.mulPose(Axis.YP.rotationDegrees(180.0F * f));
                 }

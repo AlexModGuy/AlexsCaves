@@ -1,8 +1,14 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 public class VerticalSwimmingMoveControl extends MoveControl {
@@ -19,19 +25,31 @@ public class VerticalSwimmingMoveControl extends MoveControl {
     }
 
     public void tick() {
-        if (this.operation == MoveControl.Operation.MOVE_TO && mob.isInWaterOrBubble()) {
-            final Vec3 vector3d = new Vec3(this.wantedX - mob.getX(), this.wantedY - mob.getY(), this.wantedZ - mob.getZ());
-            final double d5 = vector3d.length();
-            double maxDist = mob.getBoundingBox().getSize() > 1.0F ? 1.0F : mob.getBoundingBox().getSize();
-            if (d5 < maxDist) {
-                this.operation = MoveControl.Operation.WAIT;
-                mob.setDeltaMovement(mob.getDeltaMovement().scale(0.85D));
-            } else {
-                mob.setDeltaMovement(mob.getDeltaMovement().add(vector3d.scale(this.speedModifier * secondSpeedModifier / d5)));
-                final Vec3 vector3d1 = mob.getDeltaMovement();
-                float f = -((float) Mth.atan2(vector3d1.x, vector3d1.z)) * 180.0F / (float) Math.PI;
-                mob.setYRot(Mth.approachDegrees(mob.getYRot(), f, this.maxRotChange));
-                mob.yBodyRot = mob.getYRot();
+        if (this.operation == Operation.MOVE_TO && !this.mob.getNavigation().isDone()) {
+            Vec3 ed = this.mob.getNavigation().getTargetPos().getCenter();
+            //((ServerLevel)mob.level).sendParticles(ParticleTypes.HEART, ed.x, ed.y, ed.z, 0, 0, 0, 0, 1);
+            //((ServerLevel)mob.level).sendParticles(ParticleTypes.SNEEZE, wantedX, wantedY, wantedZ, 0, 0, 0, 0, 1);
+            double d0 = this.wantedX - this.mob.getX();
+            double d1 = this.wantedY - this.mob.getY();
+            double d2 = this.wantedZ - this.mob.getZ();
+            double d3 = Mth.sqrt((float) (d0 * d0 + d1 * d1 + d2 * d2));
+            double d4 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
+            d1 /= d3;
+            this.mob.yBodyRot = this.mob.getYRot();
+            float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED) * secondSpeedModifier);
+            float rotBy = this.maxRotChange;
+            this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, (double) f1 * d1 * 0.4D, 0.0D));
+            if(d3 < this.mob.getBbWidth() + 1.4F){
+                f1 *= 0.7F;
+                rotBy = Math.max(40, this.maxRotChange);
+            }
+            float f = (float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90.0F;
+            this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, rotBy));
+            this.mob.setSpeed(f1);
+        } else {
+            this.mob.setSpeed(0.0F);
+            if(mob instanceof DeepOneBaseEntity deepOne){
+                this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, -0.1D, 0.0D));
             }
         }
     }

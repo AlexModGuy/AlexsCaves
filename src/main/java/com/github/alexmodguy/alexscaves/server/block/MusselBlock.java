@@ -1,7 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -19,14 +23,15 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MusselBlock extends Block implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty MUSSELS = IntegerProperty.create("mussels", 1, 5);
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
-
-
     private static final VoxelShape SHAPE_UP = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 4.0D, 15.0D);
     private static final VoxelShape SHAPE_DOWN = Block.box(1.0D, 12.0D, 1.0D, 15.0D, 16.0D, 15.0D);
     private static final VoxelShape SHAPE_WEST = Block.box(12.0D, 1.0D, 1.0D, 16.0D, 15.0D, 15.0D);
@@ -36,7 +41,7 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
 
 
     public MusselBlock() {
-        super(BlockBehaviour.Properties.of(Material.SPONGE, MaterialColor.COLOR_BLUE).strength(1F, 1.0F).sound(SoundType.BASALT).noOcclusion().noCollission().dynamicShape());
+        super(BlockBehaviour.Properties.of(Material.SPONGE, MaterialColor.COLOR_BLUE).strength(1F, 1.0F).sound(SoundType.BASALT).noOcclusion().noCollission().dynamicShape().randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(MUSSELS, Integer.valueOf(1)).setValue(WATERLOGGED, Boolean.valueOf(true)));
     }
 
@@ -71,6 +76,47 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
         return SHAPE_UP;
 
     }
+
+    public void randomTick(BlockState state, ServerLevel serverLevel, BlockPos blockPos, RandomSource randomSource) {
+        Direction direction = state.getValue(FACING);
+        BlockPos connectedToPos = blockPos.relative(direction.getOpposite());
+        BlockState connectedState = serverLevel.getBlockState(connectedToPos);
+        int mussels = state.getValue(MUSSELS);
+        if(randomSource.nextInt(4) == 0 && connectedState.is(ACTagRegistry.GROWS_MUSSELS)){
+            if(mussels >= 5){
+                BlockPos randomOffsetPos = connectedToPos.offset(randomSource.nextInt(6) - 3, randomSource.nextInt(6) - 3, randomSource.nextInt(6) - 3);
+                BlockState randomOffsetState = serverLevel.getBlockState(randomOffsetPos);
+                if(randomOffsetState.is(Blocks.WATER) || randomOffsetState.is(this) && randomOffsetState.getValue(WATERLOGGED)){
+                    List<Direction> possiblities = new ArrayList<>();
+                    for (Direction possible : Direction.values()) {
+                        BlockPos check = randomOffsetPos.relative(possible);
+                        if (serverLevel.getBlockState(check).isFaceSturdy(serverLevel, check, possible.getOpposite())) {
+                            possiblities.add(possible.getOpposite());
+                        }
+                    }
+                    Direction chosen = null;
+                    if(!possiblities.isEmpty()){
+                        if (possiblities.size() <= 1) {
+                            chosen = possiblities.get(0);
+                        } else {
+                            chosen = possiblities.get(randomSource.nextInt(possiblities.size() - 1));
+                        }
+                    }
+                    if(chosen != null){
+                        int taxicab = Mth.clamp(6 - (int)(Math.ceil(randomOffsetPos.distToLowCornerSqr(blockPos.getX(), blockPos.getY(), blockPos.getZ()))), 1, 5);
+                        int currentMussels = randomOffsetState.is(this) ? randomOffsetState.getValue(MUSSELS) : 0;
+                        int setMussels = Math.max(currentMussels, taxicab);
+                        int musselCountOf = randomOffsetState.is(this) ? Math.min(randomOffsetState.getValue(MUSSELS) + 1, setMussels) : 1;
+                        Direction musselDirectionOf = randomOffsetState.is(this) ? randomOffsetState.getValue(FACING) : chosen;
+                        serverLevel.setBlockAndUpdate(randomOffsetPos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, musselDirectionOf).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, musselCountOf));
+                    }
+                }
+            }else{
+                serverLevel.setBlockAndUpdate(blockPos, state.setValue(MUSSELS, mussels + 1));
+            }
+        }
+    }
+
 
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {

@@ -25,10 +25,6 @@ public class SemiAquaticPathNavigator extends WaterBoundPathNavigation {
         return true;
     }
 
-    protected Vec3 getTempMobPos() {
-        return new Vec3(this.mob.getX(), this.mob.getY(0.5D), this.mob.getZ());
-    }
-
     protected boolean canMoveDirectly(Vec3 posVec31, Vec3 posVec32) {
         Vec3 vector3d = new Vec3(posVec32.x, posVec32.y + (double)this.mob.getBbHeight() * 0.5D, posVec32.z);
         return this.level.clip(new ClipContext(posVec31, vector3d, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.mob)).getType() == HitResult.Type.MISS;

@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 import com.github.alexmodguy.alexscaves.client.model.NucleeperModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -30,7 +31,6 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
     private static final ResourceLocation TEXTURE_BUTTONS_2 = new ResourceLocation("alexscaves:textures/entity/nucleeper/nucleeper_buttons_2.png");
     private static final ResourceLocation TEXTURE_EXPLODE = new ResourceLocation("alexscaves:textures/entity/nucleeper/nucleeper_explode.png");
 
-    private static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
 
     public NucleeperRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new NucleeperModel(), 0.8F);
@@ -49,11 +49,11 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
     }
 
     private static void shineLeftCornerVertex(VertexConsumer p_114215_, Matrix4f p_114216_, Matrix3f p_114092_, float p_114217_, float p_114218_, float xOffset, float yOffset) {
-        p_114215_.vertex(p_114216_, -HALF_SQRT_3 * p_114218_, p_114217_, 0).color(0, 255, 0, 0).uv(xOffset, yOffset + 1).overlayCoords(NO_OVERLAY).uv2(240).normal(p_114092_, 0.0F, -1.0F, 0.0F).endVertex();
+        p_114215_.vertex(p_114216_, -ACMath.HALF_SQRT_3 * p_114218_, p_114217_, 0).color(0, 255, 0, 0).uv(xOffset, yOffset + 1).overlayCoords(NO_OVERLAY).uv2(240).normal(p_114092_, 0.0F, -1.0F, 0.0F).endVertex();
     }
 
     private static void shineRightCornerVertex(VertexConsumer p_114224_, Matrix4f p_114225_, Matrix3f p_114092_, float p_114226_, float p_114227_, float xOffset, float yOffset) {
-        p_114224_.vertex(p_114225_, HALF_SQRT_3 * p_114227_, p_114226_, 0).color(0, 255, 0, 0).uv(xOffset + 1, yOffset + 1).overlayCoords(NO_OVERLAY).uv2(240).normal(p_114092_, 0.0F, -1.0F, 0.0F).endVertex();
+        p_114224_.vertex(p_114225_, ACMath.HALF_SQRT_3 * p_114227_, p_114226_, 0).color(0, 255, 0, 0).uv(xOffset + 1, yOffset + 1).overlayCoords(NO_OVERLAY).uv2(240).normal(p_114092_, 0.0F, -1.0F, 0.0F).endVertex();
     }
 
 

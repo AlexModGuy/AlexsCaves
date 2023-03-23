@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alexscaves:block/energized_galena_top_azure",
+    "side": "alexscaves:block/energized_galena_azure"
+  }
+}

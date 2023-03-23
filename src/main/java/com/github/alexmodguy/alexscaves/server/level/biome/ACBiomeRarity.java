@@ -27,7 +27,7 @@ public class ACBiomeRarity {
         if(noise == null){
             return false;
         }else{
-            double simplexScale =  Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
+            double simplexScale = 100.0D * Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
             double simplexElevation = Mth.clamp(AlexsCaves.COMMON_CONFIG.biomeRarityElevation.get(), 0.1D, 3D);
             double simplex = noise.getValue(x / simplexScale,  z / simplexScale, false);
             double elevatedSimplex = Math.min(Math.pow(simplex, simplexElevation), 1);

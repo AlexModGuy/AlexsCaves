@@ -99,7 +99,7 @@ public class HullbreakerInspectMobGoal extends Goal {
                     startCirclingAt = inspectingTarget.getEyePosition();
                 }
                 Vec3 circle = orbitAroundPos(inspectingTarget.getEyePosition(), 12 + Math.min(0, 5 - entity.getInterestLevel()) * 3);
-                entity.getNavigation().moveTo(circle.x, circle.y, circle.z, 2F);
+                entity.getNavigation().moveTo(circle.x, circle.y, circle.z, 1.4F);
                 entity.setYHeadRot(entity.yBodyRot + (clockwise ? 30 : -30));
 
             }

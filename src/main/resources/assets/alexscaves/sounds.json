@@ -1,0 +1,11 @@
+{
+  "disappointment": {
+    "category": "neutral",
+    "sounds": [
+      {
+        "name": "alexscaves:disappointment"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.disappointment"
+  }
+}

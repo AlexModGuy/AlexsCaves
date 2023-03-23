@@ -1,6 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube_column",
   "textures": {
-    "all": "alexscaves:block/galena"
+    "end": "alexscaves:block/galena_top",
+    "side": "alexscaves:block/galena"
   }
 }

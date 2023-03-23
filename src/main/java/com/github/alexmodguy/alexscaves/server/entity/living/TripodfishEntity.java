@@ -93,6 +93,9 @@ public class TripodfishEntity extends WaterAnimal {
         if (this.isEffectiveAi() && this.isInWaterOrBubble()) {
             this.moveRelative(this.getSpeed(), travelVector);
             Vec3 delta = this.getDeltaMovement();
+            if (this.getTarget() == null && !this.isStanding()) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
             this.move(MoverType.SELF, delta);
             this.setDeltaMovement(delta.scale(isStanding() ? 0.3F : 0.9D));
         } else {
@@ -389,7 +392,7 @@ public class TripodfishEntity extends WaterAnimal {
     private class MoveControl extends VerticalSwimmingMoveControl {
 
         private MoveControl() {
-            super(TripodfishEntity.this, 0.02F, 60);
+            super(TripodfishEntity.this, 0.5F, 60);
         }
 
         @Override

@@ -1,6 +1,7 @@
 {
     "parent": "minecraft:block/template_wall_post",
     "textures": {
-        "wall": "alexscaves:block/galena"
+        "wall": "alexscaves:block/galena",
+        "top" : "alexscaves:block/galena_top"
     }
 }

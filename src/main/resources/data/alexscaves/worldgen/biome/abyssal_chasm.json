@@ -94,6 +94,12 @@
     "misc": [],
     "monster": [
       {
+        "type": "alexscaves:deep_one",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 8
+      },
+      {
         "type": "minecraft:spider",
         "maxCount": 4,
         "minCount": 4,

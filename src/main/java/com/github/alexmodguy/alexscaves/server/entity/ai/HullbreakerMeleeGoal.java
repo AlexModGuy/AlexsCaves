@@ -39,7 +39,7 @@ public class HullbreakerMeleeGoal extends Goal {
             }
             if(dist > f + 2){
                 hullbreaker.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
-                hullbreaker.getNavigation().moveTo(target, 1.85D);
+                hullbreaker.getNavigation().moveTo(target, 1.6D);
             }
             if (hullbreaker.getAnimation() == HullbreakerEntity.ANIMATION_BITE) {
                 if (hullbreaker.getAnimationTick() > 10 && hullbreaker.getAnimationTick() <= 14) {

@@ -46,6 +46,9 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GALENA_BRICK_SLAB.get());
             add(output, ACBlockRegistry.GALENA_BRICK_WALL.get());
             add(output, ACBlockRegistry.GALENA_IRON_ORE.get());
+            add(output, ACBlockRegistry.ENERGIZED_GALENA_NEUTRAL.get());
+            add(output, ACBlockRegistry.ENERGIZED_GALENA_SCARLET.get());
+            add(output, ACBlockRegistry.ENERGIZED_GALENA_AZURE.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
             add(output, ACBlockRegistry.SCRAP_METAL.get());
             add(output, ACBlockRegistry.SCRAP_METAL_PLATE.get());

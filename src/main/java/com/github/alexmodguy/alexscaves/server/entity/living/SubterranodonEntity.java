@@ -63,7 +63,6 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     private SubterranodonEntity priorPackMember;
     private SubterranodonEntity afterPackMember;
     public int timeFlying;
-
     public Vec3 lastFlightTargetPos;
     public boolean resetFlightAIFlag = false;
     public boolean landingFlag;

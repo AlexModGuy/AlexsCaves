@@ -6,10 +6,13 @@ import com.github.alexthe666.citadel.CitadelConstants;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -34,6 +37,10 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     @Shadow protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
 
     @Shadow public Level level;
+    @Shadow private Vec3 position;
+
+    @Shadow private EntityDimensions dimensions;
+
     private static final EntityDataAccessor<Float> MAGNET_DELTA_X = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Y = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Z = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
@@ -93,12 +100,24 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     }
 
     @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;getEyePosition()Lnet/minecraft/world/phys/Vec3;"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    public void ac_getEyePosition(CallbackInfoReturnable<Vec3> cir) {
+        if(getMagneticAttachmentFace() != Direction.DOWN){
+            cir.setReturnValue(MagnetUtil.getEyePositionForAttachment((Entity)(Object)this, getMagneticAttachmentFace(), 1.0F));
+        }
+    }
+
+    @Inject(
             method = {"Lnet/minecraft/world/entity/Entity;getEyePosition(F)Lnet/minecraft/world/phys/Vec3;"},
             remap = true,
             cancellable = true,
             at = @At(value = "HEAD")
     )
-    public void ac_getEyePosition(float partialTick, CallbackInfoReturnable<Vec3> cir) {
+    public void ac_getEyePosition_lerp(float partialTick, CallbackInfoReturnable<Vec3> cir) {
         if(getMagneticAttachmentFace() != Direction.DOWN && getMagneticAttachmentFace() != Direction.UP){
             cir.setReturnValue(MagnetUtil.getEyePositionForAttachment((Entity)(Object)this, getMagneticAttachmentFace(), partialTick));
         }
@@ -109,6 +128,31 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
         List<VoxelShape> list1 = instance.getEntityCollisions(entity, aabb);
         List<VoxelShape> list2 = MagnetUtil.getMovingBlockCollisions(entity, aabb);
         return ImmutableList.<VoxelShape>builder().addAll(list1).addAll(list2).build();
+    }
+
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;turn(DD)V"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    public void ac_turn(double yBy, double xBy, CallbackInfo ci) {
+        if(getMagneticAttachmentFace() != Direction.DOWN){
+            ci.cancel();
+            MagnetUtil.turnEntityOnMagnet((Entity)(Object)this, xBy, yBy, getMagneticAttachmentFace());
+        }
+    }
+
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;makeBoundingBox()Lnet/minecraft/world/phys/AABB;"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    public void ac_makeBoundingBox(CallbackInfoReturnable<AABB> cir) {
+        if(this.entityData.isDirty() && getMagneticAttachmentFace() != Direction.DOWN) {
+            cir.setReturnValue(MagnetUtil.rotateBoundingBox(dimensions, getMagneticAttachmentFace(), position));
+        }
     }
 
         @Override

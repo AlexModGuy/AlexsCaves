@@ -85,7 +85,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         tail3Part = new HullbreakerPartEntity(this, tail2Part, 2.5F, 1.5F);
         tail4Part = new HullbreakerPartEntity(this, tail3Part,1.5F, 1F);
         allParts = new HullbreakerPartEntity[]{headPart, tail1Part, tail2Part, tail3Part, tail4Part};
-        this.moveControl = new VerticalSwimmingMoveControl(this, 0.02F, 30);
+        this.moveControl = new VerticalSwimmingMoveControl(this, 0.7F, 30);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
@@ -157,7 +157,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         prevLandProgress = landProgress;
         prevFishPitch = fishPitch;
         prevPulseAmount = pulseAmount;
-        fishPitch = Mth.approachDegrees(fishPitch, Mth.clamp((float) this.getDeltaMovement().y * 3F, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI), 5);
+        fishPitch = Mth.approachDegrees(fishPitch, Mth.clamp((float) this.getDeltaMovement().y * 2F, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI), 2.5F);
         boolean grounded = this.isOnGround() && !isInWaterOrBubble();
         if (grounded && landProgress < 5F) {
             landProgress++;

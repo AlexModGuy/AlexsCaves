@@ -24,24 +24,21 @@
       "options": {
         "type": "alexscaves:magnetic_caves_ambient"
       },
-      "probability": 0.001
+      "probability": 0.0005
     },
     "fog_color": 1315096,
     "sky_color": 5063513,
-    "water_color": 4159204,
-    "water_fog_color": 329011
+    "water_color": 6320065,
+    "water_fog_color": 4811680
   },
   "features": [
     [
-      "alexscaves:galena_hexagon_floor",
-      "alexscaves:galena_hexagon_ceiling"
     ],
     [
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
     ],
     [
-      "alexscaves:floating_galena_orb",
       "minecraft:amethyst_geode"
     ],
     [
@@ -90,8 +87,6 @@
       "minecraft:spring_lava"
     ],
     [
-      "alexscaves:scarlet_magnetic_node",
-      "alexscaves:azure_magnetic_node",
       "minecraft:glow_lichen",
       "minecraft:patch_tall_grass_2",
       "minecraft:trees_plains",
@@ -100,7 +95,9 @@
       "minecraft:brown_mushroom_normal",
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
-      "minecraft:patch_pumpkin"
+      "minecraft:patch_pumpkin",
+      "alexscaves:scarlet_magnetic_node",
+      "alexscaves:azure_magnetic_node"
     ],
     [
       "minecraft:freeze_top_layer"
@@ -115,6 +112,12 @@
   },
   "spawners": {
     "ambient": [
+      {
+        "type": "alexscaves:notor",
+        "maxCount": 4,
+        "minCount": 1,
+        "weight": 20
+      },
       {
         "type": "minecraft:bat",
         "maxCount": 8,
@@ -146,9 +149,9 @@
       },
       {
         "type": "alexscaves:ferrouslime",
-        "maxCount": 3,
-        "minCount": 2,
-        "weight": 300
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 200
       },
       {
         "type": "minecraft:spider",
@@ -172,7 +175,7 @@
         "type": "minecraft:skeleton",
         "maxCount": 4,
         "minCount": 4,
-        "weight": 100
+        "weight": 20
       },
       {
         "type": "minecraft:creeper",

@@ -1,0 +1,108 @@
+package com.github.alexmodguy.alexscaves.server.entity.living;
+
+import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneAttackGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneDisappearGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneReactToPlayerGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneWanderGoal;
+import com.github.alexthe666.citadel.animation.Animation;
+import com.github.alexthe666.citadel.animation.IAnimatedEntity;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+
+public class DeepOneEntity extends DeepOneBaseEntity {
+
+    public static final Animation ANIMATION_THROW = Animation.create(20);
+    public static final Animation ANIMATION_BITE = Animation.create(8);
+    public static final Animation ANIMATION_SCRATCH = Animation.create(22);
+    public static final Animation ANIMATION_TRADE = Animation.create(55);
+
+    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(0.99F, 0.99F, false);
+
+    public DeepOneEntity(EntityType entityType, Level level) {
+        super(entityType, level);
+    }
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 30.0D).add(Attributes.ATTACK_DAMAGE, 3.0D);
+    }
+
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new DeepOneAttackGoal(this));
+        this.goalSelector.addGoal(1, new DeepOneReactToPlayerGoal(this));
+        this.goalSelector.addGoal(2, new DeepOneDisappearGoal(this));
+        this.goalSelector.addGoal(3, new DeepOneWanderGoal(this, 12, 1D));
+        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.targetSelector.addGoal(1, new HurtByHostileTargetGoal());
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 20, false, true, playerTargetPredicate));
+    }
+
+    public EntityDimensions getSwimmingSize() {
+        return SWIMMING_SIZE;
+    }
+
+    public void tick() {
+        super.tick();
+    }
+
+    @Override
+    public void startAttackBehavior(LivingEntity target) {
+        double dist = this.distanceTo(target);
+        float f = this.getBbWidth() + target.getBbWidth();
+        if (dist < f + 1.0D) {
+            if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
+                setAnimation(this.getRandom().nextBoolean() ? ANIMATION_SCRATCH : ANIMATION_BITE);
+            }
+        }
+        if (dist > f + 4) {
+            this.getNavigation().moveTo(target, 1.3D);
+        }
+        if (this.getAnimation() == ANIMATION_SCRATCH) {
+            if (this.getAnimationTick() > 5 && this.getAnimationTick() < 9 || this.getAnimationTick() > 12 && this.getAnimationTick() < 16) {
+                checkAndDealMeleeDamage(target, 1.0F);
+            }
+        }
+        if (this.getAnimation() == ANIMATION_BITE) {
+            if (this.getAnimationTick() > 3 && this.getAnimationTick() <= 7) {
+                checkAndDealMeleeDamage(target, 1.0F);
+            }
+        }
+    }
+
+    @Override
+    public boolean startDisappearBehavior(Player player) {
+        this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
+        if(this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
+            this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.INK_SAC));
+        }
+        if (this.getAnimation() == NO_ANIMATION) {
+            this.setAnimation(ANIMATION_THROW);
+        } else if (this.getAnimation() == ANIMATION_THROW) {
+            if (this.getAnimationTick() > 10) {
+                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.INK_SAC)){
+                    this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+                }
+                return super.startDisappearBehavior(player);
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Animation[] getAnimations() {
+        return new Animation[]{ANIMATION_THROW, ANIMATION_BITE, ANIMATION_SCRATCH};
+    }
+}

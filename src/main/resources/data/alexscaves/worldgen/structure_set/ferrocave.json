@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "alexscaves:ferrocave",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 3,
+    "spacing": 8,
+    "separation": 3
+  }
+}

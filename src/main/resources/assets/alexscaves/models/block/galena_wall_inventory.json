@@ -2,6 +2,6 @@
     "parent": "alexscaves:block/wall_inventory",
     "textures": {
         "wall": "alexscaves:block/galena",
-        "top" : "alexscaves:block/galena"
+        "top" : "alexscaves:block/galena_top"
     }
 }

@@ -22,7 +22,8 @@ import java.util.function.Supplier;
 
 public class ACBlockRegistry {
 
-    public static final BlockBehaviour.Properties GALENA_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(3.5F, 10.0F).sound(SoundType.DEEPSLATE);
+    public static final BlockBehaviour.Properties GALENA_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3.5F, 10.0F).sound(SoundType.DEEPSLATE);
+    public static final BlockBehaviour.Properties ENERGIZED_GALENA_PROPERTIES = BlockBehaviour.Properties.of(Material.BUILDABLE_GLASS, MaterialColor.COLOR_PURPLE).requiresCorrectToolForDrops().strength(3F, 10.0F).lightLevel(state -> 5).sound(SoundType.DEEPSLATE);
     public static final BlockBehaviour.Properties LIMESTONE_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.TERRACOTTA_YELLOW).requiresCorrectToolForDrops().strength(1.2F, 4.5F).sound(SoundType.DRIPSTONE_BLOCK);
     public static final BlockBehaviour.Properties PEWEN_LOG_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties PEWEN_PLANKS_PROPERTIES = BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_YELLOW).strength(2.0F, 3.0F).sound(SoundType.WOOD);
@@ -43,6 +44,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GALENA_BRICK_SLAB = registerBlockAndItem("galena_brick_slab", () -> new SlabBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_BRICK_WALL = registerBlockAndItem("galena_brick_wall", () -> new WallBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_IRON_ORE = registerBlockAndItem("galena_iron_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> ENERGIZED_GALENA_NEUTRAL = registerBlockAndItem("energized_galena_neutral", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
+    public static final RegistryObject<Block> ENERGIZED_GALENA_SCARLET = registerBlockAndItem("energized_galena_scarlet", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
+    public static final RegistryObject<Block> ENERGIZED_GALENA_AZURE = registerBlockAndItem("energized_galena_azure", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
     public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new FallingBlockWithColor(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.STONE).strength(0.6F).sound(SoundType.SAND), 0X404253));
     public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> SCRAP_METAL_PLATE = registerBlockAndItem("scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));

@@ -22,6 +22,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
@@ -65,7 +66,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
 
     public LanternfishEntity(EntityType<? extends WaterAnimal> type, Level level) {
         super(type, level);
-        this.moveControl = new VerticalSwimmingMoveControl(this, 0.02F, 60);
+        this.moveControl = new LanternfishMoveControl();
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
@@ -82,7 +83,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 2.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.15D).add(Attributes.MAX_HEALTH, 2.0D);
     }
 
     protected PathNavigation createNavigation(Level level) {
@@ -500,4 +501,30 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
             }
         }
     }
+
+    private class LanternfishMoveControl extends MoveControl{
+        public LanternfishMoveControl() {
+            super(LanternfishEntity.this);
+        }
+
+        public void tick() {
+            if (this.operation == MoveControl.Operation.MOVE_TO && mob.isInWaterOrBubble()) {
+                final Vec3 vector3d = new Vec3(this.wantedX - mob.getX(), this.wantedY - mob.getY(), this.wantedZ - mob.getZ());
+                final double d5 = vector3d.length();
+                double maxDist = mob.getBoundingBox().getSize() > 1.0F ? 1.0F : mob.getBoundingBox().getSize();
+                if (d5 < maxDist) {
+                    this.operation = MoveControl.Operation.WAIT;
+                    mob.setDeltaMovement(mob.getDeltaMovement().scale(0.85D));
+                } else {
+                    mob.setDeltaMovement(mob.getDeltaMovement().add(vector3d.scale(this.speedModifier * 0.02F / d5)));
+                    final Vec3 vector3d1 = mob.getDeltaMovement();
+                    float f = -((float) Mth.atan2(vector3d1.x, vector3d1.z)) * 180.0F / (float) Math.PI;
+                    mob.setYRot(Mth.approachDegrees(mob.getYRot(), f, 10));
+                    mob.yBodyRot = mob.getYRot();
+                }
+            }
+        }
+
+    }
+
 }

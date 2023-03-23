@@ -25,7 +25,8 @@ public class MagneticCavesAmbientParticle extends Particle {
         Entity entity =  Minecraft.getInstance().getCameraEntity();
 
         if(this.random.nextFloat() > 0.85F && (entity == null || entity.distanceToSqr(x, y, z) > 25)){
-            Vec3 startPos = getStartPosition(level, random.nextBoolean(), x, y, z);
+            Vec3 offset = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F , random.nextFloat() - 0.5F).scale(30);
+            Vec3 startPos = getStartPosition(level, random.nextBoolean(), x + offset.x, y + offset.y, z + offset.z);
             this.level.addParticle(ACParticleRegistry.MAGNET_LIGHTNING.get(), startPos.x, startPos.y, startPos.z, 0, 0, 0);
         }else{
             this.level.addParticle(ACParticleRegistry.GALENA_DEBRIS.get(), x, y, z, 0, 0, 0);
