@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.mojang.datafixers.DataFixUtils;
 import net.minecraft.advancements.CriteriaTriggers;

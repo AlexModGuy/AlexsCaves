@@ -20,7 +20,7 @@ public class SemiAquaticPathNavigatorNoSpin extends SemiAquaticPathNavigator{
 
     protected void followThePath() {
         Vec3 vector3d = this.getTempMobPos();
-        this.maxDistanceToWaypoint = this.mob.getBbWidth() * distancemodifier;
+        this.maxDistanceToWaypoint = this.mob.getBbWidth() * getDistanceModifier();
         Vec3i vector3i = this.path.getNextNodePos();
         double d0 = Math.abs(this.mob.getX() - ((double)vector3i.getX() + 0.5D));
         double d1 = Math.abs(this.mob.getY() - (double)vector3i.getY());
@@ -31,6 +31,10 @@ public class SemiAquaticPathNavigatorNoSpin extends SemiAquaticPathNavigator{
         }
 
         this.doStuckDetection(vector3d);
+    }
+
+    protected float getDistanceModifier() {
+        return distancemodifier;
     }
 
     private boolean shouldTargetNextNodeInDirection(Vec3 currentPosition) {

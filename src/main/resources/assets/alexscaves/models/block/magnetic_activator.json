@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "alexscaves:block/magnetic_activator",
+        "bottom": "alexscaves:block/scrap_metal_plate",
+        "top": "alexscaves:block/magnetic_activator_front"
+    }
+}

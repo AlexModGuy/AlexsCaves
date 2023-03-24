@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
+import com.github.alexmodguy.alexscaves.client.render.blockentity.TelsaBulbBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
@@ -17,7 +18,6 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
-import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
@@ -79,7 +79,6 @@ public class ClientProxy extends CommonProxy {
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
     private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation("alexscaves:shaders/post/submarine_light.json");
     public static final ResourceLocation HOLOGRAM_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/hologram.json");
-
     protected final RandomSource random = RandomSource.create();
     private int lastTremorTick = -1;
     private int updateCounter = 0;
@@ -106,6 +105,7 @@ public class ClientProxy extends CommonProxy {
         bus.addListener(this::bakeModels);
         bus.addListener(this::registerShaders);
         BlockEntityRenderers.register(ACBlockEntityRegistry.MAGNET.get(), MagnetBlockRenderer::new);
+        BlockEntityRenderers.register(ACBlockEntityRegistry.TESLA_BULB.get(), TelsaBulbBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
@@ -143,6 +143,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.INK_BOMB.get(), (context) -> {
             return new ThrownItemRenderer<>(context, 1.25F, false);
         });
+        EntityRenderers.register(ACEntityRegistry.DEEP_ONE_KNIGHT.get(), DeepOneKnightRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -161,6 +162,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.AZURE_MAGNETIC_ORBIT.get(), new MagneticOrbitParticle.AzureFactory());
         registry.register(ACParticleRegistry.SCARLET_MAGNETIC_FLOW.get(), new MagneticFlowParticle.ScarletFactory());
         registry.register(ACParticleRegistry.AZURE_MAGNETIC_FLOW.get(), new MagneticFlowParticle.AzureFactory());
+        registry.register(ACParticleRegistry.TESLA_BULB_LIGHTNING.get(), new TeslaBulbLightningParticle.Factory());
         registry.register(ACParticleRegistry.MAGNET_LIGHTNING.get(), new MagnetLightningParticle.Factory());
         registry.register(ACParticleRegistry.GALENA_DEBRIS.get(), GalenaDebrisParticle.Factory::new);
         registry.register(ACParticleRegistry.MAGNETIC_CAVES_AMBIENT.get(), new MagneticCavesAmbientParticle.Factory());

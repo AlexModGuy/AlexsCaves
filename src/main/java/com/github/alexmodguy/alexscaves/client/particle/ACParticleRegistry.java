@@ -15,6 +15,7 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> SCARLET_MAGNETIC_FLOW = DEF_REG.register("scarlet_magnetic_flow", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> AZURE_MAGNETIC_FLOW = DEF_REG.register("azure_magnetic_flow", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> GALENA_DEBRIS = DEF_REG.register("galena_debris", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TESLA_BULB_LIGHTNING = DEF_REG.register("tesla_bulb_lightning", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MAGNET_LIGHTNING = DEF_REG.register("magnet_lightning", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MAGNETIC_CAVES_AMBIENT = DEF_REG.register("magnetic_caves_ambient", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FERROUSLIME = DEF_REG.register("ferrouslime", ()-> new SimpleParticleType(false));

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down": { "model": "alexscaves:block/magnetic_activator", "x": 180 },
+    "facing=east": { "model": "alexscaves:block/magnetic_activator", "x": 90, "y": 90 },
+    "facing=north": { "model": "alexscaves:block/magnetic_activator", "x": 90 },
+    "facing=south": { "model": "alexscaves:block/magnetic_activator", "x": 270 },
+    "facing=up": { "model": "alexscaves:block/magnetic_activator" },
+    "facing=west": { "model": "alexscaves:block/magnetic_activator", "x": 90, "y": 270 }
+  }
+}

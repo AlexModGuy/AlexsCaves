@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.Difficulty;
@@ -29,10 +28,10 @@ public class NotorScanGoal extends Goal {
     @Override
     public boolean canUse() {
         long worldTime = notor.level.getGameTime() % 10;
-        if (notor.getRandom().nextInt(200) != 0 && worldTime != 0 || notor.getHologramUUID() != null || notor.stopScanningFor > 0) {
+        if (notor.getRandom().nextInt(300) != 0 && worldTime != 0 || notor.getHologramUUID() != null || notor.stopScanningFor > 0) {
             return false;
         }
-        AABB aabb = notor.getBoundingBox().inflate(30);
+        AABB aabb = notor.getBoundingBox().inflate(25);
         List<LivingEntity> list = notor.level.getEntitiesOfClass(LivingEntity.class, aabb, NotorEntity.SCAN_TARGET);
         if (!list.isEmpty()) {
             LivingEntity closest = null;

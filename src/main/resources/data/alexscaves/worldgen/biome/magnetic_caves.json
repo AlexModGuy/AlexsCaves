@@ -84,7 +84,9 @@
     ],
     [
       "minecraft:spring_water",
-      "minecraft:spring_lava"
+      "minecraft:spring_lava",
+      "alexscaves:scarlet_magnetic_node",
+      "alexscaves:azure_magnetic_node"
     ],
     [
       "minecraft:glow_lichen",
@@ -96,8 +98,7 @@
       "minecraft:red_mushroom_normal",
       "minecraft:patch_sugar_cane",
       "minecraft:patch_pumpkin",
-      "alexscaves:scarlet_magnetic_node",
-      "alexscaves:azure_magnetic_node"
+      "alexscaves:tesla_bulb"
     ],
     [
       "minecraft:freeze_top_layer"

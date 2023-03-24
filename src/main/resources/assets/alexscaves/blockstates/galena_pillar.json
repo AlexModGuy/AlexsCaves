@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "axis=x,shape=0": {
+      "model": "alexscaves:block/galena_pillar_single",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,shape=1": {
+      "model": "alexscaves:block/galena_pillar_start",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,shape=2": {
+      "model": "alexscaves:block/galena_pillar_end",
+      "x": 90,
+      "y": 90
+    },
+    "axis=x,shape=3": {
+      "model": "alexscaves:block/galena_pillar_middle",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,shape=0": {
+      "model": "alexscaves:block/galena_pillar_single"
+    },
+    "axis=y,shape=1": {
+      "model": "alexscaves:block/galena_pillar_start"
+    },
+    "axis=y,shape=2": {
+      "model": "alexscaves:block/galena_pillar_end"
+    },
+    "axis=y,shape=3": {
+      "model": "alexscaves:block/galena_pillar_middle"
+    },
+    "axis=z,shape=0": {
+      "model": "alexscaves:block/galena_pillar_single",
+      "x": 90
+    },
+    "axis=z,shape=1": {
+      "model": "alexscaves:block/galena_pillar_start",
+      "x": 90
+    },
+    "axis=z,shape=2": {
+      "model": "alexscaves:block/galena_pillar_end",
+      "x": 90
+    },
+    "axis=z,shape=3": {
+      "model": "alexscaves:block/galena_pillar_middle",
+      "x": 90
+    }
+  }
+}

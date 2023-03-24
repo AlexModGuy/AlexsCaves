@@ -53,8 +53,9 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<HullbreakerEntity>> HULLBREAKER = DEF_REG.register("hullbreaker", () -> (EntityType)EntityType.Builder.of(HullbreakerEntity::new, MobCategory.UNDERGROUND_WATER_CREATURE).sized(4.65F, 4.5F).setShouldReceiveVelocityUpdates(true).clientTrackingRange(20).build("hullbreaker"));
     public static final RegistryObject<EntityType<GossamerWormEntity>> GOSSAMER_WORM = DEF_REG.register("gossamer_worm", () -> (EntityType)EntityType.Builder.of(GossamerWormEntity::new, DEEP_SEA_CREATURE).sized(1.15F, 0.5F).build("gossamer_worm"));
     public static final RegistryObject<EntityType<TripodfishEntity>> TRIPODFISH = DEF_REG.register("tripodfish", () -> (EntityType)EntityType.Builder.of(TripodfishEntity::new, DEEP_SEA_CREATURE).sized(0.95F, 0.5F).build("tripodfish"));
-    public static final RegistryObject<EntityType<DeepOneEntity>> DEEP_ONE = DEF_REG.register("deep_one", () -> (EntityType)EntityType.Builder.of(DeepOneEntity::new, MobCategory.MONSTER).sized(0.9F, 2.2F).clientTrackingRange(10).build("deep_one"));
+    public static final RegistryObject<EntityType<DeepOneEntity>> DEEP_ONE = DEF_REG.register("deep_one", () -> (EntityType)EntityType.Builder.of(DeepOneEntity::new, MobCategory.MONSTER).sized(0.9F, 2.2F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("deep_one"));
     public static final RegistryObject<EntityType<InkBombEntity>> INK_BOMB = DEF_REG.register("ink_bomb", () -> (EntityType)EntityType.Builder.of(InkBombEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(InkBombEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("ink_bomb"));
+    public static final RegistryObject<EntityType<DeepOneKnightEntity>> DEEP_ONE_KNIGHT = DEF_REG.register("deep_one_knight", () -> (EntityType)EntityType.Builder.of(DeepOneKnightEntity::new, MobCategory.MONSTER).sized(1.15F, 2.5F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("deep_one_knight"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -81,6 +82,7 @@ public class ACEntityRegistry {
         event.put(GOSSAMER_WORM.get(), GossamerWormEntity.createAttributes().build());
         event.put(TRIPODFISH.get(), TripodfishEntity.createAttributes().build());
         event.put(DEEP_ONE.get(), DeepOneEntity.createAttributes().build());
+        event.put(DEEP_ONE_KNIGHT.get(), DeepOneKnightEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -108,6 +110,7 @@ public class ACEntityRegistry {
         event.register(GOSSAMER_WORM.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GossamerWormEntity::checkGossamerWormSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(TRIPODFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TripodfishEntity::checkTripodfishSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(DEEP_ONE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(DEEP_ONE_KNIGHT.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

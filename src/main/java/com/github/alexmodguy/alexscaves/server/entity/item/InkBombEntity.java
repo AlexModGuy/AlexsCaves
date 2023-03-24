@@ -56,6 +56,16 @@ public class InkBombEntity extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
         hitResult.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0F);
+        if(hitResult.getEntity() instanceof SubmarineEntity submarine){
+            submarine.setLightsOn(false);
+            if(submarine.getFirstPassenger() instanceof Player player){
+                player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
+                if(!player.isCreative()){
+                    player.removeEffect(MobEffects.NIGHT_VISION);
+                    player.removeEffect(MobEffects.CONDUIT_POWER);
+                }
+            }
+        }
         if (hitResult.getEntity() instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
             if(!(living instanceof Player player && player.isCreative())){

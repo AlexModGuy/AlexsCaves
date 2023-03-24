@@ -9,7 +9,9 @@ import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class ACWorldData extends SavedData {
 

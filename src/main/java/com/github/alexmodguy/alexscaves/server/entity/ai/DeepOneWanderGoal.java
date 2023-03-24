@@ -2,13 +2,10 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 

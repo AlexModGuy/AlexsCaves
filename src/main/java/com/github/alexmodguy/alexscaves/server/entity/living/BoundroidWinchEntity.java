@@ -226,6 +226,7 @@ public class BoundroidWinchEntity extends Monster {
                     }
                     if(changeLatchStateTime > 5){
                         this.setLatched(false);
+                        changeLatchStateTime = 0;
                     }
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.14, 0).scale(0.85F));
                     goingUp = false;
@@ -240,6 +241,7 @@ public class BoundroidWinchEntity extends Monster {
                     }
                     if(changeLatchStateTime > 5){
                         this.setLatched(true);
+                        changeLatchStateTime = 0;
                     }
                     if (goingUp) {
                         this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, 1.5F, this.getDeltaMovement().z));

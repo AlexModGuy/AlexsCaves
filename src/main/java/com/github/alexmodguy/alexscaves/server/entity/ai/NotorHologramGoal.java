@@ -1,7 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.GammaroachEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
@@ -15,7 +13,6 @@ import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
@@ -126,7 +123,7 @@ public class NotorHologramGoal extends Goal {
                 }
             }else{
                 notor.setShowingHologram(false);
-                if(hologram instanceof Player player){
+                if(hologram instanceof Player player && !player.isCreative()){
                     monster.getNavigation().moveTo(notor.getX(), notor.getY(), notor.getZ(), 1.2F);
                     notor.getNavigation().moveTo(player.getX(), player.getY(1.0F) + 2, player.getZ(), 1.2F);
                     monster.setTarget(player);

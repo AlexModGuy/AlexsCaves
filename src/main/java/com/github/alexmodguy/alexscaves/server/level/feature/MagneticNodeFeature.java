@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 import com.github.alexmodguy.alexscaves.server.block.NeodymiumNodeBlock;
 import com.github.alexmodguy.alexscaves.server.block.NeodymiumPillarBlock;
 import com.github.alexmodguy.alexscaves.server.level.feature.config.MagneticNodeFeatureConfiguration;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

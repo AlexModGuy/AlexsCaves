@@ -25,7 +25,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MusselBlock extends Block implements SimpleWaterloggedBlock {
 

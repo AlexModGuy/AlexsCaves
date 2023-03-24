@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.GammaroachEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;

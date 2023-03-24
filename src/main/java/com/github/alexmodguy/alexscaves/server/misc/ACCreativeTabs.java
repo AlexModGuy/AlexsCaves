@@ -40,7 +40,6 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.GALENA_SLAB.get());
             add(output, ACBlockRegistry.GALENA_BRICKS.get());
             add(output, ACBlockRegistry.GALENA_WALL.get());
-            add(output, ACBlockRegistry.PACKED_GALENA.get());
             add(output, ACBlockRegistry.GALENA_BRICKS.get());
             add(output, ACBlockRegistry.GALENA_BRICK_STAIRS.get());
             add(output, ACBlockRegistry.GALENA_BRICK_SLAB.get());
@@ -49,6 +48,10 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.ENERGIZED_GALENA_NEUTRAL.get());
             add(output, ACBlockRegistry.ENERGIZED_GALENA_SCARLET.get());
             add(output, ACBlockRegistry.ENERGIZED_GALENA_AZURE.get());
+            add(output, ACBlockRegistry.GALENA_SPIRE.get());
+            add(output, ACBlockRegistry.PACKED_GALENA.get());
+            add(output, ACBlockRegistry.GALENA_PILLAR.get());
+            add(output, ACBlockRegistry.TESLA_BULB.get());
             add(output, ACBlockRegistry.METAL_SWARF.get());
             add(output, ACBlockRegistry.SCRAP_METAL.get());
             add(output, ACBlockRegistry.SCRAP_METAL_PLATE.get());
@@ -63,6 +66,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.AZURE_NEODYMIUM_PILLAR.get());
             add(output, ACBlockRegistry.BLOCK_OF_AZURE_NEODYMIUM.get());
             add(output, ACBlockRegistry.AZURE_MAGNET.get());
+            add(output, ACBlockRegistry.MAGNETIC_ACTIVATOR.get());
         }));
         event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((flags, output, isOp) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));

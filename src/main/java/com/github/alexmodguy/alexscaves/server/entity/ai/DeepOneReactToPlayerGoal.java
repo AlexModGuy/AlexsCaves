@@ -1,18 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.GossamerWormEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.DeepOneReaction;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -67,7 +61,7 @@ public class DeepOneReactToPlayerGoal extends Goal {
     @Override
     public boolean canContinueToUse() {
         LivingEntity attackTarget = deepOne.getTarget();
-        return player != null && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative());
+        return player != null && !player.isSpectator() && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative());
     }
 
 

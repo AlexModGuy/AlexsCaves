@@ -13,6 +13,7 @@
     "alexscaves:rusty_scaffolding",
     "alexscaves:metal_rebar",
     "alexscaves:rusty_rebar",
+    "alexscaves:magnetic_activator",
     "#forge:storage_blocks/raw_iron",
     "#forge:storage_blocks/iron",
     "#forge:storage_blocks/netherite",

@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.level.surface;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
-import com.github.alexmodguy.alexscaves.server.misc.ACSimplexNoise;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.registries.Registries;

@@ -6,11 +6,9 @@ import com.github.alexthe666.citadel.CitadelConstants;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.level.Level;
@@ -41,6 +39,10 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
     @Shadow private EntityDimensions dimensions;
 
+    @Shadow public abstract void tick();
+
+    @Shadow public abstract void refreshDimensions();
+
     private static final EntityDataAccessor<Float> MAGNET_DELTA_X = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Y = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Z = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
@@ -69,20 +71,26 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     )
     public void ac_tick(CallbackInfo ci) {
         Entity thisEntity = (Entity)(Object)this;
+        prevAttachChangeProgress = attachChangeProgress;
+        if (this.prevAttachDir != this.getMagneticAttachmentFace()) {
+            if (attachChangeProgress < 1.0F) {
+                attachChangeProgress += 0.1F;
+            } else if (attachChangeProgress >= 1.0F) {
+                this.prevAttachDir = this.getMagneticAttachmentFace();
+            }
+        } else {
+            this.attachChangeProgress = 1.0F;
+        }
+
         if(MagnetUtil.isPulledByMagnets(thisEntity)){
             MagnetUtil.tickMagnetism(thisEntity);
-            prevAttachChangeProgress = attachChangeProgress;
-            if (this.prevAttachDir != this.getMagneticAttachmentFace()) {
-                if (attachChangeProgress < 1.0F) {
-                    attachChangeProgress += 0.1F;
-                } else if (attachChangeProgress >= 1.0F) {
-                    this.prevAttachDir = this.getMagneticAttachmentFace();
-                }
-            } else {
-                this.attachChangeProgress = 1.0F;
-            }
             if(this.jumpFlipCooldown > 0){
                 this.jumpFlipCooldown--;
+            }
+        }else {
+            if(this.getMagneticAttachmentFace() != Direction.DOWN){
+                this.setMagneticAttachmentFace(Direction.DOWN);
+                this.refreshDimensions();
             }
         }
     }

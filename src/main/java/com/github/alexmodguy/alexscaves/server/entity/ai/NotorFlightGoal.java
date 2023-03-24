@@ -1,10 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
-import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.BlockHitResult;

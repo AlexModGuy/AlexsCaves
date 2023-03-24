@@ -1,10 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -17,9 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
-import net.minecraft.world.level.material.FluidState;
 
 public class FerrocaveStructurePiece extends AbstractCaveGenerationStructurePiece {
 

@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "down=false": {
+      "model": "alexscaves:block/galena_spire_3"
+    },
+    "down=true": {
+      "model": "alexscaves:block/galena_spire_3",
+      "x": 180
+    }
+  }
+}

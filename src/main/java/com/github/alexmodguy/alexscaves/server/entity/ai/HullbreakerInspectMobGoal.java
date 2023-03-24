@@ -68,7 +68,11 @@ public class HullbreakerInspectMobGoal extends Goal {
     public void tick() {
         double distance = entity.distanceTo(inspectingTarget);
         if(entity.getInterestLevel() >= 5 && HullbreakerEntity.GLOWING_TARGET.test(inspectingTarget)){
-            entity.setTarget(inspectingTarget);
+            if(!(inspectingTarget instanceof Player) || !((Player)inspectingTarget).isCreative()){
+                entity.setTarget(inspectingTarget);
+            }
+            inspectingTarget = null;
+            return;
         }
         if(entity.getRandom().nextInt(20) == 0 && !HullbreakerEntity.GLOWING_TARGET.test(inspectingTarget)){
             inspectingTarget = null;

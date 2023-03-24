@@ -17,7 +17,6 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -103,6 +102,6 @@ public class DeepOneEntity extends DeepOneBaseEntity {
 
     @Override
     public Animation[] getAnimations() {
-        return new Animation[]{ANIMATION_THROW, ANIMATION_BITE, ANIMATION_SCRATCH};
+        return new Animation[]{ANIMATION_THROW, ANIMATION_BITE, ANIMATION_SCRATCH, ANIMATION_TRADE};
     }
 }

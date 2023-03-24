@@ -9,7 +9,6 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
@@ -17,7 +16,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -116,7 +114,7 @@ public class MagnetUtil {
             }
             setEntityMagneticDelta(entity, vec3.scale( 0.08F));
         }
-        if(vec3 == Vec3.ZERO && !attatchesToMagnets && dir != Direction.DOWN){
+        if(!attatchesToMagnets && dir != Direction.DOWN){
             setEntityMagneticDirection(entity, Direction.DOWN);
             entity.refreshDimensions();
             entity.setPose(Pose.STANDING);
@@ -290,7 +288,7 @@ public class MagnetUtil {
         double d1 = Mth.lerp((double)partialTicks, entity.yo, entity.getY());
         double d2 = Mth.lerp((double)partialTicks, entity.zo, entity.getZ());
         Vec3 offset = new Vec3(-face.getStepX() * eyeHeight, -face.getStepY() * eyeHeight, -face.getStepZ() * eyeHeight);
-        Vec3 from = new Vec3(d0, d1, d2);
+        Vec3 from = new Vec3(d0, d1 + eyeHeight, d2);
         Vec3 to = new Vec3(d0, d1, d2).add(offset);
         return from.add(to.subtract(from).scale(progress));
     }

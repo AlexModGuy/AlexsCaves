@@ -12,7 +12,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ACItemRegistry {
     private static Map<RegistryObject<Item>, ResourceLocation> creativeTabSpawnEggMap = new LinkedHashMap<>();
@@ -55,6 +58,7 @@ public class ACItemRegistry {
         spawnEgg("gossamer_worm", ACEntityRegistry.GOSSAMER_WORM, 0XC8F1FF,0X96DEF6, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("tripodfish", ACEntityRegistry.TRIPODFISH, 0X34529D,0X81A1CF, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("deep_one", ACEntityRegistry.DEEP_ONE, 0X0D2547,0X0A843B, ACCreativeTabs.ABYSSAL_CHASM);
+        spawnEgg("deep_one_knight", ACEntityRegistry.DEEP_ONE_KNIGHT, 0X472C3B,0XD4CCC3, ACCreativeTabs.ABYSSAL_CHASM);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName){

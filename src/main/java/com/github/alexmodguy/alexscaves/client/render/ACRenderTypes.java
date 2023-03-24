@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.client.render;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
-import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -148,6 +147,10 @@ public class ACRenderTypes extends RenderType {
 
     public static RenderType getSubmarineLights() {
         return create("submarine_lights", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(RENDERTYPE_LIGHTNING_SHADER).setWriteMaskState(COLOR_DEPTH_WRITE).setTransparencyState(ADDITIVE_TRANSPARENCY).setOutputState(WEATHER_TARGET).createCompositeState(false));
+    }
+
+    public static RenderType getTeslaBulb(ResourceLocation resourceLocation) {
+        return create("tesla_bulb", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder().setShaderState(RenderStateShard.RENDERTYPE_ENERGY_SWIRL_SHADER).setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, true)).setLightmapState(LIGHTMAP).setCullState(RenderStateShard.NO_CULL).setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY).setDepthTestState(LEQUAL_DEPTH_TEST).createCompositeState(true));
     }
 
     public static RenderType getHologram(ResourceLocation locationIn) {

@@ -1,14 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.Vec3;
 
 public class VerticalSwimmingMoveControl extends MoveControl {
@@ -45,7 +41,11 @@ public class VerticalSwimmingMoveControl extends MoveControl {
             }
             float f = (float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90.0F;
             this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, rotBy));
-            this.mob.setSpeed(f1);
+            if(d3 > 0.05){
+                this.mob.setSpeed(f1);
+            }else{
+                this.mob.setSpeed(0.0F);
+            }
         } else {
             this.mob.setSpeed(0.0F);
             if(mob instanceof DeepOneBaseEntity deepOne){

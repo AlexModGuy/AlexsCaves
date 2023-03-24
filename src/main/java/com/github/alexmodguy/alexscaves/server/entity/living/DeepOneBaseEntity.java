@@ -1,6 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigatorNoSpin;
+import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.entity.item.InkBombEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.DeepOneReaction;
@@ -84,7 +84,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             return false;
         } else {
             boolean flag = level.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(level, blockPos, randomSource) && (mobSpawnType == MobSpawnType.SPAWNER || level.getFluidState(blockPos).is(FluidTags.WATER));
-            return randomSource.nextInt(30) == 0 && blockPos.getY() < level.getSeaLevel() - 80 && flag;
+            return randomSource.nextInt(60) == 0 && blockPos.getY() < level.getSeaLevel() - 80 && flag;
         }
     }
 
@@ -296,6 +296,10 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     }
 
+    public HumanoidArm getMainArm(){
+        return HumanoidArm.RIGHT;
+    }
+
     protected void checkAndDealMeleeDamage(LivingEntity target, float multiplier) {
         if (this.hasLineOfSight(target) && this.distanceTo(target) < this.getBbWidth() + target.getBbWidth() + 5.0D) {
             float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * multiplier;
@@ -324,9 +328,9 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         }
     }
 
-    private class PathNavigator extends SemiAquaticPathNavigatorNoSpin {
+    private class PathNavigator extends SemiAquaticPathNavigator {
         public PathNavigator(Level worldIn) {
-            super(DeepOneBaseEntity.this, worldIn, 1F);
+            super(DeepOneBaseEntity.this, worldIn);
         }
 
         @Override
