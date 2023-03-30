@@ -8,9 +8,12 @@
       "alexscaves:magnetic_ruins_3",
       "alexscaves:magnetic_ruins_4",
       "alexscaves:magnetic_ruins_5",
-      "alexscaves:magnetic_ruins_6"
+      "alexscaves:magnetic_ruins_6",
+      "alexscaves:magnetic_ruins_7",
+      "alexscaves:magnetic_ruins_8",
+      "alexscaves:magnetic_ruins_9"
     ],
     "chest_loot": "alexscaves:chests/magnetic_ruins",
-    "sink_by": 0
+    "sink_by": 1
   }
 }

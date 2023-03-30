@@ -1,8 +1,10 @@
 package com.github.alexmodguy.alexscaves.mixin;
 
 
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -12,12 +14,25 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(AbstractArrow.class)
 public abstract class AbstractArrowMixin extends Projectile {
 
     protected AbstractArrowMixin(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
+    }
+
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/projectile/AbstractArrow;canHitEntity(Lnet/minecraft/world/entity/Entity;)Z"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    private void ac_canHitEntity(Entity entity, CallbackInfoReturnable<Boolean> cir){
+        if(getOwner() instanceof DeepOneBaseEntity && entity instanceof DeepOneBaseEntity){
+            cir.setReturnValue(false);
+        }
     }
 
     @Inject(

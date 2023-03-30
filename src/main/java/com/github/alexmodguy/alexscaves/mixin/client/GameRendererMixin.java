@@ -4,14 +4,19 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.entity.SubmarineRenderer;
+import com.github.alexmodguy.alexscaves.client.render.entity.layer.ACPotionEffectLayer;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,12 +25,14 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
-public class GameRendererMixin {
+public abstract class GameRendererMixin {
 
     @Shadow
     private float darkenWorldAmount;
 
     @Shadow @Final private RenderBuffers renderBuffers;
+
+    @Shadow public abstract void resetProjectionMatrix(Matrix4f p_253668_);
 
     @Inject(
             method = {"Lnet/minecraft/client/renderer/GameRenderer;tick()V"},
@@ -72,6 +79,8 @@ public class GameRendererMixin {
             RenderSystem.enableDepthTest();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }
+
+
     }
 
 
@@ -92,6 +101,23 @@ public class GameRendererMixin {
             poseStack.translate(offset.x, offset.y, offset.z);
             SubmarineRenderer.renderSubFirstPerson(submarine, partialTicks, poseStack, renderBuffers.bufferSource());
             poseStack.popPose();
+        }
+    }
+
+    @Inject(
+            method = {"Lnet/minecraft/client/renderer/GameRenderer;renderLevel(FJLcom/mojang/blaze3d/vertex/PoseStack;)V"},
+            remap = true,
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/GameRenderer;renderItemInHand(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/Camera;F)V",
+                    shift = At.Shift.AFTER
+            )
+    )
+    public void ac_renderLevelAfterHand(float partialTicks, long time, PoseStack poseStack, CallbackInfo ci) {
+        if (Minecraft.getInstance().getCameraEntity() instanceof LivingEntity living && living.hasEffect(ACEffectRegistry.BUBBLED.get()) && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
+            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+            ACPotionEffectLayer.renderBubbledFirstPerson(poseStack);
+            multibuffersource$buffersource.endBatch();
         }
     }
 }

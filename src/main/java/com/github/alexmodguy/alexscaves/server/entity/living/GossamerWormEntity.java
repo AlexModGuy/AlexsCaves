@@ -81,7 +81,7 @@ public class GossamerWormEntity extends WaterAnimal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.08D).add(Attributes.MAX_HEALTH, 10.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.1D).add(Attributes.MAX_HEALTH, 10.0D);
     }
 
     protected PathNavigation createNavigation(Level level) {

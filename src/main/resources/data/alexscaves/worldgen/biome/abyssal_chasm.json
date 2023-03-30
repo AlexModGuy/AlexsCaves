@@ -94,6 +94,12 @@
     "misc": [],
     "monster": [
       {
+        "type": "alexscaves:deep_one_mage",
+        "maxCount": 1,
+        "minCount": 1,
+        "weight": 2
+      },
+      {
         "type": "alexscaves:deep_one_knight",
         "maxCount": 1,
         "minCount": 1,

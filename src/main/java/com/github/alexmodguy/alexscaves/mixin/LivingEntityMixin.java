@@ -3,7 +3,9 @@ package com.github.alexmodguy.alexscaves.mixin;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.Direction;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor {
@@ -20,6 +23,9 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
     @Shadow public abstract float getYHeadRot();
 
     @Shadow public float yHeadRotO;
+
+    @Shadow public abstract boolean hasEffect(MobEffect p_21024_);
+
     private float prevHeadYaw;
     private float prevHeadYaw0;
     private float prevHeadPitch;
@@ -48,6 +54,18 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
             }
             living.animationSpeed += (f - living.animationSpeed) * 0.4F;
             living.animationPosition += living.animationSpeed;
+        }
+    }
+
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/LivingEntity;increaseAirSupply(I)I"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    protected void increaseAirSupply(int air, CallbackInfoReturnable<Integer> cir) {
+        if(this.hasEffect(ACEffectRegistry.BUBBLED.get())) {
+            cir.setReturnValue(air);
         }
     }
 

@@ -33,6 +33,7 @@ public class ACTagRegistry {
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
     public static final TagKey<Item> VALLUMRAPTOR_STEALS = registerItemTag("vallumraptor_steals");
     public static final TagKey<Item> SEA_PIG_DIGESTS = registerItemTag("sea_pig_digests");
+    public static final TagKey<Item> DEEP_ONE_BARTERS = registerItemTag("deep_one_barters");
     public static final TagKey<Item> RESTRICTED_BIOME_LOCATORS = registerItemTag("restricted_biome_locators");
     public static final TagKey<EntityType<?>> MAGNETIC_ENTITIES = registerEntityTag("ferromagnetic_entities");
     public static final TagKey<EntityType<?>> NOTOR_IGNORES = registerEntityTag("notor_ignores");
@@ -43,6 +44,7 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> SEAFLOOR_DENIZENS = registerEntityTag("seafloor_denizens");
     public static final TagKey<EntityType<?>> GLOWING_ENTITIES = registerEntityTag("glowing_entities");
     public static final TagKey<Biome> TRENCH_IGNORES_STONE_IN = registerBiomeTag("trench_ignores_stone_in");
+    public static final TagKey<EntityType<?>> RESISTS_BUBBLED = registerEntityTag("resists_bubbled");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));

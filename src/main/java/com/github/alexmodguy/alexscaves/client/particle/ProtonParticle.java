@@ -1,7 +1,9 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -45,6 +47,7 @@ public class ProtonParticle extends MagneticOrbitParticle {
     }
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {
+        ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
         Vec3 vec3 = camera.getPosition();
         float f = (float) (Mth.lerp((double) partialTick, this.xo, this.x) - vec3.x());
         float f1 = (float) (Mth.lerp((double) partialTick, this.yo, this.y) - vec3.y());

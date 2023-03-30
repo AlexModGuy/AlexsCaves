@@ -181,6 +181,12 @@ public class MagnetronEntity extends Monster {
                 wheelRot = Mth.approachDegrees(wheelRot, 0, 15);
             }
         }
+        if (!this.level.isClientSide && !isFormed()) {
+            LivingEntity target = this.getTarget();
+            if(target instanceof Player && target.isAlive() && this.distanceTo(target) < 8){
+                this.startForming();
+            }
+        }
         if (moving || this.isFormed()) {
             wheelYaw = Mth.approachDegrees(wheelYaw, yBodyRot, 15);
         }
@@ -294,11 +300,12 @@ public class MagnetronEntity extends Monster {
 
     public boolean hurt(DamageSource damageSource, float f) {
         boolean prev = super.hurt(damageSource, f);
-        if(prev && damageSource.getEntity() instanceof Player){
+        if (prev && damageSource.getEntity() instanceof Player player && !player.isCreative() && !isFormed()) {
             this.startForming();
         }
         return prev;
     }
+
     private List<BlockPos> findBlocksMatching(Predicate<BlockState> blockMatch, Predicate<BlockPos> ignoreMatch, int maxCount, float rngDiscard) {
         List<BlockPos> list = new ArrayList<>();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();

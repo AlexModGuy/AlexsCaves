@@ -207,6 +207,12 @@ public abstract class AbstractMovingBlockEntity extends Entity {
         return minMax;
     }
 
+    @Override
+    public Vec3 getLightProbePosition(float f) {
+        return this.getPosition(f);
+    }
+
+
     public static CompoundTag createTagFromData(List<MovingBlockData> blocks) {
         CompoundTag tag = new CompoundTag();
         ListTag listTag = new ListTag();

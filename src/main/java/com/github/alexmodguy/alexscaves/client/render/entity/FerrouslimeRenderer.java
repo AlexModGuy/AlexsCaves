@@ -69,20 +69,7 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
         poseStack.popPose();
     }
 
-    private void renderGel(FerrouslimeEntity entity, float partialTicks, PoseStack poseStack, VertexConsumer consumer, float size, int packedLight) {
-        Matrix4f cubeAt = poseStack.last().pose();
-        Matrix3f matrix3f = poseStack.last().normal();
-        float cubeStart = size * -0.5F;
-        float cubeEnd = size * 0.5F;
-        float textureScale = cubeEnd - cubeStart;
-        float spike = 1;
-        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeStart, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeEnd, textureScale);
-        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeEnd, cubeStart, cubeStart, cubeStart, cubeStart, cubeStart, textureScale);
-        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeEnd, cubeEnd, cubeEnd, cubeStart, cubeStart, cubeEnd, cubeEnd, cubeStart, textureScale);
-        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeStart, cubeStart, cubeEnd, cubeStart, cubeEnd, cubeEnd, cubeStart, textureScale);
-        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeStart, cubeStart, cubeStart, cubeStart, cubeEnd, cubeEnd, textureScale);
-        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeStart, cubeStart, textureScale);
-    }
+
 
     private void renderGelSpikes(FerrouslimeEntity entity, float partialTicks, PoseStack poseStack, VertexConsumer consumer, float size, int packedLight){
         float length = (size + 1) * entity.getAttackProgress(partialTicks);
@@ -108,6 +95,20 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
 
     }
 
+    private void renderGel(FerrouslimeEntity entity, float partialTicks, PoseStack poseStack, VertexConsumer consumer, float size, int packedLight) {
+        Matrix4f cubeAt = poseStack.last().pose();
+        Matrix3f matrix3f = poseStack.last().normal();
+        float cubeStart = size * -0.5F;
+        float cubeEnd = size * 0.5F;
+        float textureScale = cubeEnd - cubeStart;
+        float spike = 1;
+        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeStart, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeEnd, textureScale);
+        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeEnd, cubeStart, cubeStart, cubeStart, cubeStart, cubeStart, textureScale);
+        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeEnd, cubeEnd, cubeEnd, cubeStart, cubeStart, cubeEnd, cubeEnd, cubeStart, textureScale);
+        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeStart, cubeStart, cubeEnd, cubeStart, cubeEnd, cubeEnd, cubeStart, textureScale);
+        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeStart, cubeStart, cubeStart, cubeStart, cubeEnd, cubeEnd, textureScale);
+        this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeStart, cubeStart, textureScale);
+    }
     private void renderCubeFace(FerrouslimeEntity entity, Matrix4f matrix4f, Matrix3f matrix3f, VertexConsumer vertexConsumer, int packedLightIn, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float textureScale) {
         int overlayCoords = LivingEntityRenderer.getOverlayCoords(entity, 0.0F);
         int hurtColor = entity.hurtTime > 0 || entity.deathTime > 0 ? 10 : 255;

@@ -1,9 +1,10 @@
 package com.github.alexmodguy.alexscaves.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelFinalLayerFullbright;
+import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelShadeLayerFullbright;
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
+import com.github.alexmodguy.alexscaves.client.render.blockentity.AbyssalAltarBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.TelsaBulbBlockRenderer;
@@ -18,6 +19,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
@@ -73,7 +75,7 @@ import java.util.*;
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
 
-    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#");
+    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
@@ -107,6 +109,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ACBlockEntityRegistry.MAGNET.get(), MagnetBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.TESLA_BULB.get(), TelsaBulbBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
+        BlockEntityRenderers.register(ACBlockEntityRegistry.ABYSSAL_ALTAR.get(), AbyssalAltarBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
@@ -144,6 +147,9 @@ public class ClientProxy extends CommonProxy {
             return new ThrownItemRenderer<>(context, 1.25F, false);
         });
         EntityRenderers.register(ACEntityRegistry.DEEP_ONE_KNIGHT.get(), DeepOneKnightRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.DEEP_ONE_MAGE.get(), DeepOneMageRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.WATER_BOLT.get(), WaterBoltRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.WAVE.get(), WaveRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -182,6 +188,8 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
         registry.register(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
         registry.register(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
+        registry.register(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
+        registry.register(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -205,6 +213,7 @@ public class ClientProxy extends CommonProxy {
         if (event.getEntity() instanceof HeadRotationEntityAccessor magnetic) {
             magnetic.setMagnetHeadRotation();
         }
+
         if (blockedEntityRenders.contains(event.getEntity().getUUID())) {
             MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
             event.setCanceled(true);
@@ -222,7 +231,7 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void postRenderStage(RenderLevelStageEvent event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
-        if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
+        if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
             GameRenderer renderer = Minecraft.getInstance().gameRenderer;
             if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
                 if (renderer.currentEffect() == null || !SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
@@ -237,7 +246,6 @@ public class ClientProxy extends CommonProxy {
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS) {
             RenderSystem.runAsFancy(() -> NotorRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
-
         }
     }
 
@@ -273,6 +281,8 @@ public class ClientProxy extends CommonProxy {
         if (player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && event.getCamera().isDetached()) {
             event.getCamera().move(-event.getCamera().getMaxZoom(4F), 0, 0);
         }
+        Direction dir = MagnetUtil.getEntityMagneticDirection(player);
+
     }
 
     @SubscribeEvent
@@ -498,7 +508,7 @@ public class ClientProxy extends CommonProxy {
     private void bakeModels(final ModelEvent.ModifyBakingResult e) {
         for (ResourceLocation id : e.getModels().keySet()) {
             if (FULLBRIGHTS.contains(id.toString())) {
-                e.getModels().put(id, new BakedModelFinalLayerFullbright(e.getModels().get(id)));
+                e.getModels().put(id, new BakedModelShadeLayerFullbright(e.getModels().get(id)));
             }
         }
     }
@@ -507,6 +517,7 @@ public class ClientProxy extends CommonProxy {
         try {
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_ferrouslime_gel"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeFerrouslimeGelShader);
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_irradiated"), DefaultVertexFormat.POSITION_COLOR_TEX), ACInternalShaders::setRenderTypeIrradiatedShader);
+            e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_bubbled"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeBubbledShader);
             AlexsCaves.LOGGER.info("registered internal shaders");
         } catch (IOException exception) {
             AlexsCaves.LOGGER.error("could not register internal shaders");

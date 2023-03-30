@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.LivingEntity;
@@ -80,6 +81,9 @@ public class DeepOneWanderGoal extends Goal {
                 if(groundTarget){
                     while (groundTarget && mob.level.getFluidState(blockPos.below()).is(FluidTags.WATER) && blockPos.getY() > mob.level.getMinBuildHeight()){
                         blockPos = blockPos.below();
+                    }
+                    if(mob instanceof DeepOneMageEntity){
+                        blockPos = blockPos.above(1 + mob.getRandom().nextInt(2));
                     }
                 }
                 return blockPos;

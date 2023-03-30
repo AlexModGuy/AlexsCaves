@@ -86,8 +86,6 @@ public class TeletorEntity extends Monster {
         return flyingpathnavigation;
     }
 
-
-
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
         return level.getBlockState(pos).isAir() ? 10.0F : 0.0F;
     }

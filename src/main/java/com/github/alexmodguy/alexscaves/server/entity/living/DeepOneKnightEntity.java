@@ -1,13 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneAttackGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneDisappearGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneReactToPlayerGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneWanderGoal;
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
@@ -36,19 +35,20 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     public static final Animation ANIMATION_BITE = Animation.create(8);
     public static final Animation ANIMATION_SCRATCH = Animation.create(22);
     public static final Animation ANIMATION_TRADE = Animation.create(55);
-    private ItemStack swappedWeapon = ItemStack.EMPTY;
 
     private UUID lastThrownTrident = null;
     private boolean melee = random.nextBoolean();
     private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.2F, 1.3F, false);
 
+    public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_knight_barter");
     public DeepOneKnightEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new DeepOneAttackGoal(this));
-        this.goalSelector.addGoal(1, new DeepOneReactToPlayerGoal(this){
+        this.goalSelector.addGoal(1, new DeepOneBarterGoal(this));
+        this.goalSelector.addGoal(2, new DeepOneReactToPlayerGoal(this){
             @Override
             public boolean canUse() {
                 return super.canUse() && lastThrownTrident == null;
@@ -59,10 +59,10 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
                 return super.canContinueToUse() && lastThrownTrident == null;
             }
         });
-        this.goalSelector.addGoal(2, new DeepOneDisappearGoal(this));
-        this.goalSelector.addGoal(3, new DeepOneWanderGoal(this, 12, 1D));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 16.0F));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new DeepOneDisappearGoal(this));
+        this.goalSelector.addGoal(4, new DeepOneWanderGoal(this, 12, 1D));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByHostileTargetGoal());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 20, false, true, playerTargetPredicate));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, 12, true, false, null));
@@ -91,10 +91,15 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     }
 
     @Override
+    protected ResourceLocation getBarterLootTable() {
+        return BARTER_LOOT;
+    }
+
+    @Override
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
         if(!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
-            swappedWeapon = this.getItemInHand(InteractionHand.MAIN_HAND).copy();
+            swapItemsForAnimation(new ItemStack(Items.INK_SAC));
         }
         this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.INK_SAC));
         if (this.getAnimation() == NO_ANIMATION) {
@@ -102,7 +107,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         } else if (this.getAnimation() == ANIMATION_THROW) {
             if (this.getAnimationTick() > 10) {
                 if(this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.INK_SAC)){
-                    this.setItemInHand(InteractionHand.MAIN_HAND, swappedWeapon);
+                    this.restoreSwappedItem();
                 }
                 return super.startDisappearBehavior(player);
             }
@@ -172,6 +177,11 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         }
     }
 
+    @Override
+    public Animation getTradingAnimation() {
+        return ANIMATION_TRADE;
+    }
+
     public void throwTrident(LivingEntity target) {
         ThrownTrident throwntrident = new ThrownTrident(this.level, this, new ItemStack(Items.TRIDENT));
         double d0 = target.getX() - this.getX();
@@ -191,9 +201,6 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        if(!swappedWeapon.isEmpty()){
-            compound.put("SwappedWeapon", swappedWeapon.save(new CompoundTag()));
-        }
         if (this.lastThrownTrident != null) {
             compound.putUUID("LastTridentUUID", this.lastThrownTrident);
         }
@@ -201,11 +208,8 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        if(compound.contains("SwappedWeapon")){
-            swappedWeapon = ItemStack.of(compound.getCompound("SwappedWeapon"));
-        }
         if (compound.hasUUID("LastTridentUUID")) {
-            this.lastThrownTrident = compound.getUUID("HologramUUID");
+            this.lastThrownTrident = compound.getUUID("LastTridentUUID");
         }
     }
 

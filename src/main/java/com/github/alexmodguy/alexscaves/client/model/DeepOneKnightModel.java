@@ -373,8 +373,10 @@ public class DeepOneKnightModel extends AdvancedEntityModel<DeepOneKnightEntity>
         this.walk(lure, swimSpeed * 0.1F, swimDegree * 0.2F, true, 2F, 0.3F, limbSwing, swimAmount);
         this.walk(rleg, swimSpeed * 1.5F, swimDegree * 1F, true, 2F, 0.0F, limbSwing, swimAmount);
         this.walk(lleg, swimSpeed * 1.5F, swimDegree * 1F, false, 2F, 0.0F, limbSwing, swimAmount);
-        this.body.rotateAngleX += fishPitchAmount;
-        this.head.rotateAngleX += headPitchAmount;
+        if(entity.getAnimation() != entity.getTradingAnimation()){
+            this.body.rotateAngleX += fishPitchAmount;
+            this.head.rotateAngleX += headPitchAmount;
+        }
         this.head.rotateAngleY += clampedYaw;
     }
 

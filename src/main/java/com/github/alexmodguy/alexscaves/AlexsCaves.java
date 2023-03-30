@@ -24,6 +24,7 @@ import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
 import com.github.alexmodguy.alexscaves.server.message.MultipartEntityMessage;
 import com.github.alexmodguy.alexscaves.server.message.PlayerJumpFromMagnetMessage;
+import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabs;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -122,6 +123,7 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerJumpFromMagnetMessage.class, PlayerJumpFromMagnetMessage::write, PlayerJumpFromMagnetMessage::read, PlayerJumpFromMagnetMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MountedEntityKeyMessage.class, MountedEntityKeyMessage::write, MountedEntityKeyMessage::read, MountedEntityKeyMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateEffectVisualityEntity.class, UpdateEffectVisualityEntity::write, UpdateEffectVisualityEntity::read, UpdateEffectVisualityEntity::handle);
         ACSurfaceRules.init();
         ACBlockEntityRegistry.expandVanillaDefinitions();
     }

@@ -17,6 +17,7 @@ public class ACPOIRegistry {
     public static final DeferredRegister<PoiType> DEF_REG = DeferredRegister.create(ForgeRegistries.POI_TYPES, AlexsCaves.MODID);
     public static final RegistryObject<PoiType> ATTRACTING_MAGNETS = DEF_REG.register("attracting_magnets", () -> new PoiType(getAllAttractingMagnets(), 32, 6));
     public static final RegistryObject<PoiType> REPELLING_MAGNETS = DEF_REG.register("repelling_magnets", () -> new PoiType(getAllRepellingMagnets(), 32, 6));
+    public static final RegistryObject<PoiType> ABYSSAL_ALTAR = DEF_REG.register("abyssal_altar", () -> new PoiType(getAllStatesOf(ACBlockRegistry.ABYSSAL_ALTAR.get()), 0, 6));
 
     private static Set<BlockState> getAllAttractingMagnets() {
         ImmutableSet.Builder<BlockState> builder = ImmutableSet.builder();

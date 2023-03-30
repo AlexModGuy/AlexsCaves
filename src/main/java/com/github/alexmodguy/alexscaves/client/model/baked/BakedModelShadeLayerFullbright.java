@@ -14,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BakedModelFinalLayerFullbright extends BakedModelWrapper {
+public class BakedModelShadeLayerFullbright extends BakedModelWrapper {
 
-    public BakedModelFinalLayerFullbright(BakedModel originalModel) {
+    public BakedModelShadeLayerFullbright(BakedModel originalModel) {
         super(originalModel);
     }
 
@@ -25,15 +25,13 @@ public class BakedModelFinalLayerFullbright extends BakedModelWrapper {
         if (state == null) {
             return originalModel.getQuads(state, side, rand, extraData, renderType);
         }
-        return transformLastQuad(originalModel.getQuads(state, side, rand, extraData, renderType));
+        return transformUnshadedQuad(originalModel.getQuads(state, side, rand, extraData, renderType));
     }
 
-    private static List<BakedQuad> transformLastQuad(List<BakedQuad> oldQuads) {
+    private static List<BakedQuad> transformUnshadedQuad(List<BakedQuad> oldQuads) {
         List<BakedQuad> quads = new ArrayList<>(oldQuads);
         if(!quads.isEmpty()){
-            BakedQuad quad = quads.get(quads.size() - 1);
-            quads.set(quads.size() - 1, setFullbright(quad));
-
+            quads.replaceAll(quad -> quad.isShade() ? quad : setFullbright(quad));
         }
         return quads;
     }

@@ -16,6 +16,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -97,6 +98,12 @@ public class MagnetUtil {
                             vec31 = processMovementControls(entity.getDeltaMovement(), living, dir);
                         }
                         entity.setDeltaMovement(vec31);
+                        if(entity instanceof Player player){
+                            double bobDelta = dir == Direction.UP ? (float)player.getDeltaMovement().horizontalDistance() : Math.max(Math.abs(player.xxa), Math.abs(player.zza)) * 0.3F;
+                            float f = (float) Math.min(0.1F, bobDelta);
+                            //player.walkDist += (float)bobDelta * 0.6F;
+                            //player.bob += (f - player.bob) * 0.4F;
+                        }
                     }
                     Direction closest = calculateClosestDirection(entity);
                     if (closest != null && closest != Direction.DOWN) {

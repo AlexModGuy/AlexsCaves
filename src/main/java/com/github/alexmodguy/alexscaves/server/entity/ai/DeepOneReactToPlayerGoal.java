@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.DeepOneReaction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,13 +56,13 @@ public class DeepOneReactToPlayerGoal extends Goal {
             return player != null && (DeepOneReaction.fromReputation(highestReputation) != DeepOneReaction.AGGRESSIVE || !player.isCreative());
         }
         LivingEntity attackTarget = deepOne.getTarget();
-        return player != null && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative());
+        return player != null && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative()) && !deepOne.isTradingLocked();
     }
 
     @Override
     public boolean canContinueToUse() {
         LivingEntity attackTarget = deepOne.getTarget();
-        return player != null && !player.isSpectator() && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative());
+        return player != null && !player.isSpectator() && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative()) && !deepOne.isTradingLocked();
     }
 
 
@@ -108,6 +109,18 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 tickFollow(0.2F);
                 break;
             case HELPFUL:
+                LivingEntity priorTarget = deepOne.getTarget();
+                if(priorTarget == null || !priorTarget.isAlive()){
+                    LivingEntity target = null;
+                    if(player.getLastHurtMob() != null){
+                        target = player.getLastHurtMob();
+                    }else if(player.getLastHurtByMob() != null){
+                        target = player.getLastHurtByMob();
+                    }
+                    if(target != null && target.isAlive() && !target.isAlliedTo(player) && !target.isAlliedTo(deepOne) && !(target instanceof DeepOneBaseEntity)){
+                        deepOne.setTarget(target);
+                    }
+                }
                 tickFollow(1.0F);
                 break;
         }
@@ -172,7 +185,8 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 while((moveTarget == null || moveTarget.distanceTo(deepOne.position()) < 3) && j < 10){
                     Vec3 vec3 = DefaultRandomPos.getPosTowards(deepOne, 15, 15, player.position(), (double)((float)Math.PI / 2F));
                     if(vec3 != null){
-                        moveTarget = new Vec3(vec3.x, distanceXZ < 20 ? player.getY() : vec3.y, vec3.z);
+                        float mageUp = deepOne instanceof DeepOneMageEntity ? 1 + deepOne.getRandom().nextInt(2) : 0;
+                        moveTarget = new Vec3(vec3.x, distanceXZ < 20 ? player.getY() + mageUp : vec3.y, vec3.z);
                     }
                     j++;
                 }
@@ -188,7 +202,8 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 if(moveTarget.y > deepOne.getY() + 1){
                     deepOne.setDeepOneSwimming(deepOne.isInWaterOrBubble());
                 }
-                deepOne.getNavigation().moveTo(moveTarget.x, moveTarget.y, moveTarget.z, isBeingLookedAt ? 2F : 1F);
+                float mageUp = deepOne instanceof DeepOneMageEntity ? 2 : 0;
+                deepOne.getNavigation().moveTo(moveTarget.x, moveTarget.y + mageUp, moveTarget.z, isBeingLookedAt ? 2F : 1F);
             }
         }
     }

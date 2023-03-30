@@ -192,7 +192,9 @@ public class ACCreativeTabs {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
             ACItemRegistry.getSpawnEggsForTab(ABYSSAL_CHASM).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.SUBMARINE.get());
+            add(output, ACItemRegistry.PEARL.get());
             add(output, ACBlockRegistry.ABYSSMARINE.get());
+            add(output, ACBlockRegistry.ABYSSAL_ALTAR.get());
             add(output, ACBlockRegistry.MUCK.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());

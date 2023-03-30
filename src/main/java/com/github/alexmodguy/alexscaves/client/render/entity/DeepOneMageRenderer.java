@@ -1,0 +1,61 @@
+package com.github.alexmodguy.alexscaves.client.render.entity;
+
+import com.github.alexmodguy.alexscaves.client.model.DeepOneMageModel;
+import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.resources.ResourceLocation;
+
+import javax.annotation.Nullable;
+
+public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneMageModel> {
+    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage.png");
+    private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage_glow.png");
+
+    public DeepOneMageRenderer(EntityRendererProvider.Context renderManagerIn) {
+        super(renderManagerIn, new DeepOneMageModel(), 0.45F);
+        this.addLayer(new LayerGlow());
+        this.addLayer(new ItemInHandLayer<>(this, renderManagerIn.getItemInHandRenderer()));
+    }
+
+    public ResourceLocation getTextureLocation(DeepOneMageEntity entity) {
+        return TEXTURE_GLOW;
+    }
+
+    @Nullable
+    protected RenderType getRenderType(DeepOneMageEntity deepOneMageEntity, boolean normal, boolean translucent, boolean outline) {
+        ResourceLocation resourcelocation = this.getTextureLocation(deepOneMageEntity);
+        if (translucent) {
+            return RenderType.itemEntityTranslucentCull(resourcelocation);
+        } else if (normal) {
+            return ACRenderTypes.getTeslaBulb(resourcelocation);
+        } else {
+            return outline ? RenderType.outline(resourcelocation) : null;
+        }
+    }
+
+    class LayerGlow extends RenderLayer<DeepOneMageEntity, DeepOneMageModel> {
+
+        public LayerGlow() {
+            super(DeepOneMageRenderer.this);
+        }
+
+        public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, DeepOneMageEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+            if(!entitylivingbaseIn.isInvisible()) {
+                VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getGhostly(TEXTURE));
+                float alpha = 1.0F;
+                this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, alpha);
+            }
+        }
+    }
+}
+
+

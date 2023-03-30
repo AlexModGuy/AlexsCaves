@@ -1,11 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneAttackGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneDisappearGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneReactToPlayerGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.DeepOneWanderGoal;
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -29,6 +28,7 @@ public class DeepOneEntity extends DeepOneBaseEntity {
     public static final Animation ANIMATION_TRADE = Animation.create(55);
 
     private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(0.99F, 0.99F, false);
+    public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_barter");
 
     public DeepOneEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -40,11 +40,12 @@ public class DeepOneEntity extends DeepOneBaseEntity {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new DeepOneAttackGoal(this));
-        this.goalSelector.addGoal(1, new DeepOneReactToPlayerGoal(this));
-        this.goalSelector.addGoal(2, new DeepOneDisappearGoal(this));
-        this.goalSelector.addGoal(3, new DeepOneWanderGoal(this, 12, 1D));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 16.0F));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new DeepOneBarterGoal(this));
+        this.goalSelector.addGoal(2, new DeepOneReactToPlayerGoal(this));
+        this.goalSelector.addGoal(3, new DeepOneDisappearGoal(this));
+        this.goalSelector.addGoal(4, new DeepOneWanderGoal(this, 12, 1D));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByHostileTargetGoal());
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 20, false, true, playerTargetPredicate));
     }
@@ -55,6 +56,11 @@ public class DeepOneEntity extends DeepOneBaseEntity {
 
     public void tick() {
         super.tick();
+    }
+
+    @Override
+    protected ResourceLocation getBarterLootTable() {
+        return BARTER_LOOT;
     }
 
     @Override
@@ -82,6 +88,11 @@ public class DeepOneEntity extends DeepOneBaseEntity {
     }
 
     @Override
+    public Animation getTradingAnimation() {
+        return ANIMATION_TRADE;
+    }
+
+    @Override
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
         if(this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
@@ -99,7 +110,6 @@ public class DeepOneEntity extends DeepOneBaseEntity {
         }
         return false;
     }
-
     @Override
     public Animation[] getAnimations() {
         return new Animation[]{ANIMATION_THROW, ANIMATION_BITE, ANIMATION_SCRATCH, ANIMATION_TRADE};

@@ -41,7 +41,7 @@ public class VerticalSwimmingMoveControl extends MoveControl {
             }
             float f = (float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90.0F;
             this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, rotBy));
-            if(d3 > 0.05){
+            if(d3 > 0.3){
                 this.mob.setSpeed(f1);
             }else{
                 this.mob.setSpeed(0.0F);

@@ -43,6 +43,7 @@ public class MovingMetalBlockRenderer extends EntityRenderer<MovingMetalBlockEnt
         super.render(entity, f1, f2, stack, source, i);
     }
 
+
     public ResourceLocation getTextureLocation(MovingMetalBlockEntity entity) {
         return TextureAtlas.LOCATION_BLOCKS;
     }

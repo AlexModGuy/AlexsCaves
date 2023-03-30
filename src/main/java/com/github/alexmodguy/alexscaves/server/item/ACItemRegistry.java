@@ -34,6 +34,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> RADON_BOTTLE = DEF_REG.register("radon_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)));
     public static final RegistryObject<Item> CINDER_BRICK = DEF_REG.register("cinder_brick", () -> new CinderBrickItem(new Item.Properties()));
     public static final RegistryObject<Item> SUBMARINE = DEF_REG.register("submarine", () -> new SubmarineItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> PEARL = DEF_REG.register("pearl", () -> new Item(new Item.Properties()));
 
     static {
         spawnEgg("teletor", ACEntityRegistry.TELETOR, 0X433B4A,0X0060EF, ACCreativeTabs.MAGNETIC_CAVES);
@@ -59,6 +60,7 @@ public class ACItemRegistry {
         spawnEgg("tripodfish", ACEntityRegistry.TRIPODFISH, 0X34529D,0X81A1CF, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("deep_one", ACEntityRegistry.DEEP_ONE, 0X0D2547,0X0A843B, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("deep_one_knight", ACEntityRegistry.DEEP_ONE_KNIGHT, 0X472C3B,0XD4CCC3, ACCreativeTabs.ABYSSAL_CHASM);
+        spawnEgg("deep_one_mage", ACEntityRegistry.DEEP_ONE_MAGE, 0X96DEF6,0XD1FF00, ACCreativeTabs.ABYSSAL_CHASM);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName){

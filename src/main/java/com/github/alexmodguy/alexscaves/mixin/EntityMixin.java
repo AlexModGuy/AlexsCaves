@@ -2,6 +2,8 @@ package com.github.alexmodguy.alexscaves.mixin;
 
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.CitadelConstants;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
@@ -11,6 +13,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -30,19 +34,29 @@ import java.util.List;
 @Mixin(Entity.class)
 public abstract class EntityMixin implements MagneticEntityAccessor {
 
-    @Shadow @Final protected SynchedEntityData entityData;
+    @Shadow
+    @Final
+    protected SynchedEntityData entityData;
 
-    @Shadow protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
+    @Shadow
+    protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
 
-    @Shadow public Level level;
-    @Shadow private Vec3 position;
+    @Shadow
+    public Level level;
+    @Shadow
+    private Vec3 position;
 
-    @Shadow private EntityDimensions dimensions;
+    @Shadow
+    private EntityDimensions dimensions;
 
-    @Shadow public abstract void tick();
+    @Shadow
+    public abstract void tick();
 
-    @Shadow public abstract void refreshDimensions();
+    @Shadow
+    public abstract void refreshDimensions();
 
+    @Shadow
+    protected boolean wasTouchingWater;
     private static final EntityDataAccessor<Float> MAGNET_DELTA_X = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Y = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Z = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
@@ -63,14 +77,13 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     }
 
 
-
     @Inject(
             method = {"Lnet/minecraft/world/entity/Entity;tick()V"},
             remap = true,
             at = @At(value = "TAIL")
     )
     public void ac_tick(CallbackInfo ci) {
-        Entity thisEntity = (Entity)(Object)this;
+        Entity thisEntity = (Entity) (Object) this;
         prevAttachChangeProgress = attachChangeProgress;
         if (this.prevAttachDir != this.getMagneticAttachmentFace()) {
             if (attachChangeProgress < 1.0F) {
@@ -82,13 +95,13 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             this.attachChangeProgress = 1.0F;
         }
 
-        if(MagnetUtil.isPulledByMagnets(thisEntity)){
+        if (MagnetUtil.isPulledByMagnets(thisEntity)) {
             MagnetUtil.tickMagnetism(thisEntity);
-            if(this.jumpFlipCooldown > 0){
+            if (this.jumpFlipCooldown > 0) {
                 this.jumpFlipCooldown--;
             }
-        }else {
-            if(this.getMagneticAttachmentFace() != Direction.DOWN){
+        } else {
+            if (this.getMagneticAttachmentFace() != Direction.DOWN) {
                 this.setMagneticAttachmentFace(Direction.DOWN);
                 this.refreshDimensions();
             }
@@ -114,8 +127,8 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             at = @At(value = "HEAD")
     )
     public void ac_getEyePosition(CallbackInfoReturnable<Vec3> cir) {
-        if(getMagneticAttachmentFace() != Direction.DOWN){
-            cir.setReturnValue(MagnetUtil.getEyePositionForAttachment((Entity)(Object)this, getMagneticAttachmentFace(), 1.0F));
+        if (getMagneticAttachmentFace() != Direction.DOWN) {
+            cir.setReturnValue(MagnetUtil.getEyePositionForAttachment((Entity) (Object) this, getMagneticAttachmentFace(), 1.0F));
         }
     }
 
@@ -126,8 +139,8 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             at = @At(value = "HEAD")
     )
     public void ac_getEyePosition_lerp(float partialTick, CallbackInfoReturnable<Vec3> cir) {
-        if(getMagneticAttachmentFace() != Direction.DOWN && getMagneticAttachmentFace() != Direction.UP){
-            cir.setReturnValue(MagnetUtil.getEyePositionForAttachment((Entity)(Object)this, getMagneticAttachmentFace(), partialTick));
+        if (getMagneticAttachmentFace() != Direction.DOWN && getMagneticAttachmentFace() != Direction.UP) {
+            cir.setReturnValue(MagnetUtil.getEyePositionForAttachment((Entity) (Object) this, getMagneticAttachmentFace(), partialTick));
         }
     }
 
@@ -145,9 +158,9 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             at = @At(value = "HEAD")
     )
     public void ac_turn(double yBy, double xBy, CallbackInfo ci) {
-        if(getMagneticAttachmentFace() != Direction.DOWN){
+        if (getMagneticAttachmentFace() != Direction.DOWN) {
             ci.cancel();
-            MagnetUtil.turnEntityOnMagnet((Entity)(Object)this, xBy, yBy, getMagneticAttachmentFace());
+            MagnetUtil.turnEntityOnMagnet((Entity) (Object) this, xBy, yBy, getMagneticAttachmentFace());
         }
     }
 
@@ -158,12 +171,24 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             at = @At(value = "HEAD")
     )
     public void ac_makeBoundingBox(CallbackInfoReturnable<AABB> cir) {
-        if(this.entityData.isDirty() && getMagneticAttachmentFace() != Direction.DOWN) {
+        if (this.entityData.isDirty() && getMagneticAttachmentFace() != Direction.DOWN) {
             cir.setReturnValue(MagnetUtil.rotateBoundingBox(dimensions, getMagneticAttachmentFace(), position));
         }
     }
 
-        @Override
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;isInWater()Z"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    public void ac_isInWater(CallbackInfoReturnable<Boolean> cir) {
+        if((Object)this instanceof LivingEntity living && living.hasEffect(ACEffectRegistry.BUBBLED.get()) && (living.canBreatheUnderwater() || living.getMobType() == MobType.WATER) && !living.getType().is(ACTagRegistry.RESISTS_BUBBLED)){
+            cir.setReturnValue(true);
+        }
+    }
+
+    @Override
     public float getMagneticDeltaX() {
         return entityData.get(MAGNET_DELTA_X);
     }
@@ -225,8 +250,8 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     }
 
     @Override
-    public void stepOnMagnetBlock(BlockPos pos){
-        if(lastStepPos == null || lastStepPos.distSqr(pos) > 2){
+    public void stepOnMagnetBlock(BlockPos pos) {
+        if (lastStepPos == null || lastStepPos.distSqr(pos) > 2) {
             this.lastStepPos = pos;
             this.playStepSound(pos, level.getBlockState(pos));
         }

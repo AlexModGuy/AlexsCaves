@@ -1,0 +1,68 @@
+package com.github.alexmodguy.alexscaves.server.message;
+
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.network.NetworkEvent;
+
+import java.util.function.Supplier;
+
+public class UpdateEffectVisualityEntity {
+
+    private int entityID;
+    private int fromEntityID;
+    private int potionType;
+    private int duration;
+
+    public UpdateEffectVisualityEntity(int entityID, int fromEntityID, int potionType, int duration) {
+        this.entityID = entityID;
+        this.fromEntityID = fromEntityID;
+        this.potionType = potionType;
+        this.duration = duration;
+    }
+
+
+    public static UpdateEffectVisualityEntity read(FriendlyByteBuf buf) {
+        return new UpdateEffectVisualityEntity(buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
+    }
+
+    public static void write(UpdateEffectVisualityEntity message, FriendlyByteBuf buf) {
+        buf.writeInt(message.entityID);
+        buf.writeInt(message.fromEntityID);
+        buf.writeInt(message.potionType);
+        buf.writeInt(message.duration);
+    }
+
+    public static void handle(UpdateEffectVisualityEntity message, Supplier<NetworkEvent.Context> context) {
+        context.get().setPacketHandled(true);
+        Player playerSided = context.get().getSender();
+        if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
+            playerSided = AlexsCaves.PROXY.getClientSidePlayer();
+        }
+        if(playerSided != null){
+            Entity entity = playerSided.level.getEntity(message.entityID);
+            Entity senderEntity = playerSided.level.getEntity(message.fromEntityID);
+            if(entity instanceof LivingEntity living && senderEntity != null && senderEntity.distanceTo(living) < 32){
+                MobEffect mobEffect = null;
+                switch (message.potionType){
+                    case 0:
+                        mobEffect = ACEffectRegistry.IRRADIATED.get();
+                        break;
+                    case 1:
+                        mobEffect = ACEffectRegistry.BUBBLED.get();
+                        break;
+                }
+                if(mobEffect != null){
+                    living.addEffect(new MobEffectInstance(mobEffect, message.duration));
+                }
+            }
+        }
+    }
+
+}

@@ -56,6 +56,9 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<DeepOneEntity>> DEEP_ONE = DEF_REG.register("deep_one", () -> (EntityType)EntityType.Builder.of(DeepOneEntity::new, MobCategory.MONSTER).sized(0.9F, 2.2F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("deep_one"));
     public static final RegistryObject<EntityType<InkBombEntity>> INK_BOMB = DEF_REG.register("ink_bomb", () -> (EntityType)EntityType.Builder.of(InkBombEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(InkBombEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("ink_bomb"));
     public static final RegistryObject<EntityType<DeepOneKnightEntity>> DEEP_ONE_KNIGHT = DEF_REG.register("deep_one_knight", () -> (EntityType)EntityType.Builder.of(DeepOneKnightEntity::new, MobCategory.MONSTER).sized(1.15F, 2.5F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("deep_one_knight"));
+    public static final RegistryObject<EntityType<DeepOneMageEntity>> DEEP_ONE_MAGE = DEF_REG.register("deep_one_mage", () -> (EntityType)EntityType.Builder.of(DeepOneMageEntity::new, MobCategory.MONSTER).sized(1.35F, 2.5F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("deep_one_mage"));
+    public static final RegistryObject<EntityType<WaterBoltEntity>> WATER_BOLT = DEF_REG.register("water_bolt", () -> (EntityType)EntityType.Builder.of(WaterBoltEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(WaterBoltEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("water_bolt"));
+    public static final RegistryObject<EntityType<WaveEntity>> WAVE = DEF_REG.register("wave", () -> (EntityType)EntityType.Builder.of(WaveEntity::new, MobCategory.MISC).sized(0.9F, 0.9F).setCustomClientFactory(WaveEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("wave"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -83,6 +86,7 @@ public class ACEntityRegistry {
         event.put(TRIPODFISH.get(), TripodfishEntity.createAttributes().build());
         event.put(DEEP_ONE.get(), DeepOneEntity.createAttributes().build());
         event.put(DEEP_ONE_KNIGHT.get(), DeepOneKnightEntity.createAttributes().build());
+        event.put(DEEP_ONE_MAGE.get(), DeepOneMageEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -111,6 +115,7 @@ public class ACEntityRegistry {
         event.register(TRIPODFISH.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TripodfishEntity::checkTripodfishSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(DEEP_ONE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(DEEP_ONE_KNIGHT.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(DEEP_ONE_MAGE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

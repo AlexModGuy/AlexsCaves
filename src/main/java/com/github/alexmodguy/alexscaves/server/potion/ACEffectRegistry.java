@@ -12,5 +12,6 @@ public class ACEffectRegistry {
     public static final DeferredRegister<MobEffect> DEF_REG = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, AlexsCaves.MODID);
 
     public static final RegistryObject<MobEffect> IRRADIATED = DEF_REG.register("irradiated", ()-> new IrradiatedEffect());
+    public static final RegistryObject<MobEffect> BUBBLED = DEF_REG.register("bubbled", ()-> new BubbledEffect());
 
 }
