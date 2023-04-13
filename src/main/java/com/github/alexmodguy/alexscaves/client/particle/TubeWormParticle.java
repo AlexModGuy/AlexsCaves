@@ -44,7 +44,7 @@ public class TubeWormParticle extends Particle {
         this.gravity = 0.0F;
         this.lifetime = 90 + random.nextInt(50);
         this.setSize(0.6F, 1.5F);
-        this.blockPos = new BlockPos(x, y, z);
+        this.blockPos = BlockPos.containing(x, y, z);
         this.animationOffset = ACMath.sampleNoise3D((int) x, (int) y, (int) z, 6);
         this.checkScareCooldown = 5 + random.nextInt(10);
         this.prevTuckAmount = this.tuckAmount = 1;

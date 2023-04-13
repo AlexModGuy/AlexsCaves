@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "type=bottom,active=false": {
+      "model": "alexscaves:block/abyssmarine_brick_slab"
+    },
+    "type=double,active=false": {
+      "model": "alexscaves:block/abyssmarine_bricks"
+    },
+    "type=top,active=false": {
+      "model": "alexscaves:block/abyssmarine_brick_slab_top"
+    },
+    "type=bottom,active=true": {
+      "model": "alexscaves:block/abyssmarine_brick_slab_glow"
+    },
+    "type=double,active=true": {
+      "model": "alexscaves:block/abyssmarine_bricks_glow"
+    },
+    "type=top,active=true": {
+      "model": "alexscaves:block/abyssmarine_brick_slab_top_glow"
+    }
+  }
+}

@@ -26,6 +26,13 @@ public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneM
         this.addLayer(new ItemInHandLayer<>(this, renderManagerIn.getItemInHandRenderer()));
     }
 
+    @Override
+    protected void scale(DeepOneMageEntity mob, PoseStack matrixStackIn, float partialTicks) {
+        if(mob.isSummoned()){
+            matrixStackIn.translate(0, (mob.getBbHeight() + 1F) * (1F - mob.getSummonProgress(partialTicks)), 0);
+        }
+    }
+
     public ResourceLocation getTextureLocation(DeepOneMageEntity entity) {
         return TEXTURE_GLOW;
     }

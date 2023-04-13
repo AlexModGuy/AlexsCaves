@@ -24,7 +24,7 @@ public class WaterFoamParticle extends TextureSheetParticle {
         this.setColor(1F, 1F, 1F);
         this.quadSize = 0.3F + world.random.nextFloat() * 0.3F;
         this.lifetime = (int) (Math.random() * 5.0D) + 4;
-        this.setFadeColor(BiomeColors.getAverageWaterColor(level, new BlockPos(x, y, z)));
+        this.setFadeColor(BiomeColors.getAverageWaterColor(level, BlockPos.containing(x, y, z)));
         this.friction = 0.9F;
     }
 

@@ -186,7 +186,9 @@ public class WaveEntity extends Entity {
             this.reapplyPosition();
             this.setRot(this.getYRot(), this.getXRot());
         }
-        attackEntities(getSlamAmount(1.0F) * 2 + 1);
+        if(!level.isClientSide){
+            attackEntities(getSlamAmount(1.0F) * 2 + 1);
+        }
         Vec3 vec3 = this.getDeltaMovement().scale(0.9F).add(directionVec);
         this.move(MoverType.SELF, vec3);
         this.setDeltaMovement(vec3.multiply((double)0.99F, (double)0.98F, (double)0.99F));
@@ -197,9 +199,9 @@ public class WaveEntity extends Entity {
 
     private void attackEntities(float scale){
         AABB bashBox = this.getBoundingBox().inflate(0.5f, 0.5f, 0.5f);
-        DamageSource source = DamageSource.indirectMobAttack(this, (owner == null ? owner : owner)).setProjectile();
+        DamageSource source = damageSources().mobProjectile(this, (owner == null ? owner : owner));
         for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, bashBox)) {
-            if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity)) {
+            if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
                 entity.hurt(source, scale + 1.0F);
                 this.setSlamming(true);
                 entity.knockback(0.1D + 0.5D * scale, (double)Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));

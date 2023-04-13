@@ -4,12 +4,10 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelShadeLayerFullbright;
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
-import com.github.alexmodguy.alexscaves.client.render.blockentity.AbyssalAltarBlockRenderer;
-import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
-import com.github.alexmodguy.alexscaves.client.render.blockentity.MagnetBlockRenderer;
-import com.github.alexmodguy.alexscaves.client.render.blockentity.TelsaBulbBlockRenderer;
+import com.github.alexmodguy.alexscaves.client.render.blockentity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
+import com.github.alexmodguy.alexscaves.client.render.item.ACItemRenderProperties;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
@@ -26,6 +24,7 @@ import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -75,7 +74,7 @@ import java.util.*;
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientProxy extends CommonProxy {
 
-    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true");
+    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true", "alexscaves:abyssmarine_");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
@@ -94,6 +93,7 @@ public class ClientProxy extends CommonProxy {
     private float prevNukeFlashAmount = 0;
     private float nukeFlashAmount = 0;
     public boolean renderNukeSkyDark = false;
+    private final ACItemRenderProperties isterProperties = new ACItemRenderProperties();
 
     public void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -110,6 +110,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ACBlockEntityRegistry.TESLA_BULB.get(), TelsaBulbBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.ABYSSAL_ALTAR.get(), AbyssalAltarBlockRenderer::new);
+        BlockEntityRenderers.register(ACBlockEntityRegistry.COPPER_VALVE.get(), CopperValveBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.TELETOR.get(), TeletorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MAGNETIC_WEAPON.get(), MagneticWeaponRenderer::new);
@@ -157,6 +158,12 @@ public class ClientProxy extends CommonProxy {
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("loading"), (stack, level, living, j) -> {
             return CaveMapItem.isLoading(stack) ? 1F : 0F;
         });
+        ItemProperties.register(ACItemRegistry.MAGIC_CONCH.get(), new ResourceLocation("tooting"), (stack, level, living, j) -> {
+            return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
+        });
+        ItemProperties.register(ACItemRegistry.ORTHOLANCE.get(), new ResourceLocation("charging"), (stack, level, living, j) -> {
+            return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
+        });
         blockedParticleLocations.clear();
         ACPostEffectRegistry.registerEffect(IRRADIATED_SHADER);
         ACPostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
@@ -190,6 +197,8 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
         registry.register(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
         registry.register(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
+        registry.register(ACParticleRegistry.BIG_SPLASH.get(), new BigSplashParticle.Factory());
+        registry.register(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), BigSplashEffectParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -362,10 +371,13 @@ public class ClientProxy extends CommonProxy {
     public void fogRender(ViewportEvent.RenderFog event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         FluidState fluidstate = player.level.getFluidState(event.getCamera().getBlockPosition());
-
         if (!fluidstate.isEmpty() && fluidstate.getType().getFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setCanceled(true);
-            event.setFarPlaneDistance(10.0F);
+            float farness = 10.0F;
+            if(Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())){
+                farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float)event.getPartialTick());
+            }
+            event.setFarPlaneDistance(farness);
             event.setNearPlaneDistance(0.0F);
             return;
         }
@@ -379,6 +391,9 @@ public class ClientProxy extends CommonProxy {
                     return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
                 });
                 farness = (float) vec31.x;
+            }
+            if(Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())){
+                farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float)event.getPartialTick());
             }
             if (farness != 1.0F) {
                 event.setCanceled(true);
@@ -506,10 +521,15 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void bakeModels(final ModelEvent.ModifyBakingResult e) {
-        for (ResourceLocation id : e.getModels().keySet()) {
-            if (FULLBRIGHTS.contains(id.toString())) {
-                e.getModels().put(id, new BakedModelShadeLayerFullbright(e.getModels().get(id)));
+        if(AlexsCaves.CLIENT_CONFIG.emissiveBlockModels.get()){
+            long time = System.currentTimeMillis();
+            for (ResourceLocation id : e.getModels().keySet()) {
+                if(FULLBRIGHTS.stream().anyMatch(str -> id.toString().startsWith(str))){
+                    e.getModels().put(id, new BakedModelShadeLayerFullbright(e.getModels().get(id)));
+                }
             }
+            AlexsCaves.LOGGER.info("Loaded emissive block models in {} ms", System.currentTimeMillis() - time);
+
         }
     }
 
@@ -618,6 +638,11 @@ public class ClientProxy extends CommonProxy {
             return ACKeybindRegistry.KEY_SUB_FLOODLIGHTS.isDown();
         }
         return false;
+    }
+
+    @Override
+    public Object getISTERProperties() {
+        return isterProperties;
     }
 
     public float getPartialTicks() {

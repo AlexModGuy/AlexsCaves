@@ -55,7 +55,7 @@ public class FallingTreeBlockEntity extends AbstractMovingBlockEntity {
         super.tick();
         prevFallProgress = this.getFallProgress();
         if(this.getFallProgress() >= 1.0F){
-            BlockPos pos = new BlockPos(this.getX(), this.getBoundingBox().maxY, this.getZ());
+            BlockPos pos = BlockPos.containing(this.getX(), this.getBoundingBox().maxY, this.getZ());
             if(!level.isClientSide && !droppedItems){
                 for (MovingBlockData dataBlock : this.getData()) {
                     BlockPos offset = dataBlock.getOffset();

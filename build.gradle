@@ -39,7 +39,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'prealpha-0.4.8'
+version = 'prealpha-0.4.9'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 
@@ -47,7 +47,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: 'official', version: '1.19.3'
+    mappings channel: 'official', version: '1.19.4'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
@@ -111,14 +111,13 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.3-44.0.18'
+    minecraft 'net.minecraftforge:forge:1.19.4-45.0.41'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly fg.deobf("curse.maven:citadel-331936:4455214")
-    runtimeOnly fg.deobf("curse.maven:citadel-331936:4455214")
-    compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"))
-    compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}"))
+    compileOnly fg.deobf("curse.maven:citadel-331936:4473245")
+    runtimeOnly fg.deobf("curse.maven:citadel-331936:4473245")
+    runtimeOnly fg.deobf("curse.maven:spark-361579:4443553")
 //    runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
-    runtimeOnly fg.deobf("curse.maven:naturescompass-252848:4175025")
+//    runtimeOnly fg.deobf("curse.maven:naturescompass-252848:4175025")
 }
 
 mixin {

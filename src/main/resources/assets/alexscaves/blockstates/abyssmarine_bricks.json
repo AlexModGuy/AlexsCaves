@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "alexscaves:block/abyssmarine_bricks"
+    },
+    "active=true": {
+      "model": "alexscaves:block/abyssmarine_bricks_glow"
+    }
+  }
+}

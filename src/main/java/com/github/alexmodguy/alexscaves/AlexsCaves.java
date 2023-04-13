@@ -103,6 +103,7 @@ public class AlexsCaves {
         ACStructurePieceRegistry.DEF_REG.register(modEventBus);
         ACStructureProcessorRegistry.DEF_REG.register(modEventBus);
         ACEffectRegistry.DEF_REG.register(modEventBus);
+        ACEffectRegistry.POTION_DEF_REG.register(modEventBus);
         ACFrogRegistry.DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
@@ -124,7 +125,8 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MountedEntityKeyMessage.class, MountedEntityKeyMessage::write, MountedEntityKeyMessage::read, MountedEntityKeyMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateEffectVisualityEntity.class, UpdateEffectVisualityEntity::write, UpdateEffectVisualityEntity::read, UpdateEffectVisualityEntity::handle);
-        ACSurfaceRules.init();
+        ACSurfaceRules.setup();
+        ACEffectRegistry.setup();
         ACBlockEntityRegistry.expandVanillaDefinitions();
     }
 

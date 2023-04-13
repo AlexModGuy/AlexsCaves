@@ -29,7 +29,7 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
         while(!level.getBlockState(ventBottom).getFluidState().isEmpty() && ventBottom.getY() > level.getMinBuildHeight()){
             ventBottom.move(0, -1, 0);
         }
-        if (ventBottom.getY() < level.getSeaLevel() - 40 && level.getBlockState(ventBottom.below()).equals(Blocks.TUFF.defaultBlockState())) {
+        if (ventBottom.getY() < level.getSeaLevel() - 30 && level.getBlockState(ventBottom.below()).equals(Blocks.TUFF.defaultBlockState())) {
             for(int i = 0; i < 4 + randomsource.nextInt(4); i++){
                 BlockPos wormAt = ventBottom.immutable().offset(randomsource.nextInt(10) - 5, randomsource.nextInt(4), randomsource.nextInt(10) - 5);
                 Direction wormAttachDirection = Direction.DOWN;
@@ -61,6 +61,9 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private void growWorm(WorldGenLevel level, BlockPos wormAttachedToPos, Direction wormAttachDirection, RandomSource randomsource, int maxSegments) {
+        if(wormAttachedToPos.getY() > level.getSeaLevel() - 30){
+            return;
+        }
         int placedWorms = 0;
         BlockPos.MutableBlockPos prevWorm = new BlockPos.MutableBlockPos();
         BlockPos.MutableBlockPos worm = new BlockPos.MutableBlockPos();
@@ -71,6 +74,9 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
         while (placedWorms < maxSegments){
             BlockState wormState = defaultWormState;
             prevWorm.set(worm);
+            if(worm.getY() > level.getSeaLevel() - 30){
+                return;
+            }
             if(canBranch){
                 if(randomsource.nextBoolean()){
                     Direction randomDirection = Direction.from2DDataValue(2 + randomsource.nextInt(3));

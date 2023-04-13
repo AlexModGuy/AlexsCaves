@@ -3,7 +3,8 @@
   "render_type": "cutout",
   "ambientocclusion": false,
   "textures": {
-    "crop": "alexscaves:block/bone_worms"
+    "crop": "alexscaves:block/bone_worms",
+    "particle": "alexscaves:block/bone_worms"
   },
   "elements": [
     {   "from": [ 4, 0, 0 ],

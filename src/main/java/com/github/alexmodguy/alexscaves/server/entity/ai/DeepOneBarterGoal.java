@@ -106,7 +106,7 @@ public class DeepOneBarterGoal extends Goal {
             if(mob.level.getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar){
                 if(altar.getItem(0).is(ACTagRegistry.DEEP_ONE_BARTERS)){
                     if(altar.queueItemDrop(altar.getItem(0))) {
-                        mob.level.broadcastEntityEvent(mob, (byte) 63);
+                        mob.level.broadcastEntityEvent(mob, (byte) 69);
                         altar.onEntityInteract(mob, true);
                         altar.setItem(0, ItemStack.EMPTY);
                     }

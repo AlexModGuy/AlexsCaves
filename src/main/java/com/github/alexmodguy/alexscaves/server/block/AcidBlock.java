@@ -59,7 +59,7 @@ public class AcidBlock extends LiquidBlock {
                     }
                 }
             }
-            entity.hurt(ACDamageTypes.ACID, (float) (armor ? 0.01D : 3.0D));
+            entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), (float) (armor ? 0.01D : 3.0D));
         }
     }
 

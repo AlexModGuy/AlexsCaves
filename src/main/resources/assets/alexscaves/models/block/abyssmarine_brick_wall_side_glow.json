@@ -1,0 +1,22 @@
+{
+    "parent": "minecraft:block/block",
+    "render_type": "cutout",
+    "textures": {
+        "wall": "alexscaves:block/abyssmarine_bricks_glow",
+        "particle": "alexscaves:block/abyssmarine_bricks_glow"
+    },
+    "elements": [
+        {   "from": [ 5, 0, 0 ],
+            "to": [ 11, 14, 8 ],
+            "shade": false,
+            "faces": {
+                "down":  { "texture": "#wall", "cullface": "down" },
+                "up":    { "texture": "#wall" },
+                "north": { "texture": "#wall", "cullface": "north" },
+                "west":  { "texture": "#wall" },
+                "east":  { "texture": "#wall" }
+            },
+            "__comment": "wall"
+        }
+    ]
+}

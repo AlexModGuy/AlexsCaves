@@ -7,11 +7,11 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, VallumraptorModel> {
@@ -57,7 +57,7 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
                 matrixStackIn.mulPose(Axis.XP.rotationDegrees(180));
                 matrixStackIn.mulPose(Axis.ZP.rotationDegrees(-10));
                 ItemInHandRenderer renderer = Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer();
-                renderer.renderItem(entitylivingbaseIn, itemstack, ItemTransforms.TransformType.GROUND, false, matrixStackIn, bufferIn, packedLightIn);
+                renderer.renderItem(entitylivingbaseIn, itemstack, ItemDisplayContext.GROUND, false, matrixStackIn, bufferIn, packedLightIn);
                 matrixStackIn.popPose();
                 matrixStackIn.popPose();
             }

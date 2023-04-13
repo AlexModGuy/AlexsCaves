@@ -8,13 +8,13 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> {
@@ -52,7 +52,7 @@ public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> {
                 matrixStackIn.scale(invProgress, invProgress, invProgress);
                 matrixStackIn.mulPose(Axis.XN.rotationDegrees(200F));
                 matrixStackIn.mulPose(Axis.ZN.rotationDegrees((float) (Math.sin(progress * 15) * 4F)));
-                this.itemInHandRenderer.renderItem(entitylivingbaseIn, itemStack, ItemTransforms.TransformType.GROUND, false, matrixStackIn, bufferIn, packedLightIn);
+                this.itemInHandRenderer.renderItem(entitylivingbaseIn, itemStack, ItemDisplayContext.GROUND, false, matrixStackIn, bufferIn, packedLightIn);
                 matrixStackIn.popPose();
 
             }

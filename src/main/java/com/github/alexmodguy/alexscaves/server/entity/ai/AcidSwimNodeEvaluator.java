@@ -17,12 +17,12 @@ public class AcidSwimNodeEvaluator extends SwimNodeEvaluator {
     }
 
     @Override
-    public BlockPathTypes getBlockPathType(BlockGetter getter, int x, int y, int z, Mob p_77476_, int xSize, int ySize, int zSize, boolean unused1, boolean unused2) {
+    public BlockPathTypes getBlockPathType(BlockGetter getter, int x, int y, int z, Mob p_77476_) {
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        for(int i = x; i < x + xSize; ++i) {
-            for(int j = y; j < y + ySize; ++j) {
-                for(int k = z; k < z + zSize; ++k) {
+        for(int i = x; i < x + entityWidth; ++i) {
+            for(int j = y; j < y + entityHeight; ++j) {
+                for(int k = z; k < z + entityDepth; ++k) {
                     FluidState fluidstate = getter.getFluidState(blockpos$mutableblockpos.set(i, j, k));
                     BlockState blockstate = getter.getBlockState(blockpos$mutableblockpos.set(i, j, k));
                     if (fluidstate.isEmpty() && blockstate.isPathfindable(getter, blockpos$mutableblockpos.below(), PathComputationType.WATER) && blockstate.isAir()) {

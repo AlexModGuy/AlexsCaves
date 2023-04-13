@@ -89,12 +89,26 @@
         {
           "type": "item",
           "name": "minecraft:ink_sac",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "item",
           "name": "minecraft:glow_ink_sac",
-          "weight": 10
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:ink_bomb",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 5
+              }
+            }
+          ]
         },
         {
           "type": "item",

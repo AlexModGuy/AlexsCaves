@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -200,17 +201,10 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
         compound.putInt("SprayCooldown", this.getSprayCooldown());
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = flying ? living.getY() - living.yo : 0.0D;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 8.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo, flying ? this.getY() - this.yo : 0, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 8.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
     }
 
     private class MeleeGoal extends Goal {
@@ -256,7 +250,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                         if(GammaroachEntity.this.getAnimation() == NO_ANIMATION){
                             GammaroachEntity.this.setAnimation(GammaroachEntity.ANIMATION_RAM);
                         }else if(GammaroachEntity.this.getAnimation() == GammaroachEntity.ANIMATION_RAM && GammaroachEntity.this.getAnimationTick() > 8 && GammaroachEntity.this.getAnimationTick() < 15){
-                            target.hurt(DamageSource.mobAttack(GammaroachEntity.this), 2);
+                            target.hurt(damageSources().mobAttack(GammaroachEntity.this), 2);
                         }
                         if(pickupMonster != null){
                             pickupMonster.stopRiding();
@@ -268,7 +262,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                     GammaroachEntity.this.lookAt(pickupMonster, 180, 30);
                     if(GammaroachEntity.this.distanceTo(pickupMonster) < 1.5F + pickupMonster.getBbWidth()) {
                         pickupMonster.startRiding(GammaroachEntity.this, true);
-                        pickupMonster.hurt(DamageSource.CACTUS, 1);
+                        pickupMonster.hurt(damageSources().cactus(), 1);
                     }
                 }else{
                     pickupMonster = null;

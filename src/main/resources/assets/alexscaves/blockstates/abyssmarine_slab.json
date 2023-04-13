@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/abyssmarine_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/abyssmarine"
+    },
+    "type=top": {
+      "model": "alexscaves:block/abyssmarine_slab_top"
+    }
+  }
+}

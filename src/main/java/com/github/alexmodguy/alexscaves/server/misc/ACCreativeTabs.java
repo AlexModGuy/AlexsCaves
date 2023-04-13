@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.item.CustomTabBehavior;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -28,7 +29,7 @@ public class ACCreativeTabs {
         }
     }
     public static void registerTabs(CreativeModeTabEvent.Register event){
-        event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((flags, output, isOp) -> {
+        event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((parameters,output) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.MAGNETIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(MAGNETIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.RAW_SCARLET_NEODYMIUM.get());
@@ -68,7 +69,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.AZURE_MAGNET.get());
             add(output, ACBlockRegistry.MAGNETIC_ACTIVATOR.get());
         }));
-        event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((flags, output, isOp) -> {
+        event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((parameters,output) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
             ACItemRegistry.getSpawnEggsForTab(PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACBlockRegistry.AMBER.get());
@@ -125,7 +126,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.ANCIENT_LEAVES.get());
             add(output, ACBlockRegistry.TREE_STAR.get());
         }));
-        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.WASTE_DRUM.get())).displayItems((flags, output, isOp) -> {
+        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.WASTE_DRUM.get())).displayItems((parameters,output) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.TOXIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.ACID_BUCKET.get());
@@ -188,13 +189,27 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.RED_RADON_LAMP.get());
             add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
         }));
-        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(ACItemRegistry.SUBMARINE.get())).displayItems((flags, output, isOp) -> {
+        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(ACItemRegistry.SUBMARINE.get())).displayItems((parameters,output) -> {
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
             ACItemRegistry.getSpawnEggsForTab(ABYSSAL_CHASM).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.SUBMARINE.get());
             add(output, ACItemRegistry.PEARL.get());
+            add(output, ACItemRegistry.INK_BOMB.get());
+            add(output, ACItemRegistry.GLOW_INK_BOMB.get());
+            add(output, ACItemRegistry.ORTHOLANCE.get());
+            add(output, ACItemRegistry.MAGIC_CONCH.get());
+            add(output, ACItemRegistry.SEA_STAFF.get());
             add(output, ACBlockRegistry.ABYSSMARINE.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_STAIRS.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_SLAB.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_WALL.get());
             add(output, ACBlockRegistry.ABYSSAL_ALTAR.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_BRICKS.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_BRICK_STAIRS.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_BRICK_SLAB.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_BRICK_WALL.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_PILLAR.get());
+            add(output, ACBlockRegistry.ABYSSMARINE_TILES.get());
             add(output, ACBlockRegistry.MUCK.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT.get());
             add(output, ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get());
@@ -215,6 +230,11 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.TWILIGHT_ANEMONE.get());
             add(output, ACBlockRegistry.MIDNIGHT_ANEMONE.get());
             add(output, ACBlockRegistry.MUSSEL.get());
+            add(output, ACBlockRegistry.DRAIN.get());
+            add(output, ACBlockRegistry.SEA_GLASS.get());
+            add(output, ACBlockRegistry.COPPER_VALVE.get());
+            output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.DEEPSIGHT_POTION.get()));
+            output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
         }));
     }
 

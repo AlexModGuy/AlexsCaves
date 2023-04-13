@@ -41,7 +41,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     public static final Animation ANIMATION_DISAPPEAR = Animation.create(55);
     public static final Animation ANIMATION_ATTACK = Animation.create(25);
     public static final Animation ANIMATION_SPIN = Animation.create(70);
-    public static final Animation ANIMATION_TRADE = Animation.create(90);
+    public static final Animation ANIMATION_TRADE = Animation.create(75);
     private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.2F, 1.5F, false);
 
     private int spinCooldown = 0;
@@ -50,6 +50,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_mage_barter");
     public DeepOneMageEntity(EntityType entityType, Level level) {
         super(entityType, level);
+        this.maxUpStep = 1.3F;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -88,6 +89,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     @Override
     protected void switchNavigator(boolean onLand) {
         if (onLand) {
+            this.setDeltaMovement(this.getDeltaMovement().add(0, 0.1, 0));
             this.navigation = createFlightNavigation(level);
             this.moveControl = new FlightMoveController();
             this.isLandNavigator = true;
@@ -100,7 +102,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
 
     @Override
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
-        return !isInWaterOrBubble() ? level.getBlockState(pos).isAir() ? 10.0F : 0.0F : super.getWalkTargetValue(pos, level);
+        return level.getBlockState(pos).isAir() ? 10.0F : super.getWalkTargetValue(pos, level);
     }
 
 

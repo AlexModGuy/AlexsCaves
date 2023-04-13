@@ -375,7 +375,7 @@ public class MagnetronEntity extends Monster {
     }
 
     private Vec3 getGroundBelowPosition(Vec3 in) {
-        BlockPos pos = new BlockPos(in);
+        BlockPos pos = BlockPos.containing(in);
         while (pos.getY() > level.getMinBuildHeight() && level.getBlockState(pos).getCollisionShape(level, pos).isEmpty()) {
             pos = pos.below();
         }
@@ -592,7 +592,7 @@ public class MagnetronEntity extends Monster {
                 double extraY = 0.8F;
                 double extraZ = radius * Mth.cos(angle);
                 Vec3 center = this.position().add(new Vec3(0, 0, 2).yRot((float) Math.toRadians(-MagnetronEntity.this.yBodyRot)));
-                BlockPos ground = new BlockPos(getGroundBelowPosition(new Vec3(Mth.floor(center.x + extraX), Mth.floor(center.y + extraY) - 1, Mth.floor(center.z + extraZ))));
+                BlockPos ground = BlockPos.containing(getGroundBelowPosition(new Vec3(Mth.floor(center.x + extraX), Mth.floor(center.y + extraY) - 1, Mth.floor(center.z + extraZ))));
                 BlockState BlockState = this.level.getBlockState(ground);
                 if (BlockState.getMaterial() != Material.AIR) {
                     if (level.isClientSide) {
@@ -761,19 +761,19 @@ public class MagnetronEntity extends Monster {
                 bashBox = bashBox.move(ground.add(new Vec3(0, 0, 2).yRot((float) Math.toRadians(-MagnetronEntity.this.yBodyRot))));
                 for (Entity entity : MagnetronEntity.this.level.getEntitiesOfClass(LivingEntity.class, bashBox)) {
                     if (!isAlliedTo(entity) && !(entity instanceof MagnetronEntity)) {
-                        entity.hurt(DamageSource.mobAttack(MagnetronEntity.this), 2 + leftDmg + rightDmg);
+                        entity.hurt(damageSources().mobAttack(MagnetronEntity.this), 2 + leftDmg + rightDmg);
                         launch(entity, true);
                     }
                 }
             } else if (attackPose == AttackPose.LEFT_PUNCH) {
                 BlockState state = getStateForHand(true);
                 boolean magnet = state.is(ACBlockRegistry.AZURE_MAGNET.get()) || state.is(ACBlockRegistry.SCARLET_MAGNET.get());
-                target.hurt(DamageSource.mobAttack(MagnetronEntity.this), 2 + leftDmg);
+                target.hurt(damageSources().mobAttack(MagnetronEntity.this), 2 + leftDmg);
                 launch(target, magnet);
             } else if (attackPose == AttackPose.RIGHT_PUNCH) {
                 BlockState state = getStateForHand(false);
                 boolean magnet = state.is(ACBlockRegistry.AZURE_MAGNET.get()) || state.is(ACBlockRegistry.SCARLET_MAGNET.get());
-                target.hurt(DamageSource.mobAttack(MagnetronEntity.this), 2 + rightDmg);
+                target.hurt(damageSources().mobAttack(MagnetronEntity.this), 2 + rightDmg);
                 launch(target, magnet);
             }
         }

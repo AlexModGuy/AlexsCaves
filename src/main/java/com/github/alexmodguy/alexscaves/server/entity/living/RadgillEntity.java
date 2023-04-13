@@ -19,7 +19,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -179,7 +178,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
             this.setAirSupply(prevAir - 1);
             if (this.getAirSupply() == -20) {
                 this.setAirSupply(0);
-                this.hurt(DamageSource.DROWN, 2.0F);
+                this.hurt(damageSources().dryOut(), 2.0F);
             }
         } else {
             this.setAirSupply(500);
@@ -190,17 +189,11 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
         return this.getFluidTypeHeight(ACFluidRegistry.ACID_FLUID_TYPE.get()) > 0;
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = living.getY() - living.yo;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 10.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 10.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
+
     }
 
     public float getLandProgress(float partialTicks) {

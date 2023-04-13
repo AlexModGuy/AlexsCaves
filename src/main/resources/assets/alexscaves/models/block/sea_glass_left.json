@@ -1,0 +1,14 @@
+{
+  "parent": "block/cube",
+  "render_type": "translucent",
+  "textures": {
+    "particle": "alexscaves:block/sea_glass_all",
+    "down": "alexscaves:block/sea_glass_left",
+    "up": "alexscaves:block/sea_glass_left",
+    "north": "alexscaves:block/sea_glass_right",
+    "east": "alexscaves:block/sea_glass_blank",
+    "south": "alexscaves:block/sea_glass_left",
+    "west": "alexscaves:block/sea_glass_blank"
+  }
+}
+

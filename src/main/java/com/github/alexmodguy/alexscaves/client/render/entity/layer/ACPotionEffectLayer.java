@@ -45,10 +45,9 @@ public class ACPotionEffectLayer extends RenderLayer {
 
     public static void renderBubbledFluid(Minecraft p110726, PoseStack poseStack, ResourceLocation texture, boolean translate) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.enableTexture();
         RenderSystem.setShaderTexture(0, texture);
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-        BlockPos blockpos = new BlockPos(p110726.player.getX(), p110726.player.getEyeY(), p110726.player.getZ());
+        BlockPos blockpos = BlockPos.containing(p110726.player.getX(), p110726.player.getEyeY(), p110726.player.getZ());
         float f = LightTexture.getBrightness(p110726.player.level.dimensionType(), p110726.player.level.getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();

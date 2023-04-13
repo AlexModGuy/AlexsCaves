@@ -153,17 +153,11 @@ public class NotorEntity extends PathfinderMob {
     protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = living.getY() - living.yo;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 6;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo,this.getY() - this.yo, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 6.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
+
     }
 
     public float getGroundProgress(float partialTick) {

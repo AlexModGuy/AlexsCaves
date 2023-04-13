@@ -1,0 +1,37 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "particle": "alexscaves:block/abyssmarine_pillar",
+        "side": "alexscaves:block/abyssmarine_pillar",
+        "top": "alexscaves:block/abyssmarine_pillar_top",
+        "side_glow": "alexscaves:block/abyssmarine_pillar_glow",
+        "top_glow": "alexscaves:block/abyssmarine_pillar_top_glow"
+    },
+    "ambientocclusion" : false,
+    "render_type": "cutout",
+    "elements": [
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "faces": {
+                "down":  { "texture": "#top", "cullface": "down" },
+                "up":    { "texture": "#top", "cullface": "up" },
+                "north": { "texture": "#side", "cullface": "north" },
+                "south": { "texture": "#side", "cullface": "south" },
+                "west":  { "texture": "#side", "cullface": "west" },
+                "east":  { "texture": "#side", "cullface": "east" }
+            }
+        },
+        {   "from": [ 0, 0, 0 ],
+            "to": [ 16, 16, 16 ],
+            "shade": false,
+            "faces": {
+                "down":  { "texture": "#top_glow", "cullface": "down" },
+                "up":    { "texture": "#top_glow", "cullface": "up" },
+                "north": { "texture": "#side_glow", "cullface": "north" },
+                "south": { "texture": "#side_glow", "cullface": "south" },
+                "west":  { "texture": "#side_glow", "cullface": "west" },
+                "east":  { "texture": "#side_glow", "cullface": "east" }
+            }
+        }
+    ]
+}

@@ -1,11 +1,15 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AreaEffectCloud;
@@ -14,7 +18,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -23,6 +26,7 @@ import net.minecraftforge.network.PlayMessages;
 
 public class InkBombEntity extends ThrowableItemProjectile {
 
+    private static final EntityDataAccessor<Boolean> GLOWING_BOMB = SynchedEntityData.defineId(InkBombEntity.class, EntityDataSerializers.BOOLEAN);
     public InkBombEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
@@ -37,6 +41,23 @@ public class InkBombEntity extends ThrowableItemProjectile {
 
     public InkBombEntity(Level level, double x, double y, double z) {
         super(ACEntityRegistry.INK_BOMB.get(), x, y, z, level);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(GLOWING_BOMB, false);
+    }
+
+    public void readAdditionalSaveData(CompoundTag tag) {
+        super.readAdditionalSaveData(tag);
+        this.setGlowingBomb(tag.getBoolean("GlowingBomb"));
+
+    }
+
+    public void addAdditionalSaveData(CompoundTag tag) {
+        super.addAdditionalSaveData(tag);
+        tag.putBoolean("GlowingBomb", this.isGlowingBomb());
     }
 
     @Override
@@ -55,11 +76,14 @@ public class InkBombEntity extends ThrowableItemProjectile {
 
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
-        hitResult.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0F);
+        hitResult.getEntity().hurt(damageSources().thrown(this, this.getOwner()), 0F);
         if(hitResult.getEntity() instanceof SubmarineEntity submarine){
             submarine.setLightsOn(false);
             if(submarine.getFirstPassenger() instanceof Player player){
                 player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
+                if(isGlowingBomb()){
+                    player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 300));
+                }
                 if(!player.isCreative()){
                     player.removeEffect(MobEffects.NIGHT_VISION);
                     player.removeEffect(MobEffects.CONDUIT_POWER);
@@ -81,9 +105,12 @@ public class InkBombEntity extends ThrowableItemProjectile {
             this.level.broadcastEntityEvent(this, (byte) 3);
             this.discard();
             AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level, this.getX(), this.getY() + 0.2F, this.getZ());
-            areaeffectcloud.setParticle(ParticleTypes.SQUID_INK);
+            areaeffectcloud.setParticle(isGlowingBomb() ? ParticleTypes.GLOW_SQUID_INK : ParticleTypes.SQUID_INK);
             areaeffectcloud.setFixedColor(0);
             areaeffectcloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
+            if(isGlowingBomb()){
+                areaeffectcloud.addEffect(new MobEffectInstance(MobEffects.GLOWING, 300));
+            }
             areaeffectcloud.setRadius(2F);
             areaeffectcloud.setDuration(60);
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float) areaeffectcloud.getDuration());
@@ -92,7 +119,15 @@ public class InkBombEntity extends ThrowableItemProjectile {
 
     }
 
+    public boolean isGlowingBomb() {
+        return this.entityData.get(GLOWING_BOMB);
+    }
+
+    public void setGlowingBomb(boolean bool) {
+        this.entityData.set(GLOWING_BOMB, bool);
+    }
+
     protected Item getDefaultItem() {
-        return Items.INK_SAC;
+        return isGlowingBomb() ? ACItemRegistry.GLOW_INK_BOMB.get() : ACItemRegistry.INK_BOMB.get();
     }
 }

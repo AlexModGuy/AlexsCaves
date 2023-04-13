@@ -9,10 +9,10 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -140,7 +140,7 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
             }
         } else {
             if (biteProgress > 4 && this.getTarget() != null && this.distanceTo(this.getTarget()) < 1.3D) {
-                this.getTarget().hurt(DamageSource.mobAttack(this), 2);
+                this.getTarget().hurt(damageSources().mobAttack(this), 2);
             }
             if (biteProgress > 0F) {
                 biteProgress--;
@@ -241,18 +241,12 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
     }
 
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = living.getY() - living.yo;
-        double d2 = living.getZ() - living.zo;
+    public void calculateEntityAnimation(boolean flying) {
         float speedMod = !this.isOnGround() ? 4.0F : 16.0F;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * speedMod;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * speedMod, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
+
     }
 
     private class WanderGoal extends Goal {

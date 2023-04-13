@@ -9,11 +9,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -78,12 +78,12 @@ public class SeaPigEntity extends WaterAnimal {
     }
 
     public static boolean checkSeaPigSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel();
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 25;
     }
 
 
     public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
-        return worldIn.getFluidState(pos.below()).isEmpty() && worldIn.getFluidState(pos).is(FluidTags.WATER) ? 10.0F : -10.0F;
+        return worldIn.getFluidState(pos.below()).isEmpty() && worldIn.getFluidState(pos).is(FluidTags.WATER) ? 10.0F : 0.0F;
     }
 
     public void tick() {
@@ -121,7 +121,7 @@ public class SeaPigEntity extends WaterAnimal {
             this.setAirSupply(prevAir - 1);
             if (this.getAirSupply() == -20) {
                 this.setAirSupply(0);
-                this.hurt(DamageSource.DROWN, 2.0F);
+                this.hurt(damageSources().dryOut(), 2.0F);
             }
         } else {
             this.setAirSupply(40);
@@ -147,7 +147,7 @@ public class SeaPigEntity extends WaterAnimal {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > 1){
+        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
             down = down.below();
         }
         this.setPos(down.getX() + 0.5F, down.getY() + 1, down.getZ() + 0.5F);
@@ -197,18 +197,11 @@ public class SeaPigEntity extends WaterAnimal {
         return this.getItemInHand(InteractionHand.MAIN_HAND).is(ACTagRegistry.SEA_PIG_DIGESTS);
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = 0.0D;
-        double d2 = living.getZ() - living.zo;
-        float speedMod = 128;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * speedMod;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo, flying ? this.getY() - this.yo : 0, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 128.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
+
     }
 
     private class WanderGoal extends Goal {

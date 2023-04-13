@@ -1,0 +1,75 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "cutout",
+  "textures": {
+    "stair": "alexscaves:block/abyssmarine_bricks",
+    "particle": "alexscaves:block/abyssmarine_bricks",
+    "glow": "alexscaves:block/abyssmarine_bricks_glow"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 8, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#stair", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#stair" },
+        "north": { "uv": [ 0, 8, 16, 16 ], "texture": "#stair", "cullface": "north" },
+        "south": { "uv": [ 0, 8, 16, 16 ], "texture": "#stair", "cullface": "south" },
+        "west":  { "uv": [ 0, 8, 16, 16 ], "texture": "#stair", "cullface": "west" },
+        "east":  { "uv": [ 0, 8, 16, 16 ], "texture": "#stair", "cullface": "east" }
+      }
+    },
+    {   "from": [ 8, 8, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "up":    { "uv": [ 8, 0, 16, 16 ], "texture": "#stair", "cullface": "up" },
+        "north": { "uv": [ 0, 0,  8,  8 ], "texture": "#stair", "cullface": "north" },
+        "south": { "uv": [ 8, 0, 16,  8 ], "texture": "#stair", "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16,  8 ], "texture": "#stair" },
+        "east":  { "uv": [ 0, 0, 16,  8 ], "texture": "#stair", "cullface": "east" }
+      }
+    },
+    {   "from": [ 0, 8, 8 ],
+      "to": [ 8, 16, 16 ],
+      "faces": {
+        "up":    { "uv": [ 0, 8,  8, 16 ], "texture": "#stair", "cullface": "up" },
+        "north": { "uv": [ 8, 0, 16,  8 ], "texture": "#stair" },
+        "south": { "uv": [ 0, 0,  8,  8 ], "texture": "#stair", "cullface": "south" },
+        "west":  { "uv": [ 8, 0, 16,  8 ], "texture": "#stair", "cullface": "west" }
+      }
+    },
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 8, 16 ],
+      "shade": false,
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#glow", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#glow" },
+        "north": { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "north" },
+        "south": { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "south" },
+        "west":  { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "west" },
+        "east":  { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "east" }
+      }
+    },
+    {   "from": [ 8, 8, 0 ],
+      "to": [ 16, 16, 16 ],
+      "shade": false,
+      "faces": {
+        "up":    { "uv": [ 8, 0, 16, 16 ], "texture": "#glow", "cullface": "up" },
+        "north": { "uv": [ 0, 0,  8,  8 ], "texture": "#glow", "cullface": "north" },
+        "south": { "uv": [ 8, 0, 16,  8 ], "texture": "#glow", "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16,  8 ], "texture": "#glow" },
+        "east":  { "uv": [ 0, 0, 16,  8 ], "texture": "#glow", "cullface": "east" }
+      }
+    },
+    {   "from": [ 0, 8, 8 ],
+      "to": [ 8, 16, 16 ],
+      "shade": false,
+      "faces": {
+        "up":    { "uv": [ 0, 8,  8, 16 ], "texture": "#glow", "cullface": "up" },
+        "north": { "uv": [ 8, 0, 16,  8 ], "texture": "#glow" },
+        "south": { "uv": [ 0, 0,  8,  8 ], "texture": "#glow", "cullface": "south" },
+        "west":  { "uv": [ 8, 0, 16,  8 ], "texture": "#glow", "cullface": "west" }
+      }
+    }
+  ]
+
+}

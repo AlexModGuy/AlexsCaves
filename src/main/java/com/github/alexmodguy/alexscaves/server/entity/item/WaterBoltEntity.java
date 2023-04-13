@@ -1,10 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -19,6 +21,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
@@ -46,6 +49,8 @@ public class WaterBoltEntity extends Projectile {
     private Vec3[] trailPositions = new Vec3[64];
     private int trailPointer = -1;
 
+    private boolean spawnedSplash = false;
+
     private int dieIn = -1;
     public WaterBoltEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -57,7 +62,8 @@ public class WaterBoltEntity extends Projectile {
 
     public WaterBoltEntity(Level level, LivingEntity shooter) {
         this(ACEntityRegistry.WATER_BOLT.get(), level);
-        this.setPos(shooter.getX(), shooter.getEyeY() - (double)0.1F, shooter.getZ());
+        float f = shooter instanceof Player ? 0.3F : 0.1F;
+        this.setPos(shooter.getX(), shooter.getEyeY() - f, shooter.getZ());
         this.setOwner(shooter);
     }
 
@@ -76,7 +82,7 @@ public class WaterBoltEntity extends Projectile {
         super.tick();
         if(!level.isClientSide){
             Entity arcTowards = getArcingTowards();
-            if(arcTowards != null && tickCount > 3 && dieIn == -1){
+            if(arcTowards != null && tickCount > 3 && dieIn == -1 && this.distanceTo(arcTowards) > 1.5F && tickCount < 20){
                 Vec3 arcVec = arcTowards.position().add(0, 0.3 * arcTowards.getBbHeight(), 0).subtract(this.position()).normalize();
                 this.setDeltaMovement(this.getDeltaMovement().add(arcVec.scale(0.3F)));
             }
@@ -97,7 +103,7 @@ public class WaterBoltEntity extends Projectile {
         } else {
             this.setDeltaMovement(vec3.scale((double)0.9F));
             if (!this.isNoGravity()) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double)-0.04F, 0.0D));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double)-0.07F, 0.0D));
             }
             if (this.level.isClientSide) {
                 if (this.lSteps > 0) {
@@ -136,6 +142,18 @@ public class WaterBoltEntity extends Projectile {
             if(dieIn == 0){
                 this.discard();
             }
+        }
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        super.remove(removalReason);
+        if(!spawnedSplash && level instanceof ServerLevel serverLevel){
+            spawnedSplash = true;
+            BlockPos pos = this.blockPosition().above();
+            while(level.isEmptyBlock(pos) && pos.getY() > level.getMinBuildHeight()){
+                pos = pos.below();
+            }
+            serverLevel.sendParticles(ACParticleRegistry.BIG_SPLASH.get(), this.getX(), pos.getY() + 1.5F, this.getZ(), 0, 1.3F, 1, 0, 1.0D);
         }
     }
 
@@ -182,12 +200,11 @@ public class WaterBoltEntity extends Projectile {
 
     private void damageMobs(){
         Entity owner = this.getOwner();
-        DamageSource source = DamageSource.indirectMobAttack(this, (owner instanceof LivingEntity living1 ? living1 : null)).setProjectile();
+        DamageSource source = damageSources().mobProjectile(this, (owner instanceof LivingEntity living1 ? living1 : null));
         AABB bashBox = this.getBoundingBox().inflate(2.0D, 2, 2.0D);
         for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity)) {
-                entity.hurt(source, 3.0F);
-                if(this.isBubbling()){
+                if(entity.hurt(source, 3.0F) && this.isBubbling()){
                     entity.addEffect(new MobEffectInstance(ACEffectRegistry.BUBBLED.get(), 200));
                     if(!entity.level.isClientSide){
                         AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(entity.getId(), this.getId(), 1, 200));
@@ -195,7 +212,6 @@ public class WaterBoltEntity extends Projectile {
                 }
             }
         }
-
     }
 
     public boolean isBubbling() {
@@ -221,22 +237,20 @@ public class WaterBoltEntity extends Projectile {
         return id == null ? null : ((ServerLevel) level).getEntity(id);
     }
 
+    protected void readAdditionalSaveData(CompoundTag tag) {
+        this.setBubbling(tag.getBoolean("Bubbling"));
+
+    }
+
+    protected void addAdditionalSaveData(CompoundTag compoundTag) {
+        compoundTag.putBoolean("Bubbling", this.isBubbling());
+    }
 
     public void setArcingTowards(@javax.annotation.Nullable UUID arcingTowards) {
         this.entityData.set(ARC_TOWARDS_ENTITY_UUID, Optional.ofNullable(arcingTowards));
     }
 
-    @Override
-    protected void readAdditionalSaveData(CompoundTag p_20052_) {
-
-    }
-
     public boolean hasTrail() {
         return trailPointer != -1;
-    }
-
-    @Override
-    protected void addAdditionalSaveData(CompoundTag p_20139_) {
-
     }
 }

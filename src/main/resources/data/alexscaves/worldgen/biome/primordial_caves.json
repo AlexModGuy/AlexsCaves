@@ -5,6 +5,7 @@
     ]
   },
   "downfall": 0.4,
+  "has_precipitation": true,
   "effects": {
     "mood_sound": {
       "block_search_extent": 8,

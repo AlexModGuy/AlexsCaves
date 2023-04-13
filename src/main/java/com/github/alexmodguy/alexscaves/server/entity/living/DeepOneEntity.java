@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +18,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 public class DeepOneEntity extends DeepOneBaseEntity {
@@ -96,13 +96,13 @@ public class DeepOneEntity extends DeepOneBaseEntity {
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
         if(this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
-            this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.INK_SAC));
+            this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ACItemRegistry.INK_BOMB.get()));
         }
         if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_THROW);
         } else if (this.getAnimation() == ANIMATION_THROW) {
             if (this.getAnimationTick() > 10) {
-                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.INK_SAC)){
+                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.INK_BOMB.get())){
                     this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                 }
                 return super.startDisappearBehavior(player);

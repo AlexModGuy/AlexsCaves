@@ -236,7 +236,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
 
     @Override
     public int getMaxStackSize() {
-        return 1;
+        return 64;
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -181,18 +182,11 @@ public class NucleeperEntity extends Monster {
         return (prevExplodeProgress + (explodeProgress - prevExplodeProgress) * partialTick) * 0.2F;
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = flying ? living.getY() - living.yo : 0.0D;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 8.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo, flying ? this.getY() - this.yo : 0, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 8.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
 
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
     }
     private class MeleeGoal extends Goal {
 

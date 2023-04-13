@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.client.render.misc;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.datafixers.util.Pair;
@@ -20,6 +19,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
@@ -74,12 +74,12 @@ public class CaveMapRenderer {
                     int k = j + i * 128;
                     int biomeId = mapBiomes[k];
                     int biomeColor = getBiomeColor(registry.asHolderIdMap().byId(biomeId), j, i);
-                    int r = NativeImage.getR(biomeColor);
-                    int g = NativeImage.getG(biomeColor);
-                    int b = NativeImage.getB(biomeColor);
+                    int r = FastColor.ABGR32.red(biomeColor);
+                    int g = FastColor.ABGR32.green(biomeColor);
+                    int b = FastColor.ABGR32.blue(biomeColor);
                     double edge = Math.sqrt((i - 64) * (i - 64) + (j - 64) * (j - 64)) / 128;
                     int alpha = Math.max(255 - (int) (255F * edge), 10);
-                    this.texture.getPixels().setPixelRGBA(j, i, NativeImage.combine(alpha, b, g, r));
+                    this.texture.getPixels().setPixelRGBA(j, i, FastColor.ABGR32.color(alpha, b, g, r));
                 }
             }
         }
@@ -190,7 +190,7 @@ public class CaveMapRenderer {
             poseStack.translate(0.0F + (float) label.x() - (f6 * f7) / 2.0F, (float) label.y(), -0.025F);
             poseStack.scale(f7, f7, -1.0F);
             poseStack.mulPose(Axis.ZP.rotationDegrees(label.rotation()));
-            font.drawInBatch(component, 0.0F, 0.0F, 0XFFFFFF, true, poseStack.last().pose(), multiBufferSource, false, 0, light);
+            font.drawInBatch(component, 0.0F, 0.0F, 0XFFFFFF, true, poseStack.last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, 0, light);
             poseStack.popPose();
 
         }

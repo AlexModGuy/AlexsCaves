@@ -24,7 +24,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -205,7 +204,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
                         Vec3 trilocarisPos = getTrilocarisPos();
                         target.setPos(trilocarisPos);
                         if (this.getAnimationTick() >= 45 && target.isAlive()) {
-                            target.hurt(DamageSource.mobAttack(this), 20);
+                            target.hurt(damageSources().mobAttack(this), 20);
                         }
                         held = true;
                         target.fallDistance = 0;
@@ -334,19 +333,6 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     @Override
     public Animation[] getAnimations() {
         return new Animation[]{ANIMATION_SPEAK_1, ANIMATION_SPEAK_2, ANIMATION_EAT_TREE, ANIMATION_EAT_TRILOCARIS, ANIMATION_PUSH_TREE, ANIMATION_SCRATCH_1, ANIMATION_SCRATCH_2, ANIMATION_SHAKE, ANIMATION_MELEE_SLASH_1, ANIMATION_MELEE_SLASH_2};
-    }
-
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d2 * d2) * 4.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
     }
 
     public float getScale() {

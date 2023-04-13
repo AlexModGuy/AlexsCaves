@@ -40,6 +40,9 @@ public class ACBiomeRegistry {
         if(value.is(TOXIC_CAVES)){
             return -0.15F;
         }
+        if(value.is(ABYSSAL_CHASM)){
+            return -0.2F;
+        }
         return 1.0F;
     }
 
@@ -57,13 +60,6 @@ public class ACBiomeRegistry {
         if(value.is(TOXIC_CAVES)){
             return 1.0F;
         }
-        if(value.is(ABYSSAL_CHASM)){
-            return 1.0F;
-        }
-        return 0.0F;
-    }
-
-    public static float getBiomeFogOverrideUnderwater(Holder<Biome> value) {
         if(value.is(ABYSSAL_CHASM)){
             return 1.0F;
         }

@@ -11,7 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -89,13 +88,8 @@ public class BoundroidWinchEntity extends Monster {
             return false;
         }
         if (body != null && !body.isInvulnerableTo(source)) {
-            boolean flag;
-            if(source instanceof EntityDamageSource entityDamageSource){
-                flag = body.hurt(createArmorBypassingDamageFrom(entityDamageSource), damage);
-            }else{
-                flag = body.hurt(source, damage);
-            }
-            if(flag){
+            boolean flag = body.hurt(source, damage);
+            if (flag) {
                 noLatchCooldown = 60 + random.nextInt(60);
             }
             return flag;
@@ -103,9 +97,6 @@ public class BoundroidWinchEntity extends Monster {
         return super.hurt(source, damage);
     }
 
-    private DamageSource createArmorBypassingDamageFrom(EntityDamageSource entityDamageSource) {
-        return entityDamageSource.bypassArmor();
-    }
 
     public void linkWithHead(Entity head) {
         this.setHeadUUID(head.getUUID());
@@ -173,7 +164,7 @@ public class BoundroidWinchEntity extends Monster {
         if (!this.isLatched() && latchProgress > 0F) {
             latchProgress--;
         }
-        if(noLatchCooldown > 0){
+        if (noLatchCooldown > 0) {
             noLatchCooldown--;
         }
         double d1 = (this.getX() - xo);
@@ -182,7 +173,7 @@ public class BoundroidWinchEntity extends Monster {
         if (isLatched() && verticalCollision && d3 > 0.1F) {
             if (tickCount - lastStepTimestamp > 6) {
                 lastStepTimestamp = tickCount;
-                BlockState state = level.getBlockState(new BlockPos(this.getX(), this.getBoundingBox().maxY + 0.5, this.getZ()));
+                BlockState state = level.getBlockState(BlockPos.containing(this.getX(), this.getBoundingBox().maxY + 0.5, this.getZ()));
                 this.playSound(state.getSoundType().getStepSound(), 1F, 0.5F);
             }
         }
@@ -221,10 +212,10 @@ public class BoundroidWinchEntity extends Monster {
                     this.setNoGravity(true);
                     if (distanceToCeiling > MAX_DIST_TO_CEILING || !isAlive() || noLatchCooldown > 0) {
                         changeLatchStateTime++;
-                    }else{
+                    } else {
                         changeLatchStateTime = 0;
                     }
-                    if(changeLatchStateTime > 5){
+                    if (changeLatchStateTime > 5) {
                         this.setLatched(false);
                         changeLatchStateTime = 0;
                     }
@@ -236,10 +227,10 @@ public class BoundroidWinchEntity extends Monster {
                     boundroid.stopGravity = false;
                     if ((distanceToCeiling < MAX_DIST_TO_CEILING || verticalCollision && !verticalCollisionBelow) && noLatchCooldown <= 0) {
                         changeLatchStateTime++;
-                    }else{
+                    } else {
                         changeLatchStateTime = 0;
                     }
-                    if(changeLatchStateTime > 5){
+                    if (changeLatchStateTime > 5) {
                         this.setLatched(true);
                         changeLatchStateTime = 0;
                     }
@@ -347,7 +338,7 @@ public class BoundroidWinchEntity extends Monster {
                 int distance = 16;
                 for (int i = 0; i < 15; i++) {
                     Random rand = new Random();
-                    BlockPos randPos = BoundroidWinchEntity.this.blockPosition().offset(rand.nextInt(distance * 2) - distance, -MAX_DIST_TO_CEILING - 3, rand.nextInt(distance * 2) - distance);
+                    BlockPos randPos = BoundroidWinchEntity.this.blockPosition().offset(rand.nextInt(distance * 2) - distance, (int) (-MAX_DIST_TO_CEILING - 3), rand.nextInt(distance * 2) - distance);
                     BlockPos lowestPos = BoundroidWinchEntity.this.getCeilingOf(randPos).below();
                     return Vec3.atCenterOf(lowestPos);
                 }
@@ -470,7 +461,7 @@ public class BoundroidWinchEntity extends Monster {
 
         @Override
         public boolean canUse() {
-            if(BoundroidWinchEntity.this.getHead() instanceof BoundroidEntity boundroid){
+            if (BoundroidWinchEntity.this.getHead() instanceof BoundroidEntity boundroid) {
                 Entity target = boundroid.getTarget();
                 return target != null && target.isAlive();
             }
@@ -479,24 +470,24 @@ public class BoundroidWinchEntity extends Monster {
 
         @Override
         public void stop() {
-            if(BoundroidWinchEntity.this.getHead() instanceof BoundroidEntity boundroid){
+            if (BoundroidWinchEntity.this.getHead() instanceof BoundroidEntity boundroid) {
                 boundroid.setScared(false);
             }
 
         }
 
         public void tick() {
-            if(BoundroidWinchEntity.this.getHead() instanceof BoundroidEntity boundroid){
+            if (BoundroidWinchEntity.this.getHead() instanceof BoundroidEntity boundroid) {
                 Entity target = boundroid.getTarget();
-                if(target != null && target.isAlive()){
-                    if(BoundroidWinchEntity.this.isLatched()){
+                if (target != null && target.isAlive()) {
+                    if (BoundroidWinchEntity.this.isLatched()) {
                         boundroid.setScared(false);
                         BlockPos lowestPos = BoundroidWinchEntity.this.getCeilingOf(target.blockPosition());
                         BoundroidWinchEntity.this.getNavigation().moveTo(lowestPos.getX(), lowestPos.getY(), lowestPos.getZ(), 1D);
-                    }else{
-                        if(BoundroidWinchEntity.this.getNavigation().isDone()){
+                    } else {
+                        if (BoundroidWinchEntity.this.getNavigation().isDone()) {
                             Vec3 vec = LandRandomPos.getPosAway(BoundroidWinchEntity.this, 15, 7, target.position());
-                            if(vec != null){
+                            if (vec != null) {
                                 BoundroidWinchEntity.this.getNavigation().moveTo(vec.x, vec.y, vec.z, 1.3);
                             }
                         }

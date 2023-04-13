@@ -1,5 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
+import net.minecraft.world.entity.player.Player;
+
 public enum DeepOneReaction {
     STALKING(0, 80),
     AGGRESSIVE(0,40),
@@ -32,5 +35,15 @@ public enum DeepOneReaction {
             return NEUTRAL;
         }
         return HELPFUL;
+    }
+
+    public boolean validPlayer(DeepOneBaseEntity deepOne, Player player){
+        if(this == STALKING && player.getY() > deepOne.getY() + 15){
+            return false;
+        }
+        if(this != AGGRESSIVE && this != HELPFUL){
+            return player.isInWaterOrBubble() || !deepOne.isInWaterOrBubble();
+        }
+        return true;
     }
 }

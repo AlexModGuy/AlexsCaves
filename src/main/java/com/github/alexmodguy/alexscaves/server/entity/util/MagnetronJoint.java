@@ -41,8 +41,8 @@ public enum MagnetronJoint {
             float limbSwing = 0.0F;
             float limbSwingAmount = 1F;
             if (entity.isAlive()) {
-                limbSwingAmount = entity.animationSpeed * 2F;
-                limbSwing = entity.animationPosition * 2F;
+                limbSwingAmount = entity.walkAnimation.speed() * 2F;
+                limbSwing = entity.walkAnimation.position() * 2F;
             }
             if (this == KNEE) {
                 float up = calculateRotation(walkSpeed, walkDegree * 0.6F, left, 0, left ? -0.3F : 0.3F, limbSwing, limbSwingAmount);

@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "open=false": {
+      "model": "alexscaves:block/drain_closed"
+    },
+    "open=true": {
+      "model": "alexscaves:block/drain_open"
+    }
+  }
+}

@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.message;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.LogicalSide;
@@ -53,7 +52,7 @@ public class MultipartEntityMessage {
                         parent.interact(player, player.getUsedItemHand());
                     }
                 }else if(message.type == 1){
-                    parent.hurt(DamageSource.GENERIC, (float) message.damage);
+                    parent.hurt(parent.damageSources().generic(), (float) message.damage);
                 }
             }
         });

@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "cutout",
+  "textures": {
+    "slab": "alexscaves:block/abyssmarine_bricks",
+    "particle": "alexscaves:block/abyssmarine_bricks",
+    "glow": "alexscaves:block/abyssmarine_bricks_glow"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 8, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#slab", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#slab" },
+        "north": { "uv": [ 0, 8, 16, 16 ], "texture": "#slab", "cullface": "north" },
+        "south": { "uv": [ 0, 8, 16, 16 ], "texture": "#slab", "cullface": "south" },
+        "west":  { "uv": [ 0, 8, 16, 16 ], "texture": "#slab", "cullface": "west" },
+        "east":  { "uv": [ 0, 8, 16, 16 ], "texture": "#slab", "cullface": "east" }
+      }
+    },
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 8, 16 ],
+      "shade": false,
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#glow", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#glow" },
+        "north": { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "north" },
+        "south": { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "south" },
+        "west":  { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "west" },
+        "east":  { "uv": [ 0, 8, 16, 16 ], "texture": "#glow", "cullface": "east" }
+      }
+    }
+  ]
+}

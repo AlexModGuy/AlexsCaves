@@ -29,8 +29,9 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -80,7 +81,14 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
-    public void onEntityJoinWorld(LivingSpawnEvent.SpecialSpawn event) {
+    public void livingTick(LivingEvent.LivingTickEvent event) {
+        if(event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()){
+            event.getEntity().removeEffect(ACEffectRegistry.BUBBLED.get());
+        }
+    }
+
+    @SubscribeEvent
+    public void onEntityJoinWorld(MobSpawnEvent.FinalizeSpawn event) {
         try {
             if (event.getEntity() instanceof Creeper creeper) {
                 creeper.targetSelector.addGoal(3, new AvoidEntityGoal<>(creeper, RaycatEntity.class, 10.0F, 1.0D, 1.2D));
@@ -156,5 +164,9 @@ public class CommonProxy {
 
     public float getPartialTicks() {
         return 1.0F;
+    }
+
+    public Object getISTERProperties() {
+        return null;
     }
 }

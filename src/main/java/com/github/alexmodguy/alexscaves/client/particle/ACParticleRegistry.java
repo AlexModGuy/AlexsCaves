@@ -36,5 +36,7 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> TUBE_WORM = DEF_REG.register("tube_worm", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> DEEP_ONE_MAGIC = DEF_REG.register("deep_one_magic", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WATER_FOAM = DEF_REG.register("water_foam", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> BIG_SPLASH = DEF_REG.register("big_splash", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> BIG_SPLASH_EFFECT = DEF_REG.register("big_splash_effect", ()-> new SimpleParticleType(false));
 
 }

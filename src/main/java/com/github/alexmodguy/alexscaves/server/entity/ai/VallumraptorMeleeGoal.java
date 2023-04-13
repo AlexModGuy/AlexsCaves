@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -73,7 +72,7 @@ public class VallumraptorMeleeGoal extends Goal {
 
     private void checkAndDealDamage(LivingEntity target) {
         if(raptor.hasLineOfSight(target) && raptor.distanceTo(target) < raptor.getBbWidth() + target.getBbWidth() + 1){
-            target.hurt(DamageSource.mobAttack(raptor), (float) raptor.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+            target.hurt(target.damageSources().mobAttack(raptor), (float) raptor.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         }
     }
 

@@ -64,7 +64,7 @@ public class NaturalSpawnerMixin {
                                     float f = mobspawnsettings$spawnerdata.type.getWidth();
                                     double d0 = Mth.clamp((double) l, (double) i + (double) f, (double) i + 16.0D - (double) f);
                                     double d1 = Mth.clamp((double) i1, (double) j + (double) f, (double) j + 16.0D - (double) f);
-                                    if (!level.noCollision(mobspawnsettings$spawnerdata.type.getAABB(d0, (double) blockpos.getY(), d1)) || !SpawnPlacements.checkSpawnRules(mobspawnsettings$spawnerdata.type, level, MobSpawnType.CHUNK_GENERATION, new BlockPos(d0, (double) blockpos.getY(), d1), level.getRandom())) {
+                                    if (!level.noCollision(mobspawnsettings$spawnerdata.type.getAABB(d0, (double) blockpos.getY(), d1)) || !SpawnPlacements.checkSpawnRules(mobspawnsettings$spawnerdata.type, level, MobSpawnType.CHUNK_GENERATION, BlockPos.containing(d0, (double) blockpos.getY(), d1), level.getRandom())) {
                                         continue;
                                     }
 
@@ -79,8 +79,8 @@ public class NaturalSpawnerMixin {
                                     entity.moveTo(d0, (double) blockpos.getY(), d1, randomSource.nextFloat() * 360.0F, 0.0F);
                                     if (entity instanceof Mob) {
                                         Mob mob = (Mob) entity;
-                                        if (net.minecraftforge.common.ForgeHooks.canEntitySpawn(mob, level, d0, blockpos.getY(), d1, null, MobSpawnType.CHUNK_GENERATION) == -1)
-                                            continue;
+                                        //if (net.minecraftforge.common.ForgeHooks.canEntitySpawn(mob, level, d0, blockpos.getY(), d1, null, MobSpawnType.CHUNK_GENERATION) == -1)
+                                        //    continue;
                                         if (mob.checkSpawnRules(level, MobSpawnType.CHUNK_GENERATION) && mob.checkSpawnObstruction(level)) {
                                             spawngroupdata = mob.finalizeSpawn(level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.CHUNK_GENERATION, spawngroupdata, (CompoundTag) null);
                                             level.addFreshEntityWithPassengers(mob);

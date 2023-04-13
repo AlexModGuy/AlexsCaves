@@ -162,17 +162,10 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     heldOffhand = living.getOffhandItem().copy();
                     living.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
                 }
-                animSpeed = living.animationSpeed;
-                animSpeedOld = living.animationSpeedOld;
-                animPos = living.animationPosition;
                 headRot = living.yHeadRot;
                 headRotOld = living.yHeadRotO;
                 yBodyRot = living.yBodyRot;
                 yBodyRotOld = living.yBodyRotO;
-
-                living.animationSpeed = 0;
-                living.animationSpeedOld = 0;
-                living.animationPosition = 0;
                 living.yHeadRot = 0;
                 living.yHeadRotO = 0;
                 living.yBodyRot = 0;
@@ -204,9 +197,7 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                 if (!heldMainhand.isEmpty()) {
                     living.setItemInHand(InteractionHand.MAIN_HAND, heldMainhand);
                 }
-                living.animationSpeed = animSpeed;
-                living.animationSpeedOld = animSpeedOld;
-                living.animationPosition = animPos;
+                living.yHeadRot = headRot;
                 living.yHeadRot = headRot;
                 living.yHeadRotO = headRotOld;
                 living.yBodyRot = yBodyRot;

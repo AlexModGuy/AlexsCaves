@@ -47,7 +47,7 @@ public class GiantAncientTreeFeature extends Feature<NoneFeatureConfiguration> {
             }
             if(height == maxHeight || height > 3 && (height - lastLeavesY > 4 + randomsource.nextInt(2) || randomsource.nextInt(5) == 0)){
                 lastLeavesY = height;
-                drawLeafOrb(level, trunkRoot.offset((randomsource.nextInt(2) - 1) * radShrink, 0, (randomsource.nextInt(2) - 1) * radShrink), randomsource, ACBlockRegistry.ANCIENT_LEAVES.get().defaultBlockState(), (int)Math.ceil(4 * leavesShrink) + randomsource.nextInt(2), 1 + randomsource.nextInt(2), (int)Math.ceil(4 * leavesShrink) + randomsource.nextInt(2));
+                drawLeafOrb(level, trunkRoot.offset((int) ((randomsource.nextInt(2) - 1) * radShrink), 0, (int) ((randomsource.nextInt(2) - 1) * radShrink)), randomsource, ACBlockRegistry.ANCIENT_LEAVES.get().defaultBlockState(), (int)Math.ceil(4 * leavesShrink) + randomsource.nextInt(2), 1 + randomsource.nextInt(2), (int)Math.ceil(4 * leavesShrink) + randomsource.nextInt(2));
             }
         }
 

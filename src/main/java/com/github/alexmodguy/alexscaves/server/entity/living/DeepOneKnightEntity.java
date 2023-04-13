@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.ChatFormatting;
@@ -99,14 +100,13 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
         if(!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
-            swapItemsForAnimation(new ItemStack(Items.INK_SAC));
+            swapItemsForAnimation(new ItemStack(ACItemRegistry.INK_BOMB.get()));
         }
-        this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.INK_SAC));
         if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_THROW);
         } else if (this.getAnimation() == ANIMATION_THROW) {
             if (this.getAnimationTick() > 10) {
-                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.INK_SAC)){
+                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.INK_BOMB.get())){
                     this.restoreSwappedItem();
                 }
                 return super.startDisappearBehavior(player);
@@ -139,7 +139,8 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     public void startAttackBehavior(LivingEntity target) {
         double distance = this.distanceTo(target);
         float f = this.getBbWidth() + target.getBbWidth();
-        if((distance > 15 || !melee)){
+        boolean meleeOnly = this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.ORTHOLANCE.get());
+        if((distance > 15 || !melee) && !meleeOnly){
             melee = false;
             if(!pickUpTrident() && this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.TRIDENT)){
                 if(this.hasLineOfSight(target) && distance < 35){
@@ -156,7 +157,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
                 }
             }
         }
-        if(melee){
+        if(melee || meleeOnly){
             if(distance < f + 1.0F){
                 if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     setAnimation(this.getRandom().nextBoolean() ? ANIMATION_SCRATCH : ANIMATION_BITE);
@@ -215,7 +216,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
 
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
         spawnGroupData = super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData, compoundTag);
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.TRIDENT));
+        this.setItemSlot(EquipmentSlot.MAINHAND, random.nextFloat() > 0.7 ? new ItemStack(ACItemRegistry.ORTHOLANCE.get()) : new ItemStack(Items.TRIDENT));
         return spawnGroupData;
     }
 

@@ -1,0 +1,9 @@
+{
+  "parent": "alexscaves:block/partially_fullbright",
+  "render_type": "cutout",
+  "textures": {
+    "particle": "alexscaves:block/abyssmarine_bricks",
+    "base": "alexscaves:block/abyssmarine_bricks",
+    "fullbright": "alexscaves:block/abyssmarine_bricks_glow"
+  }
+}

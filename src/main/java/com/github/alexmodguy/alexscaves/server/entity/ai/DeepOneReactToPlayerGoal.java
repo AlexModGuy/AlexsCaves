@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.DeepOneReaction;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -53,16 +54,16 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 }
             }
             player = closest;
-            return player != null && (DeepOneReaction.fromReputation(highestReputation) != DeepOneReaction.AGGRESSIVE || !player.isCreative());
+            DeepOneReaction reaction1 = DeepOneReaction.fromReputation(highestReputation);
+            return player != null && (reaction1 != DeepOneReaction.AGGRESSIVE || deepOne.isSummoned() || !player.isCreative()) && reaction1.validPlayer(deepOne, player);
         }
-        LivingEntity attackTarget = deepOne.getTarget();
-        return player != null && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative()) && !deepOne.isTradingLocked();
+        return false;
     }
 
     @Override
     public boolean canContinueToUse() {
         LivingEntity attackTarget = deepOne.getTarget();
-        return player != null && !player.isSpectator() && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative()) && !deepOne.isTradingLocked();
+        return player != null && !player.isSpectator() && reaction != null && deepOne.getCorneringPlayer() == null && deepOne.distanceTo(player) >= reaction.getMinDistance() && deepOne.distanceTo(player) <= reaction.getMaxDistance() && (attackTarget == null || !attackTarget.isAlive()) && (reaction != DeepOneReaction.AGGRESSIVE || !player.isCreative() || deepOne.isSummoned()) && !deepOne.isTradingLocked() && reaction.validPlayer(deepOne, player);
     }
 
 
@@ -106,22 +107,11 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 }
                 break;
             case NEUTRAL:
-                tickFollow(0.2F);
+                tickFollow(0.1F);
                 break;
             case HELPFUL:
-                LivingEntity priorTarget = deepOne.getTarget();
-                if(priorTarget == null || !priorTarget.isAlive()){
-                    LivingEntity target = null;
-                    if(player.getLastHurtMob() != null){
-                        target = player.getLastHurtMob();
-                    }else if(player.getLastHurtByMob() != null){
-                        target = player.getLastHurtByMob();
-                    }
-                    if(target != null && target.isAlive() && !target.isAlliedTo(player) && !target.isAlliedTo(deepOne) && !(target instanceof DeepOneBaseEntity)){
-                        deepOne.setTarget(target);
-                    }
-                }
-                tickFollow(1.0F);
+                deepOne.copyTarget(player);
+                tickFollow(0.4F);
                 break;
         }
         if(!deepOne.getNavigation().isDone() && (moveTarget == null || moveTarget.y  < deepOne.getY() + 2)){
@@ -130,8 +120,15 @@ public class DeepOneReactToPlayerGoal extends Goal {
     }
 
     private void tickFollow(float propensity) {
+        float f = 0.1F;
+        if(player.getOffhandItem().is(ACTagRegistry.DEEP_ONE_BARTERS) || player.getMainHandItem().is(ACTagRegistry.DEEP_ONE_BARTERS)){
+            f = 0.2F;
+        }
+        if(deepOne.isSummoned()){
+            f = 1000;
+        }
         double distance = deepOne.distanceTo(player);
-        if(deepOne.getRandom().nextFloat() < propensity * 0.1F && friendlyLookAtTime <= 0){
+        if(deepOne.getRandom().nextFloat() < propensity * f && friendlyLookAtTime <= 0){
             friendlyLookAtTime = 10 + deepOne.getRandom().nextInt(20);
         }
         if(friendlyLookAtTime > 0){

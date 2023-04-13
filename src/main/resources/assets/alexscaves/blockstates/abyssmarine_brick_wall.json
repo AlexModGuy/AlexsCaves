@@ -1,0 +1,178 @@
+{
+    "multipart": [
+        {
+            "when": {
+                "up": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_post"
+            }
+        },
+        {
+            "when": {
+                "north": "low"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side",
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "low"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "low"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "west": "low"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "north": "tall"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall",
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "tall"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "tall"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "west": "tall"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+
+
+        {
+            "when": {
+                "up": "true", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_post_glow"
+            }
+        },
+        {
+            "when": {
+                "north": "low", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_glow",
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "low", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_glow",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "low", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_glow",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "west": "low", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_glow",
+                "y": 270,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "north": "tall", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall_glow",
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "east": "tall", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall_glow",
+                "y": 90,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "south": "tall", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall_glow",
+                "y": 180,
+                "uvlock": true
+            }
+        },
+        {
+            "when": {
+                "west": "tall", "active": "true"
+            },
+            "apply": {
+                "model": "alexscaves:block/abyssmarine_brick_wall_side_tall_glow",
+                "y": 270,
+                "uvlock": true
+            }
+        }
+    ]
+}

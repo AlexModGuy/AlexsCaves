@@ -24,6 +24,13 @@ public class DeepOneKnightRenderer extends MobRenderer<DeepOneKnightEntity, Deep
         this.addLayer(new ItemInHandLayer<>(this, renderManagerIn.getItemInHandRenderer()));
     }
 
+    @Override
+    protected void scale(DeepOneKnightEntity mob, PoseStack matrixStackIn, float partialTicks) {
+        if(mob.isSummoned()){
+            matrixStackIn.translate(0, (mob.getBbHeight() + 1F) * (1F - mob.getSummonProgress(partialTicks)), 0);
+        }
+    }
+
     public ResourceLocation getTextureLocation(DeepOneKnightEntity entity) {
         return entity.isNoon() ? TEXTURE_NOON : TEXTURE;
     }

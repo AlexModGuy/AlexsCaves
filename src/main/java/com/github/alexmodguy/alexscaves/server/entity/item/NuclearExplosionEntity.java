@@ -56,7 +56,7 @@ public class NuclearExplosionEntity extends Entity {
         if (!spawnedParticle) {
             spawnedParticle = true;
             int particleY = (int) Math.ceil(this.getY());
-            while (particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(new BlockPos(this.getX(), particleY, this.getZ())))) {
+            while (particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(BlockPos.containing(this.getX(), particleY, this.getZ())))) {
                 particleY--;
             }
             level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize() + 0.2F, 0, 0);
@@ -97,7 +97,7 @@ public class NuclearExplosionEntity extends Entity {
                     }else if(entity.getType().is(ACTagRegistry.RESISTS_RADIATION)){
                         damage *= 0.25F;
                     }
-                    entity.hurt(ACDamageTypes.NUKE, damage);
+                    entity.hurt(ACDamageTypes.causeNukeDamage(level.registryAccess()), damage);
                 }
                 entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));
             }

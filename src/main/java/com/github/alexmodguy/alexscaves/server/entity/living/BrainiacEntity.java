@@ -15,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -159,7 +158,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         if(tongueTarget instanceof LivingEntity living){
             if(this.shootTongueAmount >= 5F) {
                 postAttackEffect(living);
-                tongueTarget.hurt(DamageSource.mobAttack(this), 4);
+                tongueTarget.hurt(damageSources().mobAttack(this), 4);
                 living.knockback(0.3D, living.getX() - this.getX(), tongueTarget.getZ() - this.getZ());
                 this.setLickTicks(0);
             }
@@ -323,7 +322,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
         private void checkAndDealDamage(LivingEntity target, float damageMultiplier) {
             if (BrainiacEntity.this.hasLineOfSight(target) && BrainiacEntity.this.distanceTo(target) < BrainiacEntity.this.getBbWidth() + target.getBbWidth() + 2.0D) {
-                target.hurt(DamageSource.mobAttack(BrainiacEntity.this), (float) BrainiacEntity.this.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * damageMultiplier);
+                target.hurt(damageSources().mobAttack(BrainiacEntity.this), (float) BrainiacEntity.this.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * damageMultiplier);
                 BrainiacEntity.this.postAttackEffect(target);
                 target.knockback(0.3D, BrainiacEntity.this.getX() - target.getX(), BrainiacEntity.this.getZ() - target.getZ());
             }

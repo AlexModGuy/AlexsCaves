@@ -27,14 +27,14 @@ public class WaterTremorParticle extends SimpleAnimatedParticle {
         this.gravity = 0.0F;
         this.quadSize = (float) ((Math.random() * 0.25F + 0.75F) * 0.5F);
         this.lifetime = 20;
-        this.setColor(BiomeColors.getAverageWaterColor(level, new BlockPos(x, y, z)));
+        this.setColor(BiomeColors.getAverageWaterColor(level, BlockPos.containing(x, y, z)));
         this.setSpriteFromAge(set);
     }
 
     public void tick() {
         super.tick();
-        BlockPos slightlyAbove = new BlockPos(this.x, this.y + 0.1F, this.z);
-        BlockPos slightlyBelow = new BlockPos(this.x, this.y - 0.1F, this.z);
+        BlockPos slightlyAbove = BlockPos.containing(this.x, this.y + 0.1F, this.z);
+        BlockPos slightlyBelow = BlockPos.containing(this.x, this.y - 0.1F, this.z);
 
         if (!isWater(slightlyAbove) && !isWater(slightlyBelow)) {
             this.remove();

@@ -224,17 +224,17 @@ public class MagnetUtil {
     private static BlockPos getSamplePosForDirection(Entity entity, Direction direction, float expand){
         switch (direction){
             case DOWN:
-                return new BlockPos(entity.getX(), entity.getBoundingBox().minY - expand, entity.getZ());
+                return BlockPos.containing(entity.getX(), entity.getBoundingBox().minY - expand, entity.getZ());
             case UP:
-                return new BlockPos(entity.getX(), entity.getBoundingBox().maxY + expand, entity.getZ());
+                return BlockPos.containing(entity.getX(), entity.getBoundingBox().maxY + expand, entity.getZ());
             case EAST:
-                return new BlockPos(entity.getBoundingBox().maxX + expand, entity.getY(), entity.getZ());
+                return BlockPos.containing(entity.getBoundingBox().maxX + expand, entity.getY(), entity.getZ());
             case WEST:
-                return new BlockPos(entity.getBoundingBox().minX - expand, entity.getY(), entity.getZ());
+                return BlockPos.containing(entity.getBoundingBox().minX - expand, entity.getY(), entity.getZ());
             case NORTH:
-                return new BlockPos(entity.getX(), entity.getY(), entity.getBoundingBox().minZ - expand);
+                return BlockPos.containing(entity.getX(), entity.getY(), entity.getBoundingBox().minZ - expand);
             case SOUTH:
-                return new BlockPos(entity.getX(), entity.getY(), entity.getBoundingBox().maxZ + expand);
+                return BlockPos.containing(entity.getX(), entity.getY(), entity.getBoundingBox().maxZ + expand);
         }
         return entity.blockPosition();
     }

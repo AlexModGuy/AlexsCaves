@@ -14,7 +14,7 @@
     "water_color": 5451,
     "water_fog_color": 3623
   },
-  "precipitation": "rain",
+  "has_precipitation": true,
   "features": [
     [],
     [],
@@ -163,7 +163,7 @@
         "type": "minecraft:drowned",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 5
+        "weight": 2
       }
     ],
     "underground_water_creature": [
@@ -185,7 +185,7 @@
         "type": "alexscaves:lanternfish",
         "maxCount": 20,
         "minCount": 15,
-        "weight": 300
+        "weight": 100
       }
     ],
     "water_creature": [
@@ -204,20 +204,20 @@
     ],
     "alexscaves:deep_sea_creature": [
       {
+        "type": "alexscaves:tripodfish",
+        "maxCount": 2,
+        "minCount": 1,
+        "weight": 40
+      },
+      {
         "type": "alexscaves:sea_pig",
         "maxCount": 4,
         "minCount": 3,
-        "weight": 30
+        "weight": 50
       },
       {
         "type": "alexscaves:gossamer_worm",
         "maxCount": 1,
-        "minCount": 1,
-        "weight": 25
-      },
-      {
-        "type": "alexscaves:tripodfish",
-        "maxCount": 2,
         "minCount": 1,
         "weight": 30
       }

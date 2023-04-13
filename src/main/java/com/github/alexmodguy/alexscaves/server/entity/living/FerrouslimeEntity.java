@@ -115,7 +115,7 @@ public class FerrouslimeEntity extends Monster {
         } else {
             LivingEntity target = this.getTarget();
             if (attackProgress >= 3F && target != null && this.distanceTo(target) < getSlimeSize(1.0F)) {
-                target.hurt(DamageSource.mobAttack(this), 4F + getHeadCount() * 2);
+                target.hurt(damageSources().mobAttack(this), 4F + getHeadCount() * 2);
             }
             if (attackProgress > 0F) {
                 attackProgress--;
@@ -300,8 +300,8 @@ public class FerrouslimeEntity extends Monster {
 
         public void tick() {
             if (this.operation == MoveControl.Operation.MOVE_TO) {
-                BlockPos target = new BlockPos(this.wantedX, this.wantedY, this.wantedZ);
-                BlockPos centerPos = new BlockPos(parentEntity.getX(), parentEntity.getY(0.5F), parentEntity.getZ());
+                BlockPos target = BlockPos.containing(this.wantedX, this.wantedY, this.wantedZ);
+                BlockPos centerPos = BlockPos.containing(parentEntity.getX(), parentEntity.getY(0.5F), parentEntity.getZ());
                 BlockPos closest = centerPos;
                 if (slideStop <= 0) {
                     lastSlideDirection = null;

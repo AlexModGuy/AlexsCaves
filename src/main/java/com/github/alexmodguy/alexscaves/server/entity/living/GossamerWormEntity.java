@@ -22,7 +22,6 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -102,6 +101,7 @@ public class GossamerWormEntity extends WaterAnimal {
         prevSquishProgress = squishProgress;
         fakeYRot = Mth.approachDegrees(fakeYRot, this.yBodyRot, 10);
         super.tick();
+
         this.tickMultipart();
         float targetPitch = isInWaterOrBubble() ? Mth.clamp((float) this.getDeltaMovement().y * 25, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI) : 0;
         fishPitch = Mth.approachDegrees(fishPitch, targetPitch, 1);
@@ -211,12 +211,12 @@ public class GossamerWormEntity extends WaterAnimal {
     }
 
     public static boolean checkGossamerWormSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel();
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 25;
     }
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while (!world.getFluidState(down).isEmpty() && down.getY() > 1) {
+        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
             down = down.below();
         }
         float f = this.blockPosition().getY() - down.getY();
@@ -236,9 +236,6 @@ public class GossamerWormEntity extends WaterAnimal {
     }
 
 
-    public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
-        return worldIn.getFluidState(pos.below()).isEmpty() && worldIn.getFluidState(pos).is(FluidTags.WATER) ? 10.0F : -10.0F;
-    }
 
     @Override
     public boolean isMultipartEntity() {

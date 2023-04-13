@@ -14,7 +14,7 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilde
 
 public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
 
-    private static final int BOWL_WIDTH_RADIUS = 61;
+    private static final int BOWL_WIDTH_RADIUS = 150;
 
     public static final Codec<OceanTrenchStructure> CODEC = simpleCodec((settings) -> new OceanTrenchStructure(settings));
 
@@ -40,10 +40,10 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
         int biomeUp = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.UP, center, heightRad) + getYExpand();
         int biomeDown = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.DOWN, center, heightRad) + getYExpand();
         BlockPos ground = center.below(biomeDown - 2);
-        int biomeEast = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.EAST, ground, widthRad) + 16;
-        int biomeWest = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.WEST, ground, widthRad) + 16;
-        int biomeNorth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.NORTH, ground, widthRad) + 16;
-        int biomeSouth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.SOUTH, ground, widthRad) + 16;
+        int biomeEast = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.EAST, ground, widthRad) + 32;
+        int biomeWest = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.WEST, ground, widthRad) + 32;
+        int biomeNorth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.NORTH, ground, widthRad) + 32;
+        int biomeSouth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.SOUTH, ground, widthRad) + 32;
         int widthBlocks = (biomeEast + biomeWest + biomeNorth + biomeSouth) / 4;
         int heightBlocks = (biomeUp + biomeDown) / 2;
         int widthChunks = (int)Math.ceil((widthBlocks + 16) / 16F / 2F) + 3;

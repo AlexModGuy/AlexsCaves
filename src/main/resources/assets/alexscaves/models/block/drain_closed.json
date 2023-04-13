@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alexscaves:block/drain_closed",
+    "side": "alexscaves:block/drain_side"
+  }
+}

@@ -22,7 +22,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -140,7 +139,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
             } else {
                 this.setTailSwingRot(Mth.approachDegrees(tailSwing, end, 25));
             }
-            this.animationSpeed = 1;
+            this.walkAnimation.setSpeed(1);
         } else {
             if (Math.abs(tailSwing) > 0.0F) {
                 this.setTailSwingRot(Mth.approachDegrees(tailSwing, 0, 20));
@@ -244,18 +243,10 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         }
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = flying ? living.getY() - living.yo : 0.0D;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 8.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo, flying ? this.getY() - this.yo : 0, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 8.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
     }
 
 }

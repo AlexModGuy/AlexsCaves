@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "axis=x,active=false": {
+      "model": "alexscaves:block/abyssmarine_pillar",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,active=false": {
+      "model": "alexscaves:block/abyssmarine_pillar"
+    },
+    "axis=z,active=false": {
+      "model": "alexscaves:block/abyssmarine_pillar",
+      "x": 90
+    },
+    "axis=x,active=true": {
+      "model": "alexscaves:block/abyssmarine_pillar_glow",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y,active=true": {
+      "model": "alexscaves:block/abyssmarine_pillar_glow"
+    },
+    "axis=z,active=true": {
+      "model": "alexscaves:block/abyssmarine_pillar_glow",
+      "x": 90
+    }
+  }
+}

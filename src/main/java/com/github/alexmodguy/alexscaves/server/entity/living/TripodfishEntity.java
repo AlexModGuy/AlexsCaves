@@ -201,22 +201,14 @@ public class TripodfishEntity extends WaterAnimal {
         return (prevFishPitch + (fishPitch - prevFishPitch) * partialTick);
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = living.getY() - living.yo;
-        double d2 = living.getZ() - living.zo;
-        float speedMod = 6.0F;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * speedMod;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 6.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
     }
 
     public static boolean checkTripodfishSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel();
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 30 && randomSource.nextBoolean();
     }
 
     public float getLandProgress(float partialTicks) {
@@ -239,7 +231,7 @@ public class TripodfishEntity extends WaterAnimal {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > 1){
+        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
             down = down.below();
         }
         this.setPos(down.getX() + 0.5F, down.getY() + 1, down.getZ() + 0.5F);

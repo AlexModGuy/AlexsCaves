@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
@@ -31,7 +32,8 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties CINDER_BLOCK_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops().strength(5F, 20.0F).sound(SoundType.POLISHED_DEEPSLATE);
     public static final BlockBehaviour.Properties RADON_LAMP_PROPERTIES = BlockBehaviour.Properties.of(Material.BUILDABLE_GLASS, MaterialColor.TERRACOTTA_WHITE).requiresCorrectToolForDrops().lightLevel(state -> 15).strength(2F, 11.0F).sound(SoundType.GLASS);
     public static final BlockBehaviour.Properties SMOOTH_BONE_PROPERTIES = BlockBehaviour.Properties.of(Material.GRASS, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK);
-    public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(WoodType.create("alexscaves:pewen"));
+    public static final BlockBehaviour.Properties ABYSSMARINE_PROPERTIES = BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.5F, 10.0F).sound(SoundType.STONE);
+    public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(new WoodType("alexscaves:pewen", BlockSetType.OAK));
 
     public static final DeferredRegister<Block> DEF_REG = DeferredRegister.create(ForgeRegistries.BLOCKS, AlexsCaves.MODID);
     public static final RegistryObject<Block> GALENA = registerBlockAndItem("galena", () -> new Block(GALENA_PROPERTIES));
@@ -105,11 +107,11 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> PEWEN_PLANKS_FENCE = registerBlockAndItem("pewen_fence", () -> new FenceBlock(PEWEN_PLANKS_PROPERTIES));
     public static final RegistryObject<Block> PEWEN_SIGN = DEF_REG.register("pewen_sign", () -> new StandingSignBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_ORANGE).noCollission().strength(1.0F).sound(SoundType.WOOD), PEWEN_WOOD_TYPE));
     public static final RegistryObject<Block> PEWEN_WALL_SIGN = DEF_REG.register("pewen_wall_sign", () -> new WallSignBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_ORANGE).noCollission().strength(1.0F).sound(SoundType.WOOD), PEWEN_WOOD_TYPE));
-    public static final RegistryObject<Block> PEWEN_PRESSURE_PLATE = registerBlockAndItem("pewen_pressure_plate",  () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, PEWEN_PLANKS.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD), SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_OFF, SoundEvents.WOODEN_PRESSURE_PLATE_CLICK_ON));
-    public static final RegistryObject<Block> PEWEN_TRAPDOOR = registerBlockAndItem("pewen_trapdoor",  () -> new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_ORANGE).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), SoundEvents.WOODEN_TRAPDOOR_CLOSE, SoundEvents.WOODEN_TRAPDOOR_OPEN));
-    public static final RegistryObject<Block> PEWEN_BUTTON = registerBlockAndItem("pewen_button", () -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD), 30, true, SoundEvents.WOODEN_BUTTON_CLICK_OFF, SoundEvents.WOODEN_BUTTON_CLICK_ON));
+    public static final RegistryObject<Block> PEWEN_PRESSURE_PLATE = registerBlockAndItem("pewen_pressure_plate",  () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of(Material.WOOD, PEWEN_PLANKS.get().defaultMaterialColor()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK));
+    public static final RegistryObject<Block> PEWEN_TRAPDOOR = registerBlockAndItem("pewen_trapdoor",  () -> new TrapDoorBlock(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_ORANGE).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> PEWEN_BUTTON = registerBlockAndItem("pewen_button", () -> new ButtonBlock(BlockBehaviour.Properties.of(Material.DECORATION).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK,30,  true));
     public static final RegistryObject<Block> PEWEN_FENCE_GATE = registerBlockAndItem("pewen_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.of(Material.WOOD, PEWEN_PLANKS.get().defaultMaterialColor()).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
-    public static final RegistryObject<Block> PEWEN_DOOR = DEF_REG.register("pewen_door", () -> new DoorBlock(BlockBehaviour.Properties.of(Material.WOOD, PEWEN_PLANKS.get().defaultMaterialColor()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), SoundEvents.WOODEN_DOOR_CLOSE, SoundEvents.WOODEN_DOOR_OPEN));
+    public static final RegistryObject<Block> PEWEN_DOOR = DEF_REG.register("pewen_door", () -> new DoorBlock(BlockBehaviour.Properties.of(Material.WOOD, PEWEN_PLANKS.get().defaultMaterialColor()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
     public static final RegistryObject<Block> PEWEN_BRANCH = registerBlockAndItem("pewen_branch", () -> new PewenBranchBlock());
     public static final RegistryObject<Block> PEWEN_PINES = registerBlockAndItem("pewen_pines", () -> new PewenPinesBlock());
     public static final RegistryObject<Block> PEWEN_SAPLING = registerBlockAndItem("pewen_sapling", () -> new SaplingBlock(new PewenGrower(), BlockBehaviour.Properties.of(Material.PLANT).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
@@ -171,7 +173,16 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GREEN_RADON_LAMP = registerBlockAndItem("radon_lamp_green", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> RED_RADON_LAMP = registerBlockAndItem("radon_lamp_red", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> BLACK_RADON_LAMP = registerBlockAndItem("radon_lamp_black", () -> new Block(RADON_LAMP_PROPERTIES));
-    public static final RegistryObject<Block> ABYSSMARINE = registerBlockAndItem("abyssmarine", () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).strength(2.5F, 10.0F).sound(SoundType.STONE)));
+    public static final RegistryObject<Block> ABYSSMARINE = registerBlockAndItem("abyssmarine", () -> new Block(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_STAIRS = registerBlockAndItem("abyssmarine_stairs", () -> new StairBlock(ABYSSMARINE.get().defaultBlockState(), ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_SLAB = registerBlockAndItem("abyssmarine_slab", () -> new SlabBlock(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_WALL = registerBlockAndItem("abyssmarine_wall", () -> new WallBlock(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_BRICKS = registerBlockAndItem("abyssmarine_bricks", () -> new GlowingAbyssmarineBlock(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_BRICK_STAIRS = registerBlockAndItem("abyssmarine_brick_stairs", () -> new AbyssmarineStairBlock(ABYSSMARINE_BRICKS.get().defaultBlockState(), ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_BRICK_SLAB = registerBlockAndItem("abyssmarine_brick_slab", () -> new AbyssmarineSlabBlock(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_BRICK_WALL = registerBlockAndItem("abyssmarine_brick_wall", () -> new AbyssmarineWallBlock(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_PILLAR = registerBlockAndItem("abyssmarine_pillar", () -> new AbyssmarinePillarBlock(ABYSSMARINE_PROPERTIES));
+    public static final RegistryObject<Block> ABYSSMARINE_TILES = registerBlockAndItem("abyssmarine_tiles", () -> new GlowingAbyssmarineBlock(ABYSSMARINE_PROPERTIES));
     public static final RegistryObject<Block> ABYSSAL_ALTAR = registerBlockAndItem("abyssal_altar", () -> new AbyssalAltarBlock());
     public static final RegistryObject<Block> MUCK = registerBlockAndItem("muck", () -> new MuckBlock(BlockBehaviour.Properties.of(Material.SAND, MaterialColor.COLOR_LIGHT_GRAY).strength(0.5F).sound(SoundType.FROGSPAWN)));
     public static final RegistryObject<Block> TUBE_WORM = registerBlockAndItem("tube_worm", () -> new TubeWormBlock());
@@ -190,6 +201,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> TWILIGHT_ANEMONE = registerBlockAndItem("twilight_anemone", () -> new OceanFloraBlock());
     public static final RegistryObject<Block> MIDNIGHT_ANEMONE = registerBlockAndItem("midnight_anemone", () -> new OceanFloraBlock());
     public static final RegistryObject<Block> MUSSEL = registerBlockAndItem("mussel", () -> new MusselBlock());
+    public static final RegistryObject<Block> DRAIN = registerBlockAndItem("drain", () -> new DrainBlock());
+    public static final RegistryObject<Block> SEA_GLASS = registerBlockAndItem("sea_glass", () -> new SeaGlassBlock());
+    public static final RegistryObject<Block> COPPER_VALVE = registerBlockAndItem("copper_valve", () -> new CopperValveBlock());
 
     public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
         return registerBlockAndItem(name, block, 0);

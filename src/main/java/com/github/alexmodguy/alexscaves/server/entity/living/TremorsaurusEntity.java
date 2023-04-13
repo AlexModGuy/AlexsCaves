@@ -21,7 +21,6 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -125,8 +124,8 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         if (screenShakeAmount > 0) {
             screenShakeAmount = Math.max(0, screenShakeAmount - 0.34F);
         }
-        if (this.isOnGround() && !this.isInFluidType() && animationSpeed > 0.1F && !this.isBaby()) {
-            float f = (float) Math.cos(animationPosition * 0.8F - 1.5F);
+        if (this.isOnGround() && !this.isInFluidType() && this.walkAnimation.speed() > 0.1F && !this.isBaby()) {
+            float f = (float) Math.cos(this.walkAnimation.position() * 0.8F - 1.5F);
             if (Math.abs(f) < 0.2) {
                 if (screenShakeAmount <= 0.3) {
                     this.playSound(SoundEvents.PACKED_MUD_STEP, 8, 0.5F);
@@ -173,7 +172,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
                     Vec3 minus = new Vec3(shakePreyPos.x - this.getTarget().getX(), shakePreyPos.y - this.getTarget().getY(), shakePreyPos.z - this.getTarget().getZ());
                     target.setDeltaMovement(minus);
                     if (this.getAnimationTick() % 10 == 0) {
-                        target.hurt(DamageSource.mobAttack(this), 5 + this.getRandom().nextInt(2));
+                        target.hurt(damageSources().mobAttack(this), 5 + this.getRandom().nextInt(2));
                     }
                     held = true;
                     this.setHeldMobId(target.getId());
@@ -327,17 +326,10 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         return this.isBaby() ? 0.25F : 1.0F;
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d2 * d2) * (isRunning() ? 2.0F : 4.0F);
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float)Mth.length(this.getX() - this.xo, 0, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * (isRunning() ? 2.0F : 4.0F), 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
     }
 
     public void playAmbientSound() {

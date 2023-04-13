@@ -21,7 +21,8 @@
     "client.GameRendererMixin",
     "client.ItemInHandRendererMixin",
     "client.LevelRendererMixin",
-    "client.LightTextureMixin"
+    "client.LightTextureMixin",
+    "client.LiquidBlockRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

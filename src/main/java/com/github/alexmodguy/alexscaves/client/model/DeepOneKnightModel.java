@@ -385,9 +385,10 @@ public class DeepOneKnightModel extends AdvancedEntityModel<DeepOneKnightEntity>
         body.translateAndRotate(poseStack);
         if (arm == HumanoidArm.RIGHT) {
             rarm.translateAndRotate(poseStack);
+            poseStack.translate(-0.1F, 0.7F, -0.2F);
         } else {
             larm.translateAndRotate(poseStack);
+            poseStack.translate(0.1F, 0.7F, -0.2F);
         }
-        poseStack.translate(0, 0.65F, 0.1F);
     }
 }

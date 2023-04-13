@@ -237,6 +237,11 @@ public class DeepOneMageModel extends AdvancedEntityModel<DeepOneMageEntity> imp
         animator.rotate(body, (float) Math.toRadians(5), 0, (float) Math.toRadians(5));
         animatePose(1);
         animator.endKeyframe();
+        animator.startKeyframe(5);
+        animator.rotate(body, (float) Math.toRadians(-6), 0, 0);
+        animator.rotate(bigTentacleleftArm, 0, (float) Math.toRadians(90), (float) Math.toRadians(-55));
+        animator.rotate(bigTentaclerightArm, 0, (float) Math.toRadians(-90), (float) Math.toRadians(55));
+        animator.endKeyframe();
         animator.resetKeyframe(10);
     }
 

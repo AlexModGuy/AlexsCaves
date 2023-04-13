@@ -61,7 +61,7 @@ public abstract class AbstractMovingBlockEntity extends Entity {
                 placementCooldown--;
             } else {
                 boolean clearance = true;
-                BlockPos pos = new BlockPos(this.getX(), this.getY(), this.getZ());
+                BlockPos pos = BlockPos.containing(this.getX(), this.getY(), this.getZ());
                 for (MovingBlockData dataBlock : this.getData()) {
                     BlockPos set = pos.offset(dataBlock.getOffset());
                     BlockState at = level.getBlockState(set);

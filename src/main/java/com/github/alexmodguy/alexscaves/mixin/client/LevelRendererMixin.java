@@ -4,22 +4,21 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.block.EnergizedGalenaBlock;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
@@ -137,30 +136,7 @@ public abstract class LevelRendererMixin {
             return;
         runnable.run();
         if (!b) {
-            FogType fogtype = camera.getFluidInCamera();
-            if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !this.doesMobEffectBlockSky(camera)) {
-                RenderSystem.disableTexture();
-                Vec3 vec3 = CubicSampler.gaussianSampleVec3(this.minecraft.player.position(), (x, y, z) -> {
-                    return Vec3.fromRGB24((this.minecraft.player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getSkyColor()));
-                });
-                float f = (float) vec3.x;
-                float f1 = (float) vec3.y;
-                float f2 = (float) vec3.z;
-                FogRenderer.levelFogColor();
-                BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-                RenderSystem.depthMask(false);
-                RenderSystem.setShaderColor(f, f1, f2, progress);
-                ShaderInstance shaderinstance = RenderSystem.getShader();
-                this.skyBuffer.bind();
-                this.skyBuffer.drawWithShader(poseStack.last().pose(), matrix4f1, shaderinstance);
-                VertexBuffer.unbind();
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.disableTexture();
-                RenderSystem.setShaderColor(f, f1, f2, progress);
-                RenderSystem.enableTexture();
-                RenderSystem.depthMask(true);
-            }
+            //possibly reimplement if needed
         }
     }
 

@@ -7,7 +7,6 @@ import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
@@ -54,7 +53,7 @@ public class CinderBrickEntity extends ThrowableItemProjectile {
 
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
-        hitResult.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 2.0F + random.nextInt(2));
+        hitResult.getEntity().hurt(damageSources().thrown(this, this.getOwner()), 2.0F + random.nextInt(2));
     }
 
     protected void onHit(HitResult hitResult) {

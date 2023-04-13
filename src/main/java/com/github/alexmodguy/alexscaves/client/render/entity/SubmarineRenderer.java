@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.joml.Matrix3f;
@@ -110,27 +111,28 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
             MODEL.setupWaterMask(entity, partialTicks);
             MODEL.getWaterMask().render(poseStack, waterMask, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
-        if (!isFirstPersonFloodlightsMode(entity) && entity.getWaterHeight() > 1.3F && entity.areLightsOn() && entity.isVehicle()) {
+        if (!isFirstPersonFloodlightsMode(entity)  && entity.areLightsOn() && entity.isVehicle()) {
             Entity first = entity.getFirstPassenger();
             float xRot = 0;
             float yRot = 0;
             if (first instanceof Player firstPlayer) {
-                float headYaw = -(firstPlayer.yHeadRotO + (firstPlayer.getYHeadRot() - firstPlayer.yHeadRotO) * partialTicks);
-                yRot = (headYaw + (submarineYaw));
+                float headYaw = (firstPlayer.yHeadRotO + (firstPlayer.getYHeadRot() - firstPlayer.yHeadRotO) * partialTicks);
                 xRot = firstPlayer.getViewXRot(partialTicks) + submarinePitch;
+                yRot = Mth.approachDegrees(submarineYaw, headYaw, 60);
             }
             float length = 4.5F;
             float width = 0.45F;
             poseStack.pushPose();
             poseStack.translate(0, 0.75F, -2.4F);
-            poseStack.mulPose(Axis.YN.rotationDegrees(yRot));
+            poseStack.mulPose(Axis.YN.rotationDegrees(submarineYaw));
+            poseStack.mulPose(Axis.YP.rotationDegrees(yRot));
             poseStack.mulPose(Axis.XN.rotationDegrees(90 - xRot));
             poseStack.scale(3, 1, 1);
             poseStack.translate(0, -1, 0F);
             PoseStack.Pose posestack$pose = poseStack.last();
             Matrix4f matrix4f1 = posestack$pose.pose();
             Matrix3f matrix3f1 = posestack$pose.normal();
-            VertexConsumer lightConsumer = source.getBuffer(ACRenderTypes.getAmbersolShine());
+            VertexConsumer lightConsumer = source.getBuffer(ACRenderTypes.getSubmarineLights());
             shineOriginVertex(lightConsumer, matrix4f1, matrix3f1, 0, 0);
             shineLeftCornerVertex(lightConsumer, matrix4f1, matrix3f1, length, width, 0, 0);
             shineRightCornerVertex(lightConsumer, matrix4f1, matrix3f1, length, width, 0, 0);

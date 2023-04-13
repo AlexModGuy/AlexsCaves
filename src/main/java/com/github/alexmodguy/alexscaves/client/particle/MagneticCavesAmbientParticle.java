@@ -46,7 +46,7 @@ public class MagneticCavesAmbientParticle extends Particle {
     }
 
     public static Vec3 getStartPosition(ClientLevel level, boolean goUp, double x, double y, double z) {
-        BlockPos pos = new BlockPos(x, y, z);
+        BlockPos pos = BlockPos.containing(x, y, z);
         if (goUp) {
             while (pos.getY() < level.getMaxBuildHeight() && level.getBlockState(pos).isAir()) {
                 pos = pos.above();

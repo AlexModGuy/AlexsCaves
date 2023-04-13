@@ -35,8 +35,8 @@ public class WaveRenderer extends EntityRenderer<WaveEntity> {
         matrixStackIn.translate(0.0D, (double)1.5F, 0.0D);
         matrixStackIn.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entityIn.yRotO, entityIn.getYRot()) + 180.0F));
         float ageInTicks = entityIn.tickCount + partialTicks;
-        float f = Math.min(ageInTicks, 10) / 10F;
-        matrixStackIn.translate(0.0D, -0.1F + (1 - f) * 1.5, -(double)0.5);
+        float f = ageInTicks / 10F;
+        matrixStackIn.translate(0.0D, -0.1F + (1 - f) * -1, -(double)0.5);
         matrixStackIn.scale(1F, -(0.2F + f * 0.9F), 1F);
         MODEL.setupAnim(entityIn, 0.0F, 0.0F, ageInTicks, 0.0F, 0.0F);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getWaveTexture(entityIn.tickCount)));

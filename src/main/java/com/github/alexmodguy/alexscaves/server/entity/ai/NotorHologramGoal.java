@@ -98,7 +98,7 @@ public class NotorHologramGoal extends Goal {
                     if(notor.getHologramPos() == null){
                         BlockPos set = monster.blockPosition();
                         for(int i = 0; i < 15; i++){
-                            BlockPos holoPos = monster.blockPosition().offset(notor.getRandom().nextInt(10) - 5, monster.getBbHeight() + 3, notor.getRandom().nextInt(10) - 5);
+                            BlockPos holoPos = monster.blockPosition().offset(notor.getRandom().nextInt(10) - 5, (int) (monster.getBbHeight() + 3), notor.getRandom().nextInt(10) - 5);
                             while(notor.level.isEmptyBlock(holoPos) && holoPos.getY() > notor.level.getMinBuildHeight()){
                                 holoPos = holoPos.below();
                             }

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.AbyssalAltarBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
@@ -33,6 +34,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -58,13 +60,20 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     private float fishPitch = 0;
     private float prevFishPitch = 0;
     private Player corneringPlayer;
-
     private int tradingLockedTime = 0;
     private Animation currentAnimation;
     private int animationTick;
     private static final EntityDataAccessor<Boolean> SWIMMING = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Optional<BlockPos>> ALTAR_POS = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
+    private static final EntityDataAccessor<Boolean> SUMMONED = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> SUMMON_TIME = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.INT);
+
+    private UUID summonerUUID = null;
     private ItemStack swappedItem = ItemStack.EMPTY;
+    private float summonedProgress = 0;
+    private float prevSummonedProgress = 0;
+
+    private boolean spawnedLootItem = false;
 
     protected final Predicate<LivingEntity> playerTargetPredicate = (player) -> {
         return player instanceof Player && DeepOneBaseEntity.this.getReactionTo((Player) player) == DeepOneReaction.AGGRESSIVE;
@@ -81,6 +90,8 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(SWIMMING, false);
+        this.entityData.define(SUMMONED, false);
+        this.entityData.define(SUMMON_TIME, 0);
         this.entityData.define(ALTAR_POS, Optional.empty());
     }
 
@@ -105,7 +116,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             return false;
         } else {
             boolean flag = level.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(level, blockPos, randomSource) && (mobSpawnType == MobSpawnType.SPAWNER || level.getFluidState(blockPos).is(FluidTags.WATER));
-            return randomSource.nextInt(100) == 0 && blockPos.getY() < level.getSeaLevel() - 80 && flag;
+            return randomSource.nextInt(110) == 0 && blockPos.getY() < level.getSeaLevel() - 80 && flag;
         }
     }
 
@@ -124,6 +135,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     public void tick() {
         super.tick();
         prevFishPitch = fishPitch;
+        prevSummonedProgress = summonedProgress;
         boolean water = this.isInWaterOrBubble();
         if (water && this.isLandNavigator) {
             switchNavigator(false);
@@ -139,6 +151,35 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             }
         } else {
             pitchTarget = 0;
+        }
+        if(isSummoned()){
+            if(this.getSummonTime() > 0){
+                if(summonedProgress < 20.0F){
+                    if(summonedProgress == 0 && !level.isClientSide){
+                        this.level.broadcastEntityEvent(this, (byte) 61);
+                    }
+                    summonedProgress++;
+                }
+            }else{
+                if(summonedProgress > 0.0F){
+                    summonedProgress--;
+                }
+            }
+            if(!level.isClientSide){
+                if(getSummonTime() > 0){
+                    setSummonTime(getSummonTime() - 1);
+                    if(getSummonTime() == 0){
+                        this.level.broadcastEntityEvent(this, (byte) 61);
+                    }
+                }else{
+                    if(this.summonedProgress <= 0){
+                        this.remove(RemovalReason.DISCARDED);
+                    }
+                }
+            }
+        }
+        if(!isSummoned() && summonedProgress > 0.0F){
+            summonedProgress--;
         }
         if (hasSwimmingBoundingBox()) {
             if (!hasSwimmingSize) {
@@ -159,21 +200,32 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             if (altarPos != null) {
                 Vec3 center = Vec3.atCenterOf(altarPos);
                 if(this.getAnimationTick() > getTradingAnimation().getDuration() - 10){
-                    if (level.getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar) {
+                    if (level.getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar && !spawnedLootItem) {
                         List<ItemStack> possibles = generateBarterLoot();
                         ItemStack stack = possibles.isEmpty() ? ItemStack.EMPTY : possibles.get(0);
-                        altar.setItem(0, stack);
-                        this.level.broadcastEntityEvent(this, (byte) 62);
-                        altar.onEntityInteract(this, false);
+                        if(altar.getItem(0).isEmpty()){
+                            altar.setItem(0, stack);
+                            this.level.broadcastEntityEvent(this, (byte) 68);
+                            altar.onEntityInteract(this, false);
+                        }else{
+                            Vec3 vec3 = center.add(0, 0.5F, 0);
+                            ItemEntity itemEntity = new ItemEntity(level, vec3.x, vec3.y, vec3.z, stack);
+                            level.addFreshEntity(itemEntity);
+                        }
+                        spawnedLootItem = true;
                     }
                     restoreSwappedItem();
                 }
                 this.lookAt(EntityAnchorArgument.Anchor.EYES, center);
             }
         }
+        if(spawnedLootItem && this.getAnimation() != getTradingAnimation()){
+            spawnedLootItem = false;
+        }
         fishPitch = Mth.approachDegrees(fishPitch, Mth.clamp((float) pitchTarget, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI), 5);
         AnimationHandler.INSTANCE.updateAnimations(this);
     }
+
 
     private List<ItemStack> generateBarterLoot() {
         LootTable loottable = this.level.getServer().getLootTables().get(getBarterLootTable());
@@ -206,6 +258,23 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         return this.entityData.get(ALTAR_POS).orElse(null);
     }
 
+    public boolean isSummoned() {
+        return this.entityData.get(SUMMONED);
+    }
+
+    public void setSummoned(boolean bool) {
+        this.entityData.set(SUMMONED, bool);
+    }
+
+
+    private int getSummonTime() {
+        return this.entityData.get(SUMMON_TIME);
+    }
+
+    private void setSummonTime(int i) {
+        this.entityData.set(SUMMON_TIME, i);
+    }
+
     public void setLastAltarPos(BlockPos lastAltarPos) {
         this.entityData.set(ALTAR_POS, Optional.ofNullable(lastAltarPos));
     }
@@ -221,6 +290,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         if (!swappedItem.isEmpty()) {
             compound.put("SwappedItem", swappedItem.save(new CompoundTag()));
         }
+        compound.putBoolean("ConchSummoned", this.isSummoned());
+        if(summonerUUID != null){
+            compound.putUUID("ConchUUID", summonerUUID);
+            compound.putInt("ConchTime", getSummonTime());
+        }
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -231,15 +305,22 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         if (compound.contains("SwappedWeapon")) {
             swappedItem = ItemStack.of(compound.getCompound("SwappedWeapon"));
         }
+        this.setSummoned(compound.getBoolean("ConchSummoned"));
+        if(compound.contains("ConchUUID")){
+            this.summonerUUID = compound.getUUID("ConchUUID");
+            this.setSummonTime(compound.getInt("ConchTime"));
+        }
     }
 
     public void handleEntityEvent(byte b) {
-        if (b == 62) {
+        if (b == 61) {
+            this.level.addParticle(ACParticleRegistry.BIG_SPLASH.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getBbWidth() + 0.2F, 3, 0);
+        } else if (b == 68) {
             BlockPos pos = getLastAltarPos();
             if (pos != null && level.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {
                 altarBlockEntity.onEntityInteract(this, false);
             }
-        } else if (b == 63) {
+        } else if (b == 69) {
             BlockPos pos = getLastAltarPos();
             if (pos != null && level.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {
                 altarBlockEntity.onEntityInteract(this, true);
@@ -248,6 +329,16 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         } else {
             super.handleEntityEvent(b);
         }
+    }
+
+    public void setSummonedBy(LivingEntity player, int time){
+        this.setSummoned(true);
+        summonerUUID = player.getUUID();
+        setSummonTime(time);
+    }
+
+    public boolean isEffectiveAi() {
+        return super.isEffectiveAi() && (!this.isSummoned() || summonedProgress >= 20.0F);
     }
 
     public void travel(Vec3 travelVector) {
@@ -287,6 +378,9 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     }
 
     public DeepOneReaction getReactionTo(Player player) {
+        if(isSummoned() && summonerUUID != null && summonerUUID.equals(player.getUUID())){
+            return DeepOneReaction.HELPFUL;
+        }
         return DeepOneReaction.fromReputation(getReputationOf(player.getUUID()));
     }
 
@@ -342,20 +436,13 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         return corneringPlayer;
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
+    public void calculateEntityAnimation(boolean flying) {
         if (isDeepOneSwimming()) {
-            living.animationSpeedOld = living.animationSpeed;
-            double d0 = living.getX() - living.xo;
-            double d1 = living.getY() - living.yo;
-            double d2 = living.getZ() - living.zo;
-            float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 6.0F;
-            if (f > 1.0F) {
-                f = 1.0F;
-            }
-            living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-            living.animationPosition += living.animationSpeed;
+            float f1 = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+            float f2 = Math.min(f1 * 6.0F, 1.0F);
+            this.walkAnimation.update(f2, 0.4F);
         } else {
-            super.calculateEntityAnimation(living, flying);
+            super.calculateEntityAnimation(flying);
         }
     }
 
@@ -363,9 +450,9 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     public boolean hurt(DamageSource damageSource, float damageValue) {
         boolean sup = super.hurt(damageSource, damageValue);
         if (sup && damageSource.getEntity() instanceof Player player && !level.isClientSide) {
-            int decrease = getReactionTo(player) == DeepOneReaction.HELPFUL ? -2 : -5;
+            int decrease = -5;
             if (!this.isAlive()) {
-                decrease *= 5;
+                decrease = -15;
             }
             this.addReputation(player.getUUID(), decrease);
         }
@@ -421,17 +508,27 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     protected void checkAndDealMeleeDamage(LivingEntity target, float multiplier, float knockback) {
         if (this.hasLineOfSight(target) && this.distanceTo(target) < this.getBbWidth() + target.getBbWidth() + 5.0D) {
             float f = (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * multiplier;
-            target.hurt(DamageSource.mobAttack(this), f);
+            target.hurt(damageSources().mobAttack(this), f);
             target.knockback(knockback * multiplier, this.getX() - target.getX(), this.getZ() - target.getZ());
             Entity entity = target.getVehicle();
             if (entity != null) {
                 entity.setDeltaMovement(target.getDeltaMovement());
-                entity.hurt(DamageSource.mobAttack(this), f);
+                entity.hurt(damageSources().mobAttack(this), f);
             }
         }
     }
 
     public abstract Animation getTradingAnimation();
+
+    public boolean isAlliedTo(Entity entityIn) {
+        if(entityIn instanceof DeepOneBaseEntity){
+            return true;
+        }else if (entityIn instanceof Player) {
+            return getReactionTo((Player) entityIn) == DeepOneReaction.HELPFUL || super.isAlliedTo(entityIn);
+        }else{
+            return super.isAlliedTo(entityIn);
+        }
+    }
 
     public void swapItemsForAnimation(ItemStack item) {
         if (!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
@@ -443,6 +540,26 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     public void restoreSwappedItem() {
         this.setItemInHand(InteractionHand.MAIN_HAND, swappedItem);
+    }
+
+    public float getSummonProgress(float partialTicks) {
+        return (prevSummonedProgress + (summonedProgress - prevSummonedProgress) * partialTicks) / 20F;
+    }
+
+    public void copyTarget(LivingEntity player) {
+        LivingEntity priorTarget = this.getTarget();
+        if(priorTarget == null || !priorTarget.isAlive()){
+            LivingEntity target = null;
+            if(player.getLastHurtMob() != null){
+                target = player.getLastHurtMob();
+            }else if(player.getLastHurtByMob() != null){
+                target = player.getLastHurtByMob();
+            }
+            if(target != null && target.isAlive() && !target.isAlliedTo(player) && !target.isAlliedTo(this) && !(target instanceof DeepOneBaseEntity)){
+                this.setTarget(target);
+            }
+        }
+
     }
 
     public class HurtByHostileTargetGoal extends HurtByTargetGoal {
@@ -510,7 +627,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             if (isDeepOneSwimming() || !DeepOneBaseEntity.this.isInWaterOrBubble()) {
                 return super.getGroundY(vec3);
             } else {
-                BlockPos blockpos = new BlockPos(vec3);
+                BlockPos blockpos = BlockPos.containing(vec3);
                 return this.level.getFluidState(blockpos.below()).isEmpty() ? vec3.y : WalkNodeEvaluator.getFloorLevel(this.level, blockpos);
             }
         }

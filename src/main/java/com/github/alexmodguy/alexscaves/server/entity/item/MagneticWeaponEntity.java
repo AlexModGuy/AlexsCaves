@@ -11,7 +11,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -102,7 +101,7 @@ public class MagneticWeaponEntity extends Entity {
                     if (strikeProgress < 1F) {
                         strikeProgress = Math.max(0, strikeProgress + 0.35F);
                     } else {
-                        target.hurt(DamageSource.mobAttack(teletor), (float) getDamageForItem(this.getItemStack()));
+                        target.hurt(damageSources().mobAttack(teletor), (float) getDamageForItem(this.getItemStack()));
                         for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(this.getItemStack()).entrySet()) {
                             entry.getKey().doPostHurt(teletor, target, entry.getValue());
                             entry.getKey().doPostAttack(teletor, target, entry.getValue());

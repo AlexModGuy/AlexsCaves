@@ -1,0 +1,28 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "alexscaves:item/magic_conch"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ -40, 55, 0 ],
+            "translation": [ -1, 2, 0 ],
+            "scale": [ 0.55, 0.55, 0.55 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ -40, -125, 0 ],
+            "translation": [ -1, 2, 0 ],
+            "scale": [ 0.55, 0.55, 0.55 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 10, 95, 5 ],
+            "translation": [ 3, 4.5, -4.5 ],
+            "scale": [ 0.68, 0.68, 0.68 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 10, -35, -5 ],
+            "translation": [ 2  , 4.5, -4.5 ],
+            "scale": [ 0.68, 0.68, 0.68 ]
+        }
+    }
+}

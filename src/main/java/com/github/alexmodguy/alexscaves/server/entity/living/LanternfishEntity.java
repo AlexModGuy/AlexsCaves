@@ -17,7 +17,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -170,24 +169,17 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
             this.setAirSupply(prevAir - 1);
             if (this.getAirSupply() == -20) {
                 this.setAirSupply(0);
-                this.hurt(DamageSource.DROWN, 2.0F);
+                this.hurt(damageSources().dryOut(), 2.0F);
             }
         } else {
             this.setAirSupply(200);
         }
     }
 
-    public void calculateEntityAnimation(LivingEntity living, boolean flying) {
-        living.animationSpeedOld = living.animationSpeed;
-        double d0 = living.getX() - living.xo;
-        double d1 = living.getY() - living.yo;
-        double d2 = living.getZ() - living.zo;
-        float f = (float) Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2) * 10.0F;
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-        living.animationSpeed += (f - living.animationSpeed) * 0.4F;
-        living.animationPosition += living.animationSpeed;
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f2 = Math.min(f1 * 10.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
     }
 
     public float getLandProgress(float partialTicks) {
@@ -292,7 +284,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
     }
 
     public static boolean checkLanternfishSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel();
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 30;
     }
 
     public void moveToGroupLeader() {
@@ -304,7 +296,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > 1){
+        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
             down = down.below();
         }
         this.setPos(down.getX() + 0.5F, down.getY() + 2, down.getZ() + 0.5F);
