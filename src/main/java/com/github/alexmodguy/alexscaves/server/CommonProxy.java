@@ -6,6 +6,8 @@ import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -16,15 +18,21 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -49,16 +57,16 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void resizeEntity(EntityEvent.Size event) {
-        if(event.getEntity() instanceof MagneticEntityAccessor magnet && event.getEntity().getEntityData().isDirty()){
+        if (event.getEntity() instanceof MagneticEntityAccessor magnet && event.getEntity().getEntityData().isDirty()) {
             Direction dir = magnet.getMagneticAttachmentFace();
             float defaultHeight = event.getEntity().getDimensions(Pose.STANDING).height;
             float defaultWidth = event.getEntity().getDimensions(Pose.STANDING).width;
             float defaultEyeHeight = event.getEntity().getEyeHeight(Pose.STANDING);
-            if(dir == Direction.DOWN && event.getEntity() instanceof Player && event.getEntity().getPose() == Pose.STANDING){
+            if (dir == Direction.DOWN && event.getEntity() instanceof Player && event.getEntity().getPose() == Pose.STANDING) {
                 event.setNewEyeHeight(defaultEyeHeight);
-            }else if(dir == Direction.UP){
+            } else if (dir == Direction.UP) {
                 event.setNewEyeHeight(defaultHeight - defaultEyeHeight);
-            }else if(dir.getAxis() != Direction.Axis.Y){
+            } else if (dir.getAxis() != Direction.Axis.Y) {
                 event.setNewEyeHeight(0.0F);
             }
         }
@@ -66,8 +74,8 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void livingDie(LivingDeathEvent event) {
-        if(event.getEntity().getType() == EntityType.MAGMA_CUBE && event.getSource() != null && event.getSource().getEntity() instanceof Frog frog){
-            if(frog.getVariant() == ACFrogRegistry.PRIMORDIAL.get()){
+        if (event.getEntity().getType() == EntityType.MAGMA_CUBE && event.getSource() != null && event.getSource().getEntity() instanceof Frog frog) {
+            if (frog.getVariant() == ACFrogRegistry.PRIMORDIAL.get()) {
                 event.getEntity().spawnAtLocation(new ItemStack(ACBlockRegistry.AMBER.get()));
             }
         }
@@ -75,16 +83,21 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void livingHeal(LivingHealEvent event) {
-        if(event.getEntity().hasEffect(ACEffectRegistry.IRRADIATED.get()) && !event.getEntity().getType().is(ACTagRegistry.RESISTS_RADIATION)){
+        if (event.getEntity().hasEffect(ACEffectRegistry.IRRADIATED.get()) && !event.getEntity().getType().is(ACTagRegistry.RESISTS_RADIATION)) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void livingTick(LivingEvent.LivingTickEvent event) {
-        if(event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()){
+        if (event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()) {
             event.getEntity().removeEffect(ACEffectRegistry.BUBBLED.get());
         }
+        if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get())  && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
+            event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810,  0, false, false, true));
+        }
+        //TODO: figure out why sometimes items are 1 air on the server side for players
+        //System.out.println(event.getEntity().getItemInHand(InteractionHand.MAIN_HAND));
     }
 
     @SubscribeEvent
@@ -93,15 +106,35 @@ public class CommonProxy {
             if (event.getEntity() instanceof Creeper creeper) {
                 creeper.targetSelector.addGoal(3, new AvoidEntityGoal<>(creeper, RaycatEntity.class, 10.0F, 1.0D, 1.2D));
             }
+            if (event.getEntity() instanceof Drowned drowned && drowned.level.getBiome(drowned.blockPosition()).is(ACBiomeRegistry.ABYSSAL_CHASM)) {
+                if(drowned.getItemBySlot(EquipmentSlot.FEET).isEmpty() && drowned.getItemBySlot(EquipmentSlot.LEGS).isEmpty() && drowned.getItemBySlot(EquipmentSlot.CHEST).isEmpty() && drowned.getItemBySlot(EquipmentSlot.HEAD).isEmpty()){
+                    if(drowned.getRandom().nextFloat() < 0.2){
+                        drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ACItemRegistry.DIVING_HELMET.get()));
+                        drowned.setDropChance(EquipmentSlot.HEAD, 0.5F);
+                    }
+                    if(drowned.getRandom().nextFloat() < 0.2){
+                        drowned.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ACItemRegistry.DIVING_CHESTPLATE.get()));
+                        drowned.setDropChance(EquipmentSlot.CHEST, 0.5F);
+                    }
+                    if(drowned.getRandom().nextFloat() < 0.2){
+                        drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ACItemRegistry.DIVING_LEGGINGS.get()));
+                        drowned.setDropChance(EquipmentSlot.LEGS, 0.5F);
+                    }
+                    if(drowned.getRandom().nextFloat() < 0.2){
+                        drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(ACItemRegistry.DIVING_BOOTS.get()));
+                        drowned.setDropChance(EquipmentSlot.FEET, 0.5F);
+                    }
+                }
+            }
         } catch (Exception e) {
             AlexsCaves.LOGGER.warn("Tried to add unique behaviors to vanilla mobs and encountered an error");
         }
     }
 
     @SubscribeEvent
-    public void onReplaceBiome(EventReplaceBiome event){
+    public void onReplaceBiome(EventReplaceBiome event) {
         ResourceKey<Biome> biome = BiomeGenerationConfig.getBiomeForEvent(event);
-        if(biome != null){
+        if (biome != null) {
             event.setResult(Event.Result.ALLOW);
             event.setBiomeToGenerate(event.getBiomeSource().getResourceKeyMap().get(biome));
         }
@@ -109,11 +142,11 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void playerTick(TickEvent.PlayerTickEvent event) {
-        if(!event.player.isCreative()){
-            if(event.player.getItemInHand(InteractionHand.MAIN_HAND).is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)){
+        if (!event.player.isCreative()) {
+            if (event.player.getItemInHand(InteractionHand.MAIN_HAND).is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
                 checkAndDestroyExploitItem(event.player, EquipmentSlot.MAINHAND);
             }
-            if(event.player.getItemInHand(InteractionHand.OFF_HAND).is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)){
+            if (event.player.getItemInHand(InteractionHand.OFF_HAND).is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
                 checkAndDestroyExploitItem(event.player, EquipmentSlot.OFFHAND);
             }
         }
@@ -121,20 +154,20 @@ public class CommonProxy {
 
     private static void checkAndDestroyExploitItem(Player player, EquipmentSlot slot) {
         ItemStack itemInHand = player.getItemBySlot(slot);
-        if(itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)){
+        if (itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
             boolean flag = false;
             CompoundTag tag = itemInHand.getTag();
-            if(tag != null && tag.contains("BiomeKey")){
+            if (tag != null && tag.contains("BiomeKey")) {
                 String biomeKey = tag.getString("BiomeKey");
-                if(biomeKey.contains("alexscaves:")){
+                if (biomeKey.contains("alexscaves:")) {
                     flag = true;
                 }
             }
-            if(flag){
+            if (flag) {
                 itemInHand.shrink(1);
                 player.broadcastBreakEvent(slot);
                 player.playSound(ACSoundRegistry.DISAPPOINTMENT.get());
-                if(!player.level.isClientSide){
+                if (!player.level.isClientSide) {
                     player.displayClientMessage(Component.translatable("item.alexscaves.natures_compass_warning"), true);
                 }
             }
@@ -158,7 +191,7 @@ public class CommonProxy {
         return false;
     }
 
-    public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at){
+    public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at) {
         return false;
     }
 
@@ -169,4 +202,9 @@ public class CommonProxy {
     public Object getISTERProperties() {
         return null;
     }
+
+    public Object getArmorProperties() {
+        return null;
+    }
+
 }

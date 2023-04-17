@@ -59,6 +59,8 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<DeepOneMageEntity>> DEEP_ONE_MAGE = DEF_REG.register("deep_one_mage", () -> (EntityType)EntityType.Builder.of(DeepOneMageEntity::new, MobCategory.MONSTER).sized(1.35F, 2.5F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("deep_one_mage"));
     public static final RegistryObject<EntityType<WaterBoltEntity>> WATER_BOLT = DEF_REG.register("water_bolt", () -> (EntityType)EntityType.Builder.of(WaterBoltEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(WaterBoltEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("water_bolt"));
     public static final RegistryObject<EntityType<WaveEntity>> WAVE = DEF_REG.register("wave", () -> (EntityType)EntityType.Builder.of(WaveEntity::new, MobCategory.MISC).sized(0.9F, 0.9F).setCustomClientFactory(WaveEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("wave"));
+    public static final RegistryObject<EntityType<MineGuardianEntity>> MINE_GUARDIAN = DEF_REG.register("mine_guardian", () -> (EntityType)EntityType.Builder.of(MineGuardianEntity::new, MobCategory.MONSTER).sized(1.3F, 1.3F).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("mine_guardian"));
+    public static final RegistryObject<EntityType<MineGuardianAnchorEntity>> MINE_GUARDIAN_ANCHOR = DEF_REG.register("mine_guardian_anchor", () -> (EntityType)EntityType.Builder.of(MineGuardianAnchorEntity::new, MobCategory.MISC).sized(0.6F, 1.35F).setCustomClientFactory(MineGuardianAnchorEntity::new).build("mine_guardian_anchor"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -87,6 +89,7 @@ public class ACEntityRegistry {
         event.put(DEEP_ONE.get(), DeepOneEntity.createAttributes().build());
         event.put(DEEP_ONE_KNIGHT.get(), DeepOneKnightEntity.createAttributes().build());
         event.put(DEEP_ONE_MAGE.get(), DeepOneMageEntity.createAttributes().build());
+        event.put(MINE_GUARDIAN.get(), MineGuardianEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -116,6 +119,7 @@ public class ACEntityRegistry {
         event.register(DEEP_ONE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(DEEP_ONE_KNIGHT.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(DEEP_ONE_MAGE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(MINE_GUARDIAN.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MineGuardianEntity::checkMineGuardianSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

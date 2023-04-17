@@ -2,11 +2,13 @@ package com.github.alexmodguy.alexscaves.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelShadeLayerFullbright;
+import com.github.alexmodguy.alexscaves.client.model.layered.ACModelLayers;
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
+import com.github.alexmodguy.alexscaves.client.render.item.ACArmorRenderProperties;
 import com.github.alexmodguy.alexscaves.client.render.item.ACItemRenderProperties;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
@@ -94,6 +96,7 @@ public class ClientProxy extends CommonProxy {
     private float nukeFlashAmount = 0;
     public boolean renderNukeSkyDark = false;
     private final ACItemRenderProperties isterProperties = new ACItemRenderProperties();
+    private final ACArmorRenderProperties armorProperties = new ACArmorRenderProperties();
 
     public void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -151,6 +154,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.DEEP_ONE_MAGE.get(), DeepOneMageRenderer::new);
         EntityRenderers.register(ACEntityRegistry.WATER_BOLT.get(), WaterBoltRenderer::new);
         EntityRenderers.register(ACEntityRegistry.WAVE.get(), WaveRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.MINE_GUARDIAN.get(), MineGuardianRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.MINE_GUARDIAN_ANCHOR.get(), MineGuardianAnchorRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -199,6 +204,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
         registry.register(ACParticleRegistry.BIG_SPLASH.get(), new BigSplashParticle.Factory());
         registry.register(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), BigSplashEffectParticle.Factory::new);
+        registry.register(ACParticleRegistry.MINE_EXPLOSION.get(), MushroomCloudEffectParticle.MineFactory::new);
     }
 
     @SubscribeEvent
@@ -643,6 +649,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public Object getISTERProperties() {
         return isterProperties;
+    }
+    @Override
+    public Object getArmorProperties() {
+        return armorProperties;
     }
 
     public float getPartialTicks() {

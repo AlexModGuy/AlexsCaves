@@ -361,9 +361,9 @@ public class GossamerWormModel extends AdvancedEntityModel<GossamerWormEntity> {
         double tail5Y = (entity.getTrailTransformation(50, 1, partialTicks)) - defaultY - tail4Y;
 
         head.rotateAngleX += Math.toRadians(fishPitch);
-        segment2.rotateAngleY += Math.toRadians(tail1Y * 1);
-        segment3.rotateAngleY += Math.toRadians(tail2Y * 0.35F);
-        segment4.rotateAngleY += Math.toRadians(tail2Y * 0.35F);
+        segment2.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail1Y) * 1);
+        segment3.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail2Y) * 0.35F);
+        segment4.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail2Y) * 0.35F);
         segment5.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail3Y) * 0.4F);
         segment6.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail4Y) * 0.4F);
         segment7.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail5Y) * 0.4F);

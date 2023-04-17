@@ -1,0 +1,13 @@
+{
+  "type": "alexscaves:deep_one_ruins",
+  "config": {
+    "structures": [
+      "alexscaves:deep_one_ruins_0",
+      "alexscaves:deep_one_ruins_1",
+      "alexscaves:deep_one_ruins_2",
+      "alexscaves:deep_one_ruins_3"
+    ],
+    "chest_loot": "alexscaves:chests/abyssal_ruins",
+    "sink_by": -1
+  }
+}

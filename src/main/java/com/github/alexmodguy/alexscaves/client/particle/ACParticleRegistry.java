@@ -39,4 +39,6 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> BIG_SPLASH = DEF_REG.register("big_splash", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BIG_SPLASH_EFFECT = DEF_REG.register("big_splash_effect", ()-> new SimpleParticleType(false));
 
+    public static final RegistryObject<SimpleParticleType> MINE_EXPLOSION = DEF_REG.register("mine_explosion", ()-> new SimpleParticleType(false));
+
 }

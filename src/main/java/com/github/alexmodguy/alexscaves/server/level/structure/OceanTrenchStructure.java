@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.WorldgenRandom;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
@@ -23,7 +24,7 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
     }
 
     @Override
-    protected StructurePiece createPiece(BlockPos offset, BlockPos center, int heightBlocks, int widthBlocks) {
+    protected StructurePiece createPiece(BlockPos offset, BlockPos center, int heightBlocks, int widthBlocks, RandomState randomState) {
         return new OceanTrenchStructurePiece(offset, center, heightBlocks, widthBlocks);
     }
 
@@ -49,7 +50,7 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
         int widthChunks = (int)Math.ceil((widthBlocks + 16) / 16F / 2F) + 3;
         for(int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++){
             for(int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++){
-                StructurePiece piece = createPiece(center.offset(new BlockPos(chunkX * 16, 0, chunkZ * 16)), center, heightBlocks, widthBlocks);
+                StructurePiece piece = createPiece(center.offset(new BlockPos(chunkX * 16, 0, chunkZ * 16)), center, heightBlocks, widthBlocks, context.randomState());
                 builder.addPiece(piece);
             }
         }

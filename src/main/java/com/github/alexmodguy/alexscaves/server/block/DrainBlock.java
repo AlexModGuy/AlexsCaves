@@ -117,7 +117,7 @@ public class DrainBlock extends AbstractGlassBlock {
         Queue<Tuple<BlockPos, Integer>> queue = Lists.newLinkedList();
         queue.add(new Tuple<>(pos, 0));
         int i = 0;
-        int maxDist = MAX_FLUID_SPREAD + 15;
+        int maxDist = 5;
         while (!queue.isEmpty()) {
             Tuple<BlockPos, Integer> tuple = queue.poll();
             BlockPos blockpos = tuple.getA();
@@ -128,7 +128,7 @@ public class DrainBlock extends AbstractGlassBlock {
             for (Direction direction : FIND_WATER_DIRECTIONS) {
                 BlockPos blockpos1 = blockpos.relative(direction);
                 BlockState blockstate = level.getBlockState(blockpos1);
-                if (!blockstate.getFluidState().isEmpty()) {
+                if (!blockstate.getFluidState().isEmpty() && !(blockstate.getBlock() instanceof SimpleWaterloggedBlock)) {
                     ++i;
                     if (j < maxDist) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
@@ -181,7 +181,7 @@ public class DrainBlock extends AbstractGlassBlock {
             int j = tuple.getB();
             if (!state.getFluidState().isEmpty()) {
                 fullBlocks++;
-                level.setBlock(blockpos, Blocks.AIR.defaultBlockState(), 3);
+                level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
             }
             for (Direction direction : DRAIN_DIRECTIONS) {
                 BlockPos blockpos1 = blockpos.relative(direction);
@@ -197,7 +197,7 @@ public class DrainBlock extends AbstractGlassBlock {
                     }
                     ++i;
                     fullBlocks++;
-                    level.setBlock(blockpos1, blockstate.setValue(BlockStateProperties.WATERLOGGED, false), 3);
+                    level.setBlockAndUpdate(blockpos1, blockstate.setValue(BlockStateProperties.WATERLOGGED, false));
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
@@ -207,7 +207,7 @@ public class DrainBlock extends AbstractGlassBlock {
                     }
                     ++i;
                     fullBlocks++;
-                    level.setBlock(blockpos1, Blocks.AIR.defaultBlockState(), 3);
+                    level.setBlockAndUpdate(blockpos1, Blocks.AIR.defaultBlockState());
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
@@ -215,7 +215,7 @@ public class DrainBlock extends AbstractGlassBlock {
                     if(!fluidstate.isEmpty()){
                         lastFluidState = fluidstate;
                     }
-                    level.setBlock(blockpos1, Blocks.AIR.defaultBlockState(), 3);
+                    level.setBlockAndUpdate(blockpos1, Blocks.AIR.defaultBlockState());
                     ++i;
                     if (blockstate.getFluidState().isSource()) {
                         fullBlocks++;
@@ -232,7 +232,7 @@ public class DrainBlock extends AbstractGlassBlock {
                     if (blockstate.getFluidState().isSource()) {
                         fullBlocks++;
                     }
-                    level.setBlock(blockpos1, Blocks.AIR.defaultBlockState(), 3);
+                    level.setBlockAndUpdate(blockpos1, Blocks.AIR.defaultBlockState());
                     ++i;
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));

@@ -4,8 +4,11 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -13,18 +16,26 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import org.apache.commons.lang3.mutable.MutableBoolean;
+
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePiece {
 
     private BlockState water = Fluids.WATER.defaultFluidState().createLegacyBlock();
+    private static final Direction[] WALL_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public OceanTrenchStructurePiece(BlockPos chunkCorner, BlockPos holeCenter, int bowlHeight, int bowlRadius) {
         super(ACStructurePieceRegistry.OCEAN_TRENCH.get(), chunkCorner, holeCenter, bowlHeight, bowlRadius, -64, 100);
@@ -58,7 +69,6 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                 int priorHeight = getSeafloorHeight(level, carveX, carveZ);
                 float seaFloorExtra = (1.0F + ACMath.sampleNoise2D(carveX - 800, carveZ - 212, 20)) * 5;
                 int minY = (int) (level.getMinBuildHeight() + 2 + seaFloorExtra);
-                carveCliff.set(carveX, holeCenter.getY(), carveZ);
                 for (int y = priorHeight + 3; y >= minY; y--) {
                     carve.set(carveX, Mth.clamp(y, minY, level.getMaxBuildHeight()), carveZ);
                     if(carve.getY() > seaLevel - 2){
@@ -75,14 +85,29 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                             carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
                             doFloor.setTrue();
                             setWater(level, carve, priorHeight);
-
                         }
-                    } else if (carve.getY() < seaLevel && carveCliff.distToLowCornerSqr(holeCenter.getX(), carveCliff.getY(), holeCenter.getZ()) < getRadiusSq(carveCliff) + 4 && !level.getFluidState(carve).is(FluidTags.WATER)) {
-                        surroundTrenchBorder(level, carve, priorHeight);
                     }
                 }
                 if (doFloor.isTrue()) {
-                    surroundTrenchBorder(level, carveBelow, priorHeight);
+                    for(Direction direction : WALL_DIRECTIONS){
+                        carveCliff.set(carveX, carveBelow.getY() + 1, carveZ);
+                        carveCliff.move(direction);
+                        BlockState state = level.getBlockState(carveCliff.atY(holeCenter.getY()));
+                        int wallPriorHeight = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, carveCliff.getX(), carveCliff.getZ());
+                        if(!shouldDig(level, carveCliff, seaLevel, wallPriorHeight) && (!state.getFluidState().is(Fluids.WATER) && !state.is(Blocks.VOID_AIR))){
+                            BlockPos.MutableBlockPos wallPos = new BlockPos.MutableBlockPos(carveCliff.getX(), level.getMinBuildHeight() + 1, carveCliff.getZ());
+                            boolean seaMountBeneath = false;
+                            while(wallPos.getY() < wallPriorHeight - 2){
+                                wallPos.move(0, 1, 0);
+                                if(!seaMountBeneath || !level.getBlockState(wallPos).getFluidState().is(Fluids.WATER)){
+                                    setWallBlock(level, wallPos, wallPriorHeight);
+                                }
+                                if(isSeaMountBlocking(wallPos)){
+                                    seaMountBeneath = true;
+                                }
+                            }
+                        }
+                    }
                     decorateFloor(level, random, carveBelow, seaLevel);
                 }
             }
@@ -105,9 +130,9 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
         return blockState.isAir() || blockState.is(ACTagRegistry.TRENCH_GENERATION_IGNORES) || !blockState.getFluidState().isEmpty() || inFrozenOcean && blockState.is(BlockTags.OVERWORLD_CARVER_REPLACEABLES) && mutableBlockPos.getY() > level.getSeaLevel() - 2;
     }
 
-    private void surroundTrenchBorder(WorldGenLevel level, BlockPos carve, int priorHeight) {
+    private void setWallBlock(WorldGenLevel level, BlockPos carve, int priorHeight) {
         BlockState prior = checkedGetBlock(level, carve);
-        if (!prior.is(Blocks.BEDROCK) && !prior.is(ACBlockRegistry.MUCK.get()) && !isSeaMountBlocking(carve)) {
+        if (!prior.is(Blocks.BEDROCK) && !isSeaMountBlocking(carve)) {
             int dist = priorHeight - carve.getY();
             BlockState toSet;
             int layerOffset = level.getRandom().nextInt(2);
@@ -129,7 +154,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                     }
                 }
             }
-            checkedSetBlock(level, carve, toSet);
+            level.setBlock(carve, toSet, Block.UPDATE_SUPPRESS_LIGHT);
         }
 
     }

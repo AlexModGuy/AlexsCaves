@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.config.ACClientConfig;
+import com.github.alexmodguy.alexscaves.client.model.layered.ACModelLayers;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
@@ -31,6 +32,7 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -86,6 +88,7 @@ public class AlexsCaves {
         modEventBus.addListener(this::loadComplete);
         modEventBus.addListener(this::loadConfig);
         modEventBus.addListener(this::reloadConfig);
+        modEventBus.addListener(this::registerLayerDefinitions);
         modEventBus.addListener(ACCreativeTabs::registerTabs);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PROXY);
@@ -127,6 +130,7 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateEffectVisualityEntity.class, UpdateEffectVisualityEntity::write, UpdateEffectVisualityEntity::read, UpdateEffectVisualityEntity::handle);
         ACSurfaceRules.setup();
         ACEffectRegistry.setup();
+        ACItemRegistry.setup();
         ACBlockEntityRegistry.expandVanillaDefinitions();
     }
 
@@ -150,5 +154,9 @@ public class AlexsCaves {
 
     public static <MSG> void sendNonLocal(MSG msg, ServerPlayer player) {
         NETWORK_WRAPPER.sendTo(msg, player.connection.connection, NetworkDirection.PLAY_TO_CLIENT);
+    }
+
+    private void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
+        ACModelLayers.register(event);
     }
 }

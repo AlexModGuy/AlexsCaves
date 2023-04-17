@@ -64,7 +64,7 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
         for(int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++){
             for(int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++){
                 for(int chunkY = Math.max(-heightChunks, minYChunks); chunkY <= Math.min(heightChunks, maxYChunks); chunkY++){
-                    StructurePiece piece = createPiece(center.offset(new BlockPos(chunkX * 16, chunkY * 16, chunkZ * 16)), center, heightBlocks, widthBlocks);
+                    StructurePiece piece = createPiece(center.offset(new BlockPos(chunkX * 16, chunkY * 16, chunkZ * 16)), center, heightBlocks, widthBlocks, context.randomState());
                     builder.addPiece(piece);
                 }
             }
@@ -79,7 +79,7 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
         return -5;
     }
 
-    protected abstract StructurePiece createPiece(BlockPos offset, BlockPos center, int heightBlocks, int widthBlocks);
+    protected abstract StructurePiece createPiece(BlockPos offset, BlockPos center, int heightBlocks, int widthBlocks, RandomState randomState);
 
     private static Holder<Biome> getBiomeHolder(BiomeSource biomeSource, RandomState randomState, BlockPos pos){
         return biomeSource.getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()), randomState.sampler());

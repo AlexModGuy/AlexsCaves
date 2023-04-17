@@ -16,9 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.*;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class SeaStaffItem extends Item{
@@ -50,9 +48,11 @@ public class SeaStaffItem extends Item{
                     closestValid = entity;
                 }
             } else {
-                for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, player.getBoundingBox().inflate(dist))) {
+                Vec3 at = hitresult.getLocation();
+                AABB around = new AABB(at.add(-0.5F, -0.5F, -0.5F), at.add(0.5F, 0.5F, 0.5F)).inflate(15);
+                for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, around.inflate(dist))) {
                     if (!entity.equals(player) && !player.isAlliedTo(entity) && !entity.isAlliedTo(player) && entity instanceof Mob && player.hasLineOfSight(entity)) {
-                        if (closestValid == null || player.distanceTo(entity) < player.distanceTo(closestValid)) {
+                        if (closestValid == null || entity.distanceToSqr(at) < closestValid.distanceToSqr(at)) {
                             closestValid = entity;
                         }
                     }

@@ -143,11 +143,11 @@ public class GossamerWormEntity extends WaterAnimal {
         for (int j = 0; j < this.allParts.length; ++j) {
             avector3d[j] = new Vec3(this.allParts[j].getX(), this.allParts[j].getY(), this.allParts[j].getZ());
         }
-        this.tail1Part.setToTransformation(new Vec3(0, 0, -1), this.getTrailTransformation(10, 0, 1.0F), this.getTrailTransformation(10, 1, 1.0F));
-        this.tail2Part.setToTransformation(new Vec3(0, 0, -0.9F), this.getTrailTransformation(15, 0, 1.0F), this.getTrailTransformation(15, 1, 1.0F));
-        this.tail3Part.setToTransformation(new Vec3(0, 0, -0.8F), this.getTrailTransformation(20, 0, 1.0F), this.getTrailTransformation(20, 1, 1.0F));
-        this.tail4Part.setToTransformation(new Vec3(0, 0, -0.7F), this.getTrailTransformation(25, 0, 1.0F), this.getTrailTransformation(25, 1, 1.0F));
-        this.tail5Part.setToTransformation(new Vec3(0, 0, -0.6F), this.getTrailTransformation(30, 0, 1.0F), this.getTrailTransformation(30, 1, 1.0F));
+        this.tail1Part.setToTransformation(new Vec3(0, 0, -1), this.getTrailTransformation(5, 0, 1.0F), this.getTrailTransformation(5, 1, 1.0F));
+        this.tail2Part.setToTransformation(new Vec3(0, 0, -0.9F), this.getTrailTransformation(10, 0, 1.0F), this.getTrailTransformation(10, 1, 1.0F));
+        this.tail3Part.setToTransformation(new Vec3(0, 0, -0.8F), this.getTrailTransformation(15, 0, 1.0F), this.getTrailTransformation(15, 1, 1.0F));
+        this.tail4Part.setToTransformation(new Vec3(0, 0, -0.7F), this.getTrailTransformation(20, 0, 1.0F), this.getTrailTransformation(20, 1, 1.0F));
+        this.tail5Part.setToTransformation(new Vec3(0, 0, -0.6F), this.getTrailTransformation(25, 0, 1.0F), this.getTrailTransformation(25, 1, 1.0F));
         for (int l = 0; l < this.allParts.length; ++l) {
             this.allParts[l].xo = avector3d[l].x;
             this.allParts[l].yo = avector3d[l].y;
@@ -211,7 +211,7 @@ public class GossamerWormEntity extends WaterAnimal {
     }
 
     public static boolean checkGossamerWormSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
-        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 25;
+        return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 25 && randomSource.nextInt(3) == 0;
     }
 
     private void doInitialPosing(LevelAccessor world) {

@@ -13,6 +13,7 @@
     "LivingEntityMixin",
     "MultifaceGrowthFeatureMixin",
     "NaturalSpawnerMixin",
+    "OceanMonumentStructureMixin",
     "SeagrassFeatureMixin"
   ],
   "client": [

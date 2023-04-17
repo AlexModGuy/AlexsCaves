@@ -33,4 +33,5 @@ public class ACFeatureRegistry {
     public static final RegistryObject<Feature<AbyssalFloraFeatureConfiguration>> ABYSSAL_FLORA = DEF_REG.register("abyssal_flora", () -> new AbyssalFloraFeature(AbyssalFloraFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> ABYSSAL_BOULDER = DEF_REG.register("abyssal_boulder", () -> new AbyssalBoulderFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> MUSSEL = DEF_REG.register("mussel", () -> new MusselFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<UndergroundRuinsFeatureConfiguration>> DEEP_ONE_RUINS = DEF_REG.register("deep_one_ruins", () -> new DeepOnesRuinsFeature(UndergroundRuinsFeatureConfiguration.CODEC));
 }

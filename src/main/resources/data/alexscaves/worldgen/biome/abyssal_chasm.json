@@ -25,7 +25,9 @@
       "alexscaves:black_vent",
       "alexscaves:whalefall"
     ],
-    [],
+    [
+      "alexscaves:deep_one_ruins"
+    ],
     [],
     [
       "minecraft:ore_dirt",
@@ -81,14 +83,7 @@
   ],
   "spawn_costs": {},
   "spawners": {
-    "ambient": [
-      {
-        "type": "minecraft:bat",
-        "maxCount": 8,
-        "minCount": 8,
-        "weight": 10
-      }
-    ],
+    "ambient": [],
     "axolotls": [],
     "creature": [],
     "misc": [],
@@ -219,7 +214,7 @@
         "type": "alexscaves:gossamer_worm",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 30
+        "weight": 20
       }
     ]
   },

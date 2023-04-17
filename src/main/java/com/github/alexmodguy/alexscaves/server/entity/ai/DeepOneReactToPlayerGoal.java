@@ -18,7 +18,6 @@ import java.util.List;
 public class DeepOneReactToPlayerGoal extends Goal {
     private DeepOneBaseEntity deepOne;
     private Player player;
-
     private DeepOneReaction prevReaction;
     private DeepOneReaction reaction;
     private boolean following = false;
