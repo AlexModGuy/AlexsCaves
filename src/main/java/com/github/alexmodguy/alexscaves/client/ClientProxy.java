@@ -1,8 +1,8 @@
 package com.github.alexmodguy.alexscaves.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.gui.SpelunkeryTableScreen;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelShadeLayerFullbright;
-import com.github.alexmodguy.alexscaves.client.model.layered.ACModelLayers;
 import com.github.alexmodguy.alexscaves.client.particle.*;
 import com.github.alexmodguy.alexscaves.client.render.ACInternalShaders;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.*;
@@ -21,7 +21,9 @@ import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
@@ -35,6 +37,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
@@ -172,6 +175,7 @@ public class ClientProxy extends CommonProxy {
         blockedParticleLocations.clear();
         ACPostEffectRegistry.registerEffect(IRRADIATED_SHADER);
         ACPostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
+        MenuScreens.register(ACMenuRegistry.SPELUNKERY_TABLE_MENU.get(), SpelunkeryTableScreen::new);
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -205,6 +209,13 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.BIG_SPLASH.get(), new BigSplashParticle.Factory());
         registry.register(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), BigSplashEffectParticle.Factory::new);
         registry.register(ACParticleRegistry.MINE_EXPLOSION.get(), MushroomCloudEffectParticle.MineFactory::new);
+    }
+
+    @SubscribeEvent
+    public static void onItemColors(RegisterColorHandlersEvent.Item event) {
+        AlexsCaves.LOGGER.info("loaded in item colorizer");
+        event.register((stack, colorIn) -> colorIn != 1 ? -1 : CaveInfoItem.getBiomeColorOf(Minecraft.getInstance().level, stack), ACItemRegistry.CAVE_TABLET.get());
+        event.register((stack, colorIn) -> colorIn != 1 ? -1 : CaveInfoItem.getBiomeColorOf(Minecraft.getInstance().level, stack), ACItemRegistry.CAVE_CODEX.get());
     }
 
     @SubscribeEvent

@@ -101,7 +101,7 @@ public abstract class ItemInHandRendererMixin {
         vertexconsumer.vertex(matrix4f, 135.0F, 135.0F, 0.0F).color(255, 255, 255, 255).uv(1.0F, 1.0F).uv2(light).endVertex();
         vertexconsumer.vertex(matrix4f, 135.0F, -7.0F, 0.0F).color(255, 255, 255, 255).uv(1.0F, 0.0F).uv2(light).endVertex();
         vertexconsumer.vertex(matrix4f, -7.0F, -7.0F, 0.0F).color(255, 255, 255, 255).uv(0.0F, 0.0F).uv2(light).endVertex();
-        CaveMapRenderer.getMapFor(map).render(poseStack, multiBufferSource, map, false, light);
+        CaveMapRenderer.getMapFor(map, true).render(poseStack, multiBufferSource, map, false, light);
 
     }
 

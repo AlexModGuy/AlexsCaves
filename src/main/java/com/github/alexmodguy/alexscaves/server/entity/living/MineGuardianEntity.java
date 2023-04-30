@@ -1,9 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerInspectMobGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerMeleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.RandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.entity.item.MineGuardianAnchorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MineExplosion;
@@ -26,19 +23,20 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
-import net.minecraft.world.entity.animal.TropicalFish;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraft.world.phys.*;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
@@ -238,7 +236,7 @@ public class MineGuardianEntity extends Monster {
                             AABB around = new AABB(hitresult.getLocation().add(-0.5F, -0.5F, -0.5F), hitresult.getLocation().add(0.5F, 0.5F, 0.5F)).inflate(3);
                             for (Entity inSight : level.getEntitiesOfClass(LivingEntity.class, around)) {
                                 if (!inSight.equals(this) && !inSight.isAlliedTo(this) && !this.isAlliedTo(inSight) && this.hasLineOfSight(inSight)) {
-                                    if (found == null && isValidTarget(inSight) || isValidTarget(inSight) && inSight.distanceTo(this) < found.distanceTo(this)) {
+                                    if (found == null && isValidTarget(inSight) || found != null && isValidTarget(inSight) && inSight.distanceTo(this) < found.distanceTo(this)) {
                                         found = inSight;
                                     }
                                 }

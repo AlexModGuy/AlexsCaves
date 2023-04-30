@@ -39,7 +39,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'prealpha-0.5.0'
+version = 'prealpha-0.5.1'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 
@@ -116,7 +116,9 @@ dependencies {
     compileOnly fg.deobf("curse.maven:citadel-331936:4473245")
     runtimeOnly fg.deobf("curse.maven:citadel-331936:4473245")
     runtimeOnly fg.deobf("curse.maven:spark-361579:4443553")
-//    runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
 //    runtimeOnly fg.deobf("curse.maven:naturescompass-252848:4175025")
 }
 

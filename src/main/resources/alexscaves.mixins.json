@@ -20,6 +20,7 @@
     "client.CameraMixin",
     "client.ClientPacketListenerMixin",
     "client.GameRendererMixin",
+    "client.ItemFrameRendererMixin",
     "client.ItemInHandRendererMixin",
     "client.LevelRendererMixin",
     "client.LightTextureMixin",

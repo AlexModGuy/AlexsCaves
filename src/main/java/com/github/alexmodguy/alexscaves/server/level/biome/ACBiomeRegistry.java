@@ -23,57 +23,73 @@ public class ACBiomeRegistry {
         ExpandedBiomes.addExpandedBiome(TOXIC_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(ABYSSAL_CHASM, LevelStem.OVERWORLD);
     }
+
     public static float getBiomeAmbientLight(Holder<Biome> value) {
-        if(value.is(PRIMORDIAL_CAVES)){
+        if (value.is(PRIMORDIAL_CAVES)) {
             return 0.125F;
         }
-        if(value.is(TOXIC_CAVES)){
+        if (value.is(TOXIC_CAVES)) {
             return 0.01F;
         }
         return 0.0F;
     }
 
     public static float getBiomeFogNearness(Holder<Biome> value) {
-        if(value.is(PRIMORDIAL_CAVES)){
+        if (value.is(PRIMORDIAL_CAVES)) {
             return 0.5F;
         }
-        if(value.is(TOXIC_CAVES)){
+        if (value.is(TOXIC_CAVES)) {
             return -0.15F;
         }
-        if(value.is(ABYSSAL_CHASM)){
+        if (value.is(ABYSSAL_CHASM)) {
             return -0.2F;
         }
         return 1.0F;
     }
 
     public static float getBiomeWaterFogFarness(Holder<Biome> value) {
-        if(value.is(ABYSSAL_CHASM)){
+        if (value.is(ABYSSAL_CHASM)) {
             return 0.5F;
         }
         return 1.0F;
     }
 
     public static float getBiomeSkyOverride(Holder<Biome> value) {
-        if(value.is(PRIMORDIAL_CAVES)){
+        if (value.is(PRIMORDIAL_CAVES)) {
             return 1.0F;
         }
-        if(value.is(TOXIC_CAVES)){
+        if (value.is(TOXIC_CAVES)) {
             return 1.0F;
         }
-        if(value.is(ABYSSAL_CHASM)){
+        if (value.is(ABYSSAL_CHASM)) {
             return 1.0F;
         }
         return 0.0F;
     }
 
     public static Vec3 getBiomeLightColorOverride(Holder<Biome> value) {
-        if(value.is(TOXIC_CAVES)){
+        if (value.is(TOXIC_CAVES)) {
             return new Vec3(0.5, 1.5, 0.5);
         }
-        if(value.is(ABYSSAL_CHASM)){
+        if (value.is(ABYSSAL_CHASM)) {
             return new Vec3(0.5, 0.5, 1);
         }
         return ONE;
     }
 
+    public static int getBiomeTabletColor(ResourceKey<Biome> value) {
+        if (value.equals(MAGNETIC_CAVES)) {
+            return 0X392447;
+        }
+        if (value.equals(PRIMORDIAL_CAVES)) {
+            return 0XFCBA00;
+        }
+        if (value.equals(TOXIC_CAVES)) {
+            return 0X6ACA04;
+        }
+        if (value.equals(ABYSSAL_CHASM)) {
+            return 0X1919AC;
+        }
+        return -1;
+    }
 }

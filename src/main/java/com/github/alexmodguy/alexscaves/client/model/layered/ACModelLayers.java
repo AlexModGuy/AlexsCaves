@@ -1,10 +1,8 @@
 package com.github.alexmodguy.alexscaves.client.model.layered;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
-import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 

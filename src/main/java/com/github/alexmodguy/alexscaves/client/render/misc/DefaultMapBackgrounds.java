@@ -10,18 +10,48 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class DefaultMapBackgrounds {
-    private static final ResourceLocation MAGNETIC_CAVES_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/magnetic_caves_background.png");
-    private static final ResourceLocation PRIMORDIAL_CAVES_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/primordial_caves_background.png");
-    private static final ResourceLocation TOXIC_CAVES_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/toxic_caves_background.png");
-    private static final ResourceLocation ABYSSAL_CHASM_BG = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/abyssal_chasm_background.png");
+public enum DefaultMapBackgrounds {
+
+    DEFAULT,
+    BORDER,
+    WATER,
+    FROZEN_OCEAN,
+    PLAINS,
+    DESERT,
+    FOREST,
+    JUNGLE,
+    TAIGA,
+    SNOWY,
+    SNOWY_TAIGA,
+    BADLANDS,
+    MOUNTAIN,
+    SNOWY_MOUNTAIN,
+    ROOFED_FOREST,
+    MUSHROOM,
+    SWAMP,
+    SAVANNA,
+    ICE_SPIKES,
+    BEACH,
+    STONY_SHORE,
+    DRIPSTONE_CAVES,
+    LUSH_CAVES,
+    DEEP_DARK,
+    MAGNETIC_CAVES,
+    PRIMORDIAL_CAVES,
+    TOXIC_CAVES,
+    ABYSSAL_CHASM;
+
+    private ResourceLocation texture;
+
+    private DefaultMapBackgrounds(){
+        texture = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/" + this.name().toLowerCase() + "_background.png");
+    }
     private static final HashMap<Integer, MapBackgroundTexture> TEXTURE_HASH_MAP = new HashMap<>();
 
-    public static MapBackgroundTexture getBackgroundTexture(int id){
+    private static MapBackgroundTexture getBackgroundTexture(int id, ResourceLocation resourceLocation){
         if(TEXTURE_HASH_MAP.containsKey(id)){
             return TEXTURE_HASH_MAP.get(id);
         }else{
-            ResourceLocation resourceLocation = getResourceLocation(id);
             MapBackgroundTexture simpleTexture = new MapBackgroundTexture(resourceLocation);
             Minecraft.getInstance().getTextureManager().register(resourceLocation, simpleTexture);
             TEXTURE_HASH_MAP.put(id,simpleTexture);
@@ -29,23 +59,9 @@ public class DefaultMapBackgrounds {
         }
     }
 
-    private static ResourceLocation getResourceLocation(int id) {
-        switch (id){
-            case 1:
-                return PRIMORDIAL_CAVES_BG;
-            case 2:
-                return TOXIC_CAVES_BG;
-            case 3:
-                return ABYSSAL_CHASM_BG;
-            default:
-            case 0:
-                return MAGNETIC_CAVES_BG;
-        }
-    }
-
-    public static int getMapColor(int i, int u, int v) {
-        MapBackgroundTexture texture = getBackgroundTexture(i);
-        return texture.getNativeImage() == null ? 0 : clampNativeImg(texture.getNativeImage(), u, v);
+    public int getMapColor(int u, int v) {
+        MapBackgroundTexture backgroundTexture = getBackgroundTexture(this.ordinal(), texture);
+        return backgroundTexture.getNativeImage() == null ? 0 : clampNativeImg(backgroundTexture.getNativeImage(), u, v);
     }
 
     private static int clampNativeImg(NativeImage nativeImage, int u, int v) {

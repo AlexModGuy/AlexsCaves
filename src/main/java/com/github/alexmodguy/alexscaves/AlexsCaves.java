@@ -13,6 +13,7 @@ import com.github.alexmodguy.alexscaves.server.config.ACServerConfig;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
+import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.carver.ACCarverRegistry;
@@ -22,13 +23,11 @@ import com.github.alexmodguy.alexscaves.server.level.structure.piece.ACStructure
 import com.github.alexmodguy.alexscaves.server.level.structure.processor.ACStructureProcessorRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRuleConditionRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
-import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
-import com.github.alexmodguy.alexscaves.server.message.MultipartEntityMessage;
-import com.github.alexmodguy.alexscaves.server.message.PlayerJumpFromMagnetMessage;
-import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
+import com.github.alexmodguy.alexscaves.server.message.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabs;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.recipe.ACRecipeRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -107,6 +106,8 @@ public class AlexsCaves {
         ACStructureProcessorRegistry.DEF_REG.register(modEventBus);
         ACEffectRegistry.DEF_REG.register(modEventBus);
         ACEffectRegistry.POTION_DEF_REG.register(modEventBus);
+        ACMenuRegistry.DEF_REG.register(modEventBus);
+        ACRecipeRegistry.DEF_REG.register(modEventBus);
         ACFrogRegistry.DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
@@ -124,6 +125,7 @@ public class AlexsCaves {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         int packetsRegistered = 0;
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, SpelunkeryTableChangeMessage.class, SpelunkeryTableChangeMessage::write, SpelunkeryTableChangeMessage::read, SpelunkeryTableChangeMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerJumpFromMagnetMessage.class, PlayerJumpFromMagnetMessage::write, PlayerJumpFromMagnetMessage::read, PlayerJumpFromMagnetMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MountedEntityKeyMessage.class, MountedEntityKeyMessage::write, MountedEntityKeyMessage::read, MountedEntityKeyMessage::handle);

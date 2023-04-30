@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.thread.BlockableEventLoop;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
@@ -21,8 +22,8 @@ public final class CaveBiomeFinder {
         return executor;
     }
 
-    public static void fillOutCaveMap(ItemStack map, ServerLevel serverLevel, BlockPos center){
-        getExecutor().execute(new FilloutCaveBiomeMap(map, serverLevel, center));
+    public static void fillOutCaveMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
+        getExecutor().execute(new FilloutCaveBiomeMap(map, serverLevel, center, player));
     }
 
     /**

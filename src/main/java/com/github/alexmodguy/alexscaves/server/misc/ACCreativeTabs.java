@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.item.CustomTabBehavior;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
@@ -30,6 +31,9 @@ public class ACCreativeTabs {
     }
     public static void registerTabs(CreativeModeTabEvent.Register event){
         event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((parameters,output) -> {
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.MAGNETIC_CAVES));
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.MAGNETIC_CAVES));
+            add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.MAGNETIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(MAGNETIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.RAW_SCARLET_NEODYMIUM.get());
@@ -70,6 +74,9 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.MAGNETIC_ACTIVATOR.get());
         }));
         event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((parameters,output) -> {
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.PRIMORDIAL_CAVES));
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.PRIMORDIAL_CAVES));
+            add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
             ACItemRegistry.getSpawnEggsForTab(PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACBlockRegistry.AMBER.get());
@@ -127,6 +134,9 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.TREE_STAR.get());
         }));
         event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.WASTE_DRUM.get())).displayItems((parameters,output) -> {
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.TOXIC_CAVES));
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.TOXIC_CAVES));
+            add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.TOXIC_CAVES));
             ACItemRegistry.getSpawnEggsForTab(TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.ACID_BUCKET.get());
@@ -190,6 +200,9 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
         }));
         event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(ACItemRegistry.SUBMARINE.get())).displayItems((parameters,output) -> {
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.ABYSSAL_CHASM));
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.ABYSSAL_CHASM));
+            add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
             output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
             ACItemRegistry.getSpawnEggsForTab(ABYSSAL_CHASM).forEach((spawnEgg -> add(output, spawnEgg.get())));
             add(output, ACItemRegistry.SUBMARINE.get());

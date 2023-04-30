@@ -1,11 +1,8 @@
 package com.github.alexmodguy.alexscaves.mixin;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.github.alexmodguy.alexscaves.server.level.feature.FeaturePositionValidator;
 import net.minecraft.core.Holder;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.structures.OceanMonumentStructure;
 import org.spongepowered.asm.mixin.Mixin;

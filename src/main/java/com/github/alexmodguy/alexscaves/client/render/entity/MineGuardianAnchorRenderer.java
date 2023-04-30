@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.MineGuardianAnchorModel;
 import com.github.alexmodguy.alexscaves.server.entity.item.MineGuardianAnchorEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.BoundroidWinchEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;

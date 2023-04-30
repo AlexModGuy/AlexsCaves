@@ -31,12 +31,13 @@ public class CaveMapItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         if(!isLoading(itemstack) && !isFilled(itemstack)) {
-            itemstack.getOrCreateTag().putBoolean("Loading", true);
             if(!level.isClientSide){
-                CaveBiomeFinder.fillOutCaveMap(itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition());
+                itemstack.getOrCreateTag().putBoolean("Loading", true);
+                CaveBiomeFinder.fillOutCaveMap(itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition(), player);
             }
+            return InteractionResultHolder.success(itemstack);
         }
-        return InteractionResultHolder.success(itemstack);
+        return InteractionResultHolder.pass(itemstack);
     }
 
     public static ItemStack createMap(ResourceKey<Biome> biomeResourceKey){

@@ -2,31 +2,22 @@
   "variants": {
     "": [
       {
-        "model": "alexscaves:block/scrap_metal"
+        "model": "alexscaves:block/scrap_metal_0"
       },
       {
-        "model": "alexscaves:block/scrap_metal",
-        "y": 90
+        "model": "alexscaves:block/scrap_metal_1"
       },
       {
-        "model": "alexscaves:block/scrap_metal",
-        "y": 180
+        "model": "alexscaves:block/scrap_metal_2"
       },
       {
-        "model": "alexscaves:block/scrap_metal",
-        "y": 270
+        "model": "alexscaves:block/scrap_metal_3"
       },
       {
-        "model": "alexscaves:block/scrap_metal",
-        "x": 90
+        "model": "alexscaves:block/scrap_metal_4"
       },
       {
-        "model": "alexscaves:block/scrap_metal",
-        "x": 180
-      },
-      {
-        "model": "alexscaves:block/scrap_metal",
-        "x": 270
+        "model": "alexscaves:block/scrap_metal_5"
       }
     ]
   }

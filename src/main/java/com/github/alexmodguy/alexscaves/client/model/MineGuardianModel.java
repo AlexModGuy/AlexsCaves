@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector4f;
 
 public class MineGuardianModel extends AdvancedEntityModel<MineGuardianEntity> {
     private final AdvancedModelBox head;

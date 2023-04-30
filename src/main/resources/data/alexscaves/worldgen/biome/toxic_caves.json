@@ -78,8 +78,7 @@
       "minecraft:disk_sand",
       "minecraft:disk_clay",
       "minecraft:disk_gravel",
-      "alexscaves:radrock_uranium_ore",
-      "alexscaves:sulfur_stack"
+      "alexscaves:radrock_uranium_ore"
     ],
     [
     ],
@@ -102,6 +101,7 @@
       "minecraft:patch_pumpkin"
     ],
     [
+      "alexscaves:sulfur_stack",
       "minecraft:freeze_top_layer"
     ]
   ],

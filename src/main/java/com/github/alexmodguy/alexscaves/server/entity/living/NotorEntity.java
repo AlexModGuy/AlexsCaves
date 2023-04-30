@@ -47,7 +47,7 @@ public class NotorEntity extends PathfinderMob {
     private static final EntityDataAccessor<Integer> HOLOGRAM_ENTITY_ID = SynchedEntityData.defineId(NotorEntity.class, EntityDataSerializers.INT);
 
     public static final Predicate<LivingEntity> SCAN_TARGET = (mob) -> {
-        return mob.isAlive() &&  !mob.getType().is(ACTagRegistry.NOTOR_IGNORES);
+        return mob.isAlive() &&  !mob.getType().is(ACTagRegistry.NOTOR_IGNORES) && !mob.isInvisible();
     };
     public NotorEntity(EntityType entityType, Level level) {
         super(entityType, level);
