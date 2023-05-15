@@ -10,18 +10,27 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.List;
+
 public class ACBiomeRegistry {
     public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "magnetic_caves"));
     public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "primordial_caves"));
     public static final ResourceKey<Biome> TOXIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "toxic_caves"));
     public static final ResourceKey<Biome> ABYSSAL_CHASM = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "abyssal_chasm"));
-    private static final Vec3 ONE = new Vec3(1, 1, 1);
+    public static final ResourceKey<Biome> FORLORN_HOLLOWS = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "forlorn_hollows"));
+
+    public static final List<ResourceKey<Biome>> ALEXS_CAVES_BIOMES = List.of(MAGNETIC_CAVES, PRIMORDIAL_CAVES, TOXIC_CAVES, ABYSSAL_CHASM, FORLORN_HOLLOWS);
+    private static final Vec3 DEFAULT_LIGHT_COLOR = new Vec3(1, 1, 1);
+    private static final Vec3 TOXIC_CAVES_LIGHT_COLOR = new Vec3(0.5, 1.5, 0.5);
+    private static final Vec3 ABYSSAL_CHASM_LIGHT_COLOR = new Vec3(0.5, 0.5, 1);
+    private static final Vec3 FORLORN_HOLLOWS_LIGHT_COLOR = new Vec3(0.35, 0.32, 0.3);
 
     public static void init() {
         ExpandedBiomes.addExpandedBiome(MAGNETIC_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(PRIMORDIAL_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(TOXIC_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(ABYSSAL_CHASM, LevelStem.OVERWORLD);
+        ExpandedBiomes.addExpandedBiome(FORLORN_HOLLOWS, LevelStem.OVERWORLD);
     }
 
     public static float getBiomeAmbientLight(Holder<Biome> value) {
@@ -44,6 +53,9 @@ public class ACBiomeRegistry {
         if (value.is(ABYSSAL_CHASM)) {
             return -0.2F;
         }
+        if (value.is(FORLORN_HOLLOWS)) {
+            return -0.2F;
+        }
         return 1.0F;
     }
 
@@ -55,13 +67,15 @@ public class ACBiomeRegistry {
     }
 
     public static float getBiomeSkyOverride(Holder<Biome> value) {
-        if (value.is(PRIMORDIAL_CAVES)) {
+        if (value.is(MAGNETIC_CAVES)) {
             return 1.0F;
-        }
-        if (value.is(TOXIC_CAVES)) {
+        }else if (value.is(PRIMORDIAL_CAVES)) {
             return 1.0F;
-        }
-        if (value.is(ABYSSAL_CHASM)) {
+        }else if (value.is(TOXIC_CAVES)) {
+            return 1.0F;
+        }else if (value.is(ABYSSAL_CHASM)) {
+            return 1.0F;
+        }else if (value.is(FORLORN_HOLLOWS)) {
             return 1.0F;
         }
         return 0.0F;
@@ -69,12 +83,15 @@ public class ACBiomeRegistry {
 
     public static Vec3 getBiomeLightColorOverride(Holder<Biome> value) {
         if (value.is(TOXIC_CAVES)) {
-            return new Vec3(0.5, 1.5, 0.5);
+            return TOXIC_CAVES_LIGHT_COLOR;
         }
         if (value.is(ABYSSAL_CHASM)) {
-            return new Vec3(0.5, 0.5, 1);
+            return ABYSSAL_CHASM_LIGHT_COLOR;
         }
-        return ONE;
+        if (value.is(FORLORN_HOLLOWS)) {
+            return FORLORN_HOLLOWS_LIGHT_COLOR;
+        }
+        return DEFAULT_LIGHT_COLOR;
     }
 
     public static int getBiomeTabletColor(ResourceKey<Biome> value) {
@@ -89,6 +106,9 @@ public class ACBiomeRegistry {
         }
         if (value.equals(ABYSSAL_CHASM)) {
             return 0X1919AC;
+        }
+        if (value.equals(FORLORN_HOLLOWS)) {
+            return 0X705632;
         }
         return -1;
     }

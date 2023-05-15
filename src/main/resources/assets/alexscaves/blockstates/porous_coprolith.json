@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "alexscaves:block/porous_coprolith_0"
+      },
+      {
+        "model": "alexscaves:block/porous_coprolith_1"
+      }
+    ]
+  }
+}

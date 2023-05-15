@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "alexscaves:block/thornwood/thornwood_sapling"
+  }
+}

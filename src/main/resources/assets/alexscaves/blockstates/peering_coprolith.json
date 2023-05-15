@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "alexscaves:block/peering_coprolith_0"
+      },
+      {
+        "model": "alexscaves:block/peering_coprolith_1"
+      }
+    ]
+  }
+}

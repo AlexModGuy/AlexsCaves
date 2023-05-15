@@ -1,0 +1,7 @@
+{
+  "parent": "alexscaves:block/porous_coprolith_base",
+  "textures": {
+    "outside": "alexscaves:block/porous_coprolith_0",
+    "inside": "alexscaves:block/porous_coprolith_inside"
+  }
+}

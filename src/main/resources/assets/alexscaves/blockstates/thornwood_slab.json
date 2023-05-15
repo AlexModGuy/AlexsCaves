@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/thornwood_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/thornwood_planks"
+    },
+    "type=top": {
+      "model": "alexscaves:block/thornwood_slab_top"
+    }
+  }
+}

@@ -18,7 +18,6 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 
 public class FerrocaveStructurePiece extends AbstractCaveGenerationStructurePiece {
 
-    private static final Direction[] LIQUID_CHECK_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
     public FerrocaveStructurePiece(BlockPos chunkCorner, BlockPos holeCenter, int bowlHeight, int bowlRadius) {
         super(ACStructurePieceRegistry.FERROCAVE.get(), chunkCorner, holeCenter, bowlHeight, bowlRadius);
     }

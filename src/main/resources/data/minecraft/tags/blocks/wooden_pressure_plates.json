@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "alexscaves:pewen_pressure_plate"
+    "alexscaves:pewen_pressure_plate",
+    "alexscaves:thornwood_pressure_plate"
   ]
 }

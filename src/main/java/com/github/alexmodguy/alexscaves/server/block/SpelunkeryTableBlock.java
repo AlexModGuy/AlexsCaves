@@ -1,8 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.inventory.SpelunkeryTableMenu;
+import com.github.alexmodguy.alexscaves.server.message.SpelunkeryTableCompleteTutorialMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -30,6 +33,9 @@ public class SpelunkeryTableBlock extends Block {
         } else {
             player.openMenu(state.getMenuProvider(level, pos));
             player.awardStat(Stats.INTERACT_WITH_LOOM);
+            if(player instanceof ServerPlayer serverPlayer){
+                AlexsCaves.sendNonLocal(new SpelunkeryTableCompleteTutorialMessage(SpelunkeryTableMenu.hasCompletedTutorial(serverPlayer)), serverPlayer);
+            }
             return InteractionResult.CONSUME;
         }
     }

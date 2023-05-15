@@ -17,14 +17,13 @@ public class ACSurfaceRuleConditionRegistry {
 
     public static final RegistryObject<Codec<? extends SurfaceRules.ConditionSource>> AC_SIMPLEX_CONDITION = DEF_REG.register("ac_simplex", () -> SimplexConditionSource.CODEC.codec());
 
-    public static SurfaceRules.ConditionSource simplexCondition(float noiseMin, float noiseMax, float noiseScale, int offsetType) {
-        return new SimplexConditionSource(noiseMin, noiseMax, noiseScale, offsetType);
+    public static SurfaceRules.ConditionSource simplexCondition(float noiseMin, float noiseMax, float noiseScale, float yScale, int offsetType) {
+        return new SimplexConditionSource(noiseMin, noiseMax, noiseScale, yScale, offsetType);
     }
 
-    private record SimplexConditionSource(float noiseMin, float noiseMax, float noiseScale,
-                                          int offsetType) implements SurfaceRules.ConditionSource {
+    private record SimplexConditionSource(float noiseMin, float noiseMax, float noiseScale, float yScale, int offsetType) implements SurfaceRules.ConditionSource {
         private static final KeyDispatchDataCodec<SimplexConditionSource> CODEC = KeyDispatchDataCodec.of(RecordCodecBuilder.mapCodec((group) -> {
-            return group.group(Codec.floatRange(-1F, 1F).fieldOf("noise_min").forGetter(SimplexConditionSource::noiseMin), Codec.floatRange(-1F, 1F).fieldOf("noise_max").forGetter(SimplexConditionSource::noiseMax), Codec.floatRange(1F, 10000F).fieldOf("noise_scale").forGetter(SimplexConditionSource::noiseScale), Codec.intRange(0, 128).fieldOf("offset_type").forGetter(SimplexConditionSource::offsetType)).apply(group, SimplexConditionSource::new);
+            return group.group(Codec.floatRange(-1F, 1F).fieldOf("noise_min").forGetter(SimplexConditionSource::noiseMin), Codec.floatRange(-1F, 1F).fieldOf("noise_max").forGetter(SimplexConditionSource::noiseMax), Codec.floatRange(1F, 10000F).fieldOf("noise_scale").forGetter(SimplexConditionSource::noiseScale), Codec.floatRange(0F, 10000F).fieldOf("y_scale").forGetter(SimplexConditionSource::yScale), Codec.intRange(0, 128).fieldOf("offset_type").forGetter(SimplexConditionSource::offsetType)).apply(group, SimplexConditionSource::new);
         }));
 
         public KeyDispatchDataCodec<? extends SurfaceRules.ConditionSource> codec() {
@@ -41,7 +40,7 @@ public class ACSurfaceRuleConditionRegistry {
                 }
 
                 public boolean test() {
-                    double f = ACMath.sampleNoise3D(context.blockX + (offsetType * 1000), context.blockY + (offsetType * 2000), context.blockZ - (offsetType * 3000), SimplexConditionSource.this.noiseScale);
+                    double f = ACMath.sampleNoise3D(context.blockX + (offsetType * 1000), (int)((context.blockY * yScale + offsetType * 2000)), context.blockZ - (offsetType * 3000), SimplexConditionSource.this.noiseScale);
                     return f > SimplexConditionSource.this.noiseMin && f <= SimplexConditionSource.this.noiseMax;
                 }
             }

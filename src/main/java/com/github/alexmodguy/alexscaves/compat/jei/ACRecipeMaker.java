@@ -20,12 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ACRecipeMaker {
-    private static final List<ResourceKey<Biome>> ALEXS_CAVES_BIOMES = List.of(ACBiomeRegistry.MAGNETIC_CAVES, ACBiomeRegistry.PRIMORDIAL_CAVES, ACBiomeRegistry.TOXIC_CAVES, ACBiomeRegistry.ABYSSAL_CHASM);
 
     public static List<CraftingRecipe> createCaveMapRecipes() {
         String group = "jei.cave_map";
         List<CraftingRecipe> recipes = new ArrayList<>();
-        for(ResourceKey<Biome> biome : ALEXS_CAVES_BIOMES){
+        for(ResourceKey<Biome> biome : ACBiomeRegistry.ALEXS_CAVES_BIOMES){
             ItemStack scroll = CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), biome);
             ItemStack map = CaveMapItem.createMap(biome);
             ResourceLocation id = new ResourceLocation(AlexsCaves.MODID, "jei.cave_map_" + biome.location().getPath());
@@ -42,7 +41,7 @@ public class ACRecipeMaker {
 
     public static List<SpelunkeryTableRecipe> createSpelunkeryTableRecipes() {
         List<SpelunkeryTableRecipe> recipes = new ArrayList<>();
-        ALEXS_CAVES_BIOMES.forEach(biomeResourceKey -> recipes.add(new SpelunkeryTableRecipe(biomeResourceKey)));
+        ACBiomeRegistry.ALEXS_CAVES_BIOMES.forEach(biomeResourceKey -> recipes.add(new SpelunkeryTableRecipe(biomeResourceKey)));
         return recipes;
     }
 

@@ -20,6 +20,7 @@ public class ACCreativeTabs {
     public static final ResourceLocation PRIMORDIAL_CAVES = new ResourceLocation("alexscaves:primordial_caves");
     public static final ResourceLocation TOXIC_CAVES = new ResourceLocation("alexscaves:toxic_caves");
     public static final ResourceLocation ABYSSAL_CHASM = new ResourceLocation("alexscaves:abyssal_chasm");
+    public static final ResourceLocation FORLORN_HOLLOWS = new ResourceLocation("alexscaves:forlorn_hollows");
 
 
     private static void add(CreativeModeTab.Output tab, ItemLike itemLike){
@@ -29,8 +30,8 @@ public class ACCreativeTabs {
             tab.accept(itemLike);
         }
     }
-    public static void registerTabs(CreativeModeTabEvent.Register event){
-        event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((parameters,output) -> {
+    public static void registerTabs(CreativeModeTabEvent.Register event) {
+        event.registerCreativeModeTab(MAGNETIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.magnetic_caves")).icon(() -> new ItemStack(ACBlockRegistry.SCARLET_MAGNET.get())).displayItems((parameters, output) -> {
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.MAGNETIC_CAVES));
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.MAGNETIC_CAVES));
             add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
@@ -73,7 +74,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.AZURE_MAGNET.get());
             add(output, ACBlockRegistry.MAGNETIC_ACTIVATOR.get());
         }));
-        event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((parameters,output) -> {
+        event.registerCreativeModeTab(PRIMORDIAL_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.primordial_caves")).icon(() -> new ItemStack(ACBlockRegistry.FLYTRAP.get())).displayItems((parameters, output) -> {
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.PRIMORDIAL_CAVES));
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.PRIMORDIAL_CAVES));
             add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
@@ -133,7 +134,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.ANCIENT_LEAVES.get());
             add(output, ACBlockRegistry.TREE_STAR.get());
         }));
-        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.WASTE_DRUM.get())).displayItems((parameters,output) -> {
+        event.registerCreativeModeTab(TOXIC_CAVES, builder -> builder.title(Component.translatable("itemGroup.alexscaves.toxic_caves")).icon(() -> new ItemStack(ACBlockRegistry.WASTE_DRUM.get())).displayItems((parameters, output) -> {
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.TOXIC_CAVES));
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.TOXIC_CAVES));
             add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
@@ -199,7 +200,7 @@ public class ACCreativeTabs {
             add(output, ACBlockRegistry.RED_RADON_LAMP.get());
             add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
         }));
-        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(ACItemRegistry.SUBMARINE.get())).displayItems((parameters,output) -> {
+        event.registerCreativeModeTab(ABYSSAL_CHASM, builder -> builder.title(Component.translatable("itemGroup.alexscaves.abyssal_chasm")).icon(() -> new ItemStack(ACItemRegistry.SUBMARINE.get())).displayItems((parameters, output) -> {
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.ABYSSAL_CHASM));
             output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.ABYSSAL_CHASM));
             add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
@@ -253,6 +254,34 @@ public class ACCreativeTabs {
             output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.DEEPSIGHT_POTION.get()));
             output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
         }));
+        event.registerCreativeModeTab(FORLORN_HOLLOWS, builder -> builder.title(Component.translatable("itemGroup.alexscaves.forlorn_hollows")).icon(() -> new ItemStack(ACBlockRegistry.PEERING_COPROLITH.get())).displayItems((parameters, output) -> {
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.FORLORN_HOLLOWS));
+            output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.FORLORN_HOLLOWS));
+            add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+            output.accept(CaveMapItem.createMap(ACBiomeRegistry.FORLORN_HOLLOWS));
+            ACItemRegistry.getSpawnEggsForTab(FORLORN_HOLLOWS).forEach((spawnEgg -> add(output, spawnEgg.get())));
+            add(output, ACBlockRegistry.GUANOSTONE.get());
+            add(output, ACBlockRegistry.GUANO_BLOCK.get());
+            add(output, ACBlockRegistry.GUANO_LAYER.get());
+            add(output, ACBlockRegistry.COPROLITH.get());
+            add(output, ACBlockRegistry.POROUS_COPROLITH.get());
+            add(output, ACBlockRegistry.PEERING_COPROLITH.get());
+            add(output, ACBlockRegistry.THORNWOOD_LOG.get());
+            add(output, ACBlockRegistry.THORNWOOD_BRANCH.get());
+            add(output, ACBlockRegistry.THORNWOOD_WOOD.get());
+            add(output, ACBlockRegistry.STRIPPED_THORNWOOD_LOG.get());
+            add(output, ACBlockRegistry.STRIPPED_THORNWOOD_WOOD.get());
+            add(output, ACBlockRegistry.THORNWOOD_PLANKS.get());
+            add(output, ACBlockRegistry.THORNWOOD_PLANKS_STAIRS.get());
+            add(output, ACBlockRegistry.THORNWOOD_PLANKS_SLAB.get());
+            add(output, ACBlockRegistry.THORNWOOD_PLANKS_FENCE.get());
+            add(output, ACItemRegistry.THORNWOOD_SIGN.get());
+            add(output, ACBlockRegistry.THORNWOOD_PRESSURE_PLATE.get());
+            add(output, ACItemRegistry.THORNWOOD_DOOR.get());
+            add(output, ACBlockRegistry.THORNWOOD_TRAPDOOR.get());
+            add(output, ACBlockRegistry.THORNWOOD_BUTTON.get());
+            add(output, ACBlockRegistry.THORNWOOD_FENCE_GATE.get());
+            add(output, ACBlockRegistry.UNDERWEED.get());
+        }));
     }
-
 }

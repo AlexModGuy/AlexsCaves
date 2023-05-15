@@ -43,8 +43,8 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
         }
     };
 
-    public SpelunkeryTableMenu(int p_39140_, Inventory p_39141_) {
-        this(p_39140_, p_39141_, ContainerLevelAccess.NULL);
+    public SpelunkeryTableMenu(int id, Inventory inventory) {
+        this(id, inventory, ContainerLevelAccess.NULL);
     }
 
     public SpelunkeryTableMenu(int id, Inventory inventory, final ContainerLevelAccess access) {
@@ -107,7 +107,7 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
     public void slotsChanged(Container container) {
     }
 
-    private void setupResultSlot(ItemStack result, ResourceKey<Biome> biomeResourceKey, Player player) {
+    private void setupResultSlot(ResourceKey<Biome> biomeResourceKey, Player player) {
         this.access.execute((p_39170_, p_39171_) -> {
             ItemStack itemInFinalSlot = this.resultContainer.getItem(2);
             ItemStack itemstack = biomeResourceKey == null ? new ItemStack(Items.PAPER) : CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), biomeResourceKey);
@@ -184,15 +184,14 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
             }
             ResourceKey<Biome> biomeResourceKey = CaveInfoItem.getCaveBiome(copyOf);
             if(biomeResourceKey != null){
-                ItemStack itemInFinalSlot = this.getSlot(2).getItem();
-                this.setupResultSlot(itemInFinalSlot, biomeResourceKey, player);
+                this.setupResultSlot(biomeResourceKey, player);
             }
-            setTutorialNeeded(player, true);
+            setTutorialComplete(player, true);
         }
         this.access.execute(this::makeStoneParticles);
     }
 
-    public void setTutorialNeeded(Player player, boolean done){
+    public static void setTutorialComplete(Player player, boolean done){
         CompoundTag playerData = player.getPersistentData();
         CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
         if(data != null){
@@ -201,10 +200,10 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
         }
     }
 
-    public boolean needsTutorial(Player player){
+    public static boolean hasCompletedTutorial(Player player){
         CompoundTag playerData = player.getPersistentData();
         CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
-        return data != null && !data.getBoolean(NEEDS_TUTORIAL_IDENTIFIER);
+        return data != null && data.getBoolean(NEEDS_TUTORIAL_IDENTIFIER);
     }
 
     public void makeStoneParticles(Level level, BlockPos blockPos){

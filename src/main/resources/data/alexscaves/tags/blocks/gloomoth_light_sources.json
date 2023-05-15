@@ -1,0 +1,23 @@
+{
+  "values": [
+    "minecraft:torch",
+    "minecraft:wall_torch",
+    "minecraft:lantern",
+    "minecraft:campfire",
+    "minecraft:soul_torch",
+    "minecraft:soul_wall_torch",
+    "minecraft:soul_lantern",
+    "minecraft:soul_campfire",
+    "minecraft:glowstone",
+    "minecraft:shroomlight",
+    "minecraft:end_rod",
+    "minecraft:ochre_froglight",
+    "minecraft:verdant_froglight",
+    "minecraft:pearlescent_froglight",
+    "minecraft:beacon",
+    "alexscaves:ambersol",
+    "alexscaves:uranium_rod",
+    "alexscaves:block_of_uranium",
+    "#alexscaves:radon_lamps"
+  ]
+}

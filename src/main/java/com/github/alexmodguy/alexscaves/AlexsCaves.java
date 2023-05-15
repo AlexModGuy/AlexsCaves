@@ -126,6 +126,7 @@ public class AlexsCaves {
     private void commonSetup(final FMLCommonSetupEvent event) {
         int packetsRegistered = 0;
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, SpelunkeryTableChangeMessage.class, SpelunkeryTableChangeMessage::write, SpelunkeryTableChangeMessage::read, SpelunkeryTableChangeMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, SpelunkeryTableCompleteTutorialMessage.class, SpelunkeryTableCompleteTutorialMessage::write, SpelunkeryTableCompleteTutorialMessage::read, SpelunkeryTableCompleteTutorialMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerJumpFromMagnetMessage.class, PlayerJumpFromMagnetMessage::write, PlayerJumpFromMagnetMessage::read, PlayerJumpFromMagnetMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MountedEntityKeyMessage.class, MountedEntityKeyMessage::write, MountedEntityKeyMessage::read, MountedEntityKeyMessage::handle);

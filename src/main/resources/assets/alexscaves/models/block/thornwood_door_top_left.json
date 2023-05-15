@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left",
+  "textures": {
+    "bottom": "alexscaves:block/thornwood/thornwood_door_bottom",
+    "top": "alexscaves:block/thornwood/thornwood_door_top"
+  }
+}

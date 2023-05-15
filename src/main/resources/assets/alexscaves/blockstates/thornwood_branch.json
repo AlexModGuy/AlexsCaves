@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "facing=up": [
+      { "model": "alexscaves:block/thornwood_branch_top" }
+    ],
+    "facing=down": [
+      { "model": "alexscaves:block/thornwood_branch_top", "x": 180 }
+    ],
+    "facing=east": [
+      { "model": "alexscaves:block/thornwood_branch", "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "alexscaves:block/thornwood_branch" }
+    ],
+    "facing=south": [
+      { "model": "alexscaves:block/thornwood_branch", "y": 180 }
+    ],
+    "facing=west": [
+      { "model": "alexscaves:block/thornwood_branch", "y": 270 }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "alexscaves:block/thornwood/thornwood_planks",
+    "side": "alexscaves:block/thornwood/thornwood_planks",
+    "top": "alexscaves:block/thornwood/thornwood_planks"
+  }
+}

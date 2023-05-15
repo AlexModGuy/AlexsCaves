@@ -274,7 +274,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     }
 
     public boolean isFirstTimeUsing(){
-       return menu.needsTutorial(Minecraft.getInstance().player);
+       return !AlexsCaves.PROXY.isSpelunkeryTutorialComplete();
     }
 
     protected void containerTick() {
@@ -325,7 +325,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         }
         if (resetTabletFromWin && level >= 3) {
             doneWithTutorial = true;
-            menu.setTutorialNeeded(Minecraft.getInstance().player, true);
+            menu.setTutorialComplete(Minecraft.getInstance().player, true);
             AlexsCaves.NETWORK_WRAPPER.sendToServer(new SpelunkeryTableChangeMessage(true));
             level = 0;
             fullResetWords();

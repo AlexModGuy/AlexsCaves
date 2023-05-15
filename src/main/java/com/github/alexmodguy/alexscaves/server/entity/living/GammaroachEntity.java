@@ -63,17 +63,17 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
         this.targetSelector.addGoal(3, new MobTarget3DGoal(this, Cow.class, true));
     }
 
-    public static boolean isValidLightLevel(ServerLevelAccessor p_223323_0_, BlockPos p_223323_1_, RandomSource p_223323_2_) {
-        if (p_223323_0_.getBrightness(LightLayer.SKY, p_223323_1_) > p_223323_2_.nextInt(32)) {
+    public static boolean isValidLightLevel(ServerLevelAccessor levelAccessor, BlockPos blockPos, RandomSource randomSource) {
+        if (levelAccessor.getBrightness(LightLayer.SKY, blockPos) > randomSource.nextInt(32)) {
             return false;
         } else {
-            int lvt_3_1_ = p_223323_0_.getLevel().isThundering() ? p_223323_0_.getMaxLocalRawBrightness(p_223323_1_, 10) : p_223323_0_.getMaxLocalRawBrightness(p_223323_1_);
-            return lvt_3_1_ <= p_223323_2_.nextInt(8);
+            int lvt_3_1_ = levelAccessor.getLevel().isThundering() ? levelAccessor.getMaxLocalRawBrightness(blockPos, 10) : levelAccessor.getMaxLocalRawBrightness(blockPos);
+            return lvt_3_1_ <= randomSource.nextInt(8);
         }
     }
 
-    public static boolean canMonsterSpawnInLight(EntityType<GammaroachEntity> p_223325_0_, ServerLevelAccessor p_223325_1_, MobSpawnType p_223325_2_, BlockPos p_223325_3_, RandomSource p_223325_4_) {
-        return isValidLightLevel(p_223325_1_, p_223325_3_, p_223325_4_) && checkMobSpawnRules(p_223325_0_, p_223325_1_, p_223325_2_, p_223325_3_, p_223325_4_);
+    public static boolean canMonsterSpawnInLight(EntityType<GammaroachEntity> entityType, ServerLevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
+        return isValidLightLevel(levelAccessor, blockPos, randomSource) && checkMobSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
     }
 
     public static <T extends Mob> boolean checkGammaroachSpawnRules(EntityType<GammaroachEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {

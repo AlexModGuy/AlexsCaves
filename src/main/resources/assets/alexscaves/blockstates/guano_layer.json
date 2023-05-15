@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "layers=1": {
+      "model": "alexscaves:block/guano_layer_height2"
+    },
+    "layers=2": {
+      "model": "alexscaves:block/guano_layer_height4"
+    },
+    "layers=3": {
+      "model": "alexscaves:block/guano_layer_height6"
+    },
+    "layers=4": {
+      "model": "alexscaves:block/guano_layer_height8"
+    },
+    "layers=5": {
+      "model": "alexscaves:block/guano_layer_height10"
+    },
+    "layers=6": {
+      "model": "alexscaves:block/guano_layer_height12"
+    },
+    "layers=7": {
+      "model": "alexscaves:block/guano_layer_height14"
+    },
+    "layers=8": {
+      "model": "alexscaves:block/guano_block"
+    }
+  }
+}

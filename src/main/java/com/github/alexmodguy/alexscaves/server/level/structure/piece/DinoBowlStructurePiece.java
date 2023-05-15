@@ -1,9 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
-import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -47,34 +47,12 @@ public class DinoBowlStructurePiece extends AbstractCaveGenerationStructurePiece
                 MutableBoolean doFloor = new MutableBoolean(false);
                 for (int y = 15; y >= 0; y--) {
                     carve.set(cornerX + x, Mth.clamp(cornerY + y, level.getMinBuildHeight(), level.getMaxBuildHeight()), cornerZ + z);
-                    carveAbove.set(carve.getX(), carve.getY() + 1, carve.getZ());
-                    float widthSimplexNoise1 = ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F;
-                    float widthSimplexNoise2 = ACMath.sampleNoise3D(carve.getX() + 120, carve.getY(), carve.getZ() - 120, radius / 2F) - 0.5F;
-                    double yDist = ACMath.smin(0.8F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) height, 0.8F, 0.2F);
-                    double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY() - 1, this.holeCenter.getZ());
-                    double targetRadius = yDist * (radius + widthSimplexNoise1 * widthSimplexNoise2 * radius) * radius;
-                    if (distToCenter <= targetRadius) {
-                        double edgy = targetRadius - distToCenter;
-                        if (edgy <= 16 && !checkedGetBlock(level, carve).getFluidState().isEmpty()) {
-                            checkedSetBlock(level, carve, Blocks.SANDSTONE.defaultBlockState());
-                            carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
-                            doFloor.setTrue();
-                        } else {
-                            flag = true;
-                            if (isPillarBlocking(carve, yDist)) {
-                                if (!checkedGetBlock(level, carve).getFluidState().isEmpty()) {
-                                    checkedSetBlock(level, carve, ACBlockRegistry.LIMESTONE.get().defaultBlockState());
-                                }
-                            } else {
-                                if (!checkedGetBlock(level, carveAbove).getFluidState().isEmpty()) {
-                                    checkedSetBlock(level, carveAbove, Blocks.SANDSTONE.defaultBlockState());
-                                }
-                                checkedSetBlock(level, carve, Blocks.CAVE_AIR.defaultBlockState());
-                                carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
-                                doFloor.setTrue();
-                            }
-                        }
-
+                    if (inCircle(carve) && !checkedGetBlock(level, carve).is(Blocks.BEDROCK)) {
+                        flag = true;
+                        checkedSetBlock(level, carve, Blocks.CAVE_AIR.defaultBlockState());
+                        surroundCornerOfLiquid(level, carve);
+                        carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
+                        doFloor.setTrue();
                     }
                 }
                 if (doFloor.isTrue() && !checkedGetBlock(level, carveBelow).isAir()) {
@@ -88,12 +66,25 @@ public class DinoBowlStructurePiece extends AbstractCaveGenerationStructurePiece
         }
     }
 
-    private boolean isPillarBlocking(BlockPos.MutableBlockPos carve, double yDist) {
-        float sample = ACMath.sampleNoise3D(carve.getX(), 0, carve.getZ(), 60) + ACMath.sampleNoise3D(carve.getX() - 440, 0, carve.getZ() + 412, 22) * 0.2F + ACMath.sampleNoise3D(carve.getX() - 100, carve.getY(), carve.getZ() - 400, 100) * 0.1F - 0.4F;
-        float f = (float) (ACMath.smin((float) yDist / 0.8F, 1, 0.2F) + 1F);
-        return sample >= 0.25F * f && sample <= ACMath.smin(1, (float) yDist / 0.8F + 0.25F, 0.1F) * f;
+    private void surroundCornerOfLiquid(WorldGenLevel level, BlockPos.MutableBlockPos center) {
+        BlockPos.MutableBlockPos offset = new BlockPos.MutableBlockPos();
+        for (Direction dir : Direction.values()) {
+            offset.set(center);
+            offset.move(dir);
+            BlockState state = checkedGetBlock(level, offset);
+            if (!state.getFluidState().isEmpty()) {
+                checkedSetBlock(level, offset, Blocks.SANDSTONE.defaultBlockState());
+            }
+        }
     }
 
+    private boolean inCircle(BlockPos carve) {
+        float wallNoise = (ACMath.sampleNoise3D(carve.getX(), (int) (carve.getY() * 0.1F), carve.getZ(), 40) + 1.0F) * 0.5F;
+        double yDist = ACMath.smin(1F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * 0.5F), 1.0F, 0.3F);
+        double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY(), this.holeCenter.getZ());
+        double targetRadius = yDist * (radius * wallNoise) * radius;
+        return distToCenter < targetRadius;
+    }
 
     private void decorateFloor(WorldGenLevel level, RandomSource rand, BlockPos carveBelow) {
         BlockState grass = Blocks.GRASS_BLOCK.defaultBlockState();

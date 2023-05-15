@@ -32,6 +32,14 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
+import net.minecraft.world.level.storage.loot.functions.SetNbtFunction;
+import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -150,6 +158,45 @@ public class CommonProxy {
         }
     }
 
+    @SubscribeEvent
+    public void onLootTableLoad(LootTableLoadEvent event) {
+        if ((event.getName().equals(BuiltInLootTables.BASTION_TREASURE) || event.getName().equals(BuiltInLootTables.BASTION_OTHER) || event.getName().equals(BuiltInLootTables.BASTION_BRIDGE)) && AlexsCaves.COMMON_CONFIG.magneticTabletLootChance.get() > 0) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("CaveBiome", ACBiomeRegistry.MAGNETIC_CAVES.location().toString());
+            LootPoolEntryContainer.Builder item = LootItem.lootTableItem(ACItemRegistry.CAVE_TABLET.get()).setWeight(1).apply(SetNbtFunction.setTag(tag));
+            LootPool.Builder builder = new LootPool.Builder().name("ac_magnetic_tablet").add(item).when(LootItemRandomChanceCondition.randomChance(AlexsCaves.COMMON_CONFIG.magneticTabletLootChance.get().floatValue())).setRolls(UniformGenerator.between(0, 1)).setBonusRolls(UniformGenerator.between(0, 1));
+            event.getTable().addPool(builder.build());
+        }
+        if (event.getName().getPath().contains("archaeology") && AlexsCaves.COMMON_CONFIG.primordialTabletLootChance.get() > 0) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("CaveBiome", ACBiomeRegistry.PRIMORDIAL_CAVES.location().toString());
+            LootPoolEntryContainer.Builder item = LootItem.lootTableItem(ACItemRegistry.CAVE_TABLET.get()).setWeight(1).apply(SetNbtFunction.setTag(tag));
+            LootPool.Builder builder = new LootPool.Builder().name("ac_primordial_tablet").add(item).when(LootItemRandomChanceCondition.randomChance(AlexsCaves.COMMON_CONFIG.primordialTabletLootChance.get().floatValue())).setRolls(UniformGenerator.between(0, 1)).setBonusRolls(UniformGenerator.between(0, 1));
+            event.getTable().addPool(builder.build());
+        }
+        if (event.getName().equals(BuiltInLootTables.JUNGLE_TEMPLE) && AlexsCaves.COMMON_CONFIG.toxicTabletLootChance.get() > 0) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("CaveBiome", ACBiomeRegistry.TOXIC_CAVES.location().toString());
+            LootPoolEntryContainer.Builder item = LootItem.lootTableItem(ACItemRegistry.CAVE_TABLET.get()).setWeight(1).apply(SetNbtFunction.setTag(tag));
+            LootPool.Builder builder = new LootPool.Builder().name("ac_toxic_tablet").add(item).when(LootItemRandomChanceCondition.randomChance(AlexsCaves.COMMON_CONFIG.toxicTabletLootChance.get().floatValue())).setRolls(UniformGenerator.between(0, 1)).setBonusRolls(UniformGenerator.between(0, 1));
+            event.getTable().addPool(builder.build());
+        }
+        if ((event.getName().equals(BuiltInLootTables.UNDERWATER_RUIN_BIG) || event.getName().equals(BuiltInLootTables.UNDERWATER_RUIN_SMALL) || event.getName().equals(BuiltInLootTables.BURIED_TREASURE)) && AlexsCaves.COMMON_CONFIG.abyssalTabletLootChance.get() > 0) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("CaveBiome", ACBiomeRegistry.ABYSSAL_CHASM.location().toString());
+            LootPoolEntryContainer.Builder item = LootItem.lootTableItem(ACItemRegistry.CAVE_TABLET.get()).setWeight(1).apply(SetNbtFunction.setTag(tag));
+            LootPool.Builder builder = new LootPool.Builder().name("ac_abyssal_tablet").add(item).when(LootItemRandomChanceCondition.randomChance(AlexsCaves.COMMON_CONFIG.abyssalTabletLootChance.get().floatValue())).setRolls(UniformGenerator.between(0, 1)).setBonusRolls(UniformGenerator.between(0, 1));
+            event.getTable().addPool(builder.build());
+        }
+        if (event.getName().equals(BuiltInLootTables.WOODLAND_MANSION) && AlexsCaves.COMMON_CONFIG.forlornTabletLootChance.get() > 0) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("CaveBiome", ACBiomeRegistry.FORLORN_HOLLOWS.location().toString());
+            LootPoolEntryContainer.Builder item = LootItem.lootTableItem(ACItemRegistry.CAVE_TABLET.get()).setWeight(1).apply(SetNbtFunction.setTag(tag));
+            LootPool.Builder builder = new LootPool.Builder().name("ac_forlorn_tablet").add(item).when(LootItemRandomChanceCondition.randomChance(AlexsCaves.COMMON_CONFIG.forlornTabletLootChance.get().floatValue())).setRolls(UniformGenerator.between(0, 1)).setBonusRolls(UniformGenerator.between(0, 1));
+            event.getTable().addPool(builder.build());
+        }
+    }
+
     private static void checkAndDestroyExploitItem(Player player, EquipmentSlot slot) {
         ItemStack itemInHand = player.getItemBySlot(slot);
         if (itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
@@ -205,4 +252,10 @@ public class CommonProxy {
         return null;
     }
 
+    public void setSpelunkeryTutorialComplete(boolean completedTutorial) {
+    }
+
+    public boolean isSpelunkeryTutorialComplete() {
+        return true;
+    }
 }
