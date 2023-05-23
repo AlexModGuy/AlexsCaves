@@ -330,7 +330,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
     }
 
-    private class PickupBarrelGoal  extends MoveToBlockGoal {
+    private class PickupBarrelGoal extends MoveToBlockGoal {
 
         public PickupBarrelGoal() {
             super(BrainiacEntity.this, 1.0F, 20, 6);

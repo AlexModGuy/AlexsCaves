@@ -9,7 +9,7 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
 
-    protected MushroomCloudEffectParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean shortLifespan) {
+    protected MushroomCloudEffectParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean shortLifespan, int color1) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
         this.yd = ySpeed;
@@ -20,7 +20,6 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
         this.friction = 0.96F;
         float randCol = world.random.nextFloat() * 0.05F;
         this.sprites = sprites;
-        int color1 = 0XFFB300;
         this.setColor(Math.min(FastColor.ARGB32.red(color1) / 255F + randCol, 1), FastColor.ARGB32.green(color1) / 255F + randCol, FastColor.ARGB32.blue(color1) / 255F + randCol);
     }
 
@@ -63,7 +62,7 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false);
+            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0XFFB300);
             particle.setSpriteFromAge(spriteSet);
             return particle;
         }
@@ -77,7 +76,21 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
+            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XFFB300);
+            particle.setSpriteFromAge(spriteSet);
+            return particle;
+        }
+    }
+
+    public static class UnderzealotFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public UnderzealotFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0);
             particle.setSpriteFromAge(spriteSet);
             return particle;
         }

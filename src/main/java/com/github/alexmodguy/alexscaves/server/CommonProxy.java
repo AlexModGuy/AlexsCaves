@@ -22,6 +22,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.Pose;
@@ -99,8 +100,8 @@ public class CommonProxy {
         if (event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()) {
             event.getEntity().removeEffect(ACEffectRegistry.BUBBLED.get());
         }
-        if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get())  && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
-            event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810,  0, false, false, true));
+        if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get()) && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
+            event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810, 0, false, false, true));
         }
         //TODO: figure out why sometimes items are 1 air on the server side for players
         //System.out.println(event.getEntity().getItemInHand(InteractionHand.MAIN_HAND));
@@ -113,20 +114,20 @@ public class CommonProxy {
                 creeper.targetSelector.addGoal(3, new AvoidEntityGoal<>(creeper, RaycatEntity.class, 10.0F, 1.0D, 1.2D));
             }
             if (event.getEntity() instanceof Drowned drowned && drowned.level.getBiome(drowned.blockPosition()).is(ACBiomeRegistry.ABYSSAL_CHASM)) {
-                if(drowned.getItemBySlot(EquipmentSlot.FEET).isEmpty() && drowned.getItemBySlot(EquipmentSlot.LEGS).isEmpty() && drowned.getItemBySlot(EquipmentSlot.CHEST).isEmpty() && drowned.getItemBySlot(EquipmentSlot.HEAD).isEmpty()){
-                    if(drowned.getRandom().nextFloat() < 0.2){
+                if (drowned.getItemBySlot(EquipmentSlot.FEET).isEmpty() && drowned.getItemBySlot(EquipmentSlot.LEGS).isEmpty() && drowned.getItemBySlot(EquipmentSlot.CHEST).isEmpty() && drowned.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
+                    if (drowned.getRandom().nextFloat() < 0.2) {
                         drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ACItemRegistry.DIVING_HELMET.get()));
                         drowned.setDropChance(EquipmentSlot.HEAD, 0.5F);
                     }
-                    if(drowned.getRandom().nextFloat() < 0.2){
+                    if (drowned.getRandom().nextFloat() < 0.2) {
                         drowned.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ACItemRegistry.DIVING_CHESTPLATE.get()));
                         drowned.setDropChance(EquipmentSlot.CHEST, 0.5F);
                     }
-                    if(drowned.getRandom().nextFloat() < 0.2){
+                    if (drowned.getRandom().nextFloat() < 0.2) {
                         drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ACItemRegistry.DIVING_LEGGINGS.get()));
                         drowned.setDropChance(EquipmentSlot.LEGS, 0.5F);
                     }
-                    if(drowned.getRandom().nextFloat() < 0.2){
+                    if (drowned.getRandom().nextFloat() < 0.2) {
                         drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(ACItemRegistry.DIVING_BOOTS.get()));
                         drowned.setDropChance(EquipmentSlot.FEET, 0.5F);
                     }
@@ -258,4 +259,8 @@ public class CommonProxy {
     public boolean isSpelunkeryTutorialComplete() {
         return true;
     }
+
+    public void setRenderViewEntity(Player player, Entity entity) {}
+
+    public void resetRenderViewEntity() {}
 }

@@ -81,6 +81,8 @@ public class ACItemRegistry {
         spawnEgg("deep_one_mage", ACEntityRegistry.DEEP_ONE_MAGE, 0X96DEF6, 0XD1FF00, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("mine_guardian", ACEntityRegistry.MINE_GUARDIAN, 0X404253, 0XE62008, ACCreativeTabs.ABYSSAL_CHASM);
         spawnEgg("gloomoth", ACEntityRegistry.GLOOMOTH, 0X5E463D, 0XEBD3BE, ACCreativeTabs.FORLORN_HOLLOWS);
+        spawnEgg("underzealot", ACEntityRegistry.UNDERZEALOT, 0X291C17, 0XF27C68, ACCreativeTabs.FORLORN_HOLLOWS);
+        spawnEgg("watcher", ACEntityRegistry.WATCHER, 0X291C17, 0XEC1900, ACCreativeTabs.FORLORN_HOLLOWS);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName) {

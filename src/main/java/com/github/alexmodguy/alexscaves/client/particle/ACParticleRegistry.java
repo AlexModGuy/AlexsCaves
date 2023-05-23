@@ -38,7 +38,12 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> WATER_FOAM = DEF_REG.register("water_foam", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BIG_SPLASH = DEF_REG.register("big_splash", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BIG_SPLASH_EFFECT = DEF_REG.register("big_splash_effect", ()-> new SimpleParticleType(false));
-
     public static final RegistryObject<SimpleParticleType> MINE_EXPLOSION = DEF_REG.register("mine_explosion", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> WATCHER_APPEARANCE = DEF_REG.register("watcher_appearance", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> VOID_BEING_CLOUD = DEF_REG.register("void_being_cloud", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> VOID_BEING_TENDRIL = DEF_REG.register("void_being_tendril", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> VOID_BEING_EYE = DEF_REG.register("void_being_eye", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> UNDERZEALOT_MAGIC = DEF_REG.register("underzealot_magic", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> UNDERZEALOT_EXPLOSION = DEF_REG.register("underzealot_explosion", ()-> new SimpleParticleType(false));
 
 }

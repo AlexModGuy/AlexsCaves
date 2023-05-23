@@ -63,6 +63,8 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<MineGuardianAnchorEntity>> MINE_GUARDIAN_ANCHOR = DEF_REG.register("mine_guardian_anchor", () -> (EntityType)EntityType.Builder.of(MineGuardianAnchorEntity::new, MobCategory.MISC).sized(0.6F, 1.35F).setCustomClientFactory(MineGuardianAnchorEntity::new).build("mine_guardian_anchor"));
     public static final RegistryObject<EntityType<FallingGuanoEntity>> FALLING_GUANO = DEF_REG.register("falling_guano", () -> (EntityType)EntityType.Builder.of(FallingGuanoEntity::new, MobCategory.MISC).sized(0.98F, 0.98F).setCustomClientFactory(FallingGuanoEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("falling_guano"));
     public static final RegistryObject<EntityType<GloomothEntity>> GLOOMOTH = DEF_REG.register("gloomoth", () -> (EntityType)EntityType.Builder.of(GloomothEntity::new, MobCategory.AMBIENT).sized(0.99F, 0.99F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("gloomoth"));
+    public static final RegistryObject<EntityType<UnderzealotEntity>> UNDERZEALOT = DEF_REG.register("underzealot", () -> (EntityType)EntityType.Builder.of(UnderzealotEntity::new, MobCategory.MONSTER).sized(0.9F, 1.2F).build("underzealot"));
+    public static final RegistryObject<EntityType<WatcherEntity>> WATCHER = DEF_REG.register("watcher", () -> (EntityType)EntityType.Builder.of(WatcherEntity::new, MobCategory.MONSTER).sized(0.9F, 1.9F).build("watcher"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -93,6 +95,8 @@ public class ACEntityRegistry {
         event.put(DEEP_ONE_MAGE.get(), DeepOneMageEntity.createAttributes().build());
         event.put(MINE_GUARDIAN.get(), MineGuardianEntity.createAttributes().build());
         event.put(GLOOMOTH.get(), GloomothEntity.createAttributes().build());
+        event.put(UNDERZEALOT.get(), UnderzealotEntity.createAttributes().build());
+        event.put(WATCHER.get(), WatcherEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -123,6 +127,9 @@ public class ACEntityRegistry {
         event.register(DEEP_ONE_KNIGHT.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(DEEP_ONE_MAGE.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, DeepOneBaseEntity::checkDeepOneSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(MINE_GUARDIAN.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MineGuardianEntity::checkMineGuardianSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GLOOMOTH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GloomothEntity::checkGloomothSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(UNDERZEALOT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, UnderzealotEntity::checkUnderzealotSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(WATCHER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WatcherEntity::checkWatcherSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
@@ -32,6 +33,9 @@ public class LightTextureMixin {
     private static void ac_getBrightness(DimensionType dimensionType, int lightTextureIndex, CallbackInfoReturnable<Float> cir) {
         if(AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()){
             float f = calculateBiomeAmbientLight(Minecraft.getInstance().player);
+            if(Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity){
+                f = Math.max(f, 0.35F);
+            }
             if(Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get()) && Minecraft.getInstance().player.isUnderWater()){
                 f = Math.min(1.0F, f + 0.05F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, Minecraft.getInstance().getFrameTime()));
             }

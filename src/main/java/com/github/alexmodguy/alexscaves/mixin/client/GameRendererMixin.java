@@ -55,30 +55,7 @@ public abstract class GameRendererMixin {
             )
     )
     public void ac_render(float partialTick, long nanos, boolean idk, CallbackInfo ci) {
-        float f = ((ClientProxy) AlexsCaves.PROXY).getNukeFlashAmount(partialTick) * Minecraft.getInstance().options.screenEffectScale().get().floatValue();
-        float f1 = Minecraft.getInstance().options.screenEffectScale().get().floatValue();
-        if (f > 0 && AlexsCaves.CLIENT_CONFIG.nuclearBombFlash.get()) {
-            int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
-            int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-            RenderSystem.disableDepthTest();
-            RenderSystem.depthMask(false);
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f * f1);
-            RenderSystem.setShaderTexture(0, ClientProxy.BOMB_FLASH);
-            Tesselator tesselator = Tesselator.getInstance();
-            BufferBuilder bufferbuilder = tesselator.getBuilder();
-            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-            bufferbuilder.vertex(0.0D, screenHeight, -90.0D).uv(0.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(screenWidth, screenHeight, -90.0D).uv(1.0F, 1.0F).endVertex();
-            bufferbuilder.vertex(screenWidth, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
-            bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
-            tesselator.end();
-            RenderSystem.depthMask(true);
-            RenderSystem.enableDepthTest();
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        }
+        ((ClientProxy) AlexsCaves.PROXY).preScreenRender(partialTick);
 
 
     }

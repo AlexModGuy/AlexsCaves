@@ -18,6 +18,7 @@ import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
@@ -32,9 +33,9 @@ import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -65,6 +66,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
@@ -83,9 +86,11 @@ public class ClientProxy extends CommonProxy {
     private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true", "alexscaves:abyssmarine_", "alexscaves:peering_coprolith#");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
+    public static final ResourceLocation WATCHER_EFFECT = new ResourceLocation(AlexsCaves.MODID, "textures/misc/watcher_effect.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
     private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation("alexscaves:shaders/post/submarine_light.json");
     public static final ResourceLocation HOLOGRAM_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/hologram.json");
+    private static final ResourceLocation WATCHER_SHADER = new ResourceLocation("alexscaves:shaders/post/watcher_perspective.json");
     protected final RandomSource random = RandomSource.create();
     private int lastTremorTick = -1;
     private int updateCounter = 0;
@@ -95,13 +100,16 @@ public class ClientProxy extends CommonProxy {
     private List<UUID> blockedEntityRenders = new ArrayList<>();
     private Map<ClientLevel, List<BlockPos>> blockedParticleLocations = new HashMap<>();
     public int renderNukeFlashFor = 0;
-
     private float prevNukeFlashAmount = 0;
     private float nukeFlashAmount = 0;
+    private float prevPossessionStrengthAmount = 0;
+    private float possessionStrengthAmount = 0;
     public boolean renderNukeSkyDark = false;
     private final ACItemRenderProperties isterProperties = new ACItemRenderProperties();
     private final ACArmorRenderProperties armorProperties = new ACArmorRenderProperties();
     private boolean spelunkeryTutorialComplete;
+
+    private CameraType lastPOV = CameraType.FIRST_PERSON;
 
     public void init() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -163,6 +171,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.MINE_GUARDIAN_ANCHOR.get(), MineGuardianAnchorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.FALLING_GUANO.get(), FallingBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GLOOMOTH.get(), GloomothRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.UNDERZEALOT.get(), UnderzealotRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.WATCHER.get(), WatcherRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -213,6 +223,12 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.BIG_SPLASH.get(), new BigSplashParticle.Factory());
         registry.register(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), BigSplashEffectParticle.Factory::new);
         registry.register(ACParticleRegistry.MINE_EXPLOSION.get(), MushroomCloudEffectParticle.MineFactory::new);
+        registry.register(ACParticleRegistry.WATCHER_APPEARANCE.get(), new WatcherAppearanceParticle.Factory());
+        registry.register(ACParticleRegistry.VOID_BEING_CLOUD.get(), new VoidBeingCloudParticle.Factory());
+        registry.register(ACParticleRegistry.VOID_BEING_TENDRIL.get(), new VoidBeingTendrilParticle.Factory());
+        registry.register(ACParticleRegistry.VOID_BEING_EYE.get(), new VoidBeingEyeParticle.Factory());
+        registry.register(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), UnderzealotMagicParticle.Factory::new);
+        registry.register(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), MushroomCloudEffectParticle.UnderzealotFactory::new);
     }
 
     @SubscribeEvent
@@ -263,11 +279,19 @@ public class ClientProxy extends CommonProxy {
         Entity player = Minecraft.getInstance().getCameraEntity();
         if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
             GameRenderer renderer = Minecraft.getInstance().gameRenderer;
+
             if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
                 if (renderer.currentEffect() == null || !SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
                     renderer.loadEffect(SUBMARINE_SHADER);
                 }
             } else if (renderer.currentEffect() != null && SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
+                renderer.checkEntityPostEffect(null);
+            }
+            if (player instanceof WatcherEntity) {
+                if (renderer.currentEffect() == null || !WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
+                    renderer.loadEffect(WATCHER_SHADER);
+                }
+            } else if (renderer.currentEffect() != null && WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
             }
         }
@@ -282,11 +306,15 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
+        float partialTick = Minecraft.getInstance().getPartialTick();
+        float tremorAmount = renderNukeSkyDark ? 1.5F : 0F;
+        if(player instanceof WatcherEntity watcherEntity){
+            Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+            tremorAmount = watcherEntity.isPossessionBreakable() ? getPossessionStrengthAmount(partialTick) : 0F;
+        }
         if (player != null && AlexsCaves.CLIENT_CONFIG.screenShaking.get()) {
-            float tremorAmount = renderNukeSkyDark ? 1.5F : 0F;
             float shakeDistanceScale = 20F;
             double distance = Double.MAX_VALUE;
-            float partialTick = Minecraft.getInstance().getPartialTick();
             if (player.isOnGround() && tremorAmount == 0) {
                 AABB aabb = player.getBoundingBox().inflate(shakeDistanceScale);
                 for (TremorsaurusEntity tremorsaurus : Minecraft.getInstance().level.getEntitiesOfClass(TremorsaurusEntity.class, aabb)) {
@@ -313,6 +341,20 @@ public class ClientProxy extends CommonProxy {
         }
         Direction dir = MagnetUtil.getEntityMagneticDirection(player);
 
+    }
+
+    @SubscribeEvent
+    public void onRenderHand(RenderHandEvent event) {
+        if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void onPreRenderGuiOverlay(RenderGuiOverlayEvent.Pre event) {
+        if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity && (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.ITEM_NAME.id()))) {
+            event.setCanceled(true);
+        }
     }
 
     @SubscribeEvent
@@ -395,8 +437,8 @@ public class ClientProxy extends CommonProxy {
         if (!fluidstate.isEmpty() && fluidstate.getType().getFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setCanceled(true);
             float farness = 10.0F;
-            if(Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())){
-                farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float)event.getPartialTick());
+            if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())) {
+                farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float) event.getPartialTick());
             }
             event.setFarPlaneDistance(farness);
             event.setNearPlaneDistance(0.0F);
@@ -413,8 +455,8 @@ public class ClientProxy extends CommonProxy {
                 });
                 farness = (float) vec31.x;
             }
-            if(Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())){
-                farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float)event.getPartialTick());
+            if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())) {
+                farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float) event.getPartialTick());
             }
             if (farness != 1.0F) {
                 event.setCanceled(true);
@@ -542,10 +584,10 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void bakeModels(final ModelEvent.ModifyBakingResult e) {
-        if(AlexsCaves.CLIENT_CONFIG.emissiveBlockModels.get()){
+        if (AlexsCaves.CLIENT_CONFIG.emissiveBlockModels.get()) {
             long time = System.currentTimeMillis();
             for (ResourceLocation id : e.getModels().keySet()) {
-                if(FULLBRIGHTS.stream().anyMatch(str -> id.toString().startsWith(str))){
+                if (FULLBRIGHTS.stream().anyMatch(str -> id.toString().startsWith(str))) {
                     e.getModels().put(id, new BakedModelShadeLayerFullbright(e.getModels().get(id)));
                 }
             }
@@ -566,7 +608,7 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
-    private void registerKeybinds(RegisterKeyMappingsEvent e){
+    private void registerKeybinds(RegisterKeyMappingsEvent e) {
         e.register(ACKeybindRegistry.KEY_SUB_FLOODLIGHTS);
     }
 
@@ -589,6 +631,10 @@ public class ClientProxy extends CommonProxy {
 
     public float getNukeFlashAmount(float partialTicks) {
         return prevNukeFlashAmount + (nukeFlashAmount - prevNukeFlashAmount) * partialTicks;
+    }
+
+    public float getPossessionStrengthAmount(float partialTicks) {
+        return prevPossessionStrengthAmount + (possessionStrengthAmount - prevPossessionStrengthAmount) * partialTicks;
     }
 
     public boolean checkIfParticleAt(SimpleParticleType simpleParticleType, BlockPos at) {
@@ -628,6 +674,16 @@ public class ClientProxy extends CommonProxy {
             } else if (nukeFlashAmount > 0F) {
                 nukeFlashAmount = Math.max(nukeFlashAmount - 0.05F, 0F);
             }
+            prevPossessionStrengthAmount = possessionStrengthAmount;
+            if(Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity watcherEntity){
+                if(possessionStrengthAmount < watcherEntity.getPossessionStrength()){
+                    possessionStrengthAmount = Math.min(possessionStrengthAmount + 0.2F, watcherEntity.getPossessionStrength());
+                }else{
+                    possessionStrengthAmount = Math.max(possessionStrengthAmount - 0.2F, watcherEntity.getPossessionStrength());
+                }
+            }else if (possessionStrengthAmount > 0F) {
+                possessionStrengthAmount = Math.max(possessionStrengthAmount - 0.05F, 0F);
+            }
         }
     }
 
@@ -641,6 +697,9 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void onComputeFOV(ViewportEvent.ComputeFov event) {
+        if (event.getCamera().getEntity() instanceof WatcherEntity) {
+            event.setFOV(90);
+        }
         Player player = Minecraft.getInstance().player;
         FogType fogtype = event.getCamera().getFluidInCamera();
         if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && fogtype == FogType.WATER) {
@@ -648,7 +707,11 @@ public class ClientProxy extends CommonProxy {
             event.setFOV(event.getFOV() / f);
         }
     }
+
     public boolean isKeyDown(int keyType) {
+        if (keyType == -1) {
+            return Minecraft.getInstance().options.keyLeft.isDown() || Minecraft.getInstance().options.keyRight.isDown() || Minecraft.getInstance().options.keyUp.isDown() || Minecraft.getInstance().options.keyDown.isDown() || Minecraft.getInstance().options.keyJump.isDown();
+        }
         if (keyType == 0) {
             return Minecraft.getInstance().options.keyJump.isDown();
         }
@@ -665,6 +728,7 @@ public class ClientProxy extends CommonProxy {
     public Object getISTERProperties() {
         return isterProperties;
     }
+
     @Override
     public Object getArmorProperties() {
         return armorProperties;
@@ -680,6 +744,70 @@ public class ClientProxy extends CommonProxy {
 
     public boolean isSpelunkeryTutorialComplete() {
         return this.spelunkeryTutorialComplete;
+    }
+
+    public void setRenderViewEntity(Player player, Entity entity) {
+        if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
+            lastPOV = Minecraft.getInstance().options.getCameraType();
+            Minecraft.getInstance().setCameraEntity(entity);
+            Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+        }
+    }
+
+    public void resetRenderViewEntity() {
+        Minecraft.getInstance().setCameraEntity(Minecraft.getInstance().player);
+        Minecraft.getInstance().options.setCameraType(lastPOV);
+    }
+
+
+    public void preScreenRender(float partialTick) {
+        float screenEffectIntensity = Minecraft.getInstance().options.screenEffectScale().get().floatValue();
+        float watcherPossessionStrength = getPossessionStrengthAmount(partialTick);
+        float nukeFlashAmount = getNukeFlashAmount(partialTick);
+        if (nukeFlashAmount > 0 && (AlexsCaves.CLIENT_CONFIG.nuclearBombFlash.get())) {
+            int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+            int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, nukeFlashAmount * screenEffectIntensity);
+            RenderSystem.setShaderTexture(0, ClientProxy.BOMB_FLASH);
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder bufferbuilder = tesselator.getBuilder();
+            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+            bufferbuilder.vertex(0.0D, screenHeight, -90.0D).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(screenWidth, screenHeight, -90.0D).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(screenWidth, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
+            tesselator.end();
+            RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        }
+        if (watcherPossessionStrength > 0) {
+            int screenWidth = Minecraft.getInstance().getWindow().getGuiScaledWidth();
+            int screenHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, watcherPossessionStrength * screenEffectIntensity);
+            RenderSystem.setShaderTexture(0, ClientProxy.WATCHER_EFFECT);
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder bufferbuilder = tesselator.getBuilder();
+            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+            bufferbuilder.vertex(0.0D, screenHeight, -90.0D).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(screenWidth, screenHeight, -90.0D).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(screenWidth, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
+            tesselator.end();
+            RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        }
     }
 }
 

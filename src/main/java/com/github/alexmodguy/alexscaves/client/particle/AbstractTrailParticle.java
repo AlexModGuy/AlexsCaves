@@ -78,8 +78,7 @@ public abstract class AbstractTrailParticle extends Particle {
             int samples = 0;
             Vec3 drawFrom = new Vec3(x, y, z);
             VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(getTrailRenderType());
-            Vec3 fromCamera = cameraPos.subtract(drawFrom);
-            float zRot = getTrailRot(fromCamera);
+            float zRot = getTrailRot(camera);
             Vec3 topAngleVec = new Vec3(0, getTrailHeight() / 2F, 0).zRot(zRot);
             Vec3 bottomAngleVec = new Vec3(0, getTrailHeight() / -2F, 0).zRot(zRot);
             int j = getLightColor(partialTick);
@@ -106,8 +105,8 @@ public abstract class AbstractTrailParticle extends Particle {
         }
     }
 
-    public float getTrailRot(Vec3 fromCamera) {
-       return (float)(-Math.atan2((double)fromCamera.y, (double)fromCamera.horizontalDistance()));
+    public float getTrailRot(Camera camera) {
+       return -0.017453292F * camera.getXRot();
     }
 
     public abstract float getTrailHeight();

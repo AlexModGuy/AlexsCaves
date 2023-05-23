@@ -29,6 +29,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> TUBE_WORM_AVOIDS = registerBlockTag("tube_worm_avoids");
     public static final TagKey<Block> GROWS_MUSSELS = registerBlockTag("grows_mussels");
     public static final TagKey<Block> WHALEFALL_IGNORES = registerBlockTag("whalefall_ignores");
+    public static final TagKey<Block> UNDERZEALOT_LIGHT_SOURCES = registerBlockTag("underzealot_light_sources");
     public static final TagKey<Block> GLOOMOTH_LIGHT_SOURCES = registerBlockTag("gloomoth_light_sources");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");

@@ -1,5 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFindLightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFlightGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -25,7 +27,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class GloomothEntity extends PathfinderMob {
+public class GloomothEntity extends PathfinderMob implements UnderzealotSacrifice {
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private float flyProgress;
@@ -42,6 +44,9 @@ public class GloomothEntity extends PathfinderMob {
 
     private int refreshLightPosIn = 0;
 
+    private boolean isBeingSacrificed = false;
+    private int sacrificeTime = 0;
+
     public GloomothEntity(EntityType entityType, Level level) {
         super(entityType, level);
         switchNavigator(true);
@@ -52,6 +57,7 @@ public class GloomothEntity extends PathfinderMob {
         super.defineSynchedData();
         this.entityData.define(FLYING, false);
     }
+
     private void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
@@ -65,7 +71,7 @@ public class GloomothEntity extends PathfinderMob {
     }
 
     protected PathNavigation createNavigation(Level worldIn) {
-        return new FlyingPathNavigation(this, worldIn){
+        return new FlyingPathNavigation(this, worldIn) {
             public boolean isStableDestination(BlockPos blockPos) {
                 return this.level.getBlockState(blockPos).isAir();
             }
@@ -77,7 +83,6 @@ public class GloomothEntity extends PathfinderMob {
         this.goalSelector.addGoal(1, new GloomothFindLightGoal(this, 32));
         this.goalSelector.addGoal(2, new GloomothFlightGoal(this));
     }
-
 
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.MAX_HEALTH, 4.0D);
@@ -116,15 +121,42 @@ public class GloomothEntity extends PathfinderMob {
                 switchNavigator(true);
             }
         }
-        if(lightPos != null && !level.isClientSide){
-            if(refreshLightPosIn-- < 0){
+        if (lightPos != null && !level.isClientSide) {
+            if (refreshLightPosIn-- < 0) {
                 refreshLightPosIn = 40 + random.nextInt(100);
-                if(this.distanceToSqr(Vec3.atCenterOf(lightPos)) >= 256 || !level.getBlockState(lightPos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) || level.getLightEmission(lightPos) <= 0){
+                if (this.distanceToSqr(Vec3.atCenterOf(lightPos)) >= 256 || !level.getBlockState(lightPos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) || level.getLightEmission(lightPos) <= 0) {
                     lightPos = null;
                 }
             }
         }
         tickRotation(yMov * 2.5F * -(float) (180F / (float) Math.PI));
+        if (isBeingSacrificed && !level.isClientSide) {
+            sacrificeTime--;
+            if(sacrificeTime < 10){
+                this.level.broadcastEntityEvent(this, (byte) 61);
+            }
+            if (sacrificeTime < 0) {
+                if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
+                    underzealot.triggerIdleDigging();
+                }
+                this.stopRiding();
+                WatcherEntity watcherEntity = this.convertTo(ACEntityRegistry.WATCHER.get(), true);
+                if(watcherEntity != null){
+                    net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, watcherEntity);
+                    watcherEntity.stopRiding();
+                }
+            }
+        }
+    }
+
+    public void handleEntityEvent(byte b) {
+        if (b == 61) {
+            for(int i = 0; i < 1 + random.nextInt(4); i++){
+                this.level.addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
+            }
+        }else{
+            super.handleEntityEvent(b);
+        }
     }
 
     private void tickRotation(float yMov) {
@@ -196,7 +228,7 @@ public class GloomothEntity extends PathfinderMob {
     }
 
     public void calculateEntityAnimation(boolean flying) {
-        float f1 = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
         float f2 = Math.min(f1 * 6.0F, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
     }
@@ -204,6 +236,7 @@ public class GloomothEntity extends PathfinderMob {
     public MobType getMobType() {
         return MobType.ARTHROPOD;
     }
+
     public static boolean isValidLightLevel(ServerLevelAccessor levelAccessor, BlockPos blockPos, RandomSource randomSource) {
         if (levelAccessor.getBrightness(LightLayer.SKY, blockPos) > randomSource.nextInt(32)) {
             return false;
@@ -221,13 +254,17 @@ public class GloomothEntity extends PathfinderMob {
         return canMonsterSpawnInLight(entityType, iServerWorld, reason, pos, random);
     }
 
+    @Override
+    public void triggerSacrificeIn(int time) {
+        isBeingSacrificed = true;
+        sacrificeTime = time;
+    }
+
 
     class FlightMoveHelper extends MoveControl {
-        private final GloomothEntity parentEntity;
 
         public FlightMoveHelper(GloomothEntity gloomoth) {
             super(gloomoth);
-            this.parentEntity = gloomoth;
         }
 
         public void tick() {
@@ -247,22 +284,22 @@ public class GloomothEntity extends PathfinderMob {
                 float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED) * 3);
                 float rotBy = maxRotChange;
                 this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, (double) f1 * d1 * 0.025D, 0.0D));
-                if(d4 < this.mob.getBbWidth() + 1.4F){
+                if (d4 < this.mob.getBbWidth() + 1.4F) {
                     f1 *= 0.7F;
-                    if(d4 < 0.3F){
+                    if (d4 < 0.3F) {
                         rotBy = 0;
-                    }else{
+                    } else {
                         rotBy = Math.max(40, maxRotChange);
                     }
-                }else{
+                } else {
                     flag = true;
                 }
                 float f = (float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90.0F;
                 this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, rotBy));
-                if(d3 > 0.3){
+                if (d3 > 0.3) {
                     this.mob.setSpeed(f1);
                     flag = true;
-                }else{
+                } else {
                     this.mob.setSpeed(0.0F);
                 }
             } else {
