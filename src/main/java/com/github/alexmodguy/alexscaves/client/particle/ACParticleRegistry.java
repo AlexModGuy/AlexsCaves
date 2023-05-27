@@ -45,5 +45,6 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> VOID_BEING_EYE = DEF_REG.register("void_being_eye", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> UNDERZEALOT_MAGIC = DEF_REG.register("underzealot_magic", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> UNDERZEALOT_EXPLOSION = DEF_REG.register("underzealot_explosion", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> FALLING_GUANO = DEF_REG.register("falling_guano", ()-> new SimpleParticleType(false));
 
 }

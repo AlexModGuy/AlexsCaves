@@ -33,7 +33,7 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
         long worldTime = entity.level.getGameTime() % 10;
-        if(entity.isCarrying() || entity.isPackFollower()){
+        if(entity.isCarrying() || entity.isPackFollower() || entity.sacrificeCooldown > 0){
             return false;
         }
         if (entity.getRandom().nextInt(30) != 0 && worldTime != 0 && (target == null || !target.isAlive())) {
@@ -70,11 +70,12 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return sacrifice != null && sacrifice.isAlive() && !entity.isPackFollower() && isValidSacrifice(sacrifice) && entity.distanceTo(sacrifice) < 32;
+        return sacrifice != null && sacrifice.isAlive() && !entity.isPackFollower() && isValidSacrifice(sacrifice) && entity.distanceTo(sacrifice) < 32 && entity.sacrificeCooldown < 0;
     }
 
     public void stop(){
         this.entity.getNavigation().stop();
+        this.entity.ejectPassengers();
     }
 
     public void tick() {

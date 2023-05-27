@@ -18,16 +18,14 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
 
-public class GossamerWormPartEntity extends ACMultipartEntity<GossamerWormEntity> {
+public class CorrodentTailEntity extends ACMultipartEntity<CorrodentEntity> {
 
-    private final Entity connectedTo;
     private EntityDimensions size;
     public float scale = 1;
 
-    public GossamerWormPartEntity(GossamerWormEntity parent, Entity connectedTo, float sizeXZ, float sizeY) {
+    public CorrodentTailEntity(CorrodentEntity parent) {
         super(parent);
-        this.connectedTo = connectedTo;
-        this.size = EntityDimensions.fixed(sizeXZ, sizeY);
+        this.size = EntityDimensions.fixed(0.9F, 0.9F);
         this.refreshDimensions();
     }
 
@@ -41,7 +39,8 @@ public class GossamerWormPartEntity extends ACMultipartEntity<GossamerWormEntity
 
     public void setToTransformation(Vec3 offset, float xRot, float yRot) {
         Vec3 transformed = offset.xRot((float) (-xRot * (Math.PI / 180F))).yRot((float) (-yRot * (Math.PI / 180F)));
-        Vec3 offseted = transformed.add(connectedTo.position().add(0, connectedTo.getBbHeight() * 0.5F, 0));
+        Vec3 offseted = transformed.add(getParent().position().add(0, getParent().getBbHeight() * 0.5F, 0));
         this.setPos(offseted.x, offseted.y - this.getBbHeight() * 0.5F, offseted.z);
     }
 }
+

@@ -106,12 +106,12 @@ public class VoidBeingTendrilParticle extends Particle {
         float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
         float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
         float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
-        Vector3f cameraOffset = new Vector3f(cameraOffsetX, cameraOffsetY, 0);
+        Vector3f cameraOffset = new Vector3f(cameraOffsetX, cameraOffsetY, -0.1F);
         Quaternionf quaternion = new Quaternionf(camera.rotation());
         cameraOffset.rotate(quaternion);
         float width = targetId == -1 ? 1.5F : 1.5F + (age / (float)lifetime);
         MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.getVoidBeingCloud(TENDRIL_TEXTURE));
+        VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(TENDRIL_TEXTURE));
         PoseStack posestack = new PoseStack();
         posestack.pushPose();
         posestack.translate(-cameraPos.x + x + cameraOffset.x, -cameraPos.y + y + cameraOffset.y + 0.2F * (float)Math.sin((age + partialTick + animationOffset) * 0.1F), -cameraPos.z + z + cameraOffset.z);

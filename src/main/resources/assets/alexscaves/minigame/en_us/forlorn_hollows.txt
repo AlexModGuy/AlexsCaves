@@ -11,3 +11,10 @@ hole
 sealed
 basin
 canyon
+demon
+gloomoth
+watcher
+underzealot
+corrodent
+vesper
+dust

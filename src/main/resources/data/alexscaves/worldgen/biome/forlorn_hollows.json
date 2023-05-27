@@ -21,6 +21,12 @@
       "replace_current_music": false,
       "sound": "minecraft:music.overworld.dripstone_caves"
     },
+    "particle": {
+      "options": {
+        "type": "alexscaves:falling_guano"
+      },
+      "probability": 0.005
+    },
     "fog_color": 2103829,
     "sky_color": 2629914,
     "water_color": 6122116,
@@ -98,7 +104,16 @@
     ]
   ],
   "precipitation": "rain",
-  "spawn_costs": {},
+  "spawn_costs": {
+    "alexscaves:underzealot": {
+      "charge": 0.4,
+      "energy_budget": 0.1
+    },
+    "alexscaves:corrodent": {
+      "charge": 0.4,
+      "energy_budget": 0.1
+    }
+  },
   "spawners": {
     "ambient": [
       {
@@ -120,9 +135,21 @@
     "monster": [
       {
         "type": "alexscaves:underzealot",
-        "maxCount": 4,
+        "maxCount": 1,
         "minCount": 1,
         "weight": 100
+      },
+      {
+        "type": "alexscaves:corrodent",
+        "maxCount": 4,
+        "minCount": 3,
+        "weight": 90
+      },
+      {
+        "type": "alexscaves:vesper",
+        "maxCount": 4,
+        "minCount": 2,
+        "weight": 40
       }
     ],
     "underground_water_creature": [],

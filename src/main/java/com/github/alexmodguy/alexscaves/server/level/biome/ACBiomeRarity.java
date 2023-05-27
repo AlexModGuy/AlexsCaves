@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ACBiomeRarity {
     private static long lastTestedSeed = 0;
-    private static final List<Integer> BIOME_OCTAVES = ImmutableList.of(-1, 0);
+    private static final List<Integer> BIOME_OCTAVES = ImmutableList.of(0);
     private static final Map<Integer, PerlinSimplexNoise> SIMPLEX_NOISE_HASH_MAP = new HashMap<>();
 
     public static boolean testBiomeRarity(long worldSeed, int rarityOffset, int x, int z, float min, float max) {
@@ -28,7 +28,7 @@ public class ACBiomeRarity {
             return false;
         }else{
             double simplexScale = 100.0D * Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
-            double simplexElevation = Mth.clamp(AlexsCaves.COMMON_CONFIG.biomeRarityElevation.get(), 0.1D, 3D);
+            double simplexElevation = Mth.clamp(AlexsCaves.COMMON_CONFIG.biomeRarityElevation.get(), 0.1D, 10D) * 3D;
             double simplex = noise.getValue(x / simplexScale,  z / simplexScale, false);
             double elevatedSimplex = Math.min(Math.pow(simplex, simplexElevation), 1);
             return elevatedSimplex >= min && elevatedSimplex <= max;

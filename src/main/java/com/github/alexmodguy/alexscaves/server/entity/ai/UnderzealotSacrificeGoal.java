@@ -37,6 +37,9 @@ public class UnderzealotSacrificeGoal extends Goal {
 
     @Override
     public boolean canUse() {
+        if(entity.sacrificeCooldown > 0){
+            return false;
+        }
         if(entity.isPackFollower()){
             UnderzealotEntity leader = (UnderzealotEntity) entity.getPackLeader();
             if(leader.isCarrying() && leader.getLastSacrificePos() != null && leader.distanceToSqr(Vec3.atCenterOf(leader.getLastSacrificePos())) < 2.5F) {
@@ -135,6 +138,9 @@ public class UnderzealotSacrificeGoal extends Goal {
         if(center == null){
             return false;
         }
+        if(entity.sacrificeCooldown > 0){
+            return false;
+        }
         if(entity.isPackFollower()){
             UnderzealotEntity leader = (UnderzealotEntity) entity.getPackLeader();
             return leader != null && leader.isCarrying() && leader.distanceToSqr(Vec3.atCenterOf(center)) < 5F;
@@ -160,6 +166,9 @@ public class UnderzealotSacrificeGoal extends Goal {
                 }else if((entity.getNavigation().isStuck() || attemptToFollowTicks > 60) && this.entity.distanceToSqr(at) > 8){
                     entity.setBuried(true);
                     entity.reemergeAt(BlockPos.containing(at).above(), 20 + entity.getRandom().nextInt(20));
+                }
+                if(leader != null && leader.sacrificeCooldown > 0){
+                    this.entity.sacrificeCooldown = leader.sacrificeCooldown;
                 }
                 if(leader != null && this.entity.distanceToSqr(at) < 4){
                     entity.setPraying(true);
@@ -232,6 +241,7 @@ public class UnderzealotSacrificeGoal extends Goal {
         attemptToFollowTicks = 0;
         worshippingTicks = 0;
         this.entity.getNavigation().stop();
+        this.entity.ejectPassengers();
         this.entity.setPraying(false);
         this.entity.setParticlePos(null);
     }

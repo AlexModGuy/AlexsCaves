@@ -11,7 +11,7 @@ public class MobTargetClosePlayers extends NearestAttackableTargetGoal<Player> {
     private float range;
 
     public MobTargetClosePlayers(Mob mob, float range) {
-        super(mob, Player.class, 80, true, true, null);
+        super(mob, Player.class, 50, true, true, null);
         this.mob = mob;
         this.range = range;
     }
@@ -25,6 +25,6 @@ public class MobTargetClosePlayers extends NearestAttackableTargetGoal<Player> {
     }
 
     protected double getFollowDistance() {
-        return 3.0D;
+        return this.range;
     }
 }

@@ -31,7 +31,7 @@ public class GloomothFlightGoal  extends Goal {
         if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger()) {
             return false;
         } else {
-            if (entity.isOnGround() && !entity.isFlying() && entity.getRandom().nextInt(45) != 0) {
+            if (entity.isOnGround() && !entity.isFlying() && entity.getRandom().nextInt(10) != 0) {
                 return false;
             }
             Vec3 target = this.generatePosition();

@@ -173,6 +173,8 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.GLOOMOTH.get(), GloomothRenderer::new);
         EntityRenderers.register(ACEntityRegistry.UNDERZEALOT.get(), UnderzealotRenderer::new);
         EntityRenderers.register(ACEntityRegistry.WATCHER.get(), WatcherRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.CORRODENT.get(), CorrodentRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.VESPER.get(), VesperRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -229,6 +231,7 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.VOID_BEING_EYE.get(), new VoidBeingEyeParticle.Factory());
         registry.register(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), UnderzealotMagicParticle.Factory::new);
         registry.register(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), MushroomCloudEffectParticle.UnderzealotFactory::new);
+        registry.register(ACParticleRegistry.FALLING_GUANO.get(), FallingGuanoParticle.Factory::new);
     }
 
     @SubscribeEvent
@@ -294,6 +297,9 @@ public class ClientProxy extends CommonProxy {
             } else if (renderer.currentEffect() != null && WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
             }
+        }
+        if(event.getStage() == RenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS){
+            RenderSystem.runAsFancy(() -> CorrodentRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && AlexsCaves.CLIENT_CONFIG.ambersolShines.get()) {
             RenderSystem.runAsFancy(() -> AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));

@@ -6,11 +6,13 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFindLightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFlightGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -21,6 +23,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +32,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class GloomothEntity extends PathfinderMob implements UnderzealotSacrifice {
 
-    private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(GloomothEntity.class, EntityDataSerializers.BOOLEAN);
     private float flyProgress;
     private float prevFlyProgress;
     private float flapAmount;
@@ -137,6 +140,7 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
             }
             if (sacrificeTime < 0) {
                 if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
+                    underzealot.postSacrifice(this);
                     underzealot.triggerIdleDigging();
                 }
                 this.stopRiding();
@@ -251,7 +255,19 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
     }
 
     public static <T extends Mob> boolean checkGloomothSpawnRules(EntityType<GloomothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        return canMonsterSpawnInLight(entityType, iServerWorld, reason, pos, random);
+        if(canMonsterSpawnInLight(entityType, iServerWorld, reason, pos, random)){
+            BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
+            above.set(pos);
+            int k = 0;
+            while(iServerWorld.isEmptyBlock(above) && above.getY() < iServerWorld.getMaxBuildHeight()){
+                above.move(0, 1, 0);
+                k++;
+                if(k > 4){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -260,6 +276,25 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         sacrificeTime = time;
     }
 
+    private void doInitialPosing(LevelAccessor world) {
+        BlockPos above = this.blockPosition();
+        int upBy = 3 + random.nextInt(5);
+        int k = 0;
+        while(world.isEmptyBlock(above) && above.getY() < level.getMaxBuildHeight() && k < upBy){
+            above = above.above();
+            k++;
+        }
+        this.setFlying(true);
+        this.setPos(above.getX() + 0.5F, above.getY(), above.getZ() + 0.5F);
+    }
+
+    @javax.annotation.Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag) {
+        if (reason == MobSpawnType.NATURAL) {
+            doInitialPosing(worldIn);
+        }
+        return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    }
 
     class FlightMoveHelper extends MoveControl {
 
