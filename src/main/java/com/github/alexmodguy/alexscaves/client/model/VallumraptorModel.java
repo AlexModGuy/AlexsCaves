@@ -36,7 +36,6 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
     private final AdvancedModelBox rleg2;
     private final AdvancedModelBox lquill;
     private final AdvancedModelBox rquill;
-
     private final ModelAnimator animator;
 
     public VallumraptorModel() {

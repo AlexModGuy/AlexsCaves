@@ -4,4 +4,6 @@ public interface UnderzealotSacrifice {
 
     void triggerSacrificeIn(int time);
 
+    boolean isValidSacrifice(int distanceFromGround);
+
 }

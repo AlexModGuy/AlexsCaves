@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-public class RandomlySwimGoal extends Goal {
+public class AnimalRandomlySwimGoal extends Goal {
 
     private BlockPos goal = null;
     private Mob mob;
@@ -22,7 +22,7 @@ public class RandomlySwimGoal extends Goal {
 
     private double speed;
 
-    public RandomlySwimGoal(Mob mob, int chance, int range, int belowSeaLevel, double speed) {
+    public AnimalRandomlySwimGoal(Mob mob, int chance, int range, int belowSeaLevel, double speed) {
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         this.mob = mob;
         this.chance = chance;

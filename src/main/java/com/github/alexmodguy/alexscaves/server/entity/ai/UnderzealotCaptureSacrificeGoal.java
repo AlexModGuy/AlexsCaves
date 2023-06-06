@@ -1,20 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.GloomothEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotSacrifice;
-import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
@@ -24,6 +15,8 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     private UnderzealotEntity entity;
     private LivingEntity sacrifice;
 
+    private int validTimeCheck = 0;
+
     public UnderzealotCaptureSacrificeGoal(UnderzealotEntity underzealot) {
         this.entity = underzealot;
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -32,11 +25,11 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        long worldTime = entity.level.getGameTime() % 10;
-        if(entity.isCarrying() || entity.isPackFollower() || entity.sacrificeCooldown > 0){
+        long worldTime = entity.level.getGameTime() % 20;
+        if (entity.isCarrying() || entity.isPackFollower() || entity.sacrificeCooldown > 0) {
             return false;
         }
-        if (entity.getRandom().nextInt(30) != 0 && worldTime != 0 && (target == null || !target.isAlive())) {
+        if ((worldTime != 0 || entity.getRandom().nextInt(10) != 0) && (target == null || !target.isAlive())) {
             return false;
         }
         AABB aabb = entity.getBoundingBox().inflate(20);
@@ -55,13 +48,13 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     }
 
     private boolean isValidSacrifice(LivingEntity entity) {
-        return entity instanceof UnderzealotSacrifice && !entity.isPassenger() && getDistanceToGround(entity) <= 3;
+        return entity instanceof UnderzealotSacrifice sacrifice && !entity.isPassenger() && sacrifice.isValidSacrifice(getDistanceToGround(entity));
     }
 
     private int getDistanceToGround(LivingEntity entity) {
         int downBy = 0;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(entity.getBlockX(), entity.getBlockY(), entity.getBlockZ());
-        while(entity.level.isEmptyBlock(pos) && pos.getY() > entity.level.getMinBuildHeight()){
+        while (entity.level.isEmptyBlock(pos) && pos.getY() > entity.level.getMinBuildHeight()) {
             pos.move(0, -1, 0);
             downBy++;
         }
@@ -70,19 +63,30 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
 
     @Override
     public boolean canContinueToUse() {
-        return sacrifice != null && sacrifice.isAlive() && !entity.isPackFollower() && isValidSacrifice(sacrifice) && entity.distanceTo(sacrifice) < 32 && entity.sacrificeCooldown < 0;
+        return sacrifice != null && sacrifice.isAlive() && !sacrifice.isPassenger() && !entity.isPackFollower() && entity.distanceTo(sacrifice) < 32 && entity.sacrificeCooldown <= 0;
     }
 
-    public void stop(){
+    public void stop() {
         this.entity.getNavigation().stop();
-        this.entity.ejectPassengers();
+    }
+
+    public void start() {
+        validTimeCheck = 0;
     }
 
     public void tick() {
         double distance = entity.distanceTo(sacrifice);
         entity.getNavigation().moveTo(sacrifice, 1.0F);
-        if(distance < 1.4F){
+        if (distance < 1.4F) {
             sacrifice.startRiding(entity);
+        }
+        Vec3 sub = sacrifice.position().subtract(entity.position());
+        if(!entity.isBuried() && sub.y > 0.5F && sub.horizontalDistance() < 2.0F && entity.isOnGround()){
+            entity.jumpFromGround();
+        }
+        validTimeCheck++;
+        if (validTimeCheck % 100 == 0 && !isValidSacrifice(sacrifice)) {
+            sacrifice = null;
         }
     }
 }

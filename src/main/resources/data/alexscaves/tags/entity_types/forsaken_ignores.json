@@ -1,0 +1,11 @@
+{
+  "__comment": "all mobs that forsaken will not be aggressive towards.",
+  "values": [
+    "minecraft:bat",
+    "alexscaves:vesper",
+    "alexscaves:corrodent",
+    "alexscaves:underzealot",
+    "alexscaves:forsaken",
+    "alexscaves:watcher"
+  ]
+}

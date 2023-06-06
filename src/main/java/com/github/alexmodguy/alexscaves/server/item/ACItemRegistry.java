@@ -85,6 +85,7 @@ public class ACItemRegistry {
         spawnEgg("watcher", ACEntityRegistry.WATCHER, 0X291C17, 0XEC1900, ACCreativeTabs.FORLORN_HOLLOWS);
         spawnEgg("corrodent", ACEntityRegistry.CORRODENT, 0X351A14, 0X593B33, ACCreativeTabs.FORLORN_HOLLOWS);
         spawnEgg("vesper", ACEntityRegistry.VESPER, 0X884E2A, 0XA54A6B, ACCreativeTabs.FORLORN_HOLLOWS);
+        spawnEgg("forsaken", ACEntityRegistry.FORSAKEN, 0X000000, 0X110909, ACCreativeTabs.FORLORN_HOLLOWS);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceLocation tabName) {

@@ -2,10 +2,10 @@ package com.github.alexmodguy.alexscaves.client.render.entity.layer;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.client.model.TremorsaurusModel;
-import com.github.alexmodguy.alexscaves.client.render.entity.TremorsaurusRenderer;
-import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
+import com.github.alexmodguy.alexscaves.client.model.ForsakenModel;
+import com.github.alexmodguy.alexscaves.client.render.entity.ForsakenRenderer;
+import com.github.alexmodguy.alexscaves.server.entity.living.ForsakenEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.CrashReport;
@@ -17,34 +17,38 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
-public class TremorsaurusHeldMobLayer extends RenderLayer<TremorsaurusEntity, TremorsaurusModel> {
+public class ForsakenHeldMobLayer extends RenderLayer<ForsakenEntity, ForsakenModel> {
 
-    public TremorsaurusHeldMobLayer(TremorsaurusRenderer render) {
+    public ForsakenHeldMobLayer(ForsakenRenderer render) {
         super(render);
     }
 
-    public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, TremorsaurusEntity tremorsaurus, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        Entity heldMob = tremorsaurus.getHeldMob();
-        if(heldMob != null){
-            float riderRot = heldMob.yRotO + (heldMob.getYRot() - heldMob.yRotO) * partialTicks;
-            boolean holdSideways = heldMob.getBbHeight() > heldMob.getBbWidth() + 0.2F;
+    public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, ForsakenEntity forsaken, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+        Entity heldMob = forsaken.getHeldMob();
+        if (heldMob != null) {
             AlexsCaves.PROXY.releaseRenderingEntity(heldMob.getUUID());
+            float vehicleRot = forsaken.yBodyRotO + (forsaken.yBodyRot - forsaken.yBodyRotO) * partialTicks;
+            float riderRot = 0;
+            float animationIntensity = ACMath.cullAnimationTick(forsaken.getAnimationTick(), 1F, forsaken.getAnimation(), partialTicks, 25, 30) * 0.75F;
+            boolean right = forsaken.getAnimation() == ForsakenEntity.ANIMATION_RIGHT_PICKUP;
+            float rightAmount = right ? 1 : -1;
+            if (heldMob instanceof LivingEntity living) {
+                riderRot = living.yBodyRotO + (living.yBodyRot - living.yBodyRotO) * partialTicks;
+            }
             matrixStackIn.pushPose();
-            getParentModel().translateToMouth(matrixStackIn);
-            matrixStackIn.translate(0, heldMob.getBbWidth() * 0.35F + 0.2F, -1F);
-            if(heldMob instanceof SubterranodonEntity subterranodon){
-                matrixStackIn.translate(0, subterranodon.getFlyProgress(partialTicks) * -0.5F, 0);
+            Vec3 offset;
+            if(right){
+                offset = new Vec3(0.8F + animationIntensity, 0.8F - animationIntensity, 0.35F * heldMob.getBbHeight() - animationIntensity * 0.5F);
+            }else{
+                offset = new Vec3(-0.8F - animationIntensity, 0.8F - animationIntensity, 0.35F * heldMob.getBbHeight() - animationIntensity * 0.5F);
             }
-            if(holdSideways){
-                matrixStackIn.mulPose(Axis.ZP.rotationDegrees(90F));
-            }
+            Vec3 handPosition = getParentModel().getHandPosition(right, offset);
+            matrixStackIn.translate(handPosition.x, handPosition.y, handPosition.z);
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180F));
-            matrixStackIn.mulPose(Axis.YP.rotationDegrees(riderRot + 180F));
-            if(!holdSideways){
-                matrixStackIn.mulPose(Axis.YP.rotationDegrees(90F));
-            }
-            matrixStackIn.translate(0, -heldMob.getBbHeight() * 0.5F, 0);
+            matrixStackIn.mulPose(Axis.YP.rotationDegrees(vehicleRot - riderRot));
             if(!ClientProxy.isFirstPersonPlayer(heldMob)){
                 renderEntity(heldMob, 0, 0, 0, 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             }

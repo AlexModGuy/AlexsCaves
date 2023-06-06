@@ -13,6 +13,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ToolActions;
 
@@ -42,19 +43,21 @@ public class VesperAttackGoal extends Goal {
         if(entity.isHanging()){
             entity.setHanging(false);
             entity.setFlying(true);
+        }else if(!entity.isFlying() && entity.groundedFor <= 0){
+            entity.setFlying(true);
         }
         LivingEntity target = entity.getTarget();
         if (target != null && target.isAlive()) {
             double distance = entity.distanceTo(target);
             float f = entity.getBbWidth() + target.getBbWidth();
             if (startOrbitFrom == null) {
-                entity.getNavigation().moveTo(target, entity.isFlying() ? 4.5D : 1.5D);
+                entity.getNavigation().moveTo(target, entity.isFlying() ? 2.5D : 1D);
                 entity.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
             } else if (orbitTime < maxOrbitTime && entity.groundedFor <= 0) {
                 orbitTime++;
                 float zoomIn = 1F - orbitTime / (float) maxOrbitTime;
                 Vec3 orbitPos = orbitAroundPos(3.0F + zoomIn * 5.0F).add(0, 4 + zoomIn * 3, 0);
-                entity.getNavigation().moveTo(orbitPos.x, orbitPos.y, orbitPos.z, 3D);
+                entity.getNavigation().moveTo(orbitPos.x, orbitPos.y, orbitPos.z, entity.isFlying() ? 2.5D : 1D);
                 entity.lookAt(EntityAnchorArgument.Anchor.EYES, orbitPos);
             } else {
                 orbitTime = 0;
@@ -66,7 +69,7 @@ public class VesperAttackGoal extends Goal {
                 } else if (entity.getAnimationTick() == 8 && entity.hasLineOfSight(target)) {
                     boolean flag = target.isBlocking();
                     if(target.hurt(target.damageSources().mobAttack(entity), (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue())){
-                        if(!target.isAlive()){
+                        if(!target.isAlive() && this.entity.level.getBrightness(LightLayer.BLOCK, this.entity.blockPosition()) > 7){
                             entity.groundedFor += 40 + entity.getRandom().nextInt(20);
                         }
                     }

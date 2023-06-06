@@ -1,6 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.entity.ai.RandomlySwimGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalRandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -63,7 +63,7 @@ public class GossamerWormEntity extends WaterAnimal {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new AvoidHurtGoal());
-        this.goalSelector.addGoal(1, new RandomlySwimGoal(this, 3, 12, 20, 1.0D));
+        this.goalSelector.addGoal(1, new AnimalRandomlySwimGoal(this, 3, 12, 20, 1.0D));
     }
 
     protected void playSwimSound(float f) {

@@ -276,6 +276,11 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         sacrificeTime = time;
     }
 
+    @Override
+    public boolean isValidSacrifice(int distanceFromGround) {
+        return distanceFromGround < 4;
+    }
+
     private void doInitialPosing(LevelAccessor world) {
         BlockPos above = this.blockPosition();
         int upBy = 3 + random.nextInt(5);

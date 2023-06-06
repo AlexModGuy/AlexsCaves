@@ -80,10 +80,12 @@ public class UnderzealotSacrificeGoal extends Goal {
         if(isValidSacrificePos(check)){
             return check.immutable();
         }
-
         for(int i = 0; i < 20; i++){
             check.move(entity.blockPosition());
-            check.move(entity.getRandom().nextInt(32) - 16, 5, entity.getRandom().nextInt(32) - 16);
+            check.move(entity.getRandom().nextInt(20) - 10, 5, entity.getRandom().nextInt(20) - 10);
+            if(!entity.level.isLoaded(check)){
+                continue;
+            }
             while (entity.level.isEmptyBlock(check) && check.getY() > entity.level.getMinBuildHeight()) {
                 check.move(0, -1, 0);
             }

@@ -50,6 +50,8 @@ public class ACTagRegistry {
     public static final TagKey<Biome> TRENCH_IGNORES_STONE_IN = registerBiomeTag("trench_ignores_stone_in");
     public static final TagKey<EntityType<?>> RESISTS_BUBBLED = registerEntityTag("resists_bubbled");
     public static final TagKey<Block> CORRODENT_BLOCKS_DIGGING = registerBlockTag("corrodent_blocks_digging");
+    public static final TagKey<EntityType<?>> WEAK_TO_FORSAKEN_SONIC_ATTACK = registerEntityTag("weak_to_forsaken_sonic_attack");
+    public static final TagKey<EntityType<?>> FORSAKEN_IGNORES = registerEntityTag("forsaken_ignores");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));

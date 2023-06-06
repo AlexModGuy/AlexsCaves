@@ -22,6 +22,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
@@ -59,6 +60,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -175,6 +177,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.WATCHER.get(), WatcherRenderer::new);
         EntityRenderers.register(ACEntityRegistry.CORRODENT.get(), CorrodentRenderer::new);
         EntityRenderers.register(ACEntityRegistry.VESPER.get(), VesperRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.FORSAKEN.get(), ForsakenRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
             return CaveMapItem.isFilled(stack) ? 1F : 0F;
@@ -232,6 +235,9 @@ public class ClientProxy extends CommonProxy {
         registry.register(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), UnderzealotMagicParticle.Factory::new);
         registry.register(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), MushroomCloudEffectParticle.UnderzealotFactory::new);
         registry.register(ACParticleRegistry.FALLING_GUANO.get(), FallingGuanoParticle.Factory::new);
+        registry.register(ACParticleRegistry.FORSAKEN_SPIT.get(), ForsakenSpitParticle.Factory::new);
+        registry.register(ACParticleRegistry.FORSAKEN_SONAR.get(), ForsakenSonarParticle.Factory::new);
+        registry.register(ACParticleRegistry.FORSAKEN_SONAR_LARGE.get(), ForsakenSonarParticle.LargeFactory::new);
     }
 
     @SubscribeEvent
@@ -264,8 +270,10 @@ public class ClientProxy extends CommonProxy {
         }
 
         if (blockedEntityRenders.contains(event.getEntity().getUUID())) {
-            MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
-            event.setCanceled(true);
+            if(!isFirstPersonPlayer(event.getEntity())){
+                MinecraftForge.EVENT_BUS.post(new RenderLivingEvent.Post(event.getEntity(), event.getRenderer(), event.getPartialTick(), event.getPoseStack(), event.getMultiBufferSource(), event.getPackedLight()));
+                event.setCanceled(true);
+            }
             blockedEntityRenders.remove(event.getEntity().getUUID());
         }
     }
@@ -321,12 +329,12 @@ public class ClientProxy extends CommonProxy {
         if (player != null && AlexsCaves.CLIENT_CONFIG.screenShaking.get()) {
             float shakeDistanceScale = 20F;
             double distance = Double.MAX_VALUE;
-            if (player.isOnGround() && tremorAmount == 0) {
+            if (tremorAmount == 0) {
                 AABB aabb = player.getBoundingBox().inflate(shakeDistanceScale);
-                for (TremorsaurusEntity tremorsaurus : Minecraft.getInstance().level.getEntitiesOfClass(TremorsaurusEntity.class, aabb)) {
-                    if (tremorsaurus.distanceTo(player) < distance) {
-                        distance = tremorsaurus.distanceTo(player);
-                        tremorAmount = (1F - (float) (distance / shakeDistanceScale)) * Math.max(tremorsaurus.getScreenShakeAmount(partialTick), 0F);
+                for (Mob screenShaker : Minecraft.getInstance().level.getEntitiesOfClass(Mob.class, aabb, (mob -> mob instanceof ShakesScreen))) {
+                    if (((ShakesScreen)screenShaker).canFeelShake(player) && screenShaker.distanceTo(player) < distance) {
+                        distance = screenShaker.distanceTo(player);
+                        tremorAmount = (1F - (float) (distance / shakeDistanceScale)) * Math.max(((ShakesScreen)screenShaker).getScreenShakeAmount(partialTick), 0F);
                     }
                 }
             }
@@ -361,6 +369,10 @@ public class ClientProxy extends CommonProxy {
         if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity && (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.ITEM_NAME.id()))) {
             event.setCanceled(true);
         }
+    }
+
+    public static boolean isFirstPersonPlayer(Entity entity){
+        return entity.equals(Minecraft.getInstance().cameraEntity) && Minecraft.getInstance().options.getCameraType().isFirstPerson();
     }
 
     @SubscribeEvent

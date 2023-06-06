@@ -1,5 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.FlightPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VesperAttackGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VesperFlyAndHangGoal;
@@ -38,7 +40,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
-public class VesperEntity extends Monster implements IAnimatedEntity {
+public class VesperEntity extends Monster implements IAnimatedEntity, UnderzealotSacrifice {
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(VesperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HANGING = SynchedEntityData.defineId(VesperEntity.class, EntityDataSerializers.BOOLEAN);
@@ -64,6 +66,8 @@ public class VesperEntity extends Monster implements IAnimatedEntity {
     private int animationTick;
     public int groundedFor = 0;
     private boolean isLandNavigator;
+    private boolean isBeingSacrificed = false;
+    private int sacrificeTime = 0;
 
     public VesperEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -147,6 +151,10 @@ public class VesperEntity extends Monster implements IAnimatedEntity {
             capturedProgress--;
         }
         if (!level.isClientSide) {
+            if(captured){
+                this.setFlying(false);
+                this.setHanging(false);
+            }
             if (this.isHanging()) {
                 BlockPos above = posAbove();
                 if (checkHangingTime-- < 0 || random.nextFloat() < 0.1F || prevHangPos != above) {
@@ -183,6 +191,35 @@ public class VesperEntity extends Monster implements IAnimatedEntity {
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
         tickRotation((float) this.getDeltaMovement().y * 2 * -(float) (180F / (float) Math.PI));
+        if (isBeingSacrificed && !level.isClientSide) {
+            sacrificeTime--;
+            if(sacrificeTime < 10){
+                this.level.broadcastEntityEvent(this, (byte) 61);
+            }
+            if (sacrificeTime < 0) {
+                if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
+                    underzealot.postSacrifice(this);
+                    underzealot.triggerIdleDigging();
+                }
+                this.stopRiding();
+                ForsakenEntity forsakenEntity = this.convertTo(ACEntityRegistry.FORSAKEN.get(), true);
+                if(forsakenEntity != null){
+                    forsakenEntity.setAnimation(ForsakenEntity.ANIMATION_SUMMON);
+                    net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, forsakenEntity);
+                    forsakenEntity.stopRiding();
+                }
+            }
+        }
+    }
+
+    public void handleEntityEvent(byte b) {
+        if (b == 61) {
+            for(int i = 0; i < 1 + random.nextInt(4); i++){
+                this.level.addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
+            }
+        }else{
+            super.handleEntityEvent(b);
+        }
     }
 
     private void tickRotation(float yMov) {
@@ -332,7 +369,30 @@ public class VesperEntity extends Monster implements IAnimatedEntity {
     }
 
     public static boolean checkVesperSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
-        return checkMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
+        if(checkMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)){
+            BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
+            above.set(blockPos);
+            int k = 0;
+            while(levelAccessor.isEmptyBlock(above) && above.getY() < levelAccessor.getMaxBuildHeight()){
+                above.move(0, 1, 0);
+                k++;
+                if(k > 5){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void triggerSacrificeIn(int time) {
+        isBeingSacrificed = true;
+        sacrificeTime = time;
+    }
+
+    @Override
+    public boolean isValidSacrifice(int distanceFromGround) {
+        return distanceFromGround < (isHanging() ? 3 : 9);
     }
 
     class MoveController extends MoveControl {

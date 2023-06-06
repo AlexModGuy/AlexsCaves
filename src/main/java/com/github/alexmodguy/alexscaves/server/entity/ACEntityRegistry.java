@@ -67,6 +67,7 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<WatcherEntity>> WATCHER = DEF_REG.register("watcher", () -> (EntityType)EntityType.Builder.of(WatcherEntity::new, MobCategory.MONSTER).sized(0.9F, 1.9F).build("watcher"));
     public static final RegistryObject<EntityType<CorrodentEntity>> CORRODENT = DEF_REG.register("corrodent", () -> (EntityType)EntityType.Builder.of(CorrodentEntity::new, MobCategory.MONSTER).sized(0.9F, 0.9F).build("corrodent"));
     public static final RegistryObject<EntityType<VesperEntity>> VESPER = DEF_REG.register("vesper", () -> (EntityType)EntityType.Builder.of(VesperEntity::new, MobCategory.MONSTER).sized(0.99F, 1.65F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("vesper"));
+    public static final RegistryObject<EntityType<ForsakenEntity>> FORSAKEN = DEF_REG.register("forsaken", () -> (EntityType)EntityType.Builder.of(ForsakenEntity::new, MobCategory.MONSTER).sized(3F, 3.5F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("forsaken"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -101,6 +102,7 @@ public class ACEntityRegistry {
         event.put(WATCHER.get(), WatcherEntity.createAttributes().build());
         event.put(CORRODENT.get(), CorrodentEntity.createAttributes().build());
         event.put(VESPER.get(), VesperEntity.createAttributes().build());
+        event.put(FORSAKEN.get(), ForsakenEntity.createAttributes().build());
     }
 
     @SubscribeEvent
@@ -136,6 +138,7 @@ public class ACEntityRegistry {
         event.register(WATCHER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, WatcherEntity::checkWatcherSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(CORRODENT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CorrodentEntity::checkCorrodentSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(VESPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, VesperEntity::checkVesperSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(FORSAKEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ForsakenEntity::checkForsakenSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

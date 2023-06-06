@@ -46,5 +46,9 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> UNDERZEALOT_MAGIC = DEF_REG.register("underzealot_magic", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> UNDERZEALOT_EXPLOSION = DEF_REG.register("underzealot_explosion", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FALLING_GUANO = DEF_REG.register("falling_guano", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> FORSAKEN_SPIT = DEF_REG.register("forsaken_spit", ()-> new SimpleParticleType(false));
+
+    public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR = DEF_REG.register("forsaken_sonar", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR_LARGE = DEF_REG.register("forsaken_sonar_large", ()-> new SimpleParticleType(false));
 
 }

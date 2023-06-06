@@ -1,0 +1,6 @@
+{
+  "__comment": "all mobs that take additional damage from the forsaken sonic attack.",
+  "values": [
+    "minecraft:warden"
+  ]
+}

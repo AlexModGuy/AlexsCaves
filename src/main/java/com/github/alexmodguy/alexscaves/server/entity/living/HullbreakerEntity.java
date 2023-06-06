@@ -3,7 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerInspectMobGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerMeleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.RandomlySwimGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalRandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -103,7 +103,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new HullbreakerMeleeGoal(this));
         this.goalSelector.addGoal(1, new HullbreakerInspectMobGoal(this));
-        this.goalSelector.addGoal(2, new RandomlySwimGoal(this, 10, 35, 15, 1.0D));
+        this.goalSelector.addGoal(2, new AnimalRandomlySwimGoal(this, 10, 35, 15, 1.0D));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
