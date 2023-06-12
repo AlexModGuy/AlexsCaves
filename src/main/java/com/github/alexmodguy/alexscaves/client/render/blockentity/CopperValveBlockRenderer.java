@@ -45,7 +45,7 @@ public class CopperValveBlockRenderer<T extends CopperValveBlockEntity> implemen
         poseStack.mulPose(dir.getOpposite().getRotation());
 
         MODEL.setupAnim(null, 0, 0, valve.getDownAmount(partialTicks), 0, 0);
-        MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.entityCutout(TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1);
+        MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1);
         poseStack.popPose();
 
     }

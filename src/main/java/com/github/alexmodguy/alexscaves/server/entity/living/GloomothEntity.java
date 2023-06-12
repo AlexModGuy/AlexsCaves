@@ -64,11 +64,11 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
     private void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigation(this, level);
+            this.navigation = new GroundPathNavigation(this, level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new FlightMoveHelper(this);
-            this.navigation = createNavigation(level);
+            this.navigation = createNavigation(level());
             this.isLandNavigator = false;
         }
     }
@@ -124,19 +124,19 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
                 switchNavigator(true);
             }
         }
-        if (lightPos != null && !level.isClientSide) {
+        if (lightPos != null && !level().isClientSide) {
             if (refreshLightPosIn-- < 0) {
                 refreshLightPosIn = 40 + random.nextInt(100);
-                if (this.distanceToSqr(Vec3.atCenterOf(lightPos)) >= 256 || !level.getBlockState(lightPos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) || level.getLightEmission(lightPos) <= 0) {
+                if (this.distanceToSqr(Vec3.atCenterOf(lightPos)) >= 256 || !level().getBlockState(lightPos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) || level().getLightEmission(lightPos) <= 0) {
                     lightPos = null;
                 }
             }
         }
         tickRotation(yMov * 2.5F * -(float) (180F / (float) Math.PI));
-        if (isBeingSacrificed && !level.isClientSide) {
+        if (isBeingSacrificed && !level().isClientSide) {
             sacrificeTime--;
             if(sacrificeTime < 10){
-                this.level.broadcastEntityEvent(this, (byte) 61);
+                this.level().broadcastEntityEvent(this, (byte) 61);
             }
             if (sacrificeTime < 0) {
                 if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
@@ -156,7 +156,7 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
     public void handleEntityEvent(byte b) {
         if (b == 61) {
             for(int i = 0; i < 1 + random.nextInt(4); i++){
-                this.level.addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
+                this.level().addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
             }
         }else{
             super.handleEntityEvent(b);
@@ -285,7 +285,7 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         BlockPos above = this.blockPosition();
         int upBy = 3 + random.nextInt(5);
         int k = 0;
-        while(world.isEmptyBlock(above) && above.getY() < level.getMaxBuildHeight() && k < upBy){
+        while(world.isEmptyBlock(above) && above.getY() < level().getMaxBuildHeight() && k < upBy){
             above = above.above();
             k++;
         }

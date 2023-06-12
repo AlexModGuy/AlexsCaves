@@ -37,12 +37,12 @@ public class DeepOneReactToPlayerGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = deepOne.getTarget();
-        long worldTime = deepOne.level.getGameTime() % 20;
+        long worldTime = deepOne.level().getGameTime() % 20;
         if (worldTime != 0 && deepOne.getRandom().nextInt(15) != 0 || (target != null && target.isAlive()) || deepOne.getCorneringPlayer() != null) {
             return false;
         }
         AABB aabb = deepOne.getBoundingBox().inflate(80);
-        List<Player> list = deepOne.level.getEntitiesOfClass(Player.class, aabb);
+        List<Player> list = deepOne.level().getEntitiesOfClass(Player.class, aabb);
         if (!list.isEmpty()) {
             Player closest = null;
             int highestReputation = Integer.MIN_VALUE;
@@ -114,7 +114,7 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 break;
         }
         if(!deepOne.getNavigation().isDone() && (moveTarget == null || moveTarget.y  < deepOne.getY() + 2)){
-            deepOne.setDeepOneSwimming(!deepOne.isOnGround() && deepOne.isInWaterOrBubble());
+            deepOne.setDeepOneSwimming(!deepOne.onGround() && deepOne.isInWaterOrBubble());
         }
     }
 
@@ -189,7 +189,7 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 deepOne.getLookControl().setLookAt(this.player.getX(), this.player.getEyeY(), this.player.getZ(), 10.0F, (float)this.deepOne.getMaxHeadXRot());
                 if(distance < 12){
                     deepOne.getNavigation().stop();
-                    if(deepOne.isOnGround()){
+                    if(deepOne.onGround()){
                         deepOne.setDeepOneSwimming(false);
                     }
                 }

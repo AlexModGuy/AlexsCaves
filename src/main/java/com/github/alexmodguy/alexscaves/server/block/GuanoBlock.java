@@ -7,13 +7,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
@@ -25,7 +24,7 @@ public class GuanoBlock extends FallingBlockWithColor {
     protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D);
 
     public GuanoBlock() {
-        super(Properties.of(Material.CLAY, MaterialColor.COLOR_BROWN).strength(0.3F).sound(SoundType.FROGSPAWN), 0X402721);
+        super(Properties.of().mapColor(DyeColor.BROWN).strength(0.3F).sound(SoundType.FROGSPAWN), 0X402721);
     }
 
     public void entityInside(BlockState state, Level level, BlockPos blockPos, Entity entity) {

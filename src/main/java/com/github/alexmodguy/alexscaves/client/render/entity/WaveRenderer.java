@@ -40,7 +40,7 @@ public class WaveRenderer extends EntityRenderer<WaveEntity> {
         matrixStackIn.scale(1F, -(0.2F + f * 0.9F), 1F);
         MODEL.setupAnim(entityIn, 0.0F, 0.0F, ageInTicks, 0.0F, 0.0F);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getWaveTexture(entityIn.tickCount)));
-        int waterColorAt = entityIn.level.getBiome(entityIn.blockPosition()).get().getWaterColor();
+        int waterColorAt = entityIn.level().getBiome(entityIn.blockPosition()).get().getWaterColor();
         float colorR = (waterColorAt >> 16 & 255) / 255F;
         float colorG = (waterColorAt >> 8 & 255) / 255F;
         float colorB = (waterColorAt & 255) / 255F;

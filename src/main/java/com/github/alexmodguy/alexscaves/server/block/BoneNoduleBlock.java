@@ -31,7 +31,7 @@ public class BoneNoduleBlock extends Block implements SimpleWaterloggedBlock {
     private static final VoxelShape SHAPE_NORTH = Block.box(4.0D, 4.0D, 8.0D, 12.0D, 12.0D, 16.0D);
 
     public BoneNoduleBlock() {
-        super(Properties.of(Material.GRASS, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK).noOcclusion());
+        super(Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FACING, Direction.UP));
     }
 

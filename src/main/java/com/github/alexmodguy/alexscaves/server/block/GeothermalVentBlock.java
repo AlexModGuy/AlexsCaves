@@ -29,8 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -39,7 +38,7 @@ public class GeothermalVentBlock extends BaseEntityBlock {
     public static final IntegerProperty SMOKE_TYPE = IntegerProperty.create("smoke_type", 0, 3);
     public static final BooleanProperty SPAWNING_PARTICLES = BooleanProperty.create("spawning_particles");
     public GeothermalVentBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(2F, 5.0F).sound(SoundType.TUFF));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).requiresCorrectToolForDrops().strength(2F, 5.0F).sound(SoundType.TUFF));
         this.registerDefaultState(this.stateDefinition.any().setValue(SMOKE_TYPE, Integer.valueOf(0)).setValue(SPAWNING_PARTICLES, true));
     }
 
@@ -74,7 +73,7 @@ public class GeothermalVentBlock extends BaseEntityBlock {
 
     public boolean isSpawningParticles(BlockPos pos, LevelAccessor level){
         BlockState above = level.getBlockState(pos.above());
-        return (above.isAir() || !above.getMaterial().blocksMotion());
+        return (above.isAir() || !above.blocksMotion());
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {

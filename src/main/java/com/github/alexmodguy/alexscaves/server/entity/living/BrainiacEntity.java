@@ -113,7 +113,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         if (this.getLickTicks() <= 0 && shootTongueAmount > 0F) {
             shootTongueAmount--;
         }
-        if (!level.isClientSide && this.hasBarrel()) {
+        if (!level().isClientSide && this.hasBarrel()) {
             if (this.getAnimation() == ANIMATION_DRINK_BARREL && this.getAnimationTick() >= 60) {
                 this.setHasBarrel(false);
                 this.heal(10);
@@ -127,17 +127,17 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                     this.setHasBarrel(false);
                     Vec3 hand = new Vec3( 0.65F, -0.3F, 0.9F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYHeadRot() * ((float) Math.PI / 180F));
                     Vec3 handOnBody = this.getEyePosition().add(hand);
-                    ThrownWasteDrumEntity wasteDrumEntity = ACEntityRegistry.THROWN_WASTE_DRUM.get().create(level);
+                    ThrownWasteDrumEntity wasteDrumEntity = ACEntityRegistry.THROWN_WASTE_DRUM.get().create(level());
                     wasteDrumEntity.setPos(handOnBody);
                     Vec3 toss = attackTarget.getEyePosition().subtract(handOnBody).multiply(0.35F, 0, 0.35F).add(0, 0.4, 0);
                     wasteDrumEntity.setYRot(-((float) Mth.atan2(toss.x, toss.z)) * 180.0F / (float) Math.PI);
-                    level.addFreshEntity(wasteDrumEntity);
+                    level().addFreshEntity(wasteDrumEntity);
                     wasteDrumEntity.setDeltaMovement(toss.normalize().scale(attackTarget.distanceTo(this) * 0.2F));
                 }
             }
         }
         Entity tongueTarget = this.getTongueTarget();
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             if (tongueTarget != null && tongueTarget.isAlive()) {
                 lastTongueDistance = this.distanceTo(tongueTarget) - 0.5F;
             }
@@ -227,7 +227,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
     public Entity getTongueTarget() {
         int id = this.entityData.get(TONGUE_TARGET_ID);
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     protected void dropEquipment() {
@@ -377,8 +377,8 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                         BrainiacEntity.this.setAnimation(ANIMATION_BITE);
                     }
                     if(BrainiacEntity.this.getAnimation() == ANIMATION_BITE && BrainiacEntity.this.getAnimationTick() >= 10 && BrainiacEntity.this.getAnimationTick() <= 15){
-                        if(isValidTarget(level, blockPos)){
-                            level.destroyBlock(blockPos, false);
+                        if(isValidTarget(level(), blockPos)){
+                            level().destroyBlock(blockPos, false);
                             BrainiacEntity.this.setHasBarrel(true);
                         }
                     }

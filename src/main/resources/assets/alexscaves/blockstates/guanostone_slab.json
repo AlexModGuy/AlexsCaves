@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/guanostone_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/guanostone"
+    },
+    "type=top": {
+      "model": "alexscaves:block/guanostone_slab_top"
+    }
+  }
+}

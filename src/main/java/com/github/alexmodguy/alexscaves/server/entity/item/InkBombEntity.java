@@ -69,7 +69,7 @@ public class InkBombEntity extends ThrowableItemProjectile {
         if (message == 3) {
             double d0 = 0.08D;
             for (int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -101,10 +101,10 @@ public class InkBombEntity extends ThrowableItemProjectile {
 
     protected void onHit(HitResult hitResult) {
         super.onHit(hitResult);
-        if (!this.level.isClientSide) {
-            this.level.broadcastEntityEvent(this, (byte) 3);
+        if (!this.level().isClientSide) {
+            this.level().broadcastEntityEvent(this, (byte) 3);
             this.discard();
-            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level, this.getX(), this.getY() + 0.2F, this.getZ());
+            AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY() + 0.2F, this.getZ());
             areaeffectcloud.setParticle(isGlowingBomb() ? ParticleTypes.GLOW_SQUID_INK : ParticleTypes.SQUID_INK);
             areaeffectcloud.setFixedColor(0);
             areaeffectcloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
@@ -114,7 +114,7 @@ public class InkBombEntity extends ThrowableItemProjectile {
             areaeffectcloud.setRadius(2F);
             areaeffectcloud.setDuration(60);
             areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float) areaeffectcloud.getDuration());
-            this.level.addFreshEntity(areaeffectcloud);
+            this.level().addFreshEntity(areaeffectcloud);
         }
 
     }

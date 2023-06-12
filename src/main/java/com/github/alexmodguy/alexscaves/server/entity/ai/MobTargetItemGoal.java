@@ -76,7 +76,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
             return false;
         }
         if (!this.mustUpdate) {
-            long worldTime = this.mob.level.getGameTime() % 10;
+            long worldTime = this.mob.level().getGameTime() % 10;
             if (this.mob.getNoActionTime() >= 100 && worldTime != 0) {
                 return false;
             }
@@ -84,7 +84,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
                 return false;
             }
         }
-        List<ItemEntity> list = this.mob.level.getEntitiesOfClass(ItemEntity.class, this.getTargetableArea(this.getFollowDistance()), this.targetEntitySelector);
+        List<ItemEntity> list = this.mob.level().getEntitiesOfClass(ItemEntity.class, this.getTargetableArea(this.getFollowDistance()), this.targetEntitySelector);
         if (list.isEmpty()) {
             return false;
         } else {
@@ -138,7 +138,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
         }else{
             moveTo();
         }
-        if(targetEntity != null && this.mob.hasLineOfSight(targetEntity) && this.mob.getBbWidth() > 2D && this.mob.isOnGround()){
+        if(targetEntity != null && this.mob.hasLineOfSight(targetEntity) && this.mob.getBbWidth() > 2D && this.mob.onGround()){
             this.mob.getMoveControl().setWantedPosition(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ(), 1);
         }
         if (this.targetEntity != null && this.targetEntity.isAlive() && this.mob.distanceToSqr(this.targetEntity) < this.hunter.getMaxDistToItem() && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {

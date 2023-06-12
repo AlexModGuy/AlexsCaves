@@ -42,8 +42,8 @@ public class MountedEntityKeyMessage {
             if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
                 playerSided = AlexsCaves.PROXY.getClientSidePlayer();
             }
-            Entity parent = playerSided.level.getEntity(message.mountId);
-            Entity keyPresser = playerSided.level.getEntity(message.playerId);
+            Entity parent = playerSided.level().getEntity(message.mountId);
+            Entity keyPresser = playerSided.level().getEntity(message.playerId);
             if(keyPresser != null && parent instanceof KeybindUsingMount mount && keyPresser instanceof Player && keyPresser.isPassengerOfSameVehicle(parent)){
                 mount.onKeyPacket(keyPresser, message.type);
             }

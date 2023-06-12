@@ -32,7 +32,7 @@ public class UnderzealotMeleeGoal extends Goal {
         if (target != null) {
             double dist = entity.distanceTo(target);
             float f = entity.getBbWidth() + target.getBbWidth();
-            if(shouldBurrow && entity.isOnGround()){
+            if(shouldBurrow && entity.onGround()){
                 shouldBurrow = false;
                 entity.setBuried(true);
                 entity.reemergeAt(entity.findReemergePos(target.blockPosition(), 15), 20 + entity.getRandom().nextInt(60));

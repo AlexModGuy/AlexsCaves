@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -17,8 +18,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -29,7 +28,7 @@ public class NeodymiumPillarBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public NeodymiumPillarBlock(boolean azure) {
-        super(Properties.of(Material.STONE, MaterialColor.METAL).requiresCorrectToolForDrops().strength(2F, 6.0F).sound(SoundType.GLASS).lightLevel((i) -> 2).emissiveRendering((state, level, pos) -> true));
+        super(Properties.of().mapColor(DyeColor.WHITE).requiresCorrectToolForDrops().strength(2F, 6.0F).sound(SoundType.GLASS).lightLevel((i) -> 2).emissiveRendering((state, level, pos) -> true));
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)).setValue(FACING, Direction.UP));
         this.azure = azure;
     }

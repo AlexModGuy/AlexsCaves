@@ -86,7 +86,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     public void tick(){
         super.tick();
         LivingEntity target = getTarget();
-        if((target == null || !target.isAlive()) && !level.isClientSide && lastThrownTrident != null){
+        if((target == null || !target.isAlive()) && !level().isClientSide && lastThrownTrident != null){
             pickUpTrident();
         }
     }
@@ -116,8 +116,8 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     }
 
     protected boolean pickUpTrident(){
-        if(lastThrownTrident != null && !level.isClientSide){
-            if(((ServerLevel)level).getEntity(lastThrownTrident) instanceof ThrownTrident trident){
+        if(lastThrownTrident != null && !level().isClientSide){
+            if(((ServerLevel)level()).getEntity(lastThrownTrident) instanceof ThrownTrident trident){
                 if(this.distanceTo(trident) < 2.0D){
                     if(this.getAnimation() == NO_ANIMATION){
                         this.setAnimation(ANIMATION_SCRATCH);
@@ -184,14 +184,14 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     }
 
     public void throwTrident(LivingEntity target) {
-        ThrownTrident throwntrident = new ThrownTrident(this.level, this, new ItemStack(Items.TRIDENT));
+        ThrownTrident throwntrident = new ThrownTrident(this.level(), this, new ItemStack(Items.TRIDENT));
         double d0 = target.getX() - this.getX();
         double d1 = target.getY(0.3333333333333333D) - throwntrident.getY();
         double d2 = target.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        throwntrident.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level.getDifficulty().getId() * 4));
+        throwntrident.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.DROWNED_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(throwntrident);
+        this.level().addFreshEntity(throwntrident);
         lastThrownTrident = throwntrident.getUUID();
     }
 

@@ -158,7 +158,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         prevFishPitch = fishPitch;
         prevPulseAmount = pulseAmount;
         fishPitch = Mth.approachDegrees(fishPitch, Mth.clamp((float) this.getDeltaMovement().y * 2F, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI), 2.5F);
-        boolean grounded = this.isOnGround() && !isInWaterOrBubble();
+        boolean grounded = this.onGround() && !isInWaterOrBubble();
         if (grounded && landProgress < 5F) {
             landProgress++;
         }
@@ -167,7 +167,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         }
         float pulseBy = getInterestLevel() * 0.45F;
         pulseAmount += pulseBy;
-        if(!level.isClientSide){
+        if(!level().isClientSide){
             double waterHeight = getFluidTypeHeight(ForgeMod.WATER_TYPE.get());
             if(waterHeight > 0 && waterHeight < this.getBbHeight() - 1.0F){
                 this.setDeltaMovement(this.getDeltaMovement().add(0, -0.05, 0));
@@ -211,20 +211,20 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         }
         boolean flag = false;
         AABB damageBox = this.headPart.getBoundingBox().inflate(1.2F).move(this.calculateViewVector(this.getXRot(), this.getYRot()));
-        if (!level.isClientSide && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level, this) && this.getTarget() instanceof Player) {
+        if (!level().isClientSide && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this) && this.getTarget() instanceof Player) {
             for (int a = (int) Math.round(damageBox.minX); a <= (int) Math.round(damageBox.maxX); a++) {
                 for (int b = (int) Math.round(damageBox.minY) - 1; (b <= (int) Math.round(damageBox.maxY) + 1) && (b <= 127); b++) {
                     for (int c = (int) Math.round(damageBox.minZ); c <= (int) Math.round(damageBox.maxZ); c++) {
                         final BlockPos pos = new BlockPos(a, b, c);
-                        final BlockState state = level.getBlockState(pos);
-                        if (!state.isAir() && !state.getShape(level, pos).isEmpty() && !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() <= 15) {
+                        final BlockState state = level().getBlockState(pos);
+                        if (!state.isAir() && !state.getShape(level(), pos).isEmpty() && !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() <= 15) {
                             final Block block = state.getBlock();
                             if (block != Blocks.AIR) {
                                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.6F, 1, 0.6F));
                                 flag = true;
-                                level.destroyBlock(pos, true);
+                                level().destroyBlock(pos, true);
                                 if (state.is(BlockTags.ICE)) {
-                                    level.setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
+                                    level().setBlockAndUpdate(pos, Blocks.WATER.defaultBlockState());
                                 }
                             }
                         }
@@ -280,7 +280,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
 
     public boolean isTargetBlocked(Vec3 target) {
         Vec3 Vector3d = new Vec3(this.getX(), this.getEyeY(), this.getZ());
-        return this.level.clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() != HitResult.Type.MISS;
+        return this.level().clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this)).getType() != HitResult.Type.MISS;
     }
 
     public float getYawFromBuffer(int pointer, float partialTick) {

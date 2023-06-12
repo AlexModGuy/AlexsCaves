@@ -36,7 +36,7 @@ public class MineGuardianAnchorEntity extends Entity {
     }
 
     public MineGuardianAnchorEntity(MineGuardianEntity mineGuardianEntity) {
-        this(ACEntityRegistry.MINE_GUARDIAN_ANCHOR.get(), mineGuardianEntity.level);
+        this(ACEntityRegistry.MINE_GUARDIAN_ANCHOR.get(), mineGuardianEntity.level());
         this.setGuardianUUID(mineGuardianEntity.getUUID());
         this.setYRot(random.nextFloat() * 360);
         this.setPos(mineGuardianEntity.position().add(0, 0.5F, 0));
@@ -58,12 +58,12 @@ public class MineGuardianAnchorEntity extends Entity {
     public void tick() {
         super.tick();
         Entity guardian = getGuardian();
-        if (!this.isOnGround()) {
+        if (!this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08, 0));
         }
         this.move(MoverType.SELF, this.getDeltaMovement().scale(0.9F));
         this.setDeltaMovement(this.getDeltaMovement().multiply(0.9F, 0.9F, 0.9F));
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (guardian == null && this.tickCount > 20) {
                 this.remove(RemovalReason.DISCARDED);
             }
@@ -104,12 +104,12 @@ public class MineGuardianAnchorEntity extends Entity {
     }
 
     public Entity getGuardian() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             final UUID id = getGuardianUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         } else {
             int id = this.entityData.get(GUARDIAN_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 

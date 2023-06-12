@@ -36,6 +36,6 @@ public class AbyssalFloraFeature extends Feature<AbyssalFloraFeatureConfiguratio
     }
 
     private static boolean canReplace(BlockState state) {
-        return state.getFluidState().is(FluidTags.WATER) && state.getMaterial().isLiquid();
+        return state.getFluidState().is(FluidTags.WATER) && state.liquid();
     }
 }

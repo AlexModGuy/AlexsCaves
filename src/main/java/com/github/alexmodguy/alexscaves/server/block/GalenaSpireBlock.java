@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -18,8 +19,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -38,7 +37,7 @@ public class GalenaSpireBlock extends Block implements SimpleWaterloggedBlock {
     public static final VoxelShape SHAPE_3_BOTTOM = Block.box(6, 0, 6, 10, 9, 10);
 
     public GalenaSpireBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_GRAY).strength(1.5F).sound(SoundType.DEEPSLATE));
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.PURPLE).strength(1.5F).sound(SoundType.DEEPSLATE));
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(DOWN, Boolean.valueOf(false)).setValue(SHAPE, 3));
     }
 

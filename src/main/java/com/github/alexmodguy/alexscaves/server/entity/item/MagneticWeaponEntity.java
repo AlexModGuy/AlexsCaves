@@ -72,7 +72,7 @@ public class MagneticWeaponEntity extends Entity {
         prevStrikeProgress = strikeProgress;
         Entity controller = getController();
         Entity target = getTarget();
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (this.comingBack || (target == null || !target.isAlive())) {
                 this.noPhysics = true;
             } else {
@@ -88,7 +88,7 @@ public class MagneticWeaponEntity extends Entity {
         if (controller instanceof TeletorEntity teletor) {
             this.entityData.set(CONTROLLER_ID, teletor.getId());
             teletor.setWeaponUUID(this.getUUID());
-            if (!level.isClientSide) {
+            if (!level().isClientSide) {
                 Entity e = teletor.getTarget();
                 this.entityData.set(TARGET_ID, e != null && e.isAlive() ? e.getId() : -1);
             }
@@ -192,18 +192,18 @@ public class MagneticWeaponEntity extends Entity {
     }
 
     public Entity getController() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             final UUID id = getControllerUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         } else {
             int id = this.entityData.get(CONTROLLER_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 
     public Entity getTarget() {
         int id = this.entityData.get(TARGET_ID);
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     public float getStrikeProgress(float partialTick) {

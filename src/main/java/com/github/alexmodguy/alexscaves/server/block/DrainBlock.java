@@ -1,9 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -15,8 +17,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.fluids.FluidType;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class DrainBlock extends AbstractGlassBlock {
     private static final int DRAIN_TIME = 20;
 
     public DrainBlock() {
-        super(Properties.of(Material.METAL, MaterialColor.METAL).noOcclusion().requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL));
+        super(Properties.of().mapColor(MapColor.METAL).pushReaction(PushReaction.IGNORE).noOcclusion().requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL));
         this.registerDefaultState(this.defaultBlockState().setValue(OPEN, Boolean.valueOf(false)));
     }
 
@@ -187,7 +189,6 @@ public class DrainBlock extends AbstractGlassBlock {
                 BlockPos blockpos1 = blockpos.relative(direction);
                 BlockState blockstate = level.getBlockState(blockpos1);
                 FluidState fluidstate = level.getFluidState(blockpos1);
-                Material material = blockstate.getMaterial();
                 if (lastFluidState != null && !fluidstate.isEmpty() && lastFluidState.getFluidType() != fluidstate.getFluidType()) {
                     continue;
                 }
@@ -223,7 +224,7 @@ public class DrainBlock extends AbstractGlassBlock {
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
-                } else if (material == Material.WATER_PLANT || material == Material.REPLACEABLE_WATER_PLANT) {
+                } else if (blockstate.is(ACTagRegistry.DRAIN_BREAKS)) {
                     if(!fluidstate.isEmpty()){
                         lastFluidState = fluidstate;
                     }

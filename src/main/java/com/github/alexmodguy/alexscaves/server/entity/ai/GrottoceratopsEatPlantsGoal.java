@@ -51,7 +51,7 @@ public class GrottoceratopsEatPlantsGoal extends MoveToBlockGoal {
                 }else if(grottoceratops.getAnimation() == GrottoceratopsEntity.ANIMATION_CHEW_FROM_GROUND){
                     if(grottoceratops.getAnimationTick() > 15){
 
-                        grottoceratops.level.destroyBlock(target, false);
+                        grottoceratops.level().destroyBlock(target, false);
                     }
                 }
             }

@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -21,8 +22,6 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -36,7 +35,7 @@ public class TeslaBulbBlock extends BaseEntityBlock implements SimpleWaterlogged
     public static final VoxelShape SHAPE_UP = Block.box(3, 1, 3, 11, 15, 11);
 
     public TeslaBulbBlock() {
-        super(Properties.of(Material.BUILDABLE_GLASS, MaterialColor.TERRACOTTA_WHITE).strength(3.0F, 10.0F).sound(SoundType.GLASS).lightLevel((i) -> 15).emissiveRendering((state, level, pos) -> true));
+        super(Properties.of().mapColor(DyeColor.WHITE).strength(3.0F, 10.0F).sound(SoundType.GLASS).lightLevel((i) -> 15).emissiveRendering((state, level, pos) -> true));
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(DOWN, Boolean.valueOf(false)));
     }
 

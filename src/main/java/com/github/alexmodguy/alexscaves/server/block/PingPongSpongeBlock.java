@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -25,7 +26,7 @@ public class PingPongSpongeBlock extends BushBlock implements LiquidBlockContain
     public static final VoxelShape SHAPE_TOP =  Block.box(3, 0, 3, 13, 16, 13);
 
     public PingPongSpongeBlock() {
-        super(Properties.of(Material.WATER_PLANT, MaterialColor.TERRACOTTA_WHITE).dynamicShape().instabreak().lightLevel(blockstate -> 5).sound(SoundType.WET_GRASS).offsetType(OffsetType.XZ));
+        super(Properties.of().mapColor(DyeColor.WHITE).dynamicShape().instabreak().lightLevel(blockstate -> 5).sound(SoundType.WET_GRASS).offsetType(OffsetType.XZ));
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)));
     }
 

@@ -1,0 +1,18 @@
+{
+  "type": "alexscaves:cave_tablet",
+  "biome": "alexscaves:magnetic_caves",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/bastion_treasure"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/bastion_other"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/bastion_bridge"
+    }
+  ]
+}

@@ -1,6 +1,24 @@
 {
-    "parent": "minecraft:block/template_wall_post",
     "textures": {
-        "wall": "alexscaves:block/cinder_block"
-    }
+        "down": "alexscaves:block/cinder_block_top",
+        "east": "alexscaves:block/cinder_block_side",
+        "north": "alexscaves:block/cinder_block",
+        "particle": "alexscaves:block/cinder_block",
+        "south": "alexscaves:block/cinder_block",
+        "up": "alexscaves:block/cinder_block_top",
+        "west": "alexscaves:block/cinder_block_side"
+    },
+    "elements": [
+        {   "from": [ 4, 0, 4 ],
+            "to": [ 12, 16, 12 ],
+            "faces": {
+                "down":  { "texture": "#down", "cullface": "down" },
+                "up":    { "texture": "#up", "cullface": "up" },
+                "north": { "texture": "#north" },
+                "south": { "texture": "#south" },
+                "west":  { "texture": "#west" },
+                "east":  { "texture": "#east" }
+            }
+        }
+    ]
 }

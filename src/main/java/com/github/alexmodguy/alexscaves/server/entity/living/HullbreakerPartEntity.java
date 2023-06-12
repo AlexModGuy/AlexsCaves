@@ -48,7 +48,7 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
             return InteractionResult.PASS;
         } else {
             this.playSound(SoundEvents.ITEM_BREAK);
-            if(player.level.isClientSide){
+            if(player.level().isClientSide){
                 AlexsCaves.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
             }
             return parent.interact(player, hand);
@@ -78,7 +78,7 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
         HullbreakerEntity parent = this.getParent();
         if(!this.isInvulnerableTo(source) && parent != null){
             Entity player = source.getEntity();
-            if(player != null && player.level.isClientSide){
+            if(player != null && player.level().isClientSide){
                 AlexsCaves.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 1, amount));
             }
         }

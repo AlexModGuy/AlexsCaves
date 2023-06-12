@@ -24,7 +24,8 @@ import com.github.alexmodguy.alexscaves.server.level.structure.processor.ACStruc
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRuleConditionRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.*;
-import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabs;
+import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.recipe.ACRecipeRegistry;
@@ -88,7 +89,6 @@ public class AlexsCaves {
         modEventBus.addListener(this::loadConfig);
         modEventBus.addListener(this::reloadConfig);
         modEventBus.addListener(this::registerLayerDefinitions);
-        modEventBus.addListener(ACCreativeTabs::registerTabs);
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.register(PROXY);
         ACBlockRegistry.DEF_REG.register(modEventBus);
@@ -111,6 +111,8 @@ public class AlexsCaves {
         ACFrogRegistry.DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
+        ACLootTableRegistry.DEF_REG.register(modEventBus);
+        ACCreativeTabRegistry.DEF_REG.register(modEventBus);
         PROXY.init();
         ACBiomeRegistry.init();
     }

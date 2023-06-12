@@ -81,7 +81,7 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
                 if(randomsource.nextBoolean()){
                     Direction randomDirection = Direction.from2DDataValue(2 + randomsource.nextInt(3));
                     worm.move(randomDirection.getStepX(), randomDirection.getStepY(), randomDirection.getStepZ());
-                    if(level.getBlockState(worm).getMaterial().isLiquid()){
+                    if(!level.getFluidState(worm).isEmpty()){
                         level.setBlock(prevWorm, wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.TURN).setValue(TubeWormBlock.FACING, randomDirection), 4);
                         wormState = wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, randomDirection.getOpposite());
                     }else{
@@ -94,7 +94,7 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
                 worm.move(0, 1, 0);
                 canBranch = placedWorms > 1;
             }
-            if(!level.isWaterAt(worm) && !level.getBlockState(worm).getMaterial().isLiquid()){
+            if(!level.isWaterAt(worm) && level.getFluidState(worm).isEmpty()){
                 break;
             }else{
                 level.setBlock(worm, wormState, 4);

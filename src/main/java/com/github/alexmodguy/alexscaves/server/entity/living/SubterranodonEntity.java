@@ -132,11 +132,11 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     private void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigation(this, level);
+            this.navigation = new GroundPathNavigation(this, level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new FlightMoveHelper(this);
-            this.navigation = new FlyingPathNavigation(this, level);
+            this.navigation = new FlyingPathNavigation(this, level());
             this.isLandNavigator = false;
         }
     }
@@ -151,7 +151,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
         prevFlightRoll = flightRoll;
         prevTailYaw = tailYaw;
         prevDanceProgress = danceProgress;
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
             this.setDancing(false);
             this.jukeboxPosition = null;
         }
@@ -204,7 +204,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
                 switchNavigator(true);
             }
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             this.setHovering(isHoveringFromServer() && isFlying());
             if (this.isHovering() && isFlying() && this.isAlive()) {
                 if (timeFlying < 30) {

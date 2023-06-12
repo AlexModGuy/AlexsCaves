@@ -155,7 +155,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     public void tick() {
         super.tick();
         prevDanceProgress = danceProgress;
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
             this.setDancing(false);
             this.jukeboxPosition = null;
         }
@@ -180,7 +180,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
             this.heal(2);
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (isStillEnough() && random.nextInt(200) == 0 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
                 Animation idle;
                 float rand = random.nextFloat();
@@ -278,7 +278,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
 
     public Entity getHeldMob() {
         int id = getHeldMobId();
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     public void setPushingTreesFor(int time) {
@@ -342,12 +342,12 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     public BlockPos getStandAtTreePos(BlockPos target) {
         Vec3 vec3 = Vec3.atCenterOf(target).subtract(this.position());
         float f = -((float) Mth.atan2(vec3.x, vec3.z)) * 180.0F / (float) Math.PI;
-        BlockState state = level.getBlockState(target);
+        BlockState state = level().getBlockState(target);
         Direction dir = Direction.fromYRot(f);
         if (state.is(ACBlockRegistry.PEWEN_BRANCH.get())) {
             dir = Direction.fromYRot(state.getValue(PewenBranchBlock.ROTATION) * 45);
         }
-        if (level.getBlockState(target.below()).isAir()) {
+        if (level().getBlockState(target.below()).isAir()) {
             target = target.relative(dir);
         }
         return target.relative(dir.getOpposite(), 4).atY((int) this.getY());
@@ -356,7 +356,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     public boolean lockTreePosition(BlockPos target) {
         Vec3 vec3 = Vec3.atCenterOf(target).subtract(this.position());
         float f = -((float) Mth.atan2(vec3.x, vec3.z)) * 180.0F / (float) Math.PI;
-        BlockState state = level.getBlockState(target);
+        BlockState state = level().getBlockState(target);
         Direction dir = Direction.fromYRot(f);
         if (state.is(ACBlockRegistry.PEWEN_BRANCH.get())) {
             dir = Direction.fromYRot(state.getValue(PewenBranchBlock.ROTATION) * 45);
@@ -365,7 +365,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         this.setYRot(targetRot);
         this.setYHeadRot(targetRot);
         this.yBodyRot = targetRot;
-        if (level.getBlockState(target.below()).isAir()) {
+        if (level().getBlockState(target.below()).isAir()) {
             target = target.relative(dir);
         }
         Vec3 vec31 = Vec3.atCenterOf(target.relative(dir.getOpposite(), 2));

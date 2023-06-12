@@ -50,39 +50,39 @@ public class ThrownWasteDrumEntity extends Entity {
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
-        if (this.onGround) {
+        if (this.onGround()) {
             this.setOnGroundFor(this.getOnGroundFor() + 1);
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.7, 0.7D));
         }
         if(this.getDeltaMovement().length() > 0.03F){
             AABB killBox = this.getBoundingBox();
             boolean b = false;
-            for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, killBox)) {
+            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, killBox)) {
                 if(!(entity instanceof BrainiacEntity)){
                     b = true;
-                    entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), 2);
+                    entity.hurt(ACDamageTypes.causeAcidDamage(level().registryAccess()), 2);
                 }
             }
             if(b){
                 this.setDeltaMovement(this.getDeltaMovement().multiply(0.2D, 1, 0.2D));
             }
         }
-        if (this.getOnGroundFor() >= MAX_TIME && !level.isClientSide) {
+        if (this.getOnGroundFor() >= MAX_TIME && !level().isClientSide) {
             if(this.getOnGroundFor() == MAX_TIME){
                 BlockPos landed = this.blockPosition();
-                while (landed.getY() < level.getMaxBuildHeight() && (!level.getBlockState(landed).isAir() || !level.getBlockState(landed).getFluidState().isEmpty() && level.getBlockState(landed).getFluidState().getFluidType() != ACFluidRegistry.ACID_FLUID_TYPE.get())) {
+                while (landed.getY() < level().getMaxBuildHeight() && (!level().getBlockState(landed).isAir() || !level().getBlockState(landed).getFluidState().isEmpty() && level().getBlockState(landed).getFluidState().getFluidType() != ACFluidRegistry.ACID_FLUID_TYPE.get())) {
                     landed = landed.above();
                 }
                 removeWasteAt = landed;
-                if(level.getBlockState(removeWasteAt).isAir()){
+                if(level().getBlockState(removeWasteAt).isAir()){
                     BlockState fluid = ACBlockRegistry.ACID.get().defaultBlockState();
-                    level.setBlockAndUpdate(removeWasteAt, fluid);
+                    level().setBlockAndUpdate(removeWasteAt, fluid);
                 }
             }
             if(this.getOnGroundFor() >= MAX_TIME + 15 && removeWasteAt != null) {
                 this.remove(RemovalReason.DISCARDED);
-                if(level.getFluidState(removeWasteAt).getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()){
-                    level.setBlockAndUpdate(removeWasteAt, Blocks.AIR.defaultBlockState());
+                if(level().getFluidState(removeWasteAt).getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()){
+                    level().setBlockAndUpdate(removeWasteAt, Blocks.AIR.defaultBlockState());
                 }
             }
         }

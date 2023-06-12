@@ -69,7 +69,7 @@ public class VesperAttackGoal extends Goal {
                 } else if (entity.getAnimationTick() == 8 && entity.hasLineOfSight(target)) {
                     boolean flag = target.isBlocking();
                     if(target.hurt(target.damageSources().mobAttack(entity), (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue())){
-                        if(!target.isAlive() && this.entity.level.getBrightness(LightLayer.BLOCK, this.entity.blockPosition()) > 7){
+                        if(!target.isAlive() && this.entity.level().getBrightness(LightLayer.BLOCK, this.entity.blockPosition()) > 7){
                             entity.groundedFor += 40 + entity.getRandom().nextInt(20);
                         }
                     }
@@ -105,7 +105,7 @@ public class VesperAttackGoal extends Goal {
 
     protected void damageShieldFor(Player holder, float damage) {
         if (holder.getUseItem().canPerformAction(ToolActions.SHIELD_BLOCK)) {
-            if (!entity.level.isClientSide) {
+            if (!entity.level().isClientSide) {
                 holder.awardStat(Stats.ITEM_USED.get(holder.getUseItem().getItem()));
             }
 
@@ -122,7 +122,7 @@ public class VesperAttackGoal extends Goal {
                     } else {
                         holder.setItemSlot(EquipmentSlot.OFFHAND, ItemStack.EMPTY);
                     }
-                    holder.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + entity.level.random.nextFloat() * 0.4F);
+                    holder.playSound(SoundEvents.SHIELD_BREAK, 0.8F, 0.8F + entity.level().random.nextFloat() * 0.4F);
                 }
             }
 

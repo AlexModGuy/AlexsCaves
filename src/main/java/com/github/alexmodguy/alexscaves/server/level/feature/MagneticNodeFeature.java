@@ -58,7 +58,7 @@ public class MagneticNodeFeature extends Feature<MagneticNodeFeatureConfiguratio
     }
 
     private static boolean canReplace(BlockState state){
-        return state.isAir() || state.getMaterial().isReplaceable();
+        return state.isAir() || state.canBeReplaced();
     }
 
     private static void generatePillar(WorldGenLevel level, BlockPos pos, BlockStateProvider pillarState, BlockStateProvider nodeState, Direction facing, RandomSource randomSource, int height){

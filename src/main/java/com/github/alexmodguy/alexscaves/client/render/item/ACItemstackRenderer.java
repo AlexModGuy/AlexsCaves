@@ -1,10 +1,14 @@
 package com.github.alexmodguy.alexscaves.client.render.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.model.CopperValveModel;
 import com.github.alexmodguy.alexscaves.client.model.OrtholanceModel;
 import com.github.alexmodguy.alexscaves.client.model.SeaStaffModel;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -22,6 +26,9 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static final ResourceLocation ORTHOLANCE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/ortholance.png");
     private static final OrtholanceModel ORTHOLANCE_MODEL = new OrtholanceModel();
+
+    private static final ResourceLocation COPPER_VALVE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/copper_valve.png");
+    private static final CopperValveModel COPPER_VALVE_MODEL = new CopperValveModel();
 
     public ACItemstackRenderer() {
         super(null, null);
@@ -66,6 +73,15 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             } else {
                 Minecraft.getInstance().getItemRenderer().renderStatic(spriteItem, transformType, transformType == ItemDisplayContext.GROUND ? combinedLightIn : 240, combinedOverlayIn, matrixStackIn, bufferIn, level, 0);
             }
+        }
+
+        if (itemStackIn.is(ACBlockRegistry.COPPER_VALVE.get().asItem())) {
+            matrixStackIn.pushPose();
+            matrixStackIn.translate(0.5F, 1.5F, 0.5F);
+            matrixStackIn.mulPose(Axis.XP.rotationDegrees(-180));
+            COPPER_VALVE_MODEL.resetToDefaultPose();
+            COPPER_VALVE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(RenderType.entityCutoutNoCull(COPPER_VALVE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            matrixStackIn.popPose();
         }
     }
 }

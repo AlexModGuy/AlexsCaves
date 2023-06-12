@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -33,7 +34,7 @@ public class BoneWormsBlock extends Block implements SimpleWaterloggedBlock {
 
 
     public BoneWormsBlock() {
-        super(BlockBehaviour.Properties.of(Material.SPONGE, MaterialColor.COLOR_RED).instabreak().sound(SoundType.WET_GRASS).noOcclusion().noCollission().dynamicShape());
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.PINK).instabreak().sound(SoundType.WET_GRASS).noOcclusion().noCollission().dynamicShape());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, Boolean.valueOf(true)));
     }
 

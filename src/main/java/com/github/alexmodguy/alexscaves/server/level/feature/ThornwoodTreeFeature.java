@@ -156,6 +156,6 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.getMaterial().isReplaceable() || state.is(ACBlockRegistry.PEWEN_BRANCH.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
+        return (state.isAir() || state.canBeReplaced() || state.is(ACBlockRegistry.PEWEN_BRANCH.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
     }
 }

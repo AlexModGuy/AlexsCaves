@@ -56,15 +56,15 @@ public class NuclearExplosionEntity extends Entity {
         if (!spawnedParticle) {
             spawnedParticle = true;
             int particleY = (int) Math.ceil(this.getY());
-            while (particleY > level.getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level.getBlockState(BlockPos.containing(this.getX(), particleY, this.getZ())))) {
+            while (particleY > level().getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level().getBlockState(BlockPos.containing(this.getX(), particleY, this.getZ())))) {
                 particleY--;
             }
-            level.addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize() + 0.2F, 0, 0);
+            level().addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize() + 0.2F, 0, 0);
         }
         if (tickCount > 40 && destroyingChunks.isEmpty()) {
             this.remove(RemovalReason.DISCARDED);
         } else {
-            if (!level.isClientSide) {
+            if (!level().isClientSide) {
                 if (destroyingChunks.isEmpty()) {
                     BlockPos center = this.blockPosition();
                     int chunks = chunksAffected;
@@ -86,7 +86,7 @@ public class NuclearExplosionEntity extends Entity {
             AABB killBox = this.getBoundingBox().inflate(radius + radius * 0.5F, radius * 0.6, radius + radius * 0.5F);
             float flingStrength = getSize() * 0.33F;
             float maximumDistance = radius + radius * 0.5F + 1;
-            for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, killBox)) {
+            for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, killBox)) {
                 float dist = entity.distanceTo(this);
                 float damage = calculateDamage(dist, maximumDistance);
                 Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
@@ -97,7 +97,7 @@ public class NuclearExplosionEntity extends Entity {
                     }else if(entity.getType().is(ACTagRegistry.RESISTS_RADIATION)){
                         damage *= 0.25F;
                     }
-                    entity.hurt(ACDamageTypes.causeNukeDamage(level.registryAccess()), damage);
+                    entity.hurt(ACDamageTypes.causeNukeDamage(level().registryAccess()), damage);
                 }
                 entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));
             }
@@ -120,25 +120,25 @@ public class NuclearExplosionEntity extends Entity {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 for (int y = 15; y >= 0; y--) {
-                    carve.set(chunkCorner.getX() + x, Mth.clamp(chunkCorner.getY() + y, level.getMinBuildHeight(), level.getMaxBuildHeight()), chunkCorner.getZ() + z);
+                    carve.set(chunkCorner.getX() + x, Mth.clamp(chunkCorner.getY() + y, level().getMinBuildHeight(), level().getMaxBuildHeight()), chunkCorner.getZ() + z);
                     float widthSimplexNoise1 = (ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F) * 0.45F + 0.55F;
                     double yDist = ACMath.smin(0.6F - Math.abs(this.blockPosition().getY() - carve.getY()) / (float) radius, 0.6F, 0.2F);
                     double distToCenter = carve.distToLowCornerSqr(this.blockPosition().getX(), carve.getY() - 1, this.blockPosition().getZ());
                     double targetRadius = yDist * (radius + widthSimplexNoise1 * radius) * radius;
                     if (distToCenter <= targetRadius) {
-                        BlockState state = level.getBlockState(carve);
+                        BlockState state = level().getBlockState(carve);
                         if ((!state.isAir() || !state.getFluidState().isEmpty()) && isDestroyable(state)) {
                             carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
                             if (random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
-                                level.destroyBlock(carve, true);
+                                level().destroyBlock(carve, true);
                             } else {
-                                level.setBlockAndUpdate(carve, Blocks.AIR.defaultBlockState());
+                                level().setBlockAndUpdate(carve, Blocks.AIR.defaultBlockState());
                             }
                         }
                     }
                 }
-                if (random.nextFloat() < 0.15 && !level.getBlockState(carveBelow).isAir()) {
-                    level.setBlockAndUpdate(carveBelow.above(), Blocks.FIRE.defaultBlockState());
+                if (random.nextFloat() < 0.15 && !level().getBlockState(carveBelow).isAir()) {
+                    level().setBlockAndUpdate(carveBelow.above(), Blocks.FIRE.defaultBlockState());
                 }
             }
         }

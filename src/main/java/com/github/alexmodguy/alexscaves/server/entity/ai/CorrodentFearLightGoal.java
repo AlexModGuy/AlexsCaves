@@ -23,18 +23,18 @@ public class CorrodentFearLightGoal  extends Goal {
 
     @Override
     public boolean canUse() {
-        return this.entity.level.getBrightness(LightLayer.BLOCK, this.entity.blockPosition()) > CorrodentEntity.LIGHT_THRESHOLD && !this.entity.isDigging();
+        return this.entity.level().getBrightness(LightLayer.BLOCK, this.entity.blockPosition()) > CorrodentEntity.LIGHT_THRESHOLD && !this.entity.isDigging();
     }
 
 
     @Override
     public void tick() {
         this.entity.fleeLightFor = 50;
-        int light = this.entity.level.getBrightness(LightLayer.BLOCK, this.entity.blockPosition());
+        int light = this.entity.level().getBrightness(LightLayer.BLOCK, this.entity.blockPosition());
         if(retreatTo == null || this.entity.distanceToSqr(retreatTo) < 6){
             for (int i = 0; i < 15; i++){
                 Vec3 vec3 = DefaultRandomPos.getPosAway(this.entity, 30, 15, this.entity.position());
-                if(vec3 != null && this.entity.level.getBrightness(LightLayer.BLOCK, BlockPos.containing(vec3)) < CorrodentEntity.LIGHT_THRESHOLD){
+                if(vec3 != null && this.entity.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(vec3)) < CorrodentEntity.LIGHT_THRESHOLD){
                     retreatTo = vec3;
                     break;
                 }
@@ -45,7 +45,7 @@ public class CorrodentFearLightGoal  extends Goal {
             Vec3 flip = retreatTo.subtract(entity.position()).yRot((float) (Math.PI * 0.5F)).add(entity.position());
             entity.lookAt(EntityAnchorArgument.Anchor.EYES, flip);
             entity.getMoveControl().strafe(-1F, 0F);
-            if(entity.isOnGround() && tryDigTime++ > 20){
+            if(entity.onGround() && tryDigTime++ > 20){
                 tryDigTime = 0;
                 if(tryDigPos != null && tryDigPos.distSqr(entity.blockPosition()) < 2.25F){
                     entity.setDigging(true);
@@ -59,7 +59,7 @@ public class CorrodentFearLightGoal  extends Goal {
     @Override
     public void stop() {
         this.entity.setAfraid(false);
-        if(entity.isOnGround()){
+        if(entity.onGround()){
             this.entity.fleeLightFor = 50;
             this.entity.setDigging(true);
         }

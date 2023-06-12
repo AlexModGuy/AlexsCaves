@@ -38,7 +38,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -145,7 +144,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         if (!isPraying() && prayingProgress > 0.0F) {
             prayingProgress--;
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if(this.isCarrying() && this.isPackFollower()){
                 for(Entity passenger : this.getPassengers()){
                     passenger.stopRiding();
@@ -162,7 +161,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
                 Vec3 centerOf = Vec3.atBottomCenterOf(this.blockPosition()).subtract(this.position());
                 this.getDeltaMovement().add(centerOf.x * 0.1F, 0, centerOf.z * 0.1F);
             } else if (digsIdle() && idleBuryIn-- < 0) {
-                if (this.isOnGround()) {
+                if (this.onGround()) {
                     this.setBuried(true);
                     idleBuryIn = 0;
                     reemergeAt(findReemergePos(this.blockPosition(), 10), 40 + random.nextInt(60));
@@ -173,9 +172,9 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
             }
         } else if (isDiggingInProgress()) {
             BlockState stateOn = this.getBlockStateOn();
-            if (stateOn.getMaterial() != Material.AIR) {
+            if (stateOn.isSolid()) {
                 for (int i = 0; i < 3; i++) {
-                    level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, stateOn), true, this.getRandomX(0.8F), this.getY(), this.getRandomZ(0.8F), random.nextFloat() - 0.5F, random.nextFloat() + 0.5F, random.nextFloat() - 0.5F);
+                    level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, stateOn), true, this.getRandomX(0.8F), this.getY(), this.getRandomZ(0.8F), random.nextFloat() - 0.5F, random.nextFloat() + 0.5F, random.nextFloat() - 0.5F);
                 }
             }
             if(isBuried()){
@@ -197,15 +196,15 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
             Vec3 leftHand = eye.add(new Vec3(0.8F, 0, 0).yRot(-yBodyRot * ((float) Math.PI / 180F)));
             Vec3 rightHand = eye.add(new Vec3(-0.8F, 0, 0).yRot(-yBodyRot * ((float) Math.PI / 180F)));
             Vec3 target = this.getParticlePos() == null ? this.position().add(0, 4, 0) : Vec3.atCenterOf(getParticlePos());
-            this.level.addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), leftHand.x, leftHand.y, leftHand.z, target.x, target.y, target.z);
-            this.level.addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), rightHand.x, rightHand.y, rightHand.z, target.x, target.y, target.z);
+            this.level().addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), leftHand.x, leftHand.y, leftHand.z, target.x, target.y, target.z);
+            this.level().addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), rightHand.x, rightHand.y, rightHand.z, target.x, target.y, target.z);
         } else if (b == 62) {
             Vec3 particleAt = this.getParticlePos() == null ? this.position().add(0, 4, 0) : Vec3.atCenterOf(getParticlePos());
             int carryingId = -1;
             if(this.isVehicle()){
                 carryingId = this.getFirstPassenger() == null ? -1 : this.getFirstPassenger().getId();
             }
-            this.level.addParticle(ACParticleRegistry.VOID_BEING_CLOUD.get(), particleAt.x, particleAt.y, particleAt.z, 1F, carryingId, 5 + random.nextInt(4));
+            this.level().addParticle(ACParticleRegistry.VOID_BEING_CLOUD.get(), particleAt.x, particleAt.y, particleAt.z, 1F, carryingId, 5 + random.nextInt(4));
         } else {
             super.handleEntityEvent(b);
         }
@@ -214,13 +213,13 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     public BlockPos findReemergePos(BlockPos origin, int range) {
         for (int i = 0; i < 15; i++) {
             BlockPos blockPos = origin.offset(this.getRandom().nextInt(range) - range / 2, this.getRandom().nextInt(range) - range / 2, this.getRandom().nextInt(range) - range / 2);
-            while (!level.isEmptyBlock(blockPos) && blockPos.getY() < level.getMaxBuildHeight()) {
+            while (!level().isEmptyBlock(blockPos) && blockPos.getY() < level().getMaxBuildHeight()) {
                 blockPos = blockPos.above();
             }
-            while (level.isEmptyBlock(blockPos.below()) && blockPos.getY() > level.getMinBuildHeight()) {
+            while (level().isEmptyBlock(blockPos.below()) && blockPos.getY() > level().getMinBuildHeight()) {
                 blockPos = blockPos.below();
             }
-            if (!level.isEmptyBlock(blockPos.below()) && blockPos.distSqr(origin) < range * range + 10) {
+            if (!level().isEmptyBlock(blockPos.below()) && blockPos.distSqr(origin) < range * range + 10) {
                 return blockPos;
             }
         }
@@ -239,8 +238,8 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.remergePos = pos;
         this.reemergeTime = time;
     }
-    public void positionRider(Entity entity) {
-        super.positionRider(entity);
+    public void positionRider(Entity entity, MoveFunction moveFunction) {
+        super.positionRider(entity, moveFunction);
         entity.setYRot(this.yBodyRot);
         entity.setYHeadRot(this.yBodyRot);
         entity.setYBodyRot(this.yBodyRot);

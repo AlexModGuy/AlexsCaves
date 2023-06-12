@@ -33,12 +33,12 @@ public class HullbreakerInspectMobGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        long worldTime = entity.level.getGameTime() % 10;
+        long worldTime = entity.level().getGameTime() % 10;
         if (entity.getRandom().nextInt(60) != 0 && worldTime != 0 && (target == null || !target.isAlive())) {
             return false;
         }
         AABB aabb = entity.getBoundingBox().inflate(80);
-        List<LivingEntity> list = entity.level.getEntitiesOfClass(LivingEntity.class, aabb, HullbreakerEntity.GLOWING_TARGET);
+        List<LivingEntity> list = entity.level().getEntitiesOfClass(LivingEntity.class, aabb, HullbreakerEntity.GLOWING_TARGET);
         if (!list.isEmpty()) {
             LivingEntity closest = null;
             for (LivingEntity mob : list) {
@@ -120,7 +120,7 @@ public class HullbreakerInspectMobGoal extends Goal {
         if (vec31.distanceTo(vec3) > 128.0D) {
             return false;
         } else {
-            return entity.level.clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, lowestPrey)).getType() == HitResult.Type.MISS;
+            return entity.level().clip(new ClipContext(vec3, vec31, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, lowestPrey)).getType() == HitResult.Type.MISS;
         }
     }
 

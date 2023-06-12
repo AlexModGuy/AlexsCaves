@@ -121,7 +121,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
         }
         if(this.getAnimation() == ANIMATION_SPRAY){
             if(this.getAnimationTick() == 10){
-                AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level, this.getX(), this.getY() + 0.2F, this.getZ());
+                AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY() + 0.2F, this.getZ());
                 areaeffectcloud.setParticle(ACParticleRegistry.GAMMAROACH.get());
                 areaeffectcloud.setFixedColor(0X77D60E);
                 areaeffectcloud.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 2000));
@@ -129,10 +129,10 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                 areaeffectcloud.setDuration(200);
                 areaeffectcloud.setWaitTime(10);
                 areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
-                this.level.addFreshEntity(areaeffectcloud);
+                this.level().addFreshEntity(areaeffectcloud);
             }else if(this.getAnimationTick() >= 10 && this.getAnimationTick() <= 30){
                 Vec3 randomOffset = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).normalize().scale(1).add(this.getEyePosition());
-                this.level.addParticle(ACParticleRegistry.GAMMAROACH.get(), this.getRandomX(2), this.getEyeY(), this.getRandomZ(2), randomOffset.x, randomOffset.y + 0.23D, randomOffset.z);
+                this.level().addParticle(ACParticleRegistry.GAMMAROACH.get(), this.getRandomX(2), this.getEyeY(), this.getRandomZ(2), randomOffset.x, randomOffset.y + 0.23D, randomOffset.z);
 
             }
         }
@@ -237,7 +237,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                 if(checkForMobsTime < 0){
                     checkForMobsTime = 120 + GammaroachEntity.this.random.nextInt(100);
                     Predicate<Entity> monsterAway = (animal) -> animal instanceof Enemy && !(animal instanceof GammaroachEntity) && animal.distanceTo(target) > 5 && !animal.isPassenger();
-                    List<Mob> list = GammaroachEntity.this.level.getEntitiesOfClass(Mob.class, GammaroachEntity.this.getBoundingBox().inflate(30, 12, 30), EntitySelector.NO_SPECTATORS.and(monsterAway));
+                    List<Mob> list = GammaroachEntity.this.level().getEntitiesOfClass(Mob.class, GammaroachEntity.this.getBoundingBox().inflate(30, 12, 30), EntitySelector.NO_SPECTATORS.and(monsterAway));
                     list.sort(Comparator.comparingDouble(GammaroachEntity.this::distanceToSqr));
                     if (!list.isEmpty()) {
                         pickupMonster = list.get(0);

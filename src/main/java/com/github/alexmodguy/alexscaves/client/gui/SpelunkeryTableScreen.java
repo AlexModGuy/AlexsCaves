@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -92,61 +93,56 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         }
     }
 
-    public void render(PoseStack stack, int x, int y, float partialTick) {
-        this.renderBackground(stack);
-        this.renderBg(stack, partialTick, x, y);
-        super.render(stack, x, y, partialTick);
-        this.renderMagnify(stack, partialTick);
-        this.renderTooltip(stack, x, y);
-        this.renderDescText(stack);
-        this.renderTabletText(stack);
+    public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
+        this.renderBackground(guiGraphics);
+        this.renderBg(guiGraphics, partialTick, x, y);
+        super.render(guiGraphics, x, y, partialTick);
+        this.renderMagnify(guiGraphics, partialTick);
+        this.renderTooltip(guiGraphics, x, y);
+        this.renderDescText(guiGraphics);
+        this.renderTabletText(guiGraphics);
     }
 
-    private void renderDescText(PoseStack stack) {
+    private void renderDescText(GuiGraphics guiGraphics) {
         int i = this.leftPos - 58;
         int j = this.topPos;
         if (targetWordButton != null && hasTablet() && hasPaper()) {
             Component find = Component.translatable("alexscaves.container.spelunkery_table.find");
             Component attempts = Component.translatable("alexscaves.container.spelunkery_table.attempts");
-            this.font.draw(stack, find, i + 20 - (font.width(find) / 2F), j + 20, 0X99876C);
-            this.font.draw(stack, targetWordButton.getNormalText(), i + 20 - (font.width(targetWordButton.getNormalText()) / 2F), j + 35, highlightColor);
-            this.font.draw(stack, attempts, i + 20 - (font.width(attempts) / 2F), j + 60, 0X99876C);
+            guiGraphics.drawString(font, find, i + 20 - (font.width(find) / 2), j + 20, 0X99876C, false);
+            guiGraphics.drawString(font, targetWordButton.getNormalText(), i + 20 - (font.width(targetWordButton.getNormalText()) / 2), j + 35, highlightColor, false);
+            guiGraphics.drawString(font, attempts, i + 20 - (font.width(attempts) / 2), j + 60, 0X99876C, false);
             int tallySpace = 0;
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
             for (int tally = 1; tally <= attemptsLeft; tally++) {
                 if (tally % 5 == 0) {
-                    blit(stack, i + 10 + tallySpace - 22, j + 70, 3, 52, 27, 14);
+                    guiGraphics.blit(WIDGETS_TEXTURE, i + 10 + tallySpace - 22, j + 70, 3, 52, 27, 14);
                     tallySpace += 7;
                 } else {
-                    blit(stack, i + 10 + tallySpace, j + 70, 0, 52, 3, 14);
-                    blit(stack, i + 10 + tallySpace, j + 70, 0, 52, 3, 14);
+                    guiGraphics.blit(WIDGETS_TEXTURE, i + 10 + tallySpace, j + 70, 0, 52, 3, 14);
+                    guiGraphics.blit(WIDGETS_TEXTURE, i + 10 + tallySpace, j + 70, 0, 52, 3, 14);
                     tallySpace += 4;
                 }
             }
         }
     }
 
-    private void renderTabletText(PoseStack stack) {
+    private void renderTabletText(GuiGraphics guiGraphics) {
         float partialTick = Minecraft.getInstance().getPartialTick();
         float x = getMagnifyPosX(partialTick);
         float y = getMagnifyPosY(partialTick);
         if (hasTablet()) {
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            stack.pushPose();
+            guiGraphics.pose().pushPose();
             for (Renderable renderable : renderables) {
                 if (renderable instanceof SpelunkeryTableWordButton tableWordButton) {
-                    tableWordButton.renderTranslationText(tickCount, highlightColor, stack, font, x + 5, x + 32, y + 6, y + 32);
+                    tableWordButton.renderTranslationText(tickCount, highlightColor, guiGraphics, font, x + 5, x + 32, y + 6, y + 32);
                 }
             }
-            stack.popPose();
+            guiGraphics.pose().popPose();
         }
     }
 
     @Override
-    protected void renderTooltip(PoseStack poseStack, int mouseX, int mouseY) {
+    protected void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         if(isFirstTimeUsing() && tutorialStep < 6){
             int i = this.leftPos;
             int j = this.topPos;
@@ -158,7 +154,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
                 if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
                     Component tabletName = Component.translatable(ACItemRegistry.CAVE_TABLET.get().getDescriptionId()).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.YELLOW);
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.slot_info_tablet_0", tabletName).withStyle(ChatFormatting.GRAY), Component.translatable("alexscaves.container.spelunkery_table.slot_info_tablet_1").withStyle(ChatFormatting.GRAY));
-                    this.renderTooltip(poseStack, step1Tooltip, Optional.empty(), mouseX, mouseY, font);
+                    guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }else if(tutorialStep == 1){
                 exclaimX = 74;
@@ -166,28 +162,28 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
                 if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
                     Component paperName = Component.translatable(Items.PAPER.getDescriptionId()).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.WHITE);
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.slot_info_paper", paperName).withStyle(ChatFormatting.GRAY));
-                    this.renderTooltip(poseStack, step1Tooltip, Optional.empty(), mouseX, mouseY, font);
+                    guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }else if(tutorialStep == 2){
                 exclaimX = 170;
                 exclaimY = 23;
                 if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.translate").withStyle(ChatFormatting.GRAY));
-                    this.renderTooltip(poseStack, step1Tooltip, Optional.empty(), mouseX, mouseY, font);
+                    guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }else if(tutorialStep == 3){
                 exclaimX = 185;
                 exclaimY = 140;
                 if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.glass").withStyle(ChatFormatting.GRAY));
-                    this.renderTooltip(poseStack, step1Tooltip, Optional.empty(), mouseX, mouseY, font);
+                    guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }else if(tutorialStep == 4){
                 exclaimX = -15;
                 exclaimY = 15;
                 if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.guess_name").withStyle(ChatFormatting.GRAY));
-                    this.renderTooltip(poseStack, step1Tooltip, Optional.empty(), mouseX, mouseY, font);
+                    guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }else if(tutorialStep == 5){
                 exclaimX = 35;
@@ -196,16 +192,13 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
                     Component scrollName = Component.translatable(ACItemRegistry.CAVE_CODEX.get().getDescriptionId()).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.YELLOW);
                     int toDoLevels = Math.max(0, 3 - level);
                     List<Component> step1Tooltip = List.of(Component.translatable(toDoLevels == 1 ? "alexscaves.container.spelunkery_table.level" :  "alexscaves.container.spelunkery_table.levels", toDoLevels, scrollName).withStyle(ChatFormatting.GRAY));
-                    this.renderTooltip(poseStack, step1Tooltip, Optional.empty(), mouseX, mouseY, font);
+                    guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }
-            RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
-            blit(poseStack, i + exclaimX, j + exclaimY, tickCount % 20 < 10 ? 7 : 0, 70, 7, 16);
+            guiGraphics.blit(WIDGETS_TEXTURE, i + exclaimX, j + exclaimY, tickCount % 20 < 10 ? 7 : 0, 70, 7, 16);
 
         }
-        super.renderTooltip(poseStack, mouseX, mouseY);
+        super.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     public float getMagnifyPosX(float f) {
@@ -216,12 +209,12 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         return prevMagnifyPosY + (magnifyPosY - prevMagnifyPosY) * f;
     }
 
-    private void renderMagnify(PoseStack stack, float partialTick) {
+    private void renderMagnify(GuiGraphics guiGraphics, float partialTick) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        Matrix4f matrix4f = stack.last().pose();
+        Matrix4f matrix4f = guiGraphics.pose().last().pose();
         float actualPartialTick = Minecraft.getInstance().getFrameTime();
         float lerpX = getMagnifyPosX(actualPartialTick);
         float lerpY = getMagnifyPosY(actualPartialTick);
@@ -244,24 +237,19 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         BufferUploader.drawWithShader(bufferbuilder.end());
     }
 
-    protected void renderBg(PoseStack poseStack, float f, int x, int y) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
+    protected void renderBg(GuiGraphics guiGraphics, float f, int x, int y) {
         int i = this.leftPos;
         int j = this.topPos;
-        blit(poseStack, i, j, 0, 0, this.imageWidth, this.imageHeight);
-        RenderSystem.setShaderTexture(0, WIDGETS_TEXTURE);
+        guiGraphics.blit(TEXTURE, i, j, 0, 0, this.imageWidth, this.imageHeight);
         for (int bulb = 0; bulb < Math.min(level, 3); bulb++) {
-            blit(poseStack, i + 92 + bulb * 15, j + 143, 0, 0, 13, 14);
+            guiGraphics.blit(WIDGETS_TEXTURE, i + 92 + bulb * 15, j + 143, 0, 0, 13, 14);
         }
         if(hasPaper()){
-            blit(poseStack, i - 80, j + 10, 176, 0, 80, 149);
+            guiGraphics.blit(WIDGETS_TEXTURE, i - 80, j + 10, 176, 0, 80, 149);
         }
         int tablet = hasTablet() ? attemptsLeft <= 1 ? 2 : 1 : 0;
         if (tablet > 0) {
-            RenderSystem.setShaderTexture(0, TABLET_TEXTURE);
-            blit(poseStack, i + 20, j + 19, 0, (tablet - 1) * 121, 168, 120);
+            guiGraphics.blit(TABLET_TEXTURE, i + 20, j + 19, 0, (tablet - 1) * 121, 168, 120);
         }
     }
 
@@ -391,9 +379,8 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         return super.mouseReleased(mouseX, mouseY, button);
     }
 
-    protected void renderLabels(PoseStack poseStack, int x, int y) {
-        this.font.draw(poseStack, this.title, (float) this.titleLabelX - (font.width(title) / 2F), (float) this.titleLabelY, 4210752);
-
+    protected void renderLabels(GuiGraphics guiGraphics, int x, int y) {
+        guiGraphics.drawString(font, this.title,  this.titleLabelX - (font.width(title) / 2), this.titleLabelY, 4210752, false);
     }
 
     private ResourceLocation getWordsForItem(ItemStack stack) {

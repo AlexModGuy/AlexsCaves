@@ -14,14 +14,13 @@ import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.Nullable;
 
 public class AmbersolBlock extends BaseEntityBlock {
 
     public AmbersolBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(3F, 10.0F).randomTicks().sound(SoundType.GLASS).lightLevel((i) -> 15).emissiveRendering((state, level, pos) -> true));
+        super(Properties.of().mapColor(MapColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(3F, 10.0F).randomTicks().sound(SoundType.GLASS).lightLevel((i) -> 15).emissiveRendering((state, level, pos) -> true));
     }
 
     public static BlockPos fillWithLights(BlockPos current, LevelAccessor level) {

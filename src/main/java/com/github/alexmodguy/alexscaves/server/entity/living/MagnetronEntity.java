@@ -34,7 +34,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -85,11 +84,11 @@ public class MagnetronEntity extends Monster {
     private void switchMoveController(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = createNavigation(level);
+            this.navigation = createNavigation(level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new MoveController();
-            this.navigation = createFormedNavigation(level);
+            this.navigation = createFormedNavigation(level());
             this.isLandNavigator = false;
         }
     }
@@ -182,7 +181,7 @@ public class MagnetronEntity extends Monster {
                 wheelRot = Mth.approachDegrees(wheelRot, 0, 15);
             }
         }
-        if (!this.level.isClientSide && !isFormed()) {
+        if (!this.level().isClientSide && !isFormed()) {
             LivingEntity target = this.getTarget();
             if(target instanceof Player && target.isAlive() && this.distanceTo(target) < 8){
                 this.startForming();
@@ -216,7 +215,7 @@ public class MagnetronEntity extends Monster {
         if (!moving && rollLeanProgress > 0F) {
             rollLeanProgress--;
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (isFormed() && this.isLandNavigator) {
                 switchMoveController(false);
             }
@@ -225,7 +224,7 @@ public class MagnetronEntity extends Monster {
             }
         }
         tickMultipart();
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             for (int i = 0; i < lightningAnimOffsets.length; i++) {
                 lightningAnimOffsets[i] = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).scale(0.3F);
             }
@@ -238,12 +237,12 @@ public class MagnetronEntity extends Monster {
         }
         if (!this.isAlive() && this.isFormed()) {
             for (MagnetronPartEntity part : allParts) {
-                if (part.getBlockState() != null && level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                if (part.getBlockState() != null && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
                     BlockPos placeAt = part.blockPosition();
-                    while (!level.getBlockState(placeAt).isAir() && placeAt.getY() < level.getMaxBuildHeight()) {
+                    while (!level().getBlockState(placeAt).isAir() && placeAt.getY() < level().getMaxBuildHeight()) {
                         placeAt = placeAt.above();
                     }
-                    FallingBlockEntity blockEntity = FallingBlockEntity.fall(level, placeAt, part.getBlockState());
+                    FallingBlockEntity blockEntity = FallingBlockEntity.fall(level(), placeAt, part.getBlockState());
                     part.setBlockState(null);
                 }
             }
@@ -315,7 +314,7 @@ public class MagnetronEntity extends Monster {
                 for (int searchX = 0; searchX <= searchWidth; searchX = searchX > 0 ? -searchX : 1 - searchX) {
                     for (int searchZ = searchX < searchWidth && searchX > -searchWidth ? searchWidth : 0; searchZ <= searchWidth; searchZ = searchZ > 0 ? -searchZ : 1 - searchZ) {
                         mutableBlockPos.setWithOffset(this.blockPosition(), searchX, searchY - 1, searchZ);
-                        if (blockMatch.test(this.level.getBlockState(mutableBlockPos)) && !list.contains(mutableBlockPos.immutable()) && !ignoreMatch.test(mutableBlockPos.immutable()) && random.nextFloat() < rngDiscard) {
+                        if (blockMatch.test(this.level().getBlockState(mutableBlockPos)) && !list.contains(mutableBlockPos.immutable()) && !ignoreMatch.test(mutableBlockPos.immutable()) && random.nextFloat() < rngDiscard) {
                             list.add(mutableBlockPos.immutable());
                             if (list.size() > maxCount) {
                                 return list;
@@ -348,11 +347,11 @@ public class MagnetronEntity extends Monster {
         if (this.isFunctionallyMultipart()) {
             double idealDistance = this.position().y - this.allParts[lowestPartIndex].getLowPoint();
             Vec3 bottom = new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
-            Vec3 ground = ACMath.getGroundBelowPosition(level, bottom);
+            Vec3 ground = ACMath.getGroundBelowPosition(level(), bottom);
             Vec3 aboveGround = ground.add(0, idealDistance + 1, 0);
             Vec3 diff = aboveGround.subtract(bottom);
             this.gravityFlag = true;
-            if (this.isAlive() && bottom.distanceTo(ground) < 7 && ground.y > level.getMinBuildHeight()) {
+            if (this.isAlive() && bottom.distanceTo(ground) < 7 && ground.y > level().getMinBuildHeight()) {
                 if (diff.length() > 1) {
                     diff = diff.normalize();
                 }
@@ -392,7 +391,7 @@ public class MagnetronEntity extends Monster {
             ListTag listTag = data.getList("BlockData", 10);
             for (int i = 0; i < listTag.size(); ++i) {
                 CompoundTag innerTag = listTag.getCompound(i);
-                list.add(NbtUtils.readBlockState(this.level.holderLookup(Registries.BLOCK), innerTag));
+                list.add(NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), innerTag));
             }
         }
         return list;
@@ -465,7 +464,7 @@ public class MagnetronEntity extends Monster {
     }
 
     private void startForming() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             List<BlockPos> poses = this.findBlocksForTransformation();
             if (poses.size() >= BLOCK_COUNT) {
                 MagnetronPartEntity rightHand = this.allParts[0];
@@ -493,10 +492,10 @@ public class MagnetronEntity extends Monster {
             List<BlockState> saved = new ArrayList<>();
             for (MagnetronPartEntity entity : this.allParts) {
                 if (entity.getBlockState() == null && entity.getStartPosition() != null) {
-                    BlockState state = level.getBlockState(entity.getStartPosition());
+                    BlockState state = level().getBlockState(entity.getStartPosition());
                     saved.add(state);
-                    if (level.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !level.isClientSide) {
-                        level.destroyBlock(entity.getStartPosition(), false);
+                    if (level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && !level().isClientSide) {
+                        level().destroyBlock(entity.getStartPosition(), false);
                     }
                 }
             }
@@ -577,11 +576,11 @@ public class MagnetronEntity extends Monster {
                 double extraY = 0.8F;
                 double extraZ = radius * Mth.cos(angle);
                 Vec3 center = this.position().add(new Vec3(0, 0, 2).yRot((float) Math.toRadians(-MagnetronEntity.this.yBodyRot)));
-                BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level, new Vec3(Mth.floor(center.x + extraX), Mth.floor(center.y + extraY) - 1, Mth.floor(center.z + extraZ))));
-                BlockState BlockState = this.level.getBlockState(ground);
-                if (BlockState.getMaterial() != Material.AIR) {
-                    if (level.isClientSide) {
-                        level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, BlockState), true, center.x + extraX, ground.getY() + extraY, center.z + extraZ, motionX, motionY, motionZ);
+                BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level(), new Vec3(Mth.floor(center.x + extraX), Mth.floor(center.y + extraY) - 1, Mth.floor(center.z + extraZ))));
+                BlockState state = this.level().getBlockState(ground);
+                if (state.isSolid()) {
+                    if (level().isClientSide) {
+                        level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, state), true, center.x + extraX, ground.getY() + extraY, center.z + extraZ, motionX, motionY, motionZ);
                     }
                 }
             }
@@ -742,9 +741,9 @@ public class MagnetronEntity extends Monster {
             int rightDmg = this.getHandDamageValueAdd(true);
             if (attackPose == AttackPose.SLAM) {
                 AABB bashBox = new AABB(-5F, -1F, -5F, 5F, 2F, 5F);
-                Vec3 ground = ACMath.getGroundBelowPosition(level, MagnetronEntity.this.position());
+                Vec3 ground = ACMath.getGroundBelowPosition(level(), MagnetronEntity.this.position());
                 bashBox = bashBox.move(ground.add(new Vec3(0, 0, 2).yRot((float) Math.toRadians(-MagnetronEntity.this.yBodyRot))));
-                for (Entity entity : MagnetronEntity.this.level.getEntitiesOfClass(LivingEntity.class, bashBox)) {
+                for (Entity entity : MagnetronEntity.this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
                     if (!isAlliedTo(entity) && !(entity instanceof MagnetronEntity)) {
                         entity.hurt(damageSources().mobAttack(MagnetronEntity.this), 2 + leftDmg + rightDmg);
                         launch(entity, true);
@@ -764,7 +763,7 @@ public class MagnetronEntity extends Monster {
         }
 
         private void launch(Entity e, boolean huge) {
-            if (e.isOnGround()) {
+            if (e.onGround()) {
                 double d0 = e.getX() - MagnetronEntity.this.getX();
                 double d1 = e.getZ() - MagnetronEntity.this.getZ();
                 double d2 = Math.max(d0 * d0 + d1 * d1, 0.001D);

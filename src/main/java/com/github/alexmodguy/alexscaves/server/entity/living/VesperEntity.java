@@ -81,11 +81,11 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
     private void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigation(this, level);
+            this.navigation = new GroundPathNavigation(this, level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new MoveController();
-            this.navigation = new FlightPathNavigatorNoSpin(this, level, 1.0F);
+            this.navigation = new FlightPathNavigatorNoSpin(this, level(), 1.0F);
             this.isLandNavigator = false;
         }
     }
@@ -131,10 +131,10 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         if (!isFlying() && flyProgress > 0F) {
             flyProgress--;
         }
-        if (isOnGround() && groundProgress < 5F) {
+        if (onGround() && groundProgress < 5F) {
             groundProgress++;
         }
-        if (!isOnGround() && groundProgress > 0F) {
+        if (!onGround() && groundProgress > 0F) {
             groundProgress--;
         }
         if (isHanging() && sleepProgress < 5F) {
@@ -150,7 +150,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         if (!captured && capturedProgress > 0F) {
             capturedProgress--;
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if(captured){
                 this.setFlying(false);
                 this.setHanging(false);
@@ -158,7 +158,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
             if (this.isHanging()) {
                 BlockPos above = posAbove();
                 if (checkHangingTime-- < 0 || random.nextFloat() < 0.1F || prevHangPos != above) {
-                    validHangingPos = canHangFrom(above, level.getBlockState(above));
+                    validHangingPos = canHangFrom(above, level().getBlockState(above));
                     checkHangingTime = 5 + random.nextInt(5);
                     prevHangPos = above;
                 }
@@ -191,10 +191,10 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
         tickRotation((float) this.getDeltaMovement().y * 2 * -(float) (180F / (float) Math.PI));
-        if (isBeingSacrificed && !level.isClientSide) {
+        if (isBeingSacrificed && !level().isClientSide) {
             sacrificeTime--;
             if(sacrificeTime < 10){
-                this.level.broadcastEntityEvent(this, (byte) 61);
+                this.level().broadcastEntityEvent(this, (byte) 61);
             }
             if (sacrificeTime < 0) {
                 if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
@@ -215,7 +215,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
     public void handleEntityEvent(byte b) {
         if (b == 61) {
             for(int i = 0; i < 1 + random.nextInt(4); i++){
-                this.level.addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
+                this.level().addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
             }
         }else{
             super.handleEntityEvent(b);
@@ -296,7 +296,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
     }
 
     public boolean canHangFrom(BlockPos pos, BlockState state) {
-        return state.isFaceSturdy(level, pos, Direction.DOWN) && level.isEmptyBlock(pos.below()) && level.isEmptyBlock(pos.below(2));
+        return state.isFaceSturdy(level(), pos, Direction.DOWN) && level().isEmptyBlock(pos.below()) && level().isEmptyBlock(pos.below(2));
     }
 
     public BlockPos posAbove() {
@@ -348,7 +348,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         BlockPos above = this.blockPosition();
         int upBy = 100;
         int k = 0;
-        while(world.isEmptyBlock(above) && above.getY() < level.getMaxBuildHeight() && k < upBy){
+        while(world.isEmptyBlock(above) && above.getY() < level().getMaxBuildHeight() && k < upBy){
             above = above.above();
             k++;
         }

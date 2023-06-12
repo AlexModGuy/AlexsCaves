@@ -29,7 +29,7 @@ public class NotorFlightGoal extends Goal {
             return false;
         } else {
             boolean flag = false;
-            if (entity.isOnGround() && entity.getRandom().nextInt(45) != 0) {
+            if (entity.onGround() && entity.getRandom().nextInt(45) != 0) {
                 return false;
             }
             Vec3 target = this.generatePosition();
@@ -45,7 +45,7 @@ public class NotorFlightGoal extends Goal {
     }
 
     public void tick() {
-        if (entity.horizontalCollision || entity.verticalCollision && !entity.isOnGround() || entity.distanceToSqr(x, y, z) < 3F) {
+        if (entity.horizontalCollision || entity.verticalCollision && !entity.onGround() || entity.distanceToSqr(x, y, z) < 3F) {
             Vec3 target = this.generatePosition();
             if (target != null) {
                 this.x = target.x;
@@ -73,20 +73,20 @@ public class NotorFlightGoal extends Goal {
         Vec3 lookVec = entity.getLookAngle().scale(6 + entity.getRandom().nextInt(6)).xRot(xRotOffset).yRot(yRotOffset);
         Vec3 targetVec = entity.position().add(lookVec);
         Vec3 heightAdjusted = targetVec;
-        if(entity.level.canSeeSky(BlockPos.containing(heightAdjusted))){
+        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
         }else{
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
-            while (ceiling.getY() < entity.level.getMaxBuildHeight() && !entity.level.getBlockState(ceiling).getMaterial().isSolidBlocking()) {
+            while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {
                 ceiling = ceiling.above();
             }
             float randCeilVal = 0.3F + entity.getRandom().nextFloat() * 0.5F;
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + (ceiling.getY() - ground.y) * randCeilVal, heightAdjusted.z);
         }
 
-        BlockHitResult result = entity.level.clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        BlockHitResult result = entity.level().clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result.getType() == HitResult.Type.MISS) {
             return heightAdjusted;
         } else {
@@ -96,22 +96,22 @@ public class NotorFlightGoal extends Goal {
 
     private boolean isOverWaterOrVoid() {
         BlockPos position = entity.blockPosition();
-        while (position.getY() > entity.level.getMinBuildHeight() && entity.level.isEmptyBlock(position)) {
+        while (position.getY() > entity.level().getMinBuildHeight() && entity.level().isEmptyBlock(position)) {
             position = position.below();
         }
-        return !entity.level.getFluidState(position).isEmpty() || entity.level.getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level.getMinBuildHeight();
+        return !entity.level().getFluidState(position).isEmpty() || entity.level().getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level().getMinBuildHeight();
     }
 
     public Vec3 groundPosition(Vec3 airPosition) {
         BlockPos ground = BlockPos.containing(airPosition);
-        while (ground.getY() > entity.level.getMinBuildHeight() && !entity.level.getBlockState(ground).getMaterial().isSolidBlocking()) {
+        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid()) {
             ground = ground.below();
         }
         return Vec3.atCenterOf(ground.below());
     }
 
     public boolean canContinueToUse() {
-        return !entity.isOnGround() && entity.distanceToSqr(x, y, z) > 5F;
+        return !entity.onGround() && entity.distanceToSqr(x, y, z) > 5F;
 
     }
 

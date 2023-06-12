@@ -1,8 +1,25 @@
 {
-  "parent": "minecraft:block/slab_top",
+  "parent": "block/block",
   "textures": {
-    "bottom": "alexscaves:block/cinder_block",
-    "side": "alexscaves:block/cinder_block",
-    "top": "alexscaves:block/cinder_block"
-  }
+    "down": "alexscaves:block/cinder_block_top",
+    "east": "alexscaves:block/cinder_block_side",
+    "north": "alexscaves:block/cinder_block",
+    "particle": "alexscaves:block/cinder_block",
+    "south": "alexscaves:block/cinder_block",
+    "up": "alexscaves:block/cinder_block_top",
+    "west": "alexscaves:block/cinder_block_side"
+  },
+  "elements": [
+    {   "from": [ 0, 8, 0 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#up", "cullface": "up" },
+        "north": { "uv": [ 0, 0, 16,  8 ], "texture": "#north", "cullface": "north" },
+        "south": { "uv": [ 0, 0, 16,  8 ], "texture": "#south", "cullface": "south" },
+        "west":  { "uv": [ 0, 0, 16,  8 ], "texture": "#west", "cullface": "west" },
+        "east":  { "uv": [ 0, 0, 16,  8 ], "texture": "#east", "cullface": "east" }
+      }
+    }
+  ]
 }

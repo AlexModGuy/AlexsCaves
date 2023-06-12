@@ -10,6 +10,8 @@
     "alexscaves:cinder_block_wall",
     "alexscaves:abyssmarine_wall",
     "alexscaves:abyssmarine_brick_wall",
-    "alexscaves:smooth_bone_wall"
+    "alexscaves:smooth_bone_wall",
+    "alexscaves:guanostone_wall",
+    "alexscaves:guanostone_brick_wall"
   ]
 }

@@ -26,7 +26,7 @@ public class MagneticWeaponRenderer extends EntityRenderer<MagneticWeaponEntity>
     public void render(MagneticWeaponEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource source, int i) {
         ItemStack itemStack = entity.getItemStack();
         ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
-        BakedModel bakedModel = renderer.getModel(itemStack, entity.level, null, 0);
+        BakedModel bakedModel = renderer.getModel(itemStack, entity.level(), null, 0);
         float ageInTicks = entity.tickCount + partialTicks;
         float strikeProgress = entity.getStrikeProgress(partialTicks);
         poseStack.pushPose();

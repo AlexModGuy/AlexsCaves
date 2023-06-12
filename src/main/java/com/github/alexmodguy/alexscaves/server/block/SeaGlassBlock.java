@@ -13,8 +13,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 
 public class SeaGlassBlock extends AbstractGlassBlock {
 
@@ -26,7 +25,7 @@ public class SeaGlassBlock extends AbstractGlassBlock {
     public static final BooleanProperty SOUTH = BooleanProperty.create("south");
 
     protected SeaGlassBlock() {
-        super(Properties.of(Material.GLASS, MaterialColor.COLOR_LIGHT_BLUE).friction(0.97F).strength(0.2F).sound(SoundType.GLASS).noOcclusion().isRedstoneConductor(SeaGlassBlock::noOption).isSuffocating(SeaGlassBlock::noOption).isViewBlocking(SeaGlassBlock::noOption).emissiveRendering(SeaGlassBlock::yes));
+        super(Properties.of().mapColor(MapColor.METAL).friction(0.97F).strength(0.2F).sound(SoundType.GLASS).noOcclusion().isRedstoneConductor(SeaGlassBlock::noOption).isSuffocating(SeaGlassBlock::noOption).isViewBlocking(SeaGlassBlock::noOption).emissiveRendering(SeaGlassBlock::yes));
         this.registerDefaultState(this.stateDefinition.any().setValue(UP, Boolean.valueOf(false))
                 .setValue(DOWN, Boolean.valueOf(false))
                 .setValue(EAST, Boolean.valueOf(false))

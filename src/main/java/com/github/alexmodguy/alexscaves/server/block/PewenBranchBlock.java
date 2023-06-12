@@ -9,6 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -22,8 +23,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -51,7 +50,7 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock {
     public static final IntegerProperty ROTATION = IntegerProperty.create("rotation", 0, 7);
 
     public PewenBranchBlock() {
-        super(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_GREEN).strength(1.0F).sound(SoundType.WOOD).randomTicks());
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.GREEN).strength(1.0F).sound(SoundType.WOOD).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(ROTATION, Integer.valueOf(0)).setValue(PINES, true));
     }
 

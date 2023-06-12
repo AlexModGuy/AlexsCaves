@@ -40,30 +40,30 @@ public class NuclearBombEntity extends Entity {
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.98D));
-        if (this.onGround) {
+        if (this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.7, 0.7D));
         }
         int i = this.getTime() + 1;
         if (i > MAX_TIME) {
             this.discard();
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.explode();
             }
         } else {
             this.setTime(i);
             this.updateInWaterStateAndDoFluidPushing();
-            if (this.level.isClientSide && MAX_TIME - i > 10 && random.nextFloat() < 0.3F) {
+            if (this.level().isClientSide && MAX_TIME - i > 10 && random.nextFloat() < 0.3F) {
                 Vec3 center = this.getEyePosition();
-                level.addParticle(ACParticleRegistry.PROTON.get(), center.x, center.y, center.z, center.x, center.y, center.z);
+                level().addParticle(ACParticleRegistry.PROTON.get(), center.x, center.y, center.z, center.x, center.y, center.z);
             }
         }
     }
 
     private void explode() {
-        NuclearExplosionEntity explosion = ACEntityRegistry.NUCLEAR_EXPLOSION.get().create(level);
+        NuclearExplosionEntity explosion = ACEntityRegistry.NUCLEAR_EXPLOSION.get().create(level());
         explosion.copyPosition(this);
         explosion.setSize(3F);
-        level.addFreshEntity(explosion);
+        level().addFreshEntity(explosion);
     }
 
     @Override

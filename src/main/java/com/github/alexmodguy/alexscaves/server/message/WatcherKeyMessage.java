@@ -43,8 +43,8 @@ public class WatcherKeyMessage {
             if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
                 playerSided = AlexsCaves.PROXY.getClientSidePlayer();
             }
-            Entity watcher = playerSided.level.getEntity(message.watcher);
-            Entity keyPresser = playerSided.level.getEntity(message.playerId);
+            Entity watcher = playerSided.level().getEntity(message.watcher);
+            Entity keyPresser = playerSided.level().getEntity(message.playerId);
             if(watcher instanceof WatcherEntity watcherEntity && keyPresser instanceof Player){
                 watcherEntity.onKeyPacket(keyPresser, message.type);
             }

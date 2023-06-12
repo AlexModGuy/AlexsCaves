@@ -42,7 +42,7 @@ public class SubterranodonFlightGoal extends Goal {
                 if (entity.getRandom().nextInt(45) != 0 && !entity.isFlying()) {
                     return false;
                 }
-                if (entity.isOnGround()) {
+                if (entity.onGround()) {
                     this.isFlying = this.entity.getRandom().nextInt(3) == 0;
                 } else {
                     this.isFlying = this.entity.getRandom().nextInt(8) > 0 && entity.timeFlying < 200;
@@ -78,10 +78,10 @@ public class SubterranodonFlightGoal extends Goal {
             }
             entity.getNavigation().moveTo(this.x, this.y, this.z, 1F);
         }
-        if (!isFlying && entity.isFlying() && entity.isOnGround()) {
+        if (!isFlying && entity.isFlying() && entity.onGround()) {
             entity.setFlying(false);
         }
-        if (entity.isFlying() && entity.isOnGround() && entity.timeFlying > 40) {
+        if (entity.isFlying() && entity.onGround() && entity.timeFlying > 40) {
             entity.setFlying(false);
         }
     }
@@ -111,20 +111,20 @@ public class SubterranodonFlightGoal extends Goal {
         Vec3 lookVec = entity.getLookAngle().scale(15 + entity.getRandom().nextInt(15)).xRot(xRotOffset).yRot(yRotOffset);
         Vec3 targetVec = entity.position().add(lookVec);
         Vec3 heightAdjusted = targetVec;
-        if(entity.level.canSeeSky(BlockPos.containing(heightAdjusted))){
+        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 5 + entity.getRandom().nextInt(10), heightAdjusted.z);
         }else{
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
-            while (ceiling.getY() < entity.level.getMaxBuildHeight() && !entity.level.getBlockState(ceiling).getMaterial().isSolidBlocking()) {
+            while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {
                 ceiling = ceiling.above();
             }
             float randCeilVal = 0.5F + entity.getRandom().nextFloat() * 0.2F;
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + (ceiling.getY() - ground.y) * randCeilVal, heightAdjusted.z);
         }
 
-        BlockHitResult result = entity.level.clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        BlockHitResult result = entity.level().clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result.getType() == HitResult.Type.MISS) {
             entity.lastFlightTargetPos = heightAdjusted;
             return heightAdjusted;
@@ -162,15 +162,15 @@ public class SubterranodonFlightGoal extends Goal {
 
     private boolean isOverWaterOrVoid() {
         BlockPos position = entity.blockPosition();
-        while (position.getY() > entity.level.getMinBuildHeight() && entity.level.isEmptyBlock(position)) {
+        while (position.getY() > entity.level().getMinBuildHeight() && entity.level().isEmptyBlock(position)) {
             position = position.below();
         }
-        return !entity.level.getFluidState(position).isEmpty() || entity.level.getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level.getMinBuildHeight();
+        return !entity.level().getFluidState(position).isEmpty() || entity.level().getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level().getMinBuildHeight();
     }
 
     public Vec3 groundPosition(Vec3 airPosition) {
         BlockPos ground = BlockPos.containing(airPosition);
-        while (ground.getY() > entity.level.getMinBuildHeight() && !entity.level.getBlockState(ground).getMaterial().isSolidBlocking()) {
+        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid()) {
             ground = ground.below();
         }
         return Vec3.atCenterOf(ground.below());

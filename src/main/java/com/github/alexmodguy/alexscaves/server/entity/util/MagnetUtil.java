@@ -40,7 +40,7 @@ public class MagnetUtil {
     }
 
     public static void tickMagnetism(Entity entity){
-        if(!entity.level.isClientSide && entity.level instanceof ServerLevel serverLevel){
+        if(!entity.level().isClientSide && entity.level() instanceof ServerLevel serverLevel){
             int range = 5;
             Stream<BlockPos> attracts = getNearbyAttractingMagnets(entity.blockPosition(), serverLevel, range);
             Stream<BlockPos> repels = getNearbyRepellingMagnets(entity.blockPosition(), serverLevel, range);
@@ -70,7 +70,7 @@ public class MagnetUtil {
             float overrideByWalking = 1.0F;
             if(entity instanceof LivingEntity living){
                 if(living.jumping && standingOnDirection == dir){
-                    if(living.level.isClientSide){
+                    if(living.level().isClientSide){
                         AlexsCaves.sendMSGToServer(new PlayerJumpFromMagnetMessage(living.getId(), living.jumping));
                     }
                     magneticAccessor.postMagnetJump();
@@ -130,7 +130,7 @@ public class MagnetUtil {
     }
 
     public static boolean isEntityOnMovingMetal(Entity entity) {
-        return !(entity instanceof MovingMetalBlockEntity) && !entity.level.getEntitiesOfClass(MovingMetalBlockEntity.class, entity.getBoundingBox().inflate(0.4F)).isEmpty();
+        return !(entity instanceof MovingMetalBlockEntity) && !entity.level().getEntitiesOfClass(MovingMetalBlockEntity.class, entity.getBoundingBox().inflate(0.4F)).isEmpty();
     }
 
     private static Vec3 processMovementControls(Vec3 entityMotion, LivingEntity living, Direction dir) {
@@ -189,7 +189,7 @@ public class MagnetUtil {
         }
         for (Direction dir : Direction.values()) {
             BlockPos offsetPos = getSamplePosForDirection(entity, dir, 0.01F);
-            BlockState blockState = entity.level.getBlockState(offsetPos);
+            BlockState blockState = entity.level().getBlockState(offsetPos);
             if (blockState.is(ACTagRegistry.MAGNETIC_ATTACHABLES)) {
                 return dir;
             }
@@ -206,7 +206,7 @@ public class MagnetUtil {
         Vec3 sampleCenter = new Vec3(entity.getX(), entity.getY(0.5F), entity.getZ());
         for (Direction dir : Direction.values()) {
             BlockPos offsetPos = getSamplePosForDirection(entity, dir, 0.50001F);
-            BlockState blockState = entity.level.getBlockState(offsetPos);
+            BlockState blockState = entity.level().getBlockState(offsetPos);
             Vec3 offset = Vec3.atCenterOf(offsetPos);
             double dist = sampleCenter.distanceTo(offset);
 
@@ -304,7 +304,7 @@ public class MagnetUtil {
         if (aabb.getSize() < 1.0E-7D) {
             return List.of();
         } else {
-            List<AbstractMovingBlockEntity> list = entity.level.getEntitiesOfClass(AbstractMovingBlockEntity.class, aabb.inflate(1.0E-7D), AbstractMovingBlockEntity::movesEntities);
+            List<AbstractMovingBlockEntity> list = entity.level().getEntitiesOfClass(AbstractMovingBlockEntity.class, aabb.inflate(1.0E-7D), AbstractMovingBlockEntity::movesEntities);
             if (list.isEmpty()) {
                 return List.of();
             } else {

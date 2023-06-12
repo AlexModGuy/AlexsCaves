@@ -39,7 +39,7 @@ public class CorrodentAttackGoal extends Goal {
             if(burrowCheckTime++ > 40 && entity.getAnimation() == IAnimatedEntity.NO_ANIMATION){
                 burrowCheckTime = 0;
                 if(!burrowing){
-                    if(entity.isOnGround() && dist > f && (!entity.canReach(target.blockPosition()) || dist > 20 || entity.getRandom().nextInt(20) == 0) ){
+                    if(entity.onGround() && dist > f && (!entity.canReach(target.blockPosition()) || dist > 20 || entity.getRandom().nextInt(20) == 0) ){
                         burrowing = true;
                         evadeFor = 60 + entity.getRandom().nextInt(40);
                     }
@@ -61,7 +61,7 @@ public class CorrodentAttackGoal extends Goal {
                     }
                 }
             }else if(burrowing){
-                if(this.entity.isOnGround()){
+                if(this.entity.onGround()){
                     this.entity.setDigging(true);
                 }
                 this.entity.getNavigation().moveTo(target, 2D);
@@ -100,13 +100,13 @@ public class CorrodentAttackGoal extends Goal {
         for(int i = 0; i < 10; i++){
             check.move(around);
             check.move(entity.getRandom().nextInt(16) - 8, entity.getRandom().nextInt(16) - 8, entity.getRandom().nextInt(16) - 8);
-            if(check.getY() < entity.level.getMinBuildHeight()){
+            if(check.getY() < entity.level().getMinBuildHeight()){
                 break;
             }
-            while (entity.level.isEmptyBlock(check) && check.getY() > entity.level.getMinBuildHeight() - 1) {
+            while (entity.level().isEmptyBlock(check) && check.getY() > entity.level().getMinBuildHeight() - 1) {
                 check.move(0, -1, 0);
             }
-            if(CorrodentEntity.isSafeDig(entity.level, check.immutable()) && entity.canReach(check)){
+            if(CorrodentEntity.isSafeDig(entity.level(), check.immutable()) && entity.canReach(check)){
                 return Vec3.atCenterOf(check.immutable());
             }
         }

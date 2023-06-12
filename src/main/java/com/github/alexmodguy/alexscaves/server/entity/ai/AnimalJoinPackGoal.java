@@ -23,13 +23,13 @@ public class AnimalJoinPackGoal extends Goal {
     }
 
     public boolean canUse() {
-        long worldTime = entity.level.getGameTime() % 10;
+        long worldTime = entity.level().getGameTime() % 10;
         if (worldTime != 0 && entity.getRandom().nextInt(reducedTickDelay(rate)) != 0) {
             return false;
         }
         if (!this.packAnimal.isPackFollower() && !this.packAnimal.hasPackFollower()) {
             double dist = 30D;
-            List<? extends LivingEntity> list = entity.level.getEntitiesOfClass(entity.getClass(), entity.getBoundingBox().inflate(dist, dist, dist));
+            List<? extends LivingEntity> list = entity.level().getEntitiesOfClass(entity.getClass(), entity.getBoundingBox().inflate(dist, dist, dist));
             LivingEntity closestTail = null;
             double d0 = Double.MAX_VALUE;
             for (LivingEntity animal : list) {

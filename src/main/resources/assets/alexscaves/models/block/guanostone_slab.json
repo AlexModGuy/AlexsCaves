@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "alexscaves:block/guanostone",
+    "side": "alexscaves:block/guanostone",
+    "top": "alexscaves:block/guanostone"
+  }
+}

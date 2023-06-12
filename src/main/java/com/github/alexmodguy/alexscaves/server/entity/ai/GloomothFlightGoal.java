@@ -31,7 +31,7 @@ public class GloomothFlightGoal  extends Goal {
         if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger()) {
             return false;
         } else {
-            if (entity.isOnGround() && !entity.isFlying() && entity.getRandom().nextInt(4) != 0) {
+            if (entity.onGround() && !entity.isFlying() && entity.getRandom().nextInt(4) != 0) {
                 return false;
             }
             Vec3 target = this.generatePosition();
@@ -47,7 +47,7 @@ public class GloomothFlightGoal  extends Goal {
     }
 
     public void tick() {
-        if (entity.horizontalCollision || entity.verticalCollision && !entity.isOnGround() || entity.distanceToSqr(x, y, z) > 100F) {
+        if (entity.horizontalCollision || entity.verticalCollision && !entity.onGround() || entity.distanceToSqr(x, y, z) > 100F) {
             Vec3 target = this.generatePosition();
             if (target != null) {
                 this.x = target.x;
@@ -59,7 +59,7 @@ public class GloomothFlightGoal  extends Goal {
         if(entity.lightPos != null){
             entity.setFlying(true);
             speed = 1.1F;
-        }else if(entity.isOnGround()){
+        }else if(entity.onGround()){
             entity.setFlying(false);
             speed = 1F;
         }
@@ -89,20 +89,20 @@ public class GloomothFlightGoal  extends Goal {
 
     private Vec3 findFlightPos() {
         Vec3 heightAdjusted = entity.position().add(entity.getRandom().nextInt(10) - 5, 0, entity.getRandom().nextInt(10) - 5);
-        if(entity.level.canSeeSky(BlockPos.containing(heightAdjusted))){
+        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
         }else{
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
-            while (ceiling.getY() < entity.level.getMaxBuildHeight() && !entity.level.getBlockState(ceiling).getMaterial().isSolidBlocking()) {
+            while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {
                 ceiling = ceiling.above();
             }
             float randCeilVal = 0.3F + entity.getRandom().nextFloat() * 0.5F;
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + (ceiling.getY() - ground.y) * randCeilVal, heightAdjusted.z);
         }
 
-        BlockHitResult result = entity.level.clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        BlockHitResult result = entity.level().clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result.getType() == HitResult.Type.MISS) {
             return heightAdjusted;
         } else {
@@ -112,15 +112,15 @@ public class GloomothFlightGoal  extends Goal {
 
     private boolean isOverWaterOrVoid() {
         BlockPos position = entity.blockPosition();
-        while (position.getY() > entity.level.getMinBuildHeight() && entity.level.isEmptyBlock(position)) {
+        while (position.getY() > entity.level().getMinBuildHeight() && entity.level().isEmptyBlock(position)) {
             position = position.below();
         }
-        return !entity.level.getFluidState(position).isEmpty() || entity.level.getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level.getMinBuildHeight();
+        return !entity.level().getFluidState(position).isEmpty() || entity.level().getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level().getMinBuildHeight();
     }
 
     public Vec3 groundPosition(Vec3 airPosition) {
         BlockPos ground = BlockPos.containing(airPosition);
-        while (ground.getY() > entity.level.getMinBuildHeight() && !entity.level.getBlockState(ground).getMaterial().isSolidBlocking()) {
+        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid()) {
             ground = ground.below();
         }
         return Vec3.atCenterOf(ground.below());

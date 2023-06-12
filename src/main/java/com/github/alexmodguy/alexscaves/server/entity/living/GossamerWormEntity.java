@@ -118,7 +118,7 @@ public class GossamerWormEntity extends WaterAnimal {
         if (!grounded && squishProgress > 0F) {
             squishProgress--;
         }
-        if (grounded && this.isOnGround()) {
+        if (grounded && this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
             this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
 

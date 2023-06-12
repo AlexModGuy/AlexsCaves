@@ -44,8 +44,8 @@ public class MultipartEntityMessage {
             if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
                 playerSided = AlexsCaves.PROXY.getClientSidePlayer();
             }
-            Entity parent = playerSided.level.getEntity(message.parentId);
-            Entity interacter = playerSided.level.getEntity(message.playerId);
+            Entity parent = playerSided.level().getEntity(message.parentId);
+            Entity interacter = playerSided.level().getEntity(message.playerId);
             if(interacter != null && parent != null && parent.isMultipartEntity() && interacter.distanceTo(parent) < 16){
                 if(message.type == 0){
                     if (interacter instanceof Player player) {

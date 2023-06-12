@@ -164,12 +164,12 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
     }
 
     public Entity getPossessedEntity() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             UUID id = getPossessedEntityUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         } else {
             int id = this.entityData.get(POSSESSED_ENTITY_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 
@@ -220,7 +220,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         if (possessedEntity instanceof Player) {
             this.yHeadRot = Mth.approachDegrees(this.yHeadRotO, yHeadRot, 3);
         }
-        if(!level.isClientSide){
+        if(!level().isClientSide){
             if(possessedEntity != null && possessedEntity.isAlive()){
                 double dist = possessedEntity.distanceTo(this);
                 if(this.entityData.get(POSSESSED_ENTITY_ID) != possessedEntity.getId()){
@@ -232,11 +232,11 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                     this.setPossessionStrength(Math.max(0, this.getPossessionStrength() + 0.1F));
                 }
                 if(dist < 1 || stopPossession(possessedEntity) || !this.isAlive()){
-                    this.level.broadcastEntityEvent(this, (byte) 78);
+                    this.level().broadcastEntityEvent(this, (byte) 78);
                     this.setPossessedEntityUUID(null);
                     this.entityData.set(POSSESSED_ENTITY_ID, -1);
                 }else{
-                    this.level.broadcastEntityEvent(this, (byte) 77);
+                    this.level().broadcastEntityEvent(this, (byte) 77);
                     if(possessedEntity instanceof LivingEntity living){
                         living.zza = 0;
                         living.yya = 0;
@@ -245,7 +245,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                 }
             }else{
                 possessedTimeout = 0;
-                this.level.broadcastEntityEvent(this, (byte) 78);
+                this.level().broadcastEntityEvent(this, (byte) 78);
                 this.entityData.set(POSSESSED_ENTITY_ID, -1);
             }
         }else if(possessedEntity instanceof LivingEntity living){
@@ -290,7 +290,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
             CompoundTag playerData = player.getPersistentData();
             CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
             if(data != null){
-               return level.getGameTime() - data.getLong(LAST_POSSESSED_TIME_IDENTIFIER) >= 3600;
+               return level().getGameTime() - data.getLong(LAST_POSSESSED_TIME_IDENTIFIER) >= 3600;
             }
         }
         return true;
@@ -303,7 +303,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                 if(b == 77){
                     AlexsCaves.PROXY.setRenderViewEntity(player, this);
                 }else{
-                    level.addParticle(ACParticleRegistry.WATCHER_APPEARANCE.get(), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
+                    level().addParticle(ACParticleRegistry.WATCHER_APPEARANCE.get(), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
                     AlexsCaves.PROXY.resetRenderViewEntity();
                 }
             }
@@ -334,7 +334,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                 CompoundTag playerData = player.getPersistentData();
                 CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
                 if(data != null){
-                    data.putLong(LAST_POSSESSED_TIME_IDENTIFIER, level.getGameTime());
+                    data.putLong(LAST_POSSESSED_TIME_IDENTIFIER, level().getGameTime());
                     playerData.put(Player.PERSISTED_NBT_TAG, data);
 
                 }

@@ -1,10 +1,10 @@
 modLoader="javafml" #mandatory
-loaderVersion="[45,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[46,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="GNU LESSER GENERAL PUBLIC LICENSE"
 issueTrackerURL="https://github.com/AlexModGuy/alexscaves/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="0.5.5" #mandatory
+version="0.5.6" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
 authors="Alexthe668, Noon" #optional
@@ -15,7 +15,7 @@ modId="citadel" #mandatory
 # Does this dependency have to exist - if not, ordering below must be specified
 mandatory=true #mandatory
 # The version range of the dependency
-versionRange="[2.3.0,)" #mandatory
+versionRange="[2.4.0,)" #mandatory
 # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
 ordering="AFTER"
 # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -23,6 +23,6 @@ side="BOTH"
 [[dependencies.alexscaves]]
 modId="forge"
 mandatory=true
-versionRange="[45.0.41,)"
+versionRange="[46.0.12,)"
 ordering="NONE"
 side="BOTH"

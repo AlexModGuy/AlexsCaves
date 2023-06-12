@@ -33,7 +33,7 @@ public class UnderzealotBreakLightGoal extends MoveToBlockGoal {
 
     public boolean isTargetBlocked(Vec3 target) {
         Vec3 Vector3d = new Vec3(mob.getX(), mob.getEyeY(), mob.getZ());
-        return mob.level.clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob)).getType() != HitResult.Type.MISS;
+        return mob.level().clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob)).getType() != HitResult.Type.MISS;
     }
 
     @Override
@@ -51,11 +51,11 @@ public class UnderzealotBreakLightGoal extends MoveToBlockGoal {
         BlockPos target = getMoveToTarget();
         if(target != null){
             underzealot.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(target));
-            if(this.isReachedTarget() && underzealot.level.getBlockState(target).is(ACTagRegistry.UNDERZEALOT_LIGHT_SOURCES)){
+            if(this.isReachedTarget() && underzealot.level().getBlockState(target).is(ACTagRegistry.UNDERZEALOT_LIGHT_SOURCES)){
                 if(underzealot.getAnimation() == IAnimatedEntity.NO_ANIMATION){
                     underzealot.setAnimation(UnderzealotEntity.ANIMATION_BREAKTORCH);
                 }else if(underzealot.getAnimation() == UnderzealotEntity.ANIMATION_BREAKTORCH && underzealot.getAnimationTick() == 10){
-                    underzealot.level.destroyBlock(target, true);
+                    underzealot.level().destroyBlock(target, true);
                 }
             }
         }

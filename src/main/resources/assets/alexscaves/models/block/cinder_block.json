@@ -1,6 +1,12 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cube",
   "textures": {
-    "all": "alexscaves:block/cinder_block"
+    "down": "alexscaves:block/cinder_block_top",
+    "east": "alexscaves:block/cinder_block_side",
+    "north": "alexscaves:block/cinder_block",
+    "particle": "alexscaves:block/cinder_block",
+    "south": "alexscaves:block/cinder_block",
+    "up": "alexscaves:block/cinder_block_top",
+    "west": "alexscaves:block/cinder_block_side"
   }
 }

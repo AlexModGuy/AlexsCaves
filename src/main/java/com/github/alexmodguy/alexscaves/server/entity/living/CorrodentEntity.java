@@ -39,7 +39,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.*;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -89,11 +88,11 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
     protected void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = createNavigation(level);
+            this.navigation = createNavigation(level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new DiggingMoveControl();
-            this.navigation = new Navigator(this, level);
+            this.navigation = new Navigator(this, level());
             this.isLandNavigator = false;
         }
     }
@@ -141,12 +140,12 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
         if (!this.isAfraid() && fearProgress > 0F) {
             fearProgress--;
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (this.isDigging()) {
                 timeDigging++;
                 if (this.isLandNavigator) {
                     switchNavigator(false);
-                    this.level.broadcastEntityEvent(this, (byte) 77);
+                    this.level().broadcastEntityEvent(this, (byte) 77);
                     this.setDigPitch(90);
                 }
                 if (timeDigging > 40 && !this.isInWall()) {
@@ -154,11 +153,11 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                     this.setPos(this.position().add(0, 1, 0));
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.35D, 0));
                 }
-                if (!isSafeDig(level, this.blockPosition())) {
-                    if (canDigBlock(level.getBlockState(this.blockPosition().above()))) {
+                if (!isSafeDig(level(), this.blockPosition())) {
+                    if (canDigBlock(level().getBlockState(this.blockPosition().above()))) {
                         this.setDeltaMovement(this.getDeltaMovement().add(0, 0.1D, 0));
                     }
-                    if (canDigBlock(level.getBlockState(this.blockPosition().below()))) {
+                    if (canDigBlock(level().getBlockState(this.blockPosition().below()))) {
                         this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08D, 0));
                     }
                 }
@@ -167,7 +166,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                 timeDigging = 0;
                 if (!this.isLandNavigator) {
                     switchNavigator(true);
-                    this.level.broadcastEntityEvent(this, (byte) 77);
+                    this.level().broadcastEntityEvent(this, (byte) 77);
                     this.setDigPitch(-90);
                 }
                 this.setNoGravity(false);
@@ -178,21 +177,21 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
             surfacePosition = calculateLightAbovePosition();
         }
         if (isDigging() && surfacePosition != null) {
-            if (level.isClientSide && isMoving()) {
-                BlockState surfaceState = this.level.getBlockState(BlockPos.containing(surfacePosition).below());
+            if (level().isClientSide && isMoving()) {
+                BlockState surfaceState = this.level().getBlockState(BlockPos.containing(surfacePosition).below());
                 BlockState onState = this.getFeetBlockState();
-                if (surfaceState.getMaterial() != Material.AIR) {
+                if (surfaceState.isSolid()) {
                     Vec3 head = new Vec3(0, 0, 0.7F).yRot(-this.yBodyRot * ((float) Math.PI / 180F)).add(this.getX(), surfacePosition.y, this.getZ());
-                    level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, surfaceState), true, head.x, head.y, head.z, random.nextFloat() - 0.5F, random.nextFloat() + 0.5F, random.nextFloat() - 0.5F);
+                    level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, surfaceState), true, head.x, head.y, head.z, random.nextFloat() - 0.5F, random.nextFloat() + 0.5F, random.nextFloat() - 0.5F);
                     for (int i = 0; i < 4 + random.nextInt(4); i++) {
                         float j = (float) Math.pow(i, 0.75F);
                         Vec3 offset = new Vec3(i % 2 == 0 ? -j * 0.2F : j * 0.2F, 0, -0.3F * i).yRot(-this.yBodyRot * ((float) Math.PI / 180F));
-                        level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, surfaceState), true, offset.x + head.x, offset.y + head.y, offset.z + head.z, (random.nextFloat() - 0.5F) * 0.2F + offset.x, (random.nextFloat() - 0.5F) * 0.2F + offset.y, (random.nextFloat() - 0.5F) * 0.2F + offset.z);
+                        level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, surfaceState), true, offset.x + head.x, offset.y + head.y, offset.z + head.z, (random.nextFloat() - 0.5F) * 0.2F + offset.x, (random.nextFloat() - 0.5F) * 0.2F + offset.y, (random.nextFloat() - 0.5F) * 0.2F + offset.z);
                     }
                 }
-                if (onState.getMaterial() != Material.AIR) {
+                if (onState.isSolid()) {
                     for (int i = 0; i < 2 + random.nextInt(2); i++) {
-                        level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, onState), true, this.getRandomX(0.8F), this.getRandomY(), this.getRandomZ(0.8F), (random.nextFloat() - 0.5F) * 0.2F, (random.nextFloat() - 0.5F) * 0.2F, (random.nextFloat() - 0.5F) * 0.2F);
+                        level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, onState), true, this.getRandomX(0.8F), this.getRandomY(), this.getRandomZ(0.8F), (random.nextFloat() - 0.5F) * 0.2F, (random.nextFloat() - 0.5F) * 0.2F, (random.nextFloat() - 0.5F) * 0.2F);
                     }
                 }
             }
@@ -215,11 +214,11 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                 double extraX = radius * Mth.sin((float) (Math.PI + angle));
                 double extraY = 1.2F;
                 double extraZ = radius * Mth.cos(angle);
-                BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level, new Vec3(Mth.floor(this.getX() + extraX), Mth.floor(this.getY() + extraY) + 2, Mth.floor(this.getZ() + extraZ))));
-                BlockState groundState = this.level.getBlockState(ground);
-                if (groundState.getMaterial() != Material.AIR) {
-                    if (level.isClientSide) {
-                        level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, groundState), true, this.getX() + extraX, ground.getY() + extraY, this.getZ() + extraZ, motionX, motionY, motionZ);
+                BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level(), new Vec3(Mth.floor(this.getX() + extraX), Mth.floor(this.getY() + extraY) + 2, Mth.floor(this.getZ() + extraZ))));
+                BlockState groundState = this.level().getBlockState(ground);
+                if (groundState.isSolid()) {
+                    if (level().isClientSide) {
+                        level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, groundState), true, this.getX() + extraX, ground.getY() + extraY, this.getZ() + extraZ, motionX, motionY, motionZ);
                     }
                 }
             }
@@ -231,7 +230,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
     public int getCorrosionAmount(BlockPos pos) {
         double distance = this.distanceToSqr(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
         if (distance <= 10) {
-            BlockState state = level.getBlockState(pos);
+            BlockState state = level().getBlockState(pos);
             if (canDigBlock(state) && !state.isAir() && !state.canBeReplaced()) {
                 return 10 - (int) distance;
             }
@@ -250,7 +249,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
     private Vec3 calculateLightAbovePosition() {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         mutableBlockPos.set(this.getBlockX(), this.getBlockY(), this.getBlockZ());
-        while (mutableBlockPos.getY() < level.getMaxBuildHeight() && level.getBlockState(mutableBlockPos).isSuffocating(level, mutableBlockPos)) {
+        while (mutableBlockPos.getY() < level().getMaxBuildHeight() && level().getBlockState(mutableBlockPos).isSuffocating(level(), mutableBlockPos)) {
             mutableBlockPos.move(0, 1, 0);
         }
         return new Vec3(this.getX(), mutableBlockPos.getY(), this.getZ());
@@ -544,7 +543,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                 LivingEntity attackTarget = mob.getTarget();
                 float burySpeed = CorrodentEntity.this.timeDigging < 40 ? 0.25F : 1.0F;
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * burySpeed * 0.025D / d0);
-                if (isSafeDig(level, BlockPos.containing(wantedX, wantedY, wantedZ))) {
+                if (isSafeDig(level(), BlockPos.containing(wantedX, wantedY, wantedZ))) {
                     mob.setDeltaMovement(mob.getDeltaMovement().add(vector3d1).scale(0.9F));
                 } else {
                     mob.setDeltaMovement(mob.getDeltaMovement().add(0, 0.3, 0).scale(0.7F));

@@ -157,7 +157,7 @@ public class TripodfishEntity extends WaterAnimal {
             pitchTarget = 0;
             this.getNavigation().stop();
 
-            if (!this.isOnGround()) {
+            if (!this.onGround()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0, -0.05, 0).multiply(0.5F, 1F, 0.5F));
             }
         } else {
@@ -183,7 +183,7 @@ public class TripodfishEntity extends WaterAnimal {
             landProgress--;
         }
         if (!isInWaterOrBubble() && this.isAlive()) {
-            if (this.isOnGround()) {
+            if (this.onGround()) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);
                 this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
@@ -318,7 +318,7 @@ public class TripodfishEntity extends WaterAnimal {
         public void stop() {
             BlockPos ground = TripodfishEntity.this.blockPosition();
             int down = 0;
-            while (TripodfishEntity.this.level.getFluidState(ground).is(FluidTags.WATER) && down < 3 && ground.getY() > level.getMinBuildHeight()) {
+            while (TripodfishEntity.this.level().getFluidState(ground).is(FluidTags.WATER) && down < 3 && ground.getY() > level().getMinBuildHeight()) {
                 ground = ground.below();
                 down++;
             }
@@ -335,7 +335,7 @@ public class TripodfishEntity extends WaterAnimal {
             int range = 20;
             for (int i = 0; i < 15; i++) {
                 BlockPos blockPos = TripodfishEntity.this.blockPosition().offset(random.nextInt(range) - range / 2, random.nextInt(range) - range / 2, random.nextInt(range) - range / 2);
-                if (TripodfishEntity.this.level.getFluidState(blockPos).is(FluidTags.WATER) && blockPos.getY() > level.getMinBuildHeight()) {
+                if (TripodfishEntity.this.level().getFluidState(blockPos).is(FluidTags.WATER) && blockPos.getY() > level().getMinBuildHeight()) {
                     result = blockPos;
                 }
             }
@@ -345,7 +345,7 @@ public class TripodfishEntity extends WaterAnimal {
 
         public boolean isTargetBlocked(Vec3 target) {
             Vec3 Vector3d = new Vec3(TripodfishEntity.this.getX(), TripodfishEntity.this.getEyeY(), TripodfishEntity.this.getZ());
-            return TripodfishEntity.this.level.clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, TripodfishEntity.this)).getType() != HitResult.Type.MISS;
+            return TripodfishEntity.this.level().clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, TripodfishEntity.this)).getType() != HitResult.Type.MISS;
         }
 
         @Nullable
@@ -355,16 +355,16 @@ public class TripodfishEntity extends WaterAnimal {
                 if (water == null) {
                     return null;
                 }
-                while (TripodfishEntity.this.level.getFluidState(water.below()).is(FluidTags.WATER) && water.getY() > level.getMinBuildHeight() + 1) {
+                while (TripodfishEntity.this.level().getFluidState(water.below()).is(FluidTags.WATER) && water.getY() > level().getMinBuildHeight() + 1) {
                     water = water.below();
                 }
-                BlockState seafloorState = level.getBlockState(water.below());
+                BlockState seafloorState = level().getBlockState(water.below());
                 //don't stand on magma
                 if (wantsToStand && (seafloorState.is(Blocks.MAGMA_BLOCK) || !seafloorState.getFluidState().isEmpty() && !seafloorState.getFluidState().is(FluidTags.WATER))) {
                     return null;
                 }
                 BlockPos above = water.above(wantsToStand ? 1 : 3 + random.nextInt(3));
-                while (!TripodfishEntity.this.level.getFluidState(above).is(FluidTags.WATER) && above.getY() > water.getY()) {
+                while (!TripodfishEntity.this.level().getFluidState(above).is(FluidTags.WATER) && above.getY() > water.getY()) {
                     above = above.below();
                 }
                 Vec3 vec3 = Vec3.atCenterOf(above);

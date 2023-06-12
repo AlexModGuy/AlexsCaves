@@ -25,7 +25,7 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        long worldTime = entity.level.getGameTime() % 20;
+        long worldTime = entity.level().getGameTime() % 20;
         if (entity.isCarrying() || entity.isPackFollower() || entity.sacrificeCooldown > 0) {
             return false;
         }
@@ -33,7 +33,7 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
             return false;
         }
         AABB aabb = entity.getBoundingBox().inflate(20);
-        List<LivingEntity> list = entity.level.getEntitiesOfClass(LivingEntity.class, aabb, this::isValidSacrifice);
+        List<LivingEntity> list = entity.level().getEntitiesOfClass(LivingEntity.class, aabb, this::isValidSacrifice);
         if (!list.isEmpty()) {
             LivingEntity closest = null;
             for (LivingEntity mob : list) {
@@ -54,7 +54,7 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     private int getDistanceToGround(LivingEntity entity) {
         int downBy = 0;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(entity.getBlockX(), entity.getBlockY(), entity.getBlockZ());
-        while (entity.level.isEmptyBlock(pos) && pos.getY() > entity.level.getMinBuildHeight()) {
+        while (entity.level().isEmptyBlock(pos) && pos.getY() > entity.level().getMinBuildHeight()) {
             pos.move(0, -1, 0);
             downBy++;
         }
@@ -81,7 +81,7 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
             sacrifice.startRiding(entity);
         }
         Vec3 sub = sacrifice.position().subtract(entity.position());
-        if(!entity.isBuried() && sub.y > 0.5F && sub.horizontalDistance() < 2.0F && entity.isOnGround()){
+        if(!entity.isBuried() && sub.y > 0.5F && sub.horizontalDistance() < 2.0F && entity.onGround()){
             entity.jumpFromGround();
         }
         validTimeCheck++;

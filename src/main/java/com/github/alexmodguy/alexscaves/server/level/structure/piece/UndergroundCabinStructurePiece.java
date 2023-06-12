@@ -119,7 +119,7 @@ public class UndergroundCabinStructurePiece extends TemplateStructurePiece {
     }
 
     protected boolean canReplace(BlockState state, int already) {
-        return state.isAir() || state.getMaterial().isReplaceable();
+        return state.isAir() || state.canBeReplaced();
     }
 
     protected void handleDataMarker(String string, BlockPos pos, ServerLevelAccessor accessor, RandomSource random, BoundingBox box) {

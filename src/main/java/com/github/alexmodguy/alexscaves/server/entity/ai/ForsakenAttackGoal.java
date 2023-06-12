@@ -68,7 +68,7 @@ public class ForsakenAttackGoal extends Goal {
             if (attemptSonicDamageIn > 0) {
                 attemptSonicDamageIn--;
                 if (attemptSonicDamageIn == 0 && this.entity.hasLineOfSight(target)) {
-                    target.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level.registryAccess(), entity), entity.getSonicDamageAgainst(target));
+                    target.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level().registryAccess(), entity), entity.getSonicDamageAgainst(target));
                 }
             }
             if (sonicEnqueued && this.entity.hasLineOfSight(target) && distance < 200F) {
@@ -89,10 +89,10 @@ public class ForsakenAttackGoal extends Goal {
                     inPursuit = false;
                     if (this.entity.getAnimationTick() >= 10 && this.entity.getAnimationTick() <= 30) {
                         if (this.entity.getAnimationTick() % 5 == 0) {
-                            List<LivingEntity> list = this.entity.level.getEntitiesOfClass(LivingEntity.class, this.entity.getBoundingBox().inflate(10, 8, 10));
+                            List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, this.entity.getBoundingBox().inflate(10, 8, 10));
                             for(LivingEntity living : list){
                                 if(living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceTo(entity) <= 10F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)){
-                                    living.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level.registryAccess(), entity), entity.getSonicDamageAgainst(target) * 0.65F);
+                                    living.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level().registryAccess(), entity), entity.getSonicDamageAgainst(target) * 0.65F);
                                 }
                             }
                         }
@@ -115,7 +115,7 @@ public class ForsakenAttackGoal extends Goal {
                         this.entity.setDeltaMovement(vec31.x, 0.2F + (double) vec31.length() * 0.3F, vec31.z);
                         jumpEnqueued = false;
                         jumpTarget = null;
-                    } else if (entity.isOnGround()) {
+                    } else if (entity.onGround()) {
                         entity.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(jumpTarget));
                         tryAnimation(ForsakenEntity.ANIMATION_PREPARE_JUMP);
                     }
@@ -170,10 +170,10 @@ public class ForsakenAttackGoal extends Goal {
             }
             if (entity.getAnimation() == ForsakenEntity.ANIMATION_GROUND_SMASH && entity.getAnimationTick() >= 10 && entity.getAnimationTick() <= 15){
                 Vec3 smashPos = entity.position().add(new Vec3(0, 0, 3.5F).yRot((float) -Math.toRadians(entity.yBodyRot)));
-                List<LivingEntity> list = this.entity.level.getEntitiesOfClass(LivingEntity.class, new AABB(smashPos.x - 4, smashPos.y - 2, smashPos.z - 4, smashPos.x + 4, smashPos.y + 3, smashPos.z + 4));
+                List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, new AABB(smashPos.x - 4, smashPos.y - 2, smashPos.z - 4, smashPos.x + 4, smashPos.y + 3, smashPos.z + 4));
                 for(LivingEntity living : list){
                     if(living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceToSqr(smashPos) <= 16F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)){
-                        if(checkAndDealDamage(living, 0.8F, 3) && living.isOnGround()){
+                        if(checkAndDealDamage(living, 0.8F, 3) && living.onGround()){
                             living.setDeltaMovement(living.getDeltaMovement().add(0, 0.5, 0));
                         }
                     }
@@ -186,7 +186,7 @@ public class ForsakenAttackGoal extends Goal {
                 }
                 knockBackAngle(target, knockbackStrength, 0F);
             }
-            if(navigationCheckCooldown-- < 0 && this.entity.isOnGround()){
+            if(navigationCheckCooldown-- < 0 && this.entity.onGround()){
                 navigationCheckCooldown = 20 + entity.getRandom().nextInt(40);
                 if(!canReach(target)){
                     this.startCleanJump();
@@ -263,7 +263,7 @@ public class ForsakenAttackGoal extends Goal {
         if (vec3 != null) {
             BlockPos blockpos = BlockPos.containing(vec3);
             AABB aabb = this.entity.getBoundingBox().move(vec3.add(0.5F, 1, 0.5F).subtract(this.entity.position()));
-            if (entity.level.getBlockState(blockpos.below()).isSolidRender(entity.level, blockpos.below()) && entity.getPathfindingMalus(WalkNodeEvaluator.getBlockPathTypeStatic(entity.level, blockpos.mutable())) == 0.0F && entity.level.isUnobstructed(this.entity, Shapes.create(aabb))) {
+            if (entity.level().getBlockState(blockpos.below()).isSolidRender(entity.level(), blockpos.below()) && entity.getPathfindingMalus(WalkNodeEvaluator.getBlockPathTypeStatic(entity.level(), blockpos.mutable())) == 0.0F && entity.level().isUnobstructed(this.entity, Shapes.create(aabb))) {
                 return blockpos;
             }
         }

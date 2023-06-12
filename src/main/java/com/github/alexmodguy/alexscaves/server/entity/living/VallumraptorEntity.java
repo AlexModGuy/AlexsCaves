@@ -167,7 +167,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         prevTailYaw = tailYaw;
         prevDanceProgress = danceProgress;
         float headPuzzleRot = getPuzzledHeadRot();
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
             this.setDancing(false);
             this.jukeboxPosition = null;
         }
@@ -215,7 +215,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
             this.heal(2);
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             puzzledTick(headPuzzleRot);
             if (isStillEnough() && random.nextInt(100) == 0 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
                 Animation idle;
@@ -242,9 +242,9 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         if (eatHeldItemIn > 0) {
             eatHeldItemIn--;
         } else if (canTargetItem(this.getMainHandItem())) {
-            this.level.broadcastEntityEvent(this, (byte) 45);
+            this.level().broadcastEntityEvent(this, (byte) 45);
             this.heal(5);
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.getMainHandItem().shrink(1);
             }
         }
@@ -275,7 +275,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
             if (!itemstack.isEmpty()) {
                 for (int i = 0; i < 8; ++i) {
                     Vec3 headPos = (new Vec3(0D, 0.1D, 0.7D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.yBodyRot * ((float) Math.PI / 180F));
-                    this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, itemstack), this.getX() + headPos.x, this.getY(0.5) + headPos.y, this.getZ() + headPos.z, (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
+                    this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, itemstack), this.getX() + headPos.x, this.getY(0.5) + headPos.y, this.getZ() + headPos.z, (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
                 }
             }
         } else {
@@ -528,7 +528,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
             this.setAnimation(ANIMATION_GRAB);
         }
         if (this.getAnimation() == ANIMATION_GRAB && this.getAnimationTick() > 15) {
-            if (!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() && !this.level.isClientSide) {
+            if (!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty() && !this.level().isClientSide) {
                 this.spawnAtLocation(this.getItemInHand(InteractionHand.MAIN_HAND), 0.0F);
             }
             this.take(e, 1);

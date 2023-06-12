@@ -4,6 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -21,7 +22,7 @@ public class OceanFloraBlock extends BushBlock implements LiquidBlockContainer {
     public static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 12, 15);
 
     public OceanFloraBlock() {
-        super(Properties.of(Material.WATER_PLANT, MaterialColor.TERRACOTTA_WHITE).dynamicShape().instabreak().sound(SoundType.WET_GRASS).offsetType(OffsetType.XZ));
+        super(Properties.of().mapColor(DyeColor.WHITE).dynamicShape().instabreak().sound(SoundType.WET_GRASS).offsetType(OffsetType.XZ));
     }
 
     public boolean propagatesSkylightDown(BlockState state, BlockGetter getter, BlockPos blockPos) {

@@ -37,7 +37,6 @@ public abstract class LevelRendererMixin {
     @Final
     @Shadow
     private Minecraft minecraft;
-    @Final
     @Shadow
     private VertexBuffer skyBuffer;
     @Shadow
@@ -122,10 +121,10 @@ public abstract class LevelRendererMixin {
         private static float calculateBiomeSkyOverride(Entity player) {
         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
         if (i == 0) {
-            return ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiome(player.blockPosition()));
+            return ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
         } else {
             Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
             });
             return (float) vec31.x;
         }

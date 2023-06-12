@@ -37,7 +37,7 @@ public class SulfurBudBlock extends Block implements SimpleWaterloggedBlock {
     private final Map<Direction, VoxelShape> shapeMap;
 
     public SulfurBudBlock(int pixWidth, int pixHeight) {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_YELLOW).strength(1F, 2.0F).sound(SoundType.CALCITE).randomTicks());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(1F, 2.0F).sound(SoundType.CALCITE).randomTicks());
         this.registerDefaultState(this.defaultBlockState().setValue(LIQUID_LOGGED, 0).setValue(FACING, Direction.UP));
         shapeMap = buildShapeMap(pixWidth, pixHeight);
     }

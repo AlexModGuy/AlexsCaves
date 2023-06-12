@@ -24,7 +24,7 @@ public class CorrodentDigRandomlyGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger() || !entity.isDigging() && !entity.isOnGround() && !entity.isInWall()) {
+        if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger() || !entity.isDigging() && !entity.onGround() && !entity.isInWall()) {
             return false;
         } else {
             if (!entity.isDigging() && !entity.isInWall() && entity.getRandom().nextInt(20) != 0) {
@@ -70,21 +70,21 @@ public class CorrodentDigRandomlyGoal extends Goal {
         for(int i = 0; i < 20; i++){
             check.move(entity.blockPosition());
             check.move(entity.getRandom().nextInt(32) - 16, entity.getRandom().nextInt(32) - 16, entity.getRandom().nextInt(32) - 16);
-            if(check.getY() < entity.level.getMinBuildHeight() || !entity.level.isLoaded(check)){
+            if(check.getY() < entity.level().getMinBuildHeight() || !entity.level().isLoaded(check)){
                 break;
             }
             if(surface){
-                while (!entity.level.isEmptyBlock(check) && check.getY() < entity.level.getMaxBuildHeight()) {
+                while (!entity.level().isEmptyBlock(check) && check.getY() < entity.level().getMaxBuildHeight()) {
                     check.move(0, 1, 0);
                 }
-                if(entity.level.isEmptyBlock(check)){
+                if(entity.level().isEmptyBlock(check)){
                     return check.immutable().getCenter();
                 }
             }else{
-                while (entity.level.isEmptyBlock(check) && check.getY() > entity.level.getMinBuildHeight() - 1) {
+                while (entity.level().isEmptyBlock(check) && check.getY() > entity.level().getMinBuildHeight() - 1) {
                     check.move(0, -1, 0);
                 }
-                if(CorrodentEntity.isSafeDig(entity.level, check.immutable()) && entity.canReach(check)){
+                if(CorrodentEntity.isSafeDig(entity.level(), check.immutable()) && entity.canReach(check)){
                     return Vec3.atCenterOf(check.immutable());
                 }
 

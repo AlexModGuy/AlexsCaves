@@ -114,12 +114,12 @@ public class MineGuardianEntity extends Monster {
     }
 
     public Entity getAnchor() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             UUID id = getAnchorUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         }else{
             int id = this.entityData.get(ANCHOR_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 
@@ -186,20 +186,20 @@ public class MineGuardianEntity extends Monster {
         if(this.isExploding()){
             if(explodeProgress >= 10.0F){
                 this.remove(RemovalReason.KILLED);
-                Explosion.BlockInteraction blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level, this) ? level.getGameRules().getBoolean(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP;
+                Explosion.BlockInteraction blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this) ? level().getGameRules().getBoolean(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP;
 
-                MineExplosion explosion = new MineExplosion(level, this, this.getX(), this.getY(0.5), this.getZ(), 5.0F, blockinteraction);
+                MineExplosion explosion = new MineExplosion(level(), this, this.getX(), this.getY(0.5), this.getZ(), 5.0F, blockinteraction);
                 explosion.explode();
                 explosion.finalizeExplosion(true);
             }
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.3F, 1, 0.3F));
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             Entity entity = getAnchor();
             if (entity == null) {
                 this.setMaxChainLength(7 + this.getRandom().nextInt(6));
                 MineGuardianAnchorEntity created = new MineGuardianAnchorEntity(this);
-                level.addFreshEntity(created);
+                level().addFreshEntity(created);
                 this.setAnchorUUID(created.getUUID());
                 this.entityData.set(ANCHOR_ID, created.getId());
             } else {
@@ -209,10 +209,10 @@ public class MineGuardianEntity extends Monster {
             }
             if (this.isInWaterOrBubble()) {
                 this.setAirSupply(300);
-            } else if (this.onGround) {
+            } else if (this.onGround()) {
                 this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F), 0.6F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F)));
                 this.setYRot(this.random.nextFloat() * 360.0F);
-                this.onGround = false;
+                this.setOnGround(false);
                 this.hasImpulse = true;
             }
             Entity target = this.getTarget();
@@ -226,7 +226,7 @@ public class MineGuardianEntity extends Monster {
                 if(scanTime < maxScanTime){
                     if(scanTime % 5 == 0 && scanProgress >= 5.0F){
                         Entity found = null;
-                        HitResult hitresult = level.clip(new ClipContext(this.getEyePosition(), this.getEyePosition().add(this.getLookAngle().scale(8)), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
+                        HitResult hitresult = level().clip(new ClipContext(this.getEyePosition(), this.getEyePosition().add(this.getLookAngle().scale(8)), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
                         if (hitresult instanceof EntityHitResult entityHitResult && isValidTarget(entityHitResult.getEntity())) {
                             Entity inSight = entityHitResult.getEntity();
                             if (!inSight.equals(this) && !inSight.isAlliedTo(this) && !this.isAlliedTo(inSight) && this.hasLineOfSight(inSight)) {
@@ -234,7 +234,7 @@ public class MineGuardianEntity extends Monster {
                             }
                         } else {
                             AABB around = new AABB(hitresult.getLocation().add(-0.5F, -0.5F, -0.5F), hitresult.getLocation().add(0.5F, 0.5F, 0.5F)).inflate(3);
-                            for (Entity inSight : level.getEntitiesOfClass(LivingEntity.class, around)) {
+                            for (Entity inSight : level().getEntitiesOfClass(LivingEntity.class, around)) {
                                 if (!inSight.equals(this) && !inSight.isAlliedTo(this) && !this.isAlliedTo(inSight) && this.hasLineOfSight(inSight)) {
                                     if (found == null && isValidTarget(inSight) || found != null && isValidTarget(inSight) && inSight.distanceTo(this) < found.distanceTo(this)) {
                                         found = inSight;
@@ -271,10 +271,10 @@ public class MineGuardianEntity extends Monster {
         }else{
             Vec3 vec3 = this.getDeltaMovement();
             if (vec3.y > 0.0D && this.clientSideTouchedGround && !this.isSilent()) {
-                this.level.playLocalSound(this.getX(), this.getY(), this.getZ(), this.getFlopSound(), this.getSoundSource(), 1.0F, 1.0F, false);
+                this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), this.getFlopSound(), this.getSoundSource(), 1.0F, 1.0F, false);
             }
 
-            this.clientSideTouchedGround = vec3.y < 0.0D && this.level.loadedAndEntityCanStandOn(this.blockPosition().below(), this);
+            this.clientSideTouchedGround = vec3.y < 0.0D && this.level().loadedAndEntityCanStandOn(this.blockPosition().below(), this);
 
         }
     }
@@ -347,8 +347,8 @@ public class MineGuardianEntity extends Monster {
     @Override
     protected void dropAllDeathLoot(DamageSource damageSource) {
         super.dropAllDeathLoot(damageSource);
-        if(!level.isClientSide && damageSource.getEntity() instanceof Player player){
-            ACWorldData worldData = ACWorldData.get(level);
+        if(!level().isClientSide && damageSource.getEntity() instanceof Player player){
+            ACWorldData worldData = ACWorldData.get(level());
             int relations = worldData.getDeepOneReputation(player.getUUID());
             if(relations < 0){
                 worldData.setDeepOneReputation(player.getUUID(), relations + random.nextInt(3) + 1);

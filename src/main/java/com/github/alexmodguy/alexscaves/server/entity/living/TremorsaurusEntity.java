@@ -112,7 +112,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         this.legSolver.update(this, this.yBodyRot, this.getScale());
         AnimationHandler.INSTANCE.updateAnimations(this);
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
             this.setDancing(false);
             this.jukeboxPosition = null;
         }
@@ -125,7 +125,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         if (screenShakeAmount > 0) {
             screenShakeAmount = Math.max(0, screenShakeAmount - 0.34F);
         }
-        if (this.isOnGround() && !this.isInFluidType() && this.walkAnimation.speed() > 0.1F && !this.isBaby()) {
+        if (this.onGround() && !this.isInFluidType() && this.walkAnimation.speed() > 0.1F && !this.isBaby()) {
             float f = (float) Math.cos(this.walkAnimation.position() * 0.8F - 1.5F);
             if (Math.abs(f) < 0.2) {
                 if (screenShakeAmount <= 0.3) {
@@ -148,7 +148,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         }
         if (this.getAnimation() == ANIMATION_ROAR && this.getAnimationTick() >= 5 && this.getAnimationTick() <= 40 && !this.isBaby()) {
             screenShakeAmount = 1F;
-            if (this.getAnimationTick() % 5 == 0 && level.isClientSide) {
+            if (this.getAnimationTick() % 5 == 0 && level().isClientSide) {
                 this.shakeWater();
             }
             scareMobs();
@@ -156,7 +156,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         if (this.getAnimation() == ANIMATION_SPEAK && this.getAnimationTick() == 5) {
             actuallyPlayAmbientSound();
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (this.getDeltaMovement().horizontalDistance() < 0.05 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
                 if (random.nextInt(180) == 0) {
                     this.setAnimation(ANIMATION_SNIFF);
@@ -192,12 +192,12 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         if (this.tickCount - lastScareTimestamp > 3) {
             lastScareTimestamp = this.tickCount;
         }
-        List<PathfinderMob> list = this.level.getEntitiesOfClass(PathfinderMob.class, this.getBoundingBox().inflate(30, 10, 30));
+        List<PathfinderMob> list = this.level().getEntitiesOfClass(PathfinderMob.class, this.getBoundingBox().inflate(30, 10, 30));
         for (PathfinderMob e : list) {
             e.setTarget(null);
             e.setLastHurtByMob(null);
             if (!e.getType().is(ACTagRegistry.RESISTS_TREMORSAURUS_ROAR)) {
-                if (e.isOnGround()) {
+                if (e.onGround()) {
                     Vec3 randomShake = new Vec3(random.nextFloat() - 0.5F, 0, random.nextFloat() - 0.5F).scale(0.6F);
                     e.setDeltaMovement(e.getDeltaMovement().multiply(0.7F, 1, 0.7F).add(randomShake));
                     if (lastScareTimestamp == this.tickCount) {
@@ -213,19 +213,19 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
     }
 
     private void shakeWater() {
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
             int radius = 8;
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     if (x * x + z * z <= radius * radius) {
                         mutableBlockPos.set(this.getX() + x, this.getY() + 5, this.getZ() + z);
-                        while (mutableBlockPos.getY() > level.getMinBuildHeight() && level.getBlockState(mutableBlockPos).isAir()) {
+                        while (mutableBlockPos.getY() > level().getMinBuildHeight() && level().getBlockState(mutableBlockPos).isAir()) {
                             mutableBlockPos.move(Direction.DOWN);
                         }
-                        float water = getWaterLevelForBlock(level, mutableBlockPos);
+                        float water = getWaterLevelForBlock(level(), mutableBlockPos);
                         if (water > 0.0F) {
-                            level.addParticle(ACParticleRegistry.WATER_TREMOR.get(), mutableBlockPos.getX() + 0.5F, mutableBlockPos.getY() + water + 0.01, mutableBlockPos.getZ() + 0.5F, 0, 0, 0);
+                            level().addParticle(ACParticleRegistry.WATER_TREMOR.get(), mutableBlockPos.getX() + 0.5F, mutableBlockPos.getY() + water + 0.01, mutableBlockPos.getZ() + 0.5F, 0, 0, 0);
                         }
 
                     }
@@ -270,7 +270,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
 
     public Entity getHeldMob() {
         int id = getHeldMobId();
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -377,7 +377,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
 
 
     private float getWaterLevelForBlock(Level level, BlockPos pos) {
-        BlockState state = level.getBlockState(pos);
+        BlockState state = level().getBlockState(pos);
         if (state.is(Blocks.WATER_CAULDRON)) {
             return (6.0F + (float) state.getValue(LayeredCauldronBlock.LEVEL).intValue() * 3.0F) / 16.0F;
         } else if (random.nextFloat() < 0.33F && state.getFluidState().is(FluidTags.WATER)) {

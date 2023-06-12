@@ -48,7 +48,7 @@ public class ACPotionEffectLayer extends RenderLayer {
         RenderSystem.setShaderTexture(0, texture);
         BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
         BlockPos blockpos = BlockPos.containing(p110726.player.getX(), p110726.player.getEyeY(), p110726.player.getZ());
-        float f = LightTexture.getBrightness(p110726.player.level.dimensionType(), p110726.player.level.getMaxLocalRawBrightness(blockpos));
+        float f = LightTexture.getBrightness(p110726.player.level().dimensionType(), p110726.player.level().getMaxLocalRawBrightness(blockpos));
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(f, f, f, translate ? 0.3F : 1.0F);
@@ -120,7 +120,7 @@ public class ACPotionEffectLayer extends RenderLayer {
         int colorB = 255;
         int colorA = water ? 200 : 255;
         if (water) {
-            int waterColorAt = entity.level.getBiome(entity.blockPosition()).get().getWaterColor();
+            int waterColorAt = entity.level().getBiome(entity.blockPosition()).get().getWaterColor();
             colorR = waterColorAt >> 16 & 255;
             colorG = waterColorAt >> 8 & 255;
             colorB = waterColorAt & 255;

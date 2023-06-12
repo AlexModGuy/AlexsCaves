@@ -32,7 +32,7 @@ public class FloatingOrbFeature extends Feature<FloatingOrbFeatureConfig> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return state.isAir() || state.getMaterial().isReplaceable();
+        return state.isAir() || state.canBeReplaced();
     }
 
     private static void drawOrb(WorldGenLevel level, BlockPos center, RandomSource random, BlockStateProvider blockState, int radiusX, int radiusY, int radiusZ) {

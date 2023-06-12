@@ -44,6 +44,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -102,11 +103,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     protected void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigation(this, level);
+            this.navigation = new GroundPathNavigation(this, level());
             this.isLandNavigator = true;
         } else {
             this.moveControl = new VerticalSwimmingMoveControl(this, 0.8F, 10);
-            this.navigation = createNavigation(level);
+            this.navigation = createNavigation(level());
             this.isLandNavigator = false;
         }
     }
@@ -146,7 +147,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         float pitchTarget;
         if (isDeepOneSwimming()) {
             pitchTarget = (float) this.getDeltaMovement().y * getPitchScale();
-            if (!level.isClientSide && this.getNavigation().isDone() && this.onGround) {
+            if (!level().isClientSide && this.getNavigation().isDone() && this.onGround()) {
                 this.setDeepOneSwimming(false);
             }
         } else {
@@ -155,8 +156,8 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         if(isSummoned()){
             if(this.getSummonTime() > 0){
                 if(summonedProgress < 20.0F){
-                    if(summonedProgress == 0 && !level.isClientSide){
-                        this.level.broadcastEntityEvent(this, (byte) 61);
+                    if(summonedProgress == 0 && !level().isClientSide){
+                        this.level().broadcastEntityEvent(this, (byte) 61);
                     }
                     summonedProgress++;
                 }
@@ -165,11 +166,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
                     summonedProgress--;
                 }
             }
-            if(!level.isClientSide){
+            if(!level().isClientSide){
                 if(getSummonTime() > 0){
                     setSummonTime(getSummonTime() - 1);
                     if(getSummonTime() == 0){
-                        this.level.broadcastEntityEvent(this, (byte) 61);
+                        this.level().broadcastEntityEvent(this, (byte) 61);
                     }
                 }else{
                     if(this.summonedProgress <= 0){
@@ -195,22 +196,22 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         if (tradingLockedTime > 0) {
             tradingLockedTime--;
         }
-        if (!level.isClientSide && this.getAnimation() == getTradingAnimation() && this.getMainHandItem().is(ACTagRegistry.DEEP_ONE_BARTERS)) {
+        if (!level().isClientSide && this.getAnimation() == getTradingAnimation() && this.getMainHandItem().is(ACTagRegistry.DEEP_ONE_BARTERS)) {
             BlockPos altarPos = getLastAltarPos();
             if (altarPos != null) {
                 Vec3 center = Vec3.atCenterOf(altarPos);
                 if(this.getAnimationTick() > getTradingAnimation().getDuration() - 10){
-                    if (level.getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar && !spawnedLootItem) {
+                    if (level().getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar && !spawnedLootItem) {
                         List<ItemStack> possibles = generateBarterLoot();
                         ItemStack stack = possibles.isEmpty() ? ItemStack.EMPTY : possibles.get(0);
                         if(altar.getItem(0).isEmpty()){
                             altar.setItem(0, stack);
-                            this.level.broadcastEntityEvent(this, (byte) 68);
+                            this.level().broadcastEntityEvent(this, (byte) 68);
                             altar.onEntityInteract(this, false);
                         }else{
                             Vec3 vec3 = center.add(0, 0.5F, 0);
-                            ItemEntity itemEntity = new ItemEntity(level, vec3.x, vec3.y, vec3.z, stack);
-                            level.addFreshEntity(itemEntity);
+                            ItemEntity itemEntity = new ItemEntity(level(), vec3.x, vec3.y, vec3.z, stack);
+                            level().addFreshEntity(itemEntity);
                         }
                         spawnedLootItem = true;
                     }
@@ -228,8 +229,8 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
 
     private List<ItemStack> generateBarterLoot() {
-        LootTable loottable = this.level.getServer().getLootTables().get(getBarterLootTable());
-        return loottable.getRandomItems((new LootContext.Builder((ServerLevel) this.level)).withParameter(LootContextParams.THIS_ENTITY, this).withRandom(this.level.random).create(LootContextParamSets.PIGLIN_BARTER));
+        LootTable loottable = this.level().getServer().getLootData().getLootTable(getBarterLootTable());
+        return loottable.getRandomItems((new LootParams.Builder((ServerLevel) this.level())).withParameter(LootContextParams.THIS_ENTITY, this).create(LootContextParamSets.PIGLIN_BARTER));
     }
 
     protected abstract ResourceLocation getBarterLootTable();
@@ -314,15 +315,15 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     public void handleEntityEvent(byte b) {
         if (b == 61) {
-            this.level.addParticle(ACParticleRegistry.BIG_SPLASH.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getBbWidth() + 0.2F, 3, 0);
+            this.level().addParticle(ACParticleRegistry.BIG_SPLASH.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getBbWidth() + 0.2F, 3, 0);
         } else if (b == 68) {
             BlockPos pos = getLastAltarPos();
-            if (pos != null && level.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {
+            if (pos != null && level().getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {
                 altarBlockEntity.onEntityInteract(this, false);
             }
         } else if (b == 69) {
             BlockPos pos = getLastAltarPos();
-            if (pos != null && level.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {
+            if (pos != null && level().getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {
                 altarBlockEntity.onEntityInteract(this, true);
                 altarBlockEntity.setItem(0, ItemStack.EMPTY);
             }
@@ -385,16 +386,16 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     }
 
     public int getReputationOf(UUID playerUUID) {
-        if (!level.isClientSide) {
-            ACWorldData worldData = ACWorldData.get(level);
+        if (!level().isClientSide) {
+            ACWorldData worldData = ACWorldData.get(level());
             return worldData == null ? 0 : worldData.getDeepOneReputation(playerUUID);
         }
         return 0;
     }
 
     public void setReputationOf(UUID playerUUID, int amount) {
-        if (!level.isClientSide) {
-            ACWorldData worldData = ACWorldData.get(level);
+        if (!level().isClientSide) {
+            ACWorldData worldData = ACWorldData.get(level());
             if (worldData != null) {
                 worldData.setDeepOneReputation(playerUUID, amount);
             }
@@ -405,7 +406,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         int prev = getReputationOf(playerUUID);
         setReputationOf(playerUUID, amount + prev);
         if(DeepOneReaction.fromReputation(prev) != DeepOneReaction.fromReputation(amount + prev)){
-            Player player = level.getPlayerByUUID(playerUUID);
+            Player player = level().getPlayerByUUID(playerUUID);
             if(player != null){
                 player.displayClientMessage(Component.translatable("entity.alexscaves.deep_one.reaction_" + DeepOneReaction.fromReputation(amount + prev).toString().toLowerCase(Locale.ROOT)), true);
             }
@@ -449,7 +450,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     @Override
     public boolean hurt(DamageSource damageSource, float damageValue) {
         boolean sup = super.hurt(damageSource, damageValue);
-        if (sup && damageSource.getEntity() instanceof Player player && !level.isClientSide) {
+        if (sup && damageSource.getEntity() instanceof Player player && !level().isClientSide) {
             int decrease = -5;
             if (!this.isAlive()) {
                 decrease = -15;
@@ -480,15 +481,15 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     }
 
     public boolean startDisappearBehavior(Player player) {
-        InkBombEntity inkBombEntity = new InkBombEntity(this.level, this);
+        InkBombEntity inkBombEntity = new InkBombEntity(this.level(), this);
         Vec3 vec3 = player.getDeltaMovement();
         double d0 = player.getX() + vec3.x - this.getX();
         double d1 = player.getEyeY() + vec3.y - this.getEyeY();
         double d2 = player.getZ() + vec3.z - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
         inkBombEntity.shoot(d0, d1, d2, 0.5F + 0.2F * (float) d3, 12.0F);
-        this.level.playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW, this.getSoundSource(), 1.0F, 0.8F + this.getRandom().nextFloat() * 0.4F);
-        this.level.addFreshEntity(inkBombEntity);
+        this.level().playSound((Player) null, this.getX(), this.getY(), this.getZ(), SoundEvents.WITCH_THROW, this.getSoundSource(), 1.0F, 0.8F + this.getRandom().nextFloat() * 0.4F);
+        this.level().addFreshEntity(inkBombEntity);
         this.addReputation(player.getUUID(), -1);
         return true;
     }
@@ -580,7 +581,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         protected void alertOthers() {
             double d0 = this.getFollowDistance();
             AABB aabb = AABB.unitCubeFromLowerCorner(this.mob.position()).inflate(d0, 10.0D, d0);
-            List<? extends Mob> list = this.mob.level.getEntitiesOfClass(DeepOneBaseEntity.class, aabb, EntitySelector.NO_SPECTATORS);
+            List<? extends Mob> list = this.mob.level().getEntitiesOfClass(DeepOneBaseEntity.class, aabb, EntitySelector.NO_SPECTATORS);
             Iterator iterator = list.iterator();
 
             while(true) {

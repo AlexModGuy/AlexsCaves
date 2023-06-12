@@ -1,0 +1,10 @@
+{
+  "type": "alexscaves:cave_tablet",
+  "biome": "alexscaves:toxic_caves",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/jungle_temple"
+    }
+  ]
+}

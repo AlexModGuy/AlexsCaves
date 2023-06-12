@@ -5,8 +5,10 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.gui.screens.advancements.AdvancementWidget;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
@@ -34,7 +36,7 @@ public class SpelunkeryTableWordButton extends AbstractWidget {
     }
 
     @Override
-    public void renderWidget(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
+    public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
         if(!parent.hasTablet()){
             return;
         }
@@ -50,10 +52,10 @@ public class SpelunkeryTableWordButton extends AbstractWidget {
         int revealG = (int) (revealTextColor >> 8 & 255);
         int revealB = (int) (revealTextColor & 255);
         if(alpha >= 1) {
-            drawEquidistantWord(font, poseStack, this.glyphText, this.getX(), this.getY(), FastColor.ARGB32.color(alpha, r, g, b));
+            drawEquidistantWord(font, guiGraphics, this.glyphText, this.getX(), this.getY(), FastColor.ARGB32.color(alpha, r, g, b));
         }
         if(revealAlpha >= 1){
-            drawEquidistantWord(font, poseStack, this.normalText, this.getX(), this.getY(), FastColor.ARGB32.color(revealAlpha, revealR, revealG, revealB));
+            drawEquidistantWord(font, guiGraphics, this.normalText, this.getX(), this.getY(), FastColor.ARGB32.color(revealAlpha, revealR, revealG, revealB));
         }
     }
 
@@ -95,47 +97,25 @@ public class SpelunkeryTableWordButton extends AbstractWidget {
     public Component getNormalText() {
         return normalText;
     }
-    public void renderTranslationText(int tickCount, int textColor, PoseStack matrixStack, Font font, float magnifyingXMin, float magnifyingXMax, float magnifyingYMin, float magnifyingYMax) {
+    public void renderTranslationText(int tickCount, int textColor, GuiGraphics guiGraphics, Font font, float magnifyingXMin, float magnifyingXMax, float magnifyingYMin, float magnifyingYMax) {
         if(!this.active){
-            matrixStack.pushPose();
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            matrixStack.pushPose();
-            RenderSystem.enableDepthTest();
-            matrixStack.translate(0.0F, 0.0F, 500.0F);
-            RenderSystem.colorMask(false, false, false, false);
-            fill(matrixStack, 4680, 2260, -4680, -2260, -16777216);
-            RenderSystem.colorMask(true, true, true, true);
-            matrixStack.translate(0.0F, 0.0F, -500.0F);
-            RenderSystem.depthFunc(518);
-
-            RenderSystem.colorMask(false, false, false, false);
-            fill(matrixStack, (int) magnifyingXMin, (int) magnifyingYMin, (int) magnifyingXMax, (int) magnifyingYMax, -16777216);
-            RenderSystem.colorMask(true, true, true, true);
-            RenderSystem.depthFunc(515);
+            guiGraphics.pose().pushPose();
+            guiGraphics.enableScissor((int) magnifyingXMin, (int) magnifyingYMin, (int) magnifyingXMax, (int) magnifyingYMax);
             float age = (float)(Math.sin((tickCount + Minecraft.getInstance().getFrameTime()) * 0.2F) + 1F) * 0.5F;
             int alpha = (int) (Mth.clamp(age, 0.1F, 1F) * 255);
             int r = (int) (textColor >> 16 & 255);
             int g = (int) (textColor >> 8 & 255);
             int b = (int) (textColor & 255);
-            drawEquidistantWord(font, matrixStack, this.normalText, this.getX(), this.getY(), FastColor.ARGB32.color(alpha, r, g, b));
-            RenderSystem.depthFunc(518);
-            matrixStack.translate(0.0F, 0.0F, -500.0F);
-            RenderSystem.colorMask(false, false, false, false);
-            fill(matrixStack, 4680, 2260, -4680, -2260, -16777216);
-            RenderSystem.colorMask(true, true, true, true);
-            matrixStack.translate(0.0F, 0.0F, 500.0F);
-            RenderSystem.depthFunc(515);
-            matrixStack.popPose();
-            matrixStack.popPose();
-            RenderSystem.depthFunc(515);
-            RenderSystem.disableDepthTest();
+            drawEquidistantWord(font, guiGraphics, this.normalText, this.getX(), this.getY(), FastColor.ARGB32.color(alpha, r, g, b));
+            guiGraphics.disableScissor();
+            guiGraphics.pose().popPose();
         }
     }
 
-    private void drawEquidistantWord(Font font, PoseStack poseStack, Component component, int x, int y, int color){
+    private void drawEquidistantWord(Font font, GuiGraphics guiGraphics, Component component, int x, int y, int color){
         int letterWidth = 6;
         StringDecomposer.iterateFormatted(component, Style.EMPTY, (position, style, j) -> {
-            font.draw(poseStack, Component.literal(String.valueOf((char)j)).withStyle(style), x + letterWidth * position, y, color);
+            guiGraphics.drawString(font, Component.literal(String.valueOf((char)j)).withStyle(style), x + letterWidth * position, y, color, false);
             return true;
         });
     }

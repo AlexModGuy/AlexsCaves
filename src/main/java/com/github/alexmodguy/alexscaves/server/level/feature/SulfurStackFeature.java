@@ -49,7 +49,7 @@ public class SulfurStackFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.getMaterial().isReplaceable()) && !state.is(ACTagRegistry.UNMOVEABLE);
+        return (state.isAir() || state.canBeReplaced()) && !state.is(ACTagRegistry.UNMOVEABLE);
     }
 
     private static void generatePillar(WorldGenLevel level, BlockPos pos, RandomSource randomSource, int height){

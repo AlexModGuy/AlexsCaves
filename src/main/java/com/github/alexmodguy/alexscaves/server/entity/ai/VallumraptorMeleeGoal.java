@@ -36,13 +36,13 @@ public class VallumraptorMeleeGoal extends Goal {
             double dist = raptor.distanceTo(target);
             if(raptor.isLeaping()){
                 checkAndDealDamage(target);
-                if(raptor.isOnGround()){
+                if(raptor.onGround()){
                     raptor.setLeaping(false);
                 }
             }else if(raptor.getAnimation() == VallumraptorEntity.ANIMATION_STARTLEAP){
                 raptor.getNavigation().stop();
                 raptor.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
-                if(raptor.getAnimationTick() > 15 && raptor.isOnGround()){
+                if(raptor.getAnimationTick() > 15 && raptor.onGround()){
                     raptor.setLeaping(true);
                     Vec3 vector3d = raptor.getDeltaMovement();
                     Vec3 vector3d1 = new Vec3(target.getX() - raptor.getX(), 0.0D, target.getZ() - raptor.getZ());

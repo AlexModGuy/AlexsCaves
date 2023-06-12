@@ -21,12 +21,12 @@ public class SubterranodonFleeGoal extends Goal {
         if(subterranodon.isFlying() || subterranodon.isDancing()){
             return false;
         }
-        long worldTime = subterranodon.level.getGameTime() % 10;
+        long worldTime = subterranodon.level().getGameTime() % 10;
         if (subterranodon.getRandom().nextInt(10) != 0 && worldTime != 0) {
             return false;
         }
         AABB aabb = subterranodon.getBoundingBox().inflate(7);
-        List<Entity> list = subterranodon.level.getEntitiesOfClass(Entity.class, aabb, (entity -> entity.getType().is(ACTagRegistry.SUBTERRANODON_FLEES)));
+        List<Entity> list = subterranodon.level().getEntitiesOfClass(Entity.class, aabb, (entity -> entity.getType().is(ACTagRegistry.SUBTERRANODON_FLEES)));
         return !list.isEmpty();
     }
 

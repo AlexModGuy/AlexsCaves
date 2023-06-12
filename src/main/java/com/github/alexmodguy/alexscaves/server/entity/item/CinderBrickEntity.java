@@ -46,7 +46,7 @@ public class CinderBrickEntity extends ThrowableItemProjectile {
         if (message == 3) {
             double d0 = 0.08D;
             for(int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -58,13 +58,13 @@ public class CinderBrickEntity extends ThrowableItemProjectile {
 
     protected void onHit(HitResult hitResult) {
         super.onHit(hitResult);
-        if (!this.level.isClientSide) {
-            this.level.broadcastEntityEvent(this, (byte)3);
+        if (!this.level().isClientSide) {
+            this.level().broadcastEntityEvent(this, (byte)3);
             this.discard();
             if(hitResult instanceof BlockHitResult blockHitResult){
-                BlockState stateHit = level.getBlockState(blockHitResult.getBlockPos());
+                BlockState stateHit = level().getBlockState(blockHitResult.getBlockPos());
                 if(stateHit.getBlock().getExplosionResistance() < 5.0F && !stateHit.is(ACTagRegistry.UNMOVEABLE) && !stateHit.isAir()){
-                    level.destroyBlock(blockHitResult.getBlockPos(), true);
+                    level().destroyBlock(blockHitResult.getBlockPos(), true);
                 }
             }
         }

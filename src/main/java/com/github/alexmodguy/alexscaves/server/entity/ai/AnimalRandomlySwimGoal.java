@@ -49,7 +49,7 @@ public class AnimalRandomlySwimGoal extends Goal {
 
     public boolean isTargetBlocked(Vec3 target) {
         Vec3 Vector3d = new Vec3(mob.getX(), mob.getEyeY(), mob.getZ());
-        return mob.level.clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob)).getType() != HitResult.Type.MISS;
+        return mob.level().clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob)).getType() != HitResult.Type.MISS;
     }
 
     public BlockPos findSwimToPos() {
@@ -57,14 +57,14 @@ public class AnimalRandomlySwimGoal extends Goal {
         int surfaceY;
         BlockPos.MutableBlockPos move = new BlockPos.MutableBlockPos();
         move.set(mob.getX(), mob.getY(), mob.getZ());
-        while (move.getY() < mob.level.getMaxBuildHeight() && mob.level.getFluidState(move).is(FluidTags.WATER)) {
+        while (move.getY() < mob.level().getMaxBuildHeight() && mob.level().getFluidState(move).is(FluidTags.WATER)) {
             move.move(0, 5, 0);
         }
         surfaceY = move.getY();
         around = around.atY(Math.min(surfaceY - belowSeaLevel, around.getY()));
         for (int i = 0; i < 15; i++) {
             BlockPos blockPos = around.offset(mob.getRandom().nextInt(range) - range / 2, mob.getRandom().nextInt(range) - range / 2, mob.getRandom().nextInt(range) - range / 2);
-            if (mob.level.getFluidState(blockPos).is(FluidTags.WATER) && !isTargetBlocked(Vec3.atCenterOf(blockPos)) && blockPos.getY() > mob.level.getMinBuildHeight() + 1) {
+            if (mob.level().getFluidState(blockPos).is(FluidTags.WATER) && !isTargetBlocked(Vec3.atCenterOf(blockPos)) && blockPos.getY() > mob.level().getMinBuildHeight() + 1) {
                 return blockPos;
             }
         }

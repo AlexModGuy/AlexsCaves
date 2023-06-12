@@ -21,7 +21,7 @@ public class IrradiatedEffect extends MobEffect {
             player.causeFoodExhaustion(0.4F);
         }
         if(!(entity instanceof RaycatEntity)){
-            entity.hurt(ACDamageTypes.causeRadiationDamage(entity.level.registryAccess()), 1.0F);
+            entity.hurt(ACDamageTypes.causeRadiationDamage(entity.level().registryAccess()), 1.0F);
         }
     }
 

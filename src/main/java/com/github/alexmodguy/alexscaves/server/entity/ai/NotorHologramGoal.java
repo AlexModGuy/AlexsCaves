@@ -69,7 +69,7 @@ public class NotorHologramGoal extends Goal {
             checkForMonsterTime = 20 + notor.getRandom().nextInt(10);
             if(monster == null || !monster.isAlive()){
                 Predicate<Entity> monsterAway = (entity) -> entity instanceof Enemy && (hologram == null || !entity.equals(hologram)) && entity.distanceTo(notor) > 5 && !entity.isPassenger() && hasNoTarget(entity);
-                List<Mob> list = notor.level.getEntitiesOfClass(Mob.class, notor.getBoundingBox().inflate(30, 12, 30), EntitySelector.NO_SPECTATORS.and(monsterAway));
+                List<Mob> list = notor.level().getEntitiesOfClass(Mob.class, notor.getBoundingBox().inflate(30, 12, 30), EntitySelector.NO_SPECTATORS.and(monsterAway));
                 list.sort(Comparator.comparingDouble(notor::distanceToSqr));
                 if (!list.isEmpty()) {
                     monster = list.get(0);
@@ -99,7 +99,7 @@ public class NotorHologramGoal extends Goal {
                         BlockPos set = monster.blockPosition();
                         for(int i = 0; i < 15; i++){
                             BlockPos holoPos = monster.blockPosition().offset(notor.getRandom().nextInt(10) - 5, (int) (monster.getBbHeight() + 3), notor.getRandom().nextInt(10) - 5);
-                            while(notor.level.isEmptyBlock(holoPos) && holoPos.getY() > notor.level.getMinBuildHeight()){
+                            while(notor.level().isEmptyBlock(holoPos) && holoPos.getY() > notor.level().getMinBuildHeight()){
                                 holoPos = holoPos.below();
                             }
                             holoPos = holoPos.above();
@@ -147,6 +147,6 @@ public class NotorHologramGoal extends Goal {
 
     public boolean isTargetBlocked(Mob mob, Vec3 target) {
         Vec3 Vector3d = new Vec3(mob.getX(), mob.getEyeY(), mob.getZ());
-        return mob.level.clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob)).getType() != HitResult.Type.MISS;
+        return mob.level().clip(new ClipContext(Vector3d, target, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, mob)).getType() != HitResult.Type.MISS;
     }
 }

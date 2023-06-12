@@ -10,15 +10,14 @@ import net.minecraft.world.level.block.NetherVines;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ArchaicVineBlock extends GrowingPlantHeadBlock {
    protected static final VoxelShape SHAPE = Block.box(4.0D, 9.0D, 4.0D, 12.0D, 16.0D, 12.0D);
 
    public ArchaicVineBlock() {
-      super(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.NETHER).randomTicks().noCollission().instabreak().sound(SoundType.ROOTS), Direction.DOWN, SHAPE, false, 0.1D);
+      super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).randomTicks().noCollission().instabreak().sound(SoundType.ROOTS), Direction.DOWN, SHAPE, false, 0.1D);
    }
 
    protected int getBlocksToGrowWhenBonemealed(RandomSource randomSource) {

@@ -7,13 +7,13 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 
 public class UraniumOreBlock extends RotatedPillarBlock {
 
     public UraniumOreBlock() {
-        super(Properties.of(Material.METAL).strength(3.5F).lightLevel((state -> 4)).emissiveRendering((state, level, pos) -> true).sound(SoundType.COPPER));
+        super(Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).strength(3.5F).lightLevel((state -> 4)).emissiveRendering((state, level, pos) -> true).sound(SoundType.COPPER));
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {

@@ -58,7 +58,7 @@ public class BoundroidWinchEntity extends Monster {
     }
 
     public BoundroidWinchEntity(BoundroidEntity parent) {
-        this(ACEntityRegistry.BOUNDROID_WINCH.get(), parent.level);
+        this(ACEntityRegistry.BOUNDROID_WINCH.get(), parent.level());
         this.setHeadUUID(parent.getUUID());
         this.setPos(parent.position().add(0, 0.5F, 0));
     }
@@ -130,11 +130,11 @@ public class BoundroidWinchEntity extends Monster {
     private void switchNavigator(boolean clinging) {
         if (clinging) {
             this.moveControl = new CeilingMoveControl();
-            this.navigation = createCeilingNavigator(level);
+            this.navigation = createCeilingNavigator(level());
             this.isUpsideDownNavigator = true;
         } else {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigation(this, level);
+            this.navigation = new GroundPathNavigation(this, level());
             this.isUpsideDownNavigator = false;
         }
     }
@@ -143,7 +143,7 @@ public class BoundroidWinchEntity extends Monster {
         FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level) {
             public boolean isStableDestination(BlockPos pos) {
                 int airAbove = 0;
-                while (level.getBlockState(pos).isAir() && airAbove < MAX_DIST_TO_CEILING + 1) {
+                while (level().getBlockState(pos).isAir() && airAbove < MAX_DIST_TO_CEILING + 1) {
                     pos = pos.above();
                     airAbove++;
                 }
@@ -173,11 +173,11 @@ public class BoundroidWinchEntity extends Monster {
         if (isLatched() && verticalCollision && d3 > 0.1F) {
             if (tickCount - lastStepTimestamp > 6) {
                 lastStepTimestamp = tickCount;
-                BlockState state = level.getBlockState(BlockPos.containing(this.getX(), this.getBoundingBox().maxY + 0.5, this.getZ()));
+                BlockState state = level().getBlockState(BlockPos.containing(this.getX(), this.getBoundingBox().maxY + 0.5, this.getZ()));
                 this.playSound(state.getSoundType().getStepSound(), 1F, 0.5F);
             }
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (this.isLatched() && !this.isUpsideDownNavigator) {
                 switchNavigator(true);
             }
@@ -187,7 +187,7 @@ public class BoundroidWinchEntity extends Monster {
         }
         Entity head = getHead();
         if (head instanceof BoundroidEntity boundroid) {
-            if (!level.isClientSide) {
+            if (!level().isClientSide) {
                 this.entityData.set(HEAD_ID, head.getId());
                 double distance = this.distanceTo(boundroid);
                 double distanceGoal = isLatched() ? 1.25F + Math.sin(tickCount * 0.1F) * 0.25F : 3.5F;
@@ -236,7 +236,7 @@ public class BoundroidWinchEntity extends Monster {
                     }
                     if (goingUp) {
                         this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, 1.5F, this.getDeltaMovement().z));
-                    } else if (this.onGround && noLatchCooldown == 0 && this.isAlive() && random.nextInt(30) == 0 && distanceToCeiling > MAX_DIST_TO_CEILING && !this.level.canSeeSky(this.blockPosition())) {
+                    } else if (this.onGround() && noLatchCooldown == 0 && this.isAlive() && random.nextInt(30) == 0 && distanceToCeiling > MAX_DIST_TO_CEILING && !this.level().canSeeSky(this.blockPosition())) {
                         goingUp = true;
                     }
                 }
@@ -246,7 +246,7 @@ public class BoundroidWinchEntity extends Monster {
                 this.hurtTime = boundroid.hurtTime;
                 this.deathTime = boundroid.deathTime;
             }
-        } else if (!level.isClientSide) {
+        } else if (!level().isClientSide) {
             this.remove(RemovalReason.KILLED);
         }
     }
@@ -292,12 +292,12 @@ public class BoundroidWinchEntity extends Monster {
     }
 
     public Entity getHead() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             UUID id = getHeadUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         } else {
             int id = this.entityData.get(HEAD_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 
@@ -317,7 +317,7 @@ public class BoundroidWinchEntity extends Monster {
     }
 
     public BlockPos getCeilingOf(BlockPos usPos) {
-        while (!level.getBlockState(usPos).isFaceSturdy(level, usPos, Direction.DOWN) && usPos.getY() < level.getMaxBuildHeight()) {
+        while (!level().getBlockState(usPos).isFaceSturdy(level(), usPos, Direction.DOWN) && usPos.getY() < level().getMaxBuildHeight()) {
             usPos = usPos.above();
         }
         return usPos;
@@ -379,7 +379,7 @@ public class BoundroidWinchEntity extends Monster {
         }
 
         public boolean canUse() {
-            if (!BoundroidWinchEntity.this.level.canSeeSky(BoundroidWinchEntity.this.blockPosition()) && BoundroidWinchEntity.this.getRandom().nextInt(20) != 0) {
+            if (!BoundroidWinchEntity.this.level().canSeeSky(BoundroidWinchEntity.this.blockPosition()) && BoundroidWinchEntity.this.getRandom().nextInt(20) != 0) {
                 return false;
             } else {
                 return this.setWantedPos();
@@ -413,7 +413,7 @@ public class BoundroidWinchEntity extends Monster {
 
             for (int i = 0; i < 10; ++i) {
                 BlockPos blockpos1 = blockpos.offset(randomsource.nextInt(20) - 10, randomsource.nextInt(6) - 3, randomsource.nextInt(20) - 10);
-                if (!BoundroidWinchEntity.this.level.canSeeSky(blockpos1) && BoundroidWinchEntity.this.getWalkTargetValue(blockpos1) < 0.0F) {
+                if (!BoundroidWinchEntity.this.level().canSeeSky(blockpos1) && BoundroidWinchEntity.this.getWalkTargetValue(blockpos1) < 0.0F) {
                     return Vec3.atBottomCenterOf(blockpos1);
                 }
             }

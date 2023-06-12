@@ -38,7 +38,6 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
@@ -90,9 +89,9 @@ public class ClientProxy extends CommonProxy {
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation WATCHER_EFFECT = new ResourceLocation(AlexsCaves.MODID, "textures/misc/watcher_effect.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
-    private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation("alexscaves:shaders/post/submarine_light.json");
+    private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation(AlexsCaves.MODID,"shaders/post/submarine_light.json");
     public static final ResourceLocation HOLOGRAM_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/hologram.json");
-    private static final ResourceLocation WATCHER_SHADER = new ResourceLocation("alexscaves:shaders/post/watcher_perspective.json");
+    private static final ResourceLocation WATCHER_SHADER = new ResourceLocation(AlexsCaves.MODID,"shaders/post/watcher_perspective.json");
     protected final RandomSource random = RandomSource.create();
     private int lastTremorTick = -1;
     private int updateCounter = 0;
@@ -199,45 +198,45 @@ public class ClientProxy extends CommonProxy {
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
         AlexsCaves.LOGGER.debug("Registered particle factories");
-        registry.register(ACParticleRegistry.SCARLET_MAGNETIC_ORBIT.get(), new MagneticOrbitParticle.ScarletFactory());
-        registry.register(ACParticleRegistry.AZURE_MAGNETIC_ORBIT.get(), new MagneticOrbitParticle.AzureFactory());
-        registry.register(ACParticleRegistry.SCARLET_MAGNETIC_FLOW.get(), new MagneticFlowParticle.ScarletFactory());
-        registry.register(ACParticleRegistry.AZURE_MAGNETIC_FLOW.get(), new MagneticFlowParticle.AzureFactory());
-        registry.register(ACParticleRegistry.TESLA_BULB_LIGHTNING.get(), new TeslaBulbLightningParticle.Factory());
-        registry.register(ACParticleRegistry.MAGNET_LIGHTNING.get(), new MagnetLightningParticle.Factory());
-        registry.register(ACParticleRegistry.GALENA_DEBRIS.get(), GalenaDebrisParticle.Factory::new);
-        registry.register(ACParticleRegistry.MAGNETIC_CAVES_AMBIENT.get(), new MagneticCavesAmbientParticle.Factory());
-        registry.register(ACParticleRegistry.FERROUSLIME.get(), FerrouslimeParticle.Factory::new);
-        registry.register(ACParticleRegistry.FLY.get(), FlyParticle.Factory::new);
-        registry.register(ACParticleRegistry.WATER_TREMOR.get(), WaterTremorParticle.Factory::new);
-        registry.register(ACParticleRegistry.ACID_BUBBLE.get(), AcidBubbleParticle.Factory::new);
-        registry.register(ACParticleRegistry.BLACK_VENT_SMOKE.get(), VentSmokeParticle.BlackFactory::new);
-        registry.register(ACParticleRegistry.WHITE_VENT_SMOKE.get(), VentSmokeParticle.WhiteFactory::new);
-        registry.register(ACParticleRegistry.GREEN_VENT_SMOKE.get(), VentSmokeParticle.GreenFactory::new);
-        registry.register(ACParticleRegistry.MUSHROOM_CLOUD.get(), new MushroomCloudParticle.Factory());
-        registry.register(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), MushroomCloudEffectParticle.Factory::new);
-        registry.register(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), MushroomCloudEffectParticle.Factory::new);
-        registry.register(ACParticleRegistry.PROTON.get(), new ProtonParticle.Factory());
-        registry.register(ACParticleRegistry.FALLOUT.get(), FalloutParticle.Factory::new);
-        registry.register(ACParticleRegistry.GAMMAROACH.get(), GammaroachParticle.Factory::new);
-        registry.register(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
-        registry.register(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
-        registry.register(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
-        registry.register(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
-        registry.register(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
-        registry.register(ACParticleRegistry.BIG_SPLASH.get(), new BigSplashParticle.Factory());
-        registry.register(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), BigSplashEffectParticle.Factory::new);
-        registry.register(ACParticleRegistry.MINE_EXPLOSION.get(), MushroomCloudEffectParticle.MineFactory::new);
-        registry.register(ACParticleRegistry.WATCHER_APPEARANCE.get(), new WatcherAppearanceParticle.Factory());
-        registry.register(ACParticleRegistry.VOID_BEING_CLOUD.get(), new VoidBeingCloudParticle.Factory());
-        registry.register(ACParticleRegistry.VOID_BEING_TENDRIL.get(), new VoidBeingTendrilParticle.Factory());
-        registry.register(ACParticleRegistry.VOID_BEING_EYE.get(), new VoidBeingEyeParticle.Factory());
-        registry.register(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), UnderzealotMagicParticle.Factory::new);
-        registry.register(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), MushroomCloudEffectParticle.UnderzealotFactory::new);
-        registry.register(ACParticleRegistry.FALLING_GUANO.get(), FallingGuanoParticle.Factory::new);
-        registry.register(ACParticleRegistry.FORSAKEN_SPIT.get(), ForsakenSpitParticle.Factory::new);
-        registry.register(ACParticleRegistry.FORSAKEN_SONAR.get(), ForsakenSonarParticle.Factory::new);
-        registry.register(ACParticleRegistry.FORSAKEN_SONAR_LARGE.get(), ForsakenSonarParticle.LargeFactory::new);
+        registry.registerSpecial(ACParticleRegistry.SCARLET_MAGNETIC_ORBIT.get(), new MagneticOrbitParticle.ScarletFactory());
+        registry.registerSpecial(ACParticleRegistry.AZURE_MAGNETIC_ORBIT.get(), new MagneticOrbitParticle.AzureFactory());
+        registry.registerSpecial(ACParticleRegistry.SCARLET_MAGNETIC_FLOW.get(), new MagneticFlowParticle.ScarletFactory());
+        registry.registerSpecial(ACParticleRegistry.AZURE_MAGNETIC_FLOW.get(), new MagneticFlowParticle.AzureFactory());
+        registry.registerSpecial(ACParticleRegistry.TESLA_BULB_LIGHTNING.get(), new TeslaBulbLightningParticle.Factory());
+        registry.registerSpecial(ACParticleRegistry.MAGNET_LIGHTNING.get(), new MagnetLightningParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.GALENA_DEBRIS.get(), GalenaDebrisParticle.Factory::new);
+        registry.registerSpecial(ACParticleRegistry.MAGNETIC_CAVES_AMBIENT.get(), new MagneticCavesAmbientParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.FERROUSLIME.get(), FerrouslimeParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.FLY.get(), FlyParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.WATER_TREMOR.get(), WaterTremorParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.ACID_BUBBLE.get(), AcidBubbleParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.BLACK_VENT_SMOKE.get(), VentSmokeParticle.BlackFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.WHITE_VENT_SMOKE.get(), VentSmokeParticle.WhiteFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.GREEN_VENT_SMOKE.get(), VentSmokeParticle.GreenFactory::new);
+        registry.registerSpecial(ACParticleRegistry.MUSHROOM_CLOUD.get(), new MushroomCloudParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), MushroomCloudEffectParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), MushroomCloudEffectParticle.Factory::new);
+        registry.registerSpecial(ACParticleRegistry.PROTON.get(), new ProtonParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.FALLOUT.get(), FalloutParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.GAMMAROACH.get(), GammaroachParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
+        registry.registerSpecial(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
+        registry.registerSpecial(ACParticleRegistry.BIG_SPLASH.get(), new BigSplashParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), BigSplashEffectParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.MINE_EXPLOSION.get(), MushroomCloudEffectParticle.MineFactory::new);
+        registry.registerSpecial(ACParticleRegistry.WATCHER_APPEARANCE.get(), new WatcherAppearanceParticle.Factory());
+        registry.registerSpecial(ACParticleRegistry.VOID_BEING_CLOUD.get(), new VoidBeingCloudParticle.Factory());
+        registry.registerSpecial(ACParticleRegistry.VOID_BEING_TENDRIL.get(), new VoidBeingTendrilParticle.Factory());
+        registry.registerSpecial(ACParticleRegistry.VOID_BEING_EYE.get(), new VoidBeingEyeParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), UnderzealotMagicParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), MushroomCloudEffectParticle.UnderzealotFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.FALLING_GUANO.get(), FallingGuanoParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.FORSAKEN_SPIT.get(), ForsakenSpitParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.FORSAKEN_SONAR.get(), ForsakenSonarParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.FORSAKEN_SONAR_LARGE.get(), ForsakenSonarParticle.LargeFactory::new);
     }
 
     @SubscribeEvent
@@ -340,7 +339,7 @@ public class ClientProxy extends CommonProxy {
             }
             if (tremorAmount > 0) {
                 if (lastTremorTick != player.tickCount) {
-                    RandomSource rng = player.getLevel().random;
+                    RandomSource rng = player.level().random;
                     randomTremorOffsets[0] = rng.nextFloat();
                     randomTremorOffsets[1] = rng.nextFloat();
                     randomTremorOffsets[2] = rng.nextFloat();
@@ -410,10 +409,10 @@ public class ClientProxy extends CommonProxy {
             if (player.hasEffect(MobEffects.REGENERATION)) {
                 regen = updateCounter % 25;
             }
-            final int heartV = player.level.getLevelData().isHardcore() ? 9 : 0;
+            final int heartV = player.level().getLevelData().isHardcore() ? 9 : 0;
             int heartU = 0;
             float absorbRemaining = absorb;
-            event.getPoseStack().pushPose();
+            event.getGuiGraphics().pose().pushPose();
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, POTION_EFFECT_HUD_OVERLAYS);
@@ -427,31 +426,31 @@ public class ClientProxy extends CommonProxy {
                 if (i == regen) {
                     y -= 2;
                 }
-                GuiComponent.blit(event.getPoseStack(), x, y, 50, heartU, heartV + 18, 9, 9, 32, 32);
+                event.getGuiGraphics().blit(POTION_EFFECT_HUD_OVERLAYS, x, y, 50, heartU, heartV + 18, 9, 9, 32, 32);
                 if (absorbRemaining > 0.0F) {
                     if (absorbRemaining == absorb && absorb % 2.0F == 1.0F) {
-                        GuiComponent.blit(event.getPoseStack(), x, y, 50, heartU, heartV, 9, 9, 32, 32);
+                        event.getGuiGraphics().blit(POTION_EFFECT_HUD_OVERLAYS, x, y, 50, heartU, heartV, 9, 9, 32, 32);
                         absorbRemaining -= 1.0F;
                     } else {
-                        GuiComponent.blit(event.getPoseStack(), x, y, 50, heartU + 9, heartV, 9, 9, 32, 32);
+                        event.getGuiGraphics().blit(POTION_EFFECT_HUD_OVERLAYS, x, y, 50, heartU + 9, heartV, 9, 9, 32, 32);
                         absorbRemaining -= 2.0F;
                     }
                 } else {
                     if (i * 2 + 1 < health) {
-                        GuiComponent.blit(event.getPoseStack(), x, y, 50, heartU, heartV, 9, 9, 32, 32);
+                        event.getGuiGraphics().blit(POTION_EFFECT_HUD_OVERLAYS, x, y, 50, heartU, heartV, 9, 9, 32, 32);
                     } else if (i * 2 + 1 == health) {
-                        GuiComponent.blit(event.getPoseStack(), x, y, 50, heartU + 9, heartV, 9, 9, 32, 32);
+                        event.getGuiGraphics().blit(POTION_EFFECT_HUD_OVERLAYS, x, y, 50, heartU + 9, heartV, 9, 9, 32, 32);
                     }
                 }
             }
-            event.getPoseStack().popPose();
+            event.getGuiGraphics().pose().popPose();
         }
     }
 
     @SubscribeEvent
     public void fogRender(ViewportEvent.RenderFog event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
-        FluidState fluidstate = player.level.getFluidState(event.getCamera().getBlockPosition());
+        FluidState fluidstate = player.level().getFluidState(event.getCamera().getBlockPosition());
         if (!fluidstate.isEmpty() && fluidstate.getType().getFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setCanceled(true);
             float farness = 10.0F;
@@ -466,10 +465,10 @@ public class ClientProxy extends CommonProxy {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float farness;
             if (i == 0) {
-                farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level.getBiome(player.blockPosition()));
+                farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiome(player.blockPosition()));
             } else {
                 Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                    return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
                 });
                 farness = (float) vec31.x;
             }
@@ -484,10 +483,10 @@ public class ClientProxy extends CommonProxy {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float nearness;
             if (i == 0) {
-                nearness = ACBiomeRegistry.getBiomeFogNearness(player.level.getBiome(player.blockPosition()));
+                nearness = ACBiomeRegistry.getBiomeFogNearness(player.level().getBiome(player.blockPosition()));
             } else {
                 Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeFogNearness(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                    return new Vec3(ACBiomeRegistry.getBiomeFogNearness(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
                 });
                 nearness = (float) vec31.x;
             }
@@ -510,20 +509,20 @@ public class ClientProxy extends CommonProxy {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float override;
             if (i == 0) {
-                override = ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiome(player.blockPosition()));
+                override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
             } else {
                 Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
                 });
                 override = (float) vec31.x;
             }
             if (override != 0.0F) {
                 Vec3 vec3;
                 if (i == 0) {
-                    vec3 = ((ClientLevel) player.level).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), override);
+                    vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), override);
                 } else {
                     vec3 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                        return ((ClientLevel) player.level).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getFogColor()), override);
+                        return ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getFogColor()), override);
                     });
                 }
                 event.setRed((float) (vec3.x));
@@ -535,19 +534,19 @@ public class ClientProxy extends CommonProxy {
             Vec3 vec3;
             float override;
             if (i == 0) {
-                override = ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiome(player.blockPosition()));
+                override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
             } else {
                 Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
                 });
                 override = (float) vec31.x;
             }
             if (override != 0) {
                 if (i == 0) {
-                    vec3 = Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
+                    vec3 = Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
                 } else {
                     vec3 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                        return Vec3.fromRGB24(player.level.getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getWaterFogColor());
+                        return Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getWaterFogColor());
                     });
                 }
                 event.setRed((float) (event.getRed() + (vec3.x - event.getRed()) * override));
@@ -776,7 +775,6 @@ public class ClientProxy extends CommonProxy {
         Minecraft.getInstance().setCameraEntity(Minecraft.getInstance().player);
         Minecraft.getInstance().options.setCameraType(lastPOV);
     }
-
 
     public void preScreenRender(float partialTick) {
         float screenEffectIntensity = Minecraft.getInstance().options.screenEffectScale().get().floatValue();

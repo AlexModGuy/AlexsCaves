@@ -140,7 +140,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
         super.tick();
         prevLandProgress = landProgress;
         prevFishPitch = fishPitch;
-        boolean grounded = this.isOnGround() && !isInWaterOrBubble();
+        boolean grounded = this.onGround() && !isInWaterOrBubble();
         if (grounded && landProgress < 5F) {
             landProgress++;
         }
@@ -149,7 +149,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
         }
         fishPitch = Mth.clamp((float) this.getDeltaMovement().y * 3F, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI);
         if (!isInWaterOrBubble() && this.isAlive()) {
-            if (this.isOnGround()) {
+            if (this.onGround()) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);
                 this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
@@ -196,11 +196,10 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
                 this.saveToBucketTag(itemstack1);
                 ItemStack itemstack2 = ItemUtils.createFilledResult(itemstack, player, itemstack1, false);
                 player.setItemInHand(hand, itemstack2);
-                Level level = this.level;
-                if (!level.isClientSide) {
+                if (!level().isClientSide) {
                     CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
                 }
-                return InteractionResult.sidedSuccess(this.level.isClientSide);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
         return type;
@@ -401,17 +400,17 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
             BlockPos.MutableBlockPos move = new BlockPos.MutableBlockPos();
             BlockPos base;
             move.set(fish.getX(), fish.getY() + 1, fish.getZ());
-            while (move.getY() < level.getMaxBuildHeight() && level.getFluidState(move).is(FluidTags.WATER)) {
+            while (move.getY() < level().getMaxBuildHeight() && level().getFluidState(move).is(FluidTags.WATER)) {
                 move.move(0, 5, 0);
             }
             surfaceY = move.getY();
             move.set(fish.getX(), fish.getY() - 1, fish.getZ());
-            while (move.getY() > level.getMinBuildHeight() && level.getFluidState(move).is(FluidTags.WATER)) {
+            while (move.getY() > level().getMinBuildHeight() && level().getFluidState(move).is(FluidTags.WATER)) {
                 move.move(0, -5, 0);
             }
             floorY = move.getY();
             int oceanHeight = surfaceY - floorY;
-            if (level.isNight()) {
+            if (level().isNight()) {
                 base = fish.blockPosition().atY(Mth.clamp(fishY, floorY + (int) (oceanHeight * 0.85F), surfaceY));
             } else {
                 base = fish.blockPosition().atY(Mth.clamp(fishY, floorY  + (int) (oceanHeight * 0.25F), surfaceY - (int) (oceanHeight * 0.85F)));
@@ -419,7 +418,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
 
             for (int i = 0; i < 15; i++) {
                 BlockPos blockPos = base.offset(random.nextInt(range) - range / 2, random.nextInt(range) - range / 2, random.nextInt(range) - range / 2);
-                if (fish.level.getFluidState(blockPos).is(FluidTags.WATER) && blockPos.getY() > level.getMinBuildHeight() + 1) {
+                if (fish.level().getFluidState(blockPos).is(FluidTags.WATER) && blockPos.getY() > level().getMinBuildHeight() + 1) {
                     return blockPos;
                 }
             }
@@ -464,7 +463,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
                 Predicate<LanternfishEntity> predicate = (p_25258_) -> {
                     return p_25258_.canGroupGrow() || !p_25258_.hasGroupLeader();
                 };
-                List<LanternfishEntity> list = this.mob.level.getEntitiesOfClass(LanternfishEntity.class, this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
+                List<LanternfishEntity> list = this.mob.level().getEntitiesOfClass(LanternfishEntity.class, this.mob.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
                 LanternfishEntity cc = DataFixUtils.orElse(list.stream().filter(LanternfishEntity::canGroupGrow).findAny(), this.mob);
                 cc.createFromStream(list.stream().filter((p_25255_) -> {
                     return !p_25255_.hasGroupLeader();

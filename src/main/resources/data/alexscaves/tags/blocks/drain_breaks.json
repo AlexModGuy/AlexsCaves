@@ -1,0 +1,13 @@
+{
+  "__comment": "all blocks broken when a drain block is activated.",
+  "values": [
+    "minecraft:kelp",
+    "minecraft:kelp_plant",
+    "minecraft:seagrass",
+    "minecraft:tall_seagrass",
+    "alexscaves:ping_pong_sponge",
+    "alexscaves:dusk_anemone",
+    "alexscaves:twilight_anemone",
+    "alexscaves:midnight_anemone"
+  ]
+}

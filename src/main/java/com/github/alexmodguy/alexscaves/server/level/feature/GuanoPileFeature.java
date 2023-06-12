@@ -73,6 +73,6 @@ public class GuanoPileFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.getMaterial().isReplaceable()) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
+        return (state.isAir() || state.canBeReplaced()) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
     }
 }

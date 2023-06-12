@@ -30,7 +30,7 @@ public class ForsakenRandomlyJumpGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        if (entity.isOnGround() && (target == null || !target.isAlive()) && entity.getRandom().nextInt(140) == 0 && entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
+        if (entity.onGround() && (target == null || !target.isAlive()) && entity.getRandom().nextInt(140) == 0 && entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             BlockPos findTarget = findJumpTarget();
             if (findTarget != null) {
                 jumpTarget = findTarget;
@@ -45,7 +45,7 @@ public class ForsakenRandomlyJumpGoal extends Goal {
         if (vec3 != null) {
             BlockPos blockpos = BlockPos.containing(vec3);
             AABB aabb = this.entity.getBoundingBox().move(vec3.add(0.5F, 1, 0.5F).subtract(this.entity.position()));
-            if (entity.level.getBlockState(blockpos.below()).isSolidRender(entity.level, blockpos.below()) && entity.getPathfindingMalus(WalkNodeEvaluator.getBlockPathTypeStatic(entity.level, blockpos.mutable())) == 0.0F && entity.level.isUnobstructed(this.entity, Shapes.create(aabb))) {
+            if (entity.level().getBlockState(blockpos.below()).isSolidRender(entity.level(), blockpos.below()) && entity.getPathfindingMalus(WalkNodeEvaluator.getBlockPathTypeStatic(entity.level(), blockpos.mutable())) == 0.0F && entity.level().isUnobstructed(this.entity, Shapes.create(aabb))) {
                 return blockpos;
             }
         }

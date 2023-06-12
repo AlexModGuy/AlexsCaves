@@ -23,7 +23,7 @@ public class BubbledEffect extends MobEffect {
         if(entity.canBreatheUnderwater() || entity.getMobType() == MobType.WATER){
             if(!entity.getType().is(ACTagRegistry.RESISTS_BUBBLED)){
                 entity.setAirSupply(entity.getMaxAirSupply());
-                if(!entity.isOnGround() ){
+                if(!entity.onGround() ){
                     entity.setDeltaMovement(entity.getDeltaMovement().add(0, -0.08, 0));
                 }
             }
@@ -38,7 +38,7 @@ public class BubbledEffect extends MobEffect {
                     double d2 = entity.getRandom().nextDouble() - entity.getRandom().nextDouble();
                     double d3 = entity.getRandom().nextDouble() - entity.getRandom().nextDouble();
                     double d4 = entity.getRandom().nextDouble() - entity.getRandom().nextDouble();
-                    entity.level.addParticle(ParticleTypes.BUBBLE, entity.getX() + d2, entity.getY() + d3, entity.getZ() + d4, vec3.x, vec3.y, vec3.z);
+                    entity.level().addParticle(ParticleTypes.BUBBLE, entity.getX() + d2, entity.getY() + d3, entity.getZ() + d4, vec3.x, vec3.y, vec3.z);
                 }
                 entity.hurt(entity.damageSources().drown(), 2.0F);
             }

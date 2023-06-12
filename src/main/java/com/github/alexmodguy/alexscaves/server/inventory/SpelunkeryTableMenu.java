@@ -83,7 +83,7 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
             }
 
             public void onTake(Player player, ItemStack stack) {
-                stack.getItem().onCraftedBy(stack, player.level, player);
+                stack.getItem().onCraftedBy(stack, player.level(), player);
                 super.onTake(player, stack);
             }
         });
@@ -134,7 +134,7 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
             ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
             if (slotIndex == 2) {
-                itemstack1.getItem().onCraftedBy(itemstack1, player.level, player);
+                itemstack1.getItem().onCraftedBy(itemstack1, player.level(), player);
                 if (!this.moveItemStackTo(itemstack1, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }

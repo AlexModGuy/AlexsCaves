@@ -121,7 +121,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         float tailSwing = getTailSwingRot();
         this.prevTailSwingRot = tailSwing;
         prevDanceProgress = danceProgress;
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level.getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
+        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
             this.setDancing(false);
             this.jukeboxPosition = null;
         }
@@ -156,7 +156,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         }
         if (resetAttackerCooldown > 0) {
             resetAttackerCooldown--;
-        } else if (!level.isClientSide && !this.isBaby() && (this.getLastHurtByMob() == null || !this.getLastHurtByMob().isAlive())) {
+        } else if (!level().isClientSide && !this.isBaby() && (this.getLastHurtByMob() == null || !this.getLastHurtByMob().isAlive())) {
             this.setTarget(this.getLastHurtByMob());
             resetAttackerCooldown = 30;
         }

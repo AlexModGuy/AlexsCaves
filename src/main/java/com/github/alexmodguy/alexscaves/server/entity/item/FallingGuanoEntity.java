@@ -67,23 +67,23 @@ public class FallingGuanoEntity extends FallingBlockEntity {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.04D, 0.0D));
             }
             this.move(MoverType.SELF, this.getDeltaMovement());
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 BlockPos blockpos = this.blockPosition();
-                if (!this.onGround) {
-                    if (!this.level.isClientSide && (this.time > 100 && (blockpos.getY() <= this.level.getMinBuildHeight() || blockpos.getY() > this.level.getMaxBuildHeight()) || this.time > 600)) {
-                        if (this.dropItem && this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+                if (!this.onGround()) {
+                    if (!this.level().isClientSide && (this.time > 100 && (blockpos.getY() <= this.level().getMinBuildHeight() || blockpos.getY() > this.level().getMaxBuildHeight()) || this.time > 600)) {
+                        if (this.dropItem && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
                             this.spawnAtLocation(block);
                         }
 
                         this.discard();
                     }
                 } else {
-                    BlockState blockstate = this.level.getBlockState(blockpos);
+                    BlockState blockstate = this.level().getBlockState(blockpos);
                     this.setDeltaMovement(this.getDeltaMovement().multiply(0.7D, -0.5D, 0.7D));
                     if (!blockstate.is(Blocks.MOVING_PISTON)) {
-                        boolean flag2 = blockstate.canBeReplaced(new DirectionalPlaceContext(this.level, blockpos, Direction.DOWN, ItemStack.EMPTY, Direction.UP));
-                        boolean flag3 = FallingBlock.isFree(this.level.getBlockState(blockpos.below()));
-                        boolean flag4 = this.guanoState.canSurvive(this.level, blockpos) && (!flag3 || this.level.getBlockState(blockpos.below()).is(ACBlockRegistry.GUANO_LAYER.get()));
+                        boolean flag2 = blockstate.canBeReplaced(new DirectionalPlaceContext(this.level(), blockpos, Direction.DOWN, ItemStack.EMPTY, Direction.UP));
+                        boolean flag3 = FallingBlock.isFree(this.level().getBlockState(blockpos.below()));
+                        boolean flag4 = this.guanoState.canSurvive(this.level(), blockpos) && (!flag3 || this.level().getBlockState(blockpos.below()).is(ACBlockRegistry.GUANO_LAYER.get()));
                         BlockState setState = this.getBlockState();
                         BlockState setAboveState = null;
                         if(blockstate.is(ACBlockRegistry.GUANO_LAYER.get())){
@@ -95,40 +95,40 @@ public class FallingGuanoEntity extends FallingBlockEntity {
                             setState = ACBlockRegistry.GUANO_LAYER.get().defaultBlockState().setValue(GuanoLayerBlock.LAYERS, Math.min(together, 8));
                             if(together > 8){
                                 int prev = 0;
-                                if(level.getBlockState(blockpos.above()).is(ACBlockRegistry.GUANO_LAYER.get())){
-                                    prev = level.getBlockState(blockpos.above()).getValue(GuanoLayerBlock.LAYERS);
+                                if(level().getBlockState(blockpos.above()).is(ACBlockRegistry.GUANO_LAYER.get())){
+                                    prev = level().getBlockState(blockpos.above()).getValue(GuanoLayerBlock.LAYERS);
                                 }
                                 setAboveState = ACBlockRegistry.GUANO_LAYER.get().defaultBlockState().setValue(GuanoLayerBlock.LAYERS, Math.min(together - 8 + prev, 8));
                             }
                         }
                         if (flag2 && flag4) {
                             boolean flag5 = false;
-                            if (this.level.setBlockAndUpdate(blockpos, setState)) {
+                            if (this.level().setBlockAndUpdate(blockpos, setState)) {
                                 this.discard();
                                 if (block instanceof Fallable) {
-                                    ((Fallable) block).onLand(this.level, blockpos, setState, blockstate, this);
+                                    ((Fallable) block).onLand(this.level(), blockpos, setState, blockstate, this);
                                 }
                                 flag5 = true;
                             }
                             if(setAboveState != null){
                                 BlockPos abovePos = blockpos.above();
-                                BlockState aboveState = this.level.getBlockState(abovePos);
-                                if(aboveState.canBeReplaced(new DirectionalPlaceContext(this.level, abovePos, Direction.DOWN, ItemStack.EMPTY, Direction.UP))){
-                                    this.level.setBlockAndUpdate(abovePos, setAboveState);
+                                BlockState aboveState = this.level().getBlockState(abovePos);
+                                if(aboveState.canBeReplaced(new DirectionalPlaceContext(this.level(), abovePos, Direction.DOWN, ItemStack.EMPTY, Direction.UP))){
+                                    this.level().setBlockAndUpdate(abovePos, setAboveState);
                                 }else{
                                     this.spawnAtLocation(block);
                                 }
                                 this.discard();
                                 flag5 = true;
                             }
-                            if (!flag5 && this.dropItem && this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+                            if (!flag5 && this.dropItem && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
                                 this.discard();
                                 this.callOnBrokenAfterFall(block, blockpos);
                                 this.spawnAtLocation(block);
                             }
                         } else {
                             this.discard();
-                            if (this.dropItem && this.level.getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
+                            if (this.dropItem && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
                                 this.callOnBrokenAfterFall(block, blockpos);
                                 this.spawnAtLocation(block);
                             }
@@ -156,7 +156,7 @@ public class FallingGuanoEntity extends FallingBlockEntity {
 
     protected void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        this.guanoState = NbtUtils.readBlockState(this.level.holderLookup(Registries.BLOCK), tag.getCompound("BlockState"));
+        this.guanoState = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), tag.getCompound("BlockState"));
     }
 
     public BlockState getBlockState() {

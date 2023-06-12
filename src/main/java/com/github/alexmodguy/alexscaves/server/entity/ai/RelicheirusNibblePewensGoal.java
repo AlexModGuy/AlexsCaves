@@ -61,9 +61,9 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
                             this.blockPos = BlockPos.ZERO;
                             return;
                         } else if (relicheirus.getAnimationTick() % 8 == 0) {
-                            BlockState back = relicheirus.level.getBlockState(blockPos);
-                            relicheirus.level.destroyBlock(blockPos, false, relicheirus);
-                            relicheirus.level.setBlock(blockPos, back, 3);
+                            BlockState back = relicheirus.level().getBlockState(blockPos);
+                            relicheirus.level().destroyBlock(blockPos, false, relicheirus);
+                            relicheirus.level().setBlock(blockPos, back, 3);
                         }
 
                     }

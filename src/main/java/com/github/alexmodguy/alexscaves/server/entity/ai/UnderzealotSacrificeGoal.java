@@ -83,10 +83,10 @@ public class UnderzealotSacrificeGoal extends Goal {
         for(int i = 0; i < 20; i++){
             check.move(entity.blockPosition());
             check.move(entity.getRandom().nextInt(20) - 10, 5, entity.getRandom().nextInt(20) - 10);
-            if(!entity.level.isLoaded(check)){
+            if(!entity.level().isLoaded(check)){
                 continue;
             }
-            while (entity.level.isEmptyBlock(check) && check.getY() > entity.level.getMinBuildHeight()) {
+            while (entity.level().isEmptyBlock(check) && check.getY() > entity.level().getMinBuildHeight()) {
                 check.move(0, -1, 0);
             }
             if(isValidSacrificePos(check) && canReach(check)){
@@ -114,7 +114,7 @@ public class UnderzealotSacrificeGoal extends Goal {
     }
 
     private boolean isValidSacrificePos(BlockPos pos){
-        if(entity.level.isEmptyBlock(pos)){
+        if(entity.level().isEmptyBlock(pos)){
             return false;
         }
         BlockPos.MutableBlockPos aboveGround = new BlockPos.MutableBlockPos();
@@ -124,7 +124,7 @@ public class UnderzealotSacrificeGoal extends Goal {
             for(int j = -2; j <= -2; j++){
                 aboveGround.set(pos.getX() + i, pos.getY() + 1, pos.getZ() + j);
                 below.set(pos.getX() + i, pos.getY(), pos.getZ() + j);
-                if(entity.level.isEmptyBlock(below)){
+                if(entity.level().isEmptyBlock(below)){
                     badSpots++;
                 }
                 if(badSpots > 5){
@@ -183,7 +183,7 @@ public class UnderzealotSacrificeGoal extends Goal {
                     this.entity.setParticlePos(leader.getLastSacrificePos().above(5));
                     worshippingTicks++;
                     if(worshippingTicks % 10 == 0){
-                        this.entity.level.broadcastEntityEvent(entity, (byte) 61);
+                        this.entity.level().broadcastEntityEvent(entity, (byte) 61);
                     }
                 }else{
                     worshippingTicks = 0;
@@ -203,7 +203,7 @@ public class UnderzealotSacrificeGoal extends Goal {
                         if(entity.getFirstPassenger() instanceof UnderzealotSacrifice underzealotSacrifice){
                             underzealotSacrifice.triggerSacrificeIn(300);
                             entity.cloudCooldown = 400;
-                            entity.level.broadcastEntityEvent(entity, (byte) 62);
+                            entity.level().broadcastEntityEvent(entity, (byte) 62);
                         }
                     }
                 }else{
@@ -217,10 +217,10 @@ public class UnderzealotSacrificeGoal extends Goal {
     private Vec3 groundOf(Vec3 in){
         BlockPos origin = BlockPos.containing(in);
         BlockPos.MutableBlockPos blockPos = origin.mutable();
-        while (!entity.level.isEmptyBlock(blockPos) && blockPos.getY() < entity.level.getMaxBuildHeight()) {
+        while (!entity.level().isEmptyBlock(blockPos) && blockPos.getY() < entity.level().getMaxBuildHeight()) {
             blockPos.move(0, 1, 0);
         }
-        while (entity.level.isEmptyBlock(blockPos.below()) && blockPos.getY() > entity.level.getMinBuildHeight()) {
+        while (entity.level().isEmptyBlock(blockPos.below()) && blockPos.getY() > entity.level().getMinBuildHeight()) {
             blockPos.move(0, -1, 0);
         }
         return new Vec3(in.x, blockPos.getY(), in.z);

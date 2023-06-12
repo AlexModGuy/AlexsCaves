@@ -111,15 +111,15 @@ public class NucleeperEntity extends Monster {
         ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.is(ItemTags.CREEPER_IGNITERS)) {
             SoundEvent soundevent = itemstack.is(Items.FIRE_CHARGE) ? SoundEvents.FIRECHARGE_USE : SoundEvents.FLINTANDSTEEL_USE;
-            this.level.playSound(player, this.getX(), this.getY(), this.getZ(), soundevent, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
-            if (!this.level.isClientSide) {
+            this.level().playSound(player, this.getX(), this.getY(), this.getZ(), soundevent, this.getSoundSource(), 1.0F, this.random.nextFloat() * 0.4F + 0.8F);
+            if (!this.level().isClientSide) {
                 this.setTriggered(true);
                 itemstack.hurtAndBreak(1, player, (p_32290_) -> {
                     p_32290_.broadcastBreakEvent(hand);
                 });
             }
 
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         } else {
             return super.mobInteract(player, hand);
         }
@@ -138,7 +138,7 @@ public class NucleeperEntity extends Monster {
         if(!this.isExploding() && explodeProgress > 0F){
             explodeProgress--;
         }
-        if(this.isTriggered() && !level.isClientSide){
+        if(this.isTriggered() && !level().isClientSide){
             if(this.catScareTime > 0 && !this.isExploding()){
                 if(time > 0){
                     this.setCloseTime(time - 1);
@@ -158,17 +158,17 @@ public class NucleeperEntity extends Monster {
         }
         if(this.isExploding() && explodeProgress >= 5F){
             this.discard();
-            if (!this.level.isClientSide) {
+            if (!this.level().isClientSide) {
                 this.explode();
             }
         }
     }
 
     private void explode() {
-        NuclearExplosionEntity explosion = ACEntityRegistry.NUCLEAR_EXPLOSION.get().create(level);
+        NuclearExplosionEntity explosion = ACEntityRegistry.NUCLEAR_EXPLOSION.get().create(level());
         explosion.copyPosition(this);
         explosion.setSize(1F);
-        level.addFreshEntity(explosion);
+        level().addFreshEntity(explosion);
     }
 
     public float getCloseProgress(float partialTick) {

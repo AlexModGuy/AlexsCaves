@@ -78,12 +78,12 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         BlockPos blockpos2 = structuretemplate.getZeroPositionWithTransform(blockpos1, Mirror.NONE, rotation);
         if (structuretemplate.placeInWorld(level, blockpos2, blockpos2, structureplacesettings, randomsource, 18)) {
             for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate.processBlockInfos(level, blockpos2, blockpos2, structureplacesettings, getDataMarkers(structuretemplate, blockpos2, rotation, false))) {
-                String marker = structuretemplate$structureblockinfo.nbt.getString("metadata");
+                String marker = structuretemplate$structureblockinfo.nbt().getString("metadata");
                 if (marker.equals("loot_chest")) {
-                    level.setBlock(structuretemplate$structureblockinfo.pos, Blocks.CAVE_AIR.defaultBlockState(), 4);
-                    RandomizableContainerBlockEntity.setLootTable(level, randomsource, structuretemplate$structureblockinfo.pos.below(), context.config().chestLoot);
+                    level.setBlock(structuretemplate$structureblockinfo.pos(), Blocks.CAVE_AIR.defaultBlockState(), 4);
+                    RandomizableContainerBlockEntity.setLootTable(level, randomsource, structuretemplate$structureblockinfo.pos().below(), context.config().chestLoot);
                 }else{
-                    processMarker(marker, level, structuretemplate$structureblockinfo.pos, randomsource);
+                    processMarker(marker, level, structuretemplate$structureblockinfo.pos(), randomsource);
                 }
             }
             processBoundingBox(level, structuretemplate.getBoundingBox(structureplacesettings, blockpos2), randomsource);
@@ -106,7 +106,7 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
     }
 
     protected boolean canReplace(BlockState state, int already) {
-        return (state.isAir() || state.getMaterial().isReplaceable()) && (state.getFluidState().getFluidType() != ACFluidRegistry.ACID_FLUID_TYPE.get() || already < 3);
+        return (state.isAir() || state.canBeReplaced()) && (state.getFluidState().getFluidType() != ACFluidRegistry.ACID_FLUID_TYPE.get() || already < 3);
     }
 
     protected boolean skipsOver(BlockState state, int already) {
@@ -118,8 +118,8 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         List<StructureTemplate.StructureBlockInfo> list1 = Lists.newArrayList();
 
         for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : list) {
-            if (structuretemplate$structureblockinfo.nbt != null) {
-                StructureMode structuremode = StructureMode.valueOf(structuretemplate$structureblockinfo.nbt.getString("mode"));
+            if (structuretemplate$structureblockinfo.nbt() != null) {
+                StructureMode structuremode = StructureMode.valueOf(structuretemplate$structureblockinfo.nbt().getString("mode"));
                 if (structuremode == StructureMode.DATA) {
                     list1.add(structuretemplate$structureblockinfo);
                 }

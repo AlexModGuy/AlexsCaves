@@ -28,6 +28,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -90,7 +91,7 @@ public class MineExplosion  {
                         double d9 = Mth.lerp(d6, aabb.minY, aabb.maxY);
                         double d10 = Mth.lerp(d7, aabb.minZ, aabb.maxZ);
                         Vec3 vec3 = new Vec3(d8 + d3, d9, d10 + d4);
-                        if (p_46066_.level.clip(new ClipContext(vec3, p_46065_, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_46066_)).getType() == HitResult.Type.MISS) {
+                        if (p_46066_.level().clip(new ClipContext(vec3, p_46065_, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, p_46066_)).getType() == HitResult.Type.MISS) {
                             ++i;
                         }
 
@@ -228,7 +229,7 @@ public class MineExplosion  {
                     if ($$9 instanceof ServerLevel) {
                         ServerLevel serverlevel = (ServerLevel)$$9;
                         BlockEntity blockentity = blockstate.hasBlockEntity() ? this.level.getBlockEntity(blockpos) : null;
-                        LootContext.Builder lootcontext$builder = (new LootContext.Builder(serverlevel)).withRandom(this.level.random).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, blockentity).withOptionalParameter(LootContextParams.THIS_ENTITY, this.source);
+                        LootParams.Builder lootcontext$builder = (new LootParams.Builder(serverlevel)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, blockentity).withOptionalParameter(LootContextParams.THIS_ENTITY, this.source);
                         if (this.blockInteraction == Explosion.BlockInteraction.DESTROY_WITH_DECAY) {
                             lootcontext$builder.withParameter(LootContextParams.EXPLOSION_RADIUS, this.radius);
                         }

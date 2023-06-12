@@ -12,8 +12,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -35,7 +34,7 @@ public class CycadBlock extends BushBlock {
     );
 
     public CycadBlock() {
-        super(Properties.of(Material.WOOD, MaterialColor.METAL).requiresCorrectToolForDrops().dynamicShape().strength(1F, 2.0F).sound(SoundType.WOOD).offsetType(OffsetType.XZ));
+        super(Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).requiresCorrectToolForDrops().dynamicShape().strength(1F, 2.0F).sound(SoundType.WOOD).offsetType(OffsetType.XZ));
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)));
     }
 

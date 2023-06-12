@@ -1,8 +1,34 @@
 {
-  "parent": "minecraft:block/outer_stairs",
   "textures": {
-    "bottom": "alexscaves:block/cinder_block",
-    "side": "alexscaves:block/cinder_block",
-    "top": "alexscaves:block/cinder_block"
-  }
+    "down": "alexscaves:block/cinder_block_top",
+    "east": "alexscaves:block/cinder_block",
+    "north": "alexscaves:block/cinder_block_side",
+    "particle": "alexscaves:block/cinder_block",
+    "south": "alexscaves:block/cinder_block_side",
+    "up": "alexscaves:block/cinder_block_top",
+    "west": "alexscaves:block/cinder_block"
+  },
+  "elements": [
+    {   "from": [ 0, 0, 0 ],
+      "to": [ 16, 8, 16 ],
+      "faces": {
+        "down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#down", "cullface": "down" },
+        "up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#up" },
+        "north": { "uv": [ 0, 8, 16, 16 ], "texture": "#north", "cullface": "north" },
+        "south": { "uv": [ 0, 8, 16, 16 ], "texture": "#south", "cullface": "south" },
+        "west":  { "uv": [ 0, 8, 16, 16 ], "texture": "#west", "cullface": "west" },
+        "east":  { "uv": [ 0, 8, 16, 16 ], "texture": "#east", "cullface": "east" }
+      }
+    },
+    {   "from": [ 8, 8, 8 ],
+      "to": [ 16, 16, 16 ],
+      "faces": {
+        "up":    { "uv": [ 8, 8, 16, 16 ], "texture": "#up", "cullface": "up" },
+        "north": { "uv": [ 0, 0,  8,  8 ], "texture": "#north" },
+        "south": { "uv": [ 8, 0, 16,  8 ], "texture": "#south", "cullface": "south" },
+        "west":  { "uv": [ 8, 0, 16,  8 ], "texture": "#west" },
+        "east":  { "uv": [ 0, 0,  8,  8 ], "texture": "#east", "cullface": "east" }
+      }
+    }
+  ]
 }

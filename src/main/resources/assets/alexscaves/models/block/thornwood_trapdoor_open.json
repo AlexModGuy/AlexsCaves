@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_orientable_trapdoor_open",
+  "render_type": "cutout_mipped",
   "textures": {
     "texture": "alexscaves:block/thornwood/thornwood_trapdoor"
   }

@@ -23,8 +23,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -40,38 +39,38 @@ public class CopperValveBlock extends BaseEntityBlock implements SimpleWaterlogg
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     private static final VoxelShape SHAPE_UP = buildShape(
-            Block.box(7, 0, 7, 9, 12, 9),
-            Block.box(0, 9, 0, 16, 11, 16)
+            Block.box(7, 0, 7, 9, 11, 9),
+            Block.box(1, 9, 1, 15, 11, 15)
     );
 
     private static final VoxelShape SHAPE_DOWN = buildShape(
             Block.box(7, 4, 7, 9, 16, 9),
-            Block.box(0, 5, 0, 16, 7, 16)
+            Block.box(1, 5, 1, 15, 7, 15)
     );
 
     private static final VoxelShape SHAPE_NORTH = buildShape(
             Block.box(7, 7, 4, 9, 9, 16),
-            Block.box(0, 0, 5, 16, 16, 7)
+            Block.box(1, 1, 5, 15, 15, 7)
     );
 
     private static final VoxelShape SHAPE_SOUTH = buildShape(
-            Block.box(7, 7, 0, 9, 9, 12),
-            Block.box(0, 0, 9, 16, 16, 11)
+            Block.box(7, 7, 0, 9, 9, 11),
+            Block.box(1, 1, 9, 15, 15, 11)
     );
 
     private static final VoxelShape SHAPE_EAST = buildShape(
-            Block.box(0, 7, 7, 12, 9, 9),
-            Block.box(9, 0, 0, 11, 16, 16)
+            Block.box(0, 7, 7, 11, 9, 9),
+            Block.box(9, 1, 1, 11, 15, 15)
     );
 
     private static final VoxelShape SHAPE_WEST = buildShape(
             Block.box(4, 7, 7, 16, 9, 9),
-            Block.box(5, 0, 0, 7, 16, 16)
+            Block.box(5, 1, 1, 7, 15, 15)
     );
 
 
     protected CopperValveBlock() {
-        super(Properties.of(Material.METAL, MaterialColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(3F, 12.0F).sound(SoundType.COPPER));
+        super(Properties.of().mapColor(MapColor.COLOR_ORANGE).requiresCorrectToolForDrops().strength(3F, 12.0F).sound(SoundType.COPPER));
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.UP).setValue(TURNED, Boolean.valueOf(false)));
     }
 

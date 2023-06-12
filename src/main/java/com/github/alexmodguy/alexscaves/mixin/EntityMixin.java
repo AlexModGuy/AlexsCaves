@@ -42,7 +42,7 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     protected abstract void playStepSound(BlockPos p_20135_, BlockState p_20136_);
 
     @Shadow
-    public Level level;
+    private Level level;
     @Shadow
     private Vec3 position;
 

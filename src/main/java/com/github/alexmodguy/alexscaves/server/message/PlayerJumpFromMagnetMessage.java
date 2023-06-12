@@ -33,7 +33,7 @@ public class PlayerJumpFromMagnetMessage {
         context.get().setPacketHandled(true);
         Player player = context.get().getSender();
         if(player != null){
-            Entity entity = player.level.getEntity(message.entityID);
+            Entity entity = player.level().getEntity(message.entityID);
             if(MagnetUtil.isPulledByMagnets(entity) && entity instanceof LivingEntity living){
                 living.jumping = message.jumping;
             }

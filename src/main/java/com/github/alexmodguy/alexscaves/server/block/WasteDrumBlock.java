@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
@@ -11,13 +12,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
 
 public class WasteDrumBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public WasteDrumBlock() {
-        super(BlockBehaviour.Properties.of(Material.METAL).strength(3.5F).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.YELLOW).strength(3.5F).sound(SoundType.METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

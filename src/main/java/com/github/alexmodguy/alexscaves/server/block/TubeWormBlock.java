@@ -8,6 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -42,7 +43,7 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
     public TubeWormBlock() {
-        super(BlockBehaviour.Properties.of(Material.BAMBOO, MaterialColor.WOOL).requiresCorrectToolForDrops().strength(2F).sound(SoundType.BONE_BLOCK));
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE).requiresCorrectToolForDrops().strength(2F).sound(SoundType.BONE_BLOCK));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false).setValue(TUBE_TYPE, TubeShape.STRAIGHT));
     }
 

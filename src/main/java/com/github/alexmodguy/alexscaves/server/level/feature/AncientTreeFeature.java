@@ -103,7 +103,7 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.getMaterial().isReplaceable() || state.is(ACBlockRegistry.ANCIENT_LEAVES.get())|| state.is(ACBlockRegistry.TREE_STAR.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
+        return (state.isAir() || state.canBeReplaced() || state.is(ACBlockRegistry.ANCIENT_LEAVES.get())|| state.is(ACBlockRegistry.TREE_STAR.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
     }
 
 

@@ -91,7 +91,7 @@ public class OrtholanceItem extends Item implements Vanishable {
                     }
                 }
             }
-            livingEntity.setDeltaMovement(vec3.add(0, livingEntity.isOnGround() ? 0.2F : 0, 0));
+            livingEntity.setDeltaMovement(vec3.add(0, livingEntity.onGround() ? 0.2F : 0, 0));
         }
     }
 

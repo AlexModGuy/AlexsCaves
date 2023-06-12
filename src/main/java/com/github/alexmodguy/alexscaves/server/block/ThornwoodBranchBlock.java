@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -31,7 +32,7 @@ public class ThornwoodBranchBlock extends Block implements SimpleWaterloggedBloc
     private static final VoxelShape SHAPE_SOUTH = Block.box(7.0D, 1.0D, 0.0D, 9.0D, 15.0D, 16.0D);
 
     public ThornwoodBranchBlock() {
-        super(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BLACK).requiresCorrectToolForDrops().instabreak().sound(SoundType.MANGROVE_ROOTS).noOcclusion().noCollission());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().instabreak().sound(SoundType.MANGROVE_ROOTS).noOcclusion().noCollission());
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FACING, Direction.UP));
     }
 

@@ -51,7 +51,7 @@ public class GalenaHexagonFeature extends Feature<GalenaHexagonFeatureConfigurat
     }
 
     private static boolean canReplace(BlockState state) {
-        return state.isAir() || state.getMaterial().isReplaceable();
+        return state.isAir() || state.canBeReplaced();
     }
 
     private static void drawHexagon(WorldGenLevel level, BlockPos center, RandomSource random, BlockStateProvider blockState, int height, int radius, boolean goingUp) {

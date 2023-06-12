@@ -121,13 +121,13 @@ public class FerrouslimeEntity extends Monster {
                 attackProgress--;
             }
         }
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             float slimeSize = getSlimeSize(1);
             for (int i = 0; i < Math.ceil(slimeSize); i++) {
                 double particleX = this.getX() + (random.nextDouble() - 0.5F) * (slimeSize + 1.5F);
                 double particleY = this.getY() + (random.nextDouble() - 0.5F) * (slimeSize + 1.5F);
                 double particleZ = this.getZ() + (random.nextDouble() - 0.5F) * (slimeSize + 1.5F);
-                level.addParticle(ACParticleRegistry.FERROUSLIME.get(), particleX, particleY, particleZ, this.getId(), 0, 0);
+                level().addParticle(ACParticleRegistry.FERROUSLIME.get(), particleX, particleY, particleZ, this.getId(), 0, 0);
             }
         }else{
             LivingEntity living = this.getTarget();
@@ -152,8 +152,8 @@ public class FerrouslimeEntity extends Monster {
             int ours = this.getHeadCount() / 2;
             int theirs = this.getHeadCount() - ours;
             this.mergeCooldown = 1200;
-            level.addFreshEntity(this.makeSlime(ours, 1200));
-            level.addFreshEntity(this.makeSlime(theirs, 1200));
+            level().addFreshEntity(this.makeSlime(ours, 1200));
+            level().addFreshEntity(this.makeSlime(theirs, 1200));
         }
         super.remove(removalReason);
     }
@@ -205,7 +205,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
-        return level.getBlockState(pos).isAir() ? 10.0F : 0.0F;
+        return level().getBlockState(pos).isAir() ? 10.0F : 0.0F;
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -238,8 +238,8 @@ public class FerrouslimeEntity extends Monster {
             int ours = this.getHeadCount() / 2;
             int theirs = this.getHeadCount() - ours;
             this.mergeCooldown = 1200;
-            level.addFreshEntity(this.makeSlime(ours, 1200));
-            level.addFreshEntity(this.makeSlime(theirs, 1200));
+            level().addFreshEntity(this.makeSlime(ours, 1200));
+            level().addFreshEntity(this.makeSlime(theirs, 1200));
             this.remove(RemovalReason.DISCARDED);
             return true;
         }
@@ -248,7 +248,7 @@ public class FerrouslimeEntity extends Monster {
 
     private FerrouslimeEntity makeSlime(int heads, int cooldown){
         Component component = this.getCustomName();
-        FerrouslimeEntity ferrouslime = ACEntityRegistry.FERROUSLIME.get().create(level);
+        FerrouslimeEntity ferrouslime = ACEntityRegistry.FERROUSLIME.get().create(level());
         ferrouslime.setPos(this.position());
         ferrouslime.setHeadCount(heads);
         ferrouslime.setCustomName(component);
@@ -307,7 +307,7 @@ public class FerrouslimeEntity extends Monster {
                     lastSlideDirection = null;
                     for (Direction direction : Direction.values()) {
                         BlockPos check = centerPos.relative(direction);
-                        if (check.distSqr(target) < closest.distSqr(target) && level.getBlockState(check).isAir()) {
+                        if (check.distSqr(target) < closest.distSqr(target) && level().getBlockState(check).isAir()) {
                             lastSlideDirection = direction;
                         }
                     }
@@ -387,7 +387,7 @@ public class FerrouslimeEntity extends Monster {
             if (executionCooldown-- < 0) {
                 executionCooldown = FerrouslimeEntity.this.getTarget() == null ? 100 : 20;
                 FerrouslimeEntity closest = null;
-                for (FerrouslimeEntity slime : FerrouslimeEntity.this.level.getEntitiesOfClass(FerrouslimeEntity.class, FerrouslimeEntity.this.getBoundingBox().inflate(30, 30, 30))) {
+                for (FerrouslimeEntity slime : FerrouslimeEntity.this.level().getEntitiesOfClass(FerrouslimeEntity.class, FerrouslimeEntity.this.getBoundingBox().inflate(30, 30, 30))) {
                     if (slime != FerrouslimeEntity.this && slime.canForm() && (closest == null || slime.distanceTo(FerrouslimeEntity.this) < closest.distanceTo(FerrouslimeEntity.this))) {
                         closest = slime;
                     }

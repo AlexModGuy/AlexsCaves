@@ -55,11 +55,11 @@ public class WatcherAttackGoal extends Goal {
                     }
                 }
             }else{
-                if (!canReachViaGround && !watcher.isShadeMode() && watcher.isOnGround()) {
+                if (!canReachViaGround && !watcher.isShadeMode() && watcher.onGround()) {
                     watcher.setShadeMode(true);
                 }
                 watcher.setShadeMode(!canReachViaGround);
-                if(dist < 6 && watcher.hasLineOfSight(target) && watcher.isOnGround()){
+                if(dist < 6 && watcher.hasLineOfSight(target) && watcher.onGround()){
                     watcher.setShadeMode(false);
                 }
                 if (dist > target.getBbWidth() + watcher.getBbWidth() + 0.5F) {

@@ -1,0 +1,26 @@
+{
+  "type": "alexscaves:cave_tablet",
+  "biome": "alexscaves:primordial_caves",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/desert_well"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/desert_pyramid"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/trail_ruins_rare"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/ocean_ruin_warm"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/ocean_ruin_cold"
+    }
+  ]
+}

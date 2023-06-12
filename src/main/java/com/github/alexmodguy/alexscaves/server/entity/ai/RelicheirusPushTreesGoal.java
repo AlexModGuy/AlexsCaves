@@ -58,7 +58,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
     }
 
     protected BlockPos getMoveToTarget() {
-        return relicheirus.getStandAtTreePos(getBottomOfTree(relicheirus.level, blockPos));
+        return relicheirus.getStandAtTreePos(getBottomOfTree(relicheirus.level(), blockPos));
     }
 
     @Override
@@ -79,24 +79,24 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
                             if (!gathered.isEmpty()) {
                                 List<MovingBlockData> allData = new ArrayList<>();
                                 for (BlockPos pos : gathered) {
-                                    BlockState moveState = relicheirus.level.getBlockState(pos);
-                                    BlockEntity te = relicheirus.level.getBlockEntity(pos);
+                                    BlockState moveState = relicheirus.level().getBlockState(pos);
+                                    BlockEntity te = relicheirus.level().getBlockEntity(pos);
                                     BlockPos offset = pos.subtract(blockPos);
-                                    MovingBlockData data = new MovingBlockData(moveState, moveState.getShape(relicheirus.level, pos), offset, te == null ? null : te.saveWithoutMetadata());
-                                    relicheirus.level.removeBlockEntity(pos);
+                                    MovingBlockData data = new MovingBlockData(moveState, moveState.getShape(relicheirus.level(), pos), offset, te == null ? null : te.saveWithoutMetadata());
+                                    relicheirus.level().removeBlockEntity(pos);
                                     allData.add(data);
                                 }
                                 for (BlockPos pos : gathered) {
-                                    relicheirus.level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                                    relicheirus.level().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                                 }
-                                FallingTreeBlockEntity fallingTree = ACEntityRegistry.FALLING_TREE_BLOCK.get().create(relicheirus.level);
+                                FallingTreeBlockEntity fallingTree = ACEntityRegistry.FALLING_TREE_BLOCK.get().create(relicheirus.level());
                                 fallingTree.moveTo(Vec3.atCenterOf(blockPos));
                                 fallingTree.setAllBlockData(FallingTreeBlockEntity.createTagFromData(allData));
                                 fallingTree.setPlacementCooldown(1);
                                 Vec3 vec3 = Vec3.atCenterOf(blockPos).subtract(relicheirus.position());
                                 float f = -((float) Mth.atan2(vec3.x, vec3.z)) * 180.0F / (float) Math.PI;
                                 fallingTree.setFallDirection(Direction.fromYRot(f));
-                                relicheirus.level.addFreshEntity(fallingTree);
+                                relicheirus.level().addFreshEntity(fallingTree);
                             }
                         }
                     }
@@ -165,7 +165,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
     }
 
     public boolean isTreePart(BlockPos pos) {
-        BlockState state = relicheirus.level.getBlockState(pos);
+        BlockState state = relicheirus.level().getBlockState(pos);
         if (state.isAir() || state.is(ACTagRegistry.UNMOVEABLE)) {
             return false;
         } else {

@@ -46,7 +46,7 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
     public static final IntegerProperty LIQUID_LOGGED = IntegerProperty.create("liquid_logged", 0, 2);
 
     public RebarBlock() {
-        super(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.COLOR_GRAY).strength(2.0F).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0F).sound(SoundType.METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(CONNECT_X, false).setValue(CONNECT_Y, true).setValue(CONNECT_Z, false).setValue(LIQUID_LOGGED, 0));
     }
 

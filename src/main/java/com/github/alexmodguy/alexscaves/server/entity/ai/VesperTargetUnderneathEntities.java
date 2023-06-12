@@ -19,7 +19,7 @@ public class VesperTargetUnderneathEntities<T extends LivingEntity> extends Near
         if(entity.isHanging()){
             AABB aabb = this.entity.getBoundingBox();
             double newDistance = 2.0F;
-            return new AABB(aabb.minX - newDistance, entity.level.getMinBuildHeight() - 5, aabb.minZ - newDistance, aabb.maxX + newDistance, aabb.maxY + 3, aabb.maxZ + newDistance);
+            return new AABB(aabb.minX - newDistance, entity.level().getMinBuildHeight() - 5, aabb.minZ - newDistance, aabb.maxX + newDistance, aabb.maxY + 3, aabb.maxZ + newDistance);
         }else{
             return this.entity.getBoundingBox().inflate(distance, distance, distance);
         }

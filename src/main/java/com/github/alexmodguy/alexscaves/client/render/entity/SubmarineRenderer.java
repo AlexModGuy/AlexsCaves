@@ -61,7 +61,7 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
     }
 
     public static void renderSubFirstPerson(SubmarineEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource source) {
-        renderSubmarine(entity, partialTicks, poseStack, source, LevelRenderer.getLightColor(entity.level, entity.blockPosition()), false);
+        renderSubmarine(entity, partialTicks, poseStack, source, LevelRenderer.getLightColor(entity.level(), entity.blockPosition()), false);
     }
 
     public static void renderSubmarine(SubmarineEntity entity, float partialTicks, PoseStack poseStack, MultiBufferSource source, int lightIn, boolean maskWater) {

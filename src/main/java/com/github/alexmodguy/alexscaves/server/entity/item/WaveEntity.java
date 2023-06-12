@@ -73,8 +73,8 @@ public class WaveEntity extends Entity {
 
     @Nullable
     public LivingEntity getOwner() {
-        if (this.owner == null && this.ownerUUID != null && this.level instanceof ServerLevel) {
-            Entity entity = ((ServerLevel)this.level).getEntity(this.ownerUUID);
+        if (this.owner == null && this.ownerUUID != null && this.level() instanceof ServerLevel) {
+            Entity entity = ((ServerLevel)this.level()).getEntity(this.ownerUUID);
             if (entity instanceof LivingEntity) {
                 this.owner = (LivingEntity)entity;
             }
@@ -143,7 +143,7 @@ public class WaveEntity extends Entity {
 
     private void spawnParticleAt(float yOffset, float zOffset, float xOffset, ParticleOptions particleType){
         Vec3 vec3 = new Vec3(xOffset, yOffset, zOffset).yRot((float) Math.toRadians(-this.getYRot()));
-        this.level.addParticle(particleType, this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, this.getDeltaMovement().x, 0.1F, this.getDeltaMovement().z);
+        this.level().addParticle(particleType, this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, this.getDeltaMovement().x, 0.1F, this.getDeltaMovement().z);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -165,7 +165,7 @@ public class WaveEntity extends Entity {
 
         float f = Math.min(this.tickCount / 10F, 1F);
         Vec3 directionVec = new Vec3(0, 0, f * f * 0.2F).yRot((float) Math.toRadians(-this.getYRot()));
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             if (this.lSteps > 0) {
                 double d5 = this.getX() + (this.lx - this.getX()) / (double) this.lSteps;
                 double d6 = this.getY() + (this.ly - this.getY()) / (double) this.lSteps;
@@ -186,7 +186,7 @@ public class WaveEntity extends Entity {
             this.reapplyPosition();
             this.setRot(this.getYRot(), this.getXRot());
         }
-        if(!level.isClientSide){
+        if(!level().isClientSide){
             attackEntities(getSlamAmount(1.0F) * 2 + 1);
         }
         Vec3 vec3 = this.getDeltaMovement().scale(0.9F).add(directionVec);
@@ -200,7 +200,7 @@ public class WaveEntity extends Entity {
     private void attackEntities(float scale){
         AABB bashBox = this.getBoundingBox().inflate(0.5f, 0.5f, 0.5f);
         DamageSource source = damageSources().mobProjectile(this, (owner == null ? owner : owner));
-        for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, bashBox)) {
+        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
                 entity.hurt(source, scale + 1.0F);
                 this.setSlamming(true);

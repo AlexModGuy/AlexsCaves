@@ -104,10 +104,10 @@ public class NotorEntity extends PathfinderMob {
         prevBeamProgress = beamProgress;
         prevHologramProgress = hologramProgress;
         prevPropellerRot = propellerRot;
-        if (this.isOnGround() && groundProgress < 5.0F) {
+        if (this.onGround() && groundProgress < 5.0F) {
             groundProgress++;
         }
-        if (!this.isOnGround() && groundProgress > 0.0F) {
+        if (!this.onGround() && groundProgress > 0.0F) {
             groundProgress--;
         }
         boolean hasHologram  = hologram != null && this.showingHologram();
@@ -129,13 +129,13 @@ public class NotorEntity extends PathfinderMob {
             hologramProgress--;
         }
         double speed = this.getDeltaMovement().horizontalDistance();
-        if (!this.isOnGround()) {
+        if (!this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.9F, 0.9F, 0.9F));
             propellerRot += Math.max(speed * 10, 3) * 20;
         } else if (Mth.wrapDegrees(propellerRot) != 0) {
             propellerRot = Mth.approachDegrees(propellerRot, 0, 15);
         }
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             if (hologram != null) {
                 this.entityData.set(HOLOGRAM_ENTITY_ID, hologram.getId());
             } else {
@@ -178,7 +178,7 @@ public class NotorEntity extends PathfinderMob {
 
     public Entity getScanningMob() {
         int id = getScanningId();
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     @javax.annotation.Nullable
@@ -192,12 +192,12 @@ public class NotorEntity extends PathfinderMob {
     }
 
     public Entity getHologramEntity() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             UUID id = getHologramUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         } else {
             int id = this.entityData.get(HOLOGRAM_ENTITY_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 

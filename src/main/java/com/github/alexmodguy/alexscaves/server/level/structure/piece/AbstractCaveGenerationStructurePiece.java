@@ -92,7 +92,7 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
 
     public void checkedSetBlock(WorldGenLevel level, BlockPos position, BlockState state) {
         if (this.getBoundingBox().isInside(position)) {
-            level.setBlock(position, state, Block.UPDATE_SUPPRESS_LIGHT);
+            level.setBlock(position, state, 128);
         }
     }
 

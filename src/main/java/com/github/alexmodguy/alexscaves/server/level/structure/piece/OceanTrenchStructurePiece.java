@@ -146,7 +146,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                     }
                 }
             }
-            level.setBlock(carve, toSet, Block.UPDATE_SUPPRESS_LIGHT);
+            level.setBlock(carve, toSet, 128);
         }
 
     }

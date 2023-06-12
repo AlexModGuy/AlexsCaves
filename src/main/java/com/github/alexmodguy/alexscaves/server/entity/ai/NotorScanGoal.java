@@ -23,16 +23,16 @@ public class NotorScanGoal extends Goal {
     }
 
     private int getMaxScanTime(){
-        return notor.level.getDifficulty() == Difficulty.PEACEFUL ? 40 : 100;
+        return notor.level().getDifficulty() == Difficulty.PEACEFUL ? 40 : 100;
     }
     @Override
     public boolean canUse() {
-        long worldTime = notor.level.getGameTime() % 10;
+        long worldTime = notor.level().getGameTime() % 10;
         if (notor.getRandom().nextInt(300) != 0 && worldTime != 0 || notor.getHologramUUID() != null || notor.stopScanningFor > 0) {
             return false;
         }
         AABB aabb = notor.getBoundingBox().inflate(25);
-        List<LivingEntity> list = notor.level.getEntitiesOfClass(LivingEntity.class, aabb, NotorEntity.SCAN_TARGET);
+        List<LivingEntity> list = notor.level().getEntitiesOfClass(LivingEntity.class, aabb, NotorEntity.SCAN_TARGET);
         if (!list.isEmpty()) {
             LivingEntity closest = null;
             for (LivingEntity mob : list) {

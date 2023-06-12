@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 public class NuclearBombBlock extends Block {
     public NuclearBombBlock() {
-        super(BlockBehaviour.Properties.of(Material.EXPLOSIVE).strength(8, 1001).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(8, 1001).sound(SoundType.METAL));
     }
 
     public void onCaughtFire(BlockState state, Level level, BlockPos blockPos, @Nullable net.minecraft.core.Direction face, @Nullable LivingEntity igniter) {

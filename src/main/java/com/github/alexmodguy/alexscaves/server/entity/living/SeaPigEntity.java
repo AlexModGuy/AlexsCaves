@@ -32,6 +32,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -98,7 +99,7 @@ public class SeaPigEntity extends WaterAnimal {
                 this.digestItem();
             }
         }
-        boolean grounded = this.isOnGround() && !isInWaterOrBubble();
+        boolean grounded = this.onGround() && !isInWaterOrBubble();
         if (grounded && squishProgress < 5F) {
             squishProgress++;
         }
@@ -163,9 +164,9 @@ public class SeaPigEntity extends WaterAnimal {
 
 
     private void digestItem() {
-        if(!level.isClientSide){
-            LootTable loottable = level.getServer().getLootTables().get(DIGESTION_LOOT_TABLE);
-            List<ItemStack> items = loottable.getRandomItems((new LootContext.Builder((ServerLevel) level)).withParameter(LootContextParams.THIS_ENTITY, this).withRandom(level.random).create(LootContextParamSets.PIGLIN_BARTER));
+        if(!level().isClientSide){
+            LootTable loottable = level().getServer().getLootData().getLootTable(DIGESTION_LOOT_TABLE);
+            List<ItemStack> items = loottable.getRandomItems((new LootParams.Builder((ServerLevel) this.level())).withParameter(LootContextParams.THIS_ENTITY, this).create(LootContextParamSets.PIGLIN_BARTER));
             items.forEach(this::spawnAtLocation);
         }
         this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
@@ -244,7 +245,7 @@ public class SeaPigEntity extends WaterAnimal {
             int range = 10;
             for (int i = 0; i < 15; i++) {
                 BlockPos blockPos = SeaPigEntity.this.blockPosition().offset(random.nextInt(range) - range / 2, random.nextInt(range) - range / 2, random.nextInt(range) - range / 2);
-                if (SeaPigEntity.this.level.getFluidState(blockPos).is(FluidTags.WATER) && blockPos.getY() > level.getMinBuildHeight() + 1) {
+                if (SeaPigEntity.this.level().getFluidState(blockPos).is(FluidTags.WATER) && blockPos.getY() > level().getMinBuildHeight() + 1) {
                     result = blockPos;
                 }
             }
@@ -258,7 +259,7 @@ public class SeaPigEntity extends WaterAnimal {
                 if (water == null) {
                     return null;
                 }
-                while (SeaPigEntity.this.level.getFluidState(water.below()).is(FluidTags.WATER) && water.getY() > level.getMinBuildHeight() + 1) {
+                while (SeaPigEntity.this.level().getFluidState(water.below()).is(FluidTags.WATER) && water.getY() > level().getMinBuildHeight() + 1) {
                     water = water.below();
                 }
                 water = water.above();

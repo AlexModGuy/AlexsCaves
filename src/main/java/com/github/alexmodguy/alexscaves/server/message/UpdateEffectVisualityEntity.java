@@ -46,8 +46,8 @@ public class UpdateEffectVisualityEntity {
             playerSided = AlexsCaves.PROXY.getClientSidePlayer();
         }
         if(playerSided != null){
-            Entity entity = playerSided.level.getEntity(message.entityID);
-            Entity senderEntity = playerSided.level.getEntity(message.fromEntityID);
+            Entity entity = playerSided.level().getEntity(message.entityID);
+            Entity senderEntity = playerSided.level().getEntity(message.fromEntityID);
             if(entity instanceof LivingEntity living && senderEntity != null && senderEntity.distanceTo(living) < 32){
                 MobEffect mobEffect = null;
                 switch (message.potionType){

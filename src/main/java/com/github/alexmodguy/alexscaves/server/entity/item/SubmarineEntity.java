@@ -123,7 +123,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         float leftPropellerRot = getLeftPropellerRot();
         float rightPropellerRot = getRightPropellerRot();
         float backPropellerRot = getBackPropellerRot();
-        if (controlDownTicks > 0 || this.getDamageLevel() >= 4 && !this.isOnGround()) {
+        if (controlDownTicks > 0 || this.getDamageLevel() >= 4 && !this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0, -0.08, 0));
             controlDownTicks--;
         } else if (controlUpTicks > 0 && getWaterHeight() > 1.5F) {
@@ -136,7 +136,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         this.xRotO = this.getXRot();
         this.yRotO = Mth.wrapDegrees(this.getYRot());
         float acceleration = this.getAcceleration();
-        if (this.level.isClientSide) {
+        if (this.level().isClientSide) {
             if (this.lSteps > 0) {
                 double d5 = this.getX() + (this.lx - this.getX()) / (double) this.lSteps;
                 double d6 = this.getY() + (this.ly - this.getY()) / (double) this.lSteps;
@@ -206,7 +206,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                     float offsetX = 0.5F - random.nextFloat();
                     float offsetY = 0.5F - random.nextFloat();
                     float offsetZ = 0.5F - random.nextFloat();
-                    level.addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + offsetX + bubblesAt.x, this.getY(0.5F) + offsetY + bubblesAt.y, this.getZ() + offsetZ + bubblesAt.z, 0, 0, 0);
+                    level().addParticle(ParticleTypes.BUBBLE_COLUMN_UP, this.getX() + offsetX + bubblesAt.x, this.getY(0.5F) + offsetY + bubblesAt.y, this.getZ() + offsetZ + bubblesAt.z, 0, 0, 0);
                 }
             }
             if (submergedTicks < 10) {
@@ -310,7 +310,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         return prev || this.isVehicle() && this.getFirstPassenger() != null && this.getFirstPassenger().shouldRender(x, y, z);
     }
 
-    public void positionRider(Entity passenger) {
+    public void positionRider(Entity passenger, MoveFunction moveFunction) {
         if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
             clampRotation(living);
             if (passenger instanceof Player) {
@@ -319,7 +319,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             float f1 = -(this.getXRot() / 40F);
             Vec3 seatOffset = new Vec3(0F, -0.2F, 0.8F + f1).xRot((float) Math.toRadians(this.getXRot())).yRot((float) Math.toRadians(-this.getYRot()));
             double d0 = this.getY() + this.getBbHeight() * 0.5F + seatOffset.y + passenger.getMyRidingOffset();
-            living.setPos(this.getX() + seatOffset.x, d0, this.getZ() + seatOffset.z);
+            moveFunction.accept(passenger, this.getX() + seatOffset.x, d0, this.getZ() + seatOffset.z);
             living.setAirSupply(Math.min(living.getAirSupply() + 2, living.getMaxAirSupply()));
         } else {
             super.positionRider(passenger);
@@ -332,11 +332,11 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
     public void handleEntityEvent(byte b) {
         if (b == 45) {
             for (int i = 0; i < 5; i++) {
-                this.level.addParticle(ParticleTypes.WAX_ON, this.getRandomX(0.9D), this.getRandomY(), this.getRandomZ(0.9D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
+                this.level().addParticle(ParticleTypes.WAX_ON, this.getRandomX(0.9D), this.getRandomY(), this.getRandomZ(0.9D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
             }
         } else if (b == 46) {
             for (int i = 0; i < 5; i++) {
-                this.level.addParticle(ParticleTypes.WAX_OFF, this.getRandomX(0.9D), this.getRandomY(), this.getRandomZ(0.9D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
+                this.level().addParticle(ParticleTypes.WAX_OFF, this.getRandomX(0.9D), this.getRandomY(), this.getRandomZ(0.9D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
             }
         }  else if (b == 47) {
             Block particleState = Blocks.COPPER_BLOCK;
@@ -352,7 +352,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                     break;
             }
             for (int i = 0; i < 10; i++) {
-                this.level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, particleState.defaultBlockState()), this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
+                this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, particleState.defaultBlockState()), this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
             }
             shakeTime = 20;
         } else if(b == 48){
@@ -403,7 +403,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                     this.setOxidizationLevel(this.getOxidizationLevel() - 1);
                     this.playSound(SoundEvents.AXE_SCRAPE, 1.0F, 1.0F);
                 }
-                this.level.broadcastEntityEvent(this, (byte) 46);
+                this.level().broadcastEntityEvent(this, (byte) 46);
                 this.resetOxidizeTime();
                 return InteractionResult.CONSUME;
             } else if (itemStack.is(Items.HONEYCOMB) && !this.isWaxed()) {
@@ -413,7 +413,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                 }
                 this.playSound(SoundEvents.HONEYCOMB_WAX_ON, 1.0F, 1.0F);
                 this.setWaxed(true);
-                this.level.broadcastEntityEvent(this, (byte) 45);
+                this.level().broadcastEntityEvent(this, (byte) 45);
                 return InteractionResult.CONSUME;
             } else if (itemStack.is(Items.COPPER_INGOT) && this.getDamageLevel() > 0) {
                 player.swing(hand);
@@ -424,7 +424,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                 this.setDamageLevel(Math.max(this.getDamageLevel() - 1, 0));
                 this.damageSustained = 0;
                 return InteractionResult.CONSUME;
-            } else if (!this.level.isClientSide && this.getDamageLevel() < 4) {
+            } else if (!this.level().isClientSide && this.getDamageLevel() < 4) {
                 return player.startRiding(this) ? InteractionResult.CONSUME : InteractionResult.PASS;
             } else {
                 return InteractionResult.SUCCESS;
@@ -437,7 +437,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         if (this.getOxidizationLevel() > 0 && !isWaxed()) {
             this.setOxidizationLevel(0);
             this.resetOxidizeTime();
-            this.level.broadcastEntityEvent(this, (byte) 46);
+            this.level().broadcastEntityEvent(this, (byte) 46);
         }
     }
 
@@ -568,11 +568,11 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             return false;
         } else {
             damageSustained += damageValue;
-            this.level.broadcastEntityEvent(this, (byte) 48);
+            this.level().broadcastEntityEvent(this, (byte) 48);
             if(damageSustained >= 10){
                 damageSustained = 0;
                 this.playSound(SoundEvents.ITEM_BREAK);
-                this.level.broadcastEntityEvent(this, (byte) 47);
+                this.level().broadcastEntityEvent(this, (byte) 47);
                 if(this.getDamageLevel() >= 4){
                     if(!this.isRemoved()){
                         for(int i = 0; i < 2 + random.nextInt(3); i++){

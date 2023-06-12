@@ -31,7 +31,7 @@ public class WaterBoltRenderer extends EntityRenderer<WaterBoltEntity> {
     }
 
     public void render(WaterBoltEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
-        int waterColorAt = entityIn.level.getBiome(entityIn.blockPosition()).get().getWaterColor();
+        int waterColorAt = entityIn.level().getBiome(entityIn.blockPosition()).get().getWaterColor();
         float colorR = (waterColorAt >> 16 & 255) / 255F;
         float colorG = (waterColorAt >> 8 & 255) / 255F;
         float colorB = (waterColorAt & 255) / 255F;

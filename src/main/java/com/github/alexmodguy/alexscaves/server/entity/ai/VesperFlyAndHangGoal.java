@@ -71,13 +71,13 @@ public class VesperFlyAndHangGoal extends Goal {
         if(wantsToHang){
             if(hangCheckIn-- < 0){
                 hangCheckIn = 5 + entity.getRandom().nextInt(5);
-                if(!entity.isHanging() && entity.canHangFrom(entity.posAbove(), entity.level.getBlockState(entity.posAbove()))){
+                if(!entity.isHanging() && entity.canHangFrom(entity.posAbove(), entity.level().getBlockState(entity.posAbove()))){
                     entity.setHanging(true);
                     entity.setFlying(false);
                 }
             }
         }
-        if (entity.isFlying() && entity.isOnGround() && entity.timeFlying > 40) {
+        if (entity.isFlying() && entity.onGround() && entity.timeFlying > 40) {
             entity.setFlying(false);
         }
     }
@@ -99,20 +99,20 @@ public class VesperFlyAndHangGoal extends Goal {
 
     private Vec3 findFlightPos() {
         Vec3 heightAdjusted = entity.position().add(entity.getRandom().nextInt(32) - 16, 0, entity.getRandom().nextInt(32) - 16);
-        if(entity.level.canSeeSky(BlockPos.containing(heightAdjusted))){
+        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
         }else{
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
-            while (ceiling.getY() < entity.level.getMaxBuildHeight() && !entity.level.getBlockState(ceiling).getMaterial().isSolidBlocking()) {
+            while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {
                 ceiling = ceiling.above();
             }
             float randCeilVal = 0.3F + entity.getRandom().nextFloat() * 0.5F;
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + (ceiling.getY() - ground.y) * randCeilVal, heightAdjusted.z);
         }
 
-        BlockHitResult result = entity.level.clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        BlockHitResult result = entity.level().clip(new ClipContext(entity.getEyePosition(), heightAdjusted, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (result.getType() == HitResult.Type.MISS) {
             return heightAdjusted;
         } else {
@@ -122,15 +122,15 @@ public class VesperFlyAndHangGoal extends Goal {
 
     private boolean isOverWaterOrVoid() {
         BlockPos position = entity.blockPosition();
-        while (position.getY() > entity.level.getMinBuildHeight() && entity.level.isEmptyBlock(position)) {
+        while (position.getY() > entity.level().getMinBuildHeight() && entity.level().isEmptyBlock(position)) {
             position = position.below();
         }
-        return !entity.level.getFluidState(position).isEmpty() || entity.level.getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level.getMinBuildHeight();
+        return !entity.level().getFluidState(position).isEmpty() || entity.level().getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level().getMinBuildHeight();
     }
 
     public Vec3 groundPosition(Vec3 airPosition) {
         BlockPos ground = BlockPos.containing(airPosition);
-        while (ground.getY() > entity.level.getMinBuildHeight() && !entity.level.getBlockState(ground).getMaterial().isSolidBlocking()) {
+        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid()) {
             ground = ground.below();
         }
         return Vec3.atCenterOf(ground.below());
@@ -142,13 +142,13 @@ public class VesperFlyAndHangGoal extends Goal {
         int range = 14;
         for (int i = 0; i < 15; i++) {
             BlockPos blockpos1 = this.entity.blockPosition().offset(random.nextInt(range) - range / 2, 0, random.nextInt(range) - range / 2);
-            if(!this.entity.level.isEmptyBlock(blockpos1)){
+            if(!this.entity.level().isEmptyBlock(blockpos1)){
                 continue;
             }
-            while (this.entity.level.isEmptyBlock(blockpos1) && blockpos1.getY() < this.entity.level.getMaxBuildHeight()) {
+            while (this.entity.level().isEmptyBlock(blockpos1) && blockpos1.getY() < this.entity.level().getMaxBuildHeight()) {
                 blockpos1 = blockpos1.above();
             }
-            if (blockpos1.getY() > entity.getY() - 1 && entity.canHangFrom(blockpos1, entity.level.getBlockState(blockpos1)) && hasLineOfToPos(blockpos1)) {
+            if (blockpos1.getY() > entity.getY() - 1 && entity.canHangFrom(blockpos1, entity.level().getBlockState(blockpos1)) && hasLineOfToPos(blockpos1)) {
                 blockpos = blockpos1;
             }
         }
@@ -156,11 +156,11 @@ public class VesperFlyAndHangGoal extends Goal {
     }
 
     public boolean hasLineOfToPos(BlockPos in) {
-        HitResult raytraceresult = entity.level.clip(new ClipContext(entity.getEyePosition(1.0F), new Vec3(in.getX() + 0.5, in.getY() + 0.5, in.getZ() + 0.5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
+        HitResult raytraceresult = entity.level().clip(new ClipContext(entity.getEyePosition(1.0F), new Vec3(in.getX() + 0.5, in.getY() + 0.5, in.getZ() + 0.5), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity));
         if (raytraceresult instanceof BlockHitResult) {
             BlockHitResult blockRayTraceResult = (BlockHitResult) raytraceresult;
             BlockPos pos = blockRayTraceResult.getBlockPos();
-            return pos.equals(in) || entity.level.isEmptyBlock(pos);
+            return pos.equals(in) || entity.level().isEmptyBlock(pos);
         }
         return true;
     }

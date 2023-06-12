@@ -56,7 +56,7 @@ public abstract class AbstractMovingBlockEntity extends Entity {
             moveEntitiesOnTop();
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
-        if (!level.isClientSide && canBePlaced()) {
+        if (!level().isClientSide && canBePlaced()) {
             if (placementCooldown > 0) {
                 placementCooldown--;
             } else {
@@ -64,11 +64,11 @@ public abstract class AbstractMovingBlockEntity extends Entity {
                 BlockPos pos = BlockPos.containing(this.getX(), this.getY(), this.getZ());
                 for (MovingBlockData dataBlock : this.getData()) {
                     BlockPos set = pos.offset(dataBlock.getOffset());
-                    BlockState at = level.getBlockState(set);
+                    BlockState at = level().getBlockState(set);
                     if (at.isAir()) {
                         continue;
-                    } else if (at.getMaterial().isReplaceable()) {
-                        level.destroyBlock(set, true);
+                    } else if (at.canBeReplaced()) {
+                        level().destroyBlock(set, true);
                         continue;
                     }
                     clearance = false;
@@ -76,9 +76,9 @@ public abstract class AbstractMovingBlockEntity extends Entity {
                 if (clearance) {
                     for (MovingBlockData dataBlock : this.getData()) {
                         BlockPos set = pos.offset(dataBlock.getOffset());
-                        level.setBlockAndUpdate(set, dataBlock.getState());
+                        level().setBlockAndUpdate(set, dataBlock.getState());
                         if (dataBlock.blockData != null && dataBlock.getState().hasBlockEntity()) {
-                            BlockEntity blockentity = this.level.getBlockEntity(set);
+                            BlockEntity blockentity = this.level().getBlockEntity(set);
                             if (blockentity != null) {
                                 CompoundTag compoundtag = blockentity.saveWithoutMetadata();
                                 for (String s : dataBlock.blockData.getAllKeys()) {
@@ -109,7 +109,7 @@ public abstract class AbstractMovingBlockEntity extends Entity {
     public abstract boolean movesEntities();
 
     public void moveEntitiesOnTop() {
-        for (Entity entity : this.level.getEntities(this, this.getBoundingBox().inflate(0F, 0.01F, 0F), EntitySelector.NO_SPECTATORS.and((entity) -> {
+        for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(0F, 0.01F, 0F), EntitySelector.NO_SPECTATORS.and((entity) -> {
             return !entity.isPassengerOfSameVehicle(this);
         }))) {
             if (!entity.noPhysics && !(entity instanceof MovingMetalBlockEntity)) {
@@ -158,7 +158,7 @@ public abstract class AbstractMovingBlockEntity extends Entity {
             ListTag listTag = data.getList("BlockData", 10);
             for (int i = 0; i < listTag.size(); ++i) {
                 CompoundTag innerTag = listTag.getCompound(i);
-                list.add(new MovingBlockData(level, innerTag));
+                list.add(new MovingBlockData(level(), innerTag));
             }
         }
         return list;

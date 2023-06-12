@@ -93,24 +93,24 @@ public class MagicConchItem extends Item {
     private boolean summonDeepOne(EntityType type, LivingEntity summoner){
         RandomSource random = summoner.getRandom();
         BlockPos randomPos = summoner.blockPosition().offset(random.nextInt(20) - 10, 7, random.nextInt(20) - 10);
-        while((summoner.level.getFluidState(randomPos).is(FluidTags.WATER) || summoner.level.isEmptyBlock(randomPos)) && randomPos.getY() > summoner.level.getMinBuildHeight()){
+        while((summoner.level().getFluidState(randomPos).is(FluidTags.WATER) || summoner.level().isEmptyBlock(randomPos)) && randomPos.getY() > summoner.level().getMinBuildHeight()){
             randomPos = randomPos.below();
         }
-        BlockState state = summoner.level.getBlockState(randomPos);
-        if(!state.getFluidState().is(FluidTags.WATER) && !state.entityCanStandOn(summoner.level, randomPos, summoner)){
+        BlockState state = summoner.level().getBlockState(randomPos);
+        if(!state.getFluidState().is(FluidTags.WATER) && !state.entityCanStandOn(summoner.level(), randomPos, summoner)){
             return false;
         }
         Vec3 at = Vec3.atCenterOf(randomPos).add(0, 0.5, 0);
-        Entity created = type.create(summoner.level);
+        Entity created = type.create(summoner.level());
         if(created instanceof DeepOneBaseEntity deepOne){
             float f = random.nextFloat() * 360;
             deepOne.moveTo(at.x, at.y, at.z, f, -60);
             deepOne.yBodyRot = f;
             deepOne.setYHeadRot(f);
             deepOne.setSummonedBy(summoner, 1200);
-            deepOne.finalizeSpawn((ServerLevel)summoner.level, summoner.level.getCurrentDifficultyAt(BlockPos.containing(at)), MobSpawnType.TRIGGERED, (SpawnGroupData)null, (CompoundTag)null);
-            if(deepOne.checkSpawnObstruction(summoner.level)){
-                summoner.level.addFreshEntity(deepOne);
+            deepOne.finalizeSpawn((ServerLevel)summoner.level(), summoner.level().getCurrentDifficultyAt(BlockPos.containing(at)), MobSpawnType.TRIGGERED, (SpawnGroupData)null, (CompoundTag)null);
+            if(deepOne.checkSpawnObstruction(summoner.level())){
+                summoner.level().addFreshEntity(deepOne);
                 deepOne.copyTarget(summoner);
                 return true;
             }

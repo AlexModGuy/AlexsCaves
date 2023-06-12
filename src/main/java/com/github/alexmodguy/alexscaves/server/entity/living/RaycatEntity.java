@@ -135,7 +135,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
                if(owner != null && owner.distanceTo(this) < 20 && owner.hasEffect(ACEffectRegistry.IRRADIATED.get())){
                    closestIrradiated = owner;
                }else {
-                   for (LivingEntity entity : this.level.getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
+                   for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
                         if(!(entity instanceof RaycatEntity) && entity.hasEffect(ACEffectRegistry.IRRADIATED.get()) && (closestIrradiated == null || closestIrradiated.distanceTo(this) > entity.distanceTo(this))){
                             closestIrradiated = entity;
                         }
@@ -143,7 +143,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
                }
                if(closestIrradiated != null){
                     setAbsorbTargetId(closestIrradiated.getId());
-               }else if(!level.isClientSide){
+               }else if(!level().isClientSide){
                    resetAbsorbCooldown();
                }
             }else{
@@ -168,7 +168,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
                             }
                         }
                         setAbsorbTargetId(-1);
-                        if(!level.isClientSide){
+                        if(!level().isClientSide){
                             resetAbsorbCooldown();
                         }
                     }
@@ -183,7 +183,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
 
     public Entity getAbsorbTarget() {
         int id = this.entityData.get(ABSORB_TARGET_ID);
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     public void setAbsorbTargetId(int id) {
@@ -236,9 +236,9 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
                 this.usePlayerItem(player, hand, itemstack);
                 if (getRandom().nextInt(3) == 0) {
                     this.tame(player);
-                    this.level.broadcastEntityEvent(this, (byte) 7);
+                    this.level().broadcastEntityEvent(this, (byte) 7);
                 } else {
-                    this.level.broadcastEntityEvent(this, (byte) 6);
+                    this.level().broadcastEntityEvent(this, (byte) 6);
                 }
                 return InteractionResult.SUCCESS;
             }

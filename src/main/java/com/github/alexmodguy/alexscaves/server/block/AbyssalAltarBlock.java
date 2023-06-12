@@ -26,8 +26,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -49,7 +48,7 @@ public class AbyssalAltarBlock extends BaseEntityBlock implements SimpleWaterlog
     };
 
     public AbyssalAltarBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_BLUE).dynamicShape().strength(2.5F, 10.0F).sound(SoundType.STONE).lightLevel(LIGHT_EMISSION));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).dynamicShape().strength(2.5F, 10.0F).sound(SoundType.STONE).lightLevel(LIGHT_EMISSION));
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(ACTIVE, Boolean.valueOf(false)));
     }
 

@@ -27,7 +27,7 @@ public class BaleenBoneBlock extends Block implements SimpleWaterloggedBlock  {
     private static final VoxelShape SHAPE_Z = Block.box(6, 0, 0, 10, 4, 16);
 
     public BaleenBoneBlock() {
-        super(Properties.of(Material.GRASS, MaterialColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK).noOcclusion());
+        super(Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(X, false));
     }
 

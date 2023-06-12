@@ -37,7 +37,7 @@ public class ThrownWasteDrumEntityRenderer extends EntityRenderer<ThrownWasteDru
         poseStack.pushPose();
         poseStack.scale(expandScale, expandScale - progress * 0.3F, expandScale);
         poseStack.translate(0D, 0.5D, 0D);
-        if(entity.isOnGround()){
+        if(entity.onGround()){
             poseStack.mulPose(Axis.XP.rotationDegrees(90));
         }else{
             poseStack.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot()) - 90.0F));

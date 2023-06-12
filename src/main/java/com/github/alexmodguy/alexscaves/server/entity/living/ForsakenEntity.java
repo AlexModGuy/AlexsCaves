@@ -37,7 +37,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.function.Predicate;
@@ -150,7 +149,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
             darknessProgress--;
         }
         if (this.isLeaping()) {
-            if (this.isOnGround() && leapProgress >= 5.0F) {
+            if (this.onGround() && leapProgress >= 5.0F) {
                 this.setLeaping(false);
             }
             timeLeaping++;
@@ -160,7 +159,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         } else {
             timeLeaping = 0;
             this.leapPitch = Mth.approachDegrees(leapPitch, 0, 5);
-            if (this.getAnimation() == ANIMATION_PREPARE_JUMP && this.isOnGround() && !level.isClientSide && this.getAnimationTick() >= 8 && this.getAnimationTick() <= 10) {
+            if (this.getAnimation() == ANIMATION_PREPARE_JUMP && this.onGround() && !level().isClientSide && this.getAnimationTick() >= 8 && this.getAnimationTick() <= 10) {
                 this.setLeaping(true);
             }
         }
@@ -192,23 +191,23 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
             screenShakeAmount = Math.max(0, screenShakeAmount - 0.34F);
         }
         this.legSolver.update(this, this.yBodyRot, this.getScale());
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             if (random.nextInt(6) == 0) {
-                level.addParticle(ACParticleRegistry.FORSAKEN_SPIT.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), 0, 0);
+                level().addParticle(ACParticleRegistry.FORSAKEN_SPIT.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), 0, 0);
             }
             if (darknessProgress > 0) {
                 for(int i = 0; i < 1; i++){
                     if(random.nextBoolean()){
-                        level.addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), this.getX(), this.getEyeY(), this.getZ());
+                        level().addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), this.getX(), this.getEyeY(), this.getZ());
                     }else{
-                        level.addParticle(ParticleTypes.SMOKE, this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), 0, 0, 0);
+                        level().addParticle(ParticleTypes.SMOKE, this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), 0, 0, 0);
                     }
                 }
             }
             if (this.getAnimation() == ANIMATION_SONIC_ATTACK) {
                 if (this.getAnimationTick() > 10 && this.getAnimationTick() < 30) {
                     if (this.getAnimationTick() % 4 == 0) {
-                        level.addAlwaysVisibleParticle(ACParticleRegistry.FORSAKEN_SONAR.get(), true, this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), this.getXRot(), this.getYHeadRot());
+                        level().addAlwaysVisibleParticle(ACParticleRegistry.FORSAKEN_SONAR.get(), true, this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), this.getXRot(), this.getYHeadRot());
                     }
                     this.screenShakeAmount = 1F;
                 }
@@ -216,7 +215,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
             if (this.getAnimation() == ANIMATION_SONIC_BLAST) {
                 if (this.getAnimationTick() > 10 && this.getAnimationTick() < 30) {
                     if (this.getAnimationTick() % 4 == 0) {
-                        level.addAlwaysVisibleParticle(ACParticleRegistry.FORSAKEN_SONAR_LARGE.get(), true, this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), 90, 0);
+                        level().addAlwaysVisibleParticle(ACParticleRegistry.FORSAKEN_SONAR_LARGE.get(), true, this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), 90, 0);
                     }
                     this.screenShakeAmount = 1F;
                 }
@@ -237,11 +236,11 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
                         double extraX = radius * Mth.sin((float) (Math.PI + angle));
                         double extraY = 1.2F;
                         double extraZ = radius * Mth.cos(angle);
-                        BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level, new Vec3(Mth.floor(smashPos.x + extraX), Mth.floor(smashPos.y + extraY) + 2, Mth.floor(smashPos.z + extraZ))));
-                        BlockState groundState = this.level.getBlockState(ground);
-                        if (groundState.getMaterial() != Material.AIR) {
-                            if (level.isClientSide) {
-                                level.addParticle(new BlockParticleOption(ParticleTypes.BLOCK, groundState), true, smashPos.x + extraX, ground.getY() + extraY, smashPos.z + extraZ, motionX, motionY, motionZ);
+                        BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level(), new Vec3(Mth.floor(smashPos.x + extraX), Mth.floor(smashPos.y + extraY) + 2, Mth.floor(smashPos.z + extraZ))));
+                        BlockState groundState = this.level().getBlockState(ground);
+                        if (groundState.isSolid()) {
+                            if (level().isClientSide) {
+                                level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, groundState), true, smashPos.x + extraX, ground.getY() + extraY, smashPos.z + extraZ, motionX, motionY, motionZ);
                             }
                         }
                     }
@@ -254,7 +253,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
             } else if (getHeldMobId() != -1) {
                 this.setHeldMobId(-1);
             }
-            if (this.getHealth() < this.getMaxHealth() * 0.5F && !level.isClientSide) {
+            if (this.getHealth() < this.getMaxHealth() * 0.5F && !level().isClientSide) {
                 int lightLevel = getLightLevel();
                 if(lightLevel <= LIGHT_THRESHOLD){
                     this.setDarknessTime(30);
@@ -282,7 +281,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
 
     private int getLightLevel() {
         BlockPos blockPos = this.blockPosition().above();
-        return Math.max(this.level.getBrightness(LightLayer.BLOCK, blockPos), this.level.getMaxLocalRawBrightness(blockPos));
+        return Math.max(this.level().getBrightness(LightLayer.BLOCK, blockPos), this.level().getMaxLocalRawBrightness(blockPos));
     }
 
     private Vec3 getPickupPos() {
@@ -315,7 +314,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
 
     public Entity getHeldMob() {
         int id = getHeldMobId();
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     public boolean removeWhenFarAway(double dist) {
@@ -364,7 +363,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
 
     public Entity getSonarTarget() {
         int id = this.entityData.get(SONAR_ID);
-        return id == -1 ? null : level.getEntity(id);
+        return id == -1 ? null : level().getEntity(id);
     }
 
     public void setHeldMobId(int i) {

@@ -118,7 +118,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
         if(entity instanceof Player){
             placingPlayer = entity.getUUID();
         }else{
-            lastInteractionTime = entity.level.getGameTime();
+            lastInteractionTime = entity.level().getGameTime();
         }
     }
 
@@ -184,7 +184,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
 
     @Override
     public void setItem(int index, ItemStack stack) {
-        boolean flag = !stack.isEmpty() && stack.sameItem(this.stacks.get(index)) && ItemStack.tagMatches(stack, this.stacks.get(index));
+        boolean flag = !stack.isEmpty() && ItemStack.isSameItemSameTags(stack, this.stacks.get(index));
         this.stacks.set(index, stack);
         if (!stack.isEmpty() && stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());

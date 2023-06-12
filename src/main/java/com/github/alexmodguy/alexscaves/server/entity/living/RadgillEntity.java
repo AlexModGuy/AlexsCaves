@@ -141,7 +141,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
         super.tick();
         prevLandProgress = landProgress;
         prevFishPitch = fishPitch;
-        boolean grounded = this.isOnGround() && !isInLiquid();
+        boolean grounded = this.onGround() && !isInLiquid();
         if (grounded && landProgress < 5F) {
             landProgress++;
         }
@@ -152,12 +152,12 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
         boolean inAcid = this.isInAcid();
         if(inAcid != wasJustInAcid){
             for(int i = 0; i < 5 + random.nextInt(5); i++){
-                level.addParticle(ACParticleRegistry.RADGILL_SPLASH.get(), this.getRandomX(0.8F), this.getBoundingBox().minY + 0.1F, this.getRandomZ(0.8F), (random.nextDouble() - 0.5F) * 0.3F, 0.1F + random.nextFloat() * 0.3F, (random.nextDouble() - 0.5F) * 0.3F);
+                level().addParticle(ACParticleRegistry.RADGILL_SPLASH.get(), this.getRandomX(0.8F), this.getBoundingBox().minY + 0.1F, this.getRandomZ(0.8F), (random.nextDouble() - 0.5F) * 0.3F, 0.1F + random.nextFloat() * 0.3F, (random.nextDouble() - 0.5F) * 0.3F);
             }
             wasJustInAcid = inAcid;
         }
         if(!isInLiquid() && this.isAlive()){
-            if (this.isOnGround() && random.nextFloat() < 0.1F) {
+            if (this.onGround() && random.nextFloat() < 0.1F) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);
                 this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
@@ -210,11 +210,10 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
                 this.saveToBucketTag(itemstack1);
                 ItemStack itemstack2 = ItemUtils.createFilledResult(itemstack, player, itemstack1, false);
                 player.setItemInHand(hand, itemstack2);
-                Level level = this.level;
-                if (!level.isClientSide) {
+                if (!level().isClientSide) {
                     CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, itemstack1);
                 }
-                return InteractionResult.sidedSuccess(this.level.isClientSide);
+                return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
         return type;
@@ -264,7 +263,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
         }
 
         private boolean isLiquidAt(BlockPos pos) {
-            FluidState state = RadgillEntity.this.level.getFluidState(pos);
+            FluidState state = RadgillEntity.this.level().getFluidState(pos);
             return state.is(FluidTags.WATER) || state.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get();
         }
 
@@ -272,7 +271,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
             BlockPos fishPos = RadgillEntity.this.blockPosition();
             for (int i = 0; i < 15; i++) {
                 BlockPos offset = fishPos.offset(RadgillEntity.this.random.nextInt(16) - 8, 0, RadgillEntity.this.random.nextInt(16) - 8);
-                while (isLiquidAt(offset) && offset.getY() < level.getMaxBuildHeight()) {
+                while (isLiquidAt(offset) && offset.getY() < level().getMaxBuildHeight()) {
                     offset = offset.above();
                 }
                 if (!isLiquidAt(offset) && isLiquidAt(offset.below())) {

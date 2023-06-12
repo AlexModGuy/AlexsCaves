@@ -13,8 +13,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -24,7 +23,7 @@ class FlytrapBlock extends BushBlock {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final VoxelShape SHAPE = Block.box(3.5, 0, 3.5, 12.5, 21, 12.5);
     public FlytrapBlock() {
-        super(BlockBehaviour.Properties.of(Material.PLANT, MaterialColor.COLOR_RED).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().noCollission());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().noCollission());
         this.registerDefaultState(this.stateDefinition.any().setValue(OPEN, Boolean.valueOf(true)));
     }
 

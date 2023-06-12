@@ -87,7 +87,7 @@ public class TeletorEntity extends Monster {
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {
-        return level.getBlockState(pos).isAir() ? 10.0F : 0.0F;
+        return level().getBlockState(pos).isAir() ? 10.0F : 0.0F;
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -103,12 +103,12 @@ public class TeletorEntity extends Monster {
     }
 
     public Entity getWeapon() {
-        if (!level.isClientSide) {
+        if (!level().isClientSide) {
             UUID id = getWeaponUUID();
-            return id == null ? null : ((ServerLevel) level).getEntity(id);
+            return id == null ? null : ((ServerLevel) level()).getEntity(id);
         } else {
             int id = this.entityData.get(WEAPON_ID);
-            return id == -1 ? null : level.getEntity(id);
+            return id == -1 ? null : level().getEntity(id);
         }
     }
 
@@ -155,7 +155,7 @@ public class TeletorEntity extends Monster {
                 controlProgress--;
             }
         }
-        if (level.isClientSide) {
+        if (level().isClientSide) {
             tickVisual();
         }
         this.setDeltaMovement(this.getDeltaMovement().multiply(0.98F, 0.98F, 0.98F));
@@ -209,17 +209,17 @@ public class TeletorEntity extends Monster {
 
     @javax.annotation.Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag) {
-        MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(this.level);
-        ItemStack stack = createItemStack(level.getRandom());
+        MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(this.level());
+        ItemStack stack = createItemStack(level().getRandom());
         float f = difficultyIn.getSpecialMultiplier();
-        if(level.getRandom().nextFloat() < 0.25F * (f + 0.5F)){
-            stack = EnchantmentHelper.enchantItem(level.getRandom(), stack, (int)(5.0F + f * (float)level.getRandom().nextInt(18)), false);
+        if(level().getRandom().nextFloat() < 0.25F * (f + 0.5F)){
+            stack = EnchantmentHelper.enchantItem(level().getRandom(), stack, (int)(5.0F + f * (float)level().getRandom().nextInt(18)), false);
         }
         magneticWeapon.setItemStack(stack);
         magneticWeapon.setPos(this.getWeaponPosition());
         magneticWeapon.setControllerUUID(this.getUUID());
         this.setWeaponUUID(magneticWeapon.getUUID());
-        level.addFreshEntity(magneticWeapon);
+        level().addFreshEntity(magneticWeapon);
         return super.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
