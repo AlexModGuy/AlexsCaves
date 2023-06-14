@@ -22,10 +22,19 @@ public class ACBlockEntityRegistry {
     public static final RegistryObject<BlockEntityType<CopperValveBlockEntity>> COPPER_VALVE = DEF_REG.register("copper_valve", () -> BlockEntityType.Builder.of(CopperValveBlockEntity::new, ACBlockRegistry.COPPER_VALVE.get()).build(null));
 
     public static void expandVanillaDefinitions(){
-        ImmutableSet.Builder<Block> list = new ImmutableSet.Builder<>();
-        list.addAll(BlockEntityType.SIGN.validBlocks);
-        list.add(ACBlockRegistry.PEWEN_SIGN.get());
-        list.add(ACBlockRegistry.PEWEN_WALL_SIGN.get());
-        BlockEntityType.SIGN.validBlocks = list.build();
+        ImmutableSet.Builder<Block> validSignBlocks = new ImmutableSet.Builder<>();
+        validSignBlocks.addAll(BlockEntityType.SIGN.validBlocks);
+        validSignBlocks.add(ACBlockRegistry.PEWEN_SIGN.get());
+        validSignBlocks.add(ACBlockRegistry.PEWEN_WALL_SIGN.get());
+        validSignBlocks.add(ACBlockRegistry.THORNWOOD_SIGN.get());
+        validSignBlocks.add(ACBlockRegistry.THORNWOOD_WALL_SIGN.get());
+        BlockEntityType.SIGN.validBlocks = validSignBlocks.build();
+        ImmutableSet.Builder<Block> validHangingSignBlocks = new ImmutableSet.Builder<>();
+        validHangingSignBlocks.addAll(BlockEntityType.HANGING_SIGN.validBlocks);
+        validHangingSignBlocks.add(ACBlockRegistry.PEWEN_HANGING_SIGN.get());
+        validHangingSignBlocks.add(ACBlockRegistry.PEWEN_WALL_HANGING_SIGN.get());
+        validHangingSignBlocks.add(ACBlockRegistry.THORNWOOD_HANGING_SIGN.get());
+        validHangingSignBlocks.add(ACBlockRegistry.THORNWOOD_WALL_HANGING_SIGN.get());
+        BlockEntityType.HANGING_SIGN.validBlocks = validHangingSignBlocks.build();
     }
 }

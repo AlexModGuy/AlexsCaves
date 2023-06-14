@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "alexscaves:block/coprolith",
+    "side": "alexscaves:block/coprolith",
+    "top": "alexscaves:block/coprolith"
+  }
+}

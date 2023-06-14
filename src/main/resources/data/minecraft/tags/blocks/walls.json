@@ -12,6 +12,8 @@
     "alexscaves:abyssmarine_brick_wall",
     "alexscaves:smooth_bone_wall",
     "alexscaves:guanostone_wall",
-    "alexscaves:guanostone_brick_wall"
+    "alexscaves:guanostone_brick_wall",
+    "alexscaves:coprolith_wall",
+    "alexscaves:smooth_coprolith_wall"
   ]
 }

@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=east": [
+      { "model": "alexscaves:block/forsaken_idol", "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "alexscaves:block/forsaken_idol" }
+    ],
+    "facing=south": [
+      { "model": "alexscaves:block/forsaken_idol", "y": 180 }
+    ],
+    "facing=west": [
+      { "model": "alexscaves:block/forsaken_idol", "y": 270 }
+    ]
+  }
+}

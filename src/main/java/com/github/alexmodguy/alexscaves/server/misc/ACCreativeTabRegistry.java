@@ -123,6 +123,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.PEWEN_PLANKS_SLAB.get());
                 add(output, ACBlockRegistry.PEWEN_PLANKS_FENCE.get());
                 add(output, ACItemRegistry.PEWEN_SIGN.get());
+                add(output, ACItemRegistry.PEWEN_HANGING_SIGN.get());
                 add(output, ACBlockRegistry.PEWEN_PRESSURE_PLATE.get());
                 add(output, ACItemRegistry.PEWEN_DOOR.get());
                 add(output, ACBlockRegistry.PEWEN_TRAPDOOR.get());
@@ -282,6 +283,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.FORLORN_HOLLOWS));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.FORLORN_HOLLOWS).forEach((spawnEgg -> add(output, spawnEgg.get())));
+                add(output, ACBlockRegistry.GUANO_BLOCK.get());
+                add(output, ACBlockRegistry.GUANO_LAYER.get());
                 add(output, ACBlockRegistry.GUANOSTONE.get());
                 add(output, ACBlockRegistry.GUANOSTONE_STAIRS.get());
                 add(output, ACBlockRegistry.GUANOSTONE_SLAB.get());
@@ -292,11 +295,17 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.GUANOSTONE_BRICK_WALL.get());
                 add(output, ACBlockRegistry.GUANOSTONE_CHISELED.get());
                 add(output, ACBlockRegistry.GUANOSTONE_TILES.get());
-                add(output, ACBlockRegistry.GUANO_BLOCK.get());
-                add(output, ACBlockRegistry.GUANO_LAYER.get());
                 add(output, ACBlockRegistry.COPROLITH.get());
+                add(output, ACBlockRegistry.COPROLITH_STAIRS.get());
+                add(output, ACBlockRegistry.COPROLITH_SLAB.get());
+                add(output, ACBlockRegistry.COPROLITH_WALL.get());
+                add(output, ACBlockRegistry.SMOOTH_COPROLITH.get());
+                add(output, ACBlockRegistry.SMOOTH_COPROLITH_STAIRS.get());
+                add(output, ACBlockRegistry.SMOOTH_COPROLITH_SLAB.get());
+                add(output, ACBlockRegistry.SMOOTH_COPROLITH_WALL.get());
                 add(output, ACBlockRegistry.POROUS_COPROLITH.get());
                 add(output, ACBlockRegistry.PEERING_COPROLITH.get());
+                add(output, ACBlockRegistry.FORSAKEN_IDOL.get());
                 add(output, ACBlockRegistry.THORNWOOD_LOG.get());
                 add(output, ACBlockRegistry.THORNWOOD_BRANCH.get());
                 add(output, ACBlockRegistry.THORNWOOD_WOOD.get());
@@ -307,6 +316,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.THORNWOOD_PLANKS_SLAB.get());
                 add(output, ACBlockRegistry.THORNWOOD_PLANKS_FENCE.get());
                 add(output, ACItemRegistry.THORNWOOD_SIGN.get());
+                add(output, ACItemRegistry.THORNWOOD_HANGING_SIGN.get());
                 add(output, ACBlockRegistry.THORNWOOD_PRESSURE_PLATE.get());
                 add(output, ACItemRegistry.THORNWOOD_DOOR.get());
                 add(output, ACBlockRegistry.THORNWOOD_TRAPDOOR.get());

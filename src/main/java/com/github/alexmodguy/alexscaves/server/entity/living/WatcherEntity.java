@@ -87,7 +87,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D, 100));
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 15.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, UnderzealotEntity.class, WatcherEntity.class, ForsakenEntity.class).setAlertOthers()));
         this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, false, this::canPossessTargetEntity));
     }
 

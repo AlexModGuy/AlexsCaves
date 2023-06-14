@@ -39,7 +39,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = 'prealpha-0.5.6'
+version = 'prealpha-0.5.7'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 
@@ -49,6 +49,7 @@ println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getPro
 minecraft {
     mappings channel: 'official', version: '1.20'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "alexscaves:block/smooth_coprolith",
+    "side": "alexscaves:block/smooth_coprolith",
+    "top": "alexscaves:block/smooth_coprolith"
+  }
+}

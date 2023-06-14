@@ -1,0 +1,62 @@
+{
+
+	"parent": "block/block",
+	"render_type": "cutout_mipped",
+	"textures": {
+		"0": "alexscaves:block/forsaken_idol_0",
+		"1": "alexscaves:block/forsaken_idol_1",
+		"2": "alexscaves:block/forsaken_idol_2",
+		"3": "alexscaves:block/forsaken_idol_3",
+		"4": "alexscaves:block/forsaken_idol_4",
+		"eyes": "alexscaves:block/forsaken_idol_eyes",
+		"particle": "alexscaves:block/forsaken_idol_1"
+	},
+	"elements": [
+		{
+			"from": [3, 0, 2],
+			"to": [13, 16, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 10, 16], "texture": "#2"},
+				"east": {"uv": [16, 0, 4, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 10, 16], "texture": "#3"},
+				"west": {"uv": [4, 0, 16, 16], "texture": "#1"},
+				"up": {"uv": [10, 12, 0, 0], "texture": "#0"},
+				"down": {"uv": [10, 0, 0, 12], "texture": "#4"}
+			}
+		},
+		{
+			"from": [0, 0, 14],
+			"to": [3, 16, 14],
+			"faces": {
+				"north": {"uv": [0, 0, 3, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 0, 16], "texture": "#1"},
+				"south": {"uv": [3, 0, 0, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 0, 16], "texture": "#1"},
+				"up": {"uv": [3, 0, 0, 0], "texture": "#1"},
+				"down": {"uv": [3, 0, 0, 0], "texture": "#1"}
+			}
+		},
+		{
+			"from": [13, 0, 14],
+			"to": [16, 16, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [16, 0, 0]},
+			"faces": {
+				"north": {"uv": [3, 0, 0, 16], "texture": "#1"},
+				"east": {"uv": [0, 0, 0, 16], "texture": "#1"},
+				"south": {"uv": [0, 0, 3, 16], "texture": "#1"},
+				"west": {"uv": [0, 0, 0, 16], "texture": "#1"},
+				"up": {"uv": [0, 0, 3, 0], "texture": "#1"},
+				"down": {"uv": [0, 0, 3, 0], "texture": "#1"}
+			}
+		},
+		{
+			"from": [3, 0, 2],
+			"to": [13, 16, 14],
+			"shade": false,
+			"faces": {
+				"east": {"uv": [16, 0, 4, 16], "texture": "#eyes"},
+				"west": {"uv": [4, 0, 16, 16], "texture": "#eyes"}
+			}
+		}
+	]
+}
