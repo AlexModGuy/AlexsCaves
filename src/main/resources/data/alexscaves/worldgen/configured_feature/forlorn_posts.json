@@ -1,0 +1,13 @@
+{
+  "type": "alexscaves:forlorn_ruins",
+  "config": {
+    "structures": [
+      "alexscaves:forlorn_post_0",
+      "alexscaves:forlorn_post_1",
+      "alexscaves:forlorn_post_2",
+      "alexscaves:forlorn_post_3"
+    ],
+    "chest_loot": "alexscaves:chests/forlorn_ruins",
+    "sink_by": -1
+  }
+}

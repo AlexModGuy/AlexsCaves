@@ -13,8 +13,7 @@ public class ForlornCanyonStructure extends AbstractCaveGenerationStructure {
 
     private static final int BOWL_WIDTH_RADIUS = 100;
     private static final int BOWL_HEIGHT_RADIUS = 60;
-
-    private static final int BOWL_Y_CENTER = -1;
+    public static final int BOWL_Y_CENTER = -10;
 
     public static final Codec<ForlornCanyonStructure> CODEC = simpleCodec((settings) -> new ForlornCanyonStructure(settings));
     public ForlornCanyonStructure(StructureSettings settings) {
@@ -28,7 +27,7 @@ public class ForlornCanyonStructure extends AbstractCaveGenerationStructure {
 
     @Override
     public int getGenerateYHeight(WorldgenRandom random, int x, int y) {
-        return -10;
+        return BOWL_Y_CENTER;
     }
 
     @Override

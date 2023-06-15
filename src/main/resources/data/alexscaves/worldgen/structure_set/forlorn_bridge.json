@@ -1,13 +1,13 @@
 {
   "structures": [
     {
-      "structure": "alexscaves:forlorn_canyon",
+      "structure": "alexscaves:forlorn_bridge",
       "weight": 1
     }
   ],
   "placement": {
     "type": "minecraft:random_spread",
-    "salt": 6,
+    "salt": 22,
     "spacing": 6,
     "separation": 4
   }

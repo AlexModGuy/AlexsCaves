@@ -2,8 +2,10 @@
   "feature": "alexscaves:thornwood_tree_with_branches",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 180
+      "type": "minecraft:noise_based_count",
+      "noise_factor": 24.0,
+      "noise_offset": 0.2,
+      "noise_to_count_ratio": 15
     },
     {
       "type": "minecraft:in_square"

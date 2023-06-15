@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.level.structure.ForlornBridgeStructure;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -16,5 +17,7 @@ public class ACStructurePieceRegistry {
     public static final RegistryObject<StructurePieceType> OCEAN_TRENCH = DEF_REG.register("ocean_trench", () -> OceanTrenchStructurePiece::new);
     public static final RegistryObject<StructurePieceType> ABYSSAL_RUINS = DEF_REG.register("abyssal_ruins", () -> AbyssalRuinsStructurePiece::new);
     public static final RegistryObject<StructurePieceType> FORLORN_CANYON = DEF_REG.register("forlorn_canyon", () -> ForlornCanyonStructurePiece::new);
+
+    public static final RegistryObject<StructurePieceType> FORLORN_BRIDGE = DEF_REG.register("forlorn_bridge", () -> ForlornBridgeStructurePiece::new);
 
 }

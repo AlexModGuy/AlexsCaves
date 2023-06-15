@@ -17,4 +17,5 @@ public class ACStructureRegistry {
     public static final RegistryObject<StructureType<OceanTrenchStructure>> OCEAN_TRENCH = DEF_REG.register("ocean_trench", () -> () -> OceanTrenchStructure.CODEC);
     public static final RegistryObject<StructureType<AbyssalRuinsStructure>> ABYSSAL_RUINS = DEF_REG.register("abyssal_ruins", () -> () -> AbyssalRuinsStructure.CODEC);
     public static final RegistryObject<StructureType<ForlornCanyonStructure>> FORLORN_CANYON = DEF_REG.register("forlorn_canyon", () -> () -> ForlornCanyonStructure.CODEC);
+    public static final RegistryObject<StructureType<ForlornBridgeStructure>> FORLORN_BRIDGE = DEF_REG.register("forlorn_bridge", () -> () -> ForlornBridgeStructure.CODEC);
 }

@@ -32,3 +32,8 @@ vessel
 screech
 follows
 stalked
+burrow
+temple
+candle
+redstone
+eyes

@@ -61,7 +61,7 @@ public class GuanoPileFeature extends Feature<NoneFeatureConfiguration> {
                             int j = Mth.clamp( (int)Math.round(8 * invDist * invDist) - randomsource.nextInt(2), 1, 8);
                             guanoState = guanoState.setValue(GuanoLayerBlock.LAYERS, j);
                         }
-                        if(canReplace(level.getBlockState(side))){
+                        if(canReplace(level.getBlockState(side)) && level.getBlockState(side.below()).isCollisionShapeFullBlock(level, side.below())){
                             level.setBlock(side, guanoState, 4);
                         }
                         side.move(0, 1, 0);

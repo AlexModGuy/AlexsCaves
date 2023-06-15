@@ -56,11 +56,11 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
             i++;
             trunkPos.move(0, 1, 0);
             if (randomsource.nextInt(5) == 0) {
-                level.setBlock(trunkPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 4);
+                level.setBlock(trunkPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 3);
                 trunkPos.move(Util.getRandom(ROOT_DIRECTIONS, randomsource));
-                level.setBlock(trunkPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 4);
+                level.setBlock(trunkPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 3);
             } else {
-                level.setBlock(trunkPos, i == tallPart ? ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState() : ACBlockRegistry.THORNWOOD_LOG.get().defaultBlockState(), 4);
+                level.setBlock(trunkPos, i == tallPart ? ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState() : ACBlockRegistry.THORNWOOD_LOG.get().defaultBlockState(), 3);
             }
             decorateLog(level, trunkPos, randomsource, true);
         }
@@ -74,14 +74,14 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
                 canopyLogPos.move(direction);
                 if (randomsource.nextInt(2) != 0) {
                     upFlag = true;
-                    level.setBlock(canopyLogPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 4);
+                    level.setBlock(canopyLogPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 3);
                     canopyLogPos.move(0, 1, 0);
                 }
                 if (j == canopyLength && level.getBlockState(canopyLogPos).canBeReplaced()) {
-                    level.setBlock(canopyLogPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, upFlag ? Direction.UP : direction).setValue(ThornwoodBranchBlock.WATERLOGGED, level.getFluidState(canopyLogPos).is(Fluids.WATER)), 4);
+                    level.setBlock(canopyLogPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, upFlag ? Direction.UP : direction).setValue(ThornwoodBranchBlock.WATERLOGGED, level.getFluidState(canopyLogPos).is(Fluids.WATER)), 3);
                 } else {
                     Block wood = j == canopyLength - 1 || upFlag ? ACBlockRegistry.THORNWOOD_WOOD.get() : ACBlockRegistry.THORNWOOD_LOG.get();
-                    level.setBlock(canopyLogPos, wood.defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 4);
+                    level.setBlock(canopyLogPos, wood.defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 3);
                     decorateLog(level, trunkPos, randomsource, true);
                 }
 
@@ -92,7 +92,7 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
 
     private boolean checkCanTreePlace(WorldGenLevel level, BlockPos treeBottom, int height) {
         BlockState below = level.getBlockState(treeBottom.below());
-        if (!below.is(BlockTags.DIRT) && !below.is(Blocks.PACKED_MUD)) {
+        if (!below.is(BlockTags.DIRT) && !below.is(ACBlockRegistry.GUANOSTONE.get()) && !below.is(ACBlockRegistry.COPROLITH.get()) && !below.is(Blocks.PACKED_MUD)) {
             return false;
         }
         for (int i = 0; i < height; i++) {
@@ -100,7 +100,7 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
                 return false;
             }
         }
-        BlockPos treeTop = treeBottom.above(height);
+        BlockPos treeTop = treeBottom.above(height).immutable();
         for (BlockPos checkLeaf : BlockPos.betweenClosed(treeTop.offset(-2, -1, -2), treeTop.offset(2, 1, 2))) {
             if (!canReplace(level.getBlockState(checkLeaf))) {
                 return false;
@@ -118,11 +118,11 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
                     int bigBranchLength = 1 + random.nextInt(1);
                     for (int i = 0; i < bigBranchLength; i++) {
                         Block wood = i == bigBranchLength - 1 ? ACBlockRegistry.THORNWOOD_WOOD.get() : ACBlockRegistry.THORNWOOD_LOG.get();
-                        level.setBlock(branchPos, wood.defaultBlockState().setValue(RotatedPillarBlock.AXIS, ranDir.getAxis()), 4);
+                        level.setBlock(branchPos, wood.defaultBlockState().setValue(RotatedPillarBlock.AXIS, ranDir.getAxis()), 3);
                         branchPos = branchPos.relative(ranDir);
                     }
                 }
-                level.setBlock(branchPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, ranDir).setValue(ThornwoodBranchBlock.WATERLOGGED, level.getFluidState(branchPos).is(Fluids.WATER)), 4);
+                level.setBlock(branchPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, ranDir).setValue(ThornwoodBranchBlock.WATERLOGGED, level.getFluidState(branchPos).is(Fluids.WATER)), 3);
             }
         }
     }
@@ -137,25 +137,25 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
             }
             if (random.nextFloat() < bendChance) {
                 if (!level.getBlockState(at).is(ACBlockRegistry.THORNWOOD_WOOD.get())) {
-                    level.setBlock(at, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 4);
+                    level.setBlock(at, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 3);
                 }
                 at.move(0, -1, 0);
                 at.move(direction);
-                level.setBlock(at, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 4);
+                level.setBlock(at, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 3);
             } else {
                 at.move(0, -1, 0);
-                level.setBlock(at, i == 0 ? ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState() : ACBlockRegistry.THORNWOOD_LOG.get().defaultBlockState(), 4);
+                level.setBlock(at, i == 0 ? ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState() : ACBlockRegistry.THORNWOOD_LOG.get().defaultBlockState(), 3);
             }
             decorateLog(level, at, random, false);
             i++;
         }
         BlockPos rootPos = at.immutable().below();
         if (level.getBlockState(rootPos).canBeReplaced()) {
-            level.setBlock(rootPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, Direction.DOWN).setValue(ThornwoodBranchBlock.WATERLOGGED, level.getFluidState(rootPos).is(Fluids.WATER)), 4);
+            level.setBlock(rootPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, Direction.DOWN).setValue(ThornwoodBranchBlock.WATERLOGGED, level.getFluidState(rootPos).is(Fluids.WATER)), 3);
         }
     }
 
     private static boolean canReplace(BlockState state) {
-        return (state.isAir() || state.canBeReplaced() || state.is(ACBlockRegistry.PEWEN_BRANCH.get())) && !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty();
+        return (state.isAir() || state.canBeReplaced() || state.is(ACBlockRegistry.THORNWOOD_BRANCH.get()) || state.is(BlockTags.DIRT) || state.is(Blocks.PACKED_MUD)) && !state.is(ACTagRegistry.UNMOVEABLE);
     }
 }

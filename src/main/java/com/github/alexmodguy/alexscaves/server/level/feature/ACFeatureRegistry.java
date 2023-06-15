@@ -39,4 +39,5 @@ public class ACFeatureRegistry {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> THORNWOOD_TREE_WITH_BRANCHES = DEF_REG.register("thornwood_tree_with_branches", () -> new ThornwoodTreeWithBranchesFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> THORNWOOD_ROOTS = DEF_REG.register("thornwood_roots", () -> new ThornwoodRootsFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> GUANO_PILE = DEF_REG.register("guano_pile", () -> new GuanoPileFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<UndergroundRuinsFeatureConfiguration>> FORLORN_RUINS = DEF_REG.register("forlorn_ruins", () -> new ForlornRuinsFeature(UndergroundRuinsFeatureConfiguration.CODEC));
 }

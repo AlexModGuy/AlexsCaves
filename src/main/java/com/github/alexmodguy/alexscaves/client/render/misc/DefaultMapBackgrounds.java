@@ -39,7 +39,8 @@ public enum DefaultMapBackgrounds {
     MAGNETIC_CAVES,
     PRIMORDIAL_CAVES,
     TOXIC_CAVES,
-    ABYSSAL_CHASM;
+    ABYSSAL_CHASM,
+    FORLORN_HOLLOWS;
 
     private ResourceLocation texture;
 

@@ -295,6 +295,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.GUANOSTONE_BRICK_WALL.get());
                 add(output, ACBlockRegistry.GUANOSTONE_CHISELED.get());
                 add(output, ACBlockRegistry.GUANOSTONE_TILES.get());
+                add(output, ACBlockRegistry.GUANOSTONE_REDSTONE_ORE.get());
                 add(output, ACBlockRegistry.COPROLITH.get());
                 add(output, ACBlockRegistry.COPROLITH_STAIRS.get());
                 add(output, ACBlockRegistry.COPROLITH_SLAB.get());
@@ -303,6 +304,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.SMOOTH_COPROLITH_STAIRS.get());
                 add(output, ACBlockRegistry.SMOOTH_COPROLITH_SLAB.get());
                 add(output, ACBlockRegistry.SMOOTH_COPROLITH_WALL.get());
+                add(output, ACBlockRegistry.COPROLITH_COAL_ORE.get());
                 add(output, ACBlockRegistry.POROUS_COPROLITH.get());
                 add(output, ACBlockRegistry.PEERING_COPROLITH.get());
                 add(output, ACBlockRegistry.FORSAKEN_IDOL.get());

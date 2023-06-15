@@ -202,6 +202,9 @@ public class CaveMapRenderer {
         if (biome.is(ACBiomeRegistry.ABYSSAL_CHASM)) {
             return DefaultMapBackgrounds.ABYSSAL_CHASM.getMapColor(u, v);
         }
+        if (biome.is(ACBiomeRegistry.FORLORN_HOLLOWS)) {
+            return DefaultMapBackgrounds.FORLORN_HOLLOWS.getMapColor(u, v);
+        }
         if(biome.is(Tags.Biomes.IS_SNOWY) && biome.is(BiomeTags.IS_OCEAN)){
             return DefaultMapBackgrounds.FROZEN_OCEAN.getMapColor(u, v);
         }

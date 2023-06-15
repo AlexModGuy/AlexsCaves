@@ -118,9 +118,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> PEWEN_WALL_SIGN = DEF_REG.register("pewen_wall_sign", () -> new WallSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD), PEWEN_WOOD_TYPE));
     public static final RegistryObject<Block> PEWEN_HANGING_SIGN = DEF_REG.register("pewen_hanging_sign", () -> new CeilingHangingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F), PEWEN_WOOD_TYPE));
     public static final RegistryObject<Block> PEWEN_WALL_HANGING_SIGN = DEF_REG.register("pewen_wall_hanging_sign", () -> new WallHangingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).dropsLike(PEWEN_HANGING_SIGN.get()), PEWEN_WOOD_TYPE));
-    public static final RegistryObject<Block> PEWEN_PRESSURE_PLATE = registerBlockAndItem("pewen_pressure_plate",  () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(PEWEN_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK));
-    public static final RegistryObject<Block> PEWEN_TRAPDOOR = registerBlockAndItem("pewen_trapdoor",  () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
-    public static final RegistryObject<Block> PEWEN_BUTTON = registerBlockAndItem("pewen_button", () -> new ButtonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK,30,  true));
+    public static final RegistryObject<Block> PEWEN_PRESSURE_PLATE = registerBlockAndItem("pewen_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(PEWEN_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK));
+    public static final RegistryObject<Block> PEWEN_TRAPDOOR = registerBlockAndItem("pewen_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> PEWEN_BUTTON = registerBlockAndItem("pewen_button", () -> new ButtonBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK, 30, true));
     public static final RegistryObject<Block> PEWEN_FENCE_GATE = registerBlockAndItem("pewen_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(PEWEN_PLANKS.get()).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
     public static final RegistryObject<Block> PEWEN_DOOR = DEF_REG.register("pewen_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(PEWEN_PLANKS.get()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
     public static final RegistryObject<Block> PEWEN_BRANCH = registerBlockAndItem("pewen_branch", () -> new PewenBranchBlock());
@@ -227,8 +227,8 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GUANOSTONE_BRICK_WALL = registerBlockAndItem("guanostone_brick_wall", () -> new WallBlock(GUANOSTONE_PROPERTIES));
     public static final RegistryObject<Block> GUANOSTONE_CHISELED = registerBlockAndItem("guanostone_chiseled", () -> new Block(GUANOSTONE_PROPERTIES));
     public static final RegistryObject<Block> GUANOSTONE_TILES = registerBlockAndItem("guanostone_tiles", () -> new Block(GUANOSTONE_PROPERTIES));
+    public static final RegistryObject<Block> GUANOSTONE_REDSTONE_ORE = registerBlockAndItem("guanostone_redstone_ore", () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.REDSTONE_ORE)));
     public static final RegistryObject<Block> COPROLITH = registerBlockAndItem("coprolith", () -> new Block(COPROLITH_PROPERTIES));
-
     public static final RegistryObject<Block> COPROLITH_STAIRS = registerBlockAndItem("coprolith_stairs", () -> new StairBlock(COPROLITH.get().defaultBlockState(), COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> COPROLITH_SLAB = registerBlockAndItem("coprolith_slab", () -> new SlabBlock(COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> COPROLITH_WALL = registerBlockAndItem("coprolith_wall", () -> new WallBlock(COPROLITH_PROPERTIES));
@@ -236,7 +236,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> SMOOTH_COPROLITH_STAIRS = registerBlockAndItem("smooth_coprolith_stairs", () -> new StairBlock(SMOOTH_COPROLITH.get().defaultBlockState(), COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_COPROLITH_SLAB = registerBlockAndItem("smooth_coprolith_slab", () -> new SlabBlock(COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_COPROLITH_WALL = registerBlockAndItem("smooth_coprolith_wall", () -> new WallBlock(COPROLITH_PROPERTIES));
-
+    public static final RegistryObject<Block> COPROLITH_COAL_ORE = registerBlockAndItem("coprolith_coal_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.COAL_ORE)));
     public static final RegistryObject<Block> POROUS_COPROLITH = registerBlockAndItem("porous_coprolith", () -> new Block(POROUS_COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> PEERING_COPROLITH = registerBlockAndItem("peering_coprolith", () -> new Block(POROUS_COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> FORSAKEN_IDOL = registerBlockAndItem("forsaken_idol", () -> new ForsakenIdolBlock());
@@ -253,19 +253,19 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> THORNWOOD_WALL_SIGN = DEF_REG.register("thornwood_wall_sign", () -> new WallSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).noCollission().strength(1.0F).sound(SoundType.WOOD), THORNWOOD_WOOD_TYPE));
     public static final RegistryObject<Block> THORNWOOD_HANGING_SIGN = DEF_REG.register("thornwood_hanging_sign", () -> new CeilingHangingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F), THORNWOOD_WOOD_TYPE));
     public static final RegistryObject<Block> THORNWOOD_WALL_HANGING_SIGN = DEF_REG.register("thornwood_wall_hanging_sign", () -> new WallHangingSignBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(1.0F).dropsLike(THORNWOOD_HANGING_SIGN.get()), THORNWOOD_WOOD_TYPE));
-    public static final RegistryObject<Block> THORNWOOD_PRESSURE_PLATE = registerBlockAndItem("thornwood_pressure_plate",  () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK));
-    public static final RegistryObject<Block> THORNWOOD_TRAPDOOR = registerBlockAndItem("thornwood_trapdoor",  () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
-    public static final RegistryObject<Block> THORNWOOD_BUTTON = registerBlockAndItem("thornwood_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK,30,  true));
+    public static final RegistryObject<Block> THORNWOOD_PRESSURE_PLATE = registerBlockAndItem("thornwood_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK));
+    public static final RegistryObject<Block> THORNWOOD_TRAPDOOR = registerBlockAndItem("thornwood_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> THORNWOOD_BUTTON = registerBlockAndItem("thornwood_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK, 30, true));
     public static final RegistryObject<Block> THORNWOOD_FENCE_GATE = registerBlockAndItem("thornwood_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
     public static final RegistryObject<Block> THORNWOOD_DOOR = DEF_REG.register("thornwood_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
 
-    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block){
+    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block) {
         return registerBlockAndItem(name, block, 0);
     }
 
-    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, int itemType){
+    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, int itemType) {
         RegistryObject<Block> blockObj = DEF_REG.register(name, block);
-        ACItemRegistry.DEF_REG.register(name, () ->  itemType == 3 ? new BlockItemWithISTER(blockObj, new Item.Properties()) : itemType == 2 ? new BlockItemWithScaffolding(blockObj, new Item.Properties()) : itemType == 1 ? new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
+        ACItemRegistry.DEF_REG.register(name, () -> itemType == 3 ? new BlockItemWithISTER(blockObj, new Item.Properties()) : itemType == 2 ? new BlockItemWithScaffolding(blockObj, new Item.Properties()) : itemType == 1 ? new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
         return blockObj;
     }
 }

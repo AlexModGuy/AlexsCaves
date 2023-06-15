@@ -38,15 +38,21 @@
       "minecraft:lake_lava_underground",
       "minecraft:lake_lava_surface"
     ],
-    [],
+    [
+      "alexscaves:forlorn_posts"
+    ],
     [
       "minecraft:monster_room",
       "minecraft:monster_room_deep"
     ],
     [],
-    [],
+    [
+      "alexscaves:thornwood_tree_with_branches"
+    ],
     [
       "alexscaves:dirt_replace_packed_mud",
+      "alexscaves:coprolith_coal_ore",
+      "alexscaves:guanostone_redstone_ore",
       "minecraft:ore_dirt",
       "minecraft:ore_gravel",
       "minecraft:ore_granite_upper",
@@ -78,6 +84,7 @@
       "alexscaves:peering_coprolith"
     ],
     [
+      "alexscaves:forlorn_ruins",
       "alexscaves:guano_pile"
     ],
     [
@@ -86,7 +93,6 @@
     ],
     [
       "alexscaves:underweed",
-      "alexscaves:thornwood_tree_with_branches",
       "alexscaves:thornwood_roots",
       "alexscaves:forlorn_hollows_brown_mushroom",
       "minecraft:glow_lichen",

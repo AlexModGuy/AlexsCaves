@@ -1,0 +1,10 @@
+{
+  "type": "alexscaves:forlorn_bridge",
+  "biomes": "alexscaves:forlorn_hollows",
+  "step": "underground_structures",
+  "start_height": {
+    "absolute": 0
+  },
+  "use_expansion_hack": false,
+  "spawn_overrides": {}
+}
