@@ -1,12 +1,12 @@
 {
   "pools": [
     {
-      "name": "ferrouslime_drops",
+      "name": "ferrouslime",
       "rolls": 1,
       "entries": [
         {
           "type": "item",
-          "name": "alexscaves:metal_swarf",
+          "name": "alexscaves:ferrouslime_ball",
           "weight": 1,
           "functions": [
             {

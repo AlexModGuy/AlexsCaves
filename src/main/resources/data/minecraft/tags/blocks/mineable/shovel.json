@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
-    "alexscaves:metal_swarf"
+    "alexscaves:metal_swarf",
+    "alexscaves:muck",
+    "alexscaves:guano_block",
+    "alexscaves:guano_layer"
   ]
 }

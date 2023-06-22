@@ -124,7 +124,7 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
                 switchNavigator(true);
             }
         }
-        if (lightPos != null && !level().isClientSide) {
+        if (lightPos != null && this.isAlive() && !level().isClientSide) {
             if (refreshLightPosIn-- < 0) {
                 refreshLightPosIn = 40 + random.nextInt(100);
                 if (this.distanceToSqr(Vec3.atCenterOf(lightPos)) >= 256 || !level().getBlockState(lightPos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) || level().getLightEmission(lightPos) <= 0) {

@@ -24,16 +24,40 @@
                   }
                 }
               ],
-              "name": "alexscaves:geothermal_vent_middle"
+              "name": "alexscaves:sulfur_bud_small"
             },
             {
               "type": "minecraft:item",
               "functions": [
                 {
+                  "add": false,
+                  "count": {
+                    "type": "minecraft:uniform",
+                    "max": 1.0,
+                    "min": 0.0
+                  },
+                  "function": "minecraft:set_count"
+                },
+                {
+                  "enchantment": "minecraft:fortune",
+                  "formula": "minecraft:uniform_bonus_count",
+                  "function": "minecraft:apply_bonus",
+                  "parameters": {
+                    "bonusMultiplier": 1
+                  }
+                },
+                {
+                  "function": "minecraft:limit_count",
+                  "limit": {
+                    "max": 5.0,
+                    "min": 1.0
+                  }
+                },
+                {
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "minecraft:tuff"
+              "name": "alexscaves:sulfur_dust"
             }
           ]
         }

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotSacrifice;
+import com.github.alexmodguy.alexscaves.server.entity.living.VesperEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -25,15 +26,15 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        long worldTime = entity.level().getGameTime() % 20;
+        long worldTime = entity.level().getGameTime() % 10;
         if (entity.isCarrying() || entity.isPackFollower() || entity.sacrificeCooldown > 0) {
             return false;
         }
-        if ((worldTime != 0 || entity.getRandom().nextInt(10) != 0) && (target == null || !target.isAlive())) {
+        if ((worldTime != 0 || entity.getRandom().nextInt(3) != 0) && (target == null || !target.isAlive())) {
             return false;
         }
         AABB aabb = entity.getBoundingBox().inflate(20);
-        List<LivingEntity> list = entity.level().getEntitiesOfClass(LivingEntity.class, aabb, this::isValidSacrifice);
+        List<LivingEntity> list = entity.level().getEntitiesOfClass(LivingEntity.class, aabb, this::isFirstValidSacrifice);
         if (!list.isEmpty()) {
             LivingEntity closest = null;
             for (LivingEntity mob : list) {
@@ -45,6 +46,10 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
             return sacrifice != null;
         }
         return false;
+    }
+
+    private boolean isFirstValidSacrifice(LivingEntity entity) {
+        return isValidSacrifice(entity) && (entity instanceof VesperEntity || entity.getRandom().nextInt(4) == 0);
     }
 
     private boolean isValidSacrifice(LivingEntity entity) {

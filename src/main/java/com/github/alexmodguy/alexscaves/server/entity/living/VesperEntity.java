@@ -75,7 +75,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 16.0D).add(Attributes.ATTACK_DAMAGE, 3.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 16.0D).add(Attributes.ATTACK_DAMAGE, 3.0D).add(Attributes.FOLLOW_RANGE, 128);
     }
 
     private void switchNavigator(boolean onLand) {
@@ -110,7 +110,6 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new VesperTargetUnderneathEntities(this, Pig.class));
         this.targetSelector.addGoal(2, new VesperTargetUnderneathEntities(this, Player.class));
         this.targetSelector.addGoal(3, new VesperTargetUnderneathEntities(this, GloomothEntity.class));
 
@@ -178,6 +177,9 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                 timeFlying++;
                 if (this.isLandNavigator) {
                     switchNavigator(false);
+                }
+                if(groundedFor > 0){
+                    this.setFlying(false);
                 }
             } else {
                 timeFlying = 0;

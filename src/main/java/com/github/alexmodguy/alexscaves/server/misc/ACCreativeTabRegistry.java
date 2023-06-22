@@ -35,6 +35,11 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get());
                 add(output, ACItemRegistry.RAW_AZURE_NEODYMIUM.get());
                 add(output, ACItemRegistry.AZURE_NEODYMIUM_INGOT.get());
+                add(output, ACItemRegistry.NOTOR_COMPONENT.get());
+                add(output, ACItemRegistry.HOLOCODER.get());
+                add(output, ACItemRegistry.HEAVYWEIGHT.get());
+                add(output, ACItemRegistry.FERROUSLIME_BALL.get());
+                add(output, ACItemRegistry.QUARRY_SMASHER.get());
                 add(output, ACBlockRegistry.GALENA.get());
                 add(output, ACBlockRegistry.GALENA_STAIRS.get());
                 add(output, ACBlockRegistry.GALENA_SLAB.get());
@@ -67,6 +72,9 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.BLOCK_OF_AZURE_NEODYMIUM.get());
                 add(output, ACBlockRegistry.AZURE_MAGNET.get());
                 add(output, ACBlockRegistry.MAGNETIC_ACTIVATOR.get());
+                add(output, ACBlockRegistry.HOLOGRAM_PROJECTOR.get());
+                add(output, ACBlockRegistry.MAGNETIC_LIGHT.get());
+                add(output, ACBlockRegistry.QUARRY.get());
             })
             .build());
 
@@ -151,6 +159,8 @@ public class ACCreativeTabRegistry {
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.ACID_BUCKET.get());
                 add(output, ACItemRegistry.RADGILL_BUCKET.get());
+                add(output, ACItemRegistry.URANIUM.get());
+                add(output, ACItemRegistry.SULFUR_DUST.get());
                 add(output, ACItemRegistry.RADON_BOTTLE.get());
                 add(output, ACItemRegistry.CINDER_BRICK.get());
                 add(output, ACBlockRegistry.RADROCK.get());

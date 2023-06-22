@@ -1,0 +1,14 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/holocoder"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "bound": 1
+      },
+      "model": "alexscaves:item/holocoder_bound"
+    }
+  ]
+}

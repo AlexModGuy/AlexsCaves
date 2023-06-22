@@ -63,4 +63,11 @@ public class BoundroidModel extends AdvancedEntityModel<BoundroidEntity> {
         this.walk(head, 0.15F, 0.2F, false, -1, 0F, ageInTicks, offGroundAmount);
         this.flap(head, 0.15F, 0.2F, false, 1, 0F, ageInTicks, offGroundAmount);
     }
+
+    public void animateForQuarry(float ageInTicks, float slamAmount) {
+        this.resetToDefaultPose();
+        float offGroundAmount = 1F - slamAmount;
+        this.walk(head, 0.15F, 0.2F, false, -1, 0F, ageInTicks, offGroundAmount);
+        this.flap(head, 0.15F, 0.2F, false, 1, 0F, ageInTicks, offGroundAmount);
+    }
 }

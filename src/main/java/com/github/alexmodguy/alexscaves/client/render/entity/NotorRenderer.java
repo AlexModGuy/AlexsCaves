@@ -15,6 +15,7 @@ import net.minecraft.ReportedException;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -49,21 +50,6 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
         this.addLayer(new NotorRenderer.LayerGlow());
     }
 
-    public static void renderEntireBatch(LevelRenderer levelRenderer, PoseStack poseStack, int renderTick, Camera camera, float partialTick) {
-        if (!allOnScreen.isEmpty()) {
-            poseStack.pushPose();
-            Vec3 cameraPos = camera.getPosition();
-            poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            for (NotorEntity notor : allOnScreen) {
-                renderHologramFor(notor, poseStack, multibuffersource$buffersource, partialTick);
-            }
-            poseStack.popPose();
-        }
-        allOnScreen.clear();
-
-    }
-
     public boolean shouldRender(NotorEntity entity, Frustum camera, double x, double y, double z) {
         if (super.shouldRender(entity, camera, x, y, z)) {
             return true;
@@ -75,11 +61,6 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
             }
             return false;
         }
-    }
-
-    private static void renderHologramFor(NotorEntity entity, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, float partialTicks) {
-        Entity hologramEntity = entity.getHologramEntity();
-
     }
 
     protected void scale(NotorEntity mob, PoseStack matrixStackIn, float partialTicks) {
@@ -133,15 +114,13 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
 
     }
 
-    private static <E extends Entity> void renderEntityInHologram(E entityIn, double x, double y, double z, float yaw, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int packedLight) {
+    public static <E extends Entity> void renderEntityInHologram(E entityIn, double x, double y, double z, float yaw, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int packedLight) {
         ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.HOLOGRAM_SHADER);
 
         EntityRenderer<? super E> render = null;
         EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
         try {
             render = manager.getRenderer(entityIn);
-            ItemStack heldOffhand = ItemStack.EMPTY;
-            ItemStack heldMainhand = ItemStack.EMPTY;
             float animSpeed = 0;
             float animSpeedOld = 0;
             float animPos = 0;
@@ -154,14 +133,6 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
             float headRot = 0;
             float headRotOld = 0;
             if (entityIn instanceof LivingEntity living) {
-                if (!living.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
-                    heldMainhand = living.getMainHandItem().copy();
-                    living.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
-                }
-                if (!living.getItemBySlot(EquipmentSlot.OFFHAND).isEmpty()) {
-                    heldOffhand = living.getOffhandItem().copy();
-                    living.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
-                }
                 headRot = living.yHeadRot;
                 headRotOld = living.yHeadRotO;
                 yBodyRot = living.yBodyRot;
@@ -182,22 +153,23 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     model.young = living.isBaby();
                     model.riding = shouldSit;
                     model.attackTime = living.getAttackAnim(partialTicks);
+                    boolean prevCrouching = false;
+                    if(model instanceof HumanoidModel<?> humanoidModel){
+                        prevCrouching = humanoidModel.crouching;
+                        humanoidModel.crouching = false;
+                    }
                     model.setupAnim(living, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F);
                     matrixStack.scale(living.getScale(), -living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();
+                    if(model instanceof HumanoidModel<?> humanoidModel){
+                        humanoidModel.crouching = prevCrouching;
+                    }
                 }
                 entityIn.setXRot(xRot);
                 entityIn.xRotO = xRotOld;
                 entityIn.setYRot(yRot);
                 entityIn.yRotO = yRotOld;
-                if (!heldOffhand.isEmpty()) {
-                    living.setItemInHand(InteractionHand.OFF_HAND, heldOffhand);
-                }
-                if (!heldMainhand.isEmpty()) {
-                    living.setItemInHand(InteractionHand.MAIN_HAND, heldMainhand);
-                }
-                living.yHeadRot = headRot;
                 living.yHeadRot = headRot;
                 living.yHeadRotO = headRotOld;
                 living.yBodyRot = yBodyRot;

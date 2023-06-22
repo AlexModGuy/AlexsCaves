@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BTB",
+    "TPT",
+    "TTT"
+  ],
+  "key": {
+    "B": {
+      "item": "alexscaves:thornwood_branch"
+    },
+    "T": {
+      "item": "alexscaves:thornwood_log"
+    },
+    "P": {
+      "item": "alexscaves:peering_coprolith"
+    }
+  },
+  "result": {
+    "item": "alexscaves:forlorn_idol"
+  }
+}

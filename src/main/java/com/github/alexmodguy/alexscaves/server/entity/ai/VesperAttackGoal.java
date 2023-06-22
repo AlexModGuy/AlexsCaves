@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
+import com.github.alexmodguy.alexscaves.server.entity.living.GloomothEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.VesperEntity;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -40,11 +41,15 @@ public class VesperAttackGoal extends Goal {
     }
 
     public void tick() {
-        if(entity.isHanging()){
-            entity.setHanging(false);
-            entity.setFlying(true);
-        }else if(!entity.isFlying() && entity.groundedFor <= 0){
-            entity.setFlying(true);
+        if(entity.groundedFor <= 0){
+            if(entity.isHanging()){
+                entity.setHanging(false);
+                entity.setFlying(true);
+            }else if(!entity.isFlying()){
+                entity.setFlying(true);
+            }
+        }else{
+            entity.setFlying(false);
         }
         LivingEntity target = entity.getTarget();
         if (target != null && target.isAlive()) {
@@ -69,8 +74,11 @@ public class VesperAttackGoal extends Goal {
                 } else if (entity.getAnimationTick() == 8 && entity.hasLineOfSight(target)) {
                     boolean flag = target.isBlocking();
                     if(target.hurt(target.damageSources().mobAttack(entity), (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue())){
-                        if(!target.isAlive() && this.entity.level().getBrightness(LightLayer.BLOCK, this.entity.blockPosition()) > 7){
-                            entity.groundedFor += 40 + entity.getRandom().nextInt(20);
+                        if(!target.isAlive() && target instanceof GloomothEntity gloomothEntity){
+                            if(gloomothEntity.lightPos != null && gloomothEntity.distanceToSqr(Vec3.atCenterOf(gloomothEntity.lightPos)) < 32.0F){
+                                entity.groundedFor = 100 + entity.getRandom().nextInt(40);
+                                entity.setFlying(false);
+                            }
                         }
                     }
                     maxOrbitTime = 60 + entity.getRandom().nextInt(80);

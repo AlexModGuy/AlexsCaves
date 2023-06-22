@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:radrock_uranium_ore",
+    "alexscaves:uranium_rod",
+    "alexscaves:block_of_uranium",
+    "alexscaves:nuclear_bomb",
+    "#alexscaves:radon_lamps",
+    "alexscaves:drain",
+    "alexscaves:sea_glass",
+    "alexscaves:guanostone_redstone_ore"
+  ]
+}

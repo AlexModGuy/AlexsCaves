@@ -14,6 +14,8 @@
     "alexscaves:metal_rebar",
     "alexscaves:rusty_rebar",
     "alexscaves:magnetic_activator",
+    "alexscaves:hologram_projector",
+    "alexscaves:magnetic_light",
     "#forge:storage_blocks/raw_iron",
     "#forge:storage_blocks/iron",
     "#forge:storage_blocks/netherite",

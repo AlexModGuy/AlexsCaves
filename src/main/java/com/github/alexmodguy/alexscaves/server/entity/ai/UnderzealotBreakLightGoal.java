@@ -22,7 +22,7 @@ public class UnderzealotBreakLightGoal extends MoveToBlockGoal {
     }
 
     protected int nextStartTick(PathfinderMob mob) {
-        return reducedTickDelay(250 + underzealot.getRandom().nextInt(250));
+        return reducedTickDelay(500 + underzealot.getRandom().nextInt(1000));
     }
 
 
@@ -42,7 +42,7 @@ public class UnderzealotBreakLightGoal extends MoveToBlockGoal {
     }
 
     public double acceptedDistance() {
-        return underzealot.getBbWidth();
+        return 2;
     }
 
     @Override

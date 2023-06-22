@@ -75,6 +75,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> BLOCK_OF_AZURE_NEODYMIUM = registerBlockAndItem("block_of_azure_neodymium", () -> new NeodymiumOreBlock(true));
     public static final RegistryObject<Block> SCARLET_MAGNET = registerBlockAndItem("scarlet_magnet", () -> new MagnetBlock(false));
     public static final RegistryObject<Block> AZURE_MAGNET = registerBlockAndItem("azure_magnet", () -> new MagnetBlock(true));
+    public static final RegistryObject<Block> HOLOGRAM_PROJECTOR = registerBlockAndItem("hologram_projector", () -> new HologramProjectorBlock());
+    public static final RegistryObject<Block> MAGNETIC_LIGHT = registerBlockAndItem("magnetic_light", () -> new MagneticLightBlock());
+    public static final RegistryObject<Block> QUARRY = registerBlockAndItem("quarry", () -> new QuarryBlock());
     public static final RegistryObject<Block> LIMESTONE = registerBlockAndItem("limestone", () -> new Block(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_STAIRS = registerBlockAndItem("limestone_stairs", () -> new StairBlock(LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_SLAB = registerBlockAndItem("limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
@@ -148,7 +151,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
     public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
     public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable()));
-    public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission()));
+    public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable()));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock());
     public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
@@ -159,7 +162,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock());
     public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumOreBlock());
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
-    public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(2F, 4.0F).sound(SoundType.CALCITE)));
+    public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new SulfurBlock());
     public static final RegistryObject<Block> SULFUR_BUD_SMALL = registerBlockAndItem("sulfur_bud_small", () -> new SulfurBudBlock(6, 4));
     public static final RegistryObject<Block> SULFUR_BUD_MEDIUM = registerBlockAndItem("sulfur_bud_medium", () -> new SulfurBudBlock(6, 8));
     public static final RegistryObject<Block> SULFUR_BUD_LARGE = registerBlockAndItem("sulfur_bud_large", () -> new SulfurBudBlock(6, 12));

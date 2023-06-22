@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 public class ACInternalShaders {
 
     private static ShaderInstance renderTypeFerrouslimeGelShader;
+    private static ShaderInstance renderTypeHologramShader;
     private static ShaderInstance renderTypeIrradiatedShader;
     private static ShaderInstance renderTypeBubbledShader;
 
@@ -17,6 +18,15 @@ public class ACInternalShaders {
 
     public static void setRenderTypeFerrouslimeGelShader(ShaderInstance instance){
         renderTypeFerrouslimeGelShader = instance;
+    }
+
+    public static void setRenderTypeHologramShader(ShaderInstance instance){
+        renderTypeHologramShader = instance;
+    }
+
+    @Nullable
+    public static ShaderInstance getRenderTypeHologramShader() {
+        return renderTypeHologramShader;
     }
 
     @Nullable

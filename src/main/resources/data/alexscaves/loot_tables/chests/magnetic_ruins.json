@@ -131,6 +131,20 @@
         },
         {
           "type": "item",
+          "name": "alexscaves:notor_gizmo",
+          "weight": 7,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
           "name": "alexscaves:metal_swarf",
           "weight": 10,
           "functions": [

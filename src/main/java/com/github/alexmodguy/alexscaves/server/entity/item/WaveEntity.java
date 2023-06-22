@@ -199,7 +199,7 @@ public class WaveEntity extends Entity {
 
     private void attackEntities(float scale){
         AABB bashBox = this.getBoundingBox().inflate(0.5f, 0.5f, 0.5f);
-        DamageSource source = damageSources().mobProjectile(this, (owner == null ? owner : owner));
+        DamageSource source = damageSources().mobProjectile(this, owner);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
                 entity.hurt(source, scale + 1.0F);

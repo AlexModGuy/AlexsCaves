@@ -286,6 +286,9 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
     }
 
     public boolean canPossessTargetEntity(Entity entity){
+        if(true){
+            return true;
+        }
         if(entity instanceof Player player){
             CompoundTag playerData = player.getPersistentData();
             CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);

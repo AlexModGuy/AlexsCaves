@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:uranium"
+    }
+  },
+  "result": {
+    "item": "alexscaves:block_of_uranium",
+    "count": 1
+  }
+}

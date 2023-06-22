@@ -15,6 +15,7 @@ import org.joml.Matrix4f;
 
 public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_FEROUSSLIME_GEL_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeFerrouslimeGelShader);
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_HOLOGRAM_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeHologramShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeIrradiatedShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_BUBBLED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeBubbledShader);
 
@@ -44,12 +45,6 @@ public class ACRenderTypes extends RenderType {
         RenderSystem.defaultBlendFunc();
     });
 
-    protected static final RenderStateShard.TexturingStateShard IRRADIATED_TEXTURING = new RenderStateShard.TexturingStateShard("irradiated_texturing", () -> {
-        Matrix4f matrix4f = (new Matrix4f()).translation(0.0F, 0.0F, 0.0F);
-        RenderSystem.setTextureMatrix(matrix4f);
-        }, () -> {
-        RenderSystem.resetTextureMatrix();
-    });
 
 
     public ACRenderTypes(String s, VertexFormat format, VertexFormat.Mode mode, int i, boolean b1, boolean b2, Runnable runnable1, Runnable runnable2) {
@@ -92,7 +87,7 @@ public class ACRenderTypes extends RenderType {
 
     public static RenderType getHologramLights() {
         return create("hologram_lights", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
-                .setShaderState(RENDERTYPE_LIGHTNING_SHADER)
+                .setShaderState(RENDERTYPE_HOLOGRAM_SHADER)
                 .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
                 .setCullState(CULL)
                 .setDepthTestState(LEQUAL_DEPTH_TEST)

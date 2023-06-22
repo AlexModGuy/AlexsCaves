@@ -166,7 +166,7 @@ public class SulfurBudBlock extends Block implements SimpleWaterloggedBlock {
         blockStateBuilder.add(LIQUID_LOGGED, FACING);
     }
 
-    private int getLiquidType(FluidState fluidState) {
+    public static int getLiquidType(FluidState fluidState) {
         if (fluidState.getType() == Fluids.WATER) {
             return 1;
         } else if (fluidState.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()) {

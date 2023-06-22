@@ -1,7 +1,6 @@
 {
-  "__comment": "all blocks that cannot pulled or pushed by magnets.",
+  "__comment": "all blocks that cannot pulled or pushed by magnets, or changed by world gen.",
   "values": [
-    "minecraft:obsidian",
-    "minecraft:bedrock"
+    "#minecraft:wither_immune"
   ]
 }

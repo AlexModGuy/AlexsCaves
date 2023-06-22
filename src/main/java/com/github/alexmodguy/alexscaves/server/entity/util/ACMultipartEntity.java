@@ -14,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.entity.PartEntity;
 
-public abstract class ACMultipartEntity<T extends LivingEntity> extends PartEntity<T> {
+public abstract class ACMultipartEntity<T extends Entity> extends PartEntity<T> {
 
     public ACMultipartEntity(T parent) {
         super(parent);
@@ -28,7 +28,7 @@ public abstract class ACMultipartEntity<T extends LivingEntity> extends PartEnti
 
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
-        LivingEntity parent = this.getParent();
+        Entity parent = this.getParent();
         if (parent == null) {
             return InteractionResult.PASS;
         } else {
@@ -47,21 +47,21 @@ public abstract class ACMultipartEntity<T extends LivingEntity> extends PartEnti
 
     @Override
     public boolean canBeCollidedWith() {
-        LivingEntity parent = this.getParent();
+        Entity parent = this.getParent();
         return parent != null && parent.canBeCollidedWith();
     }
 
 
     @Override
     public boolean isPickable() {
-        LivingEntity parent = this.getParent();
+        Entity parent = this.getParent();
         return parent != null && parent.isPickable();
     }
 
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        LivingEntity parent = this.getParent();
+        Entity parent = this.getParent();
         if(!this.isInvulnerableTo(source) && parent != null){
             Entity player = source.getEntity();
             if(player != null && player.level().isClientSide){

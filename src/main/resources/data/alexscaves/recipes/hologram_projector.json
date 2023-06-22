@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "NNN",
+    "III"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:notor_gizmo"
+    },
+    "G": {
+      "tag": "forge:glass/colorless"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "alexscaves:hologram_projector",
+    "count": 1
+  }
+}

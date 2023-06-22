@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:cave_painting_ambersol",
+    "alexscaves:cave_painting_dark",
+    "alexscaves:cave_painting_footprint",
+    "alexscaves:cave_painting_footprints",
+    "alexscaves:cave_painting_tree_stars",
+    "alexscaves:cave_painting_pewen",
+    "alexscaves:cave_painting_trilocaris",
+    "alexscaves:cave_painting_grottoceratops",
+    "alexscaves:cave_painting_grottoceratops_friend",
+    "alexscaves:cave_painting_dino_nuggets",
+    "alexscaves:cave_painting_vallumraptor_chest",
+    "alexscaves:cave_painting_vallumraptor_friend",
+    "alexscaves:cave_painting_relicheirus",
+    "alexscaves:cave_painting_relicheirus_slash",
+    "alexscaves:cave_painting_enderman",
+    "alexscaves:cave_painting_portal",
+    "alexscaves:cave_painting_subterranodon",
+    "alexscaves:cave_painting_subterranodon_ride",
+    "alexscaves:cave_painting_tremorsaurus",
+    "alexscaves:cave_painting_tremorsaurus_friend"
+  ]
+}

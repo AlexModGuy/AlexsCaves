@@ -82,14 +82,15 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 60, 11));
-        this.goalSelector.addGoal(2, new UnderzealotMeleeGoal(this));
-        this.goalSelector.addGoal(3, new UnderzealotSacrificeGoal(this));
-        this.goalSelector.addGoal(4, new UnderzealotCaptureSacrificeGoal(this));
-        this.goalSelector.addGoal(5, new UnderzealotProcessionGoal(this, 1.0F));
-        this.goalSelector.addGoal(6, new UnderzealotBreakLightGoal(this, 32));
-        this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D, 100));
-        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 15.0F));
-        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new UnderzealotOpenDoorGoal(this));
+        this.goalSelector.addGoal(3, new UnderzealotMeleeGoal(this));
+        this.goalSelector.addGoal(4, new UnderzealotSacrificeGoal(this));
+        this.goalSelector.addGoal(5, new UnderzealotCaptureSacrificeGoal(this));
+        this.goalSelector.addGoal(6, new UnderzealotProcessionGoal(this, 1.0F));
+        this.goalSelector.addGoal(7, new UnderzealotBreakLightGoal(this, 32));
+        this.goalSelector.addGoal(9, new RandomStrollGoal(this, 1.0D, 100));
+        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F));
+        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, UnderzealotEntity.class, WatcherEntity.class, ForsakenEntity.class).setAlertOthers()));
         this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 12));
     }

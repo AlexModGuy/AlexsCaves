@@ -19,6 +19,7 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> MAGNET_LIGHTNING = DEF_REG.register("magnet_lightning", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MAGNETIC_CAVES_AMBIENT = DEF_REG.register("magnetic_caves_ambient", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FERROUSLIME = DEF_REG.register("ferrouslime", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> QUARRY_BORDER_LIGHTING = DEF_REG.register("quarry_border_lightning", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FLY = DEF_REG.register("fly", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WATER_TREMOR = DEF_REG.register("water_tremor", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ACID_BUBBLE = DEF_REG.register("acid_bubble", ()-> new SimpleParticleType(false));

@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "alexscaves:block/magnetic_light",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "alexscaves:block/magnetic_light",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "alexscaves:block/magnetic_light",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "alexscaves:block/magnetic_light",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "alexscaves:block/magnetic_light"
+    },
+    "facing=west": {
+      "model": "alexscaves:block/magnetic_light",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

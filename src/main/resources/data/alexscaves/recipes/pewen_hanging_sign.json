@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_sign",
+  "key": {
+    "C": {
+      "item": "minecraft:chain"
+    },
+    "#": {
+      "item": "alexscaves:stripped_pewen_log"
+    }
+  },
+  "pattern": [
+    "C C",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 3,
+    "item": "alexscaves:pewen_hanging_sign"
+  }
+}

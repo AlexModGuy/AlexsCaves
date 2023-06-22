@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=east": [
+      { "model": "alexscaves:block/quarry", "y": 90 }
+    ],
+    "facing=north": [
+      { "model": "alexscaves:block/quarry" }
+    ],
+    "facing=south": [
+      { "model": "alexscaves:block/quarry", "y": 180 }
+    ],
+    "facing=west": [
+      { "model": "alexscaves:block/quarry", "y": 270 }
+    ]
+  }
+}
