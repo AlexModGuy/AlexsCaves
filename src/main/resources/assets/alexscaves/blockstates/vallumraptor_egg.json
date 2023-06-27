@@ -1,0 +1,208 @@
+{
+  "variants": {
+    "eggs=1,hatch=0": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1",
+        "y": 270
+      }
+    ],
+    "eggs=1,hatch=1": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=1,hatch=2": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_very_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_very_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_very_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_1_very_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=0": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=1": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=2,hatch=2": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_very_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_very_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_very_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_2_very_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=0": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=1": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=3,hatch=2": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_very_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_very_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_very_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_3_very_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=0": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=1": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_cracked",
+        "y": 270
+      }
+    ],
+    "eggs=4,hatch=2": [
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_very_cracked"
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_very_cracked",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_very_cracked",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/vallumraptor_egg_4_very_cracked",
+        "y": 270
+      }
+    ]
+  }
+}

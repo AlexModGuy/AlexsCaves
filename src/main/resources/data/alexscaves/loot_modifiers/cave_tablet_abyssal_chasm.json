@@ -1,6 +1,7 @@
 {
   "type": "alexscaves:cave_tablet",
   "biome": "alexscaves:abyssal_chasm",
+  "replace": false,
   "conditions": [
     {
       "condition": "forge:loot_table_id",

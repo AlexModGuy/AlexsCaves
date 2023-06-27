@@ -4,14 +4,9 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.QuarryBlock;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.QuarryBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.living.BoundroidEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentTailEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -26,10 +21,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
@@ -159,7 +151,7 @@ public class QuarrySmasherEntity extends Entity {
                     if(dist.horizontalDistance() < 0.5F){
                         if(blockBreakCooldown <= 0){
                             this.setSlamming(true);
-                            if(this.headPart.position().distanceTo(Vec3.atCenterOf(targetPos)) < 1){
+                            if(this.headPart.position().distanceTo(Vec3.atBottomCenterOf(targetPos)) < 1.1){
                                 this.setSlamming(false);
                                 level().destroyBlock(targetPos, true);
                                 this.setTargetPos(null);

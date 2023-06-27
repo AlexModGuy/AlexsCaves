@@ -1,14 +1,11 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.ForsakenModel;
-import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ForsakenHeldMobLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.ForsakenEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,9 +16,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class ForsakenRenderer extends MobRenderer<ForsakenEntity, ForsakenModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/forsaken.png");

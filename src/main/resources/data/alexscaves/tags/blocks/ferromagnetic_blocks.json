@@ -16,6 +16,8 @@
     "alexscaves:magnetic_activator",
     "alexscaves:hologram_projector",
     "alexscaves:magnetic_light",
+    "alexscaves:quarry",
+    "alexscaves:heart_of_iron",
     "#forge:storage_blocks/raw_iron",
     "#forge:storage_blocks/iron",
     "#forge:storage_blocks/netherite",

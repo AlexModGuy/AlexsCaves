@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
-import com.github.alexmodguy.alexscaves.server.entity.item.MineGuardianAnchorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.QuarrySmasherEntity;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;

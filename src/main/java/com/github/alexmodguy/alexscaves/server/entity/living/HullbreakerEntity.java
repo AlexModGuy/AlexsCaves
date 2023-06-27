@@ -1,9 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalRandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerInspectMobGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerMeleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalRandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;

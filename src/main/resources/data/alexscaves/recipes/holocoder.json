@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "R",
-    "N",
-    "I"
+    "T",
+    "N"
   ],
   "key": {
     "R": {
@@ -12,8 +12,8 @@
     "N": {
       "item": "alexscaves:azure_neodymium_ingot"
     },
-    "I": {
-      "tag": "forge:ingots/iron"
+    "T": {
+      "item": "alexscaves:telecore"
     }
   },
   "result": {

@@ -1,9 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.HeartOfIronBlock;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetronJoint;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,6 +20,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -28,6 +31,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
@@ -36,10 +40,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.entity.PartEntity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class MagnetronEntity extends Monster {
@@ -71,6 +77,8 @@ public class MagnetronEntity extends Monster {
     private boolean isLandNavigator;
 
     private boolean hasFormedAttributes = false;
+
+    private boolean droppedHeart = false;
 
     public MagnetronEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -125,6 +133,7 @@ public class MagnetronEntity extends Monster {
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 
     public void removeParts() {
@@ -235,16 +244,22 @@ public class MagnetronEntity extends Monster {
             syncCooldown = 200;
             //syncBlockStatesWithMultipart();
         }
-        if (!this.isAlive() && this.isFormed()) {
-            for (MagnetronPartEntity part : allParts) {
-                if (part.getBlockState() != null && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
-                    BlockPos placeAt = part.blockPosition();
-                    while (!level().getBlockState(placeAt).isAir() && placeAt.getY() < level().getMaxBuildHeight()) {
-                        placeAt = placeAt.above();
+        if (!this.isAlive() && shouldDropBlocks()) {
+            if(this.isFormed()) {
+                for (MagnetronPartEntity part : allParts) {
+                    if (part.getBlockState() != null && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                        BlockPos placeAt = part.blockPosition();
+                        while (!level().getBlockState(placeAt).isAir() && placeAt.getY() < level().getMaxBuildHeight()) {
+                            placeAt = placeAt.above();
+                        }
+                        FallingBlockEntity.fall(level(), placeAt, part.getBlockState());
+                        part.setBlockState(null);
                     }
-                    FallingBlockEntity blockEntity = FallingBlockEntity.fall(level(), placeAt, part.getBlockState());
-                    part.setBlockState(null);
                 }
+            }
+            if(!droppedHeart){
+                droppedHeart = true;
+                FallingBlockEntity.fall(level(), this.blockPosition(), ACBlockRegistry.HEART_OF_IRON.get().defaultBlockState().setValue(HeartOfIronBlock.AXIS, this.getDirection().getAxis()));
             }
             removeParts();
         }
@@ -262,6 +277,14 @@ public class MagnetronEntity extends Monster {
             this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0F);
             this.heal(20F);
         }
+    }
+
+    private boolean shouldDropBlocks() {
+        DamageSource lastDamageSource = getLastDamageSource();
+        if(lastDamageSource != null){
+            return lastDamageSource.getEntity() != null || lastDamageSource.getDirectEntity() != null;
+        }
+        return false;
     }
 
 
@@ -585,6 +608,10 @@ public class MagnetronEntity extends Monster {
                 }
             }
         }
+    }
+
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
 
     public enum AttackPose {

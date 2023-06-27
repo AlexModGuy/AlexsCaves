@@ -1,0 +1,18 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"elements": [
+		{
+			"from": [7, 0, 6],
+			"to": [11, 8, 10],
+			"faces": {
+				"north": {"uv": [8, 8, 0, 4], "rotation": 270, "texture": "#egg"},
+				"east": {"uv": [0, 8, 8, 4], "rotation": 90, "texture": "#egg"},
+				"south": {"uv": [0, 4, 8, 8], "rotation": 90, "texture": "#egg"},
+				"west": {"uv": [0, 4, 8, 8], "rotation": 90, "texture": "#egg"},
+				"up": {"uv": [4, 8, 8, 12], "rotation": 180, "texture": "#egg"},
+				"down": {"uv": [8, 8, 12, 12], "texture": "#egg"}
+			}
+		}
+	]
+}

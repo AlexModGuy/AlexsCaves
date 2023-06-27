@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PTP",
+    "SNS"
+  ],
+  "key": {
+    "S": {
+      "item": "alexscaves:ferrouslime_ball"
+    },
+    "P": {
+      "item": "alexscaves:packed_galena"
+    },
+    "T": {
+      "item": "alexscaves:telecore"
+    },
+    "N": {
+      "item": "alexscaves:scarlet_neodymium_ingot"
+    }
+  },
+  "result": {
+    "item": "alexscaves:galena_gauntlet",
+    "count": 1
+  }
+}

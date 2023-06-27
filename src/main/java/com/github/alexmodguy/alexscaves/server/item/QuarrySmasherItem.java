@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.QuarrySmasherEntity;
-import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

@@ -7,9 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.item.QuarrySmasherEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,6 +31,8 @@ public class QuarryBlockEntity extends BlockEntity {
     private AABB miningBox;
     private QuarrySmasherEntity serverSmasher = null;
 
+    private BlockPos lastMineablePos;
+
     public QuarryBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.QUARRY.get(), pos, state);
     }
@@ -40,13 +40,14 @@ public class QuarryBlockEntity extends BlockEntity {
     public static void tick(Level level, BlockPos blockPos, BlockState state, QuarryBlockEntity entity) {
         entity.previousRotation = entity.rotation;
         if (entity.checkTimer-- < 0) {
-            entity.checkTimer = 20;
+            entity.checkTimer = 20 + level.random.nextInt(20);
             if (entity.searchForTorches(level, blockPos, state.getValue(QuarryBlock.FACING))) {
                 entity.complete = true;
                 AABB aabb1 = new AABB(entity.bottomLeftTorch, entity.bottomRightTorch);
                 AABB aabb2 = new AABB(entity.topLeftTorch, entity.topRightTorch);
                 entity.miningBox = aabb1.minmax(aabb2);
                 if (!level.isClientSide) {
+                    entity.lastMineablePos = entity.findMinableBlock(level, blockPos.getY() + 3).orElse(null);
                     if (entity.serverSmasher == null) {
                         QuarrySmasherEntity closest = null;
                         Vec3 center = Vec3.atCenterOf(blockPos);
@@ -69,16 +70,16 @@ public class QuarryBlockEntity extends BlockEntity {
             entity.spawnLightningBetween(level, entity.topLeftTorch, entity.topRightTorch);
         } else if (entity.serverSmasher != null) {
             entity.serverSmasher.setQuarryPos(blockPos);
-            if(entity.serverSmasher.isRemoved()){
+            if (entity.serverSmasher.isRemoved()) {
                 entity.serverSmasher = null;
-            }else if (entity.complete) {
+            } else if (entity.complete && entity.lastMineablePos != null) {
                 entity.serverSmasher.setInactive(false);
             } else {
                 entity.serverSmasher.setInactive(true);
                 entity.serverSmasher = null;
             }
         }
-        if(entity.spinFor > 0){
+        if (entity.spinFor > 0) {
             entity.spinFor--;
             entity.rotation += Math.min(10, entity.spinFor) * 0.1F;
         }

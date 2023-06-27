@@ -1,9 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.GrottoceratopsEatPlantsGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.GrottoceratopsMeleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
+import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -11,6 +10,7 @@ import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -41,10 +41,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDancesToJukebox {
+public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, LaysEggs {
 
     private static final EntityDataAccessor<Float> TAIL_SWING_ROT = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.BOOLEAN);
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(0.0F, 1.1F, 1.15F, 1.15F, 1);
     private Animation currentAnimation;
     private int animationTick;
@@ -79,6 +80,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         super.defineSynchedData();
         this.entityData.define(TAIL_SWING_ROT, 0F);
         this.entityData.define(DANCING, false);
+        this.entityData.define(HAS_EGG, false);
     }
 
     protected PathNavigation createNavigation(Level level) {
@@ -86,7 +88,9 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+        if(!this.isBaby()) {
+            this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+        }
     }
 
     public void travel(Vec3 vec3d) {
@@ -102,10 +106,12 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new GrottoceratopsMeleeGoal(this));
-        this.goalSelector.addGoal(2, new GrottoceratopsEatPlantsGoal(this, 16));
-        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D, 45));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
+        this.goalSelector.addGoal(4, new GrottoceratopsEatPlantsGoal(this, 16));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 45));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, GrottoceratopsEntity.class)).setAlertOthers());
     }
 
@@ -114,6 +120,16 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
             f *= 0.75F;
         }
         return super.hurt(damageSource, f);
+    }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Egg", this.hasEgg());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setHasEgg(compound.getBoolean("Egg"));
     }
 
     public void tick() {
@@ -185,6 +201,19 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
 
     public void setDancing(boolean bool) {
         this.entityData.set(DANCING, bool);
+    }
+
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    public void setHasEgg(boolean hasEgg) {
+        this.entityData.set(HAS_EGG, hasEgg);
+    }
+
+    @Override
+    public BlockState createEggBlockState() {
+        return null;// ACBlockRegistry.GROTTOCERATOPS_EGG.get().defaultBlockState();
     }
 
     public void setRecordPlayingNearby(BlockPos pos, boolean playing) {

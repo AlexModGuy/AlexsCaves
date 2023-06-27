@@ -1,13 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
-import com.github.alexmodguy.alexscaves.server.block.blockentity.*;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -30,7 +28,6 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.checkerframework.checker.units.qual.C;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;

@@ -1,0 +1,6 @@
+{
+	"parent": "alexscaves:block/small_dinosaur_egg_4_template",
+	"textures": {
+		"egg": "alexscaves:block/egg/vallumraptor_egg_very_cracked"
+	}
+}

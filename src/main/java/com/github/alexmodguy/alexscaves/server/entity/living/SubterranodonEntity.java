@@ -1,9 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalJoinPackGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.SubterranodonFlightGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
@@ -42,11 +41,12 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAnimal, IDancesToJukebox {
+public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAnimal, IDancesToJukebox, LaysEggs {
 
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HOVERING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private float flyProgress;
     private float prevFlyProgress;
     private float flapAmount;
@@ -85,10 +85,12 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 30,5));
-        this.goalSelector.addGoal(2, new SubterranodonFleeGoal(this));
-        this.goalSelector.addGoal(3, new SubterranodonFlightGoal(this));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
+        this.goalSelector.addGoal(4, new SubterranodonFleeGoal(this));
+        this.goalSelector.addGoal(5, new SubterranodonFlightGoal(this));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
@@ -97,6 +99,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setFlying(compound.getBoolean("Flying"));
+        this.setHasEgg(compound.getBoolean("Egg"));
         this.timeFlying = compound.getInt("TimeFlying");
     }
 
@@ -104,6 +107,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Flying", this.isFlying());
+        compound.putBoolean("Egg", this.hasEgg());
         compound.putInt("TimeFlying", this.timeFlying);
     }
 
@@ -113,6 +117,7 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
         this.entityData.define(FLYING, false);
         this.entityData.define(HOVERING, false);
         this.entityData.define(DANCING, false);
+        this.entityData.define(HAS_EGG, false);
     }
 
     public void travel(Vec3 vec3d) {
@@ -359,6 +364,19 @@ public class SubterranodonEntity extends Animal implements PackAnimal, FlyingAni
 
     public boolean shouldRenderAtSqrDistance(double distance) {
         return Math.sqrt(distance) < 1024.0D;
+    }
+
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    public void setHasEgg(boolean hasEgg) {
+        this.entityData.set(HAS_EGG, hasEgg);
+    }
+
+    @Override
+    public BlockState createEggBlockState() {
+        return null;//ACBlockRegistry.SUBTERRANODON_EGG.get().defaultBlockState().setValue(MultipleDinosaurEggsBlock.EGGS, 1 + random.nextInt(3));
     }
 
     class FlightMoveHelper extends MoveControl {

@@ -1,9 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.CorrodentModel;
-import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.SheetedDecalTextureGenerator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -22,11 +20,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CorrodentRenderer extends MobRenderer<CorrodentEntity, CorrodentModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/corrodent.png");

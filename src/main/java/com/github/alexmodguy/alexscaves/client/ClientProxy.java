@@ -14,26 +14,22 @@ import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
-import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
-import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
-import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
-import com.github.alexmodguy.alexscaves.server.item.HolocoderItem;
+import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
+import com.github.alexthe666.citadel.client.event.EventPosePlayerHand;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -58,8 +54,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -75,6 +73,7 @@ import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -141,6 +140,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.FERROUSLIME.get(), FerrouslimeRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NOTOR.get(), NotorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.QUARRY_SMASHER.get(), QuarrySmasherRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.SEEKING_ARROW.get(), SeekingArrowRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBTERRANODON.get(), SubterranodonRenderer::new);
         EntityRenderers.register(ACEntityRegistry.VALLUMRAPTOR.get(), VallumraptorRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GROTTOCERATOPS.get(), GrottoceratopsRenderer::new);
@@ -217,6 +217,8 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpecial(ACParticleRegistry.MAGNETIC_CAVES_AMBIENT.get(), new MagneticCavesAmbientParticle.Factory());
         registry.registerSpriteSet(ACParticleRegistry.FERROUSLIME.get(), FerrouslimeParticle.Factory::new);
         registry.registerSpecial(ACParticleRegistry.QUARRY_BORDER_LIGHTING.get(), new QuarryBorderLightningParticle.Factory());
+        registry.registerSpecial(ACParticleRegistry.AZURE_SHIELD_LIGHTNING.get(), new ResistorShieldLightningParticle.AzureFactory());
+        registry.registerSpecial(ACParticleRegistry.SCARLET_SHIELD_LIGHTNING.get(), new ResistorShieldLightningParticle.ScarletFactory());
         registry.registerSpriteSet(ACParticleRegistry.FLY.get(), FlyParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.WATER_TREMOR.get(), WaterTremorParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.ACID_BUBBLE.get(), AcidBubbleParticle.Factory::new);
@@ -378,6 +380,76 @@ public class ClientProxy extends CommonProxy {
         if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity && (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.ITEM_NAME.id()))) {
             event.setCanceled(true);
         }
+    }
+
+    @SubscribeEvent
+    @OnlyIn(Dist.CLIENT)
+    public void onPoseHand(EventPosePlayerHand event) {
+        LivingEntity player = (LivingEntity) event.getEntityIn();
+        float f = Minecraft.getInstance().getFrameTime();
+        float rightHandResistorShieldUseProgress = 0.0F;
+        float leftHandResistorShieldUseProgress = 0.0F;
+        float rightHandGalenaGauntletUseProgress = 0.0F;
+        float leftHandGalenaGauntletUseProgress = 0.0F;
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ResistorShieldItem) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                rightHandResistorShieldUseProgress = Math.max(rightHandResistorShieldUseProgress, ResistorShieldItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
+            } else {
+                leftHandResistorShieldUseProgress = Math.max(leftHandResistorShieldUseProgress, ResistorShieldItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
+            }
+        }
+        if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ResistorShieldItem) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                leftHandResistorShieldUseProgress = Math.max(leftHandResistorShieldUseProgress, ResistorShieldItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
+            } else {
+                rightHandResistorShieldUseProgress = Math.max(rightHandResistorShieldUseProgress, ResistorShieldItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
+            }
+        }
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof GalenaGauntletItem) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                rightHandGalenaGauntletUseProgress = Math.max(rightHandGalenaGauntletUseProgress, GalenaGauntletItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
+            } else {
+                leftHandGalenaGauntletUseProgress = Math.max(leftHandGalenaGauntletUseProgress, GalenaGauntletItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
+            }
+        }
+        if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof GalenaGauntletItem) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                leftHandGalenaGauntletUseProgress = Math.max(leftHandGalenaGauntletUseProgress, GalenaGauntletItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
+            } else {
+                rightHandGalenaGauntletUseProgress = Math.max(rightHandGalenaGauntletUseProgress, GalenaGauntletItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
+            }
+        }
+        if (leftHandResistorShieldUseProgress > 0.0F) {
+            float useProgress = Math.min(10F, leftHandResistorShieldUseProgress) / 10F;
+            float useProgressTurn = Math.min(useProgress * 4F, 1F);
+            float useProgressUp = (float)Math.sin(useProgress * Math.PI);
+            float armTilt = event.getModel().crouching ? 120F : 80F;
+            event.getModel().leftArm.xRot = -(float) Math.toRadians(armTilt) - (float) Math.toRadians(80F) * useProgressUp;
+            event.getModel().leftArm.yRot = (float) Math.toRadians(20F) * useProgressTurn;
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (rightHandResistorShieldUseProgress > 0.0F) {
+            float useProgress = Math.min(10F, rightHandResistorShieldUseProgress) / 10F;
+            float useProgressTurn = Math.min(useProgress * 4F, 1F);
+            float useProgressUp = (float)Math.sin(useProgress * Math.PI);
+            float armTilt = event.getModel().crouching ? 120F : 80F;
+            event.getModel().rightArm.xRot = -(float) Math.toRadians(armTilt) - (float) Math.toRadians(80F) * useProgressUp;
+            event.getModel().rightArm.yRot = -(float) Math.toRadians(20F) * useProgressTurn;
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (leftHandGalenaGauntletUseProgress > 0.0F) {
+            float useProgress = Math.min(5F, leftHandGalenaGauntletUseProgress) / 5F;
+            event.getModel().leftArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(80F)) * useProgress;
+            event.getModel().leftArm.yRot = event.getModel().head.yRot * useProgress;
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (rightHandGalenaGauntletUseProgress > 0.0F) {
+            float useProgress = Math.min(5F, rightHandGalenaGauntletUseProgress) / 5F;
+            event.getModel().rightArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(80F)) * useProgress;
+            event.getModel().rightArm.yRot = event.getModel().head.yRot * useProgress;
+            event.setResult(Event.Result.ALLOW);
+        }
+
     }
 
     public static boolean isFirstPersonPlayer(Entity entity){

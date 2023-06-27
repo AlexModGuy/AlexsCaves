@@ -39,6 +39,7 @@ public class ACTagRegistry {
     public static final TagKey<Item> RESTRICTED_BIOME_LOCATORS = registerItemTag("restricted_biome_locators");
     public static final TagKey<EntityType<?>> MAGNETIC_ENTITIES = registerEntityTag("ferromagnetic_entities");
     public static final TagKey<EntityType<?>> NOTOR_IGNORES = registerEntityTag("notor_ignores");
+    public static final TagKey<EntityType<?>> DINOSAURS = registerEntityTag("dinosaurs");
     public static final TagKey<EntityType<?>> SUBTERRANODON_FLEES = registerEntityTag("subterranodon_flees");
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
     public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");

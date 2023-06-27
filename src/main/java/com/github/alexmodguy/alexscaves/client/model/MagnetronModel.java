@@ -71,6 +71,11 @@ public class MagnetronModel extends AdvancedEntityModel<MagnetronEntity> {
             this.bob(wheel, 1, 10, true, timeRolling, rollProgress);
             this.bob(headPivot, 1, 4, true, timeRolling, rollProgress);
         }
+        if(entity.isAlive()){
+            this.wheel.showModel = true;
+        }else{
+            this.wheel.showModel = false;
+        }
         this.faceTarget(netHeadYaw, headPitch, 1, headPivot);
     }
 

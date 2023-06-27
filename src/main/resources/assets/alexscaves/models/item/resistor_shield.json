@@ -1,0 +1,44 @@
+{
+    "parent": "builtin/entity",
+    "gui_light": "front",
+    "textures": {
+        "particle": "alexscaves:block/heart_of_iron_0"
+    },
+    "display": {
+        "thirdperson_righthand": {
+            "rotation": [ 0, 90, 0 ],
+            "translation": [ 10, 6, -4 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "thirdperson_lefthand": {
+            "rotation": [ 0, 90, 0 ],
+            "translation": [ 10, 6, 12 ],
+            "scale": [ 1, 1, 1 ]
+        },
+        "firstperson_righthand": {
+            "rotation": [ 0, 180, 5 ],
+            "translation": [ -7, 2, -10 ],
+            "scale": [ 1.25, 1.25, 1.25 ]
+        },
+        "firstperson_lefthand": {
+            "rotation": [ 0, 180, 5 ],
+            "translation": [ 13, 0, -10 ],
+            "scale": [ 1.25, 1.25, 1.25 ]
+        },
+        "gui": {
+            "rotation": [ 15, -25, -15 ],
+            "translation": [ 3, 1.5, 0 ],
+            "scale": [ 0.45, 0.45, 0.45 ]
+        },
+        "fixed": {
+            "rotation": [ 0, 180, 0 ],
+            "translation": [ -4.5, 4.5, -5],
+            "scale":[ 0.55, 0.55, 0.55]
+        },
+        "ground": {
+            "rotation": [ 0, 0, 0 ],
+            "translation": [ 2, 4, 2],
+            "scale":[ 0.25, 0.25, 0.25]
+        }
+    }
+}

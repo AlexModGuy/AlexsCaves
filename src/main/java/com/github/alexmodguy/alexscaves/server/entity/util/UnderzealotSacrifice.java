@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.entity.living;
+package com.github.alexmodguy.alexscaves.server.entity.util;
 
 public interface UnderzealotSacrifice {
 

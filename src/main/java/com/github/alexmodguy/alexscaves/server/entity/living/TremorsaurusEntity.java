@@ -2,8 +2,11 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalBreedEggsGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalLayEggGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTargetClosePlayers;
 import com.github.alexmodguy.alexscaves.server.entity.ai.TremorsaurusMeleeGoal;
+import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -13,6 +16,7 @@ import com.github.alexthe666.citadel.animation.LegSolver;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -47,11 +51,12 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, ShakesScreen {
+public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, ShakesScreen, LaysEggs {
 
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
 
     public LegSolver legSolver = new LegSolver(new LegSolver.Leg(-0.45F, 0.75F, 1.0F, false), new LegSolver.Leg(-0.45F, -0.75F, 1.0F, false));
     private Animation currentAnimation;
@@ -78,9 +83,11 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new TremorsaurusMeleeGoal(this));
-        this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1.0D, 30));
-        this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
+        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D, 30));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, TremorsaurusEntity.class)));
         this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 4));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, GrottoceratopsEntity.class, 100, true, false, null));
@@ -99,6 +106,7 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         this.entityData.define(RUNNING, false);
         this.entityData.define(DANCING, false);
         this.entityData.define(HELD_MOB_ID, -1);
+        this.entityData.define(HAS_EGG, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -375,7 +383,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         return new Animation[]{ANIMATION_SNIFF, ANIMATION_SPEAK, ANIMATION_ROAR, ANIMATION_BITE, ANIMATION_SHAKE_PREY};
     }
 
-
     private float getWaterLevelForBlock(Level level, BlockPos pos) {
         BlockState state = level().getBlockState(pos);
         if (state.is(Blocks.WATER_CAULDRON)) {
@@ -387,4 +394,26 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         }
     }
 
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Egg", this.hasEgg());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setHasEgg(compound.getBoolean("Egg"));
+    }
+
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    public void setHasEgg(boolean hasEgg) {
+        this.entityData.set(HAS_EGG, hasEgg);
+    }
+
+    @Override
+    public BlockState createEggBlockState() {
+        return null;//ACBlockRegistry.TREMORSAURUS_EGG.get().defaultBlockState();
+    }
 }

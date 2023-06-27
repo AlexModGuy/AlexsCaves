@@ -1,11 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
-import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.ACMultipartEntity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
 
 public class QuarrySmasherHeadEntity extends ACMultipartEntity<QuarrySmasherEntity> {
 

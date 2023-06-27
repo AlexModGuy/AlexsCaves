@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.ai.goal.OpenDoorGoal;

@@ -1,0 +1,8 @@
+{
+	"parent": "alexscaves:block/relicheirus_egg_template",
+	"textures": {
+		"side": "alexscaves:block/egg/relicheirus_egg_side_cracked",
+		"bottom" : "alexscaves:block/egg/relicheirus_egg_bottom_cracked",
+		"top" : "alexscaves:block/egg/relicheirus_egg_top_cracked"
+	}
+}

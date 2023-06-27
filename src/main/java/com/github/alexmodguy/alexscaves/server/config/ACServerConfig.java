@@ -22,10 +22,10 @@ public class ACServerConfig {
         builder.pop();
         builder.push("vanilla-changes");
         magneticTabletLootChance = builder.comment("percent chance of bastion having a cave tablet for magnetic caves in it's loot table:").translation("magnetic_tablet_loot_chance").defineInRange("magnetic_tablet_loot_chance", 0.45D, 0.0, 1.0D);
-        primordialTabletLootChance = builder.comment("percent chance of suspicious sand having a cave tablet for primordial caves in it's loot table:").translation("primordial_tablet_loot_chance").defineInRange("primordial_tablet_loot_chance", 0.3D, 0.0, 1.0D);
+        primordialTabletLootChance = builder.comment("percent chance of suspicious sand having a cave tablet for primordial caves in it's loot table:").translation("primordial_tablet_loot_chance").defineInRange("primordial_tablet_loot_chance", 0.15D, 0.0, 1.0D);
         toxicTabletLootChance = builder.comment("percent chance of jungle temple having a cave tablet for toxic caves in it's loot table:").translation("toxic_tablet_loot_chance").defineInRange("toxic_tablet_loot_chance", 0.5D, 0.0, 1.0D);
         abyssalTabletLootChance = builder.comment("percent chance of underwater ruins having a cave tablet for abyssal chasm in it's loot table:").translation("abyssal_tablet_loot_chance").defineInRange("abyssal_tablet_loot_chance", 0.4D, 0.0, 1.0D);
-        forlornTabletLootChance = builder.comment("percent chance of mansion having a cave tablet for forlorn hollows in it's loot table:").translation("forlorn_tablet_loot_chance").defineInRange("forlorn_tablet_loot_chance", 0.65D, 0.0, 1.0D);
+        forlornTabletLootChance = builder.comment("percent chance of mansion having a cave tablet for forlorn hollows in it's loot table:").translation("forlorn_tablet_loot_chance").defineInRange("forlorn_tablet_loot_chance", 0.75D, 0.0, 1.0D);
         builder.pop();
     }
 }

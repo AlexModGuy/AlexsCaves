@@ -1,6 +1,7 @@
 {
   "type": "alexscaves:cave_tablet",
   "biome": "alexscaves:primordial_caves",
+  "replace": true,
   "conditions": [
     {
       "condition": "forge:loot_table_id",

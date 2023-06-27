@@ -1,0 +1,55 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"elements": [
+		{
+			"from": [12, 0, 3],
+			"to": [14, 5, 5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [9.5, 1, 5]},
+			"faces": {
+				"north": {"uv": [6, 2, 11, 4], "rotation": 270, "texture": "#egg"},
+				"east": {"uv": [6, 0, 11, 2], "rotation": 270, "texture": "#egg"},
+				"south": {"uv": [6, 2, 11, 0], "rotation": 270, "texture": "#egg"},
+				"west": {"uv": [11, 2, 6, 4], "rotation": 90, "texture": "#egg"},
+				"up": {"uv": [11, 0, 13, 2], "rotation": 180, "texture": "#egg"},
+				"down": {"uv": [13, 0, 15, 2], "texture": "#egg"}
+			}
+		},
+		{
+			"from": [7, 0, 6],
+			"to": [11, 8, 10],
+			"faces": {
+				"north": {"uv": [8, 8, 0, 4], "rotation": 270, "texture": "#egg"},
+				"east": {"uv": [0, 8, 8, 4], "rotation": 90, "texture": "#egg"},
+				"south": {"uv": [0, 4, 8, 8], "rotation": 90, "texture": "#egg"},
+				"west": {"uv": [0, 4, 8, 8], "rotation": 90, "texture": "#egg"},
+				"up": {"uv": [4, 8, 8, 12], "rotation": 180, "texture": "#egg"},
+				"down": {"uv": [8, 8, 12, 12], "texture": "#egg"}
+			}
+		},
+		{
+			"from": [3, 0, 3],
+			"to": [6, 7, 6],
+			"faces": {
+				"north": {"uv": [14, 12, 7, 15], "rotation": 90, "texture": "#egg"},
+				"east": {"uv": [0, 12, 7, 15], "rotation": 270, "texture": "#egg"},
+				"south": {"uv": [14, 12, 7, 15], "rotation": 90, "texture": "#egg"},
+				"west": {"uv": [0, 12, 7, 15], "rotation": 270, "texture": "#egg"},
+				"up": {"uv": [0, 0, 3, 3], "rotation": 270, "texture": "#egg"},
+				"down": {"uv": [3, 0, 6, 3], "rotation": 270, "texture": "#egg"}
+			}
+		},
+		{
+			"from": [5, 0, 12],
+			"to": [7, 5, 14],
+			"faces": {
+				"north": {"uv": [11, 2, 6, 4], "rotation": 90, "texture": "#egg"},
+				"east": {"uv": [6, 0, 11, 2], "rotation": 270, "texture": "#egg"},
+				"south": {"uv": [6, 2, 11, 4], "rotation": 270, "texture": "#egg"},
+				"west": {"uv": [6, 0, 11, 2], "rotation": 270, "texture": "#egg"},
+				"up": {"uv": [11, 0, 13, 2], "rotation": 270, "texture": "#egg"},
+				"down": {"uv": [13, 0, 15, 2], "rotation": 270, "texture": "#egg"}
+			}
+		}
+	]
+}

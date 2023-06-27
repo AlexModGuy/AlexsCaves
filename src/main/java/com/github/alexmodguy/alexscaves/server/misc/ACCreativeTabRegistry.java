@@ -35,11 +35,15 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get());
                 add(output, ACItemRegistry.RAW_AZURE_NEODYMIUM.get());
                 add(output, ACItemRegistry.AZURE_NEODYMIUM_INGOT.get());
+                add(output, ACItemRegistry.TELECORE.get());
                 add(output, ACItemRegistry.NOTOR_COMPONENT.get());
                 add(output, ACItemRegistry.HOLOCODER.get());
-                add(output, ACItemRegistry.HEAVYWEIGHT.get());
                 add(output, ACItemRegistry.FERROUSLIME_BALL.get());
+                add(output, ACItemRegistry.HEAVYWEIGHT.get());
                 add(output, ACItemRegistry.QUARRY_SMASHER.get());
+                add(output, ACItemRegistry.SEEKING_ARROW.get());
+                add(output, ACItemRegistry.GALENA_GAUNTLET.get());
+                add(output, ACItemRegistry.RESISTOR_SHIELD.get());
                 add(output, ACBlockRegistry.GALENA.get());
                 add(output, ACBlockRegistry.GALENA_STAIRS.get());
                 add(output, ACBlockRegistry.GALENA_SLAB.get());
@@ -71,10 +75,16 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.AZURE_NEODYMIUM_PILLAR.get());
                 add(output, ACBlockRegistry.BLOCK_OF_AZURE_NEODYMIUM.get());
                 add(output, ACBlockRegistry.AZURE_MAGNET.get());
+                add(output, ACBlockRegistry.HEART_OF_IRON.get());
                 add(output, ACBlockRegistry.MAGNETIC_ACTIVATOR.get());
                 add(output, ACBlockRegistry.HOLOGRAM_PROJECTOR.get());
                 add(output, ACBlockRegistry.MAGNETIC_LIGHT.get());
+                add(output, ACBlockRegistry.MAGNETIC_LEVITATION_RAIL.get());
                 add(output, ACBlockRegistry.QUARRY.get());
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.MAGNETIZING_POTION.get()));
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_MAGNETIZING_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.MAGNETIZING_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_MAGNETIZING_POTION.get()));
             })
             .build());
 
@@ -89,6 +99,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
+                add(output, ACItemRegistry.TRILOCARIS_BUCKET.get());
                 add(output, ACBlockRegistry.AMBER.get());
                 add(output, ACBlockRegistry.AMBERSOL.get());
                 add(output, ACBlockRegistry.LIMESTONE.get());
@@ -119,6 +130,11 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.CAVE_PAINTING_SUBTERRANODON_RIDE.get());
                 add(output, ACBlockRegistry.CAVE_PAINTING_TREMORSAURUS.get());
                 add(output, ACBlockRegistry.CAVE_PAINTING_TREMORSAURUS_FRIEND.get());
+                add(output, ACBlockRegistry.SUBTERRANODON_EGG.get());
+                add(output, ACBlockRegistry.VALLUMRAPTOR_EGG.get());
+                add(output, ACBlockRegistry.GROTTOCERATOPS_EGG.get());
+                add(output, ACBlockRegistry.TREMORSAURUS_EGG.get());
+                add(output, ACBlockRegistry.RELICHEIRUS_EGG.get());
                 add(output, ACBlockRegistry.PEWEN_LOG.get());
                 add(output, ACBlockRegistry.PEWEN_BRANCH.get());
                 add(output, ACBlockRegistry.PEWEN_SAPLING.get());
@@ -279,6 +295,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.COPPER_VALVE.get());
                 output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.DEEPSIGHT_POTION.get()));
                 output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.DEEPSIGHT_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
             })
             .build());
 
@@ -338,10 +356,10 @@ public class ACCreativeTabRegistry {
             })
             .build());
 
-    private static void add(CreativeModeTab.Output tab, ItemLike itemLike){
-        if(itemLike instanceof CustomTabBehavior customTabBehavior){
+    private static void add(CreativeModeTab.Output tab, ItemLike itemLike) {
+        if (itemLike instanceof CustomTabBehavior customTabBehavior) {
             customTabBehavior.fillItemCategory(tab);
-        }else{
+        } else {
             tab.accept(itemLike);
         }
     }

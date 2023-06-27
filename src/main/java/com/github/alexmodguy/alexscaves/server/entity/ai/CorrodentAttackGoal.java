@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.core.BlockPos;

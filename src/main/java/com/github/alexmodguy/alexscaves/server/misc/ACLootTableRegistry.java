@@ -13,10 +13,6 @@ public class ACLootTableRegistry {
     public static final DeferredRegister<Codec<? extends IGlobalLootModifier>> DEF_REG = DeferredRegister.create(ForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, AlexsCaves.MODID);
 
     public static final RegistryObject<Codec<CaveTabletLootModifier>> CAVE_TABLET_LOOT_MODIFIER = DEF_REG.register("cave_tablet", CaveTabletLootModifier.CODEC);
-
-    public static final ResourceLocation UNDERGROUND_CABIN_CHEST = new ResourceLocation("alexscaves:chests/abyssal_ruins");
     public static final ResourceLocation ABYSSAL_RUINS_CHEST = new ResourceLocation("alexscaves:chests/abyssal_ruins");
-
-
 
 }

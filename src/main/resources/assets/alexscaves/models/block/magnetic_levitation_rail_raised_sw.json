@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/template_rail_raised_sw",
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "rail": "alexscaves:block/magnetic_levitation_rail"
+  }
+}

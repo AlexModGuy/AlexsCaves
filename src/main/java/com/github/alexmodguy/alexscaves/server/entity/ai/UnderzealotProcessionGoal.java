@@ -1,15 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.decoration.LeashFenceKnotEntity;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
-import java.util.List;
 
 public class UnderzealotProcessionGoal extends Goal {
     public final UnderzealotEntity entity;

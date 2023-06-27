@@ -2,19 +2,15 @@ package com.github.alexmodguy.alexscaves.client.render.blockentity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.QuarryGrinderModel;
-import com.github.alexmodguy.alexscaves.server.block.CopperValveBlock;
 import com.github.alexmodguy.alexscaves.server.block.QuarryBlock;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.CopperValveBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.QuarryBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class QuarryBlockRenderer<T extends QuarryBlockEntity> implements BlockEntityRenderer<T> {

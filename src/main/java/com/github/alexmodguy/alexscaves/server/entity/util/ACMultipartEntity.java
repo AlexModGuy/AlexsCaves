@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
 import com.github.alexmodguy.alexscaves.server.message.MultipartEntityMessage;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -10,7 +9,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.entity.PartEntity;
 

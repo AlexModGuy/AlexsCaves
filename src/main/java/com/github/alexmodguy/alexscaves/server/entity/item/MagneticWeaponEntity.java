@@ -2,7 +2,9 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.google.common.collect.Multimap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -10,19 +12,29 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectUtil;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
@@ -42,7 +54,13 @@ public class MagneticWeaponEntity extends Entity {
     private float prevStrikeProgress;
     private float strikeProgress;
 
+    private float prevReturnProgress;
+    private float returnProgress;
+    private int playerUseCooldown = 0;
     private boolean comingBack = false;
+    private float destroyBlockProgress;
+    private BlockPos lastSelectedBlock;
+    private int totalMiningTime = 0;
 
     public MagneticWeaponEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -55,8 +73,9 @@ public class MagneticWeaponEntity extends Entity {
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>)NetworkHooks.getEntitySpawningPacket(this);
+        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
     }
+
     @Override
     protected void defineSynchedData() {
         this.entityData.define(ITEMSTACK, new ItemStack(Items.IRON_SWORD));
@@ -70,10 +89,11 @@ public class MagneticWeaponEntity extends Entity {
     public void tick() {
         super.tick();
         prevStrikeProgress = strikeProgress;
+        prevReturnProgress = returnProgress;
         Entity controller = getController();
         Entity target = getTarget();
         if (!level().isClientSide) {
-            if (this.comingBack || (target == null || !target.isAlive())) {
+            if (this.comingBack || controller instanceof TeletorEntity && (target == null || !target.isAlive())) {
                 this.noPhysics = true;
             } else {
                 this.noPhysics = false;
@@ -82,7 +102,7 @@ public class MagneticWeaponEntity extends Entity {
                 this.remove(RemovalReason.DISCARDED);
             }
         }
-        if ((this.getTarget() == null || comingBack) && strikeProgress > 0) {
+        if ((this.getTarget() == null || comingBack || playerUseCooldown > 0) && strikeProgress > 0) {
             strikeProgress = Math.max(0, strikeProgress - 0.1F);
         }
         if (controller instanceof TeletorEntity teletor) {
@@ -101,39 +121,206 @@ public class MagneticWeaponEntity extends Entity {
                     if (strikeProgress < 1F) {
                         strikeProgress = Math.max(0, strikeProgress + 0.35F);
                     } else {
-                        target.hurt(damageSources().mobAttack(teletor), (float) getDamageForItem(this.getItemStack()));
-                        for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(this.getItemStack()).entrySet()) {
-                            entry.getKey().doPostHurt(teletor, target, entry.getValue());
-                            entry.getKey().doPostAttack(teletor, target, entry.getValue());
-                        }
-                        teletor.doEnchantDamageEffects(teletor, target);
+                        hurtEntity(teletor, target);
                         this.comingBack = true;
                     }
                 } else if (want.length() > 32) {
                     this.comingBack = true;
                 }
             }
-            if (want.length() > 1F) {
-                want = want.normalize();
-            }
+            directMovementTowards(vec3, 0.1F);
             if (this.distanceTo(controller) < 2.5F && this.getY() > controller.getY()) {
                 this.entityData.set(IDLING, true);
                 if (this.comingBack) {
                     this.comingBack = false;
                 }
             }
-            float targetXRot = (float) (-(Mth.atan2(want.y, want.horizontalDistance()) * (double) (180F / (float) Math.PI)));
-            float targetYRot = (float) (Mth.atan2(want.x, want.z) * (double) (180F / (float) Math.PI)) - 90.0F;
-            if (isIdling()) {
-                targetXRot = this.getXRot();
-                targetYRot = this.getYRot() + 5;
+        } else if (controller instanceof Player player) {
+            Vec3 moveTo = null;
+            this.entityData.set(CONTROLLER_ID, controller.getId());
+            this.entityData.set(IDLING, false);
+            this.comingBack = !isOwnerWearingGauntlet();
+            float speed = 0.1F;
+            if(isOwnerWearingGauntlet()){
+                float maxDist = 30F;
+                BlockPos miningBlock = null;
+                HitResult hitresult = ProjectileUtil.getHitResultOnViewVector(player, Entity::canBeHitByProjectile, maxDist);
+                if(hitresult instanceof EntityHitResult entityHitResult && playerUseCooldown == 0){
+                    Entity entity = entityHitResult.getEntity();
+                    moveTo = entity.position().add(0, entity.getBbHeight() * 0.5F, 0);
+                    speed = 0.2F;
+                    if(this.distanceTo(entity) < entity.getBbWidth() + 1.5F){
+                        if (strikeProgress < 1F) {
+                            strikeProgress = Math.max(0, strikeProgress + 0.35F);
+                        } else {
+                            hurtEntity(player, entity);
+                            playerUseCooldown = 5 + random.nextInt(5);
+                        }
+                    }
+                }else{
+                    moveTo = player.getEyePosition().add(player.getViewVector(1.0F).scale(maxDist - 20F));
+                    if(hitresult.getType() == HitResult.Type.BLOCK || hitresult.getLocation().subtract(player.getEyePosition()).length() < maxDist){
+                        if(hitresult instanceof BlockHitResult blockHitResult){
+                            if(this.distanceToSqr(Vec3.atCenterOf(blockHitResult.getBlockPos())) < 2.25F){
+                                miningBlock = blockHitResult.getBlockPos();
+                            }
+                            if(!level().getBlockState(blockHitResult.getBlockPos()).isAir()){
+                                moveTo = hitresult.getLocation();
+                            }
+                        }
+                    }
+                }
+                if(miningBlock != null){
+                    if(lastSelectedBlock == null || !lastSelectedBlock.equals(miningBlock)){
+                        if(lastSelectedBlock != null){
+                            this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, -1);
+                        }
+                        lastSelectedBlock = miningBlock;
+                        destroyBlockProgress = 0.0F;
+                    }
+                    BlockState miningState = level().getBlockState(miningBlock);
+                    SoundType soundType = miningState.getSoundType();
+                    float f = miningState.getDestroySpeed(level(), miningBlock);
+                    float itemDestroySpeed = getDigSpeed(player, miningState, miningBlock);
+                    if(itemDestroySpeed > 1.0F){
+                        if(totalMiningTime % 4 == 0){
+                            this.playSound(soundType.getHitSound(), (soundType.getVolume() + 1.0F) / 8.0F, soundType.getPitch() * 0.5F);
+                        }
+                        totalMiningTime++;
+                        strikeProgress = (float) Math.abs(Math.sin(tickCount * 0.6F) * 1.2F - 0.2F);
+                        float j = itemDestroySpeed / f / (float)10;
+                        destroyBlockProgress += j;
+                        this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, (int)(destroyBlockProgress * 10F));
+                        if(destroyBlockProgress >= 1.0F && !level().isClientSide){
+                            damageItem(1);
+                            ItemStack itemStack = getItemStack();
+                            itemStack.mineBlock(this.level(), miningState, miningBlock, player);
+                            int fortuneLevel = itemStack.getEnchantmentLevel(Enchantments.BLOCK_FORTUNE);
+                            int silkTouchLevel = itemStack.getEnchantmentLevel(Enchantments.SILK_TOUCH);
+                            int exp = miningState.getExpDrop(level(), level().random, miningBlock, fortuneLevel, silkTouchLevel);
+                            net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, itemStack, InteractionHand.MAIN_HAND);
+                            boolean flag = level().destroyBlock(miningBlock, false);
+                            miningState.getBlock().playerDestroy(level(), player, miningBlock, miningState, level().getBlockEntity(miningBlock), itemStack);
+                            if (flag && exp > 0 && level() instanceof ServerLevel serverLevel){
+                                miningState.getBlock().popExperience(serverLevel, miningBlock, exp);
+                            }
+                            destroyBlockProgress = 0.0F;
+                        }
+                    }
+                }
+            }else{
+                if (returnProgress < 1F) {
+                    returnProgress = Math.min(1, returnProgress + 0.2F);
+                }
+                if(lastSelectedBlock != null){
+                    this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, -1);
+                    lastSelectedBlock = null;
+                }
+                moveTo = player.position().add(0, 1, 0);
+                if (distanceTo(controller) < 1.4) {
+                    if (!this.isRemoved() && !player.addItem(this.getItemStack())) {
+                        ItemEntity itementity = player.drop(this.getItemStack(), false);
+                        if (itementity != null) {
+                            itementity.setNoPickUpDelay();
+                            itementity.setThrower(player.getUUID());
+                        }
+                        this.remove(RemovalReason.DISCARDED);
+                    }
+                }
             }
-            this.setXRot(Mth.approachDegrees(this.getXRot(), targetXRot, 5F));
-            this.setYRot(Mth.approachDegrees(this.getYRot(), targetYRot, 5F));
-            this.setDeltaMovement(this.getDeltaMovement().add(want.scale(0.1F)));
+            if(moveTo != null){
+                directMovementTowards(moveTo, speed);
+            }
+        }
+        if(playerUseCooldown > 0){
+            playerUseCooldown--;
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.9F));
+    }
+
+    public void damageItem(int damageAmount){
+        if(getController() instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())){
+            getItemStack().hurtAndBreak(damageAmount, living, (player1) -> {
+                player1.broadcastBreakEvent(player1.getUsedItemHand());
+            });
+        }
+    }
+
+    public float getDigSpeed(Player player, BlockState state, @Nullable BlockPos pos) {
+        ItemStack stack = getItemStack();
+        float f = stack.getDestroySpeed(state);
+        if (f > 1.0F) {
+            int i = EnchantmentHelper.getBlockEfficiency(player);
+            if (i > 0 && !stack.isEmpty()) {
+                f += (float)(i * i + 1);
+            }
+        }
+
+        if (MobEffectUtil.hasDigSpeed(player)) {
+            f *= 1.0F + (float)(MobEffectUtil.getDigSpeedAmplification(player) + 1) * 0.2F;
+        }
+
+        if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
+            float f1;
+            switch (player.getEffect(MobEffects.DIG_SLOWDOWN).getAmplifier()) {
+                case 0:
+                    f1 = 0.3F;
+                    break;
+                case 1:
+                    f1 = 0.09F;
+                    break;
+                case 2:
+                    f1 = 0.0027F;
+                    break;
+                case 3:
+                default:
+                    f1 = 8.1E-4F;
+            }
+
+            f *= f1;
+        }
+
+        if (this.isEyeInFluid(FluidTags.WATER) && !EnchantmentHelper.hasAquaAffinity(player)) {
+            f /= 5.0F;
+        }
+
+        if (!this.onGround()) {
+            f /= 5.0F;
+        }
+
+        f = net.minecraftforge.event.ForgeEventFactory.getBreakSpeed(player, state, f, pos);
+        return f;
+    }
+    private void hurtEntity(LivingEntity holder, Entity target) {
+        target.hurt(damageSources().mobAttack(holder), (float) getDamageForItem(this.getItemStack()));
+        for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(this.getItemStack()).entrySet()) {
+            entry.getKey().doPostHurt(holder, target, entry.getValue());
+            entry.getKey().doPostAttack(holder, target, entry.getValue());
+        }
+        holder.doEnchantDamageEffects(holder, target);
+        damageItem(1);
+    }
+
+    private void directMovementTowards(Vec3 moveTo, float speed){
+        Vec3 want = moveTo.subtract(this.position());
+        if (want.length() > 1F) {
+            want = want.normalize();
+        }
+        float targetXRot = (float) (-(Mth.atan2(want.y, want.horizontalDistance()) * (double) (180F / (float) Math.PI)));
+        float targetYRot = (float) (-Mth.atan2(want.x, want.z) * (double) (180F / (float) Math.PI));
+        if (isIdling()) {
+            targetXRot = this.getXRot();
+            targetYRot = this.getYRot() + 5;
+        }
+        this.setXRot(Mth.approachDegrees(this.getXRot(), targetXRot, 5F));
+        this.setYRot(Mth.approachDegrees(this.getYRot(), targetYRot, 5F));
+        this.setDeltaMovement(this.getDeltaMovement().add(want.scale(speed)));
+
+    }
+
+    private boolean isOwnerWearingGauntlet() {
+        return getController() instanceof LivingEntity living && living.getUseItem().is(ACItemRegistry.GALENA_GAUNTLET.get());
     }
 
     @Override
@@ -210,4 +397,14 @@ public class MagneticWeaponEntity extends Entity {
         return prevStrikeProgress + (strikeProgress - prevStrikeProgress) * partialTick;
     }
 
+    public float getReturnProgress(float partialTick) {
+        return prevReturnProgress + (returnProgress - prevReturnProgress) * partialTick;
+    }
+
+    public Vec3 getControllerHandPos(Player controller, float partialTicks) {
+        float yBodyRot = Mth.lerp(partialTicks, controller.yBodyRotO, controller.yBodyRot);
+        Vec3 offset = new Vec3(controller.getBbWidth() * 0.75F, controller.getBbHeight() * 0.68F, controller.getBbWidth() * -0.1F).yRot((float) Math.toRadians(-yBodyRot));
+        Vec3 armViewExtra = controller.getViewVector(partialTicks).normalize().scale(0.75F);
+        return controller.getPosition(partialTicks).add(offset).add(armViewExtra);
+    }
 }

@@ -1,0 +1,6 @@
+{
+	"parent": "alexscaves:block/small_dinosaur_egg_2_template",
+	"textures": {
+		"egg": "alexscaves:block/egg/subterranodon_egg"
+	}
+}

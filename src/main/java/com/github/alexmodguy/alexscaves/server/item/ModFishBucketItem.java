@@ -16,8 +16,6 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -29,7 +27,6 @@ public class ModFishBucketItem extends MobBucketItem {
         super(fishTypeIn, fluid, () -> SoundEvents.BUCKET_EMPTY_FISH, builder.stacksTo(1));
     }
 
-    @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         EntityType fishType = getFishType();
     }

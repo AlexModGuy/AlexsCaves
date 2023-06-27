@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.NotorFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.NotorHologramGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.NotorScanGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -12,6 +13,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -262,6 +264,10 @@ public class NotorEntity extends PathfinderMob {
 
     public boolean removeWhenFarAway(double dist) {
         return !this.hasCustomName();
+    }
+
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
 
     class FlightMoveHelper extends MoveControl {

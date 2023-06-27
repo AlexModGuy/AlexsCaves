@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,6 +15,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -285,6 +287,10 @@ public class FerrouslimeEntity extends Monster {
 
     public int getExperienceReward() {
         return 2;
+    }
+
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
 
     class MoveController extends MoveControl {

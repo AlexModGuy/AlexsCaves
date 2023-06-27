@@ -6,6 +6,7 @@
   "refmap": "alexscaves.refmap.json",
   "mixins": [
     "AbstractArrowMixin",
+    "AbstractMinecartMixin",
     "EntityMixin",
     "FallingBlockEntityMixin",
     "FrogMixin",
@@ -25,7 +26,8 @@
     "client.LevelRendererMixin",
     "client.LightTextureMixin",
     "client.LiquidBlockRendererMixin",
-    "client.MinecraftMixin"
+    "client.MinecraftMixin",
+    "client.RidingMinecartSoundInstanceMixin"
   ],
   "injectors": {
     "defaultRequire": 1

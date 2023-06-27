@@ -1,9 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.QuarryBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.TeslaBulbBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;

@@ -1,0 +1,25 @@
+{
+  "variants": {
+    "shape=ascending_east": {
+      "model": "alexscaves:block/magnetic_levitation_rail_raised_ne",
+      "y": 90
+    },
+    "shape=ascending_north": {
+      "model": "alexscaves:block/magnetic_levitation_rail_raised_ne"
+    },
+    "shape=ascending_south": {
+      "model": "alexscaves:block/magnetic_levitation_rail_raised_sw"
+    },
+    "shape=ascending_west": {
+      "model": "alexscaves:block/magnetic_levitation_rail_raised_sw",
+      "y": 90
+    },
+    "shape=east_west": {
+      "model": "alexscaves:block/magnetic_levitation_rail",
+      "y": 90
+    },
+    "shape=north_south": {
+      "model": "alexscaves:block/magnetic_levitation_rail"
+    }
+  }
+}

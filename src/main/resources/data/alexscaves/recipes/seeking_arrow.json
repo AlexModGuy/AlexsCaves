@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ANA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:arrow"
+    },
+    "N": {
+      "item": "alexscaves:scarlet_neodymium_ingot"
+    }
+  },
+  "result": {
+    "item": "alexscaves:seeking_arrow",
+    "count": 8
+  }
+}

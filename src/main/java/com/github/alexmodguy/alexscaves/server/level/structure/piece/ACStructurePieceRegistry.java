@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.level.structure.ForlornBridgeStructure;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
 import net.minecraftforge.registries.DeferredRegister;

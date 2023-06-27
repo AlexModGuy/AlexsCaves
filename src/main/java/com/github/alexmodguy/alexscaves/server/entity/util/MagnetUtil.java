@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.entity.item.AbstractMovingBlockEn
 import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntity;
 import com.github.alexmodguy.alexscaves.server.message.PlayerJumpFromMagnetMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -240,7 +241,9 @@ public class MagnetUtil {
     }
 
     private static boolean isDynamicallyMagnetic(LivingEntity entity, boolean legsOnly){
-        if(legsOnly){
+        if(entity.hasEffect(ACEffectRegistry.MAGNETIZING.get())){
+            return true;
+        }else if(legsOnly){
             return entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.MAGNETIC_ITEMS);
         }else{
             for(EquipmentSlot slot : EquipmentSlot.values()){
@@ -282,8 +285,9 @@ public class MagnetUtil {
             entity.setXRot(180 - entity.getXRot());
             entity.xRotO = 180 - entity.xRotO;
         }else if(direction != Direction.DOWN){
-            entity.setXRot(entity.getXRot() + 90);
-            entity.xRotO = entity.xRotO + 90;
+            float f = entity instanceof Player ? 90 : 0;
+            entity.setXRot(entity.getXRot() + f);
+            entity.xRotO = entity.xRotO + f;
 
         }
     }

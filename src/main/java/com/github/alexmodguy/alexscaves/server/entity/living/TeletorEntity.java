@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +14,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -260,6 +262,10 @@ public class TeletorEntity extends Monster {
             }
             magneticWeapon.remove(RemovalReason.KILLED);
         }
+    }
+
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
+        return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
 
     private class MeleeGoal extends Goal {

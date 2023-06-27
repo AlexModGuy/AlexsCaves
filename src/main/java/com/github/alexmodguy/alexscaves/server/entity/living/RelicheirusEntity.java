@@ -3,9 +3,8 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.RelicheirusMeleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.RelicheirusNibblePewensGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.RelicheirusPushTreesGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -14,6 +13,7 @@ import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -46,12 +46,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox {
+public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, LaysEggs {
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(-0.15F, 0.6F, 0.5F, 0.75F, 1);
     private static final EntityDataAccessor<Integer> PECK_Y = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PUSHING_TREES_FOR = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.BOOLEAN);
     private Animation currentAnimation;
     private int animationTick;
     public static final Animation ANIMATION_SPEAK_1 = Animation.create(13);
@@ -81,6 +82,7 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         this.entityData.define(HELD_MOB_ID, -1);
         this.entityData.define(PUSHING_TREES_FOR, 0);
         this.entityData.define(DANCING, false);
+        this.entityData.define(HAS_EGG, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -90,11 +92,13 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new RelicheirusMeleeGoal(this));
-        this.goalSelector.addGoal(2, new RelicheirusPushTreesGoal(this, 25));
-        this.goalSelector.addGoal(3, new RelicheirusNibblePewensGoal(this, 20));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D, 45));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
+        this.goalSelector.addGoal(4, new RelicheirusPushTreesGoal(this, 25));
+        this.goalSelector.addGoal(5, new RelicheirusNibblePewensGoal(this, 20));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D, 45));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, RelicheirusEntity.class)));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TrilocarisEntity.class, 100, true, false, null));
     }
@@ -104,7 +108,9 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+        if(!this.isBaby()){
+            this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+        }
     }
 
     protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
@@ -376,5 +382,28 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         Vec3 delta = new Vec3(vec32.x * 0.1F, 0F, vec32.z * 0.1F);
         this.setDeltaMovement(this.getDeltaMovement().add(delta));
         return this.distanceToSqr(vec31.x, this.getY(), vec31.z) < 4.0D && Mth.degreesDifferenceAbs(this.getYRot(), dir.toYRot()) < 7;
+    }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("Egg", this.hasEgg());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setHasEgg(compound.getBoolean("Egg"));
+    }
+
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    public void setHasEgg(boolean hasEgg) {
+        this.entityData.set(HAS_EGG, hasEgg);
+    }
+
+    @Override
+    public BlockState createEggBlockState() {
+        return null;//ACBlockRegistry.RELICHEIRUS_EGG.get().defaultBlockState();
     }
 }

@@ -1,26 +1,16 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotSacrifice;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
+import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Comparator;
 import java.util.EnumSet;
-import java.util.List;
-import java.util.stream.Stream;
 
 public class UnderzealotSacrificeGoal extends Goal {
 

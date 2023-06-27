@@ -112,8 +112,8 @@
     "water_ambient": [
       {
         "type": "alexscaves:trilocaris",
-        "maxCount": 4,
-        "minCount": 2,
+        "maxCount": 2,
+        "minCount": 1,
         "weight": 15
       }
     ],
@@ -122,14 +122,14 @@
       {
         "type": "alexscaves:subterranodon",
         "maxCount": 5,
-        "minCount": 3,
-        "weight": 10
+        "minCount": 5,
+        "weight": 8
       },
       {
         "type": "alexscaves:vallumraptor",
         "maxCount": 7,
         "minCount": 6,
-        "weight": 10
+        "weight": 8
       },
       {
         "type": "alexscaves:grottoceratops",

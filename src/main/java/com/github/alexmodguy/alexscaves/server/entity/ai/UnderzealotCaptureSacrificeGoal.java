@@ -1,8 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotSacrifice;
 import com.github.alexmodguy.alexscaves.server.entity.living.VesperEntity;
+import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;

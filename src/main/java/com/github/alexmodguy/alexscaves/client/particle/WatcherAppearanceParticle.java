@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
 import com.github.alexmodguy.alexscaves.client.model.WatcherModel;
-import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,8 +16,6 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.ForgeRenderTypes;
 
 public class WatcherAppearanceParticle extends Particle {

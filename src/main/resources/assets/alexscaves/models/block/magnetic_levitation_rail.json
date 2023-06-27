@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/rail_flat",
+  "render_type": "cutout",
+  "ambientocclusion": false,
+  "textures": {
+    "rail": "alexscaves:block/magnetic_levitation_rail"
+  }
+}

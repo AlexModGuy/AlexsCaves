@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "hatch=0": [
+      {
+        "model": "alexscaves:block/grottoceratops_egg"
+      }
+    ],
+    "hatch=1": [
+      {
+        "model": "alexscaves:block/grottoceratops_egg_cracked"
+      }
+    ],
+    "hatch=2": [
+      {
+        "model": "alexscaves:block/grottoceratops_egg_very_cracked"
+      }
+    ]
+  }
+}

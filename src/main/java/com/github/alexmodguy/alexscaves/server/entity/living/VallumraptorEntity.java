@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.ChestThief;
+import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.TargetsDroppedItems;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -55,7 +56,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems, IDancesToJukebox {
+public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems, IDancesToJukebox, LaysEggs {
 
     public static final Animation ANIMATION_CALL_1 = Animation.create(15);
     public static final Animation ANIMATION_CALL_2 = Animation.create(25);
@@ -70,6 +71,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEAPING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ELDER = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> PUZZLED_HEAD_ROT = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private Animation currentAnimation;
@@ -111,14 +113,16 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 60, 8));
-        this.goalSelector.addGoal(2, new FleeGoal());
-        this.goalSelector.addGoal(3, new VallumraptorMeleeGoal(this));
-        this.goalSelector.addGoal(4, new VallumraptorWanderGoal(this, 1D, 25));
-        this.goalSelector.addGoal(5, new VallumraptorOpenDoorGoal(this));
-        this.goalSelector.addGoal(6, new AnimalLootChestsGoal(this, 20));
-        this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(2, new AnimalLayEggGoal(this, 40, 1));
+        this.goalSelector.addGoal(3, new AnimalJoinPackGoal(this, 60, 8));
+        this.goalSelector.addGoal(4, new FleeGoal());
+        this.goalSelector.addGoal(5, new VallumraptorMeleeGoal(this));
+        this.goalSelector.addGoal(6, new VallumraptorWanderGoal(this, 1D, 25));
+        this.goalSelector.addGoal(8, new VallumraptorOpenDoorGoal(this));
+        this.goalSelector.addGoal(9, new AnimalLootChestsGoal(this, 20));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new MobTargetItemGoal(this, true) {
             public void start() {
                 super.start();
@@ -154,6 +158,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.entityData.define(ELDER, false);
         this.entityData.define(RUNNING, false);
         this.entityData.define(DANCING, false);
+        this.entityData.define(HAS_EGG, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -400,12 +405,14 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
+        this.setHasEgg(compound.getBoolean("Egg"));
         this.setElder(compound.getBoolean("Elder"));
     }
 
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
+        compound.putBoolean("Egg", this.hasEgg());
         compound.putBoolean("Elder", this.isElder());
     }
 
@@ -538,6 +545,19 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
             e.getItem().shrink(1);
             eatHeldItemIn = 200;
         }
+    }
+
+    public boolean hasEgg() {
+        return this.entityData.get(HAS_EGG);
+    }
+
+    public void setHasEgg(boolean hasEgg) {
+        this.entityData.set(HAS_EGG, hasEgg);
+    }
+
+    @Override
+    public BlockState createEggBlockState() {
+        return null;//ACBlockRegistry.VALLUMRAPTOR_EGG.get().defaultBlockState().setValue(MultipleDinosaurEggsBlock.EGGS, 1 + random.nextInt(3));
     }
 
     private class FleeGoal extends Goal {

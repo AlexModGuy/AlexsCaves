@@ -1,12 +1,9 @@
 package com.github.alexmodguy.alexscaves.compat.jei;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mezz.jei.api.gui.drawable.IDrawable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SpelunkeryTableDrawable implements IDrawable {

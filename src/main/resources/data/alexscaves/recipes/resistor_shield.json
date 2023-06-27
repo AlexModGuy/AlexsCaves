@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    " H ",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:azure_neodymium_ingot"
+    },
+    "H": {
+      "item": "alexscaves:heart_of_iron"
+    },
+    "S": {
+      "item": "alexscaves:scarlet_neodymium_ingot"
+    }
+  },
+  "result": {
+    "item": "alexscaves:resistor_shield"
+  }
+}
