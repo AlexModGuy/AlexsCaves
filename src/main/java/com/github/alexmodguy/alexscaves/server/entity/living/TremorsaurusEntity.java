@@ -1,19 +1,18 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalBreedEggsGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalLayEggGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTargetClosePlayers;
 import com.github.alexmodguy.alexscaves.server.entity.ai.TremorsaurusMeleeGoal;
-import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolver;
-import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -25,7 +24,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -41,7 +39,6 @@ import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -51,13 +48,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, ShakesScreen, LaysEggs {
+public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntity, ShakesScreen {
 
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
-
     public LegSolver legSolver = new LegSolver(new LegSolver.Leg(-0.45F, 0.75F, 1.0F, false), new LegSolver.Leg(-0.45F, -0.75F, 1.0F, false));
     private Animation currentAnimation;
     private int animationTick;
@@ -66,9 +60,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
     private int lastScareTimestamp = 0;
     private boolean hasRunningAttributes = false;
     private int roarCooldown = 0;
-    public float prevDanceProgress;
-    public float danceProgress;
-    private BlockPos jukeboxPosition;
     public static final Animation ANIMATION_SNIFF = Animation.create(30);
     public static final Animation ANIMATION_SPEAK = Animation.create(15);
     public static final Animation ANIMATION_ROAR = Animation.create(55);
@@ -77,7 +68,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
 
     public TremorsaurusEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
-        maxUpStep = 1.1F;
     }
 
     protected void registerGoals() {
@@ -96,17 +86,11 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 
-    public static boolean checkPrehistoricSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
-        return levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty();
-    }
-
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(RUNNING, false);
-        this.entityData.define(DANCING, false);
         this.entityData.define(HELD_MOB_ID, -1);
-        this.entityData.define(HAS_EGG, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -116,20 +100,9 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
     public void tick() {
         super.tick();
         prevScreenShakeAmount = screenShakeAmount;
-        prevDanceProgress = danceProgress;
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         this.legSolver.update(this, this.yBodyRot, this.getScale());
         AnimationHandler.INSTANCE.updateAnimations(this);
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
-            this.setDancing(false);
-            this.jukeboxPosition = null;
-        }
-        if (isDancing() && danceProgress < 5F) {
-            danceProgress++;
-        }
-        if (!isDancing() && danceProgress > 0F) {
-            danceProgress--;
-        }
         if (screenShakeAmount > 0) {
             screenShakeAmount = Math.max(0, screenShakeAmount - 0.34F);
         }
@@ -249,20 +222,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
     public void setRunning(boolean bool) {
         this.entityData.set(RUNNING, bool);
     }
-
-    public boolean isDancing() {
-        return this.entityData.get(DANCING);
-    }
-
-    public void setDancing(boolean bool) {
-        this.entityData.set(DANCING, bool);
-    }
-
-    @Override
-    public void setJukeboxPos(BlockPos blockPos) {
-        this.jukeboxPosition = blockPos;
-    }
-
     public void setHeldMobId(int i) {
         this.entityData.set(HELD_MOB_ID, i);
     }
@@ -286,10 +245,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
 
     public float getScreenShakeAmount(float partialTicks) {
         return prevScreenShakeAmount + (screenShakeAmount - prevScreenShakeAmount) * partialTicks;
-    }
-
-    public float getDanceProgress(float partialTicks) {
-        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
     }
 
     public Vec3 getShakePreyPos() {
@@ -320,12 +275,6 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
 
     public void travel(Vec3 vec3d) {
         if (this.getAnimation() == ANIMATION_ROAR || this.getAnimation() == ANIMATION_SHAKE_PREY) {
-            vec3d = Vec3.ZERO;
-        }
-        if (this.isDancing()) {
-            if (this.getNavigation().getPath() != null) {
-                this.getNavigation().stop();
-            }
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);
@@ -404,16 +353,12 @@ public class TremorsaurusEntity extends Animal implements IAnimatedEntity, IDanc
         this.setHasEgg(compound.getBoolean("Egg"));
     }
 
-    public boolean hasEgg() {
-        return this.entityData.get(HAS_EGG);
-    }
-
-    public void setHasEgg(boolean hasEgg) {
-        this.entityData.set(HAS_EGG, hasEgg);
-    }
-
     @Override
     public BlockState createEggBlockState() {
-        return null;//ACBlockRegistry.TREMORSAURUS_EGG.get().defaultBlockState();
+        return ACBlockRegistry.TREMORSAURUS_EGG.get().defaultBlockState();
+    }
+
+    public float getStepHeight() {
+        return 1.1F;
     }
 }

@@ -4,16 +4,12 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
-import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
-import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -21,7 +17,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -39,20 +34,16 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, LaysEggs {
+public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity {
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(-0.15F, 0.6F, 0.5F, 0.75F, 1);
     private static final EntityDataAccessor<Integer> PECK_Y = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PUSHING_TREES_FOR = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(RelicheirusEntity.class, EntityDataSerializers.BOOLEAN);
     private Animation currentAnimation;
     private int animationTick;
     public static final Animation ANIMATION_SPEAK_1 = Animation.create(13);
@@ -67,12 +58,8 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
     public static final Animation ANIMATION_MELEE_SLASH_2 = Animation.create(20);
     private float prevRaiseArmsAmount = 0;
     private float raiseArmsAmount = 0;
-    public float prevDanceProgress;
-    public float danceProgress;
-    private BlockPos jukeboxPosition;
     public RelicheirusEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
-        maxUpStep = 1.1F;
     }
 
     @Override
@@ -81,8 +68,6 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         this.entityData.define(PECK_Y, 0);
         this.entityData.define(HELD_MOB_ID, -1);
         this.entityData.define(PUSHING_TREES_FOR, 0);
-        this.entityData.define(DANCING, false);
-        this.entityData.define(HAS_EGG, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -101,10 +86,6 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, RelicheirusEntity.class)));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TrilocarisEntity.class, 100, true, false, null));
-    }
-
-    public static boolean checkPrehistoricSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
-        return levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty();
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -137,40 +118,8 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         }
     }
 
-    public float getDanceProgress(float partialTicks) {
-        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
-    }
-
-    public boolean isDancing() {
-        return this.entityData.get(DANCING);
-    }
-
-    public void setDancing(boolean bool) {
-        this.entityData.set(DANCING, bool);
-    }
-
-    @Override
-    public void setJukeboxPos(BlockPos blockPos) {
-        this.jukeboxPosition = blockPos;
-    }
-
-    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
-        this.onClientPlayMusicDisc(this.getId(), pos, playing);
-    }
-
     public void tick() {
         super.tick();
-        prevDanceProgress = danceProgress;
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
-            this.setDancing(false);
-            this.jukeboxPosition = null;
-        }
-        if (isDancing() && danceProgress < 5F) {
-            danceProgress++;
-        }
-        if (!isDancing() && danceProgress > 0F) {
-            danceProgress--;
-        }
         if (this.getAnimation() != ANIMATION_EAT_TREE) {
             this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
         }
@@ -384,26 +333,12 @@ public class RelicheirusEntity extends Animal implements IAnimatedEntity, IDance
         return this.distanceToSqr(vec31.x, this.getY(), vec31.z) < 4.0D && Mth.degreesDifferenceAbs(this.getYRot(), dir.toYRot()) < 7;
     }
 
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Egg", this.hasEgg());
-    }
-
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.setHasEgg(compound.getBoolean("Egg"));
-    }
-
-    public boolean hasEgg() {
-        return this.entityData.get(HAS_EGG);
-    }
-
-    public void setHasEgg(boolean hasEgg) {
-        this.entityData.set(HAS_EGG, hasEgg);
-    }
-
     @Override
     public BlockState createEggBlockState() {
-        return null;//ACBlockRegistry.RELICHEIRUS_EGG.get().defaultBlockState();
+        return ACBlockRegistry.RELICHEIRUS_EGG.get().defaultBlockState();
+    }
+
+    public float getStepHeight() {
+        return 1.1F;
     }
 }

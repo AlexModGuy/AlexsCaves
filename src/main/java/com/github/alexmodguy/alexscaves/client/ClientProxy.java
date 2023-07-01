@@ -17,6 +17,8 @@ import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRe
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
@@ -87,6 +89,7 @@ public class ClientProxy extends CommonProxy {
 
     private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true", "alexscaves:abyssmarine_", "alexscaves:peering_coprolith#", "alexscaves:forsaken_idol#", "alexscaves:magnetic_light#");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
+    public static final ResourceLocation SUBTERRANODON_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/subterranodon_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation WATCHER_EFFECT = new ResourceLocation(AlexsCaves.MODID, "textures/misc/watcher_effect.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
@@ -192,6 +195,9 @@ public class ClientProxy extends CommonProxy {
         });
         ItemProperties.register(ACItemRegistry.HOLOCODER.get(), new ResourceLocation("bound"), (stack, level, living, j) -> {
             return HolocoderItem.isBound(stack) ? 1.0F : 0.0F;
+        });
+        ItemProperties.register(ACItemRegistry.DINOSAUR_NUGGET.get(), new ResourceLocation("nugget"), (stack, level, living, j) -> {
+            return (stack.getCount() % 4) / 4F;
         });
         ItemProperties.register(ACItemRegistry.MAGIC_CONCH.get(), new ResourceLocation("tooting"), (stack, level, living, j) -> {
             return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
@@ -377,7 +383,11 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void onPreRenderGuiOverlay(RenderGuiOverlayEvent.Pre event) {
-        if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity && (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.ITEM_NAME.id()))) {
+        Entity player = Minecraft.getInstance().getCameraEntity();
+        if (player instanceof WatcherEntity && (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.ITEM_NAME.id()))) {
+            event.setCanceled(true);
+        }
+        if(player != null && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter() && event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id())){
             event.setCanceled(true);
         }
     }
@@ -419,6 +429,16 @@ public class ClientProxy extends CommonProxy {
                 rightHandGalenaGauntletUseProgress = Math.max(rightHandGalenaGauntletUseProgress, GalenaGauntletItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
             }
         }
+        if(player.isPassenger() && player.getVehicle() instanceof SubterranodonEntity subterranodon){
+            float flight = subterranodon.getFlyProgress(f) - subterranodon.getHoverProgress(f);
+            if(flight > 0.0F){
+                event.getModel().leftArm.xRot = -(float) Math.toRadians(180F) * flight;
+                event.getModel().leftArm.zRot = (float) Math.toRadians(-10F) * flight;
+                event.getModel().rightArm.xRot = -(float) Math.toRadians(180F) * flight;
+                event.getModel().rightArm.zRot = (float) Math.toRadians(10F) * flight;
+            }
+            event.setResult(Event.Result.ALLOW);
+        }
         if (leftHandResistorShieldUseProgress > 0.0F) {
             float useProgress = Math.min(10F, leftHandResistorShieldUseProgress) / 10F;
             float useProgressTurn = Math.min(useProgress * 4F, 1F);
@@ -459,6 +479,18 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void onPostRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
         Player player = getClientSidePlayer();
+        if (event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter()) {
+            int screenWidth = event.getWindow().getGuiScaledWidth();
+            int screenHeight = event.getWindow().getGuiScaledHeight();
+            int j = screenWidth / 2 - 22; //AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorX.get();
+            int k = screenHeight - 60;/// AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get();
+            float f = dinosaur.getMeterAmount();
+            float invProgress = 1 - f;
+            event.getGuiGraphics().pose().pushPose();
+            event.getGuiGraphics().blit(SUBTERRANODON_HUD_OVERLAYS, j, k, 50, 0, 31, 43, 31, 64, 64);
+            event.getGuiGraphics().blit(SUBTERRANODON_HUD_OVERLAYS, j, k, 50, 0, 0, 43, Math.round(31 * invProgress), 64, 64);
+            event.getGuiGraphics().pose().popPose();
+        }
         if (event.getOverlay().id().equals(VanillaGuiOverlay.PLAYER_HEALTH.id()) && Minecraft.getInstance().gameMode.canHurtPlayer() && Minecraft.getInstance().getCameraEntity() instanceof Player && player.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
             int leftHeight = 39;
             int width = event.getWindow().getGuiScaledWidth();

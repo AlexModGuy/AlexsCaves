@@ -85,7 +85,6 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
 
     public ForsakenEntity(EntityType entityType, Level level) {
         super(entityType, level);
-        this.maxUpStep = 1.1F;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -165,12 +164,10 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         }
         if (isRunning() && !hasRunningAttributes) {
             hasRunningAttributes = true;
-            maxUpStep = 1F;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.45D);
         }
         if (!isRunning() && hasRunningAttributes) {
             hasRunningAttributes = false;
-            maxUpStep = 0.6F;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         }
         boolean raisingLeftArm = this.isRaisingArm(true);
@@ -465,4 +462,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         return target.getType().is(ACTagRegistry.WEAK_TO_FORSAKEN_SONIC_ATTACK) ? 50.0F : 5.0F;
     }
 
+    public float getStepHeight() {
+        return hasRunningAttributes ? 1.1F : 0.6F;
+    }
 }

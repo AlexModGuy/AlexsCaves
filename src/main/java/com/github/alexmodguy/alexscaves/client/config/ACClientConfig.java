@@ -12,6 +12,10 @@ public class ACClientConfig {
     public final ForgeConfigSpec.BooleanValue biomeSkyOverrides;
     public final ForgeConfigSpec.BooleanValue ambersolShines;
     public final ForgeConfigSpec.BooleanValue radiationGlowEffect;
+
+    public final ForgeConfigSpec.IntValue subterranodonIndicatorX;
+    public final ForgeConfigSpec.IntValue subterranodonIndicatorY;
+
     public ACClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("visuals");
         screenShaking = builder.comment("whether to shake the screen from tremorsaurus stomping, nuclear explosions, etc.").translation("screen_shaking").define("screen_shaking", true);
@@ -22,6 +26,8 @@ public class ACClientConfig {
         biomeSkyOverrides = builder.comment("true if some biomes, such as primordial caves, have an always well-lit sky when in them. May conflict with shaders.").translation("biome_sky_overrides").define("biome_sky_overrides", true);
         ambersolShines = builder.comment("true if ambersol block renders with rays of light emerging from it.").translation("ambersol_shines").define("ambersol_shines", true);
         radiationGlowEffect = builder.comment("true if irradiation makes mobs glow. May conflict with shaders.").translation("radiation_glow_effect").define("radiation_glow_effect", true);
+        subterranodonIndicatorX = builder.comment("determines how far to the left the subterranodon flight indicator renders on the screen when mounted. Negative numbers will render it on the right. ").translation("subterranodon_indicator_x").defineInRange("subterranodon_indicator_x", 123, -12000, 12000);
+        subterranodonIndicatorY = builder.comment("determines how far from bottom the subterranodon flight indicator renders on the screen when mounted.").translation("subterranodon_indicator_y").defineInRange("subterranodon_indicator_y", 12, -12000, 12000);
         builder.pop();
 
     }

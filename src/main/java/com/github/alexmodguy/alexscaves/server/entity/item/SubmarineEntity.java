@@ -322,7 +322,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             moveFunction.accept(passenger, this.getX() + seatOffset.x, d0, this.getZ() + seatOffset.z);
             living.setAirSupply(Math.min(living.getAirSupply() + 2, living.getMaxAirSupply()));
         } else {
-            super.positionRider(passenger);
+            super.positionRider(passenger, moveFunction);
         }
         if(this.getDamageLevel() >= 4){
             passenger.stopRiding();

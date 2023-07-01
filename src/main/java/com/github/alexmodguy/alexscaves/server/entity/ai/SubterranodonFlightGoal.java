@@ -39,7 +39,7 @@ public class SubterranodonFlightGoal extends Goal {
                 }
             }
             if (!flag) {
-                if (entity.getRandom().nextInt(45) != 0 && !entity.isFlying()) {
+                if (entity.getRandom().nextInt(70) != 0 && !entity.isFlying()) {
                     return false;
                 }
                 if (entity.onGround()) {

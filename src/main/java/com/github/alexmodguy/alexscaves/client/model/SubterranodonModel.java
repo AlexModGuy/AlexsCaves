@@ -4,6 +4,7 @@ package com.github.alexmodguy.alexscaves.client.model;// Made with Blockbench 4.
 
 
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
@@ -11,6 +12,8 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 
 public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity> {
 	private final AdvancedModelBox body;
@@ -200,7 +203,8 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		this.flap(lwing, 0.5F, 1F, true, 1F, -0.2F, ageInTicks, flapAmount);
 		this.flap(rwingTip, 0.5F, 0.5F, false, 0F, -0.2F, ageInTicks, flapAmount);
 		this.flap(lwingTip, 0.5F, 0.5F, true, 0F, -0.2F, ageInTicks, flapAmount);
-		this.bob(body, 0.5F, 4, false, ageInTicks, flapAmount);
+		float bodyFlightBob = ACMath.walkValue(ageInTicks, flapAmount, 0.5F, 0F, 4, false);
+		this.body.rotationPointY -= bodyFlightBob;
 		this.bob(neck, 0.5F, -1, false, ageInTicks, flapAmount);
 		this.walk(neck, 0.5F, 0.1F, false, 1F, 0F, ageInTicks, flyProgress);
 		this.bob(neck, 0.1F, 0.5F, false, ageInTicks, 1);
@@ -216,8 +220,32 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		tailTip.rotateAngleY += tailYaw * 0.2F;
 		lleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
 		rleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
+		if(entity.isVehicle()){
+			this.walk(lleg, 0.3F, 0.2F, true, 1F, -0.1F, ageInTicks, flyProgress);
+			this.walk(rleg, 0.3F, 0.2F, true, 1F, -0.1F, ageInTicks, flyProgress);
+			this.rleg.rotationPointY += bodyFlightBob * 0.25F;
+			this.rleg.rotationPointZ += bodyFlightBob * 0.25F;
+			this.lleg.rotationPointY += bodyFlightBob * 0.25F;
+			this.lleg.rotationPointZ += bodyFlightBob * 0.25F;
+
+		}
 	}
 
+	public Vec3 getLegPosition(boolean right, Vec3 offsetIn) {
+		PoseStack translationStack = new PoseStack();
+		translationStack.pushPose();
+		body.translateAndRotate(translationStack);
+		if(right){
+			rleg.translateAndRotate(translationStack);
+		}else{
+			lleg.translateAndRotate(translationStack);
+		}
+		Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
+		armOffsetVec.mul(translationStack.last().pose());
+		Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());
+		translationStack.popPose();
+		return vec3;
+	}
 
 	public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
 		if (this.young) {

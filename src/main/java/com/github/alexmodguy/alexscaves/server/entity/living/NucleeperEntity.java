@@ -47,7 +47,6 @@ public class NucleeperEntity extends Monster {
 
     public NucleeperEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-        this.maxUpStep = 1.1F;
     }
 
     protected void registerGoals() {
@@ -186,8 +185,12 @@ public class NucleeperEntity extends Monster {
         float f1 = (float) Mth.length(this.getX() - this.xo, flying ? this.getY() - this.yo : 0, this.getZ() - this.zo);
         float f2 = Math.min(f1 * 8.0F, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
-
     }
+
+    public float getStepHeight() {
+        return 1.1F;
+    }
+
     private class MeleeGoal extends Goal {
 
         public MeleeGoal() {

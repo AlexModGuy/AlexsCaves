@@ -1,8 +1,7 @@
 {
   "values": [
     "#alexscaves:underzealot_light_sources",
-    "minecraft:campfire",
-    "minecraft:soul_campfire",
+    "#minecraft:campfires",
     "minecraft:glowstone",
     "minecraft:shroomlight",
     "minecraft:ochre_froglight",

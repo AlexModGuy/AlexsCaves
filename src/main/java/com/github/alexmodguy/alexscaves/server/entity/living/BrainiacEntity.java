@@ -57,7 +57,6 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
     public BrainiacEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-        this.maxUpStep = 1.1F;
     }
 
     @Override
@@ -123,9 +122,9 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
             }
             if (this.getAnimation() == ANIMATION_THROW_BARREL && this.getAnimationTick() >= 15) {
                 LivingEntity attackTarget = this.getTarget();
-                if(attackTarget != null && attackTarget.isAlive()){
+                if (attackTarget != null && attackTarget.isAlive()) {
                     this.setHasBarrel(false);
-                    Vec3 hand = new Vec3( 0.65F, -0.3F, 0.9F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYHeadRot() * ((float) Math.PI / 180F));
+                    Vec3 hand = new Vec3(0.65F, -0.3F, 0.9F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYHeadRot() * ((float) Math.PI / 180F));
                     Vec3 handOnBody = this.getEyePosition().add(hand);
                     ThrownWasteDrumEntity wasteDrumEntity = ACEntityRegistry.THROWN_WASTE_DRUM.get().create(level());
                     wasteDrumEntity.setPos(handOnBody);
@@ -141,22 +140,22 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
             if (tongueTarget != null && tongueTarget.isAlive()) {
                 lastTongueDistance = this.distanceTo(tongueTarget) - 0.5F;
             }
-        }else{
+        } else {
             LivingEntity attackTarget = this.getTarget();
-            if(this.getLickTicks() > 0){
+            if (this.getLickTicks() > 0) {
                 this.setLickTicks(this.getLickTicks() - 1);
-                if(attackTarget != null && attackTarget.isAlive() && this.hasLineOfSight(attackTarget)){
+                if (attackTarget != null && attackTarget.isAlive() && this.hasLineOfSight(attackTarget)) {
                     this.setTongueTargetId(attackTarget.getId());
                     this.lookAt(attackTarget, 50, 50);
-                }else{
+                } else {
                     this.setTongueTargetId(-1);
                 }
-            }else{
+            } else {
                 this.setTongueTargetId(-1);
             }
         }
-        if(tongueTarget instanceof LivingEntity living){
-            if(this.shootTongueAmount >= 5F) {
+        if (tongueTarget instanceof LivingEntity living) {
+            if (this.shootTongueAmount >= 5F) {
                 postAttackEffect(living);
                 tongueTarget.hurt(damageSources().mobAttack(this), 4);
                 living.knockback(0.3D, living.getX() - this.getX(), tongueTarget.getZ() - this.getZ());
@@ -232,14 +231,14 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
     protected void dropEquipment() {
         super.dropEquipment();
-        if(this.hasBarrel()){
+        if (this.hasBarrel()) {
             this.spawnAtLocation(new ItemStack(ACBlockRegistry.WASTE_DRUM.get()));
         }
     }
 
 
-    public void postAttackEffect(LivingEntity entity){
-        if(entity != null && entity.isAlive()){
+    public void postAttackEffect(LivingEntity entity) {
+        if (entity != null && entity.isAlive()) {
             entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 400));
         }
     }
@@ -264,6 +263,10 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         this.entityData.set(HAS_BARREL, barrel);
     }
 
+    public float getStepHeight() {
+        return 1.1F;
+    }
+
     private class MeleeGoal extends Goal {
 
         private int tongueCooldown = 0;
@@ -281,29 +284,29 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         @Override
         public void tick() {
             LivingEntity target = BrainiacEntity.this.getTarget();
-            if(tongueCooldown > 0){
+            if (tongueCooldown > 0) {
                 tongueCooldown--;
             }
             if (target != null && target.isAlive()) {
                 double dist = BrainiacEntity.this.distanceTo(target);
                 if (BrainiacEntity.this.getAnimation() == NO_ANIMATION) {
-                    if(BrainiacEntity.this.getHealth() < BrainiacEntity.this.getMaxHealth() * 0.5F && BrainiacEntity.this.hasBarrel() && BrainiacEntity.this.random.nextInt(20) == 0){
+                    if (BrainiacEntity.this.getHealth() < BrainiacEntity.this.getMaxHealth() * 0.5F && BrainiacEntity.this.hasBarrel() && BrainiacEntity.this.random.nextInt(20) == 0) {
                         BrainiacEntity.this.setAnimation(ANIMATION_DRINK_BARREL);
                     }
                     BrainiacEntity.this.getNavigation().moveTo(target, 1.2D);
-                    if(BrainiacEntity.this.hasLineOfSight(target)){
-                        if(BrainiacEntity.this.getHealth() < BrainiacEntity.this.getMaxHealth() * 0.75F && dist < 20 && BrainiacEntity.this.hasBarrel() && BrainiacEntity.this.random.nextInt(30) == 0){
+                    if (BrainiacEntity.this.hasLineOfSight(target)) {
+                        if (BrainiacEntity.this.getHealth() < BrainiacEntity.this.getMaxHealth() * 0.75F && dist < 20 && BrainiacEntity.this.hasBarrel() && BrainiacEntity.this.random.nextInt(30) == 0) {
                             BrainiacEntity.this.setAnimation(ANIMATION_THROW_BARREL);
                         }
                         if (dist < BrainiacEntity.this.getBbWidth() + target.getBbWidth() + 2.0D) {
                             BrainiacEntity.this.setAnimation(BrainiacEntity.this.random.nextBoolean() ? ANIMATION_SMASH : ANIMATION_BITE);
                             return;
                         }
-                        if(tongueCooldown == 0 && BrainiacEntity.this.random.nextInt(16) == 0 && dist < 25){
+                        if (tongueCooldown == 0 && BrainiacEntity.this.random.nextInt(16) == 0 && dist < 25) {
                             BrainiacEntity.this.setLickTicks(20);
                             tongueCooldown = 10 + BrainiacEntity.this.random.nextInt(10);
                         }
-                    }else{
+                    } else {
                         BrainiacEntity.this.setLickTicks(0);
                     }
                 }
@@ -346,7 +349,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
         protected void moveMobToBlock() {
             BlockPos pos = getMoveToTarget();
-            this.mob.getNavigation().moveTo((double)((float)pos.getX()) + 0.5D, (double)(pos.getY() + 1), (double)((float)pos.getZ()) + 0.5D, this.speedModifier);
+            this.mob.getNavigation().moveTo((double) ((float) pos.getX()) + 0.5D, (double) (pos.getY() + 1), (double) ((float) pos.getZ()) + 0.5D, this.speedModifier);
         }
 
         @Override
@@ -369,15 +372,15 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         @Override
         public void tick() {
             super.tick();
-            if(blockPos != null){
+            if (blockPos != null) {
                 BrainiacEntity.this.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(blockPos));
                 if (this.isReachedTarget()) {
                     BrainiacEntity.this.getNavigation().stop();
-                    if(BrainiacEntity.this.getAnimation() == NO_ANIMATION){
+                    if (BrainiacEntity.this.getAnimation() == NO_ANIMATION) {
                         BrainiacEntity.this.setAnimation(ANIMATION_BITE);
                     }
-                    if(BrainiacEntity.this.getAnimation() == ANIMATION_BITE && BrainiacEntity.this.getAnimationTick() >= 10 && BrainiacEntity.this.getAnimationTick() <= 15){
-                        if(isValidTarget(level(), blockPos)){
+                    if (BrainiacEntity.this.getAnimation() == ANIMATION_BITE && BrainiacEntity.this.getAnimationTick() >= 10 && BrainiacEntity.this.getAnimationTick() <= 15) {
+                        if (isValidTarget(level(), blockPos)) {
                             level().destroyBlock(blockPos, false);
                             BrainiacEntity.this.setHasBarrel(true);
                         }

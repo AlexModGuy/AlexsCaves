@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "alexscaves:dinosaur_chop"
+  },
+  "result": "alexscaves:cooked_dinosaur_chop",
+  "experience": 0.15,
+  "cookingtime": 100
+}

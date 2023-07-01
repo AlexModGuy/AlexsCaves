@@ -53,9 +53,11 @@ public class WaveEntity extends Entity {
 
     public WaveEntity(EntityType entityType, Level level) {
         super(entityType, level);
-        maxUpStep = 2F;
     }
 
+    public float getStepHeight() {
+        return 2F;
+    }
 
     public WaveEntity(Level level, LivingEntity shooter) {
         this(ACEntityRegistry.WAVE.get(), level);

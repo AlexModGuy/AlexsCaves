@@ -1,16 +1,16 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.MultipleDinosaurEggsBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.ChestThief;
-import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.TargetsDroppedItems;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import com.github.alexthe666.citadel.server.entity.collision.ICustomCollisions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
@@ -22,7 +22,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
@@ -37,7 +36,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.animal.frog.Frog;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -45,9 +43,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -56,7 +52,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems, IDancesToJukebox, LaysEggs {
+public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems {
 
     public static final Animation ANIMATION_CALL_1 = Animation.create(15);
     public static final Animation ANIMATION_CALL_2 = Animation.create(25);
@@ -71,9 +67,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> LEAPING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ELDER = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> PUZZLED_HEAD_ROT = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private Animation currentAnimation;
     private int animationTick;
     private float leapProgress;
@@ -95,9 +89,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     private float tailYaw;
     private float prevTailYaw;
     private int eatHeldItemIn;
-    public float prevDanceProgress;
-    public float danceProgress;
-    private BlockPos jukeboxPosition;
+
     public VallumraptorEntity(EntityType entityType, Level level) {
         super(entityType, level);
         tailYaw = this.getYRot();
@@ -140,10 +132,6 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.targetSelector.addGoal(4, new MobTargetClosePlayers(this, 4));
     }
 
-    public static boolean checkPrehistoricSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
-        return levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty();
-    }
-
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob mob) {
@@ -157,8 +145,6 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.entityData.define(LEAPING, false);
         this.entityData.define(ELDER, false);
         this.entityData.define(RUNNING, false);
-        this.entityData.define(DANCING, false);
-        this.entityData.define(HAS_EGG, false);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -170,18 +156,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         prevRunProgress = runProgress;
         prevLeapProgress = leapProgress;
         prevTailYaw = tailYaw;
-        prevDanceProgress = danceProgress;
         float headPuzzleRot = getPuzzledHeadRot();
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
-            this.setDancing(false);
-            this.jukeboxPosition = null;
-        }
-        if (isDancing() && danceProgress < 5F) {
-            danceProgress++;
-        }
-        if (!isDancing() && danceProgress > 0F) {
-            danceProgress--;
-        }
         if (isRunning() && runProgress < 5F) {
             runProgress++;
         }
@@ -196,12 +171,10 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         }
         if (isRunning() && !hasRunningAttributes) {
             hasRunningAttributes = true;
-            maxUpStep = 1F;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.35D);
         }
         if (!isRunning() && hasRunningAttributes) {
             hasRunningAttributes = false;
-            maxUpStep = 0.6F;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2D);
         }
         if (isElder() && !hasElderAttributes) {
@@ -212,7 +185,6 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         }
         if (!isElder() && hasElderAttributes) {
             hasElderAttributes = false;
-            maxUpStep = 0.6F;
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
             this.getAttribute(Attributes.ARMOR).setBaseValue(0.0D);
             this.heal(28.0F);
@@ -361,23 +333,6 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.entityData.set(ELDER, bool);
     }
 
-    public boolean isDancing() {
-        return this.entityData.get(DANCING);
-    }
-
-    public void setDancing(boolean bool) {
-        this.entityData.set(DANCING, bool);
-    }
-
-    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
-        this.onClientPlayMusicDisc(this.getId(), pos, playing);
-    }
-
-    @Override
-    public void setJukeboxPos(BlockPos blockPos) {
-        this.jukeboxPosition = blockPos;
-    }
-
     @Override
     public int getAnimationTick() {
         return animationTick;
@@ -405,14 +360,12 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setHasEgg(compound.getBoolean("Egg"));
         this.setElder(compound.getBoolean("Elder"));
     }
 
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("Egg", this.hasEgg());
         compound.putBoolean("Elder", this.isElder());
     }
 
@@ -449,7 +402,7 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
     }
 
     public void travel(Vec3 vec3d) {
-        if (this.getAnimation() == ANIMATION_GRAB || this.isDancing()) {
+        if (this.getAnimation() == ANIMATION_GRAB) {
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);
@@ -475,9 +428,6 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         this.afterPackMember = (VallumraptorEntity) animal;
     }
 
-    public float getDanceProgress(float partialTicks) {
-        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
-    }
     @Override
     public void afterSteal(BlockPos stealPos) {
         fleeFromPosition = Vec3.atCenterOf(stealPos);
@@ -547,17 +497,13 @@ public class VallumraptorEntity extends Animal implements IAnimatedEntity, ICust
         }
     }
 
-    public boolean hasEgg() {
-        return this.entityData.get(HAS_EGG);
-    }
-
-    public void setHasEgg(boolean hasEgg) {
-        this.entityData.set(HAS_EGG, hasEgg);
-    }
-
     @Override
     public BlockState createEggBlockState() {
-        return null;//ACBlockRegistry.VALLUMRAPTOR_EGG.get().defaultBlockState().setValue(MultipleDinosaurEggsBlock.EGGS, 1 + random.nextInt(3));
+        return ACBlockRegistry.VALLUMRAPTOR_EGG.get().defaultBlockState().setValue(MultipleDinosaurEggsBlock.EGGS, 1 + random.nextInt(3));
+    }
+
+    public float getStepHeight() {
+        return hasRunningAttributes ? 1.1F : 0.6F;
     }
 
     private class FleeGoal extends Goal {

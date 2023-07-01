@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -113,10 +114,10 @@ public class DinosaurEggBlock extends Block {
                     if (!worldIn.isClientSide) {
                         Player closest = worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 20, EntitySelector.NO_SPECTATORS);
                         if (closest != null) {
-                            if(fromType instanceof TamableAnimal tamableAnimal){
-                                tamableAnimal.setTame(true);
-                                tamableAnimal.setOrderedToSit(true);
-                                tamableAnimal.tame(closest);
+                            if(fromType instanceof DinosaurEntity dinosaur && dinosaur.tamesFromHatching()){
+                                dinosaur.setTame(true);
+                                dinosaur.setOrderedToSit(true);
+                                dinosaur.tame(closest);
                             }
                         }
                         worldIn.addFreshEntity(fromType);

@@ -31,9 +31,9 @@ public class ThinBoneBlock extends RotatedPillarBlock implements SimpleWaterlogg
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty OFFSET = IntegerProperty.create("offset", 0, 2);
     public final Map<BlockState, VoxelShape> shapeMap = new HashMap<>();
-    private static final VoxelShape SHAPE_X = Block.box(0, 6, 6, 16, 10, 10);
-    private static final VoxelShape SHAPE_Y = Block.box(6, 0, 6, 10, 16, 10);
-    private static final VoxelShape SHAPE_Z = Block.box(6, 6, 0, 10, 10, 16);
+    public static final VoxelShape SHAPE_X = Block.box(0, 6, 6, 16, 10, 10);
+    public static final VoxelShape SHAPE_Y = Block.box(6, 0, 6, 10, 16, 10);
+    public static final VoxelShape SHAPE_Z = Block.box(6, 6, 0, 10, 10, 16);
 
     public ThinBoneBlock() {
         super(Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK).noOcclusion());

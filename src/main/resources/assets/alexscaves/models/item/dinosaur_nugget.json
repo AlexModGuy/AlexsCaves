@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/dinosaur_nugget_0"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "nugget": 0.25
+      },
+      "model": "alexscaves:item/dinosaur_nugget_1"
+    },
+    {
+      "predicate": {
+        "nugget": 0.5
+      },
+      "model": "alexscaves:item/dinosaur_nugget_2"
+    },
+    {
+      "predicate": {
+        "nugget": 0.75
+      },
+      "model": "alexscaves:item/dinosaur_nugget_3"
+    }
+  ]
+}

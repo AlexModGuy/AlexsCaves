@@ -1,16 +1,13 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
-import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
-import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -18,11 +15,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -35,17 +30,12 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDancesToJukebox, LaysEggs {
+public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEntity {
 
     private static final EntityDataAccessor<Float> TAIL_SWING_ROT = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(GrottoceratopsEntity.class, EntityDataSerializers.BOOLEAN);
     public LegSolverQuadruped legSolver = new LegSolverQuadruped(0.0F, 1.1F, 1.15F, 1.15F, 1);
     private Animation currentAnimation;
     private int animationTick;
@@ -57,18 +47,10 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
     public static final Animation ANIMATION_MELEE_TAIL_1 = Animation.create(20);
     public static final Animation ANIMATION_MELEE_TAIL_2 = Animation.create(20);
     private float prevTailSwingRot;
-    public float prevDanceProgress;
-    public float danceProgress;
-    private BlockPos jukeboxPosition;
     private int resetAttackerCooldown = 0;
 
     public GrottoceratopsEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
-        maxUpStep = 1.1F;
-    }
-
-    public static boolean checkPrehistoricSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
-        return levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty();
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -79,8 +61,6 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(TAIL_SWING_ROT, 0F);
-        this.entityData.define(DANCING, false);
-        this.entityData.define(HAS_EGG, false);
     }
 
     protected PathNavigation createNavigation(Level level) {
@@ -91,16 +71,6 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         if(!this.isBaby()) {
             this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
         }
-    }
-
-    public void travel(Vec3 vec3d) {
-        if (this.isDancing()) {
-            if (this.getNavigation().getPath() != null) {
-                this.getNavigation().stop();
-            }
-            vec3d = Vec3.ZERO;
-        }
-        super.travel(vec3d);
     }
 
     protected void registerGoals() {
@@ -122,31 +92,10 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         return super.hurt(damageSource, f);
     }
 
-    public void addAdditionalSaveData(CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        compound.putBoolean("Egg", this.hasEgg());
-    }
-
-    public void readAdditionalSaveData(CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
-        this.setHasEgg(compound.getBoolean("Egg"));
-    }
-
     public void tick() {
         super.tick();
         float tailSwing = getTailSwingRot();
         this.prevTailSwingRot = tailSwing;
-        prevDanceProgress = danceProgress;
-        if (this.jukeboxPosition == null || !this.jukeboxPosition.closerToCenterThan(this.position(), 15) || !this.level().getBlockState(this.jukeboxPosition).is(Blocks.JUKEBOX)) {
-            this.setDancing(false);
-            this.jukeboxPosition = null;
-        }
-        if (isDancing() && danceProgress < 5F) {
-            danceProgress++;
-        }
-        if (!isDancing() && danceProgress > 0F) {
-            danceProgress--;
-        }
         if (this.getAnimation() == ANIMATION_MELEE_TAIL_1 || this.getAnimation() == ANIMATION_MELEE_TAIL_2) {
             float start = this.getAnimation() == ANIMATION_MELEE_TAIL_1 ? 30 : -30;
             float end = this.getAnimation() == ANIMATION_MELEE_TAIL_1 ? -180 : 180;
@@ -195,34 +144,9 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         entityData.set(TAIL_SWING_ROT, rot);
     }
 
-    public boolean isDancing() {
-        return this.entityData.get(DANCING);
-    }
-
-    public void setDancing(boolean bool) {
-        this.entityData.set(DANCING, bool);
-    }
-
-    public boolean hasEgg() {
-        return this.entityData.get(HAS_EGG);
-    }
-
-    public void setHasEgg(boolean hasEgg) {
-        this.entityData.set(HAS_EGG, hasEgg);
-    }
-
     @Override
     public BlockState createEggBlockState() {
-        return null;// ACBlockRegistry.GROTTOCERATOPS_EGG.get().defaultBlockState();
-    }
-
-    public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
-        this.onClientPlayMusicDisc(this.getId(), pos, playing);
-    }
-
-    @Override
-    public void setJukeboxPos(BlockPos blockPos) {
-        this.jukeboxPosition = blockPos;
+        return ACBlockRegistry.GROTTOCERATOPS_EGG.get().defaultBlockState();
     }
 
     @Nullable
@@ -262,9 +186,6 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         }
     }
 
-    public float getDanceProgress(float partialTicks) {
-        return (prevDanceProgress + (danceProgress - prevDanceProgress) * partialTicks) * 0.2F;
-    }
     public void actuallyPlayAmbientSound() {
         SoundEvent soundevent = this.getAmbientSound();
         if (soundevent != null) {
@@ -278,4 +199,7 @@ public class GrottoceratopsEntity extends Animal implements IAnimatedEntity, IDa
         this.walkAnimation.update(f2, 0.4F);
     }
 
+    public float getStepHeight() {
+        return 1.1F;
+    }
 }

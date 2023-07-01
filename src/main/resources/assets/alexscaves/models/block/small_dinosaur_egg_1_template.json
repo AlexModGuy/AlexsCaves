@@ -1,6 +1,9 @@
 {
 	"parent": "block/block",
 	"render_type": "cutout",
+	"textures": {
+		"particle": "#egg"
+	},
 	"elements": [
 		{
 			"from": [7, 0, 6],

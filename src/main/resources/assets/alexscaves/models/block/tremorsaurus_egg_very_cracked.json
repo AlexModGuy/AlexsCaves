@@ -4,6 +4,8 @@
 		"east": "alexscaves:block/egg/tremorsaurus_egg_east_very_cracked",
 		"south": "alexscaves:block/egg/tremorsaurus_egg_south_very_cracked",
 		"west": "alexscaves:block/egg/tremorsaurus_egg_west_very_cracked",
-		"bottom" : "alexscaves:block/egg/tremorsaurus_egg_bottom_very_cracked"
+		"north": "alexscaves:block/egg/tremorsaurus_egg_north_very_cracked",
+		"bottom" : "alexscaves:block/egg/tremorsaurus_egg_bottom_very_cracked",
+		"top" : "alexscaves:block/egg/tremorsaurus_egg_top_very_cracked"
 	}
 }

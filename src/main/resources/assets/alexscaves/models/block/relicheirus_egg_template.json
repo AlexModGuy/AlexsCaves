@@ -1,6 +1,9 @@
 {
 	"parent": "block/block",
 	"render_type": "cutout",
+	"textures": {
+		"particle": "#side"
+	},
 	"elements": [
 		{
 			"from": [1, 0, 1],

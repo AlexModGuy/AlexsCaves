@@ -50,7 +50,6 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_mage_barter");
     public DeepOneMageEntity(EntityType entityType, Level level) {
         super(entityType, level);
-        this.maxUpStep = 1.3F;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -297,6 +296,11 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
         } else{
             super.handleEntityEvent(b);
         }
+    }
+
+
+    public float getStepHeight() {
+        return 1.3F;
     }
 
     class FlightMoveController extends MoveControl {

@@ -100,6 +100,7 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.TRILOCARIS_BUCKET.get());
+                add(output, ACItemRegistry.DINOSAUR_NUGGET.get());
                 add(output, ACBlockRegistry.AMBER.get());
                 add(output, ACBlockRegistry.AMBERSOL.get());
                 add(output, ACBlockRegistry.LIMESTONE.get());
@@ -135,6 +136,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.GROTTOCERATOPS_EGG.get());
                 add(output, ACBlockRegistry.TREMORSAURUS_EGG.get());
                 add(output, ACBlockRegistry.RELICHEIRUS_EGG.get());
+                add(output, ACBlockRegistry.DINOSAUR_CHOP.get());
+                add(output, ACBlockRegistry.COOKED_DINOSAUR_CHOP.get());
                 add(output, ACBlockRegistry.PEWEN_LOG.get());
                 add(output, ACBlockRegistry.PEWEN_BRANCH.get());
                 add(output, ACBlockRegistry.PEWEN_SAPLING.get());
