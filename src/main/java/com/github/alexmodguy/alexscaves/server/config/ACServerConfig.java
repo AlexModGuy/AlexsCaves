@@ -7,6 +7,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.DoubleValue biomeRarityScale;
     public final ForgeConfigSpec.DoubleValue biomeRarityElevation;
     public final ForgeConfigSpec.IntValue nucleeperFuseTime;
+    public final ForgeConfigSpec.IntValue amberMonolithMeanTime;
     public final ForgeConfigSpec.DoubleValue magneticTabletLootChance;
     public final ForgeConfigSpec.DoubleValue primordialTabletLootChance;
     public final ForgeConfigSpec.DoubleValue toxicTabletLootChance;
@@ -19,6 +20,9 @@ public class ACServerConfig {
         builder.pop();
         builder.push("mob-behavior");
         nucleeperFuseTime = builder.comment("How long (in game ticks) it takes for a nucleeper to explode.").translation("nucleeper_fuse_time").defineInRange("nucleeper_fuse_time", 300, 20, Integer.MAX_VALUE);
+        builder.pop();
+        builder.push("block-behavior");
+        amberMonolithMeanTime = builder.comment("How long (in game ticks) it usually takes for an amber monolith to spawn an animal.").translation("amber_monolith_mean_time").defineInRange("amber_monolith_mean_time", 32000, 1000, Integer.MAX_VALUE);
         builder.pop();
         builder.push("vanilla-changes");
         magneticTabletLootChance = builder.comment("percent chance of bastion having a cave tablet for magnetic caves in it's loot table:").translation("magnetic_tablet_loot_chance").defineInRange("magnetic_tablet_loot_chance", 0.45D, 0.0, 1.0D);

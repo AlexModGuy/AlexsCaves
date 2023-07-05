@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -53,7 +52,8 @@ public class DinosaurEggBlock extends Block {
     }
 
     public static boolean isProperHabitat(BlockGetter reader, BlockPos pos) {
-        return reader.getBlockState(pos).isSolid();
+        BlockState state = reader.getBlockState(pos.below());
+        return state.isSolid() && !state.is(ACTagRegistry.STOPS_DINOSAUR_EGGS);
     }
 
     public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {

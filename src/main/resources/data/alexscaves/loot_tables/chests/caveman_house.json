@@ -3,8 +3,8 @@
     {
       "name": "caveman_house",
       "rolls": {
-        "min": 2,
-        "max": 6
+        "min": 3,
+        "max": 8
       },
       "entries": [
         {
@@ -31,6 +31,20 @@
               "count": {
                 "min": 1,
                 "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:limestone_spear",
+          "weight": 30,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 6
               }
             }
           ]
@@ -79,8 +93,69 @@
         },
         {
           "type": "item",
+          "name": "alexscaves:tough_hide",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:fiddlehead",
+          "weight": 15,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:dinosaur_nugget",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 10
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:pine_nuts",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 10
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
           "name": "alexscaves:tree_star",
           "weight": 8
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:primitive_club",
+          "weight": 3
         }
       ]
     }

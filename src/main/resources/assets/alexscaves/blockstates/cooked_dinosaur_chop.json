@@ -1,22 +1,22 @@
 {
   "variants": {
     "facing=down,bites=0": [
-      { "model": "alexscaves:block/dinosaur_chop_cooked"}
+      { "model": "alexscaves:block/dinosaur_chop_cooked", "x": 90}
     ],
     "facing=east,bites=0": [
-      { "model": "alexscaves:block/dinosaur_chop_cooked", "x": 90, "y": 90 }
+      { "model": "alexscaves:block/dinosaur_chop_cooked", "y": 90 }
     ],
     "facing=north,bites=0": [
-      { "model": "alexscaves:block/dinosaur_chop_cooked", "x": 90 }
-    ],
-    "facing=south,bites=0": [
-      { "model": "alexscaves:block/dinosaur_chop_cooked", "x": 270 }
-    ],
-    "facing=up,bites=0": [
       { "model": "alexscaves:block/dinosaur_chop_cooked" }
     ],
+    "facing=south,bites=0": [
+      { "model": "alexscaves:block/dinosaur_chop_cooked", "y": 180 }
+    ],
+    "facing=up,bites=0": [
+      { "model": "alexscaves:block/dinosaur_chop_cooked", "x": 270 }
+    ],
     "facing=west,bites=0": [
-      { "model": "alexscaves:block/dinosaur_chop_cooked", "x": 90, "y": 270 }
+      { "model": "alexscaves:block/dinosaur_chop_cooked", "y": 270 }
     ],
     "facing=down,bites=1": [
       { "model": "alexscaves:block/dinosaur_chop_cooked_1", "x": 90 }

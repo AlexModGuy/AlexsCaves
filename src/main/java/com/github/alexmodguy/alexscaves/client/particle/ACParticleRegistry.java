@@ -24,6 +24,9 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> AZURE_SHIELD_LIGHTNING = DEF_REG.register("azure_shield_lightning", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FLY = DEF_REG.register("fly", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WATER_TREMOR = DEF_REG.register("water_tremor", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> AMBER_MONOLITH = DEF_REG.register("amber_monolith", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> AMBER_EXPLOSION = DEF_REG.register("amber_explosion", ()-> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> STUN_STAR = DEF_REG.register("stun_star", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ACID_BUBBLE = DEF_REG.register("acid_bubble", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BLACK_VENT_SMOKE = DEF_REG.register("black_vent_smoke", ()-> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WHITE_VENT_SMOKE = DEF_REG.register("white_vent_smoke", ()-> new SimpleParticleType(false));

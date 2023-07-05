@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "alexscaves:spelunkery_table",
+    "alexscaves:dinosaur_chop",
+    "alexscaves:cooked_dinosaur_chop",
     "alexscaves:pewen_log",
     "alexscaves:pewen_wood",
     "alexscaves:stripped_pewen_log",

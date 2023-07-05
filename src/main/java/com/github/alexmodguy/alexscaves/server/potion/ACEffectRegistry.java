@@ -20,8 +20,8 @@ public class ACEffectRegistry {
 
     public static final DeferredRegister<MobEffect> DEF_REG = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, AlexsCaves.MODID);
     public static final DeferredRegister<Potion> POTION_DEF_REG = DeferredRegister.create(ForgeRegistries.POTIONS, AlexsCaves.MODID);
-
     public static final RegistryObject<MobEffect> MAGNETIZING = DEF_REG.register("magnetizing", ()-> new MagnetizedEffect());
+    public static final RegistryObject<MobEffect> STUNNED = DEF_REG.register("stunned", ()-> new StunnedEffect());
     public static final RegistryObject<MobEffect> IRRADIATED = DEF_REG.register("irradiated", ()-> new IrradiatedEffect());
     public static final RegistryObject<MobEffect> BUBBLED = DEF_REG.register("bubbled", ()-> new BubbledEffect());
     public static final RegistryObject<MobEffect> DEEPSIGHT = DEF_REG.register("deepsight", ()-> new DeepsightEffect());

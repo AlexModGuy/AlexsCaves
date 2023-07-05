@@ -1,8 +1,7 @@
 {
-	"parent": "block/cube_bottom_top",
+	"parent": "alexscaves:block/dinosaur_chop_template",
 	"textures": {
 		"side": "alexscaves:block/dinosaur_chop_raw_side",
-		"bottom": "alexscaves:block/dinosaur_chop_raw",
-		"top": "alexscaves:block/dinosaur_chop_raw"
+		"front": "alexscaves:block/dinosaur_chop_raw"
 	}
 }

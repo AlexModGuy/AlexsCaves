@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "alexscaves:block/limestone_pillar",
+        "bottom": "alexscaves:block/limestone_pillar_top",
+        "top": "alexscaves:block/limestone_pillar_top"
+    }
+}

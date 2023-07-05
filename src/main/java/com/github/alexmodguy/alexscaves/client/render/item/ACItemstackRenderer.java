@@ -30,6 +30,10 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation RESISTOR_SHIELD_RED_TEXTURE = new ResourceLocation("alexscaves:textures/entity/resistor_shield_red.png");
     private static final ResourceLocation RESISTOR_SHIELD_BLUE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/resistor_shield_blue.png");
     private static final ResistorShieldModel RESISTOR_SHIELD_MODEL = new ResistorShieldModel();
+    private static final ResourceLocation PRIMITIVE_CLUB_TEXTURE = new ResourceLocation("alexscaves:textures/entity/primitive_club.png");
+    private static final PrimitiveClubModel PRIMITIVE_CLUB_MODEL = new PrimitiveClubModel();
+    private static final ResourceLocation LIMESTONE_SPEAR_TEXTURE = new ResourceLocation("alexscaves:textures/entity/limestone_spear.png");
+    private static final LimestoneSpearModel LIMESTONE_SPEAR_MODEL = new LimestoneSpearModel();
     private static final ResourceLocation SEA_STAFF_TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/sea_staff.png");
     private static final SeaStaffModel SEA_STAFF_MODEL = new SeaStaffModel();
     private static final ResourceLocation ORTHOLANCE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/ortholance.png");
@@ -93,6 +97,46 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             RESISTOR_SHIELD_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(ACRenderTypes.getEyesAlphaEnabled(RESISTOR_SHIELD_RED_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, switchProgress);
             RESISTOR_SHIELD_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(ACRenderTypes.getEyesAlphaEnabled(RESISTOR_SHIELD_BLUE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F - switchProgress);
             matrixStackIn.popPose();
+        }
+
+        if (itemStackIn.is(ACItemRegistry.PRIMITIVE_CLUB.get())) {
+            matrixStackIn.translate(0.5F, 0.5f, 0.5f);
+            ItemStack spriteItem = new ItemStack(ACItemRegistry.PRIMITIVE_CLUB_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if (heldIn3d) {
+                matrixStackIn.pushPose();
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(-180));
+                matrixStackIn.translate(0, -1.15F, -0.1F);
+                if(transformType.firstPerson()){
+                    matrixStackIn.translate(0, 0.1F, 0);
+                    matrixStackIn.scale(0.8F, 0.8F, 0.8F);
+                }
+                VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(PRIMITIVE_CLUB_TEXTURE), false, itemStackIn.hasFoil());
+                PRIMITIVE_CLUB_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                matrixStackIn.popPose();
+            } else {
+                Minecraft.getInstance().getItemRenderer().renderStatic(spriteItem, transformType, transformType == ItemDisplayContext.GROUND ? combinedLightIn : 240, combinedOverlayIn, matrixStackIn, bufferIn, level, 0);
+            }
+        }
+
+        if (itemStackIn.is(ACItemRegistry.LIMESTONE_SPEAR.get())) {
+            matrixStackIn.translate(0.5F, 0.5f, 0.5f);
+            ItemStack spriteItem = new ItemStack(ACItemRegistry.LIMESTONE_SPEAR_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if (heldIn3d) {
+                matrixStackIn.pushPose();
+                matrixStackIn.mulPose(Axis.XP.rotationDegrees(-180));
+                matrixStackIn.translate(0, -0.85F, -0.1F);
+                if(transformType.firstPerson()){
+                    matrixStackIn.translate(0, 0.5F, 0F);
+                    matrixStackIn.scale(0.75F, 0.75F, 0.75F);
+                }
+                VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(LIMESTONE_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+                LIMESTONE_SPEAR_MODEL.renderToBuffer(matrixStackIn, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                matrixStackIn.popPose();
+            } else {
+                Minecraft.getInstance().getItemRenderer().renderStatic(spriteItem, transformType, transformType == ItemDisplayContext.GROUND ? combinedLightIn : 240, combinedOverlayIn, matrixStackIn, bufferIn, level, 0);
+            }
         }
 
         if (itemStackIn.is(ACItemRegistry.SEA_STAFF.get())) {

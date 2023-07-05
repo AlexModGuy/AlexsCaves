@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "alexscaves:block/limestone_chiseled",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "alexscaves:block/limestone_chiseled",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "alexscaves:block/limestone_chiseled"
+    },
+    "facing=south": {
+      "model": "alexscaves:block/limestone_chiseled",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "alexscaves:block/limestone_chiseled",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "alexscaves:block/limestone_chiseled",
+      "y": 270
+    }
+  }
+}

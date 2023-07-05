@@ -102,10 +102,10 @@
           "conditions": [
             {
               "chances": [
-                0.4,
-                0.6,
-                0.8,
-                1.0
+                0.05,
+                0.1,
+                0.15,
+                0.2
               ],
               "condition": "minecraft:table_bonus",
               "enchantment": "minecraft:fortune"
@@ -126,6 +126,27 @@
             }
           ],
           "name": "minecraft:stick"
+        },
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chances": [
+                0.075,
+                0.15,
+                0.25,
+                0.3
+              ],
+              "condition": "minecraft:table_bonus",
+              "enchantment": "minecraft:fortune"
+            }
+          ],
+          "functions": [
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "alexscaves:pine_nuts"
         }
       ],
       "rolls": 1.0

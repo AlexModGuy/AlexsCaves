@@ -5,11 +5,11 @@ import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.FastColor;
 
-public class MushroomCloudEffectParticle extends TextureSheetParticle {
+public class SmallExplosionParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
 
-    protected MushroomCloudEffectParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean shortLifespan, int color1) {
+    protected SmallExplosionParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean shortLifespan, int color1) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
         this.yd = ySpeed;
@@ -54,15 +54,15 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
         return 240;
     }
 
-    public static class Factory implements ParticleProvider<SimpleParticleType> {
+    public static class NukeFactory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
-        public Factory(SpriteSet spriteSet) {
+        public NukeFactory(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0XFFB300);
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0XFFB300);
             particle.setSpriteFromAge(spriteSet);
             return particle;
         }
@@ -76,7 +76,7 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XFFB300);
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XFFB300);
             particle.setSpriteFromAge(spriteSet);
             return particle;
         }
@@ -90,8 +90,23 @@ public class MushroomCloudEffectParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MushroomCloudEffectParticle particle = new MushroomCloudEffectParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0);
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0);
             particle.setSpriteFromAge(spriteSet);
+            return particle;
+        }
+    }
+
+    public static class AmberFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public AmberFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0XFFDA1E);
+            particle.setSpriteFromAge(spriteSet);
+            particle.scale(0.8F);
             return particle;
         }
     }

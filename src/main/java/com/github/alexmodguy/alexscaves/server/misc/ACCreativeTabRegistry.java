@@ -100,13 +100,20 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.TRILOCARIS_BUCKET.get());
+                add(output, ACItemRegistry.PINE_NUTS.get());
                 add(output, ACItemRegistry.DINOSAUR_NUGGET.get());
+                add(output, ACItemRegistry.TOUGH_HIDE.get());
+                add(output, ACItemRegistry.PRIMITIVE_CLUB.get());
+                add(output, ACItemRegistry.LIMESTONE_SPEAR.get());
                 add(output, ACBlockRegistry.AMBER.get());
                 add(output, ACBlockRegistry.AMBERSOL.get());
+                add(output, ACBlockRegistry.AMBER_MONOLITH.get());
                 add(output, ACBlockRegistry.LIMESTONE.get());
                 add(output, ACBlockRegistry.LIMESTONE_STAIRS.get());
                 add(output, ACBlockRegistry.LIMESTONE_SLAB.get());
                 add(output, ACBlockRegistry.LIMESTONE_WALL.get());
+                add(output, ACBlockRegistry.LIMESTONE_PILLAR.get());
+                add(output, ACBlockRegistry.LIMESTONE_CHISELED.get());
                 add(output, ACBlockRegistry.SMOOTH_LIMESTONE.get());
                 add(output, ACBlockRegistry.SMOOTH_LIMESTONE_STAIRS.get());
                 add(output, ACBlockRegistry.SMOOTH_LIMESTONE_SLAB.get());
@@ -156,6 +163,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.PEWEN_TRAPDOOR.get());
                 add(output, ACBlockRegistry.PEWEN_BUTTON.get());
                 add(output, ACBlockRegistry.PEWEN_FENCE_GATE.get());
+                add(output, ACBlockRegistry.FIDDLEHEAD.get());
                 add(output, ACBlockRegistry.CURLY_FERN.get());
                 add(output, ACBlockRegistry.FLYTRAP.get());
                 add(output, ACBlockRegistry.CYCAD.get());

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "alexscaves:block/tree_star"
+    "layer0": "alexscaves:item/tree_star"
   }
 }

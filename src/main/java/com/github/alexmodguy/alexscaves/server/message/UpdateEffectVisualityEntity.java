@@ -60,6 +60,9 @@ public class UpdateEffectVisualityEntity {
                     case 2:
                         mobEffect = ACEffectRegistry.MAGNETIZING.get();
                         break;
+                    case 3:
+                        mobEffect = ACEffectRegistry.STUNNED.get();
+                        break;
                 }
                 if(mobEffect != null){
                     living.addEffect(new MobEffectInstance(mobEffect, message.duration));

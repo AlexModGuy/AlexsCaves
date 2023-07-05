@@ -19,8 +19,6 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
 public class SeekingArrowEntity extends AbstractArrow {
-    private int duration = 200;
-
     private static final EntityDataAccessor<Integer> ARC_TOWARDS_ENTITY_ID = SynchedEntityData.defineId(SeekingArrowEntity.class, EntityDataSerializers.INT);
     public SeekingArrowEntity(EntityType entityType, Level level) {
         super(entityType, level);
