@@ -230,7 +230,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        final ItemStack itemstack = player.getItemInHand(hand);
+        ItemStack itemstack = player.getItemInHand(hand);
         if (itemstack.is(Items.COD)) {
             if (!isTame()) {
                 this.usePlayerItem(player, hand, itemstack);
@@ -243,17 +243,16 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
                 return InteractionResult.SUCCESS;
             }
         }
-        final InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
-        final InteractionResult type = super.mobInteract(player, hand);
-        if (interactionresult != InteractionResult.SUCCESS && type != InteractionResult.SUCCESS && isTame() && isOwnedBy(player) && !isFood(itemstack) && !player.isShiftKeyDown()) {
+        InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
+        InteractionResult type = super.mobInteract(player, hand);
+        if (!interactionresult.consumesAction() && !type.consumesAction() && isTame() && isOwnedBy(player) && !isFood(itemstack) && !player.isShiftKeyDown()) {
             this.setCommand(this.getCommand() + 1);
             if (this.getCommand() == 3) {
                 this.setCommand(0);
             }
             player.displayClientMessage(Component.translatable("entity.alexscaves.all.command_" + this.getCommand(), this.getName()), true);
-            final boolean sit = this.getCommand() == 1;
+            boolean sit = this.getCommand() == 1;
             if (sit) {
-
                 this.setOrderedToSit(true);
             } else {
                 this.setOrderedToSit(false);

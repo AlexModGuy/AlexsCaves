@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -33,12 +34,17 @@ public class ClientPacketListenerMixin {
     protected void iws_handleSetEntityPassengersPacket(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
         Entity entity = this.level.getEntity(packet.getVehicle());
         if(entity instanceof SubmarineEntity){
-            Component componentBoard = Component.translatable("entity.alexscaves.submarine.mount_message", Minecraft.getInstance().options.keyJump.getTranslatedKeyMessage(), Minecraft.getInstance().options.keySprint.getTranslatedKeyMessage(), ACKeybindRegistry.KEY_SUB_FLOODLIGHTS.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
+            Component componentBoard = Component.translatable("entity.alexscaves.submarine.mount_message", Minecraft.getInstance().options.keyJump.getTranslatedKeyMessage(), Minecraft.getInstance().options.keySprint.getTranslatedKeyMessage(), ACKeybindRegistry.KEY_MOUNT_ABILITY.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
             Minecraft.getInstance().gui.setOverlayMessage(componentBoard, false);
             Minecraft.getInstance().getNarrator().sayNow(componentBoard);
         }
         if(entity instanceof SubterranodonEntity){
             Component componentBoard = Component.translatable("entity.alexscaves.subterranodon.mount_message", Minecraft.getInstance().options.keyJump.getTranslatedKeyMessage(), Minecraft.getInstance().options.keySprint.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
+            Minecraft.getInstance().gui.setOverlayMessage(componentBoard, false);
+            Minecraft.getInstance().getNarrator().sayNow(componentBoard);
+        }
+        if(entity instanceof TremorsaurusEntity){
+            Component componentBoard = Component.translatable("entity.alexscaves.tremorsaurus.mount_message", ACKeybindRegistry.KEY_MOUNT_ABILITY.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
             Minecraft.getInstance().gui.setOverlayMessage(componentBoard, false);
             Minecraft.getInstance().getNarrator().sayNow(componentBoard);
         }

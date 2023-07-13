@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class GrottoceratopsRenderer extends MobRenderer<GrottoceratopsEntity, GrottoceratopsModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/grottoceratops.png");
+    private static final ResourceLocation TEXTURE_BABY = new ResourceLocation("alexscaves:textures/entity/grottoceratops_baby.png");
 
     public GrottoceratopsRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new GrottoceratopsModel(), 1.1F);
@@ -18,7 +19,7 @@ public class GrottoceratopsRenderer extends MobRenderer<GrottoceratopsEntity, Gr
     }
 
     public ResourceLocation getTextureLocation(GrottoceratopsEntity entity) {
-        return TEXTURE;
+        return entity.isBaby() ? TEXTURE_BABY : TEXTURE;
     }
 }
 

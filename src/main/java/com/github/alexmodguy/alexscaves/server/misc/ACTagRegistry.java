@@ -36,6 +36,7 @@ public class ACTagRegistry {
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
     public static final TagKey<Item> VALLUMRAPTOR_STEALS = registerItemTag("vallumraptor_steals");
+    public static final TagKey<Item> RAW_MEATS = registerItemTag("raw_meats");
     public static final TagKey<Item> SEA_PIG_DIGESTS = registerItemTag("sea_pig_digests");
     public static final TagKey<Item> DEEP_ONE_BARTERS = registerItemTag("deep_one_barters");
     public static final TagKey<Item> RESTRICTED_BIOME_LOCATORS = registerItemTag("restricted_biome_locators");

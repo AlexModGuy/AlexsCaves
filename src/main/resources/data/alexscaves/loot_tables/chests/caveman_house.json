@@ -94,7 +94,35 @@
         {
           "type": "item",
           "name": "alexscaves:tough_hide",
-          "weight": 10,
+          "weight": 21,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:dinosaur_pottery_shard",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:footprint_pottery_shard",
+          "weight": 5,
           "functions": [
             {
               "function": "set_count",
@@ -150,12 +178,27 @@
         {
           "type": "item",
           "name": "alexscaves:tree_star",
-          "weight": 8
+          "weight": 9
         },
         {
           "type": "item",
           "name": "alexscaves:primitive_club",
-          "weight": 3
+          "weight": 4
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:primordial_helmet",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:primordial_tunic",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:primordial_pants",
+          "weight": 2
         }
       ]
     }

@@ -8,9 +8,11 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class ACModelLayers {
 
+    public static final ModelLayerLocation PRIMORDIAL_ARMOR = createLocation("primordial_armor", "main");
     public static final ModelLayerLocation DIVING_ARMOR = createLocation("diving_armor", "main");
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(PRIMORDIAL_ARMOR, () -> PrimordialArmorModel.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(DIVING_ARMOR, () -> DivingArmorModel.createArmorLayer(new CubeDeformation(0.5F)));
     }
 

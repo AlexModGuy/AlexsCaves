@@ -4,7 +4,9 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.FlyingMount;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
@@ -35,6 +37,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -71,7 +74,7 @@ public class CommonProxy {
     public void livingDie(LivingDeathEvent event) {
         if (event.getEntity().getType() == EntityType.MAGMA_CUBE && event.getSource() != null && event.getSource().getEntity() instanceof Frog frog) {
             if (frog.getVariant() == ACFrogRegistry.PRIMORDIAL.get()) {
-                event.getEntity().spawnAtLocation(new ItemStack(ACBlockRegistry.AMBER.get()));
+                event.getEntity().spawnAtLocation(new ItemStack(ACBlockRegistry.CARMINE_FROGLIGHT.get()));
             }
         }
     }
@@ -79,6 +82,14 @@ public class CommonProxy {
     @SubscribeEvent
     public void livingHeal(LivingHealEvent event) {
         if (event.getEntity().hasEffect(ACEffectRegistry.IRRADIATED.get()) && !event.getEntity().getType().is(ACTagRegistry.RESISTS_RADIATION)) {
+            event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void livingFindTarget(LivingChangeTargetEvent event) {
+        if(event.getEntity() instanceof Mob mob && event.getNewTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0){
+            mob.setTarget(null);
             event.setCanceled(true);
         }
     }
@@ -99,12 +110,22 @@ public class CommonProxy {
     }
 
     @SubscribeEvent
+    public void playerAttack(AttackEntityEvent event) {
+        if(event.getTarget() instanceof DinosaurEntity && event.getEntity().isPassengerOfSameVehicle(event.getTarget())){
+            event.setCanceled(true);
+        }
+    }
+
+        @SubscribeEvent
     public void livingTick(LivingEvent.LivingTickEvent event) {
         if (event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()) {
             event.getEntity().removeEffect(ACEffectRegistry.BUBBLED.get());
         }
         if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get()) && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
             event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810, 0, false, false, true));
+        }
+        if(!event.getEntity().level().isClientSide && event.getEntity() instanceof Mob mob && mob.getTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0){
+            mob.setTarget(null);
         }
     }
 

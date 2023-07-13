@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
@@ -29,7 +30,6 @@ import java.util.Map;
 public class AcidBlock extends LiquidBlock {
 
     private static Map<Block, Block> CORRODES_INTERACTIONS;
-    private static final Direction[] LIQUID_CHECK_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public AcidBlock(RegistryObject<FlowingFluid> flowingFluid, BlockBehaviour.Properties properties) {
         super(flowingFluid, properties);
@@ -75,7 +75,7 @@ public class AcidBlock extends LiquidBlock {
 
     public void tickCorrosion(Level worldIn, BlockPos pos){
         initCorrosion();
-        for(Direction direction : LIQUID_CHECK_DIRECTIONS){
+        for(Direction direction : ACMath.HORIZONTAL_DIRECTIONS){
             BlockPos offset = pos.relative(direction);
             BlockState state1 = worldIn.getBlockState(offset);
             if(CORRODES_INTERACTIONS.containsKey(state1.getBlock())){

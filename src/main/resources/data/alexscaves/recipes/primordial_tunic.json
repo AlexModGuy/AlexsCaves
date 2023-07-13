@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B B",
+    "HHH",
+    "HHH"
+  ],
+  "key": {
+    "H": {
+      "item": "alexscaves:tough_hide"
+    },
+    "B": {
+      "item": "minecraft:bone_block"
+    }
+  },
+  "result": {
+    "item": "alexscaves:primordial_tunic"
+  }
+}

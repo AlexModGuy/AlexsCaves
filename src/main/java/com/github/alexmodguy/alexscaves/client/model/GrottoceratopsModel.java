@@ -303,6 +303,7 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
             float f = 1.5F;
             head.setScale(f, f, f);
             head.setShouldScaleChildren(true);
+
             matrixStackIn.pushPose();
             matrixStackIn.scale(0.5F, 0.5F, 0.5F);
             matrixStackIn.translate(0.0D, 1.5D, 0D);
@@ -343,6 +344,7 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         float walkSpeed = 0.5F;
         float walkDegree = 1F;
         float partialTick = ageInTicks - entity.tickCount;
+        float buryEggsAmount = entity.getBuryEggsProgress(partialTick);
         float stillAmount = 1 - limbSwingAmount;
         float danceAmount = entity.getDanceProgress(partialTick);
         float danceSpeed = 0.5F;
@@ -352,9 +354,14 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         }
         float tailSwingYaw = Mth.wrapDegrees(entity.getTailSwingRot(partialTick)) / 57.295776F;
         this.body.rotateAngleY += tailSwingYaw;
-
         this.grassBunch.showModel = showGrass;
         this.grassBunch2.showModel = showGrass;
+        if(buryEggsAmount > 0.0F){
+            limbSwing = ageInTicks;
+            limbSwingAmount = buryEggsAmount * 0.5F;
+            this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
+            this.neck.swing(0.25F, 0.4F, true, -1F, 0F, ageInTicks, buryEggsAmount);
+        }
         progressRotationPrev(tail, stillAmount, (float) Math.toRadians(-10), 0, 0, 1F);
         progressPositionPrev(neck, 1F, 0, 0, 5, 1F);
         this.walk(tail, 0.1F, 0.1F, false, 0F, 0F, ageInTicks, stillAmount);

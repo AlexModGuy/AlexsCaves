@@ -36,23 +36,23 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
             if(direction.getAxis() != Direction.Axis.Y ){
                 int rootHeight = randomsource.nextInt(2);
                 for(int i = 0; i < rootHeight; i++){
-                    level.setBlock(treeBottom.above(i).relative(direction), Blocks.JUNGLE_LOG.defaultBlockState(), 4);
+                    level.setBlock(treeBottom.above(i).relative(direction), Blocks.JUNGLE_LOG.defaultBlockState(), 3);
                 }
                 BlockPos canopyPos = treeBottom.above(height);
                 int branchOut = 1 + randomsource.nextInt(2);
                 int branchUp = randomsource.nextInt(1) + 1;
                 for (int i = 1; i <= branchOut; i++){
-                    level.setBlock(canopyPos.relative(direction, i), Blocks.JUNGLE_LOG.defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 4);
+                    level.setBlock(canopyPos.relative(direction, i), Blocks.JUNGLE_LOG.defaultBlockState().setValue(RotatedPillarBlock.AXIS, direction.getAxis()), 3);
                 }
                 for (int i = 1; i <= branchUp + 1; i++){
-                    level.setBlock(canopyPos.relative(direction, branchOut + 1).above(i), Blocks.JUNGLE_LOG.defaultBlockState(), 4);
+                    level.setBlock(canopyPos.relative(direction, branchOut + 1).above(i), Blocks.JUNGLE_LOG.defaultBlockState(), 3);
                 }
                 drawLeafOrb(level, canopyPos.relative(direction, branchOut).above(branchUp + 2), randomsource, ACBlockRegistry.ANCIENT_LEAVES.get().defaultBlockState(), 2 + randomsource.nextInt(2), 4 + randomsource.nextInt(2), 2 + randomsource.nextInt(2));
             }
         }
         for(int i = 0; i <= height; i++) {
             BlockPos trunkPos = treeBottom.above(i);
-            level.setBlock(trunkPos, Blocks.JUNGLE_LOG.defaultBlockState(), 4);
+            level.setBlock(trunkPos, Blocks.JUNGLE_LOG.defaultBlockState(), 3);
         }
 
         return true;
@@ -92,7 +92,7 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
                                 Direction dir = Direction.getRandom(random);
                                 BlockPos starPos = fill.relative(dir);
                                 if(level.getBlockState(starPos).isAir()){
-                                    level.setBlock(starPos, ACBlockRegistry.TREE_STAR.get().defaultBlockState().setValue(TreeStarBlock.FACING, dir), 4);
+                                    level.setBlock(starPos, ACBlockRegistry.TREE_STAR.get().defaultBlockState().setValue(TreeStarBlock.FACING, dir), 3);
                                 }
                             }
                         }

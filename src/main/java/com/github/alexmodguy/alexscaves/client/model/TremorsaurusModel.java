@@ -12,6 +12,8 @@ import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.world.phys.Vec3;
+import org.joml.Vector4f;
 
 public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
     private final AdvancedModelBox body;
@@ -335,10 +337,27 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         }
         float partialTicks = ageInTicks - entity.tickCount;
         float danceAmount = entity.getDanceProgress(partialTicks);
+        float sitAmount = entity.getSitProgress(partialTicks);
+        float buryEggsAmount = entity.getBuryEggsProgress(partialTicks);
         float danceSpeed = 0.5F;
         this.glasses.showModel = danceAmount > 0;
         float walkSpeed = 0.8F;
         float walkDegree = 1F;
+        progressPositionPrev(body, sitAmount,0, 18, -1F, 1F);
+        progressPositionPrev(rleg, sitAmount,0, -11, 12, 1F);
+        progressPositionPrev(lleg, sitAmount,0, -11, 12, 1F);
+        progressRotationPrev(rleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(15), 0, 1F);
+        progressRotationPrev(rleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
+        progressRotationPrev(rfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
+        progressRotationPrev(lleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(-15), 0, 1F);
+        progressRotationPrev(lleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
+        progressRotationPrev(lfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
+        if(buryEggsAmount > 0.0F){
+            limbSwing = ageInTicks;
+            limbSwingAmount = buryEggsAmount * 0.5F;
+            this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
+            this.neck.swing(0.25F, 0.4F, true, -1F, 0F, ageInTicks, buryEggsAmount);
+        }
         float bodyIdleBob = walkValue(ageInTicks, 1, 0.1F, -1F, 1F, false);
         this.walk(neck, 0.1F, 0.03F, false, 1F, 0F, ageInTicks, 1);
         this.walk(head, 0.1F, 0.03F, true, 2F, 0F, ageInTicks, 1);
@@ -412,5 +431,16 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         body.translateAndRotate(matrixStackIn);
         neck.translateAndRotate(matrixStackIn);
         head.translateAndRotate(matrixStackIn);
+    }
+
+    public Vec3 getRiderPosition(Vec3 offsetIn) {
+        PoseStack translationStack = new PoseStack();
+        translationStack.pushPose();
+        body.translateAndRotate(translationStack);
+        Vector4f armOffsetVec = new Vector4f((float) offsetIn.x, (float) offsetIn.y, (float) offsetIn.z, 1.0F);
+        armOffsetVec.mul(translationStack.last().pose());
+        Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());
+        translationStack.popPose();
+        return vec3;
     }
 }

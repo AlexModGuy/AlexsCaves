@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ThornwoodBranchBlock;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.Util;
@@ -21,8 +22,6 @@ import net.minecraft.world.level.material.Fluids;
 
 public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
 
-    private static final Direction[] ROOT_DIRECTIONS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-
     public ThornwoodTreeFeature(Codec<NoneFeatureConfiguration> codec) {
         super(codec);
     }
@@ -40,7 +39,7 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos centerPos = treeGround.above(centerAboveGround);
         if (centerAboveGround > 0) {
             int rootCount = 0;
-            for (Direction direction : ROOT_DIRECTIONS) {
+            for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
                 if (rootCount <= 3 + randomsource.nextInt(1)) {
                     generateRoot(level, centerPos.relative(direction), 0.25F, randomsource, direction,  centerAboveGround + 1 + randomsource.nextInt(6));
                     rootCount++;
@@ -57,7 +56,7 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
             trunkPos.move(0, 1, 0);
             if (randomsource.nextInt(5) == 0) {
                 level.setBlock(trunkPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 3);
-                trunkPos.move(Util.getRandom(ROOT_DIRECTIONS, randomsource));
+                trunkPos.move(Util.getRandom(ACMath.HORIZONTAL_DIRECTIONS, randomsource));
                 level.setBlock(trunkPos, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 3);
             } else {
                 level.setBlock(trunkPos, i == tallPart ? ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState() : ACBlockRegistry.THORNWOOD_LOG.get().defaultBlockState(), 3);
@@ -66,7 +65,7 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
         }
         BlockPos canopy = trunkPos.immutable();
         BlockPos.MutableBlockPos canopyLogPos = new BlockPos.MutableBlockPos();
-        for (Direction direction : ROOT_DIRECTIONS) {
+        for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
             canopyLogPos.set(canopy);
             int canopyLength = 1 + randomsource.nextInt(3);
             for (int j = 1; j <= canopyLength; j++) {

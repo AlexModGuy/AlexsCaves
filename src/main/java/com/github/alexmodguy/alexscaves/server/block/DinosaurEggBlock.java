@@ -9,6 +9,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,10 +20,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.RegistryObject;
 
@@ -31,6 +35,7 @@ import java.util.List;
 
 public class DinosaurEggBlock extends Block {
     public static final IntegerProperty HATCH = BlockStateProperties.HATCH;
+    public static final BooleanProperty NEEDS_PLAYER = BooleanProperty.create("needs_player");
 
     private final VoxelShape voxelShape;
 
@@ -38,14 +43,14 @@ public class DinosaurEggBlock extends Block {
 
     public DinosaurEggBlock(Properties properties, RegistryObject births, VoxelShape voxelShape) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(HATCH, Integer.valueOf(0)));
+        this.registerDefaultState(this.defaultBlockState().setValue(HATCH, Integer.valueOf(0)).setValue(NEEDS_PLAYER, false));
         this.births = births;
         this.voxelShape = voxelShape;
     }
 
     public DinosaurEggBlock(Properties properties, RegistryObject births, int widthPx, int heightPx) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(HATCH, Integer.valueOf(0)));
+        this.registerDefaultState(this.defaultBlockState().setValue(HATCH, Integer.valueOf(0)).setValue(NEEDS_PLAYER, false));
         this.births = births;
         int px = (16 - widthPx) / 2;
         this.voxelShape = Block.box(px, 0, px, 16 - px, heightPx, 16 - px);
@@ -93,8 +98,12 @@ public class DinosaurEggBlock extends Block {
         }
     }
 
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos blockPos, CollisionContext context) {
+        return context instanceof EntityCollisionContext entityCollisionContext && entityCollisionContext.getEntity() instanceof DinosaurEntity ? Shapes.empty() : super.getCollisionShape(state, level, blockPos, context);
+    }
+
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-        if (this.canGrow(worldIn) && isProperHabitat(worldIn, pos)) {
+        if (this.canGrow(worldIn, worldIn.getBlockState(pos.below())) && isProperHabitat(worldIn, pos) && (!state.getValue(NEEDS_PLAYER) || worldIn.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 15, EntitySelector.NO_SPECTATORS) != null)) {
             int i = state.getValue(HATCH);
             if (i < 2) {
                 worldIn.playSound(null, pos, SoundEvents.TURTLE_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
@@ -112,7 +121,7 @@ public class DinosaurEggBlock extends Block {
                     }
                     fromType.moveTo((double) pos.getX() + 0.3D + (double) j * 0.2D, pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
                     if (!worldIn.isClientSide) {
-                        Player closest = worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 20, EntitySelector.NO_SPECTATORS);
+                        Player closest = worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 10, EntitySelector.NO_SPECTATORS);
                         if (closest != null) {
                             if(fromType instanceof DinosaurEntity dinosaur && dinosaur.tamesFromHatching()){
                                 dinosaur.setTame(true);
@@ -128,8 +137,8 @@ public class DinosaurEggBlock extends Block {
 
     }
 
-    protected boolean canGrow(Level worldIn) {
-        return worldIn.random.nextInt(10) == 0;
+    protected boolean canGrow(Level worldIn, BlockState stateBelow) {
+        return worldIn.random.nextInt(stateBelow.is(ACBlockRegistry.FERN_THATCH.get()) ? 10 : 20) == 0;
     }
 
     protected int getDinosaursBornFrom(BlockState state) {
@@ -160,7 +169,7 @@ public class DinosaurEggBlock extends Block {
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HATCH);
+        builder.add(HATCH, NEEDS_PLAYER);
     }
 
     public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {

@@ -7,12 +7,16 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.ForgeRenderTypes;
+
+import javax.annotation.Nullable;
 
 public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, VallumraptorModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/vallumraptor.png");
@@ -27,10 +31,22 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
         if(mob.isElder()){
             matrixStackIn.scale(1.1F, 1.1F, 1.1F);
         }
+        float alpha = 1.0F - 0.9F * mob.getHideProgress(partialTicks);
+        this.model.setAlpha(alpha);
     }
 
     public ResourceLocation getTextureLocation(VallumraptorEntity entity) {
         return entity.isElder() ? TEXTURE_ELDER : TEXTURE;
+    }
+
+    @Nullable
+    protected RenderType getRenderType(VallumraptorEntity entity, boolean defColor, boolean invis, boolean v) {
+        if(entity.getHideProgress(1.0F) > 0.0F){
+            ResourceLocation resourcelocation = this.getTextureLocation(entity);
+            return RenderType.entityTranslucent(resourcelocation);
+        }else{
+            return super.getRenderType(entity, defColor, invis, v);
+        }
     }
 
     class ItemLayer extends RenderLayer<VallumraptorEntity, VallumraptorModel> {

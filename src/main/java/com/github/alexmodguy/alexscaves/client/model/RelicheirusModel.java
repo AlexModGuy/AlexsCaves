@@ -679,6 +679,7 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         this.resetToDefaultPose();
         animate(entity);
         float partialTick = ageInTicks - entity.tickCount;
+        float buryEggsAmount = entity.getBuryEggsProgress(partialTick);
         float walkSpeed = 0.8F;
         float walkDegree = 2F;
         float danceAmount = entity.getDanceProgress(partialTick);
@@ -688,6 +689,12 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         float f = articulateLegs(entity.legSolver, armsWalkAmount, partialTick);
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, f, ageInTicks);
+        }
+        if(buryEggsAmount > 0.0F){
+            limbSwing = ageInTicks;
+            limbSwingAmount = buryEggsAmount * 0.5F;
+            this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
+            this.neck.swing(0.25F, 0.4F, true, -1F, 0F, ageInTicks, buryEggsAmount);
         }
         this.walk(neck, 0.1F, 0.03F, true, 0F, 0F, ageInTicks, 1);
         this.walk(head, 0.1F, 0.03F, false, -0.5F, 0.0F, ageInTicks, 1);

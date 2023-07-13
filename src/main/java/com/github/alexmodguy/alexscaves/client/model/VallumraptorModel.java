@@ -38,6 +38,8 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
     private final AdvancedModelBox rquill;
     private final ModelAnimator animator;
 
+    private float alpha = 1.0F;
+
     public VallumraptorModel() {
         texWidth = 64;
         texHeight = 64;
@@ -172,7 +174,11 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         return ImmutableList.of(body, tail, tailTip, lleg2, rleg2, lleg, rleg, neck, head, jaw, lhand, rhand, lfoot, lclaw, rfoot, rclaw, larm, rarm, headquill, tailQuill, lquill, rquill);
     }
 
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+    public void setAlpha(float alpha){
+        this.alpha = alpha;
+    }
+
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alphaIn) {
         if (this.young) {
             float f = 1.5F;
             head.setScale(f, f, f);
@@ -181,14 +187,14 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
             matrixStackIn.scale(0.5F, 0.5F, 0.5F);
             matrixStackIn.translate(0.0D, 1.5D, 0D);
             parts().forEach((p_228292_8_) -> {
-                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alphaIn * this.alpha);
             });
             matrixStackIn.popPose();
             head.setScale(1, 1, 1);
         } else {
             matrixStackIn.pushPose();
             parts().forEach((p_228290_8_) -> {
-                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alphaIn * this.alpha);
             });
             matrixStackIn.popPose();
         }
@@ -453,7 +459,10 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         float walkAmount = limbSwingAmount * walkProgress * (1 - jumpProgress);
         float sprintAmount = limbSwingAmount * sprintProgress * (1 - jumpProgress);
         float stillAmount = 1 - limbSwingAmount;
+        float relaxedAmount = entity.getRelaxedProgress(partialTick);
+        float sitAmount = Math.max(entity.getSitProgress(partialTick), relaxedAmount);
         float puzzleRot = entity.getPuzzledHeadRot(partialTick);
+        float buryEggsAmount = entity.getBuryEggsProgress(partialTick);
         float puzzleRotRad = (float) Math.toRadians(puzzleRot);
         float puzzleRotPoint = puzzleRot * 0.05F;
         float yaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
@@ -463,8 +472,16 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, limbSwingAmount, ageInTicks);
         }
-        progressPositionPrev(head, walkAmount, 0, 1, -1, 1F);
-        progressPositionPrev(head, sprintAmount, 0, -2, 2, 1F);
+        if(entity.getAnimation() != VallumraptorEntity.ANIMATION_CALL_2){
+            progressPositionPrev(head, walkAmount, 0, 1, -1, 1F);
+            progressPositionPrev(head, sprintAmount, 0, -2, 2, 1F);
+        }
+        if(buryEggsAmount > 0.0F){
+            limbSwing = ageInTicks;
+            walkAmount = buryEggsAmount * 0.5F;
+            this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
+            this.neck.swing(0.25F, 0.4F, true, -1F, 0F, ageInTicks, buryEggsAmount);
+        }
         progressPositionPrev(body, jumpProgress, 0, 0, 2, 1F);
         progressPositionPrev(larm, jumpProgress, 0, 0, -2, 1F);
         progressPositionPrev(rarm, jumpProgress, 0, 0, -2, 1F);
@@ -484,6 +501,23 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         progressRotationPrev(lfoot, jumpProgress, (float) Math.toRadians(10), 0, 0, 1F);
         progressRotationPrev(rarm, danceAmount, (float) Math.toRadians(-50),  (float) Math.toRadians(50), 0, 1F);
         progressRotationPrev(larm, danceAmount, (float) Math.toRadians(-50),  (float) Math.toRadians(-50), 0, 1F);
+        progressPositionPrev(body, sitAmount,0, 6, -1F, 1F);
+        progressPositionPrev(rarm, sitAmount,0, -2, 1, 1F);
+        progressPositionPrev(larm, sitAmount,0, -2, 1, 1F);
+        progressPositionPrev(rleg, sitAmount,0, -1.5F, 5, 1F);
+        progressPositionPrev(lleg, sitAmount,0, -1.5F, 5, 1F);
+        progressRotationPrev(rleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(25), 0, 1F);
+        progressRotationPrev(rleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
+        progressRotationPrev(rfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
+        progressRotationPrev(lleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(-25), 0, 1F);
+        progressRotationPrev(lleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
+        progressRotationPrev(lfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
+        progressRotationPrev(tail, sitAmount, (float) Math.toRadians(-10), 0, 0, 1F);
+        progressPositionPrev(head, relaxedAmount,1, -1, 3, 1F);
+        progressRotationPrev(neck, relaxedAmount, (float) Math.toRadians(120), (float) Math.toRadians(30), 0, 1F);
+        progressRotationPrev(head, relaxedAmount, (float) Math.toRadians(-120),  (float) Math.toRadians(30),  (float) Math.toRadians(-30), 1F);
+        progressRotationPrev(tail, relaxedAmount, 0, (float) Math.toRadians(-30), 0, 1F);
+        progressRotationPrev(tailTip, relaxedAmount, (float) Math.toRadians(-10), (float) Math.toRadians(-30), 0, 1F);
 
         this.swing(tail, 0.1F, 0.2F, false, 2F, 0F, ageInTicks, stillAmount);
         this.swing(tailTip, 0.1F, 0.2F, false, 1F, 0F, ageInTicks, stillAmount);

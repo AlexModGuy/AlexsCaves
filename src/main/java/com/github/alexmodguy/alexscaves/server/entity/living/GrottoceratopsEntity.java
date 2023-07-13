@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -20,15 +21,15 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -77,11 +78,12 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new GrottoceratopsMeleeGoal(this));
         this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
-        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
-        this.goalSelector.addGoal(4, new GrottoceratopsEatPlantsGoal(this, 16));
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 45));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 100, 1));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, Ingredient.of(ACBlockRegistry.TREE_STAR.get()), false));
+        this.goalSelector.addGoal(5, new GrottoceratopsEatPlantsGoal(this, 16));
+        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D, 45));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, GrottoceratopsEntity.class)).setAlertOthers());
     }
 
@@ -193,10 +195,23 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
         }
     }
 
+    public boolean isFood(ItemStack stack) {
+        return stack.is(ACBlockRegistry.TREE_STAR.get().asItem());
+    }
+
     public void calculateEntityAnimation(boolean flying) {
         float f1 = (float) Mth.length(this.getX() - this.xo, flying ? this.getY() - this.yo : 0, this.getZ() - this.zo);
         float f2 = Math.min(f1 * 8.0F, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
+    }
+
+
+    @Override
+    public void setInLove(@javax.annotation.Nullable Player player) {
+        super.setInLove(player);
+        if(this.getAnimation() == null || this.getAnimation() == NO_ANIMATION){
+            this.setAnimation(ANIMATION_CHEW);
+        }
     }
 
     public float getStepHeight() {

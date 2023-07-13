@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -15,6 +16,7 @@ import java.util.stream.Stream;
 
 public class ACMath {
 
+    public static final Direction[] HORIZONTAL_DIRECTIONS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
     public static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
     public static float smin(float a, float b, float k) {
         float h = Math.max(k - Math.abs(a - b), 0.0F) / k;

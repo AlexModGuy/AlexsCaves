@@ -31,7 +31,7 @@ public class MultipleDinosaurEggsBlock extends DinosaurEggBlock {
     public MultipleDinosaurEggsBlock(Properties properties, RegistryObject births, int maxEggs) {
         super(properties, births, Shapes.block());
         this.maxEggs = maxEggs;
-        this.registerDefaultState(this.defaultBlockState().setValue(HATCH, Integer.valueOf(0)).setValue(EGGS, 1));
+        this.registerDefaultState(this.defaultBlockState().setValue(HATCH, Integer.valueOf(0)).setValue(EGGS, 1).setValue(NEEDS_PLAYER, false));
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {

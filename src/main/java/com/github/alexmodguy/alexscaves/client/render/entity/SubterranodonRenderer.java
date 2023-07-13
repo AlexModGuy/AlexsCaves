@@ -17,9 +17,6 @@ public class SubterranodonRenderer extends MobRenderer<SubterranodonEntity, Subt
 
     }
 
-    protected void scale(SubterranodonEntity mob, PoseStack matrixStackIn, float partialTicks) {
-    }
-
     public ResourceLocation getTextureLocation(SubterranodonEntity entity) {
         return TEXTURE;
     }

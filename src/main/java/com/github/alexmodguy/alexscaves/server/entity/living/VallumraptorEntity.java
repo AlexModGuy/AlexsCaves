@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.ChestThief;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.TargetsDroppedItems;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -27,12 +28,11 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
@@ -42,6 +42,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.DoorBlock;
@@ -68,15 +69,20 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     private static final EntityDataAccessor<Boolean> LEAPING = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> ELDER = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> PUZZLED_HEAD_ROT = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> RELAXED_FOR = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> HIDING_FOR = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.INT);
     private Animation currentAnimation;
     private int animationTick;
     private float leapProgress;
     private float prevLeapProgress;
     private float runProgress;
     private float prevRunProgress;
-
     private float prevPuzzleHeadRot;
 
+    public float prevRelaxedProgress;
+    public float relaxedProgress;
+    private float hideProgress;
+    private float prevHideProgress;
     private boolean hasRunningAttributes = false;
     private boolean hasElderAttributes = false;
 
@@ -105,16 +111,29 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new AnimalBreedEggsGoal(this, 1));
-        this.goalSelector.addGoal(2, new AnimalLayEggGoal(this, 40, 1));
-        this.goalSelector.addGoal(3, new AnimalJoinPackGoal(this, 60, 8));
-        this.goalSelector.addGoal(4, new FleeGoal());
-        this.goalSelector.addGoal(5, new VallumraptorMeleeGoal(this));
-        this.goalSelector.addGoal(6, new VallumraptorWanderGoal(this, 1D, 25));
-        this.goalSelector.addGoal(8, new VallumraptorOpenDoorGoal(this));
-        this.goalSelector.addGoal(9, new AnimalLootChestsGoal(this, 20));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+        this.goalSelector.addGoal(2, new AnimalFollowOwnerGoal(this, 1.0D, 5.0F, 2.0F, false) {
+            @Override
+            public boolean shouldFollow() {
+                return VallumraptorEntity.this.getCommand() == 2;
+            }
+
+            @Override
+            public void tickDistance(float distanceTo) {
+                VallumraptorEntity.this.setRunning(distanceTo > 5);
+            }
+        });
+        this.goalSelector.addGoal(3, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(4, new AnimalLayEggGoal(this, 100, 1));
+        this.goalSelector.addGoal(5, new AnimalJoinPackGoal(this, 60, 8));
+        this.goalSelector.addGoal(6, new FleeGoal());
+        this.goalSelector.addGoal(7, new TemptGoal(this, 1.1D, Ingredient.of(ACItemRegistry.DINOSAUR_NUGGET.get()), false));
+        this.goalSelector.addGoal(8, new VallumraptorMeleeGoal(this));
+        this.goalSelector.addGoal(9, new VallumraptorWanderGoal(this, 1D, 25));
+        this.goalSelector.addGoal(10, new VallumraptorOpenDoorGoal(this));
+        this.goalSelector.addGoal(11, new AnimalLootChestsGoal(this, 20));
+        this.goalSelector.addGoal(12, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(13, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new MobTargetItemGoal(this, true) {
             public void start() {
                 super.start();
@@ -125,11 +144,13 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                 VallumraptorEntity.this.setRunning(false);
             }
         });
-        this.targetSelector.addGoal(2, (new HurtByTargetGoal(this, VallumraptorEntity.class)).setAlertOthers());
-        this.targetSelector.addGoal(3, new AnimalPackTargetGoal(this, GrottoceratopsEntity.class, 30, false, 5));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal(this, Frog.class, false));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal(this, Pig.class, false));
-        this.targetSelector.addGoal(4, new MobTargetClosePlayers(this, 4));
+        this.targetSelector.addGoal(2, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(3, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(4, (new HurtByTargetGoal(this, VallumraptorEntity.class)).setAlertOthers());
+        this.targetSelector.addGoal(5, new AnimalPackTargetGoal(this, GrottoceratopsEntity.class, 30, false, 5));
+        this.targetSelector.addGoal(6, new MobTargetUntamedGoal<>(this, Frog.class, 100, true, false, null));
+        this.targetSelector.addGoal(7, new MobTargetUntamedGoal<>(this, Pig.class, 50, true, false, null));
+        this.targetSelector.addGoal(8, new MobTargetClosePlayers(this, 4));
     }
 
     @Nullable
@@ -145,6 +166,8 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         this.entityData.define(LEAPING, false);
         this.entityData.define(ELDER, false);
         this.entityData.define(RUNNING, false);
+        this.entityData.define(RELAXED_FOR, 0);
+        this.entityData.define(HIDING_FOR, 0);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -155,6 +178,8 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         super.tick();
         prevRunProgress = runProgress;
         prevLeapProgress = leapProgress;
+        prevRelaxedProgress = relaxedProgress;
+        prevHideProgress = hideProgress;
         prevTailYaw = tailYaw;
         float headPuzzleRot = getPuzzledHeadRot();
         if (isRunning() && runProgress < 5F) {
@@ -168,6 +193,18 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         }
         if (!isLeaping() && leapProgress > 0F) {
             leapProgress--;
+        }
+        if (getRelaxedFor() > 0 && relaxedProgress < 20F) {
+            relaxedProgress++;
+        }
+        if (getRelaxedFor() <= 0 && relaxedProgress > 0F) {
+            relaxedProgress--;
+        }
+        if (getHideFor() > 0 && hideProgress < 20F) {
+            hideProgress++;
+        }
+        if (getHideFor() <= 0 && hideProgress > 0F) {
+            hideProgress--;
         }
         if (isRunning() && !hasRunningAttributes) {
             hasRunningAttributes = true;
@@ -189,12 +226,12 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
             this.getAttribute(Attributes.ARMOR).setBaseValue(0.0D);
             this.heal(28.0F);
         }
-        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+        if(this.tickCount % (this.getHideFor() > 0 ? 15 : 100) == 0 && this.getHealth() < this.getMaxHealth()){
             this.heal(2);
         }
         if (!level().isClientSide) {
             puzzledTick(headPuzzleRot);
-            if (isStillEnough() && random.nextInt(100) == 0 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
+            if (isStillEnough() && random.nextInt(100) == 0 && this.getAnimation() == NO_ANIMATION && this.getRelaxedFor() <= 0 && !this.isDancing()) {
                 Animation idle;
                 float rand = random.nextFloat();
                 if (rand < 0.45F) {
@@ -216,13 +253,25 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         if (this.getAnimation() == ANIMATION_CALL_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_CALL_2 && this.getAnimationTick() == 8) {
             actuallyPlayAmbientSound();
         }
-        if (eatHeldItemIn > 0) {
-            eatHeldItemIn--;
-        } else if (canTargetItem(this.getMainHandItem())) {
-            this.level().broadcastEntityEvent(this, (byte) 45);
-            this.heal(5);
-            if (!this.level().isClientSide) {
-                this.getMainHandItem().shrink(1);
+        if(!level().isClientSide){
+            if (eatHeldItemIn > 0) {
+                eatHeldItemIn--;
+            } else if (canTargetItem(this.getMainHandItem())) {
+                ItemStack stack = this.getMainHandItem();
+                this.level().broadcastEntityEvent(this, (byte) 45);
+                this.heal(5);
+                if(stack.is(ACItemRegistry.DINOSAUR_NUGGET.get())){
+                    this.setRelaxedForTime(200 + random.nextInt(200));
+                }
+                if (!this.level().isClientSide) {
+                    stack.shrink(1);
+                }
+            }
+            if(getRelaxedFor() > 0){
+                this.setRelaxedForTime(this.getRelaxedFor() - 1);
+            }
+            if(getHideFor() > 0){
+                this.setHideFor(this.getHideFor() - 1);
             }
         }
         LivingEntity target = this.getTarget();
@@ -234,7 +283,18 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                     ((VallumraptorEntity)leader).setTarget(target);
                 }
             }
-            if(target instanceof GrottoceratopsEntity && (tickCount + this.getId()) % 20 == 0 && getPackSize() < 4){
+            if(this.getHealth() < this.getMaxHealth() * 0.45F && this.isTame() && this.getHideFor() <= 0){
+                int i = 80 + random.nextInt(40);
+                this.setHideFor(i);
+                this.fleeFromPosition = target.position();
+                this.fleeTicks = i;
+                if(target instanceof Mob mob){
+                    mob.setTarget(null);
+                    mob.setLastHurtByMob(null);
+                    mob.setLastHurtMob(null);
+                }
+            }
+            if(target instanceof GrottoceratopsEntity && (tickCount + this.getId()) % 20 == 0 && getPackSize() < 4 && !this.isTame()){
                 this.fleeFromPosition = target.position();
                 this.fleeTicks = 100 + random.nextInt(100);
                 this.setTarget(null);
@@ -260,10 +320,14 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         }
     }
 
+    public float maxSitTicks(){
+        return 5.0F;
+    }
+
     private void puzzledTick(float current) {
         float dist = Math.abs(targetPuzzleRot - current);
         LivingEntity target = this.getTarget();
-        if (target != null && target.isAlive() || this.getAnimation() != NO_ANIMATION) {
+        if (target != null && target.isAlive() || this.getAnimation() != NO_ANIMATION || this.getRelaxedFor() > 0) {
             targetPuzzleRot = 0;
         } else if (this.random.nextInt(10) == 0 && dist <= 0.1F) {
             if (random.nextFloat() < 0.25F) {
@@ -307,6 +371,14 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
 
     public float getRunProgress(float partialTick) {
         return (prevRunProgress + (runProgress - prevRunProgress) * partialTick) * 0.2F;
+    }
+
+    public float getRelaxedProgress(float partialTick) {
+        return (prevRelaxedProgress + (relaxedProgress - prevRelaxedProgress) * partialTick) * 0.05F;
+    }
+
+    public float getHideProgress(float partialTick) {
+        return (prevHideProgress + (hideProgress - prevHideProgress) * partialTick) * 0.05F;
     }
 
     public boolean isRunning() {
@@ -361,12 +433,13 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setElder(compound.getBoolean("Elder"));
+        this.setRelaxedForTime(compound.getInt("RelaxedTime"));
     }
-
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Elder", this.isElder());
+        compound.putInt("RelaxedTime", this.getRelaxedFor());
     }
 
     @javax.annotation.Nullable
@@ -389,8 +462,8 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     }
 
     public void playAmbientSound() {
-        if (this.getAnimation() == NO_ANIMATION) {
-            this.setAnimation(random.nextBoolean() ? ANIMATION_CALL_2 : ANIMATION_CALL_1);
+        if (this.getAnimation() == NO_ANIMATION && this.getRelaxedFor() <= 0) {
+            this.setAnimation(random.nextBoolean() && !this.isInSittingPose() ? ANIMATION_CALL_2 : ANIMATION_CALL_1);
         }
     }
 
@@ -402,7 +475,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     }
 
     public void travel(Vec3 vec3d) {
-        if (this.getAnimation() == ANIMATION_GRAB) {
+        if (this.getAnimation() == ANIMATION_GRAB || getRelaxedFor() > 0) {
             vec3d = Vec3.ZERO;
         }
         super.travel(vec3d);
@@ -432,7 +505,11 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     public void afterSteal(BlockPos stealPos) {
         fleeFromPosition = Vec3.atCenterOf(stealPos);
         fleeTicks = 300 + random.nextInt(80);
-        eatHeldItemIn = 100 + random.nextInt(80);
+        if(this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.DINOSAUR_NUGGET.get())){
+            eatHeldItemIn = 40 + random.nextInt(20);
+        }else{
+            eatHeldItemIn = 100 + random.nextInt(80);
+        }
     }
 
     @Override
@@ -493,7 +570,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
             duplicate.setCount(1);
             this.setItemInHand(InteractionHand.MAIN_HAND, duplicate);
             e.getItem().shrink(1);
-            eatHeldItemIn = 200;
+            eatHeldItemIn = isTame() ? 50 : 200;
         }
     }
 
@@ -504,6 +581,48 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
 
     public float getStepHeight() {
         return hasRunningAttributes ? 1.1F : 0.6F;
+    }
+
+    public boolean tamesFromHatching(){
+        return true;
+    }
+
+    public boolean isFood(ItemStack stack) {
+        return this.isTame() && stack.is(ACItemRegistry.DINOSAUR_NUGGET.get());
+    }
+
+    public int getRelaxedFor() {
+        return this.entityData.get(RELAXED_FOR);
+    }
+
+    public void setRelaxedForTime(int ticks) {
+        this.entityData.set(RELAXED_FOR, ticks);
+    }
+
+    public int getHideFor() {
+        return this.entityData.get(HIDING_FOR);
+    }
+
+    public void setHideFor(int ticks) {
+        this.entityData.set(HIDING_FOR, ticks);
+    }
+
+    @Override
+    public boolean onFeedMixture(ItemStack itemStack, Player player){
+        if(itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.getRelaxedFor() > 0 && !this.isTame()){
+            this.heal(5);
+            this.setRelaxedForTime(0);
+            this.tame(player);
+            this.setCommand(1);
+            this.setOrderedToSit(true);
+            this.level().broadcastEntityEvent(this, (byte) 7);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canOwnerCommand(Player ownerPlayer) {
+        return true;
     }
 
     private class FleeGoal extends Goal {
@@ -525,7 +644,8 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         public void tick() {
             VallumraptorEntity.this.setRunning(true);
             if (VallumraptorEntity.this.getNavigation().isDone()) {
-                Vec3 vec3 = LandRandomPos.getPosAway(VallumraptorEntity.this, 8, 7, VallumraptorEntity.this.fleeFromPosition);
+                int dist = VallumraptorEntity.this.getHideFor() > 0 ? 4 : 8;
+                Vec3 vec3 = LandRandomPos.getPosAway(VallumraptorEntity.this, dist, dist, VallumraptorEntity.this.fleeFromPosition);
                 if (vec3 != null) {
                     VallumraptorEntity.this.getNavigation().moveTo(vec3.x, vec3.y, vec3.z, 1.0F);
                 }

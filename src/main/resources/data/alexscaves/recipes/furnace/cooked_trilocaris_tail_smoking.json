@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "alexscaves:trilocaris_tail"
+  },
+  "result": "alexscaves:cooked_trilocaris_tail",
+  "experience": 0.15,
+  "cookingtime": 100
+}

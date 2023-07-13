@@ -5,5 +5,5 @@ import net.minecraft.client.KeyMapping;
 
 public class ACKeybindRegistry {
 
-    public static final KeyMapping KEY_SUB_FLOODLIGHTS = new KeyMapping("key.sub_floodlights", InputConstants.KEY_G, "key.categories.misc");
+    public static final KeyMapping KEY_MOUNT_ABILITY = new KeyMapping("key.mount_ability", InputConstants.KEY_G, "key.categories.misc");
 }

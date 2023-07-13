@@ -19,6 +19,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
@@ -90,7 +91,7 @@ public class ClientProxy extends CommonProxy {
 
     private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true", "alexscaves:abyssmarine_", "alexscaves:peering_coprolith#", "alexscaves:forsaken_idol#", "alexscaves:magnetic_light#");
     public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
-    public static final ResourceLocation SUBTERRANODON_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/subterranodon_hud_overlays.png");
+    public static final ResourceLocation DINOSAUR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/dinosaur_hud_overlays.png");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation WATCHER_EFFECT = new ResourceLocation(AlexsCaves.MODID, "textures/misc/watcher_effect.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
@@ -128,6 +129,12 @@ public class ClientProxy extends CommonProxy {
         bus.addListener(ClientLayerRegistry::addLayers);
         bus.addListener(this::bakeModels);
         bus.addListener(this::registerShaders);
+        EntityRenderers.register(ACEntityRegistry.BOAT.get(), (context) -> {
+            return new AlexsCavesBoatRenderer(context, false);
+        });
+        EntityRenderers.register(ACEntityRegistry.CHEST_BOAT.get(), (context) -> {
+            return new AlexsCavesBoatRenderer(context, true);
+        });
         BlockEntityRenderers.register(ACBlockEntityRegistry.MAGNET.get(), MagnetBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.TESLA_BULB.get(), TelsaBulbBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.HOLOGRAM_PROJECTOR.get(), HologramProjectorBlockRenderer::new);
@@ -379,6 +386,9 @@ public class ClientProxy extends CommonProxy {
         if (player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && event.getCamera().isDetached()) {
             event.getCamera().move(-event.getCamera().getMaxZoom(4F), 0, 0);
         }
+        if (player != null && player.isPassenger() && player.getVehicle() instanceof TremorsaurusEntity && event.getCamera().isDetached()) {
+            event.getCamera().move(-event.getCamera().getMaxZoom(2F), 0, 0);
+        }
         if (player != null && player instanceof LivingEntity livingEntity && livingEntity.hasEffect(ACEffectRegistry.STUNNED.get())) {
             event.setRoll((float) (Math.sin((player.tickCount + partialTick) * 0.2F) * 10F));
         }
@@ -524,12 +534,12 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void onPostRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
         Player player = getClientSidePlayer();
-        if (event.getOverlay().id().equals(VanillaGuiOverlay.ARMOR_LEVEL.id()) && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter()) {
+        if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter()) {
             int screenWidth = event.getWindow().getGuiScaledWidth();
             int screenHeight = event.getWindow().getGuiScaledHeight();
             int forgeGuiY = Minecraft.getInstance().gui instanceof ForgeGui forgeGui ? Math.max(forgeGui.leftHeight, forgeGui.rightHeight) : 0;
-            if (player.getArmorValue() > 0) {
-                forgeGuiY += 10;
+            if (player.getArmorValue() > 0 && dinosaur instanceof SubterranodonEntity) {
+                forgeGuiY += 25;
             }
             if (forgeGuiY < 53) {
                 forgeGuiY = 53;
@@ -538,9 +548,14 @@ public class ClientProxy extends CommonProxy {
             int k = screenHeight - forgeGuiY - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get();
             float f = dinosaur.getMeterAmount();
             float invProgress = 1 - f;
+            int uvOffset = 0;
+            if(dinosaur instanceof TremorsaurusEntity){
+                uvOffset = 62;
+                k += 5;
+            }
             event.getGuiGraphics().pose().pushPose();
-            event.getGuiGraphics().blit(SUBTERRANODON_HUD_OVERLAYS, j, k, 50, 0, 31, 43, 31, 64, 64);
-            event.getGuiGraphics().blit(SUBTERRANODON_HUD_OVERLAYS, j, k, 50, 0, 0, 43, Math.round(31 * invProgress), 64, 64);
+            event.getGuiGraphics().blit(DINOSAUR_HUD_OVERLAYS, j, k, 50, 0, uvOffset + 32, 43, 31, 128, 128);
+            event.getGuiGraphics().blit(DINOSAUR_HUD_OVERLAYS, j, k, 50, 0, uvOffset, 43, (int)Math.floor(31 * invProgress), 128, 128);
             event.getGuiGraphics().pose().popPose();
         }
         if (event.getOverlay().id().equals(VanillaGuiOverlay.PLAYER_HEALTH.id()) && Minecraft.getInstance().gameMode.canHurtPlayer() && Minecraft.getInstance().getCameraEntity() instanceof Player && player.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
@@ -793,7 +808,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     private void registerKeybinds(RegisterKeyMappingsEvent e) {
-        e.register(ACKeybindRegistry.KEY_SUB_FLOODLIGHTS);
+        e.register(ACKeybindRegistry.KEY_MOUNT_ABILITY);
     }
 
 
@@ -903,7 +918,10 @@ public class ClientProxy extends CommonProxy {
             return Minecraft.getInstance().options.keySprint.isDown();
         }
         if (keyType == 2) {
-            return ACKeybindRegistry.KEY_SUB_FLOODLIGHTS.isDown();
+            return ACKeybindRegistry.KEY_MOUNT_ABILITY.isDown();
+        }
+        if (keyType == 3) {
+            return Minecraft.getInstance().options.keyAttack.isDown();
         }
         return false;
     }

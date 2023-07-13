@@ -1,5 +1,5 @@
 {
-  "type": "alexscaves:underground_ruins",
+  "type": "alexscaves:forlorn_ruins",
   "config": {
     "structures": [
       "alexscaves:caveman_house_0",
@@ -11,6 +11,6 @@
       "alexscaves:caveman_house_6"
     ],
     "chest_loot": "alexscaves:chests/caveman_house",
-    "sink_by": 1
+    "sink_by": 0
   }
 }

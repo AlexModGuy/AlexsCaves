@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.piece.ForlornBridgeStructurePiece;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.mojang.serialization.Codec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -20,8 +21,6 @@ import java.util.Optional;
 import java.util.function.Consumer;
 
 public class ForlornBridgeStructure extends Structure {
-
-    private static final Direction[] BRIDGE_DIRECTIONS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
     public static int BRIDGE_SECTION_LENGTH = 6;
     public static int BRIDGE_SECTION_WIDTH = 4;
@@ -56,7 +55,7 @@ public class ForlornBridgeStructure extends Structure {
         int biomeUp = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.UP, xzCoords, 32);
         int biomeDown = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.DOWN, xzCoords, 32);
         BlockPos center = xzCoords.below(biomeDown).above(worldgenrandom.nextInt(Math.max(biomeUp, 10)));
-        Direction bridgeDirection = Util.getRandom(BRIDGE_DIRECTIONS, worldgenrandom);
+        Direction bridgeDirection = Util.getRandom(ACMath.HORIZONTAL_DIRECTIONS, worldgenrandom);
         int biomeForwards = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), bridgeDirection, center, 32 + worldgenrandom.nextInt(6) * 16);
         int biomeBackwards = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), bridgeDirection.getOpposite(), center, 32 + worldgenrandom.nextInt(6) * 16);
         int maxSections = (int) Math.ceil((biomeBackwards + biomeForwards) / BRIDGE_SECTION_LENGTH);

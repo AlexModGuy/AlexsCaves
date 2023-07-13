@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
+import com.github.alexmodguy.alexscaves.server.block.grower.AncientTreeGrower;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
@@ -9,6 +10,7 @@ import com.github.alexmodguy.alexscaves.server.item.BlockItemWithISTER;
 import com.github.alexmodguy.alexscaves.server.item.BlockItemWithScaffolding;
 import com.github.alexmodguy.alexscaves.server.item.BlockItemWithSupplierLore;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -18,6 +20,7 @@ import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -113,7 +116,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS_FRIEND = registerBlockAndItem("cave_painting_tremorsaurus_friend", () -> new CavePaintingBlock(), 1);
     public static final RegistryObject<Block> AMBER = registerBlockAndItem("amber", () -> new GlassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().strength(0.3F, 2.0F).sound(SoundType.GLASS)));
     public static final RegistryObject<Block> AMBERSOL = registerBlockAndItem("ambersol", () -> new AmbersolBlock());
-    public static final RegistryObject<Block> AMBERSOL_LIGHT = DEF_REG.register("ambersol_light", () -> new AmbersolLightBlock(BlockBehaviour.Properties.of().noOcclusion().strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().lightLevel(((state -> 15)))));
+    public static final RegistryObject<Block> AMBERSOL_LIGHT = DEF_REG.register("ambersol_light", () -> new AmbersolLightBlock(BlockBehaviour.Properties.of().noOcclusion().strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().replaceable().lightLevel(((state -> 15)))));
     public static final RegistryObject<Block> AMBER_MONOLITH = registerBlockAndItem("amber_monolith", () -> new AmberMonolithBlock());
     public static final RegistryObject<Block> SUBTERRANODON_EGG = registerBlockAndItem("subterranodon_egg", () -> new MultipleDinosaurEggsBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.5F).sound(SoundType.METAL).randomTicks(), ACEntityRegistry.SUBTERRANODON, 4));
     public static final RegistryObject<Block> VALLUMRAPTOR_EGG = registerBlockAndItem("vallumraptor_egg", () -> new MultipleDinosaurEggsBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.5F).sound(SoundType.METAL).randomTicks(), ACEntityRegistry.VALLUMRAPTOR, 4));
@@ -122,6 +125,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RELICHEIRUS_EGG = registerBlockAndItem("relicheirus_egg", () -> new DinosaurEggBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(0.5F).sound(SoundType.METAL).randomTicks(), ACEntityRegistry.RELICHEIRUS, 14, 16));
     public static final RegistryObject<Block> DINOSAUR_CHOP = registerBlockAndItem("dinosaur_chop", () -> new DinosaurChopBlock(3, 0.2F));
     public static final RegistryObject<Block> COOKED_DINOSAUR_CHOP = registerBlockAndItem("cooked_dinosaur_chop", () -> new DinosaurChopBlock(7, 0.35F));
+    public static final RegistryObject<Block> CARMINE_FROGLIGHT = registerBlockAndItem("carmine_froglight", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW).strength(0.3F).lightLevel((blockState) -> 15).sound(SoundType.FROGLIGHT)));
     public static final RegistryObject<Block> PEWEN_LOG = registerBlockAndItem("pewen_log", () -> new RotatedPillarBlock(PEWEN_LOG_PROPERTIES));
     public static final RegistryObject<Block> PEWEN_WOOD = registerBlockAndItem("pewen_wood", () -> new RotatedPillarBlock(PEWEN_LOG_PROPERTIES));
     public static final RegistryObject<Block> STRIPPED_PEWEN_LOG = registerBlockAndItem("stripped_pewen_log", () -> new RotatedPillarBlock(PEWEN_LOG_PROPERTIES));
@@ -141,15 +145,24 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> PEWEN_DOOR = DEF_REG.register("pewen_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(PEWEN_PLANKS.get()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
     public static final RegistryObject<Block> PEWEN_BRANCH = registerBlockAndItem("pewen_branch", () -> new PewenBranchBlock());
     public static final RegistryObject<Block> PEWEN_PINES = registerBlockAndItem("pewen_pines", () -> new PewenPinesBlock());
+    public static final RegistryObject<Block> POTTED_PEWEN_PINES = registerBlockAndItem("potted_pewen_pines", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, PEWEN_PINES, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> PEWEN_SAPLING = registerBlockAndItem("pewen_sapling", () -> new SaplingBlock(new PewenGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+    public static final RegistryObject<Block> POTTED_PEWEN_SAPLING = registerBlockAndItem("potted_pewen_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, PEWEN_SAPLING, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> FIDDLEHEAD = registerBlockAndItem("fiddlehead", () -> new FiddleheadBlock());
+    public static final RegistryObject<Block> POTTED_FIDDLEHEAD = registerBlockAndItem("potted_fiddlehead", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, FIDDLEHEAD, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> CURLY_FERN = registerBlockAndItem("curly_fern", () -> new DoublePlantWithRotationBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().instabreak().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ)));
+    public static final RegistryObject<Block> POTTED_CURLY_FERN = registerBlockAndItem("potted_curly_fern", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CURLY_FERN, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> FLYTRAP = registerBlockAndItem("flytrap", () -> new FlytrapBlock());
+    public static final RegistryObject<Block> POTTED_FLYTRAP = registerBlockAndItem("potted_flytrap", () -> new PottedFlytrapBlock());
     public static final RegistryObject<Block> CYCAD = registerBlockAndItem("cycad", () -> new CycadBlock());
+    public static final RegistryObject<Block> POTTED_CYCAD = registerBlockAndItem("potted_cycad", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CYCAD, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> ARCHAIC_VINE = registerBlockAndItem("archaic_vine", () -> new ArchaicVineBlock());
     public static final RegistryObject<Block> ARCHAIC_VINE_PLANT = DEF_REG.register("archaic_vine_plant", () -> new ArchaicVinePlantBlock());
     public static final RegistryObject<Block> ANCIENT_LEAVES = registerBlockAndItem("ancient_leaves", () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion()));
+    public static final RegistryObject<Block> ANCIENT_SAPLING = registerBlockAndItem("ancient_sapling", () -> new SaplingBlock(new AncientTreeGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+    public static final RegistryObject<Block> POTTED_ANCIENT_SAPLING = registerBlockAndItem("potted_ancient_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, ANCIENT_SAPLING, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> TREE_STAR = registerBlockAndItem("tree_star", () -> new TreeStarBlock());
+    public static final RegistryObject<Block> FERN_THATCH = registerBlockAndItem("fern_thatch", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.5F).sound(SoundType.GRASS).noOcclusion()));
     public static final RegistryObject<Block> RADROCK = registerBlockAndItem("radrock", () -> new Block(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_STAIRS = registerBlockAndItem("radrock_stairs", () -> new StairBlock(RADROCK.get().defaultBlockState(), RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_SLAB = registerBlockAndItem("radrock_slab", () -> new SlabBlock(RADROCK_PROPERTIES));
@@ -166,6 +179,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
     public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable()));
     public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable()));
+    public static final RegistryObject<Block> POTTED_UNDERWEED = registerBlockAndItem("potted_underweed", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, UNDERWEED, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock());
     public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
@@ -259,6 +273,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> FORSAKEN_IDOL = registerBlockAndItem("forsaken_idol", () -> new ForsakenIdolBlock());
     public static final RegistryObject<Block> THORNWOOD_LOG = registerBlockAndItem("thornwood_log", () -> new RotatedPillarBlock(THORNWOOD_LOG_PROPERTIES));
     public static final RegistryObject<Block> THORNWOOD_BRANCH = registerBlockAndItem("thornwood_branch", () -> new ThornwoodBranchBlock());
+    public static final RegistryObject<Block> POTTED_THORNWOOD_BRANCH = registerBlockAndItem("potted_thornwood_branch", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, THORNWOOD_BRANCH, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> THORNWOOD_WOOD = registerBlockAndItem("thornwood_wood", () -> new RotatedPillarBlock(THORNWOOD_LOG_PROPERTIES));
     public static final RegistryObject<Block> STRIPPED_THORNWOOD_LOG = registerBlockAndItem("stripped_thornwood_log", () -> new RotatedPillarBlock(THORNWOOD_LOG_PROPERTIES));
     public static final RegistryObject<Block> STRIPPED_THORNWOOD_WOOD = registerBlockAndItem("stripped_thornwood_wood", () -> new RotatedPillarBlock(THORNWOOD_LOG_PROPERTIES));
@@ -284,5 +299,18 @@ public class ACBlockRegistry {
         RegistryObject<Block> blockObj = DEF_REG.register(name, block);
         ACItemRegistry.DEF_REG.register(name, () -> itemType == 3 ? new BlockItemWithISTER(blockObj, new Item.Properties()) : itemType == 2 ? new BlockItemWithScaffolding(blockObj, new Item.Properties()) : itemType == 1 ? new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
         return blockObj;
+    }
+
+    public static void setup(){
+        FlowerPotBlock flowerPotBlock = (FlowerPotBlock)Blocks.FLOWER_POT;
+        flowerPotBlock.addPlant(FLYTRAP.getId(), POTTED_FLYTRAP);
+        flowerPotBlock.addPlant(CURLY_FERN.getId(), POTTED_CURLY_FERN);
+        flowerPotBlock.addPlant(CYCAD.getId(), POTTED_CYCAD);
+        flowerPotBlock.addPlant(PEWEN_SAPLING.getId(), POTTED_PEWEN_SAPLING);
+        flowerPotBlock.addPlant(PEWEN_PINES.getId(), POTTED_PEWEN_PINES);
+        flowerPotBlock.addPlant(FIDDLEHEAD.getId(), POTTED_FIDDLEHEAD);
+        flowerPotBlock.addPlant(ANCIENT_SAPLING.getId(), POTTED_ANCIENT_SAPLING);
+        flowerPotBlock.addPlant(UNDERWEED.getId(), POTTED_UNDERWEED);
+        flowerPotBlock.addPlant(THORNWOOD_BRANCH.getId(), POTTED_THORNWOOD_BRANCH);
     }
 }

@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -22,10 +23,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
@@ -33,6 +31,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -78,12 +77,13 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new RelicheirusMeleeGoal(this));
         this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
-        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
-        this.goalSelector.addGoal(4, new RelicheirusPushTreesGoal(this, 25));
-        this.goalSelector.addGoal(5, new RelicheirusNibblePewensGoal(this, 20));
-        this.goalSelector.addGoal(6, new RandomStrollGoal(this, 1.0D, 45));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 100, 1));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.1D, Ingredient.of(ACBlockRegistry.TREE_STAR.get()), false));
+        this.goalSelector.addGoal(5, new RelicheirusPushTreesGoal(this, 25));
+        this.goalSelector.addGoal(6, new RelicheirusNibblePewensGoal(this, 20));
+        this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D, 45));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, RelicheirusEntity.class)));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TrilocarisEntity.class, 100, true, false, null));
     }
@@ -98,6 +98,15 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
         return 0.99F * dimensions.height;
     }
 
+    @Override
+    public boolean onFeedMixture(ItemStack itemStack, Player player){
+        if(itemStack.is(ACItemRegistry.PRIMORDIAL_SOUP.get())){
+            this.setPushingTreesFor(1200);
+            return true;
+        }
+        return false;
+    }
+
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         InteractionResult prev = super.mobInteract(player, hand);
         ItemStack itemstack = player.getItemInHand(hand);
@@ -106,7 +115,6 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
                 this.spawnAtLocation(itemstack.getCraftingRemainingItem().copy());
             }
             this.usePlayerItem(player, hand, itemstack);
-            this.setPushingTreesFor(1200);
             return InteractionResult.SUCCESS;
         }
         return prev;
@@ -333,6 +341,9 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
         return this.distanceToSqr(vec31.x, this.getY(), vec31.z) < 4.0D && Mth.degreesDifferenceAbs(this.getYRot(), dir.toYRot()) < 7;
     }
 
+    public boolean isFood(ItemStack stack) {
+        return stack.is(ACBlockRegistry.TREE_STAR.get().asItem());
+    }
     @Override
     public BlockState createEggBlockState() {
         return ACBlockRegistry.RELICHEIRUS_EGG.get().defaultBlockState();

@@ -62,7 +62,8 @@ public class VallumraptorMeleeGoal extends Goal {
                         checkAndDealDamage(target);
                     }
                 }else{
-                    if(dist > 3.0F && dist < 7.0F && raptor.getRandom().nextInt(10) == 0){
+                    int jumpChance = raptor.isTame() ? 5 : 10;
+                    if(dist > 3.0F && dist < 7.0F && raptor.getRandom().nextInt(jumpChance) == 0){
                         tryAnimation(VallumraptorEntity.ANIMATION_STARTLEAP);
                     }
                 }

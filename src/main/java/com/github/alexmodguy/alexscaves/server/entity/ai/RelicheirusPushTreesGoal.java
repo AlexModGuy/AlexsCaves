@@ -24,8 +24,8 @@ import java.util.List;
 
 public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
 
-    private static final int MAXIMUM_BLOCKS_PUSHED = 256;
-    public static final int MAX_TREE_SPREAD = 10;
+    private static final int MAXIMUM_BLOCKS_PUSHED = 300;
+    public static final int MAX_TREE_SPREAD = 12;
     private RelicheirusEntity relicheirus;
     private boolean madeTreeEntity = false;
 
@@ -87,7 +87,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
                                     allData.add(data);
                                 }
                                 for (BlockPos pos : gathered) {
-                                    relicheirus.level().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                                    relicheirus.level().setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                                 }
                                 FallingTreeBlockEntity fallingTree = ACEntityRegistry.FALLING_TREE_BLOCK.get().create(relicheirus.level());
                                 fallingTree.moveTo(Vec3.atCenterOf(blockPos));
@@ -117,7 +117,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
 
     protected void moveMobToBlock() {
         BlockPos pos = getMoveToTarget();
-        this.mob.getNavigation().moveTo((double) ((float) pos.getX()) + 0.5D, (double) (pos.getY() ), (double) ((float) pos.getZ()) + 0.5D, this.speedModifier);
+        this.mob.getNavigation().moveTo((double) ((float) pos.getX()) + 0.5D, (double) (pos.getY()), (double) ((float) pos.getZ()) + 0.5D, this.speedModifier);
     }
 
 

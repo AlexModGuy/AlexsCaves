@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.feature;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -12,8 +13,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.material.Fluids;
 
 public class ThornwoodRootsFeature extends Feature<NoneFeatureConfiguration> {
-
-    private static final Direction[] ROOT_DIRECTIONS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
 
 
     public ThornwoodRootsFeature(Codec<NoneFeatureConfiguration> codec) {
@@ -38,7 +37,7 @@ public class ThornwoodRootsFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos rootsFrom = generateAt.immutable();
         level.setBlock(rootsFrom, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 4);
         ThornwoodTreeFeature.generateRoot(level, rootsFrom, 0F, randomsource, Direction.DOWN, 1 + randomsource.nextInt(2));
-        for(Direction direction : ROOT_DIRECTIONS){
+        for(Direction direction : ACMath.HORIZONTAL_DIRECTIONS){
             ThornwoodTreeFeature.generateRoot(level, rootsFrom, 0.4F, randomsource, direction, 2 + randomsource.nextInt(5));
         }
         return true;

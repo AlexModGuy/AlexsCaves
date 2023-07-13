@@ -41,7 +41,7 @@ public class GiantAncientTreeFeature extends Feature<NoneFeatureConfiguration> {
                 for(int length =  -(int)Math.floor(trunkThickness / 2F); length < (int)Math.ceil(trunkThickness / 2F);length++){
                     BlockPos logPos = trunkRoot.offset(width, 0, length);
                     if(trunkRoot.distToLowCornerSqr(logPos.getX(), trunkRoot.getY(), logPos.getZ()) <= (trunkThickness * trunkThickness / 4D) * radShrink && canReplace(level.getBlockState(logPos))) {
-                        level.setBlock(logPos, Blocks.JUNGLE_LOG.defaultBlockState(), 4);
+                        level.setBlock(logPos, Blocks.JUNGLE_LOG.defaultBlockState(), 3);
                     }
                 }
             }
@@ -88,7 +88,7 @@ public class GiantAncientTreeFeature extends Feature<NoneFeatureConfiguration> {
                                 Direction dir = Direction.getRandom(random);
                                 BlockPos starPos = fill.relative(dir);
                                 if(level.getBlockState(starPos).isAir()){
-                                    level.setBlock(starPos, ACBlockRegistry.TREE_STAR.get().defaultBlockState().setValue(TreeStarBlock.FACING, dir), 4);
+                                    level.setBlock(starPos, ACBlockRegistry.TREE_STAR.get().defaultBlockState().setValue(TreeStarBlock.FACING, dir), 3);
                                 }
                             }
                         }

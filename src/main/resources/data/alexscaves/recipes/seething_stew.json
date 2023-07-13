@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:cooked_dinosaur_chop"
+    },
+    {
+      "item": "alexscaves:flytrap"
+    },
+    {
+      "item": "alexscaves:heavy_bone"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:seething_stew"
+  }
+}

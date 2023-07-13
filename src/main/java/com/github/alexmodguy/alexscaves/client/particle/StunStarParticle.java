@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client.particle;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -17,6 +18,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.ForgeRenderTypes;
 import org.joml.Matrix3f;
@@ -114,6 +116,10 @@ public class StunStarParticle extends AbstractTrailParticle {
         if(entityId != -1) {
             Vec3 orbit = getOrbitPos();
             this.setPos(orbit.x, orbit.y, orbit.z);
+            Entity entity = level.getEntity(entityId);
+            if(entity instanceof LivingEntity living && !living.hasEffect(ACEffectRegistry.STUNNED.get())){
+                this.remove();
+            }
         }
     }
 

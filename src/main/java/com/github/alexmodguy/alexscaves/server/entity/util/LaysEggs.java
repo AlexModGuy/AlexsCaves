@@ -10,6 +10,6 @@ public interface LaysEggs {
 
     BlockState createEggBlockState();
 
-    default void onLayEgg(BlockPos belowEgg, int time){}
+    default void onLayEggTick(BlockPos belowEgg, int time){}
 
 }

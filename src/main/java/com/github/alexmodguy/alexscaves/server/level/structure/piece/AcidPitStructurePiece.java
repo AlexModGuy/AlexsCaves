@@ -21,8 +21,6 @@ import net.minecraft.world.level.material.FluidState;
 
 public class AcidPitStructurePiece extends AbstractCaveGenerationStructurePiece {
 
-    private static final Direction[] LIQUID_CHECK_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
-
     public AcidPitStructurePiece(BlockPos chunkCorner, BlockPos holeCenter, int bowlHeight, int bowlRadius) {
         super(ACStructurePieceRegistry.ACID_PIT.get(), chunkCorner, holeCenter, bowlHeight, bowlRadius);
     }
@@ -92,7 +90,7 @@ public class AcidPitStructurePiece extends AbstractCaveGenerationStructurePiece 
 
     private void surroundCornerLiquid(WorldGenLevel level, BlockPos.MutableBlockPos center) {
         BlockPos.MutableBlockPos offset = new BlockPos.MutableBlockPos();
-        for (Direction dir : LIQUID_CHECK_DIRECTIONS) {
+        for (Direction dir : ACMath.HORIZONTAL_DIRECTIONS) {
             offset.set(center);
             offset.move(dir);
             BlockState state = checkedGetBlock(level, offset);

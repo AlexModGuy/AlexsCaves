@@ -20,16 +20,23 @@ public class UpdateEffectVisualityEntity {
     private int potionType;
     private int duration;
 
+    private boolean remove;
+
     public UpdateEffectVisualityEntity(int entityID, int fromEntityID, int potionType, int duration) {
+        this(entityID, fromEntityID, potionType, duration, false);
+    }
+
+    public UpdateEffectVisualityEntity(int entityID, int fromEntityID, int potionType, int duration, boolean remove) {
         this.entityID = entityID;
         this.fromEntityID = fromEntityID;
         this.potionType = potionType;
         this.duration = duration;
+        this.remove = remove;
     }
 
 
     public static UpdateEffectVisualityEntity read(FriendlyByteBuf buf) {
-        return new UpdateEffectVisualityEntity(buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt());
+        return new UpdateEffectVisualityEntity(buf.readInt(), buf.readInt(), buf.readInt(), buf.readInt(), buf.readBoolean());
     }
 
     public static void write(UpdateEffectVisualityEntity message, FriendlyByteBuf buf) {
@@ -37,6 +44,7 @@ public class UpdateEffectVisualityEntity {
         buf.writeInt(message.fromEntityID);
         buf.writeInt(message.potionType);
         buf.writeInt(message.duration);
+        buf.writeBoolean(message.remove);
     }
 
     public static void handle(UpdateEffectVisualityEntity message, Supplier<NetworkEvent.Context> context) {
@@ -65,7 +73,11 @@ public class UpdateEffectVisualityEntity {
                         break;
                 }
                 if(mobEffect != null){
-                    living.addEffect(new MobEffectInstance(mobEffect, message.duration));
+                    if(message.remove){
+                        living.removeEffectNoUpdate(mobEffect);
+                    }else{
+                        living.addEffect(new MobEffectInstance(mobEffect, message.duration));
+                    }
                 }
             }
         }

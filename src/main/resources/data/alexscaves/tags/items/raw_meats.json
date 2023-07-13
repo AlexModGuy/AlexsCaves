@@ -1,0 +1,18 @@
+{
+  "__comment": "all raw meat items that have additional saturation with primordial armor.",
+  "values": [
+    "minecraft:beef",
+    "minecraft:porkchop",
+    "minecraft:mutton",
+    "minecraft:chicken",
+    "minecraft:rabbit",
+    "minecraft:cod",
+    "minecraft:salmon",
+    "minecraft:tropical_fish",
+    "minecraft:pufferfish",
+    "minecraft:rotten_flesh",
+    "minecraft:spider_eye",
+    "alexscaves:trilocaris_tail",
+    "alexscaves:dinosaur_chop"
+  ]
+}

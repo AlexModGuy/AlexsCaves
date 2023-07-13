@@ -9,7 +9,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 
 public class MagnetizedEffect extends MobEffect {
 
-    private int firstDuration = -1;
     protected MagnetizedEffect() {
         super(MobEffectCategory.NEUTRAL, 0X53556C);
     }

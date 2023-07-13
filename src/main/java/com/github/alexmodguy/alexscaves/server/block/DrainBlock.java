@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
@@ -27,7 +28,7 @@ public class DrainBlock extends AbstractGlassBlock {
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     private static final int MAXIMUM_BLOCKS_DRAINED = 64;
     public static final int MAX_FLUID_SPREAD = 10;
-    private static final Direction[] DRAIN_DIRECTIONS = new Direction[]{Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH};
+    private static final Direction[] DRAIN_DIRECTIONS = ACMath.HORIZONTAL_DIRECTIONS;
     private static final Direction[] FIND_WATER_DIRECTIONS = new Direction[]{Direction.UP, Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH};
     private static final Direction[] FILL_DIRECTIONS = new Direction[]{Direction.DOWN, Direction.EAST, Direction.NORTH, Direction.WEST, Direction.SOUTH};
     private static final int DRAIN_TIME = 20;

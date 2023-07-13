@@ -26,6 +26,7 @@ import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACPotPatternRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.recipe.ACRecipeRegistry;
@@ -113,6 +114,7 @@ public class AlexsCaves {
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
         ACLootTableRegistry.DEF_REG.register(modEventBus);
         ACCreativeTabRegistry.DEF_REG.register(modEventBus);
+        ACPotPatternRegistry.DEF_REG.register(modEventBus);
         PROXY.init();
         ACBiomeRegistry.init();
     }
@@ -136,7 +138,9 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, WatcherKeyMessage.class, WatcherKeyMessage::write, WatcherKeyMessage::read, WatcherKeyMessage::handle);
         ACSurfaceRules.setup();
         ACEffectRegistry.setup();
+        ACBlockRegistry.setup();
         ACItemRegistry.setup();
+        ACPotPatternRegistry.expandVanillaDefinitions();
         ACBlockEntityRegistry.expandVanillaDefinitions();
     }
 

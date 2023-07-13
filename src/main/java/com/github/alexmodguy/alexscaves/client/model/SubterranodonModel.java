@@ -139,13 +139,15 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		float walkDegree = 1F;
 		float partialTick = ageInTicks - entity.tickCount;
 		float flyProgress = entity.getFlyProgress(partialTick);
+		float buryEggsAmount = entity.getBuryEggsProgress(partialTick);
 		float groundProgress = 1F - flyProgress;
 		float flapAmount = flyProgress * entity.getFlapAmount(partialTick);
 		float groundStill = groundProgress * (1F - limbSwingAmount);
 		float groundMove = groundProgress * limbSwingAmount;
 		float glide = flyProgress * (1 - flapAmount);
 		float hoverProgress = flyProgress *  entity.getHoverProgress(partialTick);
-		float openMouthProgress = 0F;
+		float openMouthProgress = entity.getBiteProgress(partialTick);
+		float sitProgress = entity.getSitProgress(partialTick) * groundProgress;
 		float rollAmount = entity.getFlightRoll(partialTick) / 57.295776F * flyProgress;
 		float pitchAmount = entity.getFlightPitch(partialTick) / 57.295776F * (flyProgress - hoverProgress);
 		float yaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
@@ -179,6 +181,29 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
 		progressRotationPrev(ltalon, hoverProgress, (float) Math.toRadians(-20), 0, 0, 1F);
 		progressRotationPrev(rtalon, hoverProgress, (float) Math.toRadians(-20), 0, 0, 1F);
 		progressRotationPrev(jaw, openMouthProgress, (float) Math.toRadians(30), 0, 0, 1F);
+		progressPositionPrev(neck, glide, 0, 1, 0, 1F);
+		progressPositionPrev(body, sitProgress, 0, -1, 0, 1F);
+		progressPositionPrev(lleg, sitProgress, 0, -2, -3, 1F);
+		progressPositionPrev(rleg, sitProgress, 0, -2, -3, 1F);
+		progressPositionPrev(lwing, sitProgress, 1, 1, -1, 1F);
+		progressPositionPrev(rwing, sitProgress, -1, 1, -1, 1F);
+		progressRotationPrev(body, sitProgress, (float) Math.toRadians(-50), 0, 0, 1F);
+		progressRotationPrev(neck, sitProgress, (float) Math.toRadians(30), 0, 0, 1F);
+		progressRotationPrev(head, sitProgress, (float) Math.toRadians(20), 0, 0, 1F);
+		progressRotationPrev(tail, sitProgress, (float) Math.toRadians(55), 0, 0, 1F);
+		progressRotationPrev(tailTip, sitProgress, (float) Math.toRadians(10), 0, 0, 1F);
+		progressRotationPrev(lleg, sitProgress, (float) Math.toRadians(15), (float) Math.toRadians(15), 0, 1F);
+		progressRotationPrev(rleg, sitProgress, (float) Math.toRadians(15), (float) Math.toRadians(-15), 0, 1F);
+		progressRotationPrev(lwing, sitProgress, (float) Math.toRadians(40), (float) Math.toRadians(-20), (float) Math.toRadians(20), 1F);
+		progressRotationPrev(rwing, sitProgress, (float) Math.toRadians(40), (float) Math.toRadians(20), (float) Math.toRadians(-20), 1F);
+		progressRotationPrev(lhand, sitProgress, (float) Math.toRadians(20), 0, 0, 1F);
+		progressRotationPrev(rhand, sitProgress, (float) Math.toRadians(20), 0, 0, 1F);
+		if(buryEggsAmount > 0.0F){
+			limbSwing = ageInTicks;
+			groundMove = buryEggsAmount * 0.5F;
+			this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
+			this.neck.swing(0.25F, 0.4F, true, -1F, 0F, ageInTicks, buryEggsAmount);
+		}
 		this.swing(tail, 0.1F, 0.2F, false, 2F, 0F, ageInTicks, 1);
 		this.swing(tailTip, 0.1F, 0.2F, false, 1F, 0F, ageInTicks, 1);
 		this.swing(lwing, walkSpeed, walkDegree, false, -1F, 0.2F, limbSwing, groundMove);

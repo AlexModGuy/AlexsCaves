@@ -24,7 +24,7 @@ class FlytrapBlock extends BushBlock {
     public static final VoxelShape SHAPE = Block.box(3.5, 0, 3.5, 12.5, 21, 12.5);
     public FlytrapBlock() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().noCollission());
-        this.registerDefaultState(this.stateDefinition.any().setValue(OPEN, Boolean.valueOf(true)));
+        this.registerDefaultState(this.defaultBlockState().setValue(OPEN, Boolean.valueOf(true)));
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {

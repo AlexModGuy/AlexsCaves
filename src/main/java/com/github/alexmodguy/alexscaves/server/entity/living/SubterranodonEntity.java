@@ -3,10 +3,12 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.MultipleDinosaurEggsBlock;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.FlyingMount;
 import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
@@ -24,9 +26,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
@@ -37,6 +37,8 @@ import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -54,6 +56,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     private static final EntityDataAccessor<Boolean> FLYING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HOVERING = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> METER_AMOUNT = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Integer> ATTACK_TICK = SynchedEntityData.defineId(SubterranodonEntity.class, EntityDataSerializers.INT);
     private int lSteps;
     private double lx;
     private double ly;
@@ -87,7 +90,10 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     private int controlDownTicks = 0;
     private AABB flightCollisionBox;
     private int timeVehicle;
-
+    public float prevAttackProgress;
+    public float attackProgress;
+    private double lastStepX = 0;
+    private double lastStepZ = 0;
     public SubterranodonEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
         switchNavigator(true);
@@ -102,16 +108,18 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 30, 5));
-        this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
-        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
-        this.goalSelector.addGoal(4, new SubterranodonFleeGoal(this));
-        this.goalSelector.addGoal(5, new SubterranodonFlightGoal(this));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.4D, false));
+        this.goalSelector.addGoal(3, new SubterranodonFollowOwnerGoal(this, 1.2D, 5.0F, 2.0F, true));
+        this.goalSelector.addGoal(4, new AnimalJoinPackGoal(this, 30, 5));
+        this.goalSelector.addGoal(5, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(6, new TemptGoal(this, 1.1D, Ingredient.of(Items.COD, Items.COOKED_COD, ACItemRegistry.COOKED_TRILOCARIS_TAIL.get(), ACItemRegistry.TRILOCARIS_TAIL.get()), false));
+        this.goalSelector.addGoal(7, new AnimalLayEggGoal(this, 100, 1));
+        this.goalSelector.addGoal(8, new SubterranodonFleeGoal(this));
+        this.goalSelector.addGoal(9, new SubterranodonFlightGoal(this));
+        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(11, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -133,8 +141,8 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         this.entityData.define(FLYING, false);
         this.entityData.define(HOVERING, false);
         this.entityData.define(METER_AMOUNT, 1.0F);
+        this.entityData.define(ATTACK_TICK, 0);
     }
-
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FLYING_SPEED, 1F).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 20.0D);
     }
@@ -156,6 +164,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         super.tick();
         prevFlyProgress = flyProgress;
         prevHoverProgress = hoverProgress;
+        prevAttackProgress = attackProgress;
         prevFlapAmount = flapAmount;
         prevFlightPitch = flightPitch;
         prevFlightRoll = flightRoll;
@@ -197,6 +206,13 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
                 this.setHovering(false);
                 this.setFlying(false);
             }
+            if(!level().isClientSide && this.onGround()){
+                LivingEntity target = this.getTarget();
+                if(target != null && target.isAlive()){
+                    this.setHovering(false);
+                    this.setFlying(false);
+                }
+            }
         } else {
             timeFlying = 0;
             if (!this.isLandNavigator) {
@@ -206,9 +222,9 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         if (this.isVehicle() && !this.isBaby()) {
             this.setFlying(true);
             Entity rider = getControllingPassenger();
-            if(rider != null){
+            if (rider != null) {
                 this.flightCollisionBox = this.getBoundingBox().expandTowards(0, -0.5F - rider.getBbHeight(), 0);
-                if(isRiderInWall()){
+                if (isRiderInWall()) {
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.2, 0));
                 }
             }
@@ -223,7 +239,10 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
                     this.setDeltaMovement(this.getDeltaMovement().add(0, -0.3D, 0));
                 }
             }
-        }else{
+            if(!this.isHovering() && this.isFlying() && timeFlying > 40 && this.onGround()){
+                this.setFlying(false);
+            }
+        } else {
             if (this.lSteps > 0) {
                 double d5 = this.getX() + (this.lx - this.getX()) / (double) this.lSteps;
                 double d6 = this.getY() + (this.ly - this.getY()) / (double) this.lSteps;
@@ -238,7 +257,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             Player player = AlexsCaves.PROXY.getClientSidePlayer();
             if (player != null && player.isPassengerOfSameVehicle(this)) {
                 if (AlexsCaves.PROXY.isKeyDown(0) && controlUpTicks < 2 && getMeterAmount() > 0.1F) {
-                    if(getMeterAmount() > 0.1F){
+                    if (getMeterAmount() > 0.1F) {
                         AlexsCaves.sendMSGToServer(new MountedEntityKeyMessage(this.getId(), player.getId(), 0));
                         controlUpTicks = 5;
                     }
@@ -254,15 +273,31 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         } else if (controlUpTicks > 0) {
             controlUpTicks--;
         }
-        if(isVehicle()){
+        if (isVehicle()) {
             timeVehicle++;
-        }else{
+        } else {
             timeVehicle = 0;
         }
-        if(this.getMeterAmount() < 1.0F && controlUpTicks == 0){
+        if (this.getMeterAmount() < 1.0F && controlUpTicks == 0) {
             this.setMeterAmount(this.getMeterAmount() + (slowRidden ? 0.002F : 0.001F));
         }
-        tickRotation( Mth.clamp(yMov, -1.0F, 1.0F) * -(float) (180F / (float) Math.PI));
+        if(this.entityData.get(ATTACK_TICK) > 0){
+            this.entityData.set(ATTACK_TICK, this.entityData.get(ATTACK_TICK) - 1);
+            if(attackProgress < 5F){
+                attackProgress++;
+            }
+        }else{
+            LivingEntity target = this.getTarget();
+            if(attackProgress == 5F && target != null && this.distanceTo(target) < 3D + target.getBbWidth() && this.hasLineOfSight(target)){
+                target.hurt(this.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+            }
+            if(attackProgress > 0F){
+                attackProgress--;
+            }
+        }
+        tickRotation(Mth.clamp(yMov, -1.0F, 1.0F) * -(float) (180F / (float) Math.PI));
+        lastStepX = this.xo;
+        lastStepZ = this.zo;
     }
 
     @Override
@@ -283,15 +318,17 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         this.lzd = lerpZ;
         this.setDeltaMovement(this.lxd, this.lyd, this.lzd);
     }
+
     protected Vec3 getRiddenInput(Player player, Vec3 deltaIn) {
         float f = player.zza < 0.0F ? 0.5F : 1.0F;
         return new Vec3(player.xxa * 0.25F, controlUpTicks > 0 ? 1 : controlDownTicks > 0 ? -1 : 0.0D, player.zza * 0.5F * f);
 
     }
+
     protected void tickRidden(Player player, Vec3 vec3) {
         super.tickRidden(player, vec3);
-        slowRidden = player.zza < 0.3F || timeVehicle < 10;
-        if(player.zza != 0 || player.xxa != 0){
+        slowRidden = player.zza < 0.3F || timeVehicle < 10 || this.onGround();
+        if (player.zza != 0 || player.xxa != 0) {
             this.setRot(player.getYRot(), player.getXRot() * 0.25F);
             this.setTarget(null);
         }
@@ -302,18 +339,9 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     }
 
     protected float getRiddenSpeed(Player rider) {
-        return (float)(this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+        return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED));
     }
 
-    protected void clampRotation(LivingEntity livingEntity) {
-        livingEntity.setYBodyRot(this.getYRot());
-        float f = Mth.wrapDegrees(livingEntity.getYRot() - this.getYRot());
-        float f1 = Mth.clamp(f, -105.0F, 105.0F);
-        livingEntity.yRotO += f1 - f;
-        livingEntity.yBodyRotO += f1 - f;
-        livingEntity.setYRot(livingEntity.getYRot() + f1 - f);
-        livingEntity.setYHeadRot(livingEntity.getYRot());
-    }
 
     public boolean isRiderInWall() {
         Entity rider = getControllingPassenger();
@@ -321,19 +349,23 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             return false;
         } else {
             float f = rider.getDimensions(Pose.STANDING).width * 0.8F;
-            AABB aabb = AABB.ofSize(rider.position().add(0, 0.5, 0), (double)f, 1.0E-6D, (double)f);
+            AABB aabb = AABB.ofSize(rider.position().add(0, 0.5, 0), (double) f, 1.0E-6D, (double) f);
             return BlockPos.betweenClosedStream(aabb).anyMatch((state) -> {
                 BlockState blockstate = this.level().getBlockState(state);
-                return !blockstate.isAir() && blockstate.isSuffocating(this.level(), state) && Shapes.joinIsNotEmpty(blockstate.getCollisionShape(this.level(), state).move((double)state.getX(), (double)state.getY(), (double)state.getZ()), Shapes.create(aabb), BooleanOp.AND);
+                return !blockstate.isAir() && blockstate.isSuffocating(this.level(), state) && Shapes.joinIsNotEmpty(blockstate.getCollisionShape(this.level(), state).move((double) state.getX(), (double) state.getY(), (double) state.getZ()), Shapes.create(aabb), BooleanOp.AND);
             });
         }
     }
 
+    public boolean doHurtTarget(Entity entityIn) {
+        this.entityData.set(ATTACK_TICK, 7);
+        return true;
+    }
 
     private boolean isHoveringFromServer() {
-        if(this.isVehicle()){
+        if (this.isVehicle()) {
             return slowRidden;
-        }else{
+        } else {
             return landingFlag || timeFlying < 30;
         }
     }
@@ -384,7 +416,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         this.entityData.set(HOVERING, flying);
     }
 
-    public boolean hasRidingMeter(){
+    public boolean hasRidingMeter() {
         return true;
     }
 
@@ -408,6 +440,9 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         return (prevHoverProgress + (hoverProgress - prevHoverProgress) * partialTick) * 0.2F;
     }
 
+    public float getBiteProgress(float partialTick) {
+        return (prevAttackProgress + (attackProgress - prevAttackProgress) * partialTick) * 0.2F;
+    }
     public float getFlightPitch(float partialTick) {
         return (prevFlightPitch + (flightPitch - prevFlightPitch) * partialTick);
     }
@@ -418,10 +453,6 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
 
     public float getTailYaw(float partialTick) {
         return (prevTailYaw + (tailYaw - prevTailYaw) * partialTick);
-    }
-
-    public boolean isNoGravity() {
-        return false;
     }
 
     protected void checkFallDamage(double y, boolean onGroundIn, BlockState state, BlockPos pos) {
@@ -453,8 +484,8 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
 
     @Nullable
     @Override
-    public AgeableMob getBreedOffspring(ServerLevel p_146743_, AgeableMob p_146744_) {
-        return null;
+    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob mob) {
+        return ACEntityRegistry.SUBTERRANODON.get().create(serverLevel);
     }
 
     public AABB getBoundingBoxForCulling() {
@@ -475,14 +506,15 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         InteractionResult prev = super.mobInteract(player, hand);
         if (prev != InteractionResult.SUCCESS) {
             ItemStack itemStack = player.getItemInHand(hand);
-            if(this.canAddPassenger(player)){
-                this.moveTo(this.getX(), this.getY() + player.getBbHeight() + 0.5F, this.getZ());
-            }
-            if (!this.level().isClientSide) {
-                if (player.startRiding(this)) {
-                    return InteractionResult.CONSUME;
+            if(!this.isTame() && (itemStack.is(ACItemRegistry.TRILOCARIS_TAIL.get()) || itemStack.is(ACItemRegistry.COOKED_TRILOCARIS_TAIL.get()))){
+                this.usePlayerItem(player, hand, itemStack);
+                if (getRandom().nextInt(3) == 0) {
+                    this.tame(player);
+                    this.clearRestriction();
+                    this.level().broadcastEntityEvent(this, (byte) 7);
+                } else {
+                    this.level().broadcastEntityEvent(this, (byte) 6);
                 }
-            } else {
                 return InteractionResult.SUCCESS;
             }
         }
@@ -493,7 +525,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     public void onKeyPacket(Entity keyPresser, int type) {
         if (keyPresser.isPassengerOfSameVehicle(this)) {
             if (type == 0) {
-                if(controlUpTicks != 10){
+                if (controlUpTicks != 10) {
                     this.setMeterAmount(Math.max(this.getMeterAmount() - 0.075F, 0F));
                 }
                 controlUpTicks = 10;
@@ -516,7 +548,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             double targetY = this.getY() - passenger.getBbHeight() - 0.5F + 0.25F * flight;
             passenger.setYBodyRot(this.yBodyRot);
             passenger.fallDistance = 0.0F;
-            clampRotation(living);
+            clampRotation(living, 105);
             moveFunction.accept(passenger, this.getX() + seatOffset.x, targetY, this.getZ() + seatOffset.z);
         } else {
             super.positionRider(passenger, moveFunction);
@@ -537,6 +569,15 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         }
     }
 
+    public boolean tamesFromHatching() {
+        return true;
+    }
+
+    public void calculateEntityAnimation(boolean flying) {
+        float f1 = (float) Mth.length(this.getX() - this.lastStepX, 0, this.getZ() - this.lastStepZ);
+        float f2 = Math.min(f1 * 4.0F, 1.0F);
+        this.walkAnimation.update(f2, 0.4F);
+    }
 
     public Vec3 collide(Vec3 movement) {
         if (this.flightCollisionBox != null && !touchingUnloadedChunk() && this.isVehicle()) {
@@ -566,6 +607,18 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         } else {
             return super.collide(movement);
         }
+    }
+
+    public boolean canOwnerMount(Player player) {
+        return !this.isBaby();
+    }
+
+    public boolean canOwnerCommand(Player ownerPlayer) {
+        return ownerPlayer.isShiftKeyDown();
+    }
+
+    public boolean isFood(ItemStack stack) {
+        return stack.is(Items.COD) || stack.is(Items.COOKED_COD);
     }
 
     class FlightMoveHelper extends MoveControl {

@@ -9,6 +9,7 @@
     "AbstractMinecartMixin",
     "EntityMixin",
     "FallingBlockEntityMixin",
+    "FoodDataMixin",
     "FrogMixin",
     "KelpFeatureMixin",
     "LivingEntityMixin",

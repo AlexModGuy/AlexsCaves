@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BHB",
+    "E E"
+  ],
+  "key": {
+    "H": {
+      "item": "alexscaves:tough_hide"
+    },
+    "B": {
+      "item": "minecraft:bone_block"
+    },
+    "E": {
+      "item": "alexscaves:heavy_bone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:primordial_helmet"
+  }
+}

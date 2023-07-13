@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.item.PrimordialArmorItem;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -57,18 +58,18 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
         return getChopShape(state);
     }
 
-    protected VoxelShape getChopShape(BlockState state){
-        if(shapeMap.containsKey(state)){
+    protected VoxelShape getChopShape(BlockState state) {
+        if (shapeMap.containsKey(state)) {
             return shapeMap.get(state);
-        }else{
+        } else {
             int bites = state.getValue(BITES);
             VoxelShape shape;
-            if(bites == 0){
+            if (bites == 0) {
                 shape = Shapes.block();
-            }else{
+            } else {
                 Direction facing = state.getValue(FACING);
                 VoxelShape merge = ThinBoneBlock.SHAPE_Y;
-                switch (facing.getAxis()){
+                switch (facing.getAxis()) {
                     case X:
                         merge = ThinBoneBlock.SHAPE_X;
                         break;
@@ -89,7 +90,7 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
     private static VoxelShape calculateShapeForRotation(Direction facing, int bites) {
         float minHeight = 4 * bites;
         float height = 16 - minHeight;
-        switch (facing){
+        switch (facing) {
             case UP:
                 return Block.box(0, 0, 0, 16, height, 16);
             case DOWN:
@@ -160,7 +161,8 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
             return InteractionResult.PASS;
         } else {
             player.awardStat(Stats.EAT_CAKE_SLICE);
-            player.getFoodData().eat(this.foodAmount, this.saturationAmount);
+            int extraShanksFromArmor = this == ACBlockRegistry.DINOSAUR_CHOP.get() ? PrimordialArmorItem.getExtraSaturationFromArmor(player) : 0;
+            player.getFoodData().eat(this.foodAmount + extraShanksFromArmor, this.saturationAmount + (extraShanksFromArmor * 0.125F));
             int i = blockState.getValue(BITES);
             levelAccessor.gameEvent(player, GameEvent.EAT, blockPos);
             if (i < 3) {
@@ -181,13 +183,14 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
         }
     }
 
-    private boolean isFireBelow(Level level, BlockPos pos){
-        while(level.getBlockState(pos).isAir() && pos.getY() > level.getMinBuildHeight()){
+    private boolean isFireBelow(Level level, BlockPos pos) {
+        while (level.getBlockState(pos).isAir() && pos.getY() > level.getMinBuildHeight()) {
             pos = pos.below();
         }
         BlockState fireState = level.getBlockState(pos);
         return fireState.is(ACTagRegistry.COOKS_MEAT_BLOCKS);
     }
+
     public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos blockPos) {
         return getOutputSignal(blockState.getValue(BITES));
     }

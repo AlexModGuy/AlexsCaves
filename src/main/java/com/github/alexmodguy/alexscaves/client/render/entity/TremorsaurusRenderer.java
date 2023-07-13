@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.TremorsaurusModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.TremorsaurusHeldMobLayer;
+import com.github.alexmodguy.alexscaves.client.render.entity.layer.TremorsaurusRiderLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -13,6 +14,7 @@ public class TremorsaurusRenderer extends MobRenderer<TremorsaurusEntity, Tremor
 
     public TremorsaurusRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new TremorsaurusModel(), 1.1F);
+        this.addLayer(new TremorsaurusRiderLayer(this));
         this.addLayer(new TremorsaurusHeldMobLayer(this));
     }
 

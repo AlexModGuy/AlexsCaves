@@ -28,7 +28,7 @@ public class SubterranodonFlightGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger() || entity.isDancing()) {
+        if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger() || entity.isDancing() || entity.isInSittingPose()) {
             return false;
         } else {
             boolean flag = false;
@@ -93,9 +93,12 @@ public class SubterranodonFlightGoal extends Goal {
         }
         Vec3 vec3 = findOrFollowFlightPos();
         if (isFlying) {
-            if (entity.timeFlying < 2000 ||  isLeaderStillGoing() || isOverWaterOrVoid()) {
+            if ((entity.timeFlying < 2000 ||  isLeaderStillGoing() || isOverWaterOrVoid()) && !entity.isOrderedToSit()) {
                 return vec3;
             } else {
+                if(entity.hasRestriction() && !entity.horizontalCollision){
+                    return Vec3.atCenterOf(entity.getRestrictCenter());
+                }
                 return groundPosition(vec3);
             }
         } else {
@@ -105,11 +108,21 @@ public class SubterranodonFlightGoal extends Goal {
     }
 
     private Vec3 findFlightPos() {
-        float maxRot = entity.horizontalCollision ? 360 : 90;
-        float xRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * (maxRot - (maxRot / 2)) * 0.5F);
-        float yRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * maxRot - (maxRot / 2));
-        Vec3 lookVec = entity.getLookAngle().scale(15 + entity.getRandom().nextInt(15)).xRot(xRotOffset).yRot(yRotOffset);
-        Vec3 targetVec = entity.position().add(lookVec);
+        Vec3 targetVec;
+        if(entity.hasRestriction() && entity.getRestrictCenter() != null){
+            float maxRot = 360;
+            Vec3 center = Vec3.atCenterOf(entity.getRestrictCenter());
+            float xRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * (maxRot - (maxRot / 2)) * 0.5F);
+            float yRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * maxRot - (maxRot / 2));
+            Vec3 distVec = new Vec3(0, 0, 15 + entity.getRandom().nextInt(15)).xRot(xRotOffset).yRot(yRotOffset);
+            targetVec = center.add(distVec);
+        }else{
+            float maxRot = entity.horizontalCollision ? 360 : 90;
+            float xRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * (maxRot - (maxRot / 2)) * 0.5F);
+            float yRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * maxRot - (maxRot / 2));
+            Vec3 lookVec = entity.getLookAngle().scale(15 + entity.getRandom().nextInt(15)).xRot(xRotOffset).yRot(yRotOffset);
+            targetVec = entity.position().add(lookVec);
+        }
         Vec3 heightAdjusted = targetVec;
         if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
             Vec3 ground = groundPosition(heightAdjusted);

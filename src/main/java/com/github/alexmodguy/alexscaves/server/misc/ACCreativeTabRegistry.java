@@ -100,11 +100,23 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.TRILOCARIS_BUCKET.get());
+                add(output, ACItemRegistry.TRILOCARIS_TAIL.get());
+                add(output, ACItemRegistry.COOKED_TRILOCARIS_TAIL.get());
                 add(output, ACItemRegistry.PINE_NUTS.get());
+                add(output, ACItemRegistry.AMBER_CURIOSITY.get());
                 add(output, ACItemRegistry.DINOSAUR_NUGGET.get());
+                add(output, ACItemRegistry.SERENE_SALAD.get());
+                add(output, ACItemRegistry.SEETHING_STEW.get());
+                add(output, ACItemRegistry.PRIMORDIAL_SOUP.get());
                 add(output, ACItemRegistry.TOUGH_HIDE.get());
+                add(output, ACItemRegistry.HEAVY_BONE.get());
                 add(output, ACItemRegistry.PRIMITIVE_CLUB.get());
                 add(output, ACItemRegistry.LIMESTONE_SPEAR.get());
+                add(output, ACItemRegistry.PRIMORDIAL_HELMET.get());
+                add(output, ACItemRegistry.PRIMORDIAL_TUNIC.get());
+                add(output, ACItemRegistry.PRIMORDIAL_PANTS.get());
+                add(output, ACItemRegistry.DINOSAUR_POTTERY_SHERD.get());
+                add(output, ACItemRegistry.FOOTPRINT_POTTERY_SHERD.get());
                 add(output, ACBlockRegistry.AMBER.get());
                 add(output, ACBlockRegistry.AMBERSOL.get());
                 add(output, ACBlockRegistry.AMBER_MONOLITH.get());
@@ -145,6 +157,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.RELICHEIRUS_EGG.get());
                 add(output, ACBlockRegistry.DINOSAUR_CHOP.get());
                 add(output, ACBlockRegistry.COOKED_DINOSAUR_CHOP.get());
+                add(output, ACBlockRegistry.CARMINE_FROGLIGHT.get());
                 add(output, ACBlockRegistry.PEWEN_LOG.get());
                 add(output, ACBlockRegistry.PEWEN_BRANCH.get());
                 add(output, ACBlockRegistry.PEWEN_SAPLING.get());
@@ -163,13 +176,17 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.PEWEN_TRAPDOOR.get());
                 add(output, ACBlockRegistry.PEWEN_BUTTON.get());
                 add(output, ACBlockRegistry.PEWEN_FENCE_GATE.get());
+                add(output, ACItemRegistry.PEWEN_BOAT.get());
+                add(output, ACItemRegistry.PEWEN_CHEST_BOAT.get());
                 add(output, ACBlockRegistry.FIDDLEHEAD.get());
                 add(output, ACBlockRegistry.CURLY_FERN.get());
                 add(output, ACBlockRegistry.FLYTRAP.get());
                 add(output, ACBlockRegistry.CYCAD.get());
                 add(output, ACBlockRegistry.ARCHAIC_VINE.get());
                 add(output, ACBlockRegistry.ANCIENT_LEAVES.get());
+                add(output, ACBlockRegistry.ANCIENT_SAPLING.get());
                 add(output, ACBlockRegistry.TREE_STAR.get());
+                add(output, ACBlockRegistry.FERN_THATCH.get());
             })
             .build());
 
@@ -363,6 +380,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.THORNWOOD_TRAPDOOR.get());
                 add(output, ACBlockRegistry.THORNWOOD_BUTTON.get());
                 add(output, ACBlockRegistry.THORNWOOD_FENCE_GATE.get());
+                add(output, ACItemRegistry.THORNWOOD_BOAT.get());
+                add(output, ACItemRegistry.THORNWOOD_CHEST_BOAT.get());
                 add(output, ACBlockRegistry.UNDERWEED.get());
             })
             .build());

@@ -1,14 +1,18 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalBreedEggsGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalLayEggGoal;
-import com.github.alexmodguy.alexscaves.server.entity.ai.MobTargetClosePlayers;
-import com.github.alexmodguy.alexscaves.server.entity.ai.TremorsaurusMeleeGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
+import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -24,35 +28,44 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntity, ShakesScreen {
+public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMount, IAnimatedEntity, ShakesScreen {
 
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.INT);
-    public LegSolver legSolver = new LegSolver(new LegSolver.Leg(-0.45F, 0.75F, 1.0F, false), new LegSolver.Leg(-0.45F, -0.75F, 1.0F, false));
+    private static final EntityDataAccessor<Integer> TAME_ATTEMPTS = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> METER_AMOUNT = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.FLOAT);
+    public final LegSolver legSolver = new LegSolver(new LegSolver.Leg(-0.45F, 0.75F, 1.0F, false), new LegSolver.Leg(-0.45F, -0.75F, 1.0F, false));
     private Animation currentAnimation;
     private int animationTick;
     private float prevScreenShakeAmount;
@@ -65,6 +78,12 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
     public static final Animation ANIMATION_ROAR = Animation.create(55);
     public static final Animation ANIMATION_BITE = Animation.create(15);
     public static final Animation ANIMATION_SHAKE_PREY = Animation.create(40);
+    private double lastStompX = 0;
+    private double lastStompZ = 0;
+
+    private int roarScatterTime = 0;
+
+    private Entity riderHitEntity = null;
 
     public TremorsaurusEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
@@ -72,18 +91,27 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new TremorsaurusMeleeGoal(this));
-        this.goalSelector.addGoal(2, new AnimalBreedEggsGoal(this, 1));
-        this.goalSelector.addGoal(3, new AnimalLayEggGoal(this, 40, 1));
-        this.goalSelector.addGoal(4, new RandomStrollGoal(this, 1.0D, 30));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(1, new SitWhenOrderedToGoal(this));
+        this.goalSelector.addGoal(2, new TremorsaurusMeleeGoal(this));
+        this.goalSelector.addGoal(3, new AnimalFollowOwnerGoal(this, 1.2D, 5.0F, 2.0F, false) {
+            @Override
+            public boolean shouldFollow() {
+                return TremorsaurusEntity.this.getCommand() == 2;
+            }
+        });
+        this.goalSelector.addGoal(4, new AnimalBreedEggsGoal(this, 1));
+        this.goalSelector.addGoal(5, new AnimalLayEggGoal(this, 100, 1));
+        this.goalSelector.addGoal(6, new TemptGoal(this, 1.1D, Ingredient.of(ACBlockRegistry.COOKED_DINOSAUR_CHOP.get(), ACBlockRegistry.DINOSAUR_CHOP.get()), false));
+        this.goalSelector.addGoal(7, new RandomStrollGoal(this, 1.0D, 30));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, TremorsaurusEntity.class)));
         this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 4));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, GrottoceratopsEntity.class, 100, true, false, null));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, SubterranodonEntity.class, true, false));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, RelicheirusEntity.class, 250, true, false, null));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
+        this.targetSelector.addGoal(3, new OwnerHurtByTargetGoal(this));
+        this.targetSelector.addGoal(4, new OwnerHurtTargetGoal(this));
+        this.targetSelector.addGoal(3, new MobTargetUntamedGoal<>(this, GrottoceratopsEntity.class, 100, true, false, null));
+        this.targetSelector.addGoal(4, new MobTargetUntamedGoal<>(this, SubterranodonEntity.class, 50, true, false, null));
+        this.targetSelector.addGoal(5, new MobTargetUntamedGoal<>(this, RelicheirusEntity.class, 250, true, false, null));
     }
 
     @Override
@@ -91,6 +119,8 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
         super.defineSynchedData();
         this.entityData.define(RUNNING, false);
         this.entityData.define(HELD_MOB_ID, -1);
+        this.entityData.define(TAME_ATTEMPTS, 0);
+        this.entityData.define(METER_AMOUNT, 1.0F);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -129,29 +159,42 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
         }
         if (this.getAnimation() == ANIMATION_ROAR && this.getAnimationTick() >= 5 && this.getAnimationTick() <= 40 && !this.isBaby()) {
             screenShakeAmount = 1F;
+            roarScatterTime = 30;
             if (this.getAnimationTick() % 5 == 0 && level().isClientSide) {
                 this.shakeWater();
             }
+        }
+        if(roarScatterTime > 0){
+            roarScatterTime--;
             scareMobs();
         }
         if (this.getAnimation() == ANIMATION_SPEAK && this.getAnimationTick() == 5) {
             actuallyPlayAmbientSound();
         }
         if (!level().isClientSide) {
-            if (this.getDeltaMovement().horizontalDistance() < 0.05 && this.getAnimation() == NO_ANIMATION && !this.isDancing()) {
+            if (this.getDeltaMovement().horizontalDistance() < 0.05 && this.getAnimation() == NO_ANIMATION && !this.isDancing() && !this.isInSittingPose()) {
                 if (random.nextInt(180) == 0) {
                     this.setAnimation(ANIMATION_SNIFF);
                 }
-                if (random.nextInt(600) == 0) {
+                if (random.nextInt(600) == 0 && !this.isVehicle()) {
                     this.tryRoar();
                 }
             }
             boolean held = false;
-            LivingEntity target = this.getTarget();
-            if (target != null && target.isAlive() && target.distanceTo(this) < 5.5F) {
+            if(riderHitEntity != null && this.getAnimation() == ANIMATION_BITE && this.getAnimationTick() > 10 && this.getAnimationTick() <= 12){
+                if (this.hasLineOfSight(riderHitEntity) && this.distanceTo(riderHitEntity) < this.getBbWidth() + riderHitEntity.getBbWidth() + 2.0D) {
+                    riderHitEntity.hurt(riderHitEntity.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+                    if(riderHitEntity instanceof LivingEntity living){
+                        living.knockback(0.5D, this.getX() - riderHitEntity.getX(), this.getZ() - riderHitEntity.getZ());
+                    }
+                    riderHitEntity = null;
+                }
+            }
+            LivingEntity target = riderHitEntity instanceof LivingEntity ? (LivingEntity)riderHitEntity : this.getTarget();
+            if (target != null && target.isAlive() && target.distanceTo(this) < (isVehicle() ? 10.0F : 5.5F)) {
                 if (this.getAnimation() == ANIMATION_SHAKE_PREY && this.getAnimationTick() <= 35) {
                     Vec3 shakePreyPos = getShakePreyPos();
-                    Vec3 minus = new Vec3(shakePreyPos.x - this.getTarget().getX(), shakePreyPos.y - this.getTarget().getY(), shakePreyPos.z - this.getTarget().getZ());
+                    Vec3 minus = new Vec3(shakePreyPos.x - target.getX(), shakePreyPos.y - target.getY(), shakePreyPos.z - target.getZ());
                     target.setDeltaMovement(minus);
                     if (this.getAnimationTick() % 10 == 0) {
                         target.hurt(damageSources().mobAttack(this), 5 + this.getRandom().nextInt(2));
@@ -162,31 +205,59 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
             }
             if (!held && getHeldMobId() != -1) {
                 this.setHeldMobId(-1);
+                riderHitEntity = null;
             }
+        }else{
+            Player player = AlexsCaves.PROXY.getClientSidePlayer();
+            if (player != null && player.isPassengerOfSameVehicle(this)) {
+                if (AlexsCaves.PROXY.isKeyDown(2) && getMeterAmount() >= 1.0F) {
+                    AlexsCaves.sendMSGToServer(new MountedEntityKeyMessage(this.getId(), player.getId(), 2));
+                }
+                if (AlexsCaves.PROXY.isKeyDown(3) && (this.getAnimation() == NO_ANIMATION || this.getAnimation() == null)) {
+                    AlexsCaves.sendMSGToServer(new MountedEntityKeyMessage(this.getId(), player.getId(), 3));
+                }
+            }
+        }
+        if(this.isVehicle()){
+            if(this.getMeterAmount() < 1.0F){
+                this.setMeterAmount(Math.min(this.getMeterAmount() + 0.0035F, 1.0F));
+            }
+        }else{
+            this.setMeterAmount(0.0F);
         }
         if (roarCooldown > 0) {
             roarCooldown--;
         }
+        lastStompX = this.getX();
+        lastStompZ = this.getZ();
     }
 
     private void scareMobs() {
         if (this.tickCount - lastScareTimestamp > 3) {
             lastScareTimestamp = this.tickCount;
         }
-        List<PathfinderMob> list = this.level().getEntitiesOfClass(PathfinderMob.class, this.getBoundingBox().inflate(30, 10, 30));
-        for (PathfinderMob e : list) {
-            e.setTarget(null);
-            e.setLastHurtByMob(null);
+        List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(30, 10, 30));
+        for (LivingEntity e : list) {
             if (!e.getType().is(ACTagRegistry.RESISTS_TREMORSAURUS_ROAR)) {
-                if (e.onGround()) {
-                    Vec3 randomShake = new Vec3(random.nextFloat() - 0.5F, 0, random.nextFloat() - 0.5F).scale(0.6F);
-                    e.setDeltaMovement(e.getDeltaMovement().multiply(0.7F, 1, 0.7F).add(randomShake));
-                    if (lastScareTimestamp == this.tickCount) {
-                        Vec3 vec = LandRandomPos.getPosAway(e, 8, 7, this.position());
-                        if (vec != null && e.getMoveControl().getSpeedModifier() != 1.5D) {
-                            e.getNavigation().moveTo(vec.x, vec.y, vec.z, 1.5D);
+                if(e instanceof PathfinderMob mob && (!(mob instanceof TamableAnimal) || !((TamableAnimal)mob).isInSittingPose())){
+                    mob.setTarget(null);
+                    mob.setLastHurtByMob(null);
+                    if (mob.onGround()) {
+                        Vec3 randomShake = new Vec3(random.nextFloat() - 0.5F, 0, random.nextFloat() - 0.5F).scale(0.1F);
+                        mob.setDeltaMovement(mob.getDeltaMovement().multiply(0.7F, 1, 0.7F).add(randomShake));
+                    }
+                    if(lastScareTimestamp == tickCount){
+                        mob.getNavigation().stop();
+                    }
+                    if (mob.getNavigation().isDone()) {
+                        Vec3 vec = LandRandomPos.getPosAway(mob, 15, 7, this.position());
+                        if (vec != null) {
+                            mob.getNavigation().moveTo(vec.x, vec.y, vec.z, 2D);
                         }
                     }
+                }
+                if(this.isTame() && !isAlliedTo(e)){
+                    e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0, true, true));
                 }
             }
 
@@ -226,9 +297,16 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
         this.entityData.set(HELD_MOB_ID, i);
     }
 
-
     public int getHeldMobId() {
         return this.entityData.get(HELD_MOB_ID);
+    }
+
+    public void setTameAttempts(int i) {
+        this.entityData.set(TAME_ATTEMPTS, i);
+    }
+
+    public int getTameAttempts() {
+        return this.entityData.get(TAME_ATTEMPTS);
     }
 
     public AABB getBoundingBoxForCulling() {
@@ -285,9 +363,15 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
     }
 
     public void calculateEntityAnimation(boolean flying) {
-        float f1 = (float)Mth.length(this.getX() - this.xo, 0, this.getZ() - this.zo);
-        float f2 = Math.min(f1 * (isRunning() ? 2.0F : 4.0F), 1.0F);
-        this.walkAnimation.update(f2, 0.4F);
+        float f1 = (float)Mth.length(this.getX() - this.lastStompX, 0, this.getZ() - this.lastStompZ);
+        float walkSpeed = 4.0F;
+        if(isVehicle()){
+            walkSpeed = 1.5F;
+        }else if(isRunning()){
+            walkSpeed = 2.0F;
+        }
+        float f2 = Math.min(f1 * walkSpeed, 1.0F);
+        walkAnimation.update(f2, 0.4F);
     }
 
     public void playAmbientSound() {
@@ -345,12 +429,12 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
-        compound.putBoolean("Egg", this.hasEgg());
+        compound.putInt("TameAttempts", this.getTameAttempts());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
-        this.setHasEgg(compound.getBoolean("Egg"));
+        this.setTameAttempts(compound.getInt("TameAttempts"));
     }
 
     @Override
@@ -361,4 +445,130 @@ public class TremorsaurusEntity extends DinosaurEntity implements IAnimatedEntit
     public float getStepHeight() {
         return 1.1F;
     }
+
+    protected Vec3 getRiddenInput(Player player, Vec3 deltaIn) {
+        float f = player.zza < 0.0F ? 0.5F : 1.0F;
+        return new Vec3(player.xxa * 0.35F, 0.0D, player.zza * 0.8F * f);
+    }
+
+    protected void tickRidden(Player player, Vec3 vec3) {
+        super.tickRidden(player, vec3);
+        if(player.zza != 0 || player.xxa != 0){
+            this.setRot(player.getYRot(), player.getXRot() * 0.25F);
+            this.setYHeadRot(player.getYHeadRot());
+            this.setTarget(null);
+        }
+    }
+
+    protected float getRiddenSpeed(Player rider) {
+        return (float)(this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+    }
+
+    public LivingEntity getControllingPassenger() {
+        Entity entity = this.getFirstPassenger();
+        if (entity instanceof Player) {
+            return (Player) entity;
+        } else {
+            return null;
+        }
+    }
+
+    public boolean tamesFromHatching(){
+        return true;
+    }
+
+    public void positionRider(Entity passenger, MoveFunction moveFunction) {
+        if (this.isPassengerOfSameVehicle(passenger) && passenger instanceof LivingEntity living && !this.touchingUnloadedChunk()) {
+            Vec3 seatOffset = new Vec3(0F, 0.1F, 0.6F).yRot((float) Math.toRadians(-this.yBodyRot));
+            passenger.setYBodyRot(this.yBodyRot);
+            passenger.fallDistance = 0.0F;
+            clampRotation(living, 105);
+            float heightBackLeft = legSolver.legs[0].getHeight(1.0F);
+            float heightBackRight = legSolver.legs[1].getHeight(1.0F);
+            float maxLegSolverHeight = (1F - ACMath.smin(1F - heightBackLeft, 1F - heightBackRight, 0.1F)) * 0.8F;
+            moveFunction.accept(passenger, this.getX() + seatOffset.x, this.getY() + seatOffset.y + this.getPassengersRidingOffset() - maxLegSolverHeight, this.getZ() + seatOffset.z);
+        } else {
+            super.positionRider(passenger, moveFunction);
+        }
+    }
+
+    @Override
+    public Vec3 getDismountLocationForPassenger(LivingEntity p_20123_) {
+        return new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
+    }
+
+    public boolean hasRidingMeter(){
+        return true;
+    }
+
+    public float getMeterAmount() {
+        return this.entityData.get(METER_AMOUNT);
+    }
+
+    public void setMeterAmount(float roarPower) {
+        this.entityData.set(METER_AMOUNT, roarPower);
+    }
+
+    @Override
+    public boolean onFeedMixture(ItemStack itemStack, Player player){
+        if(itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.hasEffect(ACEffectRegistry.STUNNED.get())){
+            this.removeEffect(ACEffectRegistry.STUNNED.get());
+            AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(this.getId(), this.getId(), 3, 0, true));
+            if(!level().isClientSide){
+                this.setTameAttempts(this.getTameAttempts() + 1);
+                if(this.getTameAttempts() > 3 && this.getRandom().nextInt(2) == 0 || this.getTameAttempts() > 8){
+                    this.tame(player);
+                    this.level().broadcastEntityEvent(this, (byte) 7);
+                }else{
+                    this.level().broadcastEntityEvent(this, (byte) 6);
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFood(ItemStack stack) {
+        return this.isTame() && (stack.is(ACBlockRegistry.COOKED_DINOSAUR_CHOP.get().asItem()) || stack.is(ACBlockRegistry.DINOSAUR_CHOP.get().asItem()));
+    }
+
+    public boolean canOwnerMount(Player player) {
+        return !this.isBaby();
+    }
+
+    public boolean canOwnerCommand(Player ownerPlayer) {
+        return ownerPlayer.isShiftKeyDown();
+    }
+
+    @Override
+    public void onKeyPacket(Entity keyPresser, int type) {
+        if (keyPresser.isPassengerOfSameVehicle(this)) {
+            if (type == 2) {
+                if(this.getMeterAmount() >= 1.0F && (this.getAnimation() == NO_ANIMATION || this.getAnimation() == null)){
+                    this.yBodyRot = keyPresser.getYHeadRot();
+                    this.setYRot(keyPresser.getYHeadRot());
+                    this.setAnimation(ANIMATION_ROAR);
+                    this.setMeterAmount(0.0F);
+                }
+            }
+            if (type == 3) {
+                if(this.getAnimation() == NO_ANIMATION || this.getAnimation() == null){
+                    HitResult hitresult = ProjectileUtil.getHitResultOnViewVector(keyPresser, entity -> !entity.is(this) && !this.isAlliedTo(entity), 10.0F);
+                    this.setYHeadRot(keyPresser.getYHeadRot());
+                    this.setXRot(keyPresser.getXRot());
+                    boolean flag = false;
+                    if(hitresult instanceof EntityHitResult entityHitResult){
+                        riderHitEntity = entityHitResult.getEntity();
+                        if(this.getRandom().nextBoolean() && riderHitEntity.getBbWidth() < 2.0F || riderHitEntity instanceof FlyingAnimal){
+                            flag = true;
+                        }
+                    }else{
+                        riderHitEntity = null;
+                    }
+                    this.setAnimation(flag ? ANIMATION_SHAKE_PREY : ANIMATION_BITE);
+                }
+            }
+        }
+    }
+
 }
