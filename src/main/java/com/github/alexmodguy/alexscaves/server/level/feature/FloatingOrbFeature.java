@@ -21,7 +21,7 @@ public class FloatingOrbFeature extends Feature<FloatingOrbFeatureConfig> {
         BlockPos pos = context.origin();
         WorldGenLevel level = context.level();
         RandomSource randomSource = context.random();
-        if(!canReplace(level.getBlockState(pos))){
+        if (!canReplace(level.getBlockState(pos))) {
             return false;
         }
         int minRadius = context.config().minRadius;
@@ -37,12 +37,12 @@ public class FloatingOrbFeature extends Feature<FloatingOrbFeatureConfig> {
 
     private static void drawOrb(WorldGenLevel level, BlockPos center, RandomSource random, BlockStateProvider blockState, int radiusX, int radiusY, int radiusZ) {
         double equalRadius = (radiusX + radiusY + radiusZ) / 3.0D;
-            for (int x = -radiusX; x <= radiusX; x++) {
-                for (int y = -radiusY; y <= radiusY; y++) {
-                    for (int z = -radiusZ; z <= radiusZ; z++) {
+        for (int x = -radiusX; x <= radiusX; x++) {
+            for (int y = -radiusY; y <= radiusY; y++) {
+                for (int z = -radiusZ; z <= radiusZ; z++) {
                     BlockPos fill = center.offset(x, y, z);
-                    if(fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius + random.nextFloat() * 2){
-                        if(canReplace(level.getBlockState(fill))){
+                    if (fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius + random.nextFloat() * 2) {
+                        if (canReplace(level.getBlockState(fill))) {
                             level.setBlock(fill, blockState.getState(random, fill), 4);
                         }
                     }

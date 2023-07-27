@@ -52,6 +52,7 @@ public class WaterBoltEntity extends Projectile {
     private boolean spawnedSplash = false;
 
     private int dieIn = -1;
+
     public WaterBoltEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
@@ -80,14 +81,14 @@ public class WaterBoltEntity extends Projectile {
 
     public void tick() {
         super.tick();
-        if(!level().isClientSide){
+        if (!level().isClientSide) {
             Entity arcTowards = getArcingTowards();
-            if(arcTowards != null && tickCount > 3 && dieIn == -1 && this.distanceTo(arcTowards) > 1.5F && tickCount < 20){
+            if (arcTowards != null && tickCount > 3 && dieIn == -1 && this.distanceTo(arcTowards) > 1.5F && tickCount < 20) {
                 Vec3 arcVec = arcTowards.position().add(0, 0.3 * arcTowards.getBbHeight(), 0).subtract(this.position()).normalize();
                 this.setDeltaMovement(this.getDeltaMovement().add(arcVec.scale(0.3F)));
             }
-        }else{
-            for(int j = 0; j < 3 + random.nextInt(2); ++j) {
+        } else {
+            for (int j = 0; j < 3 + random.nextInt(2); ++j) {
                 this.level().addParticle(this.isInWaterOrBubble() || isBubbling() ? ParticleTypes.BUBBLE_COLUMN_UP : ParticleTypes.FALLING_WATER, this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), 0, -0.1F, 0);
             }
         }
@@ -101,9 +102,9 @@ public class WaterBoltEntity extends Projectile {
         if (this.level().getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir) && !this.isInWaterOrBubble()) {
             this.discard();
         } else {
-            this.setDeltaMovement(vec3.scale((double)0.9F));
+            this.setDeltaMovement(vec3.scale((double) 0.9F));
             if (!this.isNoGravity()) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double)-0.07F, 0.0D));
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double) -0.07F, 0.0D));
             }
             if (this.level().isClientSide) {
                 if (this.lSteps > 0) {
@@ -117,7 +118,7 @@ public class WaterBoltEntity extends Projectile {
                 } else {
                     this.reapplyPosition();
                 }
-            }else{
+            } else {
                 this.setPos(d0, d1, d2);
             }
         }
@@ -134,12 +135,12 @@ public class WaterBoltEntity extends Projectile {
         this.trailPositions[this.trailPointer] = trailAt;
 
         HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-        if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)){
+        if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
             this.onHit(hitresult);
         }
-        if(dieIn > 0){
+        if (dieIn > 0) {
             dieIn--;
-            if(dieIn == 0){
+            if (dieIn == 0) {
                 this.discard();
             }
         }
@@ -147,10 +148,10 @@ public class WaterBoltEntity extends Projectile {
 
     public void remove(Entity.RemovalReason removalReason) {
         super.remove(removalReason);
-        if(!spawnedSplash && level() instanceof ServerLevel serverLevel){
+        if (!spawnedSplash && level() instanceof ServerLevel serverLevel) {
             spawnedSplash = true;
             BlockPos pos = this.blockPosition().above();
-            while(level().isEmptyBlock(pos) && pos.getY() > level().getMinBuildHeight()){
+            while (level().isEmptyBlock(pos) && pos.getY() > level().getMinBuildHeight()) {
                 pos = pos.below();
             }
             serverLevel.sendParticles(ACParticleRegistry.BIG_SPLASH.get(), this.getX(), pos.getY() + 1.5F, this.getZ(), 0, 1.3F, 1, 0, 1.0D);
@@ -192,21 +193,21 @@ public class WaterBoltEntity extends Projectile {
         super.onHitEntity(hitResult);
         if (!this.level().isClientSide && !ownedBy(hitResult.getEntity())) {
             damageMobs();
-            if(dieIn == -1){
+            if (dieIn == -1) {
                 dieIn = 5;
             }
         }
     }
 
-    private void damageMobs(){
+    private void damageMobs() {
         Entity owner = this.getOwner();
         DamageSource source = damageSources().mobProjectile(this, (owner instanceof LivingEntity living1 ? living1 : null));
         AABB bashBox = this.getBoundingBox().inflate(2.0D, 2, 2.0D);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity)) {
-                if(entity.hurt(source, 3.0F) && this.isBubbling()){
+                if (entity.hurt(source, 3.0F) && this.isBubbling()) {
                     entity.addEffect(new MobEffectInstance(ACEffectRegistry.BUBBLED.get(), 200));
-                    if(!entity.level().isClientSide){
+                    if (!entity.level().isClientSide) {
                         AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(entity.getId(), this.getId(), 1, 200));
                     }
                 }
@@ -226,7 +227,7 @@ public class WaterBoltEntity extends Projectile {
         super.onHitBlock(hitResult);
         if (!this.level().isClientSide) {
             damageMobs();
-            if(dieIn == -1){
+            if (dieIn == -1) {
                 dieIn = 5;
             }
         }

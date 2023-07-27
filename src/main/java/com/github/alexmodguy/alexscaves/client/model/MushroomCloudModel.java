@@ -175,16 +175,17 @@ public class MushroomCloudModel extends AdvancedEntityModel {
 
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
     }
 
-    public void hideFireball(boolean fireball){
+    public void hideFireball(boolean fireball) {
         this.plume.showModel = fireball;
         this.lowerCloud.showModel = fireball;
         this.upperCloud.showModel = fireball;
     }
-    public void animateParticle(float age, float life, float partialTicks){
+
+    public void animateParticle(float age, float life, float partialTicks) {
         this.resetToDefaultPose();
         float lerpedAge = age + partialTicks;
         float baseExpand1 = life + life * life;
@@ -206,7 +207,7 @@ public class MushroomCloudModel extends AdvancedEntityModel {
         this.upperRing.rotateAngleY += lerpedAge * 0.1;
     }
 
-    public float offset(float life, float forwards, float min, float max){
+    public float offset(float life, float forwards, float min, float max) {
         return Mth.clamp(life + forwards, min, max);
     }
 }

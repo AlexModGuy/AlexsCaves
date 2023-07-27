@@ -34,7 +34,7 @@ public class AbyssalRuinsStructure extends Structure {
         Rotation rotation = Rotation.getRandom(context.random());
         LevelHeightAccessor levelHeight = context.heightAccessor();
         int y = context.chunkGenerator().getBaseHeight(context.chunkPos().getMinBlockX(), context.chunkPos().getMinBlockZ(), Heightmap.Types.OCEAN_FLOOR_WG, levelHeight, context.randomState());
-        if(y > context.chunkGenerator().getSeaLevel()){
+        if (y > context.chunkGenerator().getSeaLevel()) {
             return Optional.empty();
         }
         BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), context.chunkGenerator().getMinY() + 15, context.chunkPos().getMinBlockZ());

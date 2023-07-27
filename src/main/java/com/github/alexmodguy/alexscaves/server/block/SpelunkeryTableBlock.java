@@ -23,6 +23,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 public class SpelunkeryTableBlock extends Block {
     private static final Component CONTAINER_TITLE = Component.translatable("alexscaves.container.spelunkery_table");
+
     public SpelunkeryTableBlock() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.5F).sound(SoundType.WOOD));
     }
@@ -33,7 +34,7 @@ public class SpelunkeryTableBlock extends Block {
         } else {
             player.openMenu(state.getMenuProvider(level, pos));
             player.awardStat(Stats.INTERACT_WITH_LOOM);
-            if(player instanceof ServerPlayer serverPlayer){
+            if (player instanceof ServerPlayer serverPlayer) {
                 AlexsCaves.sendNonLocal(new SpelunkeryTableCompleteTutorialMessage(SpelunkeryTableMenu.hasCompletedTutorial(serverPlayer)), serverPlayer);
             }
             return InteractionResult.CONSUME;

@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:rusty_barrel"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.acid_create_rust.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.acid_create_rust.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/enter_acid_with_armor",
+  "criteria": {
+    "rust": {
+      "trigger": "alexscaves:acid_create_rust"
+    }
+  }
+}

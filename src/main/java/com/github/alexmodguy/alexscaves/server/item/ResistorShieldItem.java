@@ -69,15 +69,15 @@ public class ResistorShieldItem extends ShieldItem {
             for (LivingEntity entity : living.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
                 if (!living.isAlliedTo(entity) && !entity.equals(living) && entity.distanceTo(living) <= range) {
                     entity.hurt(living.damageSources().mobAttack(living), firstHit ? 6 : 2);
-                    if(scarlet){
+                    if (scarlet) {
                         entity.knockback(firstHit ? 0.5D : 0.2D, entity.getX() - living.getX(), entity.getZ() - living.getZ());
-                    }else{
+                    } else {
                         entity.knockback(firstHit ? 0.5D : 0.2D, living.getX() - living.getX(), living.getZ() - entity.getZ());
                     }
                 }
             }
         }
-        if(i == 10 && !level.isClientSide){
+        if (i == 10 && !level.isClientSide) {
             stack.hurtAndBreak(1, living, (player1) -> {
                 player1.broadcastBreakEvent(player1.getUsedItemHand());
             });

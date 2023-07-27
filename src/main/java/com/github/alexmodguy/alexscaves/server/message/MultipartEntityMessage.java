@@ -39,19 +39,19 @@ public class MultipartEntityMessage {
     }
 
     public static void handle(MultipartEntityMessage message, Supplier<NetworkEvent.Context> context) {
-        context.get().enqueueWork(() ->{
+        context.get().enqueueWork(() -> {
             Player playerSided = context.get().getSender();
-            if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
+            if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
                 playerSided = AlexsCaves.PROXY.getClientSidePlayer();
             }
             Entity parent = playerSided.level().getEntity(message.parentId);
             Entity interacter = playerSided.level().getEntity(message.playerId);
-            if(interacter != null && parent != null && parent.isMultipartEntity() && interacter.distanceTo(parent) < 16){
-                if(message.type == 0){
+            if (interacter != null && parent != null && parent.isMultipartEntity() && interacter.distanceTo(parent) < 16) {
+                if (message.type == 0) {
                     if (interacter instanceof Player player) {
                         parent.interact(player, player.getUsedItemHand());
                     }
-                }else if(message.type == 1){
+                } else if (message.type == 1) {
                     parent.hurt(parent.damageSources().generic(), (float) message.damage);
                 }
             }

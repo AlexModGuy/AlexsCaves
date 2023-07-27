@@ -43,34 +43,34 @@ public class ForsakenSpitParticle extends TextureSheetParticle {
 
     public void tick() {
         super.tick();
-        if(this.isInMouth()){
+        if (this.isInMouth()) {
             this.gravity = 0;
             this.xd = 0;
             this.yd = 0;
             this.zd = 0;
             this.setInMouthPos(1.0F);
-        }else{
+        } else {
             this.gravity = 1F;
-            if(onGround){
+            if (onGround) {
                 onGroundTime++;
             }
         }
         int sprite = this.onGround ? 1 : 0;
         this.setSprite(sprites.get(sprite, 1));
-        if(onGroundTime > 5){
+        if (onGroundTime > 5) {
             this.remove();
         }
     }
 
-    public boolean isInMouth(){
+    public boolean isInMouth() {
         return this.age < this.lifetime * 0.25F;
     }
 
-    public void setInMouthPos(float partialTick){
-        if(forsakenId != -1 && level.getEntity(forsakenId) instanceof ForsakenEntity entity){
+    public void setInMouthPos(float partialTick) {
+        if (forsakenId != -1 && level.getEntity(forsakenId) instanceof ForsakenEntity entity) {
             Vec3 mouthPos = ForsakenRenderer.getMouthPositionFor(forsakenId);
-            if(mouthPos != null){
-                Vec3 translate = mouthPos.add(inMouthOffset).yRot((float) (Math.PI - entity.yBodyRot * ((float)Math.PI / 180F)));
+            if (mouthPos != null) {
+                Vec3 translate = mouthPos.add(inMouthOffset).yRot((float) (Math.PI - entity.yBodyRot * ((float) Math.PI / 180F)));
                 this.setPos(entity.getX() + translate.x, entity.getY() + translate.y, entity.getZ() + translate.z);
             }
         }

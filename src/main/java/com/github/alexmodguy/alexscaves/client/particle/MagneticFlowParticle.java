@@ -53,11 +53,11 @@ public class MagneticFlowParticle extends AbstractTrailParticle {
         this.trailA = 0.5F * fade;
 
         Vec3 vec3 = distanceVec(targetX, targetY, targetZ);
-        if(distanceVec(flowX, flowY, flowZ).length() < 1){
+        if (distanceVec(flowX, flowY, flowZ).length() < 1) {
             targetX = originX;
             targetY = originY;
             targetZ = originZ;
-        }else if(distanceVec(originX, originY, originZ).length() < 1){
+        } else if (distanceVec(originX, originY, originZ).length() < 1) {
             targetX = flowX;
             targetY = flowY;
             targetZ = flowZ;
@@ -69,17 +69,18 @@ public class MagneticFlowParticle extends AbstractTrailParticle {
         super.tick();
     }
 
-    public int sampleCount(){
+    public int sampleCount() {
         return 30;
     }
 
-    public int sampleStep(){
+    public int sampleStep() {
         return 2;
     }
 
-    private Vec3 distanceVec(double x, double y, double z){
+    private Vec3 distanceVec(double x, double y, double z) {
         return new Vec3(x, y, z).subtract(this.x, this.y, this.z);
     }
+
     @Override
     public float getTrailHeight() {
         return 0.3F;

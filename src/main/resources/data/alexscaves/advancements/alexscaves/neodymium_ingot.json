@@ -1,0 +1,46 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:azure_neodymium_ingot"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.neodymium_ingot.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.neodymium_ingot.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/neodymium",
+  "criteria": {
+    "azure": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "alexscaves:scarlet_neodymium_ingot"
+            ]
+          }
+        ]
+      }
+    },
+    "scarlet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "alexscaves:azure_neodymium_ingot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "azure",
+      "scarlet"
+    ]
+  ]
+}

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:radgill_bucket"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.radgill_bucket.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.radgill_bucket.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/enter_acid_with_armor",
+    "criteria": {
+        "radgill_bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:radgill_bucket"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -60,21 +60,21 @@ public class HologramProjectorBlock extends BaseEntityBlock implements SimpleWat
             CompoundTag entityTag = null;
             EntityType entityType = null;
             boolean flag = false;
-            if(heldItem.getTag() != null){
+            if (heldItem.getTag() != null) {
                 CompoundTag entity = heldItem.getTag().getCompound("BoundEntityTag");
                 Optional<EntityType<?>> optional = EntityType.by(entity);
-                if(optional.isPresent()){
+                if (optional.isPresent()) {
                     entityType = optional.get();
                     entityTag = entity;
                     flag = true;
                 }
             }
-            if(!flag){
+            if (!flag) {
                 entityType = EntityType.PLAYER;
                 CompoundTag playerTag = new CompoundTag();
                 playerTag = player.saveWithoutId(playerTag);
                 String s = player.getEncodeId();
-                if(s != null){
+                if (s != null) {
                     playerTag.putString("id", s);
                 }
                 entityTag = playerTag;

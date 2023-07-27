@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.EnumSet;
 
-public class DeepOneDisappearGoal extends Goal{
+public class DeepOneDisappearGoal extends Goal {
 
     private DeepOneBaseEntity deepOne;
     private int bombCooldown = 0;
@@ -26,28 +26,28 @@ public class DeepOneDisappearGoal extends Goal{
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         this.deepOne.setCorneredBy(null);
     }
 
-    public void start(){
+    public void start() {
         this.deepOne.setDeepOneSwimming(false);
         bombCooldown = 10;
         dissapearIn = 20;
     }
 
     @Override
-    public void tick(){
+    public void tick() {
         Player player = this.deepOne.getCorneringPlayer();
-        if(player != null){
-            deepOne.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float)this.deepOne.getMaxHeadXRot());
+        if (player != null) {
+            deepOne.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.deepOne.getMaxHeadXRot());
             bombCooldown--;
-            if(player.hasEffect(MobEffects.BLINDNESS)){
-                if(dissapearIn-- < 0){
+            if (player.hasEffect(MobEffects.BLINDNESS)) {
+                if (dissapearIn-- < 0) {
                     this.deepOne.remove(Entity.RemovalReason.KILLED);
                 }
-            }else if(bombCooldown < 0 && !this.deepOne.isDeepOneSwimming()){
-                if(this.deepOne.startDisappearBehavior(player)){
+            } else if (bombCooldown < 0 && !this.deepOne.isDeepOneSwimming()) {
+                if (this.deepOne.startDisappearBehavior(player)) {
                     bombCooldown = 10;
                     dissapearIn = 0;
                 }

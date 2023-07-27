@@ -17,7 +17,7 @@ public class UraniumOreBlock extends RotatedPillarBlock {
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
-        if(randomSource.nextInt(13) == 0){
+        if (randomSource.nextInt(13) == 0) {
             Vec3 center = Vec3.upFromBottomCenterOf(pos, 0.5F);
             level.addParticle(ACParticleRegistry.PROTON.get(), center.x, center.y, center.z, center.x, center.y, center.z);
         }

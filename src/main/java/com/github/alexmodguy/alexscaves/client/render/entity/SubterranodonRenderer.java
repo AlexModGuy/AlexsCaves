@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 import com.github.alexmodguy.alexscaves.client.model.SubterranodonModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.SubterranodonRiderLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;

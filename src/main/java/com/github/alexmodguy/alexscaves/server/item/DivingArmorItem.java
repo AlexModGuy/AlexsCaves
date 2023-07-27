@@ -34,10 +34,10 @@ public class DivingArmorItem extends ArmorItem {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         UUID uuid = ARMOR_MODIFIERS[type.ordinal()];
         builder.put(Attributes.ARMOR, new AttributeModifier(uuid, "Armor modifier", materialIn.getDefenseForType(this.type), AttributeModifier.Operation.ADDITION));
-        if(this == ACItemRegistry.DIVING_LEGGINGS.get()){
+        if (this == ACItemRegistry.DIVING_LEGGINGS.get()) {
             builder.put(ForgeMod.SWIM_SPEED.get(), new AttributeModifier(uuid, "Swim speed", 0.5D, AttributeModifier.Operation.ADDITION));
         }
-        if(this == ACItemRegistry.DIVING_CHESTPLATE.get()){
+        if (this == ACItemRegistry.DIVING_CHESTPLATE.get()) {
             builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(uuid, "Armor toughness", materialIn.getToughness(), AttributeModifier.Operation.ADDITION));
         }
         if (this.knockbackResistance > 0) {
@@ -59,9 +59,9 @@ public class DivingArmorItem extends ArmorItem {
 
     @Nullable
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        if(slot == EquipmentSlot.LEGS){
+        if (slot == EquipmentSlot.LEGS) {
             return AlexsCaves.MODID + ":textures/armor/diving_suit_1.png";
-        }else{
+        } else {
             return AlexsCaves.MODID + ":textures/armor/diving_suit_0.png";
         }
     }

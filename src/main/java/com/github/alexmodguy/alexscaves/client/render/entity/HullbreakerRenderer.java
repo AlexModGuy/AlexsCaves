@@ -49,8 +49,8 @@ public class HullbreakerRenderer extends MobRenderer<HullbreakerEntity, Hullbrea
         if (super.shouldRender(entity, camera, x, y, z)) {
             return true;
         } else {
-            for(PartEntity part : entity.getParts()){
-                if(camera.isVisible(part.getBoundingBoxForCulling())){
+            for (PartEntity part : entity.getParts()) {
+                if (camera.isVisible(part.getBoundingBoxForCulling())) {
                     return true;
                 }
             }

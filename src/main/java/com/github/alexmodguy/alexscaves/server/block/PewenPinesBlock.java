@@ -17,6 +17,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class PewenPinesBlock extends BushBlock {
 
     public static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 13, 14);
+
     public PewenPinesBlock() {
         super(BlockBehaviour.Properties.of().mapColor(DyeColor.GREEN).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().noCollission());
     }
@@ -28,6 +29,7 @@ public class PewenPinesBlock extends BushBlock {
         }
         return this.mayPlaceOn(levelReader.getBlockState(blockpos), levelReader, blockpos);
     }
+
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         Vec3 vec3 = state.getOffset(getter, pos);
         return SHAPE.move(vec3.x, vec3.y, vec3.z);

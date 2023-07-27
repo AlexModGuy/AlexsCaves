@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:pearl"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.pearl.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.pearl.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/mussel",
+    "criteria": {
+        "pearl": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:pearl"]
+                    }
+                ]
+            }
+        }
+    }
+}

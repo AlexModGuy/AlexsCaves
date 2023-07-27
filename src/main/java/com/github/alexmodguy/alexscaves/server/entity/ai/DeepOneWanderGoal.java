@@ -38,21 +38,21 @@ public class DeepOneWanderGoal extends Goal {
         return goal != null && !mob.getNavigation().isDone() && mob.getRandom().nextInt(200) != 0;
     }
 
-    public void start(){
+    public void start() {
         groundTarget = mob.onGround() ? mob.getRandom().nextFloat() < 0.7F : mob.getRandom().nextFloat() < 0.2F;
         goal = findSwimToPos();
     }
 
-    public void tick(){
+    public void tick() {
         mob.getNavigation().moveTo(goal.getX(), goal.getY(), goal.getZ(), speed);
-        if(groundTarget){
-            if(mob.onGround()){
+        if (groundTarget) {
+            if (mob.onGround()) {
                 mob.setDeepOneSwimming(false);
-            }else if(mob.distanceToSqr(Vec3.atCenterOf(goal)) < 4){
+            } else if (mob.distanceToSqr(Vec3.atCenterOf(goal)) < 4) {
                 mob.setDeltaMovement(mob.getDeltaMovement().scale(0.8).add(0, -0.1F, 0));
             }
         }
-        if(!groundTarget){
+        if (!groundTarget) {
             mob.setDeepOneSwimming(true);
         }
     }
@@ -78,11 +78,11 @@ public class DeepOneWanderGoal extends Goal {
             BlockPos blockPos = around.offset(mob.getRandom().nextInt(range) - range / 2, mob.getRandom().nextInt(range) - range / 2, mob.getRandom().nextInt(range) - range / 2);
 
             if (mob.level().getFluidState(blockPos).is(FluidTags.WATER) && !isTargetBlocked(Vec3.atCenterOf(blockPos)) && blockPos.getY() > mob.level().getMinBuildHeight() + 1) {
-                if(groundTarget){
-                    while (groundTarget && mob.level().getFluidState(blockPos.below()).is(FluidTags.WATER) && blockPos.getY() > mob.level().getMinBuildHeight()){
+                if (groundTarget) {
+                    while (groundTarget && mob.level().getFluidState(blockPos.below()).is(FluidTags.WATER) && blockPos.getY() > mob.level().getMinBuildHeight()) {
                         blockPos = blockPos.below();
                     }
-                    if(mob instanceof DeepOneMageEntity){
+                    if (mob instanceof DeepOneMageEntity) {
                         blockPos = blockPos.above(1 + mob.getRandom().nextInt(2));
                     }
                 }

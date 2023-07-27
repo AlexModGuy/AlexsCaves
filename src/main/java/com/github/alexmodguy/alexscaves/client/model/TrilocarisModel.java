@@ -149,16 +149,16 @@ public class TrilocarisModel extends AdvancedEntityModel<TrilocarisEntity> {
         float biteProgress = entity.getBiteProgress(partialTicks);
         float walkAmount = Math.min(limbSwingAmount * groundProgress * 10F, 1F);
         float swimAmount = limbSwingAmount * swimProgress;
-        if(entity.deathTime > 0){
+        if (entity.deathTime > 0) {
             limbSwing = ageInTicks;
             limbSwingAmount = 1;
         }
-        progressPositionPrev(lflippers, swimProgress,0, 0, -1F, 1F);
-        progressPositionPrev(rflippers, swimProgress,0, 0, -1F, 1F);
-        progressPositionPrev(legs, swimProgress,0, -2F, 0F, 1F);
-        progressPositionPrev(legs2, swimProgress,0, -2F, 0F, 1F);
-        progressPositionPrev(legs3, swimProgress,0, -2F, 0F, 1F);
-        progressPositionPrev(legs4, swimProgress,0, -2F, 0F, 1F);
+        progressPositionPrev(lflippers, swimProgress, 0, 0, -1F, 1F);
+        progressPositionPrev(rflippers, swimProgress, 0, 0, -1F, 1F);
+        progressPositionPrev(legs, swimProgress, 0, -2F, 0F, 1F);
+        progressPositionPrev(legs2, swimProgress, 0, -2F, 0F, 1F);
+        progressPositionPrev(legs3, swimProgress, 0, -2F, 0F, 1F);
+        progressPositionPrev(legs4, swimProgress, 0, -2F, 0F, 1F);
         progressRotationPrev(legs, swimProgress, (float) Math.toRadians(30), 0, 0, 1F);
         progressRotationPrev(legs2, swimProgress, (float) Math.toRadians(30), 0, 0, 1F);
         progressRotationPrev(legs3, swimProgress, (float) Math.toRadians(30), 0, 0, 1F);

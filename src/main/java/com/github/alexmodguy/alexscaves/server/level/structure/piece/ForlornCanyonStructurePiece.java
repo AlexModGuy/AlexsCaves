@@ -48,7 +48,7 @@ public class ForlornCanyonStructurePiece extends AbstractCaveGenerationStructure
                         surroundCornerOfLiquid(level, carve);
                         carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
                         doFloor.setTrue();
-                    }else if(doFloor.isTrue()){
+                    } else if (doFloor.isTrue()) {
                         break;
                     }
                 }
@@ -87,22 +87,22 @@ public class ForlornCanyonStructurePiece extends AbstractCaveGenerationStructure
 
     private float getHeightOf(BlockPos.MutableBlockPos carve) {
         int halfHeight = this.height / 2;
-        if(carve.getY() > this.holeCenter.getY() + halfHeight + 1 || carve.getY() < this.holeCenter.getY() - halfHeight){
+        if (carve.getY() > this.holeCenter.getY() + halfHeight + 1 || carve.getY() < this.holeCenter.getY() - halfHeight) {
             return 0.0F;
-        }else{
-            return 1F - ((this.holeCenter.getY() + halfHeight - carve.getY()) / (float)(height * 2) );
+        } else {
+            return 1F - ((this.holeCenter.getY() + halfHeight - carve.getY()) / (float) (height * 2));
         }
     }
 
     private float canyonStep(float heightScale, int scaleTo) {
-        int clampTo100 = (int)((heightScale) * scaleTo * scaleTo);
-        return Mth.clamp((float)(Math.round(clampTo100 / (float)scaleTo)) / (float)scaleTo, 0F, 1F);
+        int clampTo100 = (int) ((heightScale) * scaleTo * scaleTo);
+        return Mth.clamp((float) (Math.round(clampTo100 / (float) scaleTo)) / (float) scaleTo, 0F, 1F);
     }
 
     private void decorateFloor(WorldGenLevel level, RandomSource rand, BlockPos.MutableBlockPos carveBelow) {
         float floorNoise = (ACMath.sampleNoise2D(carveBelow.getX(), carveBelow.getZ(), 50) + 1.0F) * 0.5F;
         checkedSetBlock(level, carveBelow, Blocks.PACKED_MUD.defaultBlockState());
-        for(int i = 0; i < Math.ceil(floorNoise * 3); i++){
+        for (int i = 0; i < Math.ceil(floorNoise * 3); i++) {
             carveBelow.move(0, 1, 0);
             checkedSetBlock(level, carveBelow, Blocks.PACKED_MUD.defaultBlockState());
         }

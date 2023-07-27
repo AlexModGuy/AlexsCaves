@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalFollowOwnerGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.RaycatSitOnBlockGoal;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.server.entity.IComandableMob;
 import net.minecraft.core.BlockPos;
@@ -102,73 +103,73 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
     }
 
     public boolean isFood(ItemStack itemStack) {
-        return itemStack.is(Items.COD);
+        return itemStack.is(ACItemRegistry.RADGILL.get());
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
         prevSitProgress = sitProgress;
         prevLayProgress = layProgress;
         prevAbsorbAmount = absorbAmount;
-        if(this.isInSittingPose() && sitProgress < 5F){
+        if (this.isInSittingPose() && sitProgress < 5F) {
             sitProgress++;
         }
-        if(!this.isInSittingPose() && sitProgress > 0){
+        if (!this.isInSittingPose() && sitProgress > 0) {
             sitProgress--;
         }
-        if(this.getLayTime() > 0 && layProgress < 5F){
+        if (this.getLayTime() > 0 && layProgress < 5F) {
             layProgress++;
         }
-        if(this.getLayTime() <= 0 && layProgress > 0){
+        if (this.getLayTime() <= 0 && layProgress > 0) {
             layProgress--;
         }
         Entity absorbTarget = getAbsorbTarget();
-        if(this.hasEffect(ACEffectRegistry.IRRADIATED.get()) && this.tickCount % 10 == 0){
+        if (this.hasEffect(ACEffectRegistry.IRRADIATED.get()) && this.tickCount % 10 == 0) {
             this.heal(1);
         }
-        if(absorbCooldown > 0){
+        if (absorbCooldown > 0) {
             absorbCooldown--;
-        }else{
+        } else {
             LivingEntity owner = getOwner();
-            if(absorbTarget == null){
+            if (absorbTarget == null) {
                 Entity closestIrradiated = null;
-               if(owner != null && owner.distanceTo(this) < 20 && owner.hasEffect(ACEffectRegistry.IRRADIATED.get())){
-                   closestIrradiated = owner;
-               }else {
-                   for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
-                        if(!(entity instanceof RaycatEntity) && entity.hasEffect(ACEffectRegistry.IRRADIATED.get()) && (closestIrradiated == null || closestIrradiated.distanceTo(this) > entity.distanceTo(this))){
+                if (owner != null && owner.distanceTo(this) < 20 && owner.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
+                    closestIrradiated = owner;
+                } else {
+                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
+                        if (!(entity instanceof RaycatEntity) && entity.hasEffect(ACEffectRegistry.IRRADIATED.get()) && (closestIrradiated == null || closestIrradiated.distanceTo(this) > entity.distanceTo(this))) {
                             closestIrradiated = entity;
                         }
-                   }
-               }
-               if(closestIrradiated != null){
+                    }
+                }
+                if (closestIrradiated != null) {
                     setAbsorbTargetId(closestIrradiated.getId());
-               }else if(!level().isClientSide){
-                   resetAbsorbCooldown();
-               }
-            }else{
-                if(absorbAmount <= 0){
+                } else if (!level().isClientSide) {
+                    resetAbsorbCooldown();
+                }
+            } else {
+                if (absorbAmount <= 0) {
                     absorbAmount = 1.0F;
-                }else{
+                } else {
                     absorbAmount = Math.max(0, absorbAmount - 0.05F);
-                    if(absorbAmount <= 0){
+                    if (absorbAmount <= 0) {
                         int currentRad = this.hasEffect(ACEffectRegistry.IRRADIATED.get()) ? this.getEffect(ACEffectRegistry.IRRADIATED.get()).getAmplifier() + 1 : 0;
                         this.heal(10);
                         this.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 200, currentRad));
                         this.lookAt(absorbTarget, 30, 30);
-                        if(absorbTarget instanceof LivingEntity living){
+                        if (absorbTarget instanceof LivingEntity living) {
                             MobEffectInstance effectInstance = living.getEffect(ACEffectRegistry.IRRADIATED.get());
-                            if(effectInstance != null){
+                            if (effectInstance != null) {
                                 int timeLeft = effectInstance.getDuration();
                                 int level = effectInstance.getAmplifier();
                                 living.removeEffect(ACEffectRegistry.IRRADIATED.get());
-                                if(level > 0){
+                                if (level > 0) {
                                     living.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), timeLeft, level - 1));
                                 }
                             }
                         }
                         setAbsorbTargetId(-1);
-                        if(!level().isClientSide){
+                        if (!level().isClientSide) {
                             resetAbsorbCooldown();
                         }
                     }
@@ -189,6 +190,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
     public void setAbsorbTargetId(int id) {
         this.entityData.set(ABSORB_TARGET_ID, id);
     }
+
     public float getSitProgress(float partialTicks) {
         return (prevSitProgress + (sitProgress - prevSitProgress) * partialTicks) * 0.2F;
     }
@@ -231,7 +233,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if (itemstack.is(Items.COD)) {
+        if (itemstack.is(ACItemRegistry.RADGILL.get())) {
             if (!isTame()) {
                 this.usePlayerItem(player, hand, itemstack);
                 if (getRandom().nextInt(3) == 0) {

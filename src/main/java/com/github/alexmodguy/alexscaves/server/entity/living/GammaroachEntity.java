@@ -2,17 +2,22 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -25,6 +30,7 @@ import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
@@ -46,6 +52,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
     public static final Animation ANIMATION_RAM = Animation.create(25);
 
     private static final EntityDataAccessor<Integer> SPRAY_COOLDOWN = SynchedEntityData.defineId(GammaroachEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> FED = SynchedEntityData.defineId(GammaroachEntity.class, EntityDataSerializers.BOOLEAN);
 
     public GammaroachEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -83,6 +90,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(SPRAY_COOLDOWN, 0);
+        this.entityData.define(FED, false);
     }
 
     public int getSprayCooldown() {
@@ -91,6 +99,14 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
 
     public void setSprayCooldown(int time) {
         this.entityData.set(SPRAY_COOLDOWN, time);
+    }
+
+    public boolean isFed() {
+        return this.entityData.get(FED);
+    }
+
+    public void setFed(boolean fed) {
+        this.entityData.set(FED, fed);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -106,20 +122,20 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
     }
 
     public boolean requiresCustomPersistence() {
-        return super.requiresCustomPersistence() || this.hasCustomName();
+        return super.requiresCustomPersistence() || this.hasCustomName() || this.isFed();
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader worldIn) {
         return 0.5F - Math.max(worldIn.getBrightness(LightLayer.BLOCK, pos), worldIn.getBrightness(LightLayer.SKY, pos));
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
-        if(this.getSprayCooldown() > 0){
+        if (this.getSprayCooldown() > 0) {
             this.setSprayCooldown(this.getSprayCooldown() - 1);
         }
-        if(this.getAnimation() == ANIMATION_SPRAY){
-            if(this.getAnimationTick() == 10){
+        if (this.getAnimation() == ANIMATION_SPRAY) {
+            if (this.getAnimationTick() == 10) {
                 AreaEffectCloud areaeffectcloud = new AreaEffectCloud(this.level(), this.getX(), this.getY() + 0.2F, this.getZ());
                 areaeffectcloud.setParticle(ACParticleRegistry.GAMMAROACH.get());
                 areaeffectcloud.setFixedColor(0X77D60E);
@@ -127,9 +143,9 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                 areaeffectcloud.setRadius(2.3F);
                 areaeffectcloud.setDuration(200);
                 areaeffectcloud.setWaitTime(10);
-                areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float)areaeffectcloud.getDuration());
+                areaeffectcloud.setRadiusPerTick(-areaeffectcloud.getRadius() / (float) areaeffectcloud.getDuration());
                 this.level().addFreshEntity(areaeffectcloud);
-            }else if(this.getAnimationTick() >= 10 && this.getAnimationTick() <= 30){
+            } else if (this.getAnimationTick() >= 10 && this.getAnimationTick() <= 30) {
                 Vec3 randomOffset = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).normalize().scale(1).add(this.getEyePosition());
                 this.level().addParticle(ACParticleRegistry.GAMMAROACH.get(), this.getRandomX(2), this.getEyeY(), this.getRandomZ(2), randomOffset.x, randomOffset.y + 0.23D, randomOffset.z);
 
@@ -168,7 +184,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
     }
 
     public void triggerSpraying() {
-        if(this.getSprayCooldown() <= 0 && this.getAnimation() == NO_ANIMATION) {
+        if (this.getSprayCooldown() <= 0 && this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_SPRAY);
             this.setSprayCooldown(10000 + random.nextInt(24000));
         }
@@ -177,7 +193,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
     public boolean hurt(DamageSource damageSource, float damageAmount) {
         boolean prev = super.hurt(damageSource, damageAmount);
         Entity hurter = damageSource.getEntity();
-        if(prev && hurter instanceof LivingEntity living && !living.hasEffect(ACEffectRegistry.IRRADIATED.get())){
+        if (prev && hurter instanceof LivingEntity living && !living.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
             triggerSpraying();
         }
         return prev;
@@ -210,10 +226,42 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
         return 1.1F;
     }
 
+    @Override
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        InteractionResult prev = super.mobInteract(player, hand);
+        if (prev != InteractionResult.SUCCESS) {
+            ItemStack itemStack = player.getItemInHand(hand);
+            if (itemStack.is(ACItemRegistry.SPELUNKIE.get()) && (!level().isClientSide && this.getTarget() == player || !isFed())) {
+                if (!player.getAbilities().instabuild) {
+                    itemStack.shrink(1);
+                }
+                this.setFed(true);
+                this.setLastHurtByMob(null);
+                this.setTarget(null);
+                this.level().broadcastEntityEvent(this, (byte) 49);
+                return InteractionResult.SUCCESS;
+            }
+        }
+        return prev;
+    }
+
+    public void handleEntityEvent(byte b) {
+        if (b == 49) {
+            ItemStack itemstack = new ItemStack(ACItemRegistry.SPELUNKIE.get());
+            for (int i = 0; i < 8; ++i) {
+                Vec3 headPos = (new Vec3(0D, 0.1D, 0.5D)).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.yBodyRot * ((float) Math.PI / 180F));
+                this.level().addParticle(new ItemParticleOption(ParticleTypes.ITEM, itemstack), this.getX() + headPos.x, this.getY(0.5) + headPos.y, this.getZ() + headPos.z, (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
+            }
+        } else {
+            super.handleEntityEvent(b);
+        }
+    }
+
     private class MeleeGoal extends Goal {
 
         private int checkForMobsTime = 0;
         private LivingEntity pickupMonster = null;
+
         public MeleeGoal() {
         }
 
@@ -223,21 +271,22 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
             return target != null && target.isAlive();
         }
 
-        public void stop(){
-            if(pickupMonster != null){
-                if(pickupMonster.isPassengerOfSameVehicle(GammaroachEntity.this)){
+        public void stop() {
+            if (pickupMonster != null) {
+                if (pickupMonster.isPassengerOfSameVehicle(GammaroachEntity.this)) {
                     pickupMonster.stopRiding();
                 }
                 pickupMonster = null;
                 checkForMobsTime = 20;
             }
         }
+
         @Override
         public void tick() {
             checkForMobsTime--;
             LivingEntity target = GammaroachEntity.this.getTarget();
-            if(target != null && target.isAlive()){
-                if(checkForMobsTime < 0){
+            if (target != null && target.isAlive()) {
+                if (checkForMobsTime < 0) {
                     checkForMobsTime = 120 + GammaroachEntity.this.random.nextInt(100);
                     Predicate<Entity> monsterAway = (animal) -> animal instanceof Enemy && !(animal instanceof GammaroachEntity) && animal.distanceTo(target) > 5 && !animal.isPassenger();
                     List<Mob> list = GammaroachEntity.this.level().getEntitiesOfClass(Mob.class, GammaroachEntity.this.getBoundingBox().inflate(30, 12, 30), EntitySelector.NO_SPECTATORS.and(monsterAway));
@@ -246,28 +295,28 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                         pickupMonster = list.get(0);
                     }
                 }
-                if(pickupMonster == null || pickupMonster.isPassengerOfSameVehicle(GammaroachEntity.this)){
+                if (pickupMonster == null || pickupMonster.isPassengerOfSameVehicle(GammaroachEntity.this)) {
                     GammaroachEntity.this.getNavigation().moveTo(target, 1.0D);
                     GammaroachEntity.this.lookAt(target, 180, 30);
-                    if(GammaroachEntity.this.distanceTo(target) < 1.5F + target.getBbWidth()){
-                        if(GammaroachEntity.this.getAnimation() == NO_ANIMATION){
+                    if (GammaroachEntity.this.distanceTo(target) < 1.5F + target.getBbWidth()) {
+                        if (GammaroachEntity.this.getAnimation() == NO_ANIMATION) {
                             GammaroachEntity.this.setAnimation(GammaroachEntity.ANIMATION_RAM);
-                        }else if(GammaroachEntity.this.getAnimation() == GammaroachEntity.ANIMATION_RAM && GammaroachEntity.this.getAnimationTick() > 8 && GammaroachEntity.this.getAnimationTick() < 15){
+                        } else if (GammaroachEntity.this.getAnimation() == GammaroachEntity.ANIMATION_RAM && GammaroachEntity.this.getAnimationTick() > 8 && GammaroachEntity.this.getAnimationTick() < 15) {
                             target.hurt(damageSources().mobAttack(GammaroachEntity.this), 2);
                         }
-                        if(pickupMonster != null){
+                        if (pickupMonster != null) {
                             pickupMonster.stopRiding();
                             pickupMonster = null;
                         }
                     }
-                }else if(pickupMonster.isAlive() && (!pickupMonster.isPassenger())){
+                } else if (pickupMonster.isAlive() && (!pickupMonster.isPassenger())) {
                     GammaroachEntity.this.getNavigation().moveTo(pickupMonster, 1.0D);
                     GammaroachEntity.this.lookAt(pickupMonster, 180, 30);
-                    if(GammaroachEntity.this.distanceTo(pickupMonster) < 1.5F + pickupMonster.getBbWidth()) {
+                    if (GammaroachEntity.this.distanceTo(pickupMonster) < 1.5F + pickupMonster.getBbWidth()) {
                         pickupMonster.startRiding(GammaroachEntity.this, true);
                         pickupMonster.hurt(damageSources().cactus(), 1);
                     }
-                }else{
+                } else {
                     pickupMonster = null;
                 }
             }

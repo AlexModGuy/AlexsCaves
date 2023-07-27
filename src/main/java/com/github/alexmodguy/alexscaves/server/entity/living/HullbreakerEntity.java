@@ -79,11 +79,11 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
 
     public HullbreakerEntity(EntityType entityType, Level level) {
         super(entityType, level);
-        headPart = new HullbreakerPartEntity(this, this,3, 2);
-        tail1Part = new HullbreakerPartEntity(this, this,2, 2);
-        tail2Part = new HullbreakerPartEntity(this, tail1Part,2, 1.5F);
+        headPart = new HullbreakerPartEntity(this, this, 3, 2);
+        tail1Part = new HullbreakerPartEntity(this, this, 2, 2);
+        tail2Part = new HullbreakerPartEntity(this, tail1Part, 2, 1.5F);
         tail3Part = new HullbreakerPartEntity(this, tail2Part, 2.5F, 1.5F);
-        tail4Part = new HullbreakerPartEntity(this, tail3Part,1.5F, 1F);
+        tail4Part = new HullbreakerPartEntity(this, tail3Part, 1.5F, 1F);
         allParts = new HullbreakerPartEntity[]{headPart, tail1Part, tail2Part, tail3Part, tail4Part};
         this.moveControl = new VerticalSwimmingMoveControl(this, 0.7F, 30);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
@@ -150,7 +150,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         }
     }
 
-    public void tick(){
+    public void tick() {
         tickMultipart();
         super.tick();
         this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
@@ -167,16 +167,16 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         }
         float pulseBy = getInterestLevel() * 0.45F;
         pulseAmount += pulseBy;
-        if(!level().isClientSide){
+        if (!level().isClientSide) {
             double waterHeight = getFluidTypeHeight(ForgeMod.WATER_TYPE.get());
-            if(waterHeight > 0 && waterHeight < this.getBbHeight() - 1.0F){
+            if (waterHeight > 0 && waterHeight < this.getBbHeight() - 1.0F) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0, -0.05, 0));
             }
         }
-        if(this.getAnimation() == HullbreakerEntity.ANIMATION_BASH && this.getAnimationTick() > 10 && this.getAnimationTick() <= 20){
+        if (this.getAnimation() == HullbreakerEntity.ANIMATION_BASH && this.getAnimationTick() > 10 && this.getAnimationTick() <= 20) {
             breakBlock();
         }
-        if(blockBreakCooldown > 0){
+        if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
@@ -189,6 +189,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     public float getLandProgress(float partialTicks) {
         return (prevLandProgress + (landProgress - prevLandProgress) * partialTicks) * 0.2F;
     }
+
     public float getPulseAmount(float partialTicks) {
         return (prevPulseAmount + (pulseAmount - prevPulseAmount) * partialTicks) * 0.2F;
     }
@@ -206,7 +207,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     }
 
     public void breakBlock() {
-        if(blockBreakCooldown-- > 0){
+        if (blockBreakCooldown-- > 0) {
             return;
         }
         boolean flag = false;
@@ -232,7 +233,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
                 }
             }
         }
-        if(flag){
+        if (flag) {
             blockBreakCooldown = 3;
         }
     }
@@ -269,7 +270,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     }
 
     private double swimDegree(float width, float sinOffset) {
-        double move = Math.cos(this.walkAnimation.position() * 0.33F + sinOffset) * this.walkAnimation.speed() * width  * 0.8F;
+        double move = Math.cos(this.walkAnimation.position() * 0.33F + sinOffset) * this.walkAnimation.speed() * width * 0.8F;
         double idle = Math.sin((tickCount + AlexsCaves.PROXY.getPartialTicks()) * 0.05F + sinOffset) * width * 0.5F;
         return (move + idle * (1 - this.walkAnimation.speed())) * (1 - getLandProgress(AlexsCaves.PROXY.getPartialTicks()));
     }
@@ -292,7 +293,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     }
 
     public void calculateEntityAnimation(boolean flying) {
-        float f1 = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
         float f2 = Math.min(f1 * 3.0F, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
     }
@@ -301,6 +302,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     public boolean isMultipartEntity() {
         return true;
     }
+
     @Override
     public PartEntity<?>[] getParts() {
         return allParts;

@@ -1,0 +1,56 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:diving_helmet"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.diving_armor.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.diving_armor.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_abyssal_ruins",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:diving_helmet"]
+                    }
+                ]
+            }
+        },
+        "shirt": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:diving_chestplate"]
+                    }
+                ]
+            }
+        },
+        "pants": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:diving_leggings"]
+                    }
+                ]
+            }
+        },
+        "boots": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:diving_boots"]
+                    }
+                ]
+            }
+        }
+    }
+}

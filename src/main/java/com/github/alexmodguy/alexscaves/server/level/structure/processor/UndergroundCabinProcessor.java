@@ -29,15 +29,15 @@ public class UndergroundCabinProcessor extends StructureProcessor {
     public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos blockPosUnused, BlockPos pos, StructureTemplate.StructureBlockInfo relativeInfo, StructureTemplate.StructureBlockInfo info, StructurePlaceSettings settings) {
         RandomSource randomsource = settings.getRandom(info.pos());
         BlockState in = info.state();
-        if(in.is(Blocks.COBBLESTONE) && randomsource.nextFloat() < 0.2){
-            if(randomsource.nextFloat() > 0.3F){
+        if (in.is(Blocks.COBBLESTONE) && randomsource.nextFloat() < 0.2) {
+            if (randomsource.nextFloat() > 0.3F) {
                 return null;
-            }else{
+            } else {
                 return new StructureTemplate.StructureBlockInfo(info.pos(), Blocks.MOSSY_COBBLESTONE.defaultBlockState(), info.nbt());
             }
-        }else if(in.is(BlockTags.LOGS) || in.is(BlockTags.PLANKS)){
+        } else if (in.is(BlockTags.LOGS) || in.is(BlockTags.PLANKS)) {
             float above = relativeInfo.pos().getY() / 7F;
-            if(above * randomsource.nextFloat() > 0.2F){
+            if (above * randomsource.nextFloat() > 0.2F) {
                 return null;
             }
         }

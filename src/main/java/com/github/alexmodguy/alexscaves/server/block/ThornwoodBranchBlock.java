@@ -53,7 +53,7 @@ public class ThornwoodBranchBlock extends Block implements SimpleWaterloggedBloc
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        switch (state.getValue(FACING)){
+        switch (state.getValue(FACING)) {
             case UP:
                 return SHAPE_UP;
             case DOWN:

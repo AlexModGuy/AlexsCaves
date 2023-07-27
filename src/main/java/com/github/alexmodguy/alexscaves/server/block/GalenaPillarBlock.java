@@ -34,7 +34,7 @@ public class GalenaPillarBlock extends RotatedPillarBlock {
     public int getShapeInt(LevelAccessor levelAccessor, BlockPos pos, Direction.Axis axis) {
         Direction belowDir = Direction.UP;
         Direction aboveDir = Direction.UP;
-        switch (axis){
+        switch (axis) {
             case X:
                 belowDir = Direction.WEST;
                 aboveDir = Direction.EAST;
@@ -52,10 +52,10 @@ public class GalenaPillarBlock extends RotatedPillarBlock {
         BlockState belowState = levelAccessor.getBlockState(pos.relative(belowDir));
         boolean above = aboveState.is(this) && aboveState.getValue(AXIS) == axis;
         boolean below = belowState.is(this) && belowState.getValue(AXIS) == axis;
-        if(above && below){
+        if (above && below) {
             return 3;
         }
-        if(!above && !below){
+        if (!above && !below) {
             return 0;
         }
         return above ? 1 : 2;
@@ -63,7 +63,7 @@ public class GalenaPillarBlock extends RotatedPillarBlock {
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos1) {
-       return state.setValue(SHAPE, getShapeInt(levelAccessor, blockPos, state.getValue(AXIS)));
+        return state.setValue(SHAPE, getShapeInt(levelAccessor, blockPos, state.getValue(AXIS)));
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {

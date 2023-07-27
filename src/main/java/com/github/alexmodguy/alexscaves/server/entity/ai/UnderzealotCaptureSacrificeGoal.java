@@ -86,7 +86,7 @@ public class UnderzealotCaptureSacrificeGoal extends Goal {
             sacrifice.startRiding(entity);
         }
         Vec3 sub = sacrifice.position().subtract(entity.position());
-        if(!entity.isBuried() && sub.y > 0.5F && sub.horizontalDistance() < 2.0F && entity.onGround()){
+        if (!entity.isBuried() && sub.y > 0.5F && sub.horizontalDistance() < 2.0F && entity.onGround()) {
             entity.jumpFromGround();
         }
         validTimeCheck++;

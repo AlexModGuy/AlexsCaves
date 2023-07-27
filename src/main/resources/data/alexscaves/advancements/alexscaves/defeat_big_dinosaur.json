@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:heavy_bone"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_big_dinosaur.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_big_dinosaur.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/breed_grottoceratops",
+  "criteria": {
+    "killed_grottoceratops": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:grottoceratops"
+        }
+      }
+    },
+    "killed_tremorsaurus": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:tremorsaurus"
+        }
+      }
+    },
+    "killed_relicheirus": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:relicheirus"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "killed_grottoceratops",
+      "killed_tremorsaurus",
+      "killed_relicheirus"
+    ]
+  ]
+}

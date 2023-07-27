@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:tree_star"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.tree_star.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.tree_star.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_dinosaur",
+    "criteria": {
+        "tree_star": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:tree_star"]
+                    }
+                ]
+            }
+        }
+    }
+}

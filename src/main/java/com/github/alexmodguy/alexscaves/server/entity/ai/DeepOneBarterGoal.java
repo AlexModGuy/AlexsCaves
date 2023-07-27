@@ -36,29 +36,29 @@ public class DeepOneBarterGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = mob.getTarget();
-        if((target == null || !target.isAlive()) && mob.getAnimation() == IAnimatedEntity.NO_ANIMATION){
-            if(executionCooldown-- > 0){
+        if ((target == null || !target.isAlive()) && mob.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
+            if (executionCooldown-- > 0) {
                 return false;
-            }else{
+            } else {
                 executionCooldown = 150 + mob.getRandom().nextInt(100);
                 BlockPos pos = null;
-                if(mob.getLastAltarPos() != null){
-                    if(mob.level().getBlockEntity(mob.getLastAltarPos()) instanceof AbyssalAltarBlockEntity altar){
+                if (mob.getLastAltarPos() != null) {
+                    if (mob.level().getBlockEntity(mob.getLastAltarPos()) instanceof AbyssalAltarBlockEntity altar) {
                         executionCooldown = 10;
-                        if(altar.getItem(0).is(ACTagRegistry.DEEP_ONE_BARTERS)){
+                        if (altar.getItem(0).is(ACTagRegistry.DEEP_ONE_BARTERS)) {
                             pos = mob.getLastAltarPos();
                         }
-                    }else{
+                    } else {
                         mob.setLastAltarPos(null);
                     }
                 }
-                if(pos == null){
-                   List<BlockPos> list = getNearbyAltars(mob.blockPosition(), (ServerLevel) mob.level(), 64).sorted(Comparator.comparingDouble(mob.blockPosition()::distSqr)).toList();
-                   if(!list.isEmpty()){
-                       pos = list.get(0);
-                   }
+                if (pos == null) {
+                    List<BlockPos> list = getNearbyAltars(mob.blockPosition(), (ServerLevel) mob.level(), 64).sorted(Comparator.comparingDouble(mob.blockPosition()::distSqr)).toList();
+                    if (!list.isEmpty()) {
+                        pos = list.get(0);
+                    }
                 }
-                if(pos != null){
+                if (pos != null) {
                     altarPos = pos;
                     mob.setLastAltarPos(altarPos);
                     return true;
@@ -80,8 +80,8 @@ public class DeepOneBarterGoal extends Goal {
     }
 
     private static boolean hasPearls(Level world, BlockPos pos, boolean timed) {
-        if(world.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altar){
-            if(timed && world.getGameTime() - altar.getLastInteractionTime() < 100){
+        if (world.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altar) {
+            if (timed && world.getGameTime() - altar.getLastInteractionTime() < 100) {
                 return false;
             }
             return altar.getItem(0).is(ACTagRegistry.DEEP_ONE_BARTERS) && altar.getBlockState().getBlock() instanceof AbyssalAltarBlock && !altar.getBlockState().getValue(AbyssalAltarBlock.ACTIVE);
@@ -90,22 +90,22 @@ public class DeepOneBarterGoal extends Goal {
     }
 
 
-    public void tick(){
+    public void tick() {
         mob.setTradingLockedTime(10);
         Vec3 center = Vec3.atCenterOf(altarPos);
         double distance = Vec3.atCenterOf(altarPos).distanceTo(mob.position());
-        if(distance < 8){
-            mob.getLookControl().setLookAt(center.x, center.y, center.z, 10.0F, (float)this.mob.getMaxHeadXRot());
+        if (distance < 8) {
+            mob.getLookControl().setLookAt(center.x, center.y, center.z, 10.0F, (float) this.mob.getMaxHeadXRot());
         }
-        if(distance > 2){
+        if (distance > 2) {
             mob.getNavigation().moveTo(altarPos.getX() + 0.5F, altarPos.getY(), altarPos.getZ() + 0.5F, 1);
-        }else{
+        } else {
             mob.setLastAltarPos(altarPos);
             mob.setTradingLockedTime(50);
             mob.getNavigation().stop();
-            if(mob.level().getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar){
-                if(altar.getItem(0).is(ACTagRegistry.DEEP_ONE_BARTERS)){
-                    if(altar.queueItemDrop(altar.getItem(0))) {
+            if (mob.level().getBlockEntity(altarPos) instanceof AbyssalAltarBlockEntity altar) {
+                if (altar.getItem(0).is(ACTagRegistry.DEEP_ONE_BARTERS)) {
+                    if (altar.queueItemDrop(altar.getItem(0))) {
                         mob.level().broadcastEntityEvent(mob, (byte) 69);
                         altar.onEntityInteract(mob, true);
                         altar.setItem(0, ItemStack.EMPTY);

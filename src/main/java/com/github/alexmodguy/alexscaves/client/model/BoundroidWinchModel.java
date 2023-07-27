@@ -70,7 +70,7 @@ public class BoundroidWinchModel extends AdvancedEntityModel<BoundroidWinchEntit
     }
 
 
-    public Vec3 getChainPosition(Vec3 offsetIn){
+    public Vec3 getChainPosition(Vec3 offsetIn) {
         PoseStack armStack = new PoseStack();
         armStack.pushPose();
         body.translateAndRotate(armStack);
@@ -100,7 +100,7 @@ public class BoundroidWinchModel extends AdvancedEntityModel<BoundroidWinchEntit
         float bodyYaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
         float walkSpeed = 0.8F;
         float walkDegree = 1.3F;
-        float moveSideways = (float)(entity.getX() - entity.xo) * 3.0F;
+        float moveSideways = (float) (entity.getX() - entity.xo) * 3.0F;
         float moveForwards = (float) (entity.getZ() - entity.zo) * 3.0F;
         float onGroundAmount = 1F - entity.getLatchProgress(partialTick);
         this.coil.rotateAngleX = (float) Math.toRadians(chainLength * 260);

@@ -31,15 +31,15 @@ public class AbyssalAltarBlockRenderer<T extends AbyssalAltarBlockEntity> implem
     @Override
     public void render(T altar, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         ItemStack itemStack = altar.getDisplayStack();
-        if(!itemStack.isEmpty()){
-            int i =  Item.getId(itemStack.getItem()) + itemStack.getDamageValue();
-            this.random.setSeed((long)i);
+        if (!itemStack.isEmpty()) {
+            int i = Item.getId(itemStack.getItem()) + itemStack.getDamageValue();
+            this.random.setSeed((long) i);
             int j = this.getModelCount(itemStack);
             poseStack.pushPose();
             poseStack.translate(0.5F, 1.02F, 0.5F);
             poseStack.mulPose(Axis.YP.rotationDegrees(altar.getItemAngle()));
             float slideBy = altar.getItem(0).isEmpty() ? 0.5F * (1F - altar.getSlideProgress(partialTicks)) : 0.5F * altar.getSlideProgress(partialTicks);
-            poseStack.translate(0, 0, slideBy );
+            poseStack.translate(0, 0, slideBy);
             poseStack.mulPose(Axis.XP.rotationDegrees(90));
             poseStack.scale(0.5F, 0.5F, 0.5F);
             ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
@@ -47,13 +47,13 @@ public class AbyssalAltarBlockRenderer<T extends AbyssalAltarBlockEntity> implem
 
             boolean flag = bakedModel.isGui3d();
             if (!flag) {
-                float f7 = -0.0F * (float)(j - 1) * 0.5F;
-                float f8 = -0.0F * (float)(j - 1) * 0.5F;
-                float f9 = -0.09375F * (float)(j - 1) * 0.5F;
-                poseStack.translate((double)f7, (double)f8, (double)f9);
+                float f7 = -0.0F * (float) (j - 1) * 0.5F;
+                float f8 = -0.0F * (float) (j - 1) * 0.5F;
+                float f9 = -0.09375F * (float) (j - 1) * 0.5F;
+                poseStack.translate((double) f7, (double) f8, (double) f9);
             }
 
-            for(int k = 0; k < j; ++k) {
+            for (int k = 0; k < j; ++k) {
                 poseStack.pushPose();
                 if (k > 0) {
                     if (flag) {

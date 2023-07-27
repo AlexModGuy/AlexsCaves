@@ -20,7 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FallingBlockEntity.class)
 public abstract class FallingBlockEntityMixin extends Entity implements FallingBlockEntityAccessor {
 
-    @Shadow public int time;
+    @Shadow
+    public int time;
     private static final EntityDataAccessor<Integer> FALL_BLOCK_TIME = SynchedEntityData.defineId(FallingBlockEntity.class, EntityDataSerializers.INT);
 
     public FallingBlockEntityMixin(EntityType<?> entityType, Level level) {
@@ -43,22 +44,22 @@ public abstract class FallingBlockEntityMixin extends Entity implements FallingB
             this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.04D, 0.0D));
         }
         int fallBlockTime = entityData.get(FALL_BLOCK_TIME);
-        if(fallBlockTime > 0){
+        if (fallBlockTime > 0) {
             entityData.set(FALL_BLOCK_TIME, fallBlockTime - 1);
         }
-        if(MagnetUtil.isPulledByMagnets(this)){
+        if (MagnetUtil.isPulledByMagnets(this)) {
             MagnetUtil.tickMagnetism(this);
-            if(MagnetUtil.getEntityMagneticDelta(this) != Vec3.ZERO){
+            if (MagnetUtil.getEntityMagneticDelta(this) != Vec3.ZERO) {
                 this.setFallBlockingTime();
             }
         }
     }
 
-    public boolean hasFallBlocking(){
+    public boolean hasFallBlocking() {
         return entityData.get(FALL_BLOCK_TIME) > 0;
     }
 
-    public void setFallBlockingTime(){
+    public void setFallBlockingTime() {
         entityData.set(FALL_BLOCK_TIME, 10);
     }
 }

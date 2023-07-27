@@ -37,16 +37,16 @@ public class WaterBoltRenderer extends EntityRenderer<WaterBoltEntity> {
         float colorB = (waterColorAt & 255) / 255F;
 
         poseStack.pushPose();
-        poseStack.translate(0.0D, (double)0.25F, 0.0D);
+        poseStack.translate(0.0D, (double) 0.25F, 0.0D);
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entityIn.yRotO, entityIn.getYRot()) - 180.0F));
         poseStack.mulPose(Axis.XP.rotationDegrees(Mth.lerp(partialTicks, entityIn.xRotO, entityIn.getXRot())));
         MODEL.setupAnim(entityIn, 0.0F, 0.0F, entityIn.tickCount + partialTicks, 0.0F, 0.0F);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getBubbledNoCull(TEXTURE));
         MODEL.renderToBuffer(poseStack, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0F);
         VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(ACRenderTypes.getBubbledNoCull(OVERLAY_TEXTURE));
-         MODEL.renderToBuffer(poseStack, ivertexbuilder2, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        MODEL.renderToBuffer(poseStack, ivertexbuilder2, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
-        if(entityIn.hasTrail()){
+        if (entityIn.hasTrail()) {
             double x = Mth.lerp(partialTicks, entityIn.xOld, entityIn.getX());
             double y = Mth.lerp(partialTicks, entityIn.yOld, entityIn.getY());
             double z = Mth.lerp(partialTicks, entityIn.zOld, entityIn.getZ());
@@ -58,7 +58,7 @@ public class WaterBoltRenderer extends EntityRenderer<WaterBoltEntity> {
         super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
     }
 
-    private void renderTrail(WaterBoltEntity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn){
+    private void renderTrail(WaterBoltEntity entityIn, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
         int samples = 0;
         int sampleSize = 10;
         float trailHeight = 0.5F;
@@ -67,10 +67,10 @@ public class WaterBoltRenderer extends EntityRenderer<WaterBoltEntity> {
         Vec3 bottomAngleVec = new Vec3(0, -trailHeight, 0).zRot(trailZRot);
         Vec3 drawFrom = entityIn.getTrailPosition(0, partialTicks);
         VertexConsumer vertexconsumer = bufferIn.getBuffer(ACRenderTypes.getBubbledNoCull(TRAIL_TEXTURE));
-        while(samples < sampleSize){
+        while (samples < sampleSize) {
             Vec3 sample = entityIn.getTrailPosition(samples + 2, partialTicks);
-            float u1 = samples / (float)sampleSize;
-            float u2 = u1 + 1 / (float)sampleSize;
+            float u1 = samples / (float) sampleSize;
+            float u2 = u1 + 1 / (float) sampleSize;
 
             Vec3 draw1 = drawFrom;
             Vec3 draw2 = sample;
@@ -78,10 +78,10 @@ public class WaterBoltRenderer extends EntityRenderer<WaterBoltEntity> {
             PoseStack.Pose posestack$pose = poseStack.last();
             Matrix4f matrix4f = posestack$pose.pose();
             Matrix3f matrix3f = posestack$pose.normal();
-            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float)bottomAngleVec.x, (float) draw1.y + (float)bottomAngleVec.y, (float) draw1.z + (float)bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float)bottomAngleVec.x, (float) draw2.y + (float)bottomAngleVec.y, (float) draw2.z + (float)bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float)topAngleVec.x, (float) draw2.y + (float)topAngleVec.y, (float) draw2.z + (float)topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float)topAngleVec.x, (float) draw1.y + (float)topAngleVec.y, (float) draw1.z + (float)topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
             samples++;
             drawFrom = sample;
         }

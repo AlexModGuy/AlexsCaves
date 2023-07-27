@@ -49,12 +49,12 @@ public class UnderzealotBreakLightGoal extends MoveToBlockGoal {
     public void tick() {
         super.tick();
         BlockPos target = getMoveToTarget();
-        if(target != null){
+        if (target != null) {
             underzealot.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(target));
-            if(this.isReachedTarget() && underzealot.level().getBlockState(target).is(ACTagRegistry.UNDERZEALOT_LIGHT_SOURCES)){
-                if(underzealot.getAnimation() == IAnimatedEntity.NO_ANIMATION){
+            if (this.isReachedTarget() && underzealot.level().getBlockState(target).is(ACTagRegistry.UNDERZEALOT_LIGHT_SOURCES)) {
+                if (underzealot.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     underzealot.setAnimation(UnderzealotEntity.ANIMATION_BREAKTORCH);
-                }else if(underzealot.getAnimation() == UnderzealotEntity.ANIMATION_BREAKTORCH && underzealot.getAnimationTick() == 10){
+                } else if (underzealot.getAnimation() == UnderzealotEntity.ANIMATION_BREAKTORCH && underzealot.getAnimationTick() == 10) {
                     underzealot.level().destroyBlock(target, true);
                 }
             }

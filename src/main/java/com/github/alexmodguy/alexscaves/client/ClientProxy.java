@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.gui.ACAdvancementTabs;
 import com.github.alexmodguy.alexscaves.client.gui.SpelunkeryTableScreen;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelShadeLayerFullbright;
 import com.github.alexmodguy.alexscaves.client.particle.*;
@@ -10,12 +11,16 @@ import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
 import com.github.alexmodguy.alexscaves.client.render.item.ACArmorRenderProperties;
 import com.github.alexmodguy.alexscaves.client.render.item.ACItemRenderProperties;
+import com.github.alexmodguy.alexscaves.client.render.item.RaygunRenderHelper;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
+import com.github.alexmodguy.alexscaves.client.sound.NuclearSirenSound;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.item.NuclearBombEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
@@ -33,6 +38,7 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.github.alexthe666.citadel.client.event.EventPosePlayerHand;
+import com.github.alexthe666.citadel.client.event.EventRenderSplashText;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -40,11 +46,9 @@ import com.mojang.math.Axis;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.FogRenderer;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
@@ -66,6 +70,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.AABB;
@@ -83,6 +88,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.*;
 
@@ -112,10 +118,12 @@ public class ClientProxy extends CommonProxy {
     private float prevPossessionStrengthAmount = 0;
     private float possessionStrengthAmount = 0;
     public boolean renderNukeSkyDark = false;
+
+    public static NuclearSirenSound closestSirenSound = null;
     private final ACItemRenderProperties isterProperties = new ACItemRenderProperties();
     private final ACArmorRenderProperties armorProperties = new ACArmorRenderProperties();
     private boolean spelunkeryTutorialComplete;
-
+    private boolean hasACSplashText = false;
     private CameraType lastPOV = CameraType.FIRST_PERSON;
 
     public void init() {
@@ -141,6 +149,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ACBlockEntityRegistry.QUARRY.get(), QuarryBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBER_MONOLITH.get(), AmberMonolithBlockRenderer::new);
+        BlockEntityRenderers.register(ACBlockEntityRegistry.SIREN_LIGHT.get(), SirenLightBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.ABYSSAL_ALTAR.get(), AbyssalAltarBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.COPPER_VALVE.get(), CopperValveBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MOVING_METAL_BLOCK.get(), MovingMetalBlockRenderer::new);
@@ -212,6 +221,9 @@ public class ClientProxy extends CommonProxy {
         ItemProperties.register(ACItemRegistry.LIMESTONE_SPEAR.get(), new ResourceLocation("throwing"), (stack, level, living, j) -> {
             return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
         });
+        ItemProperties.register(ACItemRegistry.REMOTE_DETONATOR.get(), new ResourceLocation("active"), (stack, level, living, j) -> {
+            return RemoteDetonatorItem.isActive(stack) ? 1.0F : 0.0F;
+        });
         ItemProperties.register(ACItemRegistry.MAGIC_CONCH.get(), new ResourceLocation("tooting"), (stack, level, living, j) -> {
             return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
         });
@@ -222,6 +234,7 @@ public class ClientProxy extends CommonProxy {
         ACPostEffectRegistry.registerEffect(IRRADIATED_SHADER);
         ACPostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
         MenuScreens.register(ACMenuRegistry.SPELUNKERY_TABLE_MENU.get(), SpelunkeryTableScreen::new);
+        hasACSplashText = random.nextInt(9) == 0;
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -253,8 +266,10 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpecial(ACParticleRegistry.PROTON.get(), new ProtonParticle.Factory());
         registry.registerSpriteSet(ACParticleRegistry.FALLOUT.get(), FalloutParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.GAMMAROACH.get(), GammaroachParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.HAZMAT_BREATHE.get(), HazmatBreatheParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.NUCLEAR_SIREN_SONAR.get(), NuclearSirenSonarParticle.Factory::new);
         registry.registerSpecial(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
         registry.registerSpriteSet(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
@@ -313,8 +328,13 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public void postRenderLiving(RenderLivingEvent.Post event) {
-        if (event.getEntity() instanceof HeadRotationEntityAccessor magnetic) {
+        LivingEntity entity = event.getEntity();
+        float partialTick = event.getPartialTick();
+        if (entity instanceof HeadRotationEntityAccessor magnetic) {
             magnetic.resetMagnetHeadRotation();
+        }
+        if (!Minecraft.getInstance().options.getCameraType().isFirstPerson() || Minecraft.getInstance().cameraEntity == null || !event.getEntity().is(Minecraft.getInstance().cameraEntity)) {
+            RaygunRenderHelper.renderRaysFor(entity, entity.getEyePosition(partialTick), event.getPoseStack(), event.getMultiBufferSource(), partialTick, false);
         }
     }
 
@@ -323,7 +343,11 @@ public class ClientProxy extends CommonProxy {
         Entity player = Minecraft.getInstance().getCameraEntity();
         if (Minecraft.getInstance().options.getCameraType().isFirstPerson() && event.getStage() == RenderLevelStageEvent.Stage.AFTER_SKY) {
             GameRenderer renderer = Minecraft.getInstance().gameRenderer;
-
+            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+            if (player instanceof LivingEntity living) {
+                Vec3 cameraPos = event.getCamera().getPosition();
+                RaygunRenderHelper.renderRaysFor(living, cameraPos, event.getPoseStack(), multibuffersource$buffersource, event.getPartialTick(), true);
+            }
             if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
                 if (renderer.currentEffect() == null || !SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
                     renderer.loadEffect(SUBMARINE_SHADER);
@@ -425,6 +449,8 @@ public class ClientProxy extends CommonProxy {
         float leftHandGalenaGauntletUseProgress = 0.0F;
         float rightHandSpearUseProgress = 0.0F;
         float leftHandSpearUseProgress = 0.0F;
+        float rightHandRaygunUseProgress = 0.0F;
+        float leftHandRaygunUseProgress = 0.0F;
         if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ResistorShieldItem) {
             if (player.getMainArm() == HumanoidArm.RIGHT) {
                 rightHandResistorShieldUseProgress = Math.max(rightHandResistorShieldUseProgress, ResistorShieldItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
@@ -467,6 +493,20 @@ public class ClientProxy extends CommonProxy {
                 leftHandSpearUseProgress = Math.max(leftHandSpearUseProgress, f7);
             } else {
                 rightHandSpearUseProgress = Math.max(rightHandSpearUseProgress, f7);
+            }
+        }
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof RaygunItem) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                rightHandRaygunUseProgress = Math.max(rightHandRaygunUseProgress, RaygunItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
+            } else {
+                leftHandRaygunUseProgress = Math.max(leftHandRaygunUseProgress, RaygunItem.getLerpedUseTime(player.getItemInHand(InteractionHand.MAIN_HAND), f));
+            }
+        }
+        if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof RaygunItem) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                leftHandRaygunUseProgress = Math.max(leftHandRaygunUseProgress, RaygunItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
+            } else {
+                rightHandRaygunUseProgress = Math.max(rightHandRaygunUseProgress, RaygunItem.getLerpedUseTime(player.getItemInHand(InteractionHand.OFF_HAND), f));
             }
         }
         if (player.isPassenger() && player.getVehicle() instanceof SubterranodonEntity subterranodon) {
@@ -525,6 +565,26 @@ public class ClientProxy extends CommonProxy {
             event.getModel().rightArm.zRot = useProgressMiddle * -(float) Math.toRadians(25F);
             event.setResult(Event.Result.ALLOW);
         }
+        if (event.getEntityIn().getVehicle() instanceof NuclearBombEntity) {
+            float ageInTicks = event.getEntityIn().tickCount + f;
+            event.getModel().rightArm.xRot = (float) Math.toRadians(-170F);
+            event.getModel().rightArm.yRot = (float) Math.toRadians(100F) + (float) Math.cos(ageInTicks * 0.35F) * (float) Math.toRadians(20F);
+            event.getModel().rightArm.zRot = (float) Math.sin(ageInTicks * 0.35F) * (float) Math.toRadians(50F) - (float) Math.toRadians(70F);
+            event.getModel().leftArm.yRot = (float) Math.toRadians(30F);
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (leftHandRaygunUseProgress > 0.0F) {
+            float useProgress = Math.min(5F, leftHandRaygunUseProgress) / 5F;
+            event.getModel().leftArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(80F)) * useProgress;
+            event.getModel().leftArm.yRot = event.getModel().head.yRot * useProgress;
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (rightHandRaygunUseProgress > 0.0F) {
+            float useProgress = Math.min(5F, rightHandRaygunUseProgress) / 5F;
+            event.getModel().rightArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(80F)) * useProgress;
+            event.getModel().rightArm.yRot = event.getModel().head.yRot * useProgress;
+            event.setResult(Event.Result.ALLOW);
+        }
     }
 
     public static boolean isFirstPersonPlayer(Entity entity) {
@@ -549,13 +609,13 @@ public class ClientProxy extends CommonProxy {
             float f = dinosaur.getMeterAmount();
             float invProgress = 1 - f;
             int uvOffset = 0;
-            if(dinosaur instanceof TremorsaurusEntity){
+            if (dinosaur instanceof TremorsaurusEntity) {
                 uvOffset = 62;
                 k += 5;
             }
             event.getGuiGraphics().pose().pushPose();
             event.getGuiGraphics().blit(DINOSAUR_HUD_OVERLAYS, j, k, 50, 0, uvOffset + 32, 43, 31, 128, 128);
-            event.getGuiGraphics().blit(DINOSAUR_HUD_OVERLAYS, j, k, 50, 0, uvOffset, 43, (int)Math.floor(31 * invProgress), 128, 128);
+            event.getGuiGraphics().blit(DINOSAUR_HUD_OVERLAYS, j, k, 50, 0, uvOffset, 43, (int) Math.floor(31 * invProgress), 128, 128);
             event.getGuiGraphics().pose().popPose();
         }
         if (event.getOverlay().id().equals(VanillaGuiOverlay.PLAYER_HEALTH.id()) && Minecraft.getInstance().gameMode.canHurtPlayer() && Minecraft.getInstance().getCameraEntity() instanceof Player && player.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
@@ -883,6 +943,9 @@ public class ClientProxy extends CommonProxy {
             } else if (possessionStrengthAmount > 0F) {
                 possessionStrengthAmount = Math.max(possessionStrengthAmount - 0.05F, 0F);
             }
+            if (Minecraft.getInstance().screen instanceof AdvancementsScreen advancementsScreen && advancementsScreen.selectedTab != null && ACAdvancementTabs.isAlexsCavesWidget(advancementsScreen.selectedTab.getAdvancement())) {
+                ACAdvancementTabs.tick();
+            }
         }
     }
 
@@ -904,6 +967,16 @@ public class ClientProxy extends CommonProxy {
         if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && fogtype == FogType.WATER) {
             float f = (float) Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get(), 1.0D, (double) 0.85714287F);
             event.setFOV(event.getFOV() / f);
+        }
+    }
+
+
+    @SubscribeEvent
+    public void onSplashTextRender(EventRenderSplashText.Pre event) {
+        if (hasACSplashText) {
+            event.setResult(Event.Result.ALLOW);
+            event.setSplashText("30k downloads max");
+            event.setSplashTextColor(0X00B6D5);
         }
     }
 
@@ -959,6 +1032,17 @@ public class ClientProxy extends CommonProxy {
     public void resetRenderViewEntity() {
         Minecraft.getInstance().setCameraEntity(Minecraft.getInstance().player);
         Minecraft.getInstance().options.setCameraType(lastPOV);
+    }
+
+    public void playWorldSound(@Nullable Object soundEmitter, byte type) {
+        if (type == 0 && soundEmitter instanceof NuclearSirenBlockEntity nuclearSiren) {
+            if (closestSirenSound == null || closestSirenSound.isStopped()) {
+                closestSirenSound = new NuclearSirenSound(nuclearSiren);
+            }
+            if (closestSirenSound != null && !Minecraft.getInstance().getSoundManager().isActive(closestSirenSound)) {
+                Minecraft.getInstance().getSoundManager().play(closestSirenSound);
+            }
+        }
     }
 
     public void preScreenRender(float partialTick) {

@@ -11,7 +11,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-public class GloomothFlightGoal  extends Goal {
+public class GloomothFlightGoal extends Goal {
 
     private GloomothEntity entity;
     private double x;
@@ -56,10 +56,10 @@ public class GloomothFlightGoal  extends Goal {
             }
         }
         float speed = 1F;
-        if(entity.lightPos != null){
+        if (entity.lightPos != null) {
             entity.setFlying(true);
             speed = 1.1F;
-        }else if(entity.onGround()){
+        } else if (entity.onGround()) {
             entity.setFlying(false);
             speed = 1F;
         }
@@ -68,13 +68,13 @@ public class GloomothFlightGoal  extends Goal {
 
     @javax.annotation.Nullable
     protected Vec3 generatePosition() {
-        if(entity.lightPos != null){
+        if (entity.lightPos != null) {
             return findLightCirclePos(entity.lightPos);
         }
         Vec3 vec3 = findFlightPos();
-        if(isOverWaterOrVoid()){
+        if (isOverWaterOrVoid()) {
             return vec3.add(0, entity.getRandom().nextFloat() * 8, 0);
-        }else if (entity.getRandom().nextInt(20) != 0) {
+        } else if (entity.getRandom().nextInt(20) != 0) {
             return vec3;
         } else {
             return groundPosition(vec3);
@@ -89,10 +89,10 @@ public class GloomothFlightGoal  extends Goal {
 
     private Vec3 findFlightPos() {
         Vec3 heightAdjusted = entity.position().add(entity.getRandom().nextInt(10) - 5, 0, entity.getRandom().nextInt(10) - 5);
-        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
+        if (entity.level().canSeeSky(BlockPos.containing(heightAdjusted))) {
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
-        }else{
+        } else {
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
             while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {

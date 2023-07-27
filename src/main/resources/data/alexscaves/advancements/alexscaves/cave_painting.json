@@ -1,0 +1,46 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:cave_painting_tremorsaurus"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.cave_painting.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.cave_painting.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/limestone",
+  "criteria": {
+    "use_charcoal": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "minecraft:charcoal"
+              ]
+            }
+          },
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": [
+                  "alexscaves:smooth_limestone"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "requirements": [
+    [
+      "use_charcoal"
+    ]
+  ]
+}

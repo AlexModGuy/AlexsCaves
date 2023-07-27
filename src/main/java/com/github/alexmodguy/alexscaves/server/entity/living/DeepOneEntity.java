@@ -95,14 +95,14 @@ public class DeepOneEntity extends DeepOneBaseEntity {
     @Override
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
-        if(this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
+        if (this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
             this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(ACItemRegistry.INK_BOMB.get()));
         }
         if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_THROW);
         } else if (this.getAnimation() == ANIMATION_THROW) {
             if (this.getAnimationTick() > 10) {
-                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.INK_BOMB.get())){
+                if (this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.INK_BOMB.get())) {
                     this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                 }
                 return super.startDisappearBehavior(player);
@@ -110,6 +110,7 @@ public class DeepOneEntity extends DeepOneBaseEntity {
         }
         return false;
     }
+
     @Override
     public Animation[] getAnimations() {
         return new Animation[]{ANIMATION_THROW, ANIMATION_BITE, ANIMATION_SCRATCH, ANIMATION_TRADE};

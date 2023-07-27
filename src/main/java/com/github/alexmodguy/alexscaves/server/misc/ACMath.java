@@ -18,6 +18,9 @@ public class ACMath {
 
     public static final Direction[] HORIZONTAL_DIRECTIONS = new Direction[]{Direction.NORTH, Direction.EAST, Direction.SOUTH, Direction.WEST};
     public static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
+
+    public static final float QUARTER_PI = ((float)Math.PI / 4F);
+
     public static float smin(float a, float b, float k) {
         float h = Math.max(k - Math.abs(a - b), 0.0F) / k;
         return Math.min(a, b) - h * h * k * (1.0F / 4.0F);
@@ -41,7 +44,7 @@ public class ACMath {
         return (float) ((ACSimplexNoise.noise((x + simplexSampleRate) / simplexSampleRate, (y + simplexSampleRate) / simplexSampleRate, (z + simplexSampleRate) / simplexSampleRate)));
     }
 
-    public static VoxelShape buildShape(VoxelShape... from){
+    public static VoxelShape buildShape(VoxelShape... from) {
         return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 

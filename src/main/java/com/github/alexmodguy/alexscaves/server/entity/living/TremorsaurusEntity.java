@@ -35,13 +35,11 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
@@ -146,7 +144,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 screenShakeAmount = 1F;
             }
         }
-        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+        if (this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()) {
             this.heal(2);
         }
         if (isRunning() && !hasRunningAttributes) {
@@ -164,7 +162,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 this.shakeWater();
             }
         }
-        if(roarScatterTime > 0){
+        if (roarScatterTime > 0) {
             roarScatterTime--;
             scareMobs();
         }
@@ -181,16 +179,16 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 }
             }
             boolean held = false;
-            if(riderHitEntity != null && this.getAnimation() == ANIMATION_BITE && this.getAnimationTick() > 10 && this.getAnimationTick() <= 12){
+            if (riderHitEntity != null && this.getAnimation() == ANIMATION_BITE && this.getAnimationTick() > 10 && this.getAnimationTick() <= 12) {
                 if (this.hasLineOfSight(riderHitEntity) && this.distanceTo(riderHitEntity) < this.getBbWidth() + riderHitEntity.getBbWidth() + 2.0D) {
                     riderHitEntity.hurt(riderHitEntity.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
-                    if(riderHitEntity instanceof LivingEntity living){
+                    if (riderHitEntity instanceof LivingEntity living) {
                         living.knockback(0.5D, this.getX() - riderHitEntity.getX(), this.getZ() - riderHitEntity.getZ());
                     }
                     riderHitEntity = null;
                 }
             }
-            LivingEntity target = riderHitEntity instanceof LivingEntity ? (LivingEntity)riderHitEntity : this.getTarget();
+            LivingEntity target = riderHitEntity instanceof LivingEntity ? (LivingEntity) riderHitEntity : this.getTarget();
             if (target != null && target.isAlive() && target.distanceTo(this) < (isVehicle() ? 10.0F : 5.5F)) {
                 if (this.getAnimation() == ANIMATION_SHAKE_PREY && this.getAnimationTick() <= 35) {
                     Vec3 shakePreyPos = getShakePreyPos();
@@ -207,7 +205,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 this.setHeldMobId(-1);
                 riderHitEntity = null;
             }
-        }else{
+        } else {
             Player player = AlexsCaves.PROXY.getClientSidePlayer();
             if (player != null && player.isPassengerOfSameVehicle(this)) {
                 if (AlexsCaves.PROXY.isKeyDown(2) && getMeterAmount() >= 1.0F) {
@@ -218,11 +216,11 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 }
             }
         }
-        if(this.isVehicle()){
-            if(this.getMeterAmount() < 1.0F){
+        if (this.isVehicle()) {
+            if (this.getMeterAmount() < 1.0F) {
                 this.setMeterAmount(Math.min(this.getMeterAmount() + 0.0035F, 1.0F));
             }
-        }else{
+        } else {
             this.setMeterAmount(0.0F);
         }
         if (roarCooldown > 0) {
@@ -239,14 +237,14 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(30, 10, 30));
         for (LivingEntity e : list) {
             if (!e.getType().is(ACTagRegistry.RESISTS_TREMORSAURUS_ROAR)) {
-                if(e instanceof PathfinderMob mob && (!(mob instanceof TamableAnimal) || !((TamableAnimal)mob).isInSittingPose())){
+                if (e instanceof PathfinderMob mob && (!(mob instanceof TamableAnimal) || !((TamableAnimal) mob).isInSittingPose())) {
                     mob.setTarget(null);
                     mob.setLastHurtByMob(null);
                     if (mob.onGround()) {
                         Vec3 randomShake = new Vec3(random.nextFloat() - 0.5F, 0, random.nextFloat() - 0.5F).scale(0.1F);
                         mob.setDeltaMovement(mob.getDeltaMovement().multiply(0.7F, 1, 0.7F).add(randomShake));
                     }
-                    if(lastScareTimestamp == tickCount){
+                    if (lastScareTimestamp == tickCount) {
                         mob.getNavigation().stop();
                     }
                     if (mob.getNavigation().isDone()) {
@@ -256,7 +254,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                         }
                     }
                 }
-                if(this.isTame() && !isAlliedTo(e)){
+                if (this.isTame() && !isAlliedTo(e)) {
                     e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0, true, true));
                 }
             }
@@ -293,6 +291,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     public void setRunning(boolean bool) {
         this.entityData.set(RUNNING, bool);
     }
+
     public void setHeldMobId(int i) {
         this.entityData.set(HELD_MOB_ID, i);
     }
@@ -363,11 +362,11 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     }
 
     public void calculateEntityAnimation(boolean flying) {
-        float f1 = (float)Mth.length(this.getX() - this.lastStompX, 0, this.getZ() - this.lastStompZ);
+        float f1 = (float) Mth.length(this.getX() - this.lastStompX, 0, this.getZ() - this.lastStompZ);
         float walkSpeed = 4.0F;
-        if(isVehicle()){
+        if (isVehicle()) {
             walkSpeed = 1.5F;
-        }else if(isRunning()){
+        } else if (isRunning()) {
             walkSpeed = 2.0F;
         }
         float f2 = Math.min(f1 * walkSpeed, 1.0F);
@@ -453,7 +452,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
 
     protected void tickRidden(Player player, Vec3 vec3) {
         super.tickRidden(player, vec3);
-        if(player.zza != 0 || player.xxa != 0){
+        if (player.zza != 0 || player.xxa != 0) {
             this.setRot(player.getYRot(), player.getXRot() * 0.25F);
             this.setYHeadRot(player.getYHeadRot());
             this.setTarget(null);
@@ -461,7 +460,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     }
 
     protected float getRiddenSpeed(Player rider) {
-        return (float)(this.getAttributeValue(Attributes.MOVEMENT_SPEED));
+        return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED));
     }
 
     public LivingEntity getControllingPassenger() {
@@ -473,7 +472,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         }
     }
 
-    public boolean tamesFromHatching(){
+    public boolean tamesFromHatching() {
         return true;
     }
 
@@ -497,7 +496,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         return new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
     }
 
-    public boolean hasRidingMeter(){
+    public boolean hasRidingMeter() {
         return true;
     }
 
@@ -510,16 +509,16 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     }
 
     @Override
-    public boolean onFeedMixture(ItemStack itemStack, Player player){
-        if(itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.hasEffect(ACEffectRegistry.STUNNED.get())){
+    public boolean onFeedMixture(ItemStack itemStack, Player player) {
+        if (itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.hasEffect(ACEffectRegistry.STUNNED.get())) {
             this.removeEffect(ACEffectRegistry.STUNNED.get());
             AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(this.getId(), this.getId(), 3, 0, true));
-            if(!level().isClientSide){
+            if (!level().isClientSide) {
                 this.setTameAttempts(this.getTameAttempts() + 1);
-                if(this.getTameAttempts() > 3 && this.getRandom().nextInt(2) == 0 || this.getTameAttempts() > 8){
+                if (this.getTameAttempts() > 3 && this.getRandom().nextInt(2) == 0 || this.getTameAttempts() > 8) {
                     this.tame(player);
                     this.level().broadcastEntityEvent(this, (byte) 7);
-                }else{
+                } else {
                     this.level().broadcastEntityEvent(this, (byte) 6);
                 }
             }
@@ -544,7 +543,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     public void onKeyPacket(Entity keyPresser, int type) {
         if (keyPresser.isPassengerOfSameVehicle(this)) {
             if (type == 2) {
-                if(this.getMeterAmount() >= 1.0F && (this.getAnimation() == NO_ANIMATION || this.getAnimation() == null)){
+                if (this.getMeterAmount() >= 1.0F && (this.getAnimation() == NO_ANIMATION || this.getAnimation() == null)) {
                     this.yBodyRot = keyPresser.getYHeadRot();
                     this.setYRot(keyPresser.getYHeadRot());
                     this.setAnimation(ANIMATION_ROAR);
@@ -552,17 +551,17 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 }
             }
             if (type == 3) {
-                if(this.getAnimation() == NO_ANIMATION || this.getAnimation() == null){
+                if (this.getAnimation() == NO_ANIMATION || this.getAnimation() == null) {
                     HitResult hitresult = ProjectileUtil.getHitResultOnViewVector(keyPresser, entity -> !entity.is(this) && !this.isAlliedTo(entity), 10.0F);
                     this.setYHeadRot(keyPresser.getYHeadRot());
                     this.setXRot(keyPresser.getXRot());
                     boolean flag = false;
-                    if(hitresult instanceof EntityHitResult entityHitResult){
+                    if (hitresult instanceof EntityHitResult entityHitResult) {
                         riderHitEntity = entityHitResult.getEntity();
-                        if(this.getRandom().nextBoolean() && riderHitEntity.getBbWidth() < 2.0F || riderHitEntity instanceof FlyingAnimal){
+                        if (this.getRandom().nextBoolean() && riderHitEntity.getBbWidth() < 2.0F || riderHitEntity instanceof FlyingAnimal) {
                             flag = true;
                         }
-                    }else{
+                    } else {
                         riderHitEntity = null;
                     }
                     this.setAnimation(flag ? ANIMATION_SHAKE_PREY : ANIMATION_BITE);

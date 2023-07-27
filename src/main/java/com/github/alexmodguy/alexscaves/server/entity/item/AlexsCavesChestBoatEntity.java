@@ -42,6 +42,7 @@ public class AlexsCavesChestBoatEntity extends ChestBoat implements AlexsCavesBo
         this(level, location.x, location.y, location.z);
         this.setACBoatType(type);
     }
+
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return new ClientboundAddEntityPacket(this);

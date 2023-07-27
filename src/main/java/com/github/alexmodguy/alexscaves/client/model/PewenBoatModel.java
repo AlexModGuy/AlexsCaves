@@ -81,7 +81,7 @@ public class PewenBoatModel extends ACBoatModel {
         return ImmutableList.of(bottom, right, left, back, front, paddle_left, paddle_right, bb_main, water_mask);
     }
 
-    public AdvancedModelBox getWaterMask(){
+    public AdvancedModelBox getWaterMask() {
         return water_mask;
     }
 

@@ -309,7 +309,7 @@ public class DeepOneKnightModel extends AdvancedEntityModel<DeepOneKnightEntity>
         animator.resetKeyframe(10);
     }
 
-    
+
     @Override
     public void setupAnim(DeepOneKnightEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
@@ -337,9 +337,9 @@ public class DeepOneKnightModel extends AdvancedEntityModel<DeepOneKnightEntity>
         progressRotationPrev(body, swim, (float) Math.toRadians(80), 0, 0, 1F);
         progressRotationPrev(head, swim, (float) Math.toRadians(-70), 0, 0, 1F);
         progressRotationPrev(tail, swim, (float) Math.toRadians(-50), 0, 0, 1F);
-        progressPositionPrev(body, swim, 0,-6, 25, 1F);
-        progressPositionPrev(rarm, swim, 0,-4, -2, 1F);
-        progressPositionPrev(larm, swim, 0,-4, -2, 1F);
+        progressPositionPrev(body, swim, 0, -6, 25, 1F);
+        progressPositionPrev(rarm, swim, 0, -4, -2, 1F);
+        progressPositionPrev(larm, swim, 0, -4, -2, 1F);
         this.flap(body, walkSpeed, walkDegree * 0.1F, false, 1F, 0F, limbSwing, walkAmount);
         this.flap(lleg, walkSpeed, walkDegree * 0.1F, true, 1F, 0F, limbSwing, walkAmount);
         this.flap(rleg, walkSpeed, walkDegree * 0.1F, true, 1F, 0F, limbSwing, walkAmount);
@@ -373,7 +373,7 @@ public class DeepOneKnightModel extends AdvancedEntityModel<DeepOneKnightEntity>
         this.walk(lure, swimSpeed * 0.1F, swimDegree * 0.2F, true, 2F, 0.3F, limbSwing, swimAmount);
         this.walk(rleg, swimSpeed * 1.5F, swimDegree * 1F, true, 2F, 0.0F, limbSwing, swimAmount);
         this.walk(lleg, swimSpeed * 1.5F, swimDegree * 1F, false, 2F, 0.0F, limbSwing, swimAmount);
-        if(entity.getAnimation() != entity.getTradingAnimation()){
+        if (entity.getAnimation() != entity.getTradingAnimation()) {
             this.body.rotateAngleX += fishPitchAmount;
             this.head.rotateAngleX += headPitchAmount;
         }

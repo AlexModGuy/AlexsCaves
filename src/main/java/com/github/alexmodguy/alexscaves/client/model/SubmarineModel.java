@@ -112,7 +112,7 @@ public class SubmarineModel extends AdvancedEntityModel<SubmarineEntity> {
         return ImmutableList.of(hull, rarm, larm, seat, leftpropeller, rightpropeller, llever, rlever, watermask, motor, backpropeller, periscope);
     }
 
-    public AdvancedModelBox getWaterMask(){
+    public AdvancedModelBox getWaterMask() {
         return watermask;
     }
 
@@ -128,16 +128,16 @@ public class SubmarineModel extends AdvancedEntityModel<SubmarineEntity> {
         this.rightpropeller.rotateAngleZ += Math.toRadians(leftPropellerRot);
         this.leftpropeller.rotateAngleZ += Math.toRadians(rightPropellerRot);
         this.backpropeller.rotateAngleZ += Math.toRadians(backPropellerRot);
-        if(controllingPlayer instanceof LivingEntity living){
+        if (controllingPlayer instanceof LivingEntity living) {
             float subYaw = 180 - entity.getViewYRot(partialTicks);
             float headYaw = 180 + (living.yHeadRotO + (living.getYHeadRot() - living.yHeadRotO) * partialTicks);
             this.periscope.rotateAngleY += Math.toRadians(subYaw + headYaw);
         }
         this.hull.rotateAngleX += Math.sin(ageInTicks * 0.7F + 1.0F) * shake * 0.05F;
         this.hull.rotateAngleZ += Math.sin(ageInTicks * 0.7F) * shake * 0.1F;
-        if(entity.getDamageLevel() < 4){
+        if (entity.getDamageLevel() < 4) {
             this.rarm.showModel = true;
-        }else{
+        } else {
             this.hull.rotateAngleZ += Math.toRadians(10);
             this.rarm.showModel = false;
         }

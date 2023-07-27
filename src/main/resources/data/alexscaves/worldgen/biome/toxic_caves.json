@@ -19,7 +19,7 @@
       "max_delay": 24000,
       "min_delay": 12000,
       "replace_current_music": false,
-      "sound": "minecraft:music.overworld.dripstone_caves"
+      "sound": "alexscaves:toxic_caves_music"
     },
     "particle": {
       "options": {
@@ -102,6 +102,7 @@
     ],
     [
       "alexscaves:sulfur_stack",
+      "alexscaves:nuclear_siren",
       "minecraft:freeze_top_layer"
     ]
   ],

@@ -40,7 +40,7 @@ public class GalenaDebrisParticle extends TextureSheetParticle {
         double targetY = Math.sin(age * 0.2F) * 0.01F;
         this.yd += targetY;
         int timeLeft = lifetime - age;
-        if(timeLeft < 20){
+        if (timeLeft < 20) {
             this.quadSize = 0.3F * timeLeft / 20F;
         }
         age++;

@@ -26,7 +26,7 @@ public class AcidVentFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos ventBottom = context.origin();
         if (level.getBlockState(ventBottom.below()).equals(Blocks.MUD.defaultBlockState())) {
             drawVent(level, ventBottom, randomsource);
-            for(int i = 0; i < 1 + randomsource.nextInt(2); i++){
+            for (int i = 0; i < 1 + randomsource.nextInt(2); i++) {
                 drawVent(level, ventBottom.offset(randomsource.nextInt(8) - 4, 0, randomsource.nextInt(8) - 4), randomsource);
             }
         }
@@ -39,11 +39,11 @@ public class AcidVentFeature extends Feature<NoneFeatureConfiguration> {
         while ((!level.getFluidState(ventBottom).isEmpty() || !level.getBlockState(ventBottom).isAir()) && ventBottom.getY() < level.getMaxBuildHeight() - height) {
             ventBottom = ventBottom.above();
             acidCount++;
-            if(acidCount >= 3){
+            if (acidCount >= 3) {
                 return;
             }
         }
-        if(!hasClearance(level, ventBottom, height)){
+        if (!hasClearance(level, ventBottom, height)) {
             return;
         }
         ventBottom = ventBottom.below();
@@ -72,9 +72,9 @@ public class AcidVentFeature extends Feature<NoneFeatureConfiguration> {
 
     private static boolean hasClearance(WorldGenLevel level, BlockPos ventBottom, int height) {
         int i = 0;
-        while(i < height){
-            if(!level.isEmptyBlock(ventBottom.above(1 + i))){
-               return false;
+        while (i < height) {
+            if (!level.isEmptyBlock(ventBottom.above(1 + i))) {
+                return false;
             }
             i++;
         }

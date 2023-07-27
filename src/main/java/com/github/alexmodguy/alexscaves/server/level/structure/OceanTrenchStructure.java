@@ -47,9 +47,9 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
         int biomeSouth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.SOUTH, ground, widthRad) + 32;
         int widthBlocks = (biomeEast + biomeWest + biomeNorth + biomeSouth) / 4;
         int heightBlocks = (biomeUp + biomeDown) / 2;
-        int widthChunks = (int)Math.ceil((widthBlocks + 16) / 16F / 2F) + 3;
-        for(int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++){
-            for(int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++){
+        int widthChunks = (int) Math.ceil((widthBlocks + 16) / 16F / 2F) + 3;
+        for (int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++) {
+            for (int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++) {
                 StructurePiece piece = createPiece(center.offset(new BlockPos(chunkX * 16, 0, chunkZ * 16)), center, heightBlocks, widthBlocks, context.randomState());
                 builder.addPiece(piece);
             }

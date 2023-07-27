@@ -143,8 +143,8 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
             prayingProgress--;
         }
         if (!level().isClientSide) {
-            if(this.isCarrying() && this.isPackFollower()){
-                for(Entity passenger : this.getPassengers()){
+            if (this.isCarrying() && this.isPackFollower()) {
+                for (Entity passenger : this.getPassengers()) {
                     passenger.stopRiding();
                 }
             }
@@ -175,14 +175,14 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
                     level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, stateOn), true, this.getRandomX(0.8F), this.getY(), this.getRandomZ(0.8F), random.nextFloat() - 0.5F, random.nextFloat() + 0.5F, random.nextFloat() - 0.5F);
                 }
             }
-            if(isBuried()){
+            if (isBuried()) {
                 this.setOldPosAndRot();
             }
         }
-        if(cloudCooldown > 0){
+        if (cloudCooldown > 0) {
             cloudCooldown--;
         }
-        if(sacrificeCooldown > 0){
+        if (sacrificeCooldown > 0) {
             sacrificeCooldown--;
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
@@ -199,7 +199,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         } else if (b == 62) {
             Vec3 particleAt = this.getParticlePos() == null ? this.position().add(0, 4, 0) : Vec3.atCenterOf(getParticlePos());
             int carryingId = -1;
-            if(this.isVehicle()){
+            if (this.isVehicle()) {
                 carryingId = this.getFirstPassenger() == null ? -1 : this.getFirstPassenger().getId();
             }
             this.level().addParticle(ACParticleRegistry.VOID_BEING_CLOUD.get(), particleAt.x, particleAt.y, particleAt.z, 1F, carryingId, 5 + random.nextInt(4));
@@ -224,9 +224,10 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         return origin;
     }
 
-    public void triggerIdleDigging(){
+    public void triggerIdleDigging() {
         idleBuryIn = 0;
     }
+
     public boolean digsIdle() {
         LivingEntity target = this.getTarget();
         return !this.isCarrying() && !this.isPackFollower() && !this.isPraying() && this.getAnimation() == NO_ANIMATION && (target == null || !target.isAlive());
@@ -236,6 +237,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.remergePos = pos;
         this.reemergeTime = time;
     }
+
     public void positionRider(Entity entity, MoveFunction moveFunction) {
         super.positionRider(entity, moveFunction);
         entity.setYRot(this.yBodyRot);
@@ -389,7 +391,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     private void spawnReinforcements(ServerLevelAccessor worldIn) {
-        for(int i = 0; i < 3 + random.nextInt(2); i++){
+        for (int i = 0; i < 3 + random.nextInt(2); i++) {
             UnderzealotEntity friend = ACEntityRegistry.UNDERZEALOT.get().create(worldIn.getLevel());
             friend.copyPosition(this);
             worldIn.addFreshEntity(friend);
@@ -399,9 +401,9 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     public boolean isSurroundedByPrayers() {
         PackAnimal leader = this.getPackLeader();
         int prayers = 0;
-        while(leader.getAfterPackMember() != null){
+        while (leader.getAfterPackMember() != null) {
             leader = leader.getAfterPackMember();
-            if(leader instanceof UnderzealotEntity underzealot && underzealot.isPraying()){
+            if (leader instanceof UnderzealotEntity underzealot && underzealot.isPraying()) {
                 prayers++;
             }
         }
@@ -412,13 +414,13 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         super.addAdditionalSaveData(compound);
         compound.putInt("SacrificeCooldown", this.sacrificeCooldown);
         compound.putBoolean("Buried", this.isBuried());
-        if(remergePos != null){
+        if (remergePos != null) {
             compound.putInt("RX", this.remergePos.getX());
             compound.putInt("RY", this.remergePos.getY());
             compound.putInt("RZ", this.remergePos.getZ());
         }
         BlockPos sacrificePos = this.getLastSacrificePos();
-        if(sacrificePos != null){
+        if (sacrificePos != null) {
             compound.putInt("SX", sacrificePos.getX());
             compound.putInt("SY", sacrificePos.getY());
             compound.putInt("SZ", sacrificePos.getZ());
@@ -429,10 +431,10 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         super.readAdditionalSaveData(compound);
         this.sacrificeCooldown = compound.getInt("SacrificeCooldown");
         this.setBuried(compound.getBoolean("Buried"));
-        if(compound.contains("RX") && compound.contains("RY") && compound.contains("RZ")){
+        if (compound.contains("RX") && compound.contains("RY") && compound.contains("RZ")) {
             this.remergePos = new BlockPos(compound.getInt("RX"), compound.getInt("RY"), compound.getInt("RZ"));
         }
-        if(compound.contains("SX") && compound.contains("SY") && compound.contains("SZ")){
+        if (compound.contains("SX") && compound.contains("SY") && compound.contains("SZ")) {
             this.setLastSacrificePos(new BlockPos(compound.getInt("SX"), compound.getInt("SY"), compound.getInt("SZ")));
         }
     }

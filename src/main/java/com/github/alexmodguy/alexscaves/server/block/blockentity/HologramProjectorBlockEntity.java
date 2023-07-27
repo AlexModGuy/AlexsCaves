@@ -41,54 +41,54 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         entity.tickCount++;
         entity.prevSwitchProgress = entity.switchProgress;
         entity.previousRotation = entity.rotation;
-        if(entity.prevDisplayEntity != entity.displayEntity || entity.isPlayerRender()){
-            if(entity.displayEntity == null && !entity.isPlayerRender()){
-                if(entity.switchProgress > 0.0F){
+        if (entity.prevDisplayEntity != entity.displayEntity || entity.isPlayerRender()) {
+            if (entity.displayEntity == null && !entity.isPlayerRender()) {
+                if (entity.switchProgress > 0.0F) {
                     entity.switchProgress--;
-                }else{
+                } else {
                     entity.prevDisplayEntity = null;
                 }
-            }else{
-                if(entity.switchProgress < 10.0F){
+            } else {
+                if (entity.switchProgress < 10.0F) {
                     entity.switchProgress++;
-                }else{
+                } else {
                     entity.prevDisplayEntity = entity.displayEntity;
                 }
 
             }
         }
-        if(entity.isPlayerRender() && entity.lastPlayerUUID == null){
+        if (entity.isPlayerRender() && entity.lastPlayerUUID == null) {
             entity.lastPlayerUUID = entity.entityTag.getUUID("UUID");
         }
         float redstoneSignal = level.getBestNeighborSignal(blockPos) * 1F;
-        if(redstoneSignal > 0.0F){
+        if (redstoneSignal > 0.0F) {
             entity.rotation = entity.rotation + redstoneSignal;
         }
     }
 
     public void load(CompoundTag tag) {
         super.load(tag);
-        if(tag.contains("EntityType")){
+        if (tag.contains("EntityType")) {
             String str = tag.getString("EntityType");
             this.entityType = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
         }
         this.entityTag = tag.getCompound("EntityTag");
         this.rotation = tag.getFloat("Rotation");
-        if(tag.contains("LastPlayerUUID")){
+        if (tag.contains("LastPlayerUUID")) {
             this.lastPlayerUUID = tag.getUUID("LastPlayerUUID");
         }
     }
 
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        if(this.entityType != null){
+        if (this.entityType != null) {
             tag.putString("EntityType", ForgeRegistries.ENTITY_TYPES.getKey(this.entityType).toString());
         }
-        if(this.entityTag != null){
+        if (this.entityTag != null) {
             tag.put("EntityTag", this.entityTag);
         }
         tag.putFloat("Rotation", this.rotation);
-        if(lastPlayerUUID != null){
+        if (lastPlayerUUID != null) {
             tag.putUUID("LastPlayerUUID", lastPlayerUUID);
         }
     }
@@ -108,13 +108,13 @@ public class HologramProjectorBlockEntity extends BlockEntity {
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
         if (packet != null && packet.getTag() != null) {
-            if(packet.getTag().contains("EntityType")){
+            if (packet.getTag().contains("EntityType")) {
                 String str = packet.getTag().getString("EntityType");
                 this.entityType = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
             }
             this.entityTag = packet.getTag().getCompound("EntityTag");
             this.rotation = packet.getTag().getFloat("Rotation");
-            if(packet.getTag().contains("LastPlayerUUID")){
+            if (packet.getTag().contains("LastPlayerUUID")) {
                 this.lastPlayerUUID = packet.getTag().getUUID("LastPlayerUUID");
             }
         }
@@ -124,7 +124,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         return this.saveWithoutMetadata();
     }
 
-    public void setEntity(EntityType entityType, CompoundTag entityTag, float playerRot){
+    public void setEntity(EntityType entityType, CompoundTag entityTag, float playerRot) {
         this.entityType = entityType;
         this.entityTag = entityTag;
         this.rotation = playerRot;
@@ -132,22 +132,22 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         lastPlayerUUID = null;
     }
 
-    public boolean isPlayerRender(){
+    public boolean isPlayerRender() {
         return entityType == EntityType.PLAYER;
     }
 
-    public UUID getLastPlayerUUID(){
+    public UUID getLastPlayerUUID() {
         return isPlayerRender() ? lastPlayerUUID : null;
     }
 
-    public Entity getDisplayEntity(Level level){
-        if(isPlayerRender()){
+    public Entity getDisplayEntity(Level level) {
+        if (isPlayerRender()) {
             return null;
         }
-        if(displayEntity == null && entityType != null){
+        if (displayEntity == null && entityType != null) {
             displayEntity = EntityType.loadEntityRecursive(entityTag, level, Function.identity());
         }
-        if(displayEntity == null && prevDisplayEntity != null){
+        if (displayEntity == null && prevDisplayEntity != null) {
             return prevDisplayEntity;
         }
         return displayEntity;

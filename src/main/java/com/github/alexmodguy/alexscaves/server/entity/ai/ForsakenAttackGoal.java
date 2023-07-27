@@ -90,8 +90,8 @@ public class ForsakenAttackGoal extends Goal {
                     if (this.entity.getAnimationTick() >= 10 && this.entity.getAnimationTick() <= 30) {
                         if (this.entity.getAnimationTick() % 5 == 0) {
                             List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, this.entity.getBoundingBox().inflate(10, 8, 10));
-                            for(LivingEntity living : list){
-                                if(living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceTo(entity) <= 10F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)){
+                            for (LivingEntity living : list) {
+                                if (living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceTo(entity) <= 10F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)) {
                                     living.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level().registryAccess(), entity), entity.getSonicDamageAgainst(target) * 0.65F);
                                 }
                             }
@@ -124,15 +124,15 @@ public class ForsakenAttackGoal extends Goal {
             if (inPursuit) {
                 this.entity.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
                 this.entity.getNavigation().moveTo(target, 1.0D);
-                if(distance < attackDistance + 1.0F && this.entity.getAnimation() == IAnimatedEntity.NO_ANIMATION){
+                if (distance < attackDistance + 1.0F && this.entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     float attackType = entity.getRandom().nextFloat();
-                    if(attackType < 0.25F && target.getBbWidth() < 2.0F){
+                    if (attackType < 0.25F && target.getBbWidth() < 2.0F) {
                         tryAnimation(this.entity.getRandom().nextBoolean() ? ForsakenEntity.ANIMATION_LEFT_PICKUP : ForsakenEntity.ANIMATION_RIGHT_PICKUP);
-                    }else if(attackType < 0.5F){
+                    } else if (attackType < 0.5F) {
                         tryAnimation(this.entity.getRandom().nextBoolean() ? ForsakenEntity.ANIMATION_LEFT_SLASH : ForsakenEntity.ANIMATION_RIGHT_SLASH);
-                    }else if(attackType < 0.75F){
+                    } else if (attackType < 0.75F) {
                         tryAnimation(ForsakenEntity.ANIMATION_GROUND_SMASH);
-                    }else{
+                    } else {
                         tryAnimation(ForsakenEntity.ANIMATION_BITE);
                     }
                 }
@@ -151,44 +151,44 @@ public class ForsakenAttackGoal extends Goal {
             } else {
                 this.entity.setRunning(false);
             }
-            if ((entity.getAnimation() == ForsakenEntity.ANIMATION_RIGHT_PICKUP || entity.getAnimation() == ForsakenEntity.ANIMATION_LEFT_PICKUP) && entity.getHeldMobId() == target.getId() && entity.getAnimationTick() >= 30){
+            if ((entity.getAnimation() == ForsakenEntity.ANIMATION_RIGHT_PICKUP || entity.getAnimation() == ForsakenEntity.ANIMATION_LEFT_PICKUP) && entity.getHeldMobId() == target.getId() && entity.getAnimationTick() >= 30) {
                 checkAndDealDamage(target, 1.2F, 5);
             }
-            if (entity.getAnimation() == ForsakenEntity.ANIMATION_RIGHT_SLASH && entity.getAnimationTick() >= 15 && entity.getAnimationTick() <= 18){
+            if (entity.getAnimation() == ForsakenEntity.ANIMATION_RIGHT_SLASH && entity.getAnimationTick() >= 15 && entity.getAnimationTick() <= 18) {
                 float knockbackStrength = 0.5F;
-                if(checkAndDealDamage(target, 1, 2)){
+                if (checkAndDealDamage(target, 1, 2)) {
                     knockbackStrength = 3F;
                 }
                 knockBackAngle(target, knockbackStrength, -90F);
             }
-            if (entity.getAnimation() == ForsakenEntity.ANIMATION_LEFT_SLASH && entity.getAnimationTick() >= 15 && entity.getAnimationTick() <= 18){
+            if (entity.getAnimation() == ForsakenEntity.ANIMATION_LEFT_SLASH && entity.getAnimationTick() >= 15 && entity.getAnimationTick() <= 18) {
                 float knockbackStrength = 0.5F;
-                if(checkAndDealDamage(target, 1, 2)){
+                if (checkAndDealDamage(target, 1, 2)) {
                     knockbackStrength = 3F;
                 }
                 knockBackAngle(target, knockbackStrength, 90F);
             }
-            if (entity.getAnimation() == ForsakenEntity.ANIMATION_GROUND_SMASH && entity.getAnimationTick() >= 10 && entity.getAnimationTick() <= 15){
+            if (entity.getAnimation() == ForsakenEntity.ANIMATION_GROUND_SMASH && entity.getAnimationTick() >= 10 && entity.getAnimationTick() <= 15) {
                 Vec3 smashPos = entity.position().add(new Vec3(0, 0, 3.5F).yRot((float) -Math.toRadians(entity.yBodyRot)));
                 List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, new AABB(smashPos.x - 4, smashPos.y - 2, smashPos.z - 4, smashPos.x + 4, smashPos.y + 3, smashPos.z + 4));
-                for(LivingEntity living : list){
-                    if(living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceToSqr(smashPos) <= 16F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)){
-                        if(checkAndDealDamage(living, 0.8F, 3) && living.onGround()){
+                for (LivingEntity living : list) {
+                    if (living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceToSqr(smashPos) <= 16F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)) {
+                        if (checkAndDealDamage(living, 0.8F, 3) && living.onGround()) {
                             living.setDeltaMovement(living.getDeltaMovement().add(0, 0.5, 0));
                         }
                     }
                 }
             }
-            if (entity.getAnimation() == ForsakenEntity.ANIMATION_BITE && entity.getAnimationTick() >= 5 && entity.getAnimationTick() <= 8){
+            if (entity.getAnimation() == ForsakenEntity.ANIMATION_BITE && entity.getAnimationTick() >= 5 && entity.getAnimationTick() <= 8) {
                 float knockbackStrength = 0.0F;
-                if(checkAndDealDamage(target, 0.75F, 1)){
+                if (checkAndDealDamage(target, 0.75F, 1)) {
                     knockbackStrength = 0.5F;
                 }
                 knockBackAngle(target, knockbackStrength, 0F);
             }
-            if(navigationCheckCooldown-- < 0 && this.entity.onGround()){
+            if (navigationCheckCooldown-- < 0 && this.entity.onGround()) {
                 navigationCheckCooldown = 20 + entity.getRandom().nextInt(40);
-                if(!canReach(target)){
+                if (!canReach(target)) {
                     this.startCleanJump();
                 }
             }
@@ -207,7 +207,7 @@ public class ForsakenAttackGoal extends Goal {
                 int i = node.x - target.getBlockX();
                 int j = node.y - target.getBlockY();
                 int k = node.z - target.getBlockZ();
-                return (double)(i * i + j * j + k * k) <= 3D;
+                return (double) (i * i + j * j + k * k) <= 3D;
             }
         }
     }
@@ -235,11 +235,12 @@ public class ForsakenAttackGoal extends Goal {
         return false;
     }
 
-    private void knockBackAngle(LivingEntity target, double strength, float angle){
+    private void knockBackAngle(LivingEntity target, double strength, float angle) {
         float yRot = this.entity.yBodyRot + angle;
-        target.knockback((double)strength, (double) Mth.sin(yRot * ((float)Math.PI / 180F)), (double)(-Mth.cos(yRot * ((float)Math.PI / 180F))));
+        target.knockback((double) strength, (double) Mth.sin(yRot * ((float) Math.PI / 180F)), (double) (-Mth.cos(yRot * ((float) Math.PI / 180F))));
 
     }
+
     private boolean tryAnimation(Animation animation) {
         if (entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             entity.setAnimation(animation);
@@ -252,12 +253,12 @@ public class ForsakenAttackGoal extends Goal {
         int lengthOfRadius = far ? entity.getRandom().nextInt(2) + 4 : entity.getRandom().nextInt(10) + 15;
         Vec3 offset = target.position().add(new Vec3(0, 0, lengthOfRadius).yRot((float) (Math.PI * 2F * entity.getRandom().nextFloat())));
         Vec3 vec3 = null;
-        if(far){
+        if (far) {
             BlockPos farPos = LandRandomPos.movePosUpOutOfSolid(entity, BlockPos.containing(offset));
-            if(farPos != null){
+            if (farPos != null) {
                 vec3 = Vec3.atCenterOf(farPos);
             }
-        }else{
+        } else {
             vec3 = LandRandomPos.getPosTowards(this.entity, 20, 10, offset);
         }
         if (vec3 != null) {

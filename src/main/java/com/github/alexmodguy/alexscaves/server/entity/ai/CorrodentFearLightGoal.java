@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 
-public class CorrodentFearLightGoal  extends Goal {
+public class CorrodentFearLightGoal extends Goal {
     private CorrodentEntity entity;
     private Vec3 retreatTo = null;
     private int tryDigTime = 0;
@@ -31,23 +31,23 @@ public class CorrodentFearLightGoal  extends Goal {
     public void tick() {
         this.entity.fleeLightFor = 50;
         int light = this.entity.level().getBrightness(LightLayer.BLOCK, this.entity.blockPosition());
-        if(retreatTo == null || this.entity.distanceToSqr(retreatTo) < 6){
-            for (int i = 0; i < 15; i++){
+        if (retreatTo == null || this.entity.distanceToSqr(retreatTo) < 6) {
+            for (int i = 0; i < 15; i++) {
                 Vec3 vec3 = DefaultRandomPos.getPosAway(this.entity, 30, 15, this.entity.position());
-                if(vec3 != null && this.entity.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(vec3)) < CorrodentEntity.LIGHT_THRESHOLD){
+                if (vec3 != null && this.entity.level().getBrightness(LightLayer.BLOCK, BlockPos.containing(vec3)) < CorrodentEntity.LIGHT_THRESHOLD) {
                     retreatTo = vec3;
                     break;
                 }
             }
-        }else{
+        } else {
             entity.setAfraid(true);
             entity.getNavigation().stop();
             Vec3 flip = retreatTo.subtract(entity.position()).yRot((float) (Math.PI * 0.5F)).add(entity.position());
             entity.lookAt(EntityAnchorArgument.Anchor.EYES, flip);
             entity.getMoveControl().strafe(-1F, 0F);
-            if(entity.onGround() && tryDigTime++ > 20){
+            if (entity.onGround() && tryDigTime++ > 20) {
                 tryDigTime = 0;
-                if(tryDigPos != null && tryDigPos.distSqr(entity.blockPosition()) < 2.25F){
+                if (tryDigPos != null && tryDigPos.distSqr(entity.blockPosition()) < 2.25F) {
                     entity.setDigging(true);
                 }
                 tryDigPos = entity.blockPosition();
@@ -59,7 +59,7 @@ public class CorrodentFearLightGoal  extends Goal {
     @Override
     public void stop() {
         this.entity.setAfraid(false);
-        if(entity.onGround()){
+        if (entity.onGround()) {
             this.entity.fleeLightFor = 50;
             this.entity.setDigging(true);
         }

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -25,50 +26,46 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.stream.Stream;
 
 public class MagnetBlock extends BaseEntityBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     private final boolean azure;
 
-    private static final VoxelShape SHAPE_UP = buildShape(
+    private static final VoxelShape SHAPE_UP = ACMath.buildShape(
             Block.box(0, 6, 5, 6, 16, 11),
             Block.box(0, 0, 5, 16, 6, 11),
             Block.box(10, 6, 5, 16, 16, 11)
     );
 
-    private static final VoxelShape SHAPE_DOWN = buildShape(
+    private static final VoxelShape SHAPE_DOWN = ACMath.buildShape(
             Block.box(0, 0, 5, 6, 10, 11),
             Block.box(0, 10, 5, 16, 16, 11),
             Block.box(10, 0, 5, 16, 10, 11)
     );
 
-    private static final VoxelShape SHAPE_NORTH = buildShape(
+    private static final VoxelShape SHAPE_NORTH = ACMath.buildShape(
             Block.box(0, 5, 0, 6, 11, 10),
             Block.box(0, 5, 10, 16, 11, 16),
             Block.box(10, 5, 0, 16, 11, 10)
     );
 
-    private static final VoxelShape SHAPE_SOUTH = buildShape(
+    private static final VoxelShape SHAPE_SOUTH = ACMath.buildShape(
             Block.box(10, 5, 6, 16, 11, 16),
             Block.box(0, 5, 0, 16, 11, 6),
             Block.box(0, 5, 6, 6, 11, 16)
     );
 
-    private static final VoxelShape SHAPE_EAST = buildShape(
+    private static final VoxelShape SHAPE_EAST = ACMath.buildShape(
             Block.box(6, 5, 0, 16, 11, 6),
             Block.box(0, 5, 0, 6, 11, 16),
             Block.box(6, 5, 10, 16, 11, 16)
     );
 
-    private static final VoxelShape SHAPE_WEST = buildShape(
+    private static final VoxelShape SHAPE_WEST = ACMath.buildShape(
             Block.box(0, 5, 10, 10, 11, 16),
             Block.box(10, 5, 0, 16, 11, 16),
             Block.box(0, 5, 0, 10, 11, 6)
@@ -123,13 +120,13 @@ public class MagnetBlock extends BaseEntityBlock {
     }
 
     public void neighborChanged(BlockState state, Level worldIn, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
-        if(!worldIn.isClientSide){
+        if (!worldIn.isClientSide) {
             this.updateState(state, worldIn, pos, blockIn);
         }
     }
 
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-        if(!worldIn.isClientSide){
+        if (!worldIn.isClientSide) {
             this.updateState(state, worldIn, pos, state.getBlock());
         }
     }
@@ -148,16 +145,16 @@ public class MagnetBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         ItemStack heldItem = player.getItemInHand(handIn);
         if (worldIn.getBlockEntity(pos) instanceof MagnetBlockEntity magnet && !player.isShiftKeyDown()) {
-            if(magnet.canAddRange() && magnet.isExtenderItem(heldItem)){
+            if (magnet.canAddRange() && magnet.isExtenderItem(heldItem)) {
                 magnet.increaseRange(1);
-                if(!player.isCreative()){
+                if (!player.isCreative()) {
                     heldItem.shrink(1);
                 }
                 player.swing(handIn);
                 return InteractionResult.SUCCESS;
-            }else if(magnet.canRemoveRange() && magnet.isRetracterItem(heldItem)){
+            } else if (magnet.canRemoveRange() && magnet.isRetracterItem(heldItem)) {
                 magnet.increaseRange(-1);
-                if(!player.isCreative()){
+                if (!player.isCreative()) {
                     heldItem.shrink(1);
                 }
                 player.swing(handIn);
@@ -182,7 +179,4 @@ public class MagnetBlock extends BaseEntityBlock {
         return new MagnetBlockEntity(pos, state);
     }
 
-    private static VoxelShape buildShape(VoxelShape... from){
-        return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
-    }
 }

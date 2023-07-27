@@ -28,6 +28,7 @@ import net.minecraftforge.network.PlayMessages;
 public class FallingGuanoEntity extends FallingBlockEntity {
 
     private BlockState guanoState = ACBlockRegistry.GUANO_LAYER.get().defaultBlockState();
+
     public FallingGuanoEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
@@ -50,7 +51,7 @@ public class FallingGuanoEntity extends FallingBlockEntity {
     }
 
     public static FallingGuanoEntity fall(Level level, BlockPos pos, BlockState state) {
-        FallingGuanoEntity fallingblockentity = new FallingGuanoEntity(level, (double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, state.hasProperty(BlockStateProperties.WATERLOGGED) ? state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)) : state);
+        FallingGuanoEntity fallingblockentity = new FallingGuanoEntity(level, (double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, state.hasProperty(BlockStateProperties.WATERLOGGED) ? state.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)) : state);
         level.setBlock(pos, state.getFluidState().createLegacyBlock(), 3);
         level.addFreshEntity(fallingblockentity);
         return fallingblockentity;
@@ -86,16 +87,16 @@ public class FallingGuanoEntity extends FallingBlockEntity {
                         boolean flag4 = this.guanoState.canSurvive(this.level(), blockpos) && (!flag3 || this.level().getBlockState(blockpos.below()).is(ACBlockRegistry.GUANO_LAYER.get()));
                         BlockState setState = this.getBlockState();
                         BlockState setAboveState = null;
-                        if(blockstate.is(ACBlockRegistry.GUANO_LAYER.get())){
+                        if (blockstate.is(ACBlockRegistry.GUANO_LAYER.get())) {
                             flag2 = true;
                             flag4 = true;
                             int belowLayers = blockstate.getValue(GuanoLayerBlock.LAYERS);
                             int fallingLayers = guanoState.is(ACBlockRegistry.GUANO_LAYER.get()) ? guanoState.getValue(GuanoLayerBlock.LAYERS) : 8;
                             int together = belowLayers + fallingLayers;
                             setState = ACBlockRegistry.GUANO_LAYER.get().defaultBlockState().setValue(GuanoLayerBlock.LAYERS, Math.min(together, 8));
-                            if(together > 8){
+                            if (together > 8) {
                                 int prev = 0;
-                                if(level().getBlockState(blockpos.above()).is(ACBlockRegistry.GUANO_LAYER.get())){
+                                if (level().getBlockState(blockpos.above()).is(ACBlockRegistry.GUANO_LAYER.get())) {
                                     prev = level().getBlockState(blockpos.above()).getValue(GuanoLayerBlock.LAYERS);
                                 }
                                 setAboveState = ACBlockRegistry.GUANO_LAYER.get().defaultBlockState().setValue(GuanoLayerBlock.LAYERS, Math.min(together - 8 + prev, 8));
@@ -110,12 +111,12 @@ public class FallingGuanoEntity extends FallingBlockEntity {
                                 }
                                 flag5 = true;
                             }
-                            if(setAboveState != null){
+                            if (setAboveState != null) {
                                 BlockPos abovePos = blockpos.above();
                                 BlockState aboveState = this.level().getBlockState(abovePos);
-                                if(aboveState.canBeReplaced(new DirectionalPlaceContext(this.level(), abovePos, Direction.DOWN, ItemStack.EMPTY, Direction.UP))){
+                                if (aboveState.canBeReplaced(new DirectionalPlaceContext(this.level(), abovePos, Direction.DOWN, ItemStack.EMPTY, Direction.UP))) {
                                     this.level().setBlockAndUpdate(abovePos, setAboveState);
-                                }else{
+                                } else {
                                     this.spawnAtLocation(block);
                                 }
                                 this.discard();
@@ -145,7 +146,7 @@ public class FallingGuanoEntity extends FallingBlockEntity {
         }
     }
 
-    private boolean isFullGuanoBlock(BlockState state){
+    private boolean isFullGuanoBlock(BlockState state) {
         return state.is(ACBlockRegistry.GUANO_LAYER.get()) && state.getValue(GuanoLayerBlock.LAYERS) == 8;
     }
 

@@ -41,12 +41,12 @@ public class BoneRibsBlock extends HorizontalDirectionalBlock implements SimpleW
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, false).setValue(UNDER, false).setValue(FACING, Direction.NORTH));
     }
 
-    protected VoxelShape getRibsShape(BlockState state){
-        if(shapeMap.containsKey(state)){
+    protected VoxelShape getRibsShape(BlockState state) {
+        if (shapeMap.containsKey(state)) {
             return shapeMap.get(state);
-        }else{
+        } else {
             VoxelShape merge = state.getValue(UNDER) ? SHAPE_BOTTOM : SHAPE_TOP;
-            switch (state.getValue(FACING)){
+            switch (state.getValue(FACING)) {
                 case NORTH:
                     merge = Shapes.join(merge, SHAPE_NORTH, BooleanOp.OR);
                     break;
@@ -88,7 +88,7 @@ public class BoneRibsBlock extends HorizontalDirectionalBlock implements SimpleW
         BlockState placedOn = levelaccessor.getBlockState(context.getClickedPos().relative(context.getClickedFace().getOpposite()));
         Direction facing = context.getClickedFace().getAxis().isHorizontal() ? context.getClickedFace() : context.getHorizontalDirection().getOpposite();
         boolean under = context.getClickedFace() == Direction.DOWN || vec3.y < 0.5F;
-        if(placedOn.is(this) && context.getClickedFace().getAxis().isVertical()){
+        if (placedOn.is(this) && context.getClickedFace().getAxis().isVertical()) {
             facing = placedOn.getValue(FACING);
             under = !placedOn.getValue(UNDER);
         }

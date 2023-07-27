@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:radon_bottle"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.radon_bottle.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.radon_bottle.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/enter_acid_with_armor",
+    "criteria": {
+        "radon_bottle": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:radon_bottle"]
+                    }
+                ]
+            }
+        }
+    }
+}

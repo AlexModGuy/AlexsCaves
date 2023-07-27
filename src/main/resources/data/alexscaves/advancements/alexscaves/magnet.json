@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:scarlet_magnet"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.magnet.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.magnet.desc"
+    }
+  },
+  "frame": "goal",
+  "parent": "alexscaves:alexscaves/neodymium_ingot",
+  "criteria": {
+    "azure": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "alexscaves:azure_magnet"
+            ]
+          }
+        ]
+      }
+    },
+    "scarlet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "alexscaves:scarlet_magnet"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "azure",
+      "scarlet"
+    ]
+  ]
+}

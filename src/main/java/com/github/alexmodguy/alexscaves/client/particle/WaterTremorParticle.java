@@ -43,11 +43,11 @@ public class WaterTremorParticle extends SimpleAnimatedParticle {
 
     private boolean isWater(BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        if(state.is(Blocks.WATER_CAULDRON)){
+        if (state.is(Blocks.WATER_CAULDRON)) {
             return true;
-        }else if(state.getFluidState().is(FluidTags.WATER)){
+        } else if (state.getFluidState().is(FluidTags.WATER)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }

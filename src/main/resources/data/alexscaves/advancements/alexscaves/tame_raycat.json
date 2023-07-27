@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:radgill"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.tame_raycat.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.tame_raycat.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/radgill_bucket",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:raycat"
+        }
+      }
+    }
+  }
+}

@@ -90,9 +90,9 @@ public class SeaPigEntity extends WaterAnimal {
         super.tick();
         prevDigestProgress = digestProgress;
         prevSquishProgress = squishProgress;
-        if(isDigesting() && digestProgress < 1.0F){
+        if (isDigesting() && digestProgress < 1.0F) {
             digestProgress += 0.05F;
-            if(digestProgress >= 1.0F){
+            if (digestProgress >= 1.0F) {
                 digestProgress = 0;
                 prevDigestProgress = 0;
                 this.digestItem();
@@ -147,7 +147,7 @@ public class SeaPigEntity extends WaterAnimal {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
+        while (!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()) {
             down = down.below();
         }
         this.setPos(down.getX() + 0.5F, down.getY() + 1, down.getZ() + 0.5F);
@@ -163,7 +163,7 @@ public class SeaPigEntity extends WaterAnimal {
 
 
     private void digestItem() {
-        if(!level().isClientSide){
+        if (!level().isClientSide) {
             LootTable loottable = level().getServer().getLootData().getLootTable(DIGESTION_LOOT_TABLE);
             List<ItemStack> items = loottable.getRandomItems((new LootParams.Builder((ServerLevel) this.level())).withParameter(LootContextParams.THIS_ENTITY, this).create(LootContextParamSets.PIGLIN_BARTER));
             items.forEach(this::spawnAtLocation);
@@ -176,7 +176,7 @@ public class SeaPigEntity extends WaterAnimal {
         final InteractionResult type = super.mobInteract(player, hand);
         if (itemstack.is(ACTagRegistry.SEA_PIG_DIGESTS) && !this.isDigesting() && !type.consumesAction()) {
             ItemStack copy = itemstack.copy();
-            if(!player.getAbilities().instabuild){
+            if (!player.getAbilities().instabuild) {
                 itemstack.shrink(1);
             }
             copy.setCount(1);
@@ -193,7 +193,8 @@ public class SeaPigEntity extends WaterAnimal {
     public float getSquishProgress(float partialTicks) {
         return (prevSquishProgress + (squishProgress - prevSquishProgress) * partialTicks) * 0.2F;
     }
-    public boolean isDigesting(){
+
+    public boolean isDigesting() {
         return this.getItemInHand(InteractionHand.MAIN_HAND).is(ACTagRegistry.SEA_PIG_DIGESTS);
     }
 

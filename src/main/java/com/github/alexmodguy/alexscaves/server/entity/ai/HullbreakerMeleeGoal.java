@@ -36,7 +36,7 @@ public class HullbreakerMeleeGoal extends Goal {
                     tryAnimation(hullbreaker.getRandom().nextBoolean() && hullbreaker.hasLineOfSight(target) ? HullbreakerEntity.ANIMATION_BITE : HullbreakerEntity.ANIMATION_BASH);
                 }
             }
-            if(dist > f + 2){
+            if (dist > f + 2) {
                 hullbreaker.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
                 hullbreaker.getNavigation().moveTo(target, 1.6D);
             }
@@ -53,11 +53,11 @@ public class HullbreakerMeleeGoal extends Goal {
         }
     }
 
-    public void start(){
+    public void start() {
         hullbreaker.setInterestLevel(6);
     }
 
-    public void stop(){
+    public void stop() {
         hullbreaker.setInterestLevel(0);
     }
 
@@ -67,9 +67,9 @@ public class HullbreakerMeleeGoal extends Goal {
             target.hurt(target.damageSources().mobAttack(hullbreaker), f);
             target.knockback(0.8D + 0.5D * multiplier, hullbreaker.getX() - target.getX(), hullbreaker.getZ() - target.getZ());
             Entity entity = target.getVehicle();
-            if(entity != null){
+            if (entity != null) {
                 entity.setDeltaMovement(target.getDeltaMovement());
-                entity.hurt(target.damageSources().mobAttack(hullbreaker),f * 0.5F);
+                entity.hurt(target.damageSources().mobAttack(hullbreaker), f * 0.5F);
             }
         }
     }

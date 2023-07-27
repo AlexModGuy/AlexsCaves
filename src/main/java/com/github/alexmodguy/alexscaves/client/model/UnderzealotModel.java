@@ -78,7 +78,7 @@ public class UnderzealotModel extends AdvancedEntityModel<UnderzealotEntity> {
         lleg.setTextureOffset(74, 0).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.0F, false);
         this.updateDefaultPose();
         animator = ModelAnimator.create();
-   }
+    }
 
     @Override
     public Iterable<BasicModelPart> parts() {
@@ -123,7 +123,7 @@ public class UnderzealotModel extends AdvancedEntityModel<UnderzealotEntity> {
         animator.rotate(rarm, (float) Math.toRadians(-30), (float) Math.toRadians(10), (float) Math.toRadians(-10));
         animator.endKeyframe();
         animator.startKeyframe(5);
-        animator.rotate(body, (float) Math.toRadians(-5),  0, 0);
+        animator.rotate(body, (float) Math.toRadians(-5), 0, 0);
         animator.rotate(rarm, (float) Math.toRadians(-150), (float) Math.toRadians(10), (float) Math.toRadians(-10));
         animator.endKeyframe();
         animator.resetKeyframe(5);
@@ -154,8 +154,8 @@ public class UnderzealotModel extends AdvancedEntityModel<UnderzealotEntity> {
         progressPositionPrev(larm, carryingProgress, 0, -2, 0, 1F);
         progressRotationPrev(rarm, buriedProgress, 0, 0, (float) Math.toRadians(160), 1F);
         progressRotationPrev(larm, buriedProgress, 0, 0, (float) Math.toRadians(-160), 1F);
-        progressRotationPrev(rarm, carryingProgress,  (float) Math.toRadians(-180), 0, (float) Math.toRadians(20), 1F);
-        progressRotationPrev(larm, carryingProgress,  (float) Math.toRadians(-180), 0, (float) Math.toRadians(-20), 1F);
+        progressRotationPrev(rarm, carryingProgress, (float) Math.toRadians(-180), 0, (float) Math.toRadians(20), 1F);
+        progressRotationPrev(larm, carryingProgress, (float) Math.toRadians(-180), 0, (float) Math.toRadians(-20), 1F);
         this.walk(nose, 0.4F, 0.1F, false, 1, -0.05F, ageInTicks, 1);
         this.swing(nose, 0.3F, 0.1F, false, 3, 0F, ageInTicks, 1);
         this.flap(rarm, 0.1F, 0.05F, false, 4, 0.05F, ageInTicks, 1);
@@ -166,7 +166,7 @@ public class UnderzealotModel extends AdvancedEntityModel<UnderzealotEntity> {
         this.walk(rleg, walkSpeed, walkDegree * 0.5F, true, 1, 0.2F, limbSwing, limbSwingAmount);
         lleg.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 2, true));
         rleg.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 2, false));
-        this.flap(rarm, walkSpeed, walkDegree * 0.1F, false, 4, 0.25F, limbSwing, limbSwingAmount *  armFreedom);
+        this.flap(rarm, walkSpeed, walkDegree * 0.1F, false, 4, 0.25F, limbSwing, limbSwingAmount * armFreedom);
         this.flap(larm, walkSpeed, walkDegree * 0.1F, true, 4, 0.25F, limbSwing, limbSwingAmount * armFreedom);
         this.swing(root, digSpeed, digDegree * 0.1F, false, 2, 0F, ageInTicks, buriedStrength);
         this.walk(rarm, digSpeed, digDegree, false, 4, 0F, ageInTicks, buriedStrength);

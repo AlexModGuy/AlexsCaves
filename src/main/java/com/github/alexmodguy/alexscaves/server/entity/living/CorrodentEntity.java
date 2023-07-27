@@ -69,6 +69,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
     private Vec3 prevSurfacePosition;
     private Animation currentAnimation;
     private int animationTick;
+
     public CorrodentEntity(EntityType type, Level level) {
         super(type, level);
         switchNavigator(true);
@@ -195,7 +196,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                 }
             }
         }
-        if(fleeLightFor > 0){
+        if (fleeLightFor > 0) {
             fleeLightFor--;
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
@@ -414,11 +415,10 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        if(!this.isDigging()){
+        if (!this.isDigging()) {
             super.playStepSound(pos, state);
         }
     }
-
 
 
     @Override

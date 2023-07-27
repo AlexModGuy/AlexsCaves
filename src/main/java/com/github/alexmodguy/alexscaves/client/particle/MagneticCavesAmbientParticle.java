@@ -21,14 +21,14 @@ public class MagneticCavesAmbientParticle extends Particle {
         this.gravity = 0;
     }
 
-    public void tick(){
-        Entity entity =  Minecraft.getInstance().getCameraEntity();
+    public void tick() {
+        Entity entity = Minecraft.getInstance().getCameraEntity();
 
-        if(this.random.nextFloat() > 0.85F && (entity == null || entity.distanceToSqr(x, y, z) > 25)){
-            Vec3 offset = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F , random.nextFloat() - 0.5F).scale(30);
+        if (this.random.nextFloat() > 0.85F && (entity == null || entity.distanceToSqr(x, y, z) > 25)) {
+            Vec3 offset = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).scale(30);
             Vec3 startPos = getStartPosition(level, random.nextBoolean(), x + offset.x, y + offset.y, z + offset.z);
             this.level.addParticle(ACParticleRegistry.MAGNET_LIGHTNING.get(), startPos.x, startPos.y, startPos.z, 0, 0, 0);
-        }else{
+        } else {
             this.level.addParticle(ACParticleRegistry.GALENA_DEBRIS.get(), x, y, z, 0, 0, 0);
         }
         super.tick();

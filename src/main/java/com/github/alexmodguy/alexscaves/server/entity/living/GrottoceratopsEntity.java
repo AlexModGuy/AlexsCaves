@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
-import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -28,7 +27,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -69,7 +67,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        if(!this.isBaby()) {
+        if (!this.isBaby()) {
             this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
         }
     }
@@ -209,7 +207,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
     @Override
     public void setInLove(@javax.annotation.Nullable Player player) {
         super.setInLove(player);
-        if(this.getAnimation() == null || this.getAnimation() == NO_ANIMATION){
+        if (this.getAnimation() == null || this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_CHEW);
         }
     }

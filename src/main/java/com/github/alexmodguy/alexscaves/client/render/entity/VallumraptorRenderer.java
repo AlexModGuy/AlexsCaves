@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.ForgeRenderTypes;
 
 import javax.annotation.Nullable;
 
@@ -28,7 +27,7 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
     }
 
     protected void scale(VallumraptorEntity mob, PoseStack matrixStackIn, float partialTicks) {
-        if(mob.isElder()){
+        if (mob.isElder()) {
             matrixStackIn.scale(1.1F, 1.1F, 1.1F);
         }
         float alpha = 1.0F - 0.9F * mob.getHideProgress(partialTicks);
@@ -41,10 +40,10 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
 
     @Nullable
     protected RenderType getRenderType(VallumraptorEntity entity, boolean defColor, boolean invis, boolean v) {
-        if(entity.getHideProgress(1.0F) > 0.0F){
+        if (entity.getHideProgress(1.0F) > 0.0F) {
             ResourceLocation resourcelocation = this.getTextureLocation(entity);
             return RenderType.entityTranslucent(resourcelocation);
-        }else{
+        } else {
             return super.getRenderType(entity, defColor, invis, v);
         }
     }
@@ -57,16 +56,16 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
 
         public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, VallumraptorEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             ItemStack itemstack = entitylivingbaseIn.getMainHandItem();
-            if(!itemstack.isEmpty()){
+            if (!itemstack.isEmpty()) {
                 boolean left = entitylivingbaseIn.isLeftHanded();
                 matrixStackIn.pushPose();
-                if(entitylivingbaseIn.isBaby()){
+                if (entitylivingbaseIn.isBaby()) {
                     matrixStackIn.scale(0.5F, 0.5F, 0.5F);
                     matrixStackIn.translate(0.0D, 1.5D, 0D);
                 }
                 matrixStackIn.pushPose();
                 getParentModel().translateToHand(matrixStackIn, left);
-                if(entitylivingbaseIn.isBaby()){
+                if (entitylivingbaseIn.isBaby()) {
                     matrixStackIn.translate(0.0D, 0.1F, -0.6D);
                 }
                 matrixStackIn.translate(left ? -0.2F : 0.2F, 0.2F, -0.3F);

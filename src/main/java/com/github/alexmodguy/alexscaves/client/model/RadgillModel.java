@@ -6,7 +6,7 @@ import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 
-public class RadgillModel  extends AdvancedEntityModel<RadgillEntity> {
+public class RadgillModel extends AdvancedEntityModel<RadgillEntity> {
     private final AdvancedModelBox body;
     private final AdvancedModelBox tail;
     private final AdvancedModelBox dorsal2;

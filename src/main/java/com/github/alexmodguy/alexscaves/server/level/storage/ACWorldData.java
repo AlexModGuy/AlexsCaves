@@ -17,6 +17,7 @@ public class ACWorldData extends SavedData {
 
     private static final String IDENTIFIER = "alexscaves_world_data";
     private Map<UUID, Integer> deepOneReputations = new HashMap<>();
+
     private ACWorldData() {
         super();
     }
@@ -50,7 +51,7 @@ public class ACWorldData extends SavedData {
     public CompoundTag save(CompoundTag compound) {
         if (!this.deepOneReputations.isEmpty()) {
             ListTag listTag = new ListTag();
-            for(Map.Entry<UUID, Integer> reputations : deepOneReputations.entrySet()){
+            for (Map.Entry<UUID, Integer> reputations : deepOneReputations.entrySet()) {
                 CompoundTag tag = new CompoundTag();
                 tag.putUUID("UUID", reputations.getKey());
                 tag.putInt("Reputation", reputations.getValue());
@@ -61,11 +62,11 @@ public class ACWorldData extends SavedData {
         return compound;
     }
 
-    public int getDeepOneReputation(@Nullable UUID uuid){
+    public int getDeepOneReputation(@Nullable UUID uuid) {
         return uuid == null ? 0 : deepOneReputations.getOrDefault(uuid, 0);
     }
 
-    public void setDeepOneReputation(UUID uuid, int reputation){
+    public void setDeepOneReputation(UUID uuid, int reputation) {
         deepOneReputations.put(uuid, Mth.clamp(reputation, -100, 100));
     }
 }

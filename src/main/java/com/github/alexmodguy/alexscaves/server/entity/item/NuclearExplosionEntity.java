@@ -59,7 +59,7 @@ public class NuclearExplosionEntity extends Entity {
             while (particleY > level().getMinBuildHeight() && particleY > this.getY() - radius / 2F && isDestroyable(level().getBlockState(BlockPos.containing(this.getX(), particleY, this.getZ())))) {
                 particleY--;
             }
-            level().addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize() + 0.2F, 0, 0);
+            level().addAlwaysVisibleParticle(ACParticleRegistry.MUSHROOM_CLOUD.get(), true, this.getX(), particleY + 2, this.getZ(), this.getSize(), 0, 0);
         }
         if (tickCount > 40 && destroyingChunks.isEmpty()) {
             this.remove(RemovalReason.DISCARDED);
@@ -92,9 +92,9 @@ public class NuclearExplosionEntity extends Entity {
                 Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
                 entity.setDeltaMovement(vec3.scale(damage * 0.1F * flingStrength));
                 if (damage > 0) {
-                    if(entity instanceof RaycatEntity){
+                    if (entity instanceof RaycatEntity) {
                         damage = 0;
-                    }else if(entity.getType().is(ACTagRegistry.RESISTS_RADIATION)){
+                    } else if (entity.getType().is(ACTagRegistry.RESISTS_RADIATION)) {
                         damage *= 0.25F;
                     }
                     entity.hurt(ACDamageTypes.causeNukeDamage(level().registryAccess()), damage);

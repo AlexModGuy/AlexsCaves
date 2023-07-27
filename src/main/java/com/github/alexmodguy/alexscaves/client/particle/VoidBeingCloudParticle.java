@@ -40,6 +40,7 @@ public class VoidBeingCloudParticle extends Particle {
     private int totalTendrils;
 
     private boolean spawnedExtras = false;
+
     public VoidBeingCloudParticle(ClientLevel world, double x, double y, double z, int size, int target, int totalTendrils) {
         super(world, x, y, z);
         this.gravity = 0.0F;
@@ -52,8 +53,8 @@ public class VoidBeingCloudParticle extends Particle {
         this.lifetime = 300;
         this.size = size + 1;
         this.setSize(this.size, this.size);
-        textureSize = 32 + (int)size * 32;
-        dynamicTexture =  new DynamicTexture(textureSize, textureSize, true);
+        textureSize = 32 + (int) size * 32;
+        dynamicTexture = new DynamicTexture(textureSize, textureSize, true);
         id = currentlyUsedTextures;
         ResourceLocation resourcelocation = Minecraft.getInstance().textureManager.register("alexscavesvoid_particle/void_cloud_" + id, dynamicTexture);
         currentlyUsedTextures++;
@@ -62,8 +63,8 @@ public class VoidBeingCloudParticle extends Particle {
         this.totalTendrils = totalTendrils;
     }
 
-    public void tick(){
-        if(this.age <= 0 && !spawnedExtras){
+    public void tick() {
+        if (this.age <= 0 && !spawnedExtras) {
             onSpawn();
             spawnedExtras = true;
         }
@@ -78,32 +79,32 @@ public class VoidBeingCloudParticle extends Particle {
     private void onSpawn() {
         int circleOffset = random.nextInt(360);
         int eyes = 3 + random.nextInt(2);
-        for(int j = 0; j < eyes; j++) {
-            Vec3 vec3 = new Vec3((0.5F + random.nextFloat() * 0.7F) * size * 1.1F, 0, 0).yRot((float) (circleOffset + (j / (float)eyes * 180) * (Math.PI / 180F)));
+        for (int j = 0; j < eyes; j++) {
+            Vec3 vec3 = new Vec3((0.5F + random.nextFloat() * 0.7F) * size * 1.1F, 0, 0).yRot((float) (circleOffset + (j / (float) eyes * 180) * (Math.PI / 180F)));
             this.level.addParticle(ACParticleRegistry.VOID_BEING_EYE.get(), this.x, this.y, this.z, vec3.x, vec3.z, 0);
 
         }
-        for(int j = 0; j < totalTendrils; j++){
+        for (int j = 0; j < totalTendrils; j++) {
             int timeBy = 200 / totalTendrils * (j + 1);
             this.level.addParticle(ACParticleRegistry.VOID_BEING_TENDRIL.get(), this.x, this.y, this.z, this.targetId, timeBy, 0);
         }
     }
 
     private void updateTexture() {
-        int center = textureSize /2;
+        int center = textureSize / 2;
         int black = 0;
         double alphaFadeOut = age > lifetime - 10 ? (lifetime - age) / 10F : 1F;
         double radiusSq = center * center * getAlphaFromAge(age, lifetime);
-        for(int i = 0; i < textureSize; ++i) {
-            for(int j = 0; j < textureSize; ++j) {
+        for (int i = 0; i < textureSize; ++i) {
+            for (int j = 0; j < textureSize; ++j) {
                 double d0 = center - i;
                 double d1 = center - j;
                 double f1 = (ACMath.sampleNoise3D(i, age, j, 15) + 1F) / 2F;
                 double d2 = (d0 * d0 + d1 * d1);
                 double alpha = (1F - d2 / (radiusSq - f1 * f1 * radiusSq)) * alphaFadeOut;
-                if(alpha < 0){
+                if (alpha < 0) {
                     this.dynamicTexture.getPixels().setPixelRGBA(j, i, 0);
-                }else{
+                } else {
                     this.dynamicTexture.getPixels().setPixelRGBA(j, i, FastColor.ARGB32.color((int) Math.min(alpha * 255, 255), black, black, black));
                 }
             }
@@ -111,7 +112,7 @@ public class VoidBeingCloudParticle extends Particle {
         this.dynamicTexture.upload();
     }
 
-    public static float getAlphaFromAge(int age, int lifetime){
+    public static float getAlphaFromAge(int age, int lifetime) {
         float alphaFadeIn = Math.min(20, age) / 20F;
         float alphaFadeOut = age > lifetime - 10 ? (lifetime - age) / 10F : 1F;
         return alphaFadeIn * alphaFadeOut;
@@ -128,9 +129,9 @@ public class VoidBeingCloudParticle extends Particle {
             this.requiresUpload = false;
         }
         Vec3 vec3 = camera.getPosition();
-        float f = (float)(Mth.lerp((double)partialTick, this.xo, this.x) - vec3.x());
-        float f1 = (float)(Mth.lerp((double)partialTick, this.yo, this.y) - vec3.y());
-        float f2 = (float)(Mth.lerp((double)partialTick, this.zo, this.z) - vec3.z());
+        float f = (float) (Mth.lerp((double) partialTick, this.xo, this.x) - vec3.x());
+        float f1 = (float) (Mth.lerp((double) partialTick, this.yo, this.y) - vec3.y());
+        float f2 = (float) (Mth.lerp((double) partialTick, this.zo, this.z) - vec3.z());
         Quaternionf quaternion;
         if (this.roll == 0.0F) {
             quaternion = camera.rotation();
@@ -150,8 +151,8 @@ public class VoidBeingCloudParticle extends Particle {
         Vector3f[] avector3f = new Vector3f[]{new Vector3f(-1.0F, -1.0F, zFightFix), new Vector3f(-1.0F, 1.0F, zFightFix), new Vector3f(1.0F, 1.0F, zFightFix), new Vector3f(1.0F, -1.0F, zFightFix)};
         float f4 = size;
 
-        for(int i = 0; i < 4; ++i) {
-            Vector3f vector3f = avector3f[i].add(0,  0.2F * (float)Math.sin((age + partialTick) * 0.1F), 0);
+        for (int i = 0; i < 4; ++i) {
+            Vector3f vector3f = avector3f[i].add(0, 0.2F * (float) Math.sin((age + partialTick) * 0.1F), 0);
             vector3f.rotate(quaternion);
             vector3f.mul(f4);
             vector3f.add(f, f1, f2);
@@ -161,13 +162,14 @@ public class VoidBeingCloudParticle extends Particle {
         float f5 = 0;
         float f6 = 1;
         int j = 240;
-        vertexConsumer1.vertex((double)avector3f[0].x(), (double)avector3f[0].y(), (double)avector3f[0].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f8, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        vertexConsumer1.vertex((double)avector3f[1].x(), (double)avector3f[1].y(), (double)avector3f[1].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f8, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        vertexConsumer1.vertex((double)avector3f[2].x(), (double)avector3f[2].y(), (double)avector3f[2].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f7, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        vertexConsumer1.vertex((double)avector3f[3].x(), (double)avector3f[3].y(), (double)avector3f[3].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f7, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+        vertexConsumer1.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f8, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+        vertexConsumer1.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f8, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+        vertexConsumer1.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f7, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+        vertexConsumer1.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).color(this.rCol, this.gCol, this.bCol, this.alpha).uv(f7, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
 
         multibuffersource$buffersource.endBatch();
     }
+
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.CUSTOM;
@@ -176,7 +178,7 @@ public class VoidBeingCloudParticle extends Particle {
     @OnlyIn(Dist.CLIENT)
     public static class Factory implements ParticleProvider<SimpleParticleType> {
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new VoidBeingCloudParticle(worldIn, x, y, z, (int)xSpeed, (int)ySpeed, (int)zSpeed);
+            return new VoidBeingCloudParticle(worldIn, x, y, z, (int) xSpeed, (int) ySpeed, (int) zSpeed);
         }
     }
 }

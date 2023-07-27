@@ -64,7 +64,7 @@ public class CaveMapRenderer {
     }
 
     public static CaveMapRenderer getMapFor(ItemStack item, boolean transparent) {
-        if(transparent){
+        if (transparent) {
             if (CAVE_MAPS_HAND.containsKey(item)) {
                 return CAVE_MAPS_HAND.get(item);
             } else {
@@ -72,7 +72,7 @@ public class CaveMapRenderer {
                 CAVE_MAPS_HAND.put(item, mapRenderer);
                 return mapRenderer;
             }
-        }else{
+        } else {
             if (CAVE_MAPS_ITEM_FRAME.containsKey(item)) {
                 return CAVE_MAPS_ITEM_FRAME.get(item);
             } else {
@@ -111,16 +111,16 @@ public class CaveMapRenderer {
         int right = k + 1;
         int up = j + (i - 1) * 128;
         int down = j + (i + 1) * 128;
-        if(left >= 0 && left < mapBiomes.length && left % 128 != 127 && left % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[left]) != biome){
+        if (left >= 0 && left < mapBiomes.length && left % 128 != 127 && left % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[left]) != biome) {
             return true;
         }
-        if(right >= 0 && right < mapBiomes.length && right % 128 != 127 && right % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[right]) != biome){
+        if (right >= 0 && right < mapBiomes.length && right % 128 != 127 && right % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[right]) != biome) {
             return true;
         }
-        if(up >= 0 && up < mapBiomes.length && up % 128 != 127 && up % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[up]) != biome){
+        if (up >= 0 && up < mapBiomes.length && up % 128 != 127 && up % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[up]) != biome) {
             return true;
         }
-        if(down >= 0 && down < mapBiomes.length && down % 128 != 127 && down % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[down]) != biome){
+        if (down >= 0 && down < mapBiomes.length && down % 128 != 127 && down % 128 != 0 && registry.asHolderIdMap().byId(mapBiomes[down]) != biome) {
             return true;
         }
         return false;
@@ -142,7 +142,7 @@ public class CaveMapRenderer {
 
                 Pair<Integer, Integer> extraBiomeLoc = centerBiomeCoordinates(offsetX, offsetY);
                 BiomeLabel builtLabel = buildLabelFrom(extraBiomeLoc, registry, (extraBiomeLoc.getFirst() - 64) / 2, false);
-                if(!labels.stream().anyMatch(biomeLabel -> biomeLabel.conflictsWith(builtLabel))){
+                if (!labels.stream().anyMatch(biomeLabel -> biomeLabel.conflictsWith(builtLabel))) {
                     labels.add(builtLabel);
                 }
             }
@@ -191,10 +191,10 @@ public class CaveMapRenderer {
 
     private int getBiomeColor(Holder<Biome> biome, int u, int v) {
         if (biome.is(ACBiomeRegistry.MAGNETIC_CAVES)) {
-            return DefaultMapBackgrounds.MAGNETIC_CAVES.getMapColor( u, v);
+            return DefaultMapBackgrounds.MAGNETIC_CAVES.getMapColor(u, v);
         }
         if (biome.is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
-            return DefaultMapBackgrounds.PRIMORDIAL_CAVES.getMapColor( u, v);
+            return DefaultMapBackgrounds.PRIMORDIAL_CAVES.getMapColor(u, v);
         }
         if (biome.is(ACBiomeRegistry.TOXIC_CAVES)) {
             return DefaultMapBackgrounds.TOXIC_CAVES.getMapColor(u, v);
@@ -205,76 +205,76 @@ public class CaveMapRenderer {
         if (biome.is(ACBiomeRegistry.FORLORN_HOLLOWS)) {
             return DefaultMapBackgrounds.FORLORN_HOLLOWS.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_SNOWY) && biome.is(BiomeTags.IS_OCEAN)){
+        if (biome.is(Tags.Biomes.IS_SNOWY) && biome.is(BiomeTags.IS_OCEAN)) {
             return DefaultMapBackgrounds.FROZEN_OCEAN.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_WATER)){
+        if (biome.is(Tags.Biomes.IS_WATER)) {
             return DefaultMapBackgrounds.WATER.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_DESERT)){
+        if (biome.is(Tags.Biomes.IS_DESERT)) {
             return DefaultMapBackgrounds.DESERT.getMapColor(u, v);
         }
-        if(biome.is(BiomeTags.IS_JUNGLE)){
+        if (biome.is(BiomeTags.IS_JUNGLE)) {
             return DefaultMapBackgrounds.JUNGLE.getMapColor(u, v);
         }
-        if(biome.is(BiomeTags.IS_BADLANDS)){
+        if (biome.is(BiomeTags.IS_BADLANDS)) {
             return DefaultMapBackgrounds.BADLANDS.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_MOUNTAIN) && biome.is(Tags.Biomes.IS_SNOWY)){
+        if (biome.is(Tags.Biomes.IS_MOUNTAIN) && biome.is(Tags.Biomes.IS_SNOWY)) {
             return DefaultMapBackgrounds.SNOWY_MOUNTAIN.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_CONIFEROUS) && biome.is(Tags.Biomes.IS_SNOWY)){
+        if (biome.is(Tags.Biomes.IS_CONIFEROUS) && biome.is(Tags.Biomes.IS_SNOWY)) {
             return DefaultMapBackgrounds.SNOWY_TAIGA.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_MOUNTAIN)){
+        if (biome.is(Tags.Biomes.IS_MOUNTAIN)) {
             return DefaultMapBackgrounds.MOUNTAIN.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_SWAMP)){
+        if (biome.is(Tags.Biomes.IS_SWAMP)) {
             return DefaultMapBackgrounds.SWAMP.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_SNOWY) && biome.is(Tags.Biomes.IS_RARE)){
+        if (biome.is(Tags.Biomes.IS_SNOWY) && biome.is(Tags.Biomes.IS_RARE)) {
             return DefaultMapBackgrounds.ICE_SPIKES.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_SNOWY)){
+        if (biome.is(Tags.Biomes.IS_SNOWY)) {
             return DefaultMapBackgrounds.SNOWY.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_CONIFEROUS)){
+        if (biome.is(Tags.Biomes.IS_CONIFEROUS)) {
             return DefaultMapBackgrounds.TAIGA.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_MUSHROOM)){
+        if (biome.is(Tags.Biomes.IS_MUSHROOM)) {
             return DefaultMapBackgrounds.MUSHROOM.getMapColor(u, v);
         }
-        if(biome.is(BiomeTags.IS_FOREST) && biome.is(Tags.Biomes.IS_SPOOKY)){
+        if (biome.is(BiomeTags.IS_FOREST) && biome.is(Tags.Biomes.IS_SPOOKY)) {
             return DefaultMapBackgrounds.ROOFED_FOREST.getMapColor(u, v);
         }
-        if(biome.is(BiomeTags.IS_FOREST)){
+        if (biome.is(BiomeTags.IS_FOREST)) {
             return DefaultMapBackgrounds.FOREST.getMapColor(u, v);
         }
-        if(biome.is(BiomeTags.IS_SAVANNA)){
+        if (biome.is(BiomeTags.IS_SAVANNA)) {
             return DefaultMapBackgrounds.SAVANNA.getMapColor(u, v);
         }
-        if(biome.is(Tags.Biomes.IS_PLAINS)){
+        if (biome.is(Tags.Biomes.IS_PLAINS)) {
             return DefaultMapBackgrounds.PLAINS.getMapColor(u, v);
         }
-        if(biome.is(Biomes.STONY_SHORE)){
+        if (biome.is(Biomes.STONY_SHORE)) {
             return DefaultMapBackgrounds.STONY_SHORE.getMapColor(u, v);
         }
-        if(biome.is(BiomeTags.IS_BEACH)){
+        if (biome.is(BiomeTags.IS_BEACH)) {
             return DefaultMapBackgrounds.BEACH.getMapColor(u, v);
         }
-        if(biome.is(Biomes.DRIPSTONE_CAVES)){
+        if (biome.is(Biomes.DRIPSTONE_CAVES)) {
             return DefaultMapBackgrounds.DRIPSTONE_CAVES.getMapColor(u, v);
         }
-        if(biome.is(Biomes.LUSH_CAVES)){
+        if (biome.is(Biomes.LUSH_CAVES)) {
             return DefaultMapBackgrounds.LUSH_CAVES.getMapColor(u, v);
         }
-        if(biome.is(Biomes.DEEP_DARK)){
+        if (biome.is(Biomes.DEEP_DARK)) {
             return DefaultMapBackgrounds.DEEP_DARK.getMapColor(u, v);
         }
         return DefaultMapBackgrounds.DEFAULT.getMapColor(u, v);
     }
 
-    public void renderLabels(PoseStack poseStack, MultiBufferSource multiBufferSource, int light){
+    public void renderLabels(PoseStack poseStack, MultiBufferSource multiBufferSource, int light) {
         for (BiomeLabel label : labels) {
             poseStack.pushPose();
             Font font = Minecraft.getInstance().font;
@@ -282,7 +282,7 @@ public class CaveMapRenderer {
             int textWidth = font.width(component.getVisualOrderText());
             float distFromCenter = (float) Math.sqrt((label.x() - 64) * (label.x() - 64) + (label.y() - 64) * (label.y() - 64));
             float f7 = (float) Mth.clamp((128 - distFromCenter) / 128, 0.5F, 1F);
-            if(label.x() - textWidth * 0.5F < 0){
+            if (label.x() - textWidth * 0.5F < 0) {
                 poseStack.translate(textWidth * 0.25F, 0, 0);
             }
             poseStack.translate(0.0F + (float) label.x() - (textWidth * f7) / 2.0F, (float) label.y(), -0.025F);
@@ -290,7 +290,7 @@ public class CaveMapRenderer {
             poseStack.mulPose(Axis.ZP.rotationDegrees(label.rotation()));
             poseStack.pushPose();
             poseStack.scale(1.2F, 1.2F, 1.2F);
-            float f1 = (float)(-textWidth / 4);
+            float f1 = (float) (-textWidth / 4);
             int color1 = 0X87695B;
             int color2 = 0XEBDCC2;
             font.drawInBatch8xOutline(component.getVisualOrderText(), f1, 0.0F, color1, color2, poseStack.last().pose(), multiBufferSource, light);
@@ -298,8 +298,9 @@ public class CaveMapRenderer {
             poseStack.popPose();
         }
     }
+
     public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, ItemStack map, boolean fullFrame, int light) {
-        if(fullFrame){
+        if (fullFrame) {
             poseStack.translate(-64, -64, 55);
         }
         Matrix4f matrix4f = poseStack.last().pose();
@@ -310,7 +311,7 @@ public class CaveMapRenderer {
         vertexconsumer.vertex(matrix4f, 0.0F, 0.0F, -0.01F).color(255, 255, 255, 255).uv(0.0F, 0.0F).uv2(light).endVertex();
 
         renderLabels(poseStack, multiBufferSource, light);
-        if(!fullFrame){
+        if (!fullFrame) {
             poseStack.pushPose();
             float playerX = (float) (Minecraft.getInstance().player.getX() - (double) this.target.getX()) / (float) CaveMapItem.MAP_SCALE;
             float playerZ = (float) (Minecraft.getInstance().player.getZ() - (double) this.target.getZ()) / (float) CaveMapItem.MAP_SCALE;
@@ -340,7 +341,7 @@ public class CaveMapRenderer {
 
     private record BiomeLabel(ResourceKey<Biome> biome, int x, int y, int rotation) {
 
-        public boolean conflictsWith(BiomeLabel other){
+        public boolean conflictsWith(BiomeLabel other) {
             int xD = x - other.x;
             int yD = y - other.y;
             return Math.sqrt((xD * xD) + (yD * yD)) <= 40 || biome.equals(other.biome);

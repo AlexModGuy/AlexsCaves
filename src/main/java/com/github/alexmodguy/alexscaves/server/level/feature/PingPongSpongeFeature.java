@@ -25,17 +25,17 @@ public class PingPongSpongeFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos trenchBottom = new BlockPos.MutableBlockPos();
         trenchBottom.set(context.origin());
-        while(!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()){
+        while (!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()) {
             trenchBottom.move(0, -1, 0);
         }
-        if(!level.getBlockState(trenchBottom.below()).is(ACBlockRegistry.MUCK.get()) || context.origin().getY() - trenchBottom.getY() < 15){
+        if (!level.getBlockState(trenchBottom.below()).is(ACBlockRegistry.MUCK.get()) || context.origin().getY() - trenchBottom.getY() < 15) {
             return false;
         }
-        int height = (int)Math.ceil(randomsource.nextFloat() * 3.5F);
+        int height = (int) Math.ceil(randomsource.nextFloat() * 3.5F);
         BlockPos genAt = trenchBottom.immutable();
-        for(int i = 0; i <= height; i++){
+        for (int i = 0; i <= height; i++) {
             BlockPos trunk = genAt.above(i);
-            if(canReplace(level.getBlockState(trunk))){
+            if (canReplace(level.getBlockState(trunk))) {
                 level.setBlock(trunk, ACBlockRegistry.PING_PONG_SPONGE.get().defaultBlockState().setValue(PingPongSpongeBlock.TOP, i == height), 4);
             }
         }

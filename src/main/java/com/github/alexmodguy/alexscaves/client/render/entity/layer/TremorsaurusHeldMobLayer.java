@@ -26,26 +26,26 @@ public class TremorsaurusHeldMobLayer extends RenderLayer<TremorsaurusEntity, Tr
 
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, TremorsaurusEntity tremorsaurus, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         Entity heldMob = tremorsaurus.getHeldMob();
-        if(heldMob != null){
+        if (heldMob != null) {
             float riderRot = heldMob.yRotO + (heldMob.getYRot() - heldMob.yRotO) * partialTicks;
             boolean holdSideways = heldMob.getBbHeight() > heldMob.getBbWidth() + 0.2F;
             AlexsCaves.PROXY.releaseRenderingEntity(heldMob.getUUID());
             matrixStackIn.pushPose();
             getParentModel().translateToMouth(matrixStackIn);
             matrixStackIn.translate(0, heldMob.getBbWidth() * 0.35F + 0.2F, -1F);
-            if(heldMob instanceof SubterranodonEntity subterranodon){
+            if (heldMob instanceof SubterranodonEntity subterranodon) {
                 matrixStackIn.translate(0, subterranodon.getFlyProgress(partialTicks) * -0.5F, 0);
             }
-            if(holdSideways){
+            if (holdSideways) {
                 matrixStackIn.mulPose(Axis.ZP.rotationDegrees(90F));
             }
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180F));
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(riderRot + 180F));
-            if(!holdSideways){
+            if (!holdSideways) {
                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(90F));
             }
             matrixStackIn.translate(0, -heldMob.getBbHeight() * 0.5F, 0);
-            if(!ClientProxy.isFirstPersonPlayer(heldMob)){
+            if (!ClientProxy.isFirstPersonPlayer(heldMob)) {
                 renderEntity(heldMob, 0, 0, 0, 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             }
             matrixStackIn.popPose();

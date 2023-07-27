@@ -32,9 +32,9 @@ public class PlayerJumpFromMagnetMessage {
     public static void handle(PlayerJumpFromMagnetMessage message, Supplier<NetworkEvent.Context> context) {
         context.get().setPacketHandled(true);
         Player player = context.get().getSender();
-        if(player != null){
+        if (player != null) {
             Entity entity = player.level().getEntity(message.entityID);
-            if(MagnetUtil.isPulledByMagnets(entity) && entity instanceof LivingEntity living){
+            if (MagnetUtil.isPulledByMagnets(entity) && entity instanceof LivingEntity living) {
                 living.jumping = message.jumping;
             }
         }

@@ -20,7 +20,7 @@ public class AnimalBreedEggsGoal extends BreedGoal {
     }
 
     public boolean canUse() {
-        return super.canUse() && !((LaysEggs)this.mob).hasEgg();
+        return super.canUse() && !((LaysEggs) this.mob).hasEgg();
     }
 
     @Override
@@ -32,10 +32,10 @@ public class AnimalBreedEggsGoal extends BreedGoal {
 
         if (serverplayer != null) {
             serverplayer.awardStat(Stats.ANIMALS_BRED);
-            CriteriaTriggers.BRED_ANIMALS.trigger(serverplayer, this.animal, this.partner, (AgeableMob)null);
+            CriteriaTriggers.BRED_ANIMALS.trigger(serverplayer, this.animal, this.partner, (AgeableMob) null);
         }
 
-        ((LaysEggs)this.mob).setHasEgg(true);
+        ((LaysEggs) this.mob).setHasEgg(true);
         this.animal.setAge(6000);
         this.partner.setAge(6000);
         this.animal.resetLove();

@@ -39,6 +39,7 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
 
     private static final Map<BlockPos, HologramProjectorBlockEntity> allOnScreen = new HashMap<>();
     private static final Map<UUID, PlayerInfo> playerInfo = new HashMap<>();
+
     public HologramProjectorBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
     }
 
@@ -132,8 +133,8 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
 
     }
 
-    private static PlayerInfo getPlayerInfo(UUID uuid){
-        if(!playerInfo.containsKey(uuid)){
+    private static PlayerInfo getPlayerInfo(UUID uuid) {
+        if (!playerInfo.containsKey(uuid)) {
             playerInfo.put(uuid, Minecraft.getInstance().getConnection().getPlayerInfo(uuid));
         }
         return playerInfo.get(uuid);
@@ -154,7 +155,7 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
         String modelName = getPlayerModelName(playerInfo, lastPlayerUUID);
         EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
         EntityRenderer<? extends Player> renderer = manager.getSkinMap().get(modelName);
-        if(renderer instanceof LivingEntityRenderer livingEntityRenderer){
+        if (renderer instanceof LivingEntityRenderer livingEntityRenderer) {
             EntityModel model = livingEntityRenderer.getModel();
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(getPlayerSkinTextureLocation(playerInfo, lastPlayerUUID)));
             poseStack.pushPose();
@@ -167,7 +168,7 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
                 humanoidModel.crouching = false;
             }
             poseStack.scale(1F, -1F, 1F);
-            if(model instanceof PlayerModel humanoidModel){
+            if (model instanceof PlayerModel humanoidModel) {
                 humanoidModel.leftArm.xRot = 0;
                 humanoidModel.leftArm.yRot = 0;
                 humanoidModel.leftArm.zRot = 0;

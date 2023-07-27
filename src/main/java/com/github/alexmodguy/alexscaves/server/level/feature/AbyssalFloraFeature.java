@@ -22,14 +22,14 @@ public class AbyssalFloraFeature extends Feature<AbyssalFloraFeatureConfiguratio
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos trenchBottom = new BlockPos.MutableBlockPos();
         trenchBottom.set(context.origin());
-        while(!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()){
+        while (!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()) {
             trenchBottom.move(0, -1, 0);
         }
-        if(context.origin().getY() - trenchBottom.getY() < 15){
+        if (context.origin().getY() - trenchBottom.getY() < 15) {
             return false;
         }
         BlockPos above = trenchBottom.above();
-        if(canReplace(level.getBlockState(above))){
+        if (canReplace(level.getBlockState(above))) {
             level.setBlock(above, context.config().floraBlock.getState(randomsource, above), 4);
         }
         return true;

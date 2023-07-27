@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.level.LevelReader;
@@ -107,7 +106,7 @@ public class SubterranodonFollowOwnerGoal extends Goal {
                     this.tryToTeleportNearEntity();
                 }
                 if (this.subterranodon.distanceTo(owner) > 5) {
-                    if(!this.subterranodon.isFlying()){
+                    if (!this.subterranodon.isFlying()) {
                         subterranodon.setFlying(true);
                         subterranodon.setHovering(true);
                     }

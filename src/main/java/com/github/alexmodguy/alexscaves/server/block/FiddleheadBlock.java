@@ -24,6 +24,7 @@ public class FiddleheadBlock extends CavePlantBlock {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().instabreak().randomTicks().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ));
     }
 
+
     public VoxelShape getShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
         Vec3 vec3 = state.getOffset(getter, pos);
         return SHAPE.move(vec3.x, vec3.y, vec3.z);

@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class BaleenBoneBlock extends Block implements SimpleWaterloggedBlock  {
+public class BaleenBoneBlock extends Block implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty X = BooleanProperty.create("x");
@@ -50,9 +50,9 @@ public class BaleenBoneBlock extends Block implements SimpleWaterloggedBlock  {
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         Direction.Axis xDetermine;
-        if(context.getClickedFace().getAxis().isHorizontal()){
+        if (context.getClickedFace().getAxis().isHorizontal()) {
             xDetermine = context.getClickedFace().getAxis();
-        }else{
+        } else {
             xDetermine = context.getHorizontalDirection().getAxis();
         }
         return this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER)).setValue(X, xDetermine == Direction.Axis.X);
@@ -76,7 +76,7 @@ public class BaleenBoneBlock extends Block implements SimpleWaterloggedBlock  {
             case CLOCKWISE_90:
                 return state.setValue(X, !state.getValue(X));
             default:
-            return state;
+                return state;
         }
     }
 }

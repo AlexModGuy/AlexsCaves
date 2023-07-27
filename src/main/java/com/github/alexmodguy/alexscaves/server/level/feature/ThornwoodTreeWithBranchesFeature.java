@@ -17,20 +17,20 @@ public class ThornwoodTreeWithBranchesFeature extends ThornwoodTreeFeature {
     @Override
     public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
         BlockPos pos = context.origin();
-        if(super.place(context)){
+        if (super.place(context)) {
             RandomSource randomSource = context.random();
             WorldGenLevel level = context.level();
             BlockPos.MutableBlockPos branchPos = new BlockPos.MutableBlockPos();
 
-            for(int i = 0; i < 5 + randomSource.nextInt(10); i++){
+            for (int i = 0; i < 5 + randomSource.nextInt(10); i++) {
                 branchPos.set(pos);
                 branchPos.move(randomSource.nextInt(12) - 6, randomSource.nextInt(12), randomSource.nextInt(12) - 6);
-                while(level.isEmptyBlock(branchPos) && branchPos.getY() > level.getMinBuildHeight()){
+                while (level.isEmptyBlock(branchPos) && branchPos.getY() > level.getMinBuildHeight()) {
                     branchPos.move(0, -1, 0);
                 }
-                if(level.getBlockState(branchPos).isCollisionShapeFullBlock(level, branchPos)){
+                if (level.getBlockState(branchPos).isCollisionShapeFullBlock(level, branchPos)) {
                     branchPos.move(0, 1, 0);
-                    if(level.getBlockState(branchPos).canBeReplaced()){
+                    if (level.getBlockState(branchPos).canBeReplaced()) {
                         level.setBlock(branchPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState(), 4);
                     }
                 }

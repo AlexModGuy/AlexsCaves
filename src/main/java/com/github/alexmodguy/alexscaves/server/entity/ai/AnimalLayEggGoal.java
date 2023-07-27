@@ -42,7 +42,7 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
         return super.canContinueToUse() && this.laysEggs.hasEgg();
     }
 
-    public void start(){
+    public void start() {
         super.start();
         layEggCounter = 0;
     }
@@ -57,7 +57,7 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
             laysEggs.onLayEggTick(this.blockPos.above(), layEggCounter);
             if (this.layEggCounter++ > this.maxTime) {
                 Level level = this.mob.level();
-                level.playSound((Player)null, blockPos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
+                level.playSound((Player) null, blockPos, SoundEvents.TURTLE_LAY_EGG, SoundSource.BLOCKS, 0.3F, 0.9F + level.random.nextFloat() * 0.2F);
                 BlockPos blockpos1 = this.blockPos.above();
                 BlockState blockstate = laysEggs.createEggBlockState();
                 level.setBlockAndUpdate(blockpos1, blockstate);
@@ -65,11 +65,11 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
                 this.laysEggs.setHasEgg(false);
                 this.mob.setInLoveTime(600);
                 this.mob.level().broadcastEntityEvent(this.mob, (byte) 78);
-                if(this.mob instanceof DinosaurEntity && level.getBlockState(this.blockPos).is(BlockTags.DIRT)){
+                if (this.mob instanceof DinosaurEntity && level.getBlockState(this.blockPos).is(BlockTags.DIRT)) {
                     level.setBlockAndUpdate(this.blockPos, ACBlockRegistry.FERN_THATCH.get().defaultBlockState());
                 }
             }
-        }else{
+        } else {
             startBodyRot = mob.yBodyRot;
             layEggCounter = 0;
         }

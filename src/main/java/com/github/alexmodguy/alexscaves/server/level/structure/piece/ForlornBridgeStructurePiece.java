@@ -30,6 +30,7 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
     protected final int sectionId;
     protected final int maxSections;
     protected final Direction direction;
+
     public ForlornBridgeStructurePiece(BlockPos bridgePos, int sectionId, int maxSections, Direction direction) {
         super(ACStructurePieceRegistry.FORLORN_BRIDGE.get(), 0, createBoundingBox(bridgePos, direction));
         this.bridgePos = bridgePos;
@@ -73,32 +74,32 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
         Set<BlockPos> specialSupports = new HashSet<>();
 
         int j = ForlornBridgeStructure.BRIDGE_SECTION_WIDTH / 2;
-        for(int width = -j; width < j; width++){
+        for (int width = -j; width < j; width++) {
             pos.set(bridgePos);
             pos.move(direction.getClockWise(), width);
             int startLength = 0;
             int endLength = ForlornBridgeStructure.BRIDGE_SECTION_LENGTH;
-            if(sectionId == 0){
+            if (sectionId == 0) {
                 startLength = random.nextInt(ForlornBridgeStructure.BRIDGE_SECTION_LENGTH - 1);
             }
-            if(sectionId == maxSections){
+            if (sectionId == maxSections) {
                 endLength = random.nextInt(ForlornBridgeStructure.BRIDGE_SECTION_LENGTH);
             }
-            for(int length = startLength; length < endLength; length++){
+            for (int length = startLength; length < endLength; length++) {
                 pos.move(direction);
                 BlockState prior = checkedGetBlock(level, pos);
-                if(!prior.isAir() && prior.getFluidState().isEmpty()){
+                if (!prior.isAir() && prior.getFluidState().isEmpty()) {
                     continue;
                 }
                 BlockState state = ACBlockRegistry.THORNWOOD_PLANKS_SLAB.get().defaultBlockState().setValue(SlabBlock.TYPE, SlabType.TOP);
-                if(width == -j || width == j - 1){
-                    if(length % 3 == startLength){
+                if (width == -j || width == j - 1) {
+                    if (length % 3 == startLength) {
                         state = Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState();
                         supports.add(pos.immutable());
-                        if(sectionId == 0 && length == startLength || sectionId == maxSections && length != startLength){
+                        if (sectionId == 0 && length == startLength || sectionId == maxSections && length != startLength) {
                             specialSupports.add(pos.immutable());
                         }
-                    }else{
+                    } else {
                         boolean left = width == j - 1;
                         state = ACBlockRegistry.THORNWOOD_PLANKS_STAIRS.get().defaultBlockState().setValue(StairBlock.HALF, Half.TOP).setValue(StairBlock.FACING, left ? direction.getCounterClockWise() : direction.getClockWise());
                     }
@@ -106,21 +107,21 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
                 checkedSetBlock(level, pos, state);
             }
         }
-        for(BlockPos support : supports){
+        for (BlockPos support : supports) {
             checkedSetBlock(level, support.above(), Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState());
             checkedSetBlock(level, support.above().relative(direction), ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, direction));
             checkedSetBlock(level, support.above().relative(direction.getOpposite()), ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState().setValue(ThornwoodBranchBlock.FACING, direction.getOpposite()));
-            if(specialSupports.contains(support)){
+            if (specialSupports.contains(support)) {
                 boolean end = this.maxSections == this.sectionId;
                 checkedSetBlock(level, support.above(2), ACBlockRegistry.FORSAKEN_IDOL.get().defaultBlockState().setValue(ForsakenIdolBlock.FACING, end ? direction : direction.getOpposite()));
-            }else{
+            } else {
                 checkedSetBlock(level, support.above(2), Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState());
                 checkedSetBlock(level, support.above(3), ACBlockRegistry.THORNWOOD_PLANKS_FENCE.get().defaultBlockState());
-                if(random.nextBoolean()){
+                if (random.nextBoolean()) {
                     buildChain(level, support.above(4));
                 }
             }
-            if(random.nextBoolean()|| sectionId == 0 || sectionId == maxSections){
+            if (random.nextBoolean() || sectionId == 0 || sectionId == maxSections) {
                 buildBeam(level, support.below());
             }
         }
@@ -129,7 +130,7 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
     private void buildBeam(WorldGenLevel level, BlockPos below) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         pos.set(below);
-        while(!checkedGetBlock(level, pos).isSolid() && pos.getY() > level.getMinBuildHeight()){
+        while (!checkedGetBlock(level, pos).isSolid() && pos.getY() > level.getMinBuildHeight()) {
             checkedSetBlock(level, pos, Blocks.STRIPPED_DARK_OAK_LOG.defaultBlockState());
             pos.move(0, -1, 0);
         }
@@ -138,10 +139,10 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
     private void buildChain(WorldGenLevel level, BlockPos above) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         pos.set(above);
-        if(level.canSeeSky(pos)){
+        if (level.canSeeSky(pos)) {
             return;
         }
-        while(!checkedGetBlock(level, pos).isSolid() && pos.getY() < level.getMaxBuildHeight()){
+        while (!checkedGetBlock(level, pos).isSolid() && pos.getY() < level.getMaxBuildHeight()) {
             checkedSetBlock(level, pos, Blocks.CHAIN.defaultBlockState());
             pos.move(0, 1, 0);
         }

@@ -29,7 +29,7 @@ public class AcidBubbleParticle extends TextureSheetParticle {
         int ageAt = this.lifetime - 7;
         int sprite = this.age >= ageAt ? Math.min(this.age - ageAt, 7) : 0;
         this.setSprite(spriteSet.get(sprite, 8));
-        if(sprite > 0){
+        if (sprite > 0) {
             this.xd = 0;
             this.yd = 0;
             this.zd = 0;

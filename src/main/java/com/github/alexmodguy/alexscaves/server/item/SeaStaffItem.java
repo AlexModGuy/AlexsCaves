@@ -22,7 +22,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
-public class SeaStaffItem extends Item{
+public class SeaStaffItem extends Item {
     public SeaStaffItem(Item.Properties properties) {
         super(properties);
     }
@@ -34,12 +34,12 @@ public class SeaStaffItem extends Item{
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        level.playSound((Player)null, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_SPLASH, SoundSource.PLAYERS, 0.5F, (level.getRandom().nextFloat() * 0.45F + 0.75F));
+        level.playSound((Player) null, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_SPLASH, SoundSource.PLAYERS, 0.5F, (level.getRandom().nextFloat() * 0.45F + 0.75F));
         player.swing(hand);
         if (!level.isClientSide) {
             WaterBoltEntity bolt = new WaterBoltEntity(level, player);
             float rot = player.yHeadRot + (hand == InteractionHand.MAIN_HAND ? 45 : -45);
-            bolt.setPos(player.getX() - (double)(player.getBbWidth()) * 1.1F * (double) Mth.sin(rot * ((float)Math.PI / 180F)), player.getEyeY() - (double)0.4F, player.getZ() + (double)(player.getBbWidth()) * 1.1F * (double)Mth.cos(rot * ((float)Math.PI / 180F)));
+            bolt.setPos(player.getX() - (double) (player.getBbWidth()) * 1.1F * (double) Mth.sin(rot * ((float) Math.PI / 180F)), player.getEyeY() - (double) 0.4F, player.getZ() + (double) (player.getBbWidth()) * 1.1F * (double) Mth.cos(rot * ((float) Math.PI / 180F)));
             bolt.shootFromRotation(player, player.getXRot(), player.getYRot(), -20.0F, 2F, 12F);
             double dist = 128;
             Entity closestValid = null;
@@ -61,7 +61,7 @@ public class SeaStaffItem extends Item{
                     }
                 }
             }
-            if(closestValid != null){
+            if (closestValid != null) {
                 bolt.setArcingTowards(closestValid.getUUID());
             }
             level.addFreshEntity(bolt);

@@ -193,10 +193,10 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
                 level().addParticle(ACParticleRegistry.FORSAKEN_SPIT.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getId(), 0, 0);
             }
             if (darknessProgress > 0) {
-                for(int i = 0; i < 1; i++){
-                    if(random.nextBoolean()){
+                for (int i = 0; i < 1; i++) {
+                    if (random.nextBoolean()) {
                         level().addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), this.getX(), this.getEyeY(), this.getZ());
-                    }else{
+                    } else {
                         level().addParticle(ParticleTypes.SMOKE, this.getRandomX(1.0D), this.getRandomY(), this.getRandomZ(1.0D), 0, 0, 0);
                     }
                 }
@@ -252,15 +252,15 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
             }
             if (this.getHealth() < this.getMaxHealth() * 0.5F && !level().isClientSide) {
                 int lightLevel = getLightLevel();
-                if(lightLevel <= LIGHT_THRESHOLD){
+                if (lightLevel <= LIGHT_THRESHOLD) {
                     this.setDarknessTime(30);
-                }else if(getDarknessTime() > 0){
+                } else if (getDarknessTime() > 0) {
                     this.setDarknessTime(this.getDarknessTime() - 1);
                 }
-                if(getDarknessTime() > 0 && this.tickCount % 30 == 0){
+                if (getDarknessTime() > 0 && this.tickCount % 30 == 0) {
                     this.heal(1);
                 }
-            }else{
+            } else {
                 this.setDarknessTime(0);
             }
         }

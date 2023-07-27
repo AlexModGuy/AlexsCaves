@@ -24,22 +24,22 @@ public class PrimordialArmorItem extends ArmorItem {
 
     @Nullable
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        if(slot == EquipmentSlot.LEGS){
+        if (slot == EquipmentSlot.LEGS) {
             return AlexsCaves.MODID + ":textures/armor/primordial_armor_1.png";
-        }else{
+        } else {
             return AlexsCaves.MODID + ":textures/armor/primordial_armor_0.png";
         }
     }
 
     public static int getExtraSaturationFromArmor(LivingEntity entity) {
         int i = 0;
-        if(entity.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.PRIMORDIAL_HELMET.get())){
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.PRIMORDIAL_HELMET.get())) {
             i++;
         }
-        if(entity.getItemBySlot(EquipmentSlot.CHEST).is(ACItemRegistry.PRIMORDIAL_TUNIC.get())){
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACItemRegistry.PRIMORDIAL_TUNIC.get())) {
             i++;
         }
-        if(entity.getItemBySlot(EquipmentSlot.LEGS).is(ACItemRegistry.PRIMORDIAL_PANTS.get())){
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACItemRegistry.PRIMORDIAL_PANTS.get())) {
             i++;
         }
         return i;

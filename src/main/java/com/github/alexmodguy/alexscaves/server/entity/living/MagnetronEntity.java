@@ -192,7 +192,7 @@ public class MagnetronEntity extends Monster {
         }
         if (!this.level().isClientSide && !isFormed()) {
             LivingEntity target = this.getTarget();
-            if(target instanceof Player && target.isAlive() && this.distanceTo(target) < 8){
+            if (target instanceof Player && target.isAlive() && this.distanceTo(target) < 8) {
                 this.startForming();
             }
         }
@@ -245,7 +245,7 @@ public class MagnetronEntity extends Monster {
             //syncBlockStatesWithMultipart();
         }
         if (!this.isAlive() && shouldDropBlocks()) {
-            if(this.isFormed()) {
+            if (this.isFormed()) {
                 for (MagnetronPartEntity part : allParts) {
                     if (part.getBlockState() != null && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
                         BlockPos placeAt = part.blockPosition();
@@ -257,7 +257,7 @@ public class MagnetronEntity extends Monster {
                     }
                 }
             }
-            if(!droppedHeart){
+            if (!droppedHeart) {
                 droppedHeart = true;
                 FallingBlockEntity.fall(level(), this.blockPosition(), ACBlockRegistry.HEART_OF_IRON.get().defaultBlockState().setValue(HeartOfIronBlock.AXIS, this.getDirection().getAxis()));
             }
@@ -281,7 +281,7 @@ public class MagnetronEntity extends Monster {
 
     private boolean shouldDropBlocks() {
         DamageSource lastDamageSource = getLastDamageSource();
-        if(lastDamageSource != null){
+        if (lastDamageSource != null) {
             return lastDamageSource.getEntity() != null || lastDamageSource.getDirectEntity() != null;
         }
         return false;
@@ -396,7 +396,6 @@ public class MagnetronEntity extends Monster {
             this.allParts[l].zOld = avector3d[l].z;
         }
     }
-
 
 
     public boolean isFormed() {

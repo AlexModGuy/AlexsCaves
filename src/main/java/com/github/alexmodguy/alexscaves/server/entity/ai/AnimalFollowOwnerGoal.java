@@ -14,18 +14,18 @@ public abstract class AnimalFollowOwnerGoal extends FollowOwnerGoal {
         this.tameable = tameable;
     }
 
-    public boolean canUse(){
+    public boolean canUse() {
         return super.canUse() && shouldFollow() && !isInCombat();
     }
 
-    public boolean canContinueToUse(){
+    public boolean canContinueToUse() {
         return super.canContinueToUse() && shouldFollow() && !isInCombat();
     }
 
     public void tick() {
         super.tick();
         LivingEntity livingentity = this.tameable.getOwner();
-        if(livingentity != null){
+        if (livingentity != null) {
             tickDistance(this.tameable.distanceTo(livingentity));
         }
     }
@@ -37,7 +37,7 @@ public abstract class AnimalFollowOwnerGoal extends FollowOwnerGoal {
 
     private boolean isInCombat() {
         Entity owner = tameable.getOwner();
-        if(owner != null){
+        if (owner != null) {
             return tameable.distanceTo(owner) < 30 && tameable.getTarget() != null && tameable.getTarget().isAlive();
         }
         return false;

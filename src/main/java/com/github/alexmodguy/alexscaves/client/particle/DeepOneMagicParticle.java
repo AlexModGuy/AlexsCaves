@@ -44,7 +44,6 @@ public class DeepOneMagicParticle extends TextureSheetParticle {
     }
 
 
-
     @OnlyIn(Dist.CLIENT)
     public static class Factory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet sprite;

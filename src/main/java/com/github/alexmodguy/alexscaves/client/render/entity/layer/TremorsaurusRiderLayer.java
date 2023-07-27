@@ -1,11 +1,8 @@
 package com.github.alexmodguy.alexscaves.client.render.entity.layer;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.model.SubterranodonModel;
 import com.github.alexmodguy.alexscaves.client.model.TremorsaurusModel;
-import com.github.alexmodguy.alexscaves.client.render.entity.SubterranodonRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.TremorsaurusRenderer;
-import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
@@ -28,7 +25,7 @@ public class TremorsaurusRiderLayer extends RenderLayer<TremorsaurusEntity, Trem
 
     public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, TremorsaurusEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         float bodyYaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTicks;
-        if(entity.isVehicle()){
+        if (entity.isVehicle()) {
             Vec3 offset = new Vec3(0, -0.5F, -0.75F);
             Vec3 ridePos = getParentModel().getRiderPosition(offset);
             for (Entity passenger : entity.getPassengers()) {

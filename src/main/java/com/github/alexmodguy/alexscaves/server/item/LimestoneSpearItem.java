@@ -26,6 +26,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class LimestoneSpearItem extends Item {
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+
     public LimestoneSpearItem(Item.Properties properties) {
         super(properties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
@@ -75,7 +76,7 @@ public class LimestoneSpearItem extends Item {
     }
 
     public static float getPowerForTime(int i) {
-        float f = (float)i / 20.0F;
+        float f = (float) i / 20.0F;
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
             f = 1.0F;
@@ -95,7 +96,7 @@ public class LimestoneSpearItem extends Item {
                     spearEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
                 level.addFreshEntity(spearEntity);
-                level.playSound((Player)null, spearEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound((Player) null, spearEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }

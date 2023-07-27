@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 
-public class HeartOfIronBlock  extends RotatedPillarBlock implements SimpleWaterloggedBlock {
+public class HeartOfIronBlock extends RotatedPillarBlock implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE_X = ACMath.buildShape(

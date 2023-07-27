@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.stalked_by_deep_one.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.stalked_by_deep_one.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/pearl",
+  "criteria": {
+    "stalked_by_deep_one": {
+      "trigger": "alexscaves:stalked_by_deep_one"
+    }
+  }
+}

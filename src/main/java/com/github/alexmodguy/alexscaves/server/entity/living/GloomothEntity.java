@@ -136,17 +136,17 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         tickRotation(yMov * 2.5F * -(float) (180F / (float) Math.PI));
         if (isBeingSacrificed && !level().isClientSide) {
             sacrificeTime--;
-            if(sacrificeTime < 10){
+            if (sacrificeTime < 10) {
                 this.level().broadcastEntityEvent(this, (byte) 61);
             }
             if (sacrificeTime < 0) {
-                if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
+                if (this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot) {
                     underzealot.postSacrifice(this);
                     underzealot.triggerIdleDigging();
                 }
                 this.stopRiding();
                 WatcherEntity watcherEntity = this.convertTo(ACEntityRegistry.WATCHER.get(), true);
-                if(watcherEntity != null){
+                if (watcherEntity != null) {
                     net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, watcherEntity);
                     watcherEntity.stopRiding();
                 }
@@ -156,10 +156,10 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
 
     public void handleEntityEvent(byte b) {
         if (b == 61) {
-            for(int i = 0; i < 1 + random.nextInt(4); i++){
+            for (int i = 0; i < 1 + random.nextInt(4); i++) {
                 this.level().addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
             }
-        }else{
+        } else {
             super.handleEntityEvent(b);
         }
     }
@@ -256,14 +256,14 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
     }
 
     public static <T extends Mob> boolean checkGloomothSpawnRules(EntityType<GloomothEntity> entityType, ServerLevelAccessor iServerWorld, MobSpawnType reason, BlockPos pos, RandomSource random) {
-        if(canMonsterSpawnInLight(entityType, iServerWorld, reason, pos, random)){
+        if (canMonsterSpawnInLight(entityType, iServerWorld, reason, pos, random)) {
             BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
             above.set(pos);
             int k = 0;
-            while(iServerWorld.isEmptyBlock(above) && above.getY() < iServerWorld.getMaxBuildHeight()){
+            while (iServerWorld.isEmptyBlock(above) && above.getY() < iServerWorld.getMaxBuildHeight()) {
                 above.move(0, 1, 0);
                 k++;
-                if(k > 4){
+                if (k > 4) {
                     return true;
                 }
             }
@@ -286,7 +286,7 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         BlockPos above = this.blockPosition();
         int upBy = 3 + random.nextInt(5);
         int k = 0;
-        while(world.isEmptyBlock(above) && above.getY() < level().getMaxBuildHeight() && k < upBy){
+        while (world.isEmptyBlock(above) && above.getY() < level().getMaxBuildHeight() && k < upBy) {
             above = above.above();
             k++;
         }

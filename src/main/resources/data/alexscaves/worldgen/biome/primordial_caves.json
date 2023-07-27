@@ -17,7 +17,7 @@
       "max_delay": 24000,
       "min_delay": 12000,
       "replace_current_music": false,
-      "sound": "minecraft:music.overworld.jungle_and_forest"
+      "sound": "alexscaves:primordial_caves_music"
     },
     "sky_color": 15845747,
     "fog_color": 15915104,

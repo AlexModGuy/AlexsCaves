@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -15,9 +14,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.function.Supplier;
 
 public class PottedFlytrapBlock extends FlowerPotBlock {
 
@@ -30,10 +26,10 @@ public class PottedFlytrapBlock extends FlowerPotBlock {
 
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
         super.randomTick(state, level, pos, randomSource);
-        if(state.getValue(OPEN)){
+        if (state.getValue(OPEN)) {
             level.setBlock(pos, state.setValue(OPEN, false), 2);
             level.scheduleTick(pos, this, 100 + randomSource.nextInt(100));
-        }else{
+        } else {
             level.setBlock(pos, state.setValue(OPEN, true), 2);
         }
     }
@@ -49,7 +45,7 @@ public class PottedFlytrapBlock extends FlowerPotBlock {
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
-        if(state.getValue(OPEN) && randomSource.nextInt(3) == 0){
+        if (state.getValue(OPEN) && randomSource.nextInt(3) == 0) {
             Vec3 center = Vec3.upFromBottomCenterOf(pos, 0.75F).add(state.getOffset(level, pos));
             level.addParticle(ACParticleRegistry.FLY.get(), center.x, center.y, center.z, center.x, center.y, center.z);
         }

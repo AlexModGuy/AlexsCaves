@@ -1,12 +1,17 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
+import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.item.NuclearExplosionEntity;
+import com.google.common.base.Predicates;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
@@ -21,6 +26,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -29,6 +35,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 
 import java.util.EnumSet;
+import java.util.stream.Stream;
 
 public class NucleeperEntity extends Monster {
 
@@ -51,8 +58,8 @@ public class NucleeperEntity extends Monster {
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, RaycatEntity.class, 10.0F, 1.0D, 1.2D){
-            public void tick(){
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, RaycatEntity.class, 10.0F, 1.0D, 1.2D) {
+            public void tick() {
                 super.tick();
                 NucleeperEntity.this.catScareTime = 20;
             }
@@ -131,35 +138,50 @@ public class NucleeperEntity extends Monster {
         prevExplodeProgress = explodeProgress;
         prevSirenAngle = sirenAngle;
         int time = this.getCloseTime();
-        if(this.isExploding() && explodeProgress < 5F){
+        if (this.isExploding() && explodeProgress < 5F) {
             explodeProgress++;
         }
-        if(!this.isExploding() && explodeProgress > 0F){
+        if (!this.isExploding() && explodeProgress > 0F) {
             explodeProgress--;
         }
-        if(this.isTriggered() && !level().isClientSide){
-            if(this.catScareTime > 0 && !this.isExploding()){
-                if(time > 0){
+        if (this.isTriggered() && !level().isClientSide) {
+            if (this.catScareTime > 0 && !this.isExploding()) {
+                if (time > 0) {
                     this.setCloseTime(time - 1);
-                }else{
+                } else {
                     this.setTriggered(false);
                 }
-            }else if(time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()){
+            } else if (time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()) {
                 this.setCloseTime(time + 1);
-            }else if(this.isAlive()){
+            } else if (this.isAlive()) {
                 this.setExploding(true);
+            }
+            if((tickCount + this.getId()) % 10 == 0 && level() instanceof ServerLevel serverLevel){
+                getNearbySirens(serverLevel, 256).forEach(this::activateSiren);
             }
         }
         sirenAngle += (10F + 30F * closeProgress) % 360F;
-        closeProgress = (float)time / AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();
-        if(this.catScareTime > 0){
+        closeProgress = (float) time / AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();
+        if (this.catScareTime > 0) {
             this.catScareTime--;
         }
-        if(this.isExploding() && explodeProgress >= 5F){
+        if (this.isExploding() && explodeProgress >= 5F) {
             this.discard();
             if (!this.level().isClientSide) {
                 this.explode();
             }
+        }
+    }
+
+
+    private Stream<BlockPos> getNearbySirens(ServerLevel world, int range) {
+        PoiManager pointofinterestmanager = world.getPoiManager();
+        return pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(ACPOIRegistry.NUCLEAR_SIREN.getKey()), Predicates.alwaysTrue(), this.blockPosition(), range, PoiManager.Occupancy.ANY);
+    }
+
+    private void activateSiren(BlockPos pos) {
+        if(level().getBlockEntity(pos) instanceof NuclearSirenBlockEntity nuclearSirenBlock){
+            nuclearSirenBlock.setNearestNuclearBomb(this);
         }
     }
 
@@ -171,12 +193,13 @@ public class NucleeperEntity extends Monster {
     }
 
     public float getCloseProgress(float partialTick) {
-        return (prevCloseProgress + (closeProgress - prevCloseProgress) * partialTick) ;
+        return (prevCloseProgress + (closeProgress - prevCloseProgress) * partialTick);
     }
 
     public float getSirenAngle(float partialTick) {
-        return (prevSirenAngle + (sirenAngle - prevSirenAngle) * partialTick) ;
+        return (prevSirenAngle + (sirenAngle - prevSirenAngle) * partialTick);
     }
+
     public float getExplodeProgress(float partialTick) {
         return (prevExplodeProgress + (explodeProgress - prevExplodeProgress) * partialTick) * 0.2F;
     }
@@ -206,9 +229,9 @@ public class NucleeperEntity extends Monster {
         @Override
         public void tick() {
             LivingEntity target = NucleeperEntity.this.getTarget();
-            if(target != null && target.isAlive()){
+            if (target != null && target.isAlive()) {
                 NucleeperEntity.this.getNavigation().moveTo(target, 1.0D);
-                if(NucleeperEntity.this.distanceTo(target) < 3.5F + target.getBbWidth()){
+                if (NucleeperEntity.this.distanceTo(target) < 3.5F + target.getBbWidth()) {
                     NucleeperEntity.this.setTriggered(true);
                 }
             }

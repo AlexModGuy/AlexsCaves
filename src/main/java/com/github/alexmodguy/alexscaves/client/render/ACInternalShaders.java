@@ -16,11 +16,11 @@ public class ACInternalShaders {
         return renderTypeFerrouslimeGelShader;
     }
 
-    public static void setRenderTypeFerrouslimeGelShader(ShaderInstance instance){
+    public static void setRenderTypeFerrouslimeGelShader(ShaderInstance instance) {
         renderTypeFerrouslimeGelShader = instance;
     }
 
-    public static void setRenderTypeHologramShader(ShaderInstance instance){
+    public static void setRenderTypeHologramShader(ShaderInstance instance) {
         renderTypeHologramShader = instance;
     }
 
@@ -34,7 +34,7 @@ public class ACInternalShaders {
         return renderTypeIrradiatedShader;
     }
 
-    public static void setRenderTypeIrradiatedShader(ShaderInstance instance){
+    public static void setRenderTypeIrradiatedShader(ShaderInstance instance) {
         renderTypeIrradiatedShader = instance;
     }
 
@@ -43,7 +43,7 @@ public class ACInternalShaders {
         return renderTypeBubbledShader;
     }
 
-    public static void setRenderTypeBubbledShader(ShaderInstance instance){
+    public static void setRenderTypeBubbledShader(ShaderInstance instance) {
         renderTypeBubbledShader = instance;
     }
 

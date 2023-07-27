@@ -28,12 +28,10 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -94,6 +92,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     public float attackProgress;
     private double lastStepX = 0;
     private double lastStepZ = 0;
+
     public SubterranodonEntity(EntityType<? extends Animal> type, Level level) {
         super(type, level);
         switchNavigator(true);
@@ -143,6 +142,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         this.entityData.define(METER_AMOUNT, 1.0F);
         this.entityData.define(ATTACK_TICK, 0);
     }
+
     public static AttributeSupplier.Builder createAttributes() {
         return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.FLYING_SPEED, 1F).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 20.0D);
     }
@@ -206,9 +206,9 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
                 this.setHovering(false);
                 this.setFlying(false);
             }
-            if(!level().isClientSide && this.onGround()){
+            if (!level().isClientSide && this.onGround()) {
                 LivingEntity target = this.getTarget();
-                if(target != null && target.isAlive()){
+                if (target != null && target.isAlive()) {
                     this.setHovering(false);
                     this.setFlying(false);
                 }
@@ -239,7 +239,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
                     this.setDeltaMovement(this.getDeltaMovement().add(0, -0.3D, 0));
                 }
             }
-            if(!this.isHovering() && this.isFlying() && timeFlying > 40 && this.onGround()){
+            if (!this.isHovering() && this.isFlying() && timeFlying > 40 && this.onGround()) {
                 this.setFlying(false);
             }
         } else {
@@ -281,17 +281,17 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         if (this.getMeterAmount() < 1.0F && controlUpTicks == 0) {
             this.setMeterAmount(this.getMeterAmount() + (slowRidden ? 0.002F : 0.001F));
         }
-        if(this.entityData.get(ATTACK_TICK) > 0){
+        if (this.entityData.get(ATTACK_TICK) > 0) {
             this.entityData.set(ATTACK_TICK, this.entityData.get(ATTACK_TICK) - 1);
-            if(attackProgress < 5F){
+            if (attackProgress < 5F) {
                 attackProgress++;
             }
-        }else{
+        } else {
             LivingEntity target = this.getTarget();
-            if(attackProgress == 5F && target != null && this.distanceTo(target) < 3D + target.getBbWidth() && this.hasLineOfSight(target)){
+            if (attackProgress == 5F && target != null && this.distanceTo(target) < 3D + target.getBbWidth() && this.hasLineOfSight(target)) {
                 target.hurt(this.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
             }
-            if(attackProgress > 0F){
+            if (attackProgress > 0F) {
                 attackProgress--;
             }
         }
@@ -443,6 +443,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     public float getBiteProgress(float partialTick) {
         return (prevAttackProgress + (attackProgress - prevAttackProgress) * partialTick) * 0.2F;
     }
+
     public float getFlightPitch(float partialTick) {
         return (prevFlightPitch + (flightPitch - prevFlightPitch) * partialTick);
     }
@@ -506,7 +507,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
         InteractionResult prev = super.mobInteract(player, hand);
         if (prev != InteractionResult.SUCCESS) {
             ItemStack itemStack = player.getItemInHand(hand);
-            if(!this.isTame() && (itemStack.is(ACItemRegistry.TRILOCARIS_TAIL.get()) || itemStack.is(ACItemRegistry.COOKED_TRILOCARIS_TAIL.get()))){
+            if (!this.isTame() && (itemStack.is(ACItemRegistry.TRILOCARIS_TAIL.get()) || itemStack.is(ACItemRegistry.COOKED_TRILOCARIS_TAIL.get()))) {
                 this.usePlayerItem(player, hand, itemStack);
                 if (getRandom().nextInt(3) == 0) {
                     this.tame(player);

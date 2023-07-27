@@ -44,7 +44,7 @@ public class AmberMonolithParticle extends TextureSheetParticle {
 
     public int getLightColor(float partialTicks) {
         Vec3 to = this.target.subtract(x, y, z);
-        float glowBy = (float)(to.length() / this.initialDistance);
+        float glowBy = (float) (to.length() / this.initialDistance);
         int i = super.getLightColor(partialTicks);
         int j = i & 255;
         int k = i >> 16 & 255;
@@ -60,9 +60,9 @@ public class AmberMonolithParticle extends TextureSheetParticle {
         this.setSpriteFromAge(this.sprites);
         this.setAlpha(Mth.lerp(0.05F, this.alpha, 1.0F));
         Vec3 to = this.target.subtract(x, y, z);
-        if(to.length() > 1F){
+        if (to.length() > 1F) {
             to = to.normalize();
-        }else{
+        } else {
             this.remove();
         }
         this.xd += to.x * 0.05F;

@@ -34,12 +34,12 @@ public class HolocoderItem extends Item {
             entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()).toString());
             tag.put("BoundEntityTag", entityTag);
             ItemStack stackReplacement = new ItemStack(this);
-            if(!player.isCreative()){
+            if (!player.isCreative()) {
                 stack.shrink(1);
             }
             stackReplacement.setTag(tag);
             player.swing(hand);
-            if(!player.addItem(stackReplacement)){
+            if (!player.addItem(stackReplacement)) {
                 ItemEntity itementity = player.drop(stackReplacement, false);
                 if (itementity != null) {
                     itementity.setNoPickUpDelay();
@@ -52,11 +52,11 @@ public class HolocoderItem extends Item {
     }
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-        if(stack.getTag() != null){
+        if (stack.getTag() != null) {
             Tag entity = stack.getTag().get("BoundEntityTag");
             if (entity instanceof CompoundTag) {
                 Optional<EntityType<?>> optional = EntityType.by((CompoundTag) entity);
-                if(optional.isPresent()){
+                if (optional.isPresent()) {
                     Component untranslated = optional.get().getDescription().copy().withStyle(ChatFormatting.GRAY);
                     tooltip.add(untranslated);
                 }
@@ -66,9 +66,9 @@ public class HolocoderItem extends Item {
     }
 
     public static UUID getBoundEntityUUID(ItemStack stack) {
-        if(stack.getTag() != null){
+        if (stack.getTag() != null) {
             return stack.getTag().getUUID("BoundEntityUUID");
-        }else{
+        } else {
             return null;
         }
     }

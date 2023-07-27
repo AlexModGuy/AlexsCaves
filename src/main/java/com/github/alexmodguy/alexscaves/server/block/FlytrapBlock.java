@@ -22,6 +22,7 @@ class FlytrapBlock extends BushBlock {
 
     public static final BooleanProperty OPEN = BooleanProperty.create("open");
     public static final VoxelShape SHAPE = Block.box(3.5, 0, 3.5, 12.5, 21, 12.5);
+
     public FlytrapBlock() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().noCollission());
         this.registerDefaultState(this.defaultBlockState().setValue(OPEN, Boolean.valueOf(true)));
@@ -33,10 +34,10 @@ class FlytrapBlock extends BushBlock {
     }
 
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
-        if(state.getValue(OPEN)){
+        if (state.getValue(OPEN)) {
             level.setBlock(pos, state.setValue(OPEN, false), 2);
             level.scheduleTick(pos, this, 100 + randomSource.nextInt(100));
-        }else{
+        } else {
             level.setBlock(pos, state.setValue(OPEN, true), 2);
 
         }
@@ -51,7 +52,7 @@ class FlytrapBlock extends BushBlock {
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
-        if(state.getValue(OPEN) && randomSource.nextInt(3) == 0){
+        if (state.getValue(OPEN) && randomSource.nextInt(3) == 0) {
             Vec3 center = Vec3.upFromBottomCenterOf(pos, 1).add(state.getOffset(level, pos));
             level.addParticle(ACParticleRegistry.FLY.get(), center.x, center.y, center.z, center.x, center.y, center.z);
         }

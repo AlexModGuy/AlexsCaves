@@ -41,7 +41,7 @@ public class ThornwoodTreeFeature extends Feature<NoneFeatureConfiguration> {
             int rootCount = 0;
             for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
                 if (rootCount <= 3 + randomsource.nextInt(1)) {
-                    generateRoot(level, centerPos.relative(direction), 0.25F, randomsource, direction,  centerAboveGround + 1 + randomsource.nextInt(6));
+                    generateRoot(level, centerPos.relative(direction), 0.25F, randomsource, direction, centerAboveGround + 1 + randomsource.nextInt(6));
                     rootCount++;
                 }
             }

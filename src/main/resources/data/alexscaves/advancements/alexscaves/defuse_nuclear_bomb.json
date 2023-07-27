@@ -1,0 +1,29 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecraft:shears"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.defuse_nuclear_bomb.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.defuse_nuclear_bomb.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/nuclear_bomb",
+    "criteria": {
+        "interact": {
+            "trigger": "minecraft:player_interacted_with_entity",
+            "conditions": {
+                "item": {
+                    "items": [
+                        "minecraft:shears"
+                    ]
+                },
+                "entity": {
+                    "type": "alexscaves:nuclear_bomb"
+                }
+            }
+        }
+    }
+}

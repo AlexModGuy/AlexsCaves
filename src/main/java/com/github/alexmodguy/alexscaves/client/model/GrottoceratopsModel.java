@@ -219,7 +219,7 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         animator.move(head, 0, 2, -2);
         animator.rotate(jaw, (float) Math.toRadians(30), 0, 0);
         animator.rotate(head, (float) Math.toRadians(-20), (float) Math.toRadians(-20), 0);
-        animator.rotate(neck, (float) Math.toRadians(-20),  (float) Math.toRadians(-10), 0);
+        animator.rotate(neck, (float) Math.toRadians(-20), (float) Math.toRadians(-10), 0);
         animator.endKeyframe();
         animator.startKeyframe(10);
         animator.move(jaw, 0, 1, -0.5F);
@@ -227,7 +227,7 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         animator.move(head, 0, 2, -2);
         animator.rotate(jaw, (float) Math.toRadians(30), 0, 0);
         animator.rotate(head, (float) Math.toRadians(-20), (float) Math.toRadians(20), 0);
-        animator.rotate(neck, (float) Math.toRadians(-20),  (float) Math.toRadians(10), 0);
+        animator.rotate(neck, (float) Math.toRadians(-20), (float) Math.toRadians(10), 0);
         animator.endKeyframe();
         animator.resetKeyframe(5);
         animator.setAnimation(GrottoceratopsEntity.ANIMATION_CHEW_FROM_GROUND);
@@ -236,20 +236,20 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         animator.move(head, 0, 3, -2);
         animator.rotate(jaw, (float) Math.toRadians(30), 0, 0);
         animator.rotate(head, (float) Math.toRadians(20), 0, 0);
-        animator.rotate(neck, (float) Math.toRadians(20),  0, 0);
+        animator.rotate(neck, (float) Math.toRadians(20), 0, 0);
         animator.endKeyframe();
         animator.startKeyframe(5);
         animator.move(neck, 0, 0, -1);
         animator.move(head, 0, 3, -2);
         animator.rotate(head, (float) Math.toRadians(15), 0, 0);
-        animator.rotate(neck, (float) Math.toRadians(15),  0, 0);
+        animator.rotate(neck, (float) Math.toRadians(15), 0, 0);
         animator.endKeyframe();
         animator.startKeyframe(5);
         animator.move(neck, 0, 0, -4);
         animator.move(head, 0, 3, -2);
         animator.rotate(jaw, (float) Math.toRadians(30), 0, 0);
         animator.rotate(head, (float) Math.toRadians(20), 0, 0);
-        animator.rotate(neck, (float) Math.toRadians(20),  0, 0);
+        animator.rotate(neck, (float) Math.toRadians(20), 0, 0);
         animator.endKeyframe();
         animator.resetKeyframe(5);
         animator.setAnimation(GrottoceratopsEntity.ANIMATION_MELEE_RAM);
@@ -257,14 +257,14 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         animator.move(neck, 0, 0, 2);
         animator.move(head, 0, 3, -2);
         animator.rotate(head, (float) Math.toRadians(20), 0, 0);
-        animator.rotate(neck, (float) Math.toRadians(10),  0, 0);
+        animator.rotate(neck, (float) Math.toRadians(10), 0, 0);
         animator.endKeyframe();
         animator.setStaticKeyframe(5);
         animator.startKeyframe(2);
         animator.move(neck, 0, 0, -4);
         animator.move(head, 0, 3, -2);
         animator.rotate(head, (float) Math.toRadians(-25), 0, 0);
-        animator.rotate(neck, (float) Math.toRadians(-25),  0, 0);
+        animator.rotate(neck, (float) Math.toRadians(-25), 0, 0);
         animator.endKeyframe();
         animator.setStaticKeyframe(3);
         animator.resetKeyframe(5);
@@ -356,7 +356,7 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         this.body.rotateAngleY += tailSwingYaw;
         this.grassBunch.showModel = showGrass;
         this.grassBunch2.showModel = showGrass;
-        if(buryEggsAmount > 0.0F){
+        if (buryEggsAmount > 0.0F) {
             limbSwing = ageInTicks;
             limbSwingAmount = buryEggsAmount * 0.5F;
             this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
@@ -395,7 +395,7 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
         this.walk(rfoot, walkSpeed, walkDegree * 0.2F, true, 3F, 0F, limbSwing, limbSwingAmount);
         rleg.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 5F, false)) - bodyBob;
         rleg.rotationPointZ += ACMath.walkValue(limbSwing, limbSwingAmount, walkSpeed, -0.5F, 1F, false);
-        if(entity.getAnimation() != GrottoceratopsEntity.ANIMATION_MELEE_TAIL_1 && entity.getAnimation() != GrottoceratopsEntity.ANIMATION_MELEE_TAIL_2){
+        if (entity.getAnimation() != GrottoceratopsEntity.ANIMATION_MELEE_TAIL_1 && entity.getAnimation() != GrottoceratopsEntity.ANIMATION_MELEE_TAIL_2) {
             float yawAmount = netHeadYaw / 57.295776F;
             float pitchAmount = headPitch / 57.295776F;
             this.neck.rotateAngleX += pitchAmount * 0.1F;

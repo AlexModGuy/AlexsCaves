@@ -17,6 +17,7 @@ public class ACPOIRegistry {
     public static final DeferredRegister<PoiType> DEF_REG = DeferredRegister.create(ForgeRegistries.POI_TYPES, AlexsCaves.MODID);
     public static final RegistryObject<PoiType> ATTRACTING_MAGNETS = DEF_REG.register("attracting_magnets", () -> new PoiType(getAllAttractingMagnets(), 32, 6));
     public static final RegistryObject<PoiType> REPELLING_MAGNETS = DEF_REG.register("repelling_magnets", () -> new PoiType(getAllRepellingMagnets(), 32, 6));
+    public static final RegistryObject<PoiType> NUCLEAR_SIREN = DEF_REG.register("nuclear_siren", () -> new PoiType(getAllStatesOf(ACBlockRegistry.NUCLEAR_SIREN.get()), 0, 6));
     public static final RegistryObject<PoiType> ABYSSAL_ALTAR = DEF_REG.register("abyssal_altar", () -> new PoiType(getAllStatesOf(ACBlockRegistry.ABYSSAL_ALTAR.get()), 0, 6));
 
     private static Set<BlockState> getAllAttractingMagnets() {
@@ -34,6 +35,7 @@ public class ACPOIRegistry {
         builder.addAll(getAllStatesOf(ACBlockRegistry.BLOCK_OF_AZURE_NEODYMIUM.get()));
         return builder.build();
     }
+
     private static Set<BlockState> getAllStatesOf(Block block) {
         return ImmutableSet.copyOf(block.getStateDefinition().getPossibleStates());
     }

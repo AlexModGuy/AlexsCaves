@@ -34,8 +34,9 @@ public class MushroomCloudParticle extends Particle {
     protected MushroomCloudParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
         this.gravity = 0.0F;
-        this.lifetime = 120;
-        this.scale = scale;
+
+        this.lifetime = (int) Math.ceil(133.33F * scale);
+        this.scale = scale + 0.2F;
         this.setSize(3.0F, 3.0F);
     }
 
@@ -46,7 +47,7 @@ public class MushroomCloudParticle extends Particle {
     public void tick() {
         ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDark = true;
         if (age < BALL_FOR) {
-            ((ClientProxy) AlexsCaves.PROXY).renderNukeFlashFor = 5;
+            ((ClientProxy) AlexsCaves.PROXY).renderNukeFlashFor = 16;
         } else if (age < lifetime - FADE_SPEED) {
             float life = (float) (Math.log(1 + (age - BALL_FOR) / (float) (lifetime - BALL_FOR))) * 2F;
             float explosionSpread = (12 * life + 4F) * scale;
@@ -55,7 +56,7 @@ public class MushroomCloudParticle extends Particle {
                 Vec3 away = new Vec3(level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F).scale(2.34F);
                 this.level.addParticle(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), from.x, from.y, from.z, away.x, away.y, away.z);
             }
-            for(int j = 0; j < scale * scale; j++){
+            for (int j = 0; j < scale * scale; j++) {
                 Vec3 explosionBase = new Vec3((level.random.nextFloat() - 0.5F) * explosionSpread, (-0.6F + level.random.nextFloat() * 0.5F) * explosionSpread * 0.1F, (level.random.nextFloat() - 0.5F) * explosionSpread).add(this.x, this.y, this.z);
                 this.level.addParticle(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), explosionBase.x, explosionBase.y, explosionBase.z, 0, 0, 0);
             }
@@ -103,7 +104,7 @@ public class MushroomCloudParticle extends Particle {
     public static class Factory implements ParticleProvider<SimpleParticleType> {
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            if(xSpeed == 0.0){
+            if (xSpeed == 0.0) {
                 xSpeed = 1.0F;
             }
             return new MushroomCloudParticle(worldIn, x, y, z, (float) Math.max(0.5F, xSpeed));

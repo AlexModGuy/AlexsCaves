@@ -174,7 +174,7 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         return ImmutableList.of(body, tail, tailTip, lleg2, rleg2, lleg, rleg, neck, head, jaw, lhand, rhand, lfoot, lclaw, rfoot, rclaw, larm, rarm, headquill, tailQuill, lquill, rquill);
     }
 
-    public void setAlpha(float alpha){
+    public void setAlpha(float alpha) {
         this.alpha = alpha;
     }
 
@@ -295,7 +295,7 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         animator.rotate(lleg2, (float) Math.toRadians(-40), 0, 0);
         animator.rotate(rleg2, (float) Math.toRadians(-40), 0, 0);
         animator.rotate(lfoot, (float) Math.toRadians(30), (float) Math.toRadians(5), (float) Math.toRadians(25));
-        animator.rotate(rfoot, (float) Math.toRadians(30),  (float) Math.toRadians(-5), (float) Math.toRadians(-25));
+        animator.rotate(rfoot, (float) Math.toRadians(30), (float) Math.toRadians(-5), (float) Math.toRadians(-25));
         animator.rotate(larm, (float) Math.toRadians(-40), (float) Math.toRadians(-20), (float) Math.toRadians(-50));
         animator.rotate(rarm, (float) Math.toRadians(-40), (float) Math.toRadians(20), (float) Math.toRadians(50));
         animator.rotate(head, (float) Math.toRadians(-30), 0, 0);
@@ -356,20 +356,20 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         animator.setAnimation(VallumraptorEntity.ANIMATION_GRAB);
         animator.startKeyframe(5);
         animatePose(5);
-        animator.rotate(head, 0,  (float) Math.toRadians(-20), (float) Math.toRadians(10));
+        animator.rotate(head, 0, (float) Math.toRadians(-20), (float) Math.toRadians(10));
         animator.endKeyframe();
         animator.setStaticKeyframe(4);
         animator.startKeyframe(5);
         animatePose(5);
-        animator.rotate(head, 0,  (float) Math.toRadians(20), (float) Math.toRadians(-10));
+        animator.rotate(head, 0, (float) Math.toRadians(20), (float) Math.toRadians(-10));
         animator.endKeyframe();
         animator.startKeyframe(3);
         animatePose(5);
-        animator.rotate(rarm, (float) Math.toRadians(-40),  (float) Math.toRadians(10),0);
+        animator.rotate(rarm, (float) Math.toRadians(-40), (float) Math.toRadians(10), 0);
         animator.rotate(rhand, 0, (float) Math.toRadians(40), 0);
         animator.move(rarm, 0, 0, -3);
         animator.move(rhand, 0F, 0F, 1F);
-        animator.rotate(larm, (float) Math.toRadians(-40),  (float) Math.toRadians(-10),0);
+        animator.rotate(larm, (float) Math.toRadians(-40), (float) Math.toRadians(-10), 0);
         animator.rotate(lhand, 0, (float) Math.toRadians(-40), 0);
         animator.move(larm, 0, 0, -3);
         animator.move(lhand, 0F, 0F, 1F);
@@ -472,11 +472,11 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, limbSwingAmount, ageInTicks);
         }
-        if(entity.getAnimation() != VallumraptorEntity.ANIMATION_CALL_2){
+        if (entity.getAnimation() != VallumraptorEntity.ANIMATION_CALL_2) {
             progressPositionPrev(head, walkAmount, 0, 1, -1, 1F);
             progressPositionPrev(head, sprintAmount, 0, -2, 2, 1F);
         }
-        if(buryEggsAmount > 0.0F){
+        if (buryEggsAmount > 0.0F) {
             limbSwing = ageInTicks;
             walkAmount = buryEggsAmount * 0.5F;
             this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
@@ -499,13 +499,13 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         progressRotationPrev(lleg2, jumpProgress, (float) Math.toRadians(-30), 0, 0, 1F);
         progressRotationPrev(rfoot, jumpProgress, (float) Math.toRadians(10), 0, 0, 1F);
         progressRotationPrev(lfoot, jumpProgress, (float) Math.toRadians(10), 0, 0, 1F);
-        progressRotationPrev(rarm, danceAmount, (float) Math.toRadians(-50),  (float) Math.toRadians(50), 0, 1F);
-        progressRotationPrev(larm, danceAmount, (float) Math.toRadians(-50),  (float) Math.toRadians(-50), 0, 1F);
-        progressPositionPrev(body, sitAmount,0, 6, -1F, 1F);
-        progressPositionPrev(rarm, sitAmount,0, -2, 1, 1F);
-        progressPositionPrev(larm, sitAmount,0, -2, 1, 1F);
-        progressPositionPrev(rleg, sitAmount,0, -1.5F, 5, 1F);
-        progressPositionPrev(lleg, sitAmount,0, -1.5F, 5, 1F);
+        progressRotationPrev(rarm, danceAmount, (float) Math.toRadians(-50), (float) Math.toRadians(50), 0, 1F);
+        progressRotationPrev(larm, danceAmount, (float) Math.toRadians(-50), (float) Math.toRadians(-50), 0, 1F);
+        progressPositionPrev(body, sitAmount, 0, 6, -1F, 1F);
+        progressPositionPrev(rarm, sitAmount, 0, -2, 1, 1F);
+        progressPositionPrev(larm, sitAmount, 0, -2, 1, 1F);
+        progressPositionPrev(rleg, sitAmount, 0, -1.5F, 5, 1F);
+        progressPositionPrev(lleg, sitAmount, 0, -1.5F, 5, 1F);
         progressRotationPrev(rleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(25), 0, 1F);
         progressRotationPrev(rleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
         progressRotationPrev(rfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
@@ -513,9 +513,9 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         progressRotationPrev(lleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
         progressRotationPrev(lfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
         progressRotationPrev(tail, sitAmount, (float) Math.toRadians(-10), 0, 0, 1F);
-        progressPositionPrev(head, relaxedAmount,1, -1, 3, 1F);
+        progressPositionPrev(head, relaxedAmount, 1, -1, 3, 1F);
         progressRotationPrev(neck, relaxedAmount, (float) Math.toRadians(120), (float) Math.toRadians(30), 0, 1F);
-        progressRotationPrev(head, relaxedAmount, (float) Math.toRadians(-120),  (float) Math.toRadians(30),  (float) Math.toRadians(-30), 1F);
+        progressRotationPrev(head, relaxedAmount, (float) Math.toRadians(-120), (float) Math.toRadians(30), (float) Math.toRadians(-30), 1F);
         progressRotationPrev(tail, relaxedAmount, 0, (float) Math.toRadians(-30), 0, 1F);
         progressRotationPrev(tailTip, relaxedAmount, (float) Math.toRadians(-10), (float) Math.toRadians(-30), 0, 1F);
 
@@ -622,11 +622,12 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
             this.flap(larm, 0.5F, 0.5F, false, -1F, 0F, ageInTicks, animationIntensity);
         }
     }
+
     public void translateToHand(PoseStack matrixStackIn, boolean left) {
         body.translateAndRotate(matrixStackIn);
-        if(left){
+        if (left) {
             larm.translateAndRotate(matrixStackIn);
-        }else{
+        } else {
             rarm.translateAndRotate(matrixStackIn);
         }
     }

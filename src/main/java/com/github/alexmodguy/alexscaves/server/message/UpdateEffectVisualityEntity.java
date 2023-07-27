@@ -50,15 +50,15 @@ public class UpdateEffectVisualityEntity {
     public static void handle(UpdateEffectVisualityEntity message, Supplier<NetworkEvent.Context> context) {
         context.get().setPacketHandled(true);
         Player playerSided = context.get().getSender();
-        if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
+        if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             playerSided = AlexsCaves.PROXY.getClientSidePlayer();
         }
-        if(playerSided != null){
+        if (playerSided != null) {
             Entity entity = playerSided.level().getEntity(message.entityID);
             Entity senderEntity = playerSided.level().getEntity(message.fromEntityID);
-            if(entity instanceof LivingEntity living && senderEntity != null && senderEntity.distanceTo(living) < 32){
+            if (entity instanceof LivingEntity living && senderEntity != null && senderEntity.distanceTo(living) < 32) {
                 MobEffect mobEffect = null;
-                switch (message.potionType){
+                switch (message.potionType) {
                     case 0:
                         mobEffect = ACEffectRegistry.IRRADIATED.get();
                         break;
@@ -72,10 +72,10 @@ public class UpdateEffectVisualityEntity {
                         mobEffect = ACEffectRegistry.STUNNED.get();
                         break;
                 }
-                if(mobEffect != null){
-                    if(message.remove){
+                if (mobEffect != null) {
+                    if (message.remove) {
                         living.removeEffectNoUpdate(mobEffect);
-                    }else{
+                    } else {
                         living.addEffect(new MobEffectInstance(mobEffect, message.duration));
                     }
                 }

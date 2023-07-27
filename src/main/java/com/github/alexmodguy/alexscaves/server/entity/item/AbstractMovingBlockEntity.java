@@ -148,7 +148,7 @@ public abstract class AbstractMovingBlockEntity extends Entity {
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>)NetworkHooks.getEntitySpawningPacket(this);
+        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
     }
 
     private List<MovingBlockData> buildDataFromTrackerTag() {

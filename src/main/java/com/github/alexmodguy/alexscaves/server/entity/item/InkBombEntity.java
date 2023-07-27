@@ -27,6 +27,7 @@ import net.minecraftforge.network.PlayMessages;
 public class InkBombEntity extends ThrowableItemProjectile {
 
     private static final EntityDataAccessor<Boolean> GLOWING_BOMB = SynchedEntityData.defineId(InkBombEntity.class, EntityDataSerializers.BOOLEAN);
+
     public InkBombEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
@@ -77,14 +78,14 @@ public class InkBombEntity extends ThrowableItemProjectile {
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
         hitResult.getEntity().hurt(damageSources().thrown(this, this.getOwner()), 0F);
-        if(hitResult.getEntity() instanceof SubmarineEntity submarine){
+        if (hitResult.getEntity() instanceof SubmarineEntity submarine) {
             submarine.setLightsOn(false);
-            if(submarine.getFirstPassenger() instanceof Player player){
+            if (submarine.getFirstPassenger() instanceof Player player) {
                 player.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
-                if(isGlowingBomb()){
+                if (isGlowingBomb()) {
                     player.addEffect(new MobEffectInstance(MobEffects.GLOWING, 300));
                 }
-                if(!player.isCreative()){
+                if (!player.isCreative()) {
                     player.removeEffect(MobEffects.NIGHT_VISION);
                     player.removeEffect(MobEffects.CONDUIT_POWER);
                 }
@@ -92,7 +93,7 @@ public class InkBombEntity extends ThrowableItemProjectile {
         }
         if (hitResult.getEntity() instanceof LivingEntity living) {
             living.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
-            if(!(living instanceof Player player && player.isCreative())){
+            if (!(living instanceof Player player && player.isCreative())) {
                 living.removeEffect(MobEffects.NIGHT_VISION);
                 living.removeEffect(MobEffects.CONDUIT_POWER);
             }
@@ -108,7 +109,7 @@ public class InkBombEntity extends ThrowableItemProjectile {
             areaeffectcloud.setParticle(isGlowingBomb() ? ParticleTypes.GLOW_SQUID_INK : ParticleTypes.SQUID_INK);
             areaeffectcloud.setFixedColor(0);
             areaeffectcloud.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 100));
-            if(isGlowingBomb()){
+            if (isGlowingBomb()) {
                 areaeffectcloud.addEffect(new MobEffectInstance(MobEffects.GLOWING, 300));
             }
             areaeffectcloud.setRadius(2F);

@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -141,15 +142,15 @@ public class MagneticWeaponEntity extends Entity {
             this.entityData.set(IDLING, false);
             this.comingBack = !isOwnerWearingGauntlet();
             float speed = 0.1F;
-            if(isOwnerWearingGauntlet()){
+            if (isOwnerWearingGauntlet()) {
                 float maxDist = 30F;
                 BlockPos miningBlock = null;
                 HitResult hitresult = ProjectileUtil.getHitResultOnViewVector(player, Entity::canBeHitByProjectile, maxDist);
-                if(hitresult instanceof EntityHitResult entityHitResult && playerUseCooldown == 0){
+                if (hitresult instanceof EntityHitResult entityHitResult && playerUseCooldown == 0) {
                     Entity entity = entityHitResult.getEntity();
                     moveTo = entity.position().add(0, entity.getBbHeight() * 0.5F, 0);
                     speed = 0.2F;
-                    if(this.distanceTo(entity) < entity.getBbWidth() + 1.5F){
+                    if (this.distanceTo(entity) < entity.getBbWidth() + 1.5F) {
                         if (strikeProgress < 1F) {
                             strikeProgress = Math.max(0, strikeProgress + 0.35F);
                         } else {
@@ -157,22 +158,22 @@ public class MagneticWeaponEntity extends Entity {
                             playerUseCooldown = 5 + random.nextInt(5);
                         }
                     }
-                }else{
+                } else {
                     moveTo = player.getEyePosition().add(player.getViewVector(1.0F).scale(maxDist - 20F));
-                    if(hitresult.getType() == HitResult.Type.BLOCK || hitresult.getLocation().subtract(player.getEyePosition()).length() < maxDist){
-                        if(hitresult instanceof BlockHitResult blockHitResult){
-                            if(this.distanceToSqr(Vec3.atCenterOf(blockHitResult.getBlockPos())) < 2.25F){
+                    if (hitresult.getType() == HitResult.Type.BLOCK || hitresult.getLocation().subtract(player.getEyePosition()).length() < maxDist) {
+                        if (hitresult instanceof BlockHitResult blockHitResult) {
+                            if (this.distanceToSqr(Vec3.atCenterOf(blockHitResult.getBlockPos())) < 2.25F) {
                                 miningBlock = blockHitResult.getBlockPos();
                             }
-                            if(!level().getBlockState(blockHitResult.getBlockPos()).isAir()){
+                            if (!level().getBlockState(blockHitResult.getBlockPos()).isAir()) {
                                 moveTo = hitresult.getLocation();
                             }
                         }
                     }
                 }
-                if(miningBlock != null){
-                    if(lastSelectedBlock == null || !lastSelectedBlock.equals(miningBlock)){
-                        if(lastSelectedBlock != null){
+                if (miningBlock != null) {
+                    if (lastSelectedBlock == null || !lastSelectedBlock.equals(miningBlock)) {
+                        if (lastSelectedBlock != null) {
                             this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, -1);
                         }
                         lastSelectedBlock = miningBlock;
@@ -182,16 +183,16 @@ public class MagneticWeaponEntity extends Entity {
                     SoundType soundType = miningState.getSoundType();
                     float f = miningState.getDestroySpeed(level(), miningBlock);
                     float itemDestroySpeed = getDigSpeed(player, miningState, miningBlock);
-                    if(itemDestroySpeed > 1.0F){
-                        if(totalMiningTime % 4 == 0){
+                    if (itemDestroySpeed > 1.0F) {
+                        if (totalMiningTime % 4 == 0) {
                             this.playSound(soundType.getHitSound(), (soundType.getVolume() + 1.0F) / 8.0F, soundType.getPitch() * 0.5F);
                         }
                         totalMiningTime++;
                         strikeProgress = (float) Math.abs(Math.sin(tickCount * 0.6F) * 1.2F - 0.2F);
-                        float j = itemDestroySpeed / f / (float)10;
+                        float j = itemDestroySpeed / f / (float) 10;
                         destroyBlockProgress += j;
-                        this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, (int)(destroyBlockProgress * 10F));
-                        if(destroyBlockProgress >= 1.0F && !level().isClientSide){
+                        this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, (int) (destroyBlockProgress * 10F));
+                        if (destroyBlockProgress >= 1.0F && !level().isClientSide) {
                             damageItem(1);
                             ItemStack itemStack = getItemStack();
                             itemStack.mineBlock(this.level(), miningState, miningBlock, player);
@@ -201,18 +202,18 @@ public class MagneticWeaponEntity extends Entity {
                             net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, itemStack, InteractionHand.MAIN_HAND);
                             boolean flag = level().destroyBlock(miningBlock, false);
                             miningState.getBlock().playerDestroy(level(), player, miningBlock, miningState, level().getBlockEntity(miningBlock), itemStack);
-                            if (flag && exp > 0 && level() instanceof ServerLevel serverLevel){
+                            if (flag && exp > 0 && level() instanceof ServerLevel serverLevel) {
                                 miningState.getBlock().popExperience(serverLevel, miningBlock, exp);
                             }
                             destroyBlockProgress = 0.0F;
                         }
                     }
                 }
-            }else{
+            } else {
                 if (returnProgress < 1F) {
                     returnProgress = Math.min(1, returnProgress + 0.2F);
                 }
-                if(lastSelectedBlock != null){
+                if (lastSelectedBlock != null) {
                     this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, -1);
                     lastSelectedBlock = null;
                 }
@@ -228,19 +229,19 @@ public class MagneticWeaponEntity extends Entity {
                     }
                 }
             }
-            if(moveTo != null){
+            if (moveTo != null) {
                 directMovementTowards(moveTo, speed);
             }
         }
-        if(playerUseCooldown > 0){
+        if (playerUseCooldown > 0) {
             playerUseCooldown--;
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
         this.setDeltaMovement(this.getDeltaMovement().scale(0.9F));
     }
 
-    public void damageItem(int damageAmount){
-        if(getController() instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())){
+    public void damageItem(int damageAmount) {
+        if (getController() instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())) {
             getItemStack().hurtAndBreak(damageAmount, living, (player1) -> {
                 player1.broadcastBreakEvent(player1.getUsedItemHand());
             });
@@ -253,12 +254,12 @@ public class MagneticWeaponEntity extends Entity {
         if (f > 1.0F) {
             int i = EnchantmentHelper.getBlockEfficiency(player);
             if (i > 0 && !stack.isEmpty()) {
-                f += (float)(i * i + 1);
+                f += (float) (i * i + 1);
             }
         }
 
         if (MobEffectUtil.hasDigSpeed(player)) {
-            f *= 1.0F + (float)(MobEffectUtil.getDigSpeedAmplification(player) + 1) * 0.2F;
+            f *= 1.0F + (float) (MobEffectUtil.getDigSpeedAmplification(player) + 1) * 0.2F;
         }
 
         if (player.hasEffect(MobEffects.DIG_SLOWDOWN)) {
@@ -292,6 +293,7 @@ public class MagneticWeaponEntity extends Entity {
         f = net.minecraftforge.event.ForgeEventFactory.getBreakSpeed(player, state, f, pos);
         return f;
     }
+
     private void hurtEntity(LivingEntity holder, Entity target) {
         target.hurt(damageSources().mobAttack(holder), (float) getDamageForItem(this.getItemStack()));
         for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(this.getItemStack()).entrySet()) {
@@ -300,9 +302,12 @@ public class MagneticWeaponEntity extends Entity {
         }
         holder.doEnchantDamageEffects(holder, target);
         damageItem(1);
+        if (holder instanceof Player && target instanceof LivingEntity living && living.getHealth() <= 0.0F && living.distanceTo(target) >= 19.5F) {
+            ACAdvancementTriggerRegistry.KILL_MOB_WITH_GALENA_GAUNTLET.triggerForEntity(holder);
+        }
     }
 
-    private void directMovementTowards(Vec3 moveTo, float speed){
+    private void directMovementTowards(Vec3 moveTo, float speed) {
         Vec3 want = moveTo.subtract(this.position());
         if (want.length() > 1F) {
             want = want.normalize();

@@ -18,9 +18,11 @@ import net.minecraftforge.registries.RegistryObject;
 public class ACFluidRegistry {
     public static final DeferredRegister<FluidType> FLUID_TYPE_DEF_REG = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, AlexsCaves.MODID);
     public static final DeferredRegister<Fluid> FLUID_DEF_REG = DeferredRegister.create(ForgeRegistries.FLUIDS, AlexsCaves.MODID);
+
     private static ForgeFlowingFluid.Properties acidProperties() {
         return new ForgeFlowingFluid.Properties(ACID_FLUID_TYPE, ACID_FLUID_SOURCE, ACID_FLUID_FLOWING).bucket(ACItemRegistry.ACID_BUCKET).block(ACBlockRegistry.ACID);
     }
+
     public static final RegistryObject<FluidType> ACID_FLUID_TYPE = FLUID_TYPE_DEF_REG.register("acid", () -> new AcidFluidType(FluidType.Properties.create().lightLevel(5).density(1024).viscosity(1024).pathType(BlockPathTypes.LAVA).adjacentPathType(BlockPathTypes.DANGER_OTHER)));
     public static final RegistryObject<FlowingFluid> ACID_FLUID_SOURCE = FLUID_DEF_REG.register("acid", () -> new ForgeFlowingFluid.Source(acidProperties()));
     public static final RegistryObject<FlowingFluid> ACID_FLUID_FLOWING = FLUID_DEF_REG.register("acid_flowing", () ->

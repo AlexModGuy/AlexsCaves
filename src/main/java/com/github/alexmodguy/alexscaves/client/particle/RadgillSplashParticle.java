@@ -7,6 +7,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 public class RadgillSplashParticle extends TextureSheetParticle {
 
     private boolean fallLeft;
+
     public RadgillSplashParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites) {
         super(world, x, y, z);
         this.pickSprite(sprites);
@@ -25,12 +26,12 @@ public class RadgillSplashParticle extends TextureSheetParticle {
         super.tick();
         this.oRoll = this.roll;
         float downRollTarget = (float) Math.PI;
-        if(fallLeft){
-            if(yd < 0 && roll > -downRollTarget){
+        if (fallLeft) {
+            if (yd < 0 && roll > -downRollTarget) {
                 roll = Math.min(roll - downRollTarget * 0.2F, -downRollTarget);
             }
-        }else{
-            if(yd < 0 && roll < downRollTarget){
+        } else {
+            if (yd < 0 && roll < downRollTarget) {
                 roll = Math.min(roll + downRollTarget * 0.2F, downRollTarget);
             }
         }

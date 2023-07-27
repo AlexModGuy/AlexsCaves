@@ -32,11 +32,11 @@ public class SpelunkeryTableChangeMessage {
     public static void handle(SpelunkeryTableChangeMessage message, Supplier<NetworkEvent.Context> context) {
         context.get().setPacketHandled(true);
         Player player = context.get().getSender();
-        if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
+        if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             player = AlexsCaves.PROXY.getClientSidePlayer();
         }
         if (player != null) {
-            if(player.containerMenu instanceof SpelunkeryTableMenu tableMenu){
+            if (player.containerMenu instanceof SpelunkeryTableMenu tableMenu) {
                 tableMenu.onMessageFromScreen(player, message.pass);
             }
         }

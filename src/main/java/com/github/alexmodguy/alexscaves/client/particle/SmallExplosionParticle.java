@@ -15,7 +15,7 @@ public class SmallExplosionParticle extends TextureSheetParticle {
         this.yd = ySpeed;
         this.zd = zSpeed;
         this.setSize(0.5F, 0.5F);
-        this.quadSize = ( shortLifespan ? 1 : 0.8F) + world.random.nextFloat() * 0.3F;
+        this.quadSize = (shortLifespan ? 1 : 0.8F) + world.random.nextFloat() * 0.3F;
         this.lifetime = shortLifespan ? 5 + world.random.nextInt(3) : 15 + world.random.nextInt(10);
         this.friction = 0.96F;
         float randCol = world.random.nextFloat() * 0.05F;

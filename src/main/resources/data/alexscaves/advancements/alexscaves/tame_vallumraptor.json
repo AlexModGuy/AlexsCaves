@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:chest"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.tame_vallumraptor.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.tame_vallumraptor.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/dinosaur_nugget",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:vallumraptor"
+        }
+      }
+    }
+  }
+}

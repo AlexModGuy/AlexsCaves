@@ -31,7 +31,7 @@ public class SpelunkeryTableCompleteTutorialMessage {
     public static void handle(SpelunkeryTableCompleteTutorialMessage message, Supplier<NetworkEvent.Context> context) {
         context.get().setPacketHandled(true);
         Player player = context.get().getSender();
-        if(context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT){
+        if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             player = AlexsCaves.PROXY.getClientSidePlayer();
         }
         if (player != null) {

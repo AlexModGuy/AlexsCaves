@@ -25,6 +25,7 @@ public class ForsakenRenderer extends MobRenderer<ForsakenEntity, ForsakenModel>
     private static final ResourceLocation TEXTURE_DARKNESS = new ResourceLocation("alexscaves:textures/entity/forsaken_darkness.png");
 
     private static final HashMap<Integer, Vec3> mouthParticlePositions = new HashMap<>();
+
     public ForsakenRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new ForsakenModel(), 1.15F);
         this.addLayer(new LayerGlow());
@@ -40,7 +41,7 @@ public class ForsakenRenderer extends MobRenderer<ForsakenEntity, ForsakenModel>
         mouthParticlePositions.put(entity.getId(), this.model.getMouthPosition(Vec3.ZERO));
     }
 
-    public static Vec3 getMouthPositionFor(int entityId){
+    public static Vec3 getMouthPositionFor(int entityId) {
         return mouthParticlePositions.get(entityId);
     }
 

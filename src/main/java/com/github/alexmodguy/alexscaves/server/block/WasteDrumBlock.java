@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 public class WasteDrumBlock extends Block {
 
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
+
     public WasteDrumBlock() {
         super(BlockBehaviour.Properties.of().mapColor(DyeColor.YELLOW).strength(3.5F).sound(SoundType.METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));

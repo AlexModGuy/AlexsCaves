@@ -22,9 +22,10 @@ public class NotorScanGoal extends Goal {
         this.notor = notor;
     }
 
-    private int getMaxScanTime(){
+    private int getMaxScanTime() {
         return notor.level().getDifficulty() == Difficulty.PEACEFUL ? 40 : 100;
     }
+
     @Override
     public boolean canUse() {
         long worldTime = notor.level().getGameTime() % 10;
@@ -36,7 +37,7 @@ public class NotorScanGoal extends Goal {
         if (!list.isEmpty()) {
             LivingEntity closest = null;
             for (LivingEntity mob : list) {
-                if(!(mob instanceof NotorEntity)){
+                if (!(mob instanceof NotorEntity)) {
                     if ((closest == null || mob.distanceToSqr(notor) < closest.distanceToSqr(notor)) && notor.hasLineOfSight(mob) || (!(closest instanceof Player) && mob instanceof Player)) {
                         closest = mob;
                     }
@@ -54,15 +55,15 @@ public class NotorScanGoal extends Goal {
     }
 
     @Override
-    public void start(){
+    public void start() {
         notor.getNavigation().stop();
         scanTime = 0;
         notor.setScanningId(-1);
     }
 
     @Override
-    public void stop(){
-        if(scanTime >= getMaxScanTime() && scanTarget != null && scanTarget.isAlive()){
+    public void stop() {
+        if (scanTime >= getMaxScanTime() && scanTarget != null && scanTarget.isAlive()) {
             notor.setHologramUUID(scanTarget.getUUID());
             notor.setShowingHologram(false);
             notor.stopScanningFor = notor.getRandom().nextInt(300) + 300;
@@ -74,12 +75,12 @@ public class NotorScanGoal extends Goal {
     public void tick() {
         double dist = scanTarget.distanceTo(notor);
         notor.lookAt(EntityAnchorArgument.Anchor.EYES, scanTarget.getEyePosition());
-        if(dist > 8){
+        if (dist > 8) {
             notor.getNavigation().moveTo(scanTarget.getX(), scanTarget.getY(1.0F) + 1, scanTarget.getZ(), 1.2F);
-            if(dist > 15){
+            if (dist > 15) {
                 notor.setScanningId(-1);
             }
-        }else{
+        } else {
             notor.getNavigation().stop();
             notor.setScanningId(scanTarget.getId());
             scanTime++;

@@ -1,7 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
@@ -19,7 +17,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -88,7 +89,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         }
     }
 
-    public float maxSitTicks(){
+    public float maxSitTicks() {
         return 10.0F;
     }
 
@@ -119,6 +120,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
     public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
         this.onClientPlayMusicDisc(this.getId(), pos, playing);
     }
+
     @Override
     public void setJukeboxPos(BlockPos blockPos) {
         this.jukeboxPosition = blockPos;
@@ -159,15 +161,15 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         this.setHasEgg(compound.getBoolean("Egg"));
     }
 
-    public boolean tamesFromHatching(){
+    public boolean tamesFromHatching() {
         return false;
     }
 
-    public boolean hasRidingMeter(){
+    public boolean hasRidingMeter() {
         return false;
     }
 
-    public float getMeterAmount(){
+    public float getMeterAmount() {
         return 0.0F;
     }
 
@@ -181,7 +183,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         livingEntity.setYHeadRot(livingEntity.getYRot());
     }
 
-    public void onLayEggTick(BlockPos belowEgg, int time){
+    public void onLayEggTick(BlockPos belowEgg, int time) {
         this.walkAnimation.update(0.5F, 0.4F);
         this.level().broadcastEntityEvent(this, (byte) 77);
     }
@@ -207,14 +209,14 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
                     }
                 }
             }
-        } else if(b == 78) {
+        } else if (b == 78) {
             this.buryingEggs = false;
-        }else{
+        } else {
             super.handleEntityEvent(b);
         }
     }
 
-    public boolean onFeedMixture(ItemStack itemStack, Player player){
+    public boolean onFeedMixture(ItemStack itemStack, Player player) {
         return false;
     }
 
@@ -227,7 +229,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
         InteractionResult type = super.mobInteract(player, hand);
         if (!interactionresult.consumesAction() && !type.consumesAction() && isTame() && isOwnedBy(player) && !isFood(itemstack)) {
-            if(canOwnerCommand(player)){
+            if (canOwnerCommand(player)) {
                 this.setCommand(this.getCommand() + 1);
                 if (this.getCommand() == 3) {
                     this.setCommand(0);
@@ -240,7 +242,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
                     this.setOrderedToSit(false);
                 }
                 return InteractionResult.SUCCESS;
-            }else if(canOwnerMount(player)){
+            } else if (canOwnerMount(player)) {
                 if (this.getType() == ACEntityRegistry.SUBTERRANODON.get() && this.canAddPassenger(player)) {
                     this.moveTo(this.getX(), this.getY() + player.getBbHeight() + 0.5F, this.getZ());
                 }

@@ -34,7 +34,7 @@ public class MetalBarrelBlock extends BarrelBlock {
         } else {
             BlockEntity blockentity = level.getBlockEntity(blockPos);
             if (blockentity instanceof MetalBarrelBlockEntity) {
-                player.openMenu((MetalBarrelBlockEntity)blockentity);
+                player.openMenu((MetalBarrelBlockEntity) blockentity);
                 player.awardStat(Stats.OPEN_BARREL);
                 PiglinAi.angerNearbyPiglins(player, true);
             }
@@ -45,7 +45,7 @@ public class MetalBarrelBlock extends BarrelBlock {
     public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
         BlockEntity blockentity = level.getBlockEntity(pos);
         if (blockentity instanceof MetalBarrelBlockEntity) {
-            ((MetalBarrelBlockEntity)blockentity).recheckOpen();
+            ((MetalBarrelBlockEntity) blockentity).recheckOpen();
         }
     }
 
@@ -58,10 +58,11 @@ public class MetalBarrelBlock extends BarrelBlock {
         if (stack.hasCustomHoverName()) {
             BlockEntity blockentity = level.getBlockEntity(pos);
             if (blockentity instanceof MetalBarrelBlockEntity) {
-                ((MetalBarrelBlockEntity)blockentity).setCustomName(stack.getHoverName());
+                ((MetalBarrelBlockEntity) blockentity).setCustomName(stack.getHoverName());
             }
         }
     }
+
     public void onRemove(BlockState state, Level level, BlockPos blockPos, BlockState newState, boolean force) {
         if (state.hasBlockEntity() && (!(newState.getBlock() instanceof MetalBarrelBlock) || !newState.hasBlockEntity())) {
             level.removeBlockEntity(blockPos);

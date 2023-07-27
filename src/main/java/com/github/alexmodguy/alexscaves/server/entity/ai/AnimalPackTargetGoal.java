@@ -1,9 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 
 public class AnimalPackTargetGoal extends MobTargetUntamedGoal {
 
@@ -17,7 +15,7 @@ public class AnimalPackTargetGoal extends MobTargetUntamedGoal {
     }
 
     public boolean canUse() {
-        if(super.canUse()){
+        if (super.canUse()) {
             return packAnimal.getPackSize() >= packSizeMandatory;
         }
         return false;

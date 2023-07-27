@@ -57,7 +57,7 @@ public class MineGuardianRenderer extends MobRenderer<MineGuardianEntity, MineGu
         super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
         float bodyYaw = Mth.rotLerp(partialTicks, entityIn.yBodyRotO, entityIn.yBodyRot);
         float scanProgress = entityIn.getScanProgress(partialTicks);
-        if(scanProgress > 0F && entityIn.isAlive() && !entityIn.isExploding()){
+        if (scanProgress > 0F && entityIn.isAlive() && !entityIn.isExploding()) {
             float ticks = entityIn.tickCount + partialTicks;
             float length = (float) (scanProgress * (4 + Math.sin(ticks * 0.2F + 2)));
             float width = scanProgress * scanProgress * 1F;
@@ -93,7 +93,7 @@ public class MineGuardianRenderer extends MobRenderer<MineGuardianEntity, MineGu
 
         public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, MineGuardianEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             float explodeProgress = entitylivingbaseIn.getExplodeProgress(partialTicks);
-            if(!entitylivingbaseIn.isEyeClosed()){
+            if (!entitylivingbaseIn.isEyeClosed()) {
                 VertexConsumer ivertexbuilder1 = bufferIn.getBuffer(RenderType.eyes(TEXTURE_EYE));
                 this.getParentModel().renderToBuffer(poseStack, ivertexbuilder1, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
             }

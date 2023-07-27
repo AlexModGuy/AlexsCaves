@@ -52,6 +52,7 @@ public class BoundroidEntity extends Monster {
     private int stayOnGroundFor = 0;
 
     private static final AttributeModifier REMOVED_GRAVITY_MODIFIER = new AttributeModifier(UUID.fromString("B5B6CF2A-2F7C-31EF-9022-7C3E7D5E6BBA"), "remove gravity reduction", -0.08, AttributeModifier.Operation.ADDITION);
+
     public BoundroidEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
@@ -92,7 +93,7 @@ public class BoundroidEntity extends Monster {
         if (!level().isClientSide) {
             UUID id = getWinchUUID();
             return id == null ? null : ((ServerLevel) level()).getEntity(id);
-        }else{
+        } else {
             int id = this.entityData.get(WINCH_ID);
             return id == -1 ? null : level().getEntity(id);
         }
@@ -102,34 +103,34 @@ public class BoundroidEntity extends Monster {
         super.tick();
         this.prevGroundProgress = groundProgress;
         this.yBodyRot = this.getYRot();
-        if(this.onGround() && groundProgress < 5F){
+        if (this.onGround() && groundProgress < 5F) {
             groundProgress++;
         }
-        if(!this.onGround() && groundProgress > 0F){
+        if (!this.onGround() && groundProgress > 0F) {
             groundProgress--;
         }
         if (!level().isClientSide) {
             Entity winch = getWinch();
-            if(winch == null){
+            if (winch == null) {
                 LivingEntity created = createWinch();
                 level().addFreshEntity(created);
                 this.setWinchUUID(created.getUUID());
                 this.entityData.set(WINCH_ID, created.getId());
-            }else{
-                if(winch instanceof BoundroidWinchEntity winchEntity){
+            } else {
+                if (winch instanceof BoundroidWinchEntity winchEntity) {
                     winchEntity.linkWithHead(this);
                 }
             }
             LivingEntity target = this.getTarget();
-            if(target != null && target.isAlive()){
+            if (target != null && target.isAlive()) {
                 Vec3 distanceVec = target.position().subtract(this.position());
-                if(distanceVec.horizontalDistance() < 1.2 && stopSlammingFor == 0){
+                if (distanceVec.horizontalDistance() < 1.2 && stopSlammingFor == 0) {
                     this.setSlamming(true);
                 }
             }
-            if(this.isSlamming()){
+            if (this.isSlamming()) {
                 this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, -1, this.getDeltaMovement().z));
-                if(this.onGround()){
+                if (this.onGround()) {
                     this.setSlamming(false);
                     this.stayOnGroundFor = 10;
                     this.stopSlammingFor = 30 + random.nextInt(20);
@@ -144,10 +145,10 @@ public class BoundroidEntity extends Monster {
                 }
             }
         }
-        if(stopSlammingFor > 0){
+        if (stopSlammingFor > 0) {
             stopSlammingFor--;
         }
-        if(stayOnGroundFor > 0){
+        if (stayOnGroundFor > 0) {
             stayOnGroundFor--;
         }
     }
@@ -155,7 +156,7 @@ public class BoundroidEntity extends Monster {
     public void handleEntityEvent(byte b) {
         if (b == 45) {
             spawnGroundEffects();
-        }else{
+        } else {
             super.handleEntityEvent(b);
         }
     }
@@ -204,6 +205,7 @@ public class BoundroidEntity extends Monster {
     public boolean onClimbable() {
         return super.onClimbable() || horizontalCollision && draggedClimable;
     }
+
     public float getGroundProgress(float partialTicks) {
         return (prevGroundProgress + (groundProgress - prevGroundProgress) * partialTicks) * 0.2F;
     }
@@ -227,9 +229,10 @@ public class BoundroidEntity extends Monster {
         return this.entityData.get(SLAMMING);
     }
 
-    public boolean stopPullingUp(){
+    public boolean stopPullingUp() {
         return isSlamming() || stayOnGroundFor > 0;
     }
+
     public void setSlamming(boolean slamming) {
         this.entityData.set(SLAMMING, slamming);
     }

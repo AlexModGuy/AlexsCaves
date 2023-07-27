@@ -99,10 +99,10 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         this.setDamageLevel(tag.getInt("DamageLevel"));
         this.setWaxed(tag.getBoolean("Waxed"));
         this.setLightsOn(tag.getBoolean("LightsOn"));
-        if(tag.contains("OxidizeTime")){
+        if (tag.contains("OxidizeTime")) {
             this.oxidizeTime = tag.getInt("OxidizeTime");
         }
-        if(tag.contains("DamageSustained")){
+        if (tag.contains("DamageSustained")) {
             this.damageSustained = tag.getInt("DamageSustained");
         }
     }
@@ -130,7 +130,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             this.setDeltaMovement(this.getDeltaMovement().add(0, 0.08, 0));
             controlUpTicks--;
         }
-        if(this.tickCount % 200 == 0 && damageSustained > 0){
+        if (this.tickCount % 200 == 0 && damageSustained > 0) {
             damageSustained--;
         }
         this.xRotO = this.getXRot();
@@ -171,7 +171,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                 this.setAcceleration(Math.max(0F, acceleration - 0.01F));
             }
             if (Math.abs(acceleration) > 0) {
-                Vec3 vec3 = new Vec3(0, 0, Mth.clamp(acceleration, -0.25F, 0.8F) * 0.2F).xRot(-this.getXRot() * ((float)Math.PI / 180F)).yRot(-this.getYRot() * ((float)Math.PI / 180F));
+                Vec3 vec3 = new Vec3(0, 0, Mth.clamp(acceleration, -0.25F, 0.8F) * 0.2F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
                 this.setDeltaMovement(this.getDeltaMovement().add(vec3));
             }
             if (this.isInWaterOrBubble()) {
@@ -224,7 +224,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         if (turnRightTicks > 0) {
             turnRightTicks--;
         }
-        if(shakeTime > 0){
+        if (shakeTime > 0) {
             shakeTime--;
         }
         this.setXRot(ACMath.approachRotation(this.getXRot(), Mth.clamp(getDamageLevel() >= 4 ? 0 : xRotSet, -50, 50), 2));
@@ -324,7 +324,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         } else {
             super.positionRider(passenger, moveFunction);
         }
-        if(this.getDamageLevel() >= 4){
+        if (this.getDamageLevel() >= 4) {
             passenger.stopRiding();
         }
     }
@@ -338,9 +338,9 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             for (int i = 0; i < 5; i++) {
                 this.level().addParticle(ParticleTypes.WAX_OFF, this.getRandomX(0.9D), this.getRandomY(), this.getRandomZ(0.9D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
             }
-        }  else if (b == 47) {
+        } else if (b == 47) {
             Block particleState = Blocks.COPPER_BLOCK;
-            switch (this.getOxidizationLevel()){
+            switch (this.getOxidizationLevel()) {
                 case 1:
                     particleState = Blocks.EXPOSED_COPPER;
                     break;
@@ -355,9 +355,9 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                 this.level().addParticle(new BlockParticleOption(ParticleTypes.BLOCK, particleState.defaultBlockState()), this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), (random.nextFloat() - 0.5F) * 0.1F, random.nextFloat() * 0.15F, (random.nextFloat() - 0.5F) * 0.1F);
             }
             shakeTime = 20;
-        } else if(b == 48){
+        } else if (b == 48) {
             shakeTime = 10;
-        }else {
+        } else {
             super.handleEntityEvent(b);
         }
     }
@@ -519,6 +519,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
     public float getPickRadius() {
         return this.isVehicle() ? -this.getBbWidth() * 0.5F : 0.0F;
     }
+
     public boolean isAttackable() {
         return !this.isRemoved();
     }
@@ -545,14 +546,14 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
 
     @Override
     public void onAboveBubbleCol(boolean b) {
-       if(!isVehicle()){
-           super.onAboveBubbleCol(b);
-       }
+        if (!isVehicle()) {
+            super.onAboveBubbleCol(b);
+        }
     }
 
     @Override
     public void onInsideBubbleColumn(boolean b) {
-        if(!isVehicle()){
+        if (!isVehicle()) {
             super.onAboveBubbleCol(b);
         }
         this.resetFallDistance();
@@ -569,18 +570,18 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         } else {
             damageSustained += damageValue;
             this.level().broadcastEntityEvent(this, (byte) 48);
-            if(damageSustained >= 10){
+            if (damageSustained >= 10) {
                 damageSustained = 0;
                 this.playSound(SoundEvents.ITEM_BREAK);
                 this.level().broadcastEntityEvent(this, (byte) 47);
-                if(this.getDamageLevel() >= 4){
-                    if(!this.isRemoved()){
-                        for(int i = 0; i < 2 + random.nextInt(3); i++){
+                if (this.getDamageLevel() >= 4) {
+                    if (!this.isRemoved()) {
+                        for (int i = 0; i < 2 + random.nextInt(3); i++) {
                             this.spawnAtLocation(Items.COPPER_INGOT);
                         }
                     }
                     this.remove(RemovalReason.KILLED);
-                }else{
+                } else {
                     this.setDamageLevel(this.getDamageLevel() + 1);
                 }
             }

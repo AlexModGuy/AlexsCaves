@@ -111,7 +111,7 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
     }
 
     @Override
-    public void setupAnim(WatcherEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+    public void setupAnim(WatcherEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         animate(entity);
         float partialTick = ageInTicks - entity.tickCount;
@@ -137,9 +137,9 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
         this.swing(rwing, 0.2F, 0.25F, true, 1, 0.1F, ageInTicks, 1);
         this.flap(head, 4, 0.1F, false, 0, 0F, ageInTicks, twitchinessAmount);
         this.flap(llarm, 0.1F, 0.1F, false, -0.5F, 0.1F, ageInTicks, 1);
-        this.flap(rarm, 0.1F,  0.1F, true, -0.5F, 0.1F, ageInTicks, 1);
+        this.flap(rarm, 0.1F, 0.1F, true, -0.5F, 0.1F, ageInTicks, 1);
         this.swing(llarm, 0.1F, 0.1F, true, 2, 0F, ageInTicks, 1);
-        this.swing(rarm, 0.1F,  0.1F, false, 2, 0F, ageInTicks, 1);
+        this.swing(rarm, 0.1F, 0.1F, false, 2, 0F, ageInTicks, 1);
         this.walk(lleg, walkSpeed, walkDegree * 0.5F, false, 1, -0.1F, limbSwing, walkAmount * groundAmount);
         this.walk(rleg, walkSpeed, walkDegree * 0.5F, true, 1, 0.1F, limbSwing, walkAmount * groundAmount);
         this.walk(body, walkSpeed * 0.5F, walkDegree * 0.1F, false, -2, 0.0F, limbSwing, walkAmount);
@@ -187,8 +187,8 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
         animator.resetKeyframe(5);
         animator.setAnimation(WatcherEntity.ANIMATION_ATTACK_1);
         animator.startKeyframe(5);
-        animator.move(body,  0, 0, -5);
-        animator.rotate(body,  (float) Math.toRadians(20), 0, 0);
+        animator.move(body, 0, 0, -5);
+        animator.rotate(body, (float) Math.toRadians(20), 0, 0);
         animator.rotate(rarm, (float) Math.toRadians(-10), (float) Math.toRadians(75), (float) Math.toRadians(25));
         animator.rotate(llarm, (float) Math.toRadians(-10), (float) Math.toRadians(-75), (float) Math.toRadians(-25));
         animator.endKeyframe();

@@ -56,7 +56,7 @@ public class NeodymiumNodeBlock extends Block implements SimpleWaterloggedBlock 
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        switch (state.getValue(FACING).getAxis()){
+        switch (state.getValue(FACING).getAxis()) {
             case X:
                 return SHAPE_EW;
             case Z:
@@ -95,7 +95,7 @@ public class NeodymiumNodeBlock extends Block implements SimpleWaterloggedBlock 
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
         Vec3 center = Vec3.atCenterOf(pos);
-        if(randomSource.nextInt(1) == 0){
+        if (randomSource.nextInt(1) == 0) {
             level.addParticle(azure ? ACParticleRegistry.AZURE_MAGNETIC_ORBIT.get() : ACParticleRegistry.SCARLET_MAGNETIC_ORBIT.get(), center.x, center.y, center.z, center.x, center.y, center.z);
         }
     }

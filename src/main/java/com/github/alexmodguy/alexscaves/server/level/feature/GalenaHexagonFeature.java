@@ -33,11 +33,11 @@ public class GalenaHexagonFeature extends Feature<GalenaHexagonFeatureConfigurat
             BlockPos next = chunkCenter.above();
             BlockState currentState = level.getBlockState(chunkCenter);
             BlockState nextState = level.getBlockState(next);
-            if(context.config().ceiling){
+            if (context.config().ceiling) {
                 if (nextState.is(ACBlockRegistry.GALENA.get()) && canReplace(currentState)) {
                     genPos.add(chunkCenter);
                 }
-            }else{
+            } else {
                 if (currentState.is(ACBlockRegistry.GALENA.get()) && canReplace(nextState)) {
                     genPos.add(chunkCenter);
                 }
@@ -62,8 +62,8 @@ public class GalenaHexagonFeature extends Feature<GalenaHexagonFeatureConfigurat
             for (int x = -radius; x <= radius; x++) {
                 for (int z = -radius; z <= radius; z++) {
                     BlockPos fill = center.offset(x, setY, z);
-                    if(fill.distToLowCornerSqr(center.getX(), fill.getY(), center.getZ()) <= radius * radius){
-                        if(canReplace(level.getBlockState(fill))){
+                    if (fill.distToLowCornerSqr(center.getX(), fill.getY(), center.getZ()) <= radius * radius) {
+                        if (canReplace(level.getBlockState(fill))) {
                             level.setBlock(fill, blockState.getState(random, fill), 4);
                         }
                     }

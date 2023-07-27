@@ -30,7 +30,7 @@ public class BakedModelShadeLayerFullbright extends BakedModelWrapper {
 
     private static List<BakedQuad> transformUnshadedQuad(List<BakedQuad> oldQuads) {
         List<BakedQuad> quads = new ArrayList<>(oldQuads);
-        if(!quads.isEmpty()){
+        if (!quads.isEmpty()) {
             quads.replaceAll(quad -> quad.isShade() ? quad : setFullbright(quad));
         }
         return quads;

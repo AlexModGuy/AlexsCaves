@@ -25,7 +25,7 @@ public class QuarryBlockEntity extends BlockEntity {
     private BlockPos bottomRightTorch;
     private BlockPos topLeftTorch;
     private BlockPos topRightTorch;
-    private boolean complete;
+    private boolean hasMiningArea;
     private int checkTimer;
     public int spinFor;
     private AABB miningBox;
@@ -42,7 +42,7 @@ public class QuarryBlockEntity extends BlockEntity {
         if (entity.checkTimer-- < 0) {
             entity.checkTimer = 20 + level.random.nextInt(20);
             if (entity.searchForTorches(level, blockPos, state.getValue(QuarryBlock.FACING))) {
-                entity.complete = true;
+                entity.hasMiningArea = true;
                 AABB aabb1 = new AABB(entity.bottomLeftTorch, entity.bottomRightTorch);
                 AABB aabb2 = new AABB(entity.topLeftTorch, entity.topRightTorch);
                 entity.miningBox = aabb1.minmax(aabb2);
@@ -60,7 +60,7 @@ public class QuarryBlockEntity extends BlockEntity {
                     }
                 }
             } else {
-                entity.complete = false;
+                entity.hasMiningArea = false;
             }
         }
         if (level.isClientSide) {
@@ -72,7 +72,7 @@ public class QuarryBlockEntity extends BlockEntity {
             entity.serverSmasher.setQuarryPos(blockPos);
             if (entity.serverSmasher.isRemoved()) {
                 entity.serverSmasher = null;
-            } else if (entity.complete && entity.lastMineablePos != null) {
+            } else if (entity.hasMiningArea && entity.lastMineablePos != null) {
                 entity.serverSmasher.setInactive(false);
             } else {
                 entity.serverSmasher.setInactive(true);
@@ -189,8 +189,8 @@ public class QuarryBlockEntity extends BlockEntity {
         return miningBox;
     }
 
-    public boolean isComplete() {
-        return complete;
+    public boolean hasMiningArea() {
+        return hasMiningArea;
     }
 
     public float getGrindRotation(float partialTicks) {

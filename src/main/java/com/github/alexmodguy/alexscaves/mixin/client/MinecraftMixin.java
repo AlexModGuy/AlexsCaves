@@ -14,13 +14,15 @@ import javax.annotation.Nullable;
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
 
-    @Shadow @Nullable public abstract Entity getCameraEntity();
+    @Shadow
+    @Nullable
+    public abstract Entity getCameraEntity();
 
     @Inject(method = "Lnet/minecraft/client/Minecraft;startAttack()Z",
             at = @At("HEAD"),
             cancellable = true)
     private void ac_startAttack(CallbackInfoReturnable<Boolean> cir) {
-        if(getCameraEntity() instanceof WatcherEntity){
+        if (getCameraEntity() instanceof WatcherEntity) {
             cir.setReturnValue(false);
         }
     }

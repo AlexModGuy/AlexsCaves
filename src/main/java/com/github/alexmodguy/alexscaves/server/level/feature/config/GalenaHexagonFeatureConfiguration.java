@@ -6,18 +6,18 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
 public class GalenaHexagonFeatureConfiguration implements FeatureConfiguration {
-   public static final Codec<GalenaHexagonFeatureConfiguration> CODEC = RecordCodecBuilder.create((config) -> {
-      return config.group(BlockStateProvider.CODEC.fieldOf("hexagon_made_of").forGetter((otherConfig) -> {
-         return otherConfig.hexBlock;
-      }), Codec.BOOL.fieldOf("ceiling").forGetter((otherConfig) -> {
-         return otherConfig.ceiling;
-      })).apply(config, GalenaHexagonFeatureConfiguration::new);
-   });
-   public final BlockStateProvider hexBlock;
-   public final boolean ceiling;
+    public static final Codec<GalenaHexagonFeatureConfiguration> CODEC = RecordCodecBuilder.create((config) -> {
+        return config.group(BlockStateProvider.CODEC.fieldOf("hexagon_made_of").forGetter((otherConfig) -> {
+            return otherConfig.hexBlock;
+        }), Codec.BOOL.fieldOf("ceiling").forGetter((otherConfig) -> {
+            return otherConfig.ceiling;
+        })).apply(config, GalenaHexagonFeatureConfiguration::new);
+    });
+    public final BlockStateProvider hexBlock;
+    public final boolean ceiling;
 
-   public GalenaHexagonFeatureConfiguration(BlockStateProvider hexBlock, boolean ceiling) {
-      this.hexBlock = hexBlock;
-      this.ceiling = ceiling;
-   }
+    public GalenaHexagonFeatureConfiguration(BlockStateProvider hexBlock, boolean ceiling) {
+        this.hexBlock = hexBlock;
+        this.ceiling = ceiling;
+    }
 }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:sulfur_dust"
+    },
+    {
+      "item": "alexscaves:sulfur_dust"
+    },
+    {
+      "item": "minecraft:porkchop"
+    },
+    {
+      "item": "minecraft:bone_meal"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:slam",
+    "count": 1
+  }
+}

@@ -16,7 +16,7 @@ public class UnderzealotOpenDoorGoal extends OpenDoorGoal {
     }
 
     public void start() {
-        if(this.underzealot.getAnimation() == IAnimatedEntity.NO_ANIMATION){
+        if (this.underzealot.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             this.underzealot.setAnimation(UnderzealotEntity.ANIMATION_BREAKTORCH);
         }
     }
@@ -29,9 +29,9 @@ public class UnderzealotOpenDoorGoal extends OpenDoorGoal {
         return this.underzealot.getAnimation() == UnderzealotEntity.ANIMATION_BREAKTORCH && !isOpen();
     }
 
-    public void tick(){
+    public void tick() {
         this.underzealot.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(this.doorPos));
-        if(this.underzealot.getAnimation() == UnderzealotEntity.ANIMATION_BREAKTORCH && this.underzealot.getAnimationTick() == 8){
+        if (this.underzealot.getAnimation() == UnderzealotEntity.ANIMATION_BREAKTORCH && this.underzealot.getAnimationTick() == 8) {
             this.setOpen(true);
         }
     }

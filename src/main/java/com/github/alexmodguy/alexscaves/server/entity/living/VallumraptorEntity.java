@@ -30,7 +30,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
@@ -139,6 +138,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                 super.start();
                 VallumraptorEntity.this.setRunning(true);
             }
+
             public void stop() {
                 super.stop();
                 VallumraptorEntity.this.setRunning(false);
@@ -226,7 +226,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
             this.getAttribute(Attributes.ARMOR).setBaseValue(0.0D);
             this.heal(28.0F);
         }
-        if(this.tickCount % (this.getHideFor() > 0 ? 15 : 100) == 0 && this.getHealth() < this.getMaxHealth()){
+        if (this.tickCount % (this.getHideFor() > 0 ? 15 : 100) == 0 && this.getHealth() < this.getMaxHealth()) {
             this.heal(2);
         }
         if (!level().isClientSide) {
@@ -246,55 +246,55 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
             if (fleeTicks > 0) {
                 fleeTicks--;
             }
-            if(this.isLeaping()){
+            if (this.isLeaping()) {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1.1F, 1, 1.1F));
             }
         }
         if (this.getAnimation() == ANIMATION_CALL_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_CALL_2 && this.getAnimationTick() == 8) {
             actuallyPlayAmbientSound();
         }
-        if(!level().isClientSide){
+        if (!level().isClientSide) {
             if (eatHeldItemIn > 0) {
                 eatHeldItemIn--;
             } else if (canTargetItem(this.getMainHandItem())) {
                 ItemStack stack = this.getMainHandItem();
                 this.level().broadcastEntityEvent(this, (byte) 45);
                 this.heal(5);
-                if(stack.is(ACItemRegistry.DINOSAUR_NUGGET.get())){
+                if (stack.is(ACItemRegistry.DINOSAUR_NUGGET.get())) {
                     this.setRelaxedForTime(200 + random.nextInt(200));
                 }
                 if (!this.level().isClientSide) {
                     stack.shrink(1);
                 }
             }
-            if(getRelaxedFor() > 0){
+            if (getRelaxedFor() > 0) {
                 this.setRelaxedForTime(this.getRelaxedFor() - 1);
             }
-            if(getHideFor() > 0){
+            if (getHideFor() > 0) {
                 this.setHideFor(this.getHideFor() - 1);
             }
         }
         LivingEntity target = this.getTarget();
-        if(target != null && target.isAlive()){
-            if(this.isElder()){
+        if (target != null && target.isAlive()) {
+            if (this.isElder()) {
                 PackAnimal leader = this;
-                while(leader.getAfterPackMember() != null){
+                while (leader.getAfterPackMember() != null) {
                     leader = leader.getAfterPackMember();
-                    ((VallumraptorEntity)leader).setTarget(target);
+                    ((VallumraptorEntity) leader).setTarget(target);
                 }
             }
-            if(this.getHealth() < this.getMaxHealth() * 0.45F && this.isTame() && this.getHideFor() <= 0){
+            if (this.getHealth() < this.getMaxHealth() * 0.45F && this.isTame() && this.getHideFor() <= 0) {
                 int i = 80 + random.nextInt(40);
                 this.setHideFor(i);
                 this.fleeFromPosition = target.position();
                 this.fleeTicks = i;
-                if(target instanceof Mob mob){
+                if (target instanceof Mob mob) {
                     mob.setTarget(null);
                     mob.setLastHurtByMob(null);
                     mob.setLastHurtMob(null);
                 }
             }
-            if(target instanceof GrottoceratopsEntity && (tickCount + this.getId()) % 20 == 0 && getPackSize() < 4 && !this.isTame()){
+            if (target instanceof GrottoceratopsEntity && (tickCount + this.getId()) % 20 == 0 && getPackSize() < 4 && !this.isTame()) {
                 this.fleeFromPosition = target.position();
                 this.fleeTicks = 100 + random.nextInt(100);
                 this.setTarget(null);
@@ -320,7 +320,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         }
     }
 
-    public float maxSitTicks(){
+    public float maxSitTicks() {
         return 5.0F;
     }
 
@@ -505,9 +505,9 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     public void afterSteal(BlockPos stealPos) {
         fleeFromPosition = Vec3.atCenterOf(stealPos);
         fleeTicks = 300 + random.nextInt(80);
-        if(this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.DINOSAUR_NUGGET.get())){
+        if (this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.DINOSAUR_NUGGET.get())) {
             eatHeldItemIn = 40 + random.nextInt(20);
-        }else{
+        } else {
             eatHeldItemIn = 100 + random.nextInt(80);
         }
     }
@@ -583,7 +583,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         return hasRunningAttributes ? 1.1F : 0.6F;
     }
 
-    public boolean tamesFromHatching(){
+    public boolean tamesFromHatching() {
         return true;
     }
 
@@ -608,8 +608,8 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     }
 
     @Override
-    public boolean onFeedMixture(ItemStack itemStack, Player player){
-        if(itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.getRelaxedFor() > 0 && !this.isTame()){
+    public boolean onFeedMixture(ItemStack itemStack, Player player) {
+        if (itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.getRelaxedFor() > 0 && !this.isTame()) {
             this.heal(5);
             this.setRelaxedForTime(0);
             this.tame(player);

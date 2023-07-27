@@ -42,6 +42,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(1.2F, 1.3F, false);
 
     public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_knight_barter");
+
     public DeepOneKnightEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
     }
@@ -49,7 +50,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new DeepOneAttackGoal(this));
         this.goalSelector.addGoal(1, new DeepOneBarterGoal(this));
-        this.goalSelector.addGoal(2, new DeepOneReactToPlayerGoal(this){
+        this.goalSelector.addGoal(2, new DeepOneReactToPlayerGoal(this) {
             @Override
             public boolean canUse() {
                 return super.canUse() && lastThrownTrident == null;
@@ -83,10 +84,10 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     }
 
     @Override
-    public void tick(){
+    public void tick() {
         super.tick();
         LivingEntity target = getTarget();
-        if((target == null || !target.isAlive()) && !level().isClientSide && lastThrownTrident != null){
+        if ((target == null || !target.isAlive()) && !level().isClientSide && lastThrownTrident != null) {
             pickUpTrident();
         }
     }
@@ -99,14 +100,14 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
     @Override
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
-        if(!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
+        if (!this.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
             swapItemsForAnimation(new ItemStack(ACItemRegistry.INK_BOMB.get()));
         }
         if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_THROW);
         } else if (this.getAnimation() == ANIMATION_THROW) {
             if (this.getAnimationTick() > 10) {
-                if(this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.INK_BOMB.get())){
+                if (this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.INK_BOMB.get())) {
                     this.restoreSwappedItem();
                 }
                 return super.startDisappearBehavior(player);
@@ -115,18 +116,18 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         return false;
     }
 
-    protected boolean pickUpTrident(){
-        if(lastThrownTrident != null && !level().isClientSide){
-            if(((ServerLevel)level()).getEntity(lastThrownTrident) instanceof ThrownTrident trident){
-                if(this.distanceTo(trident) < 2.0D){
-                    if(this.getAnimation() == NO_ANIMATION){
+    protected boolean pickUpTrident() {
+        if (lastThrownTrident != null && !level().isClientSide) {
+            if (((ServerLevel) level()).getEntity(lastThrownTrident) instanceof ThrownTrident trident) {
+                if (this.distanceTo(trident) < 2.0D) {
+                    if (this.getAnimation() == NO_ANIMATION) {
                         this.setAnimation(ANIMATION_SCRATCH);
                     }
                     this.setItemInHand(InteractionHand.MAIN_HAND, new ItemStack(Items.TRIDENT));
                     trident.remove(RemovalReason.DISCARDED);
                     this.getNavigation().stop();
                     lastThrownTrident = null;
-                }else{
+                } else {
                     this.getNavigation().moveTo(trident, 1.5F);
                 }
                 return true;
@@ -140,29 +141,29 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         double distance = this.distanceTo(target);
         float f = this.getBbWidth() + target.getBbWidth();
         boolean meleeOnly = this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.ORTHOLANCE.get());
-        if((distance > 15 || !melee) && !meleeOnly){
+        if ((distance > 15 || !melee) && !meleeOnly) {
             melee = false;
-            if(!pickUpTrident() && this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.TRIDENT)){
-                if(this.hasLineOfSight(target) && distance < 35){
+            if (!pickUpTrident() && this.getItemInHand(InteractionHand.MAIN_HAND).is(Items.TRIDENT)) {
+                if (this.hasLineOfSight(target) && distance < 35) {
                     this.getNavigation().stop();
-                    if(this.getAnimation() == NO_ANIMATION){
+                    if (this.getAnimation() == NO_ANIMATION) {
                         this.setAnimation(ANIMATION_THROW);
-                    }else if(this.getAnimation() == ANIMATION_THROW && this.getAnimationTick() > 8){
+                    } else if (this.getAnimation() == ANIMATION_THROW && this.getAnimationTick() > 8) {
                         melee = true;
                         throwTrident(target);
                         this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                     }
-                }else{
+                } else {
                     this.getNavigation().moveTo(target, 1.2);
                 }
             }
         }
-        if(melee || meleeOnly){
-            if(distance < f + 1.0F){
+        if (melee || meleeOnly) {
+            if (distance < f + 1.0F) {
                 if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     setAnimation(this.getRandom().nextBoolean() ? ANIMATION_SCRATCH : ANIMATION_BITE);
                 }
-            }else{
+            } else {
                 this.getNavigation().moveTo(target, 1.2);
             }
         }
@@ -189,7 +190,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         double d1 = target.getY(0.3333333333333333D) - throwntrident.getY();
         double d2 = target.getZ() - this.getZ();
         double d3 = Math.sqrt(d0 * d0 + d2 * d2);
-        throwntrident.shoot(d0, d1 + d3 * (double)0.2F, d2, 1.6F, (float)(14 - this.level().getDifficulty().getId() * 4));
+        throwntrident.shoot(d0, d1 + d3 * (double) 0.2F, d2, 1.6F, (float) (14 - this.level().getDifficulty().getId() * 4));
         this.playSound(SoundEvents.DROWNED_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level().addFreshEntity(throwntrident);
         lastThrownTrident = throwntrident.getUUID();

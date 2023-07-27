@@ -75,7 +75,7 @@ public class AbyssalAltarBlock extends BaseEntityBlock implements SimpleWaterlog
         if (!state.is(state1.getBlock())) {
             BlockEntity blockentity = level.getBlockEntity(pos);
             if (blockentity instanceof Container) {
-                Containers.dropContents(level, pos, (Container)blockentity);
+                Containers.dropContents(level, pos, (Container) blockentity);
                 level.updateNeighbourForOutputSignal(pos, this);
             }
 
@@ -107,15 +107,15 @@ public class AbyssalAltarBlock extends BaseEntityBlock implements SimpleWaterlog
         if (worldIn.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity && !player.isShiftKeyDown()) {
             ItemStack copy = heldItem.copy();
             copy.setCount(1);
-            if(altarBlockEntity.getItem(0).isEmpty()){
+            if (altarBlockEntity.getItem(0).isEmpty()) {
                 altarBlockEntity.setItem(0, copy);
                 altarBlockEntity.onEntityInteract(player, false);
-                if(!player.isCreative()){
+                if (!player.isCreative()) {
                     heldItem.shrink(1);
                 }
                 return InteractionResult.SUCCESS;
-            }else{
-                if(altarBlockEntity.queueItemDrop(altarBlockEntity.getItem(0).copy())){
+            } else {
+                if (altarBlockEntity.queueItemDrop(altarBlockEntity.getItem(0).copy())) {
                     altarBlockEntity.onEntityInteract(player, true);
                     altarBlockEntity.setItem(0, ItemStack.EMPTY);
                 }

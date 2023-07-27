@@ -42,6 +42,7 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -88,7 +89,7 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void livingFindTarget(LivingChangeTargetEvent event) {
-        if(event.getEntity() instanceof Mob mob && event.getNewTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0){
+        if (event.getEntity() instanceof Mob mob && event.getNewTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0) {
             mob.setTarget(null);
             event.setCanceled(true);
         }
@@ -104,19 +105,19 @@ public class CommonProxy {
 
     @SubscribeEvent
     public void livingAttack(LivingAttackEvent event) {
-        if(event.getSource() != null && event.getSource().getDirectEntity() instanceof LivingEntity directSource && directSource.hasEffect(ACEffectRegistry.STUNNED.get())){
+        if (event.getSource() != null && event.getSource().getDirectEntity() instanceof LivingEntity directSource && directSource.hasEffect(ACEffectRegistry.STUNNED.get())) {
             event.setCanceled(true);
         }
     }
 
     @SubscribeEvent
     public void playerAttack(AttackEntityEvent event) {
-        if(event.getTarget() instanceof DinosaurEntity && event.getEntity().isPassengerOfSameVehicle(event.getTarget())){
+        if (event.getTarget() instanceof DinosaurEntity && event.getEntity().isPassengerOfSameVehicle(event.getTarget())) {
             event.setCanceled(true);
         }
     }
 
-        @SubscribeEvent
+    @SubscribeEvent
     public void livingTick(LivingEvent.LivingTickEvent event) {
         if (event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()) {
             event.getEntity().removeEffect(ACEffectRegistry.BUBBLED.get());
@@ -124,7 +125,7 @@ public class CommonProxy {
         if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get()) && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
             event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810, 0, false, false, true));
         }
-        if(!event.getEntity().level().isClientSide && event.getEntity() instanceof Mob mob && mob.getTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0){
+        if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Mob mob && mob.getTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0) {
             mob.setTarget(null);
         }
     }
@@ -243,7 +244,13 @@ public class CommonProxy {
         return true;
     }
 
-    public void setRenderViewEntity(Player player, Entity entity) {}
+    public void setRenderViewEntity(Player player, Entity entity) {
+    }
 
-    public void resetRenderViewEntity() {}
+    public void resetRenderViewEntity() {
+    }
+
+    public void playWorldSound(@Nullable Object soundEmitter, byte type) {
+
+    }
 }

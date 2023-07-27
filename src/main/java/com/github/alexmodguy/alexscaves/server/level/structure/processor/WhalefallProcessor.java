@@ -39,9 +39,9 @@ public class WhalefallProcessor extends StructureProcessor {
     public StructureTemplate.StructureBlockInfo processBlock(LevelReader levelReader, BlockPos blockPosUnused, BlockPos pos, StructureTemplate.StructureBlockInfo relativeInfo, StructureTemplate.StructureBlockInfo info, StructurePlaceSettings settings) {
         RandomSource randomsource = settings.getRandom(info.pos());
         BlockPos fallTo = info.pos();
-        if(gravity){
+        if (gravity) {
             BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(info.pos().getX(), info.pos().getY(), info.pos().getZ());
-            while(gravity && sinkThrough(levelReader.getBlockState(mutableBlockPos)) && mutableBlockPos.getY() > levelReader.getMinBuildHeight()){
+            while (gravity && sinkThrough(levelReader.getBlockState(mutableBlockPos)) && mutableBlockPos.getY() > levelReader.getMinBuildHeight()) {
                 mutableBlockPos.move(0, -1, 0);
             }
             int i = mutableBlockPos.getY();
@@ -49,7 +49,7 @@ public class WhalefallProcessor extends StructureProcessor {
             fallTo = new BlockPos(info.pos().getX(), i + j, info.pos().getZ());
         }
         BlockState in = info.state();
-        if(in.is(ACBlockRegistry.BALEEN_BONE.get()) && randomsource.nextFloat() < 0.2){
+        if (in.is(ACBlockRegistry.BALEEN_BONE.get()) && randomsource.nextFloat() < 0.2) {
             Direction.Axis axis = in.getValue(BaleenBoneBlock.X) ? Direction.Axis.X : Direction.Axis.Z;
             in = ACBlockRegistry.THIN_BONE.get().defaultBlockState().setValue(ThinBoneBlock.AXIS, axis).setValue(ThinBoneBlock.OFFSET, 0);
         }

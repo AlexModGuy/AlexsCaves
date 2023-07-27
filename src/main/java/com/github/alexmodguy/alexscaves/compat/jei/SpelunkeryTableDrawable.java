@@ -10,6 +10,7 @@ public class SpelunkeryTableDrawable implements IDrawable {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/spelunkery_table_jei.png");
     private static final ResourceLocation TEXTURE_WIDGETS = new ResourceLocation(AlexsCaves.MODID, "textures/gui/spelunkery_table_widgets.png");
+
     @Override
     public int getWidth() {
         return 136;

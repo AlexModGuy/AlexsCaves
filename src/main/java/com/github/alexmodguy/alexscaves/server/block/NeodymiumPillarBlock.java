@@ -41,16 +41,16 @@ public class NeodymiumPillarBlock extends Block {
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos1) {
         BlockState pillar = super.updateShape(state, direction, state1, levelAccessor, blockPos, blockPos1);
-        if(levelAccessor.getBlockState(blockPos.relative(state.getValue(FACING))).getBlock() == getBlock()){
+        if (levelAccessor.getBlockState(blockPos.relative(state.getValue(FACING))).getBlock() == getBlock()) {
             pillar = pillar.setValue(TOP, false);
-        }else{
+        } else {
             pillar = pillar.setValue(TOP, true);
         }
         return pillar;
     }
 
-    public Block getBlock(){
-        return azure ? ACBlockRegistry.AZURE_NEODYMIUM_PILLAR.get() :  ACBlockRegistry.SCARLET_NEODYMIUM_PILLAR.get();
+    public Block getBlock() {
+        return azure ? ACBlockRegistry.AZURE_NEODYMIUM_PILLAR.get() : ACBlockRegistry.SCARLET_NEODYMIUM_PILLAR.get();
     }
 
     @Nullable
@@ -75,7 +75,7 @@ public class NeodymiumPillarBlock extends Block {
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
         Vec3 center = Vec3.atCenterOf(pos);
-        if(randomSource.nextInt(5) == 0){
+        if (randomSource.nextInt(5) == 0) {
             level.addParticle(azure ? ACParticleRegistry.AZURE_MAGNETIC_ORBIT.get() : ACParticleRegistry.SCARLET_MAGNETIC_ORBIT.get(), center.x, center.y, center.z, center.x, center.y, center.z);
         }
     }

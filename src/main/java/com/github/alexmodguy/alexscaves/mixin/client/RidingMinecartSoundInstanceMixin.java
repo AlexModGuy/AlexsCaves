@@ -17,7 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(RidingMinecartSoundInstance.class)
 public abstract class RidingMinecartSoundInstanceMixin extends AbstractTickableSoundInstance {
 
-    @Shadow @Final private AbstractMinecart minecart;
+    @Shadow
+    @Final
+    private AbstractMinecart minecart;
 
     protected RidingMinecartSoundInstanceMixin(SoundEvent soundEvent, SoundSource soundSource, RandomSource randomSource) {
         super(soundEvent, soundSource, randomSource);
@@ -29,8 +31,8 @@ public abstract class RidingMinecartSoundInstanceMixin extends AbstractTickableS
             at = @At(value = "HEAD"),
             cancellable = true
     )
-    public void ac_tick(CallbackInfo ci){
-        if(((MinecartAccessor)minecart).isOnMagLevRail()){
+    public void ac_tick(CallbackInfo ci) {
+        if (((MinecartAccessor) minecart).isOnMagLevRail()) {
             volume = 0.0F;
             ci.cancel();
         }

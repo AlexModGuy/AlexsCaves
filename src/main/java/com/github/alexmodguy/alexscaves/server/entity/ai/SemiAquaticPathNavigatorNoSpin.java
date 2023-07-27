@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
-public class SemiAquaticPathNavigatorNoSpin extends SemiAquaticPathNavigator{
+public class SemiAquaticPathNavigatorNoSpin extends SemiAquaticPathNavigator {
 
     private float distancemodifier = 0.75F;
 
@@ -22,10 +22,10 @@ public class SemiAquaticPathNavigatorNoSpin extends SemiAquaticPathNavigator{
         Vec3 vector3d = this.getTempMobPos();
         this.maxDistanceToWaypoint = this.mob.getBbWidth() * getDistanceModifier();
         Vec3i vector3i = this.path.getNextNodePos();
-        double d0 = Math.abs(this.mob.getX() - ((double)vector3i.getX() + 0.5D));
-        double d1 = Math.abs(this.mob.getY() - (double)vector3i.getY());
-        double d2 = Math.abs(this.mob.getZ() - ((double)vector3i.getZ() + 0.5D));
-        boolean flag = d0 < (double)this.maxDistanceToWaypoint && d2 < (double)this.maxDistanceToWaypoint && d1 <= 1;
+        double d0 = Math.abs(this.mob.getX() - ((double) vector3i.getX() + 0.5D));
+        double d1 = Math.abs(this.mob.getY() - (double) vector3i.getY());
+        double d2 = Math.abs(this.mob.getZ() - ((double) vector3i.getZ() + 0.5D));
+        boolean flag = d0 < (double) this.maxDistanceToWaypoint && d2 < (double) this.maxDistanceToWaypoint && d1 <= 1;
         if (flag || this.canCutCorner(this.path.getNextNode().type) && this.shouldTargetNextNodeInDirection(vector3d)) {
             this.path.advance();
         }

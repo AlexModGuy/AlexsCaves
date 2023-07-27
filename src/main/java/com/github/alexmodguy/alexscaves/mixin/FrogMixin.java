@@ -27,7 +27,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Frog.class)
 public abstract class FrogMixin extends Animal {
 
-    @Shadow public abstract void setVariant(FrogVariant variant);
+    @Shadow
+    public abstract void setVariant(FrogVariant variant);
 
     protected FrogMixin(EntityType<? extends Animal> animal, Level level) {
         super(animal, level);
@@ -40,7 +41,7 @@ public abstract class FrogMixin extends Animal {
             at = @At(value = "TAIL")
     )
     private static void ac_checkFrogSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource, CallbackInfoReturnable<Boolean> cir) {
-        if(levelAccessor.getBiome(pos).is(ACBiomeRegistry.PRIMORDIAL_CAVES)){
+        if (levelAccessor.getBiome(pos).is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
             cir.setReturnValue(levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty());
         }
     }
@@ -52,7 +53,7 @@ public abstract class FrogMixin extends Animal {
     )
     private void ac_finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag, CallbackInfoReturnable<SpawnGroupData> cir) {
         Holder<Biome> holder = level.getBiome(this.blockPosition());
-        if(holder.is(ACBiomeRegistry.PRIMORDIAL_CAVES)){
+        if (holder.is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
             setVariant(ACFrogRegistry.PRIMORDIAL.get());
         }
     }

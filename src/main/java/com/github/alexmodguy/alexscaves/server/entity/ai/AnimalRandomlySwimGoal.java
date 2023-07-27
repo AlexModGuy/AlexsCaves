@@ -42,7 +42,7 @@ public class AnimalRandomlySwimGoal extends Goal {
         return goal != null && mob.distanceToSqr(Vec3.atCenterOf(goal)) > 30 && !mob.getNavigation().isDone();
     }
 
-    public void start(){
+    public void start() {
         goal = findSwimToPos();
         mob.getNavigation().moveTo(goal.getX(), goal.getY(), goal.getZ(), speed);
     }

@@ -27,6 +27,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LOGS = registerBlockTag("relicheirus_knockable_logs");
     public static final TagKey<Block> COOKS_MEAT_BLOCKS = registerBlockTag("cooks_meat_blocks");
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
+    public static final TagKey<Block> REMOTE_DETONATOR_ACTIVATES = registerBlockTag("remote_detonator_activates");
     public static final TagKey<Block> TRENCH_GENERATION_IGNORES = registerBlockTag("trench_generation_ignores");
     public static final TagKey<Block> TUBE_WORM_AVOIDS = registerBlockTag("tube_worm_avoids");
     public static final TagKey<Block> GROWS_MUSSELS = registerBlockTag("grows_mussels");

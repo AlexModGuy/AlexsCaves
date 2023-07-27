@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:telecore"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.telecore.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.telecore.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/neodymium_ingot",
+    "criteria": {
+        "limestone": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:telecore"]
+                    }
+                ]
+            }
+        }
+    }
+}

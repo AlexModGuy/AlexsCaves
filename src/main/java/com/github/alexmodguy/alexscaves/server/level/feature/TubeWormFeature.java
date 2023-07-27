@@ -26,30 +26,30 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos ventBottom = new BlockPos.MutableBlockPos();
         ventBottom.set(context.origin());
-        while(!level.getBlockState(ventBottom).getFluidState().isEmpty() && ventBottom.getY() > level.getMinBuildHeight()){
+        while (!level.getBlockState(ventBottom).getFluidState().isEmpty() && ventBottom.getY() > level.getMinBuildHeight()) {
             ventBottom.move(0, -1, 0);
         }
         if (ventBottom.getY() < level.getSeaLevel() - 30 && level.getBlockState(ventBottom.below()).equals(Blocks.TUFF.defaultBlockState())) {
-            for(int i = 0; i < 4 + randomsource.nextInt(4); i++){
+            for (int i = 0; i < 4 + randomsource.nextInt(4); i++) {
                 BlockPos wormAt = ventBottom.immutable().offset(randomsource.nextInt(10) - 5, randomsource.nextInt(4), randomsource.nextInt(10) - 5);
                 Direction wormAttachDirection = Direction.DOWN;
                 Direction randomDirection = Direction.from2DDataValue(2 + randomsource.nextInt(3));
                 BlockPos wormAttachedToPos;
                 BlockPos randomPos = wormAt.relative(randomDirection);
                 BlockState randomState = level.getBlockState(randomPos);
-                if(randomState.isFaceSturdy(level, randomPos, randomDirection.getOpposite())){
+                if (randomState.isFaceSturdy(level, randomPos, randomDirection.getOpposite())) {
                     wormAttachDirection = randomDirection;
                     wormAttachedToPos = randomPos;
-                }else{
-                    while(level.getBlockState(wormAt).isFaceSturdy(level, wormAt.above(), Direction.DOWN) && wormAt.getY() < level.getMaxBuildHeight()){
+                } else {
+                    while (level.getBlockState(wormAt).isFaceSturdy(level, wormAt.above(), Direction.DOWN) && wormAt.getY() < level.getMaxBuildHeight()) {
                         wormAt = wormAt.above();
                     }
-                    while(!level.getBlockState(wormAt).getFluidState().isEmpty() && wormAt.getY() > level.getMinBuildHeight()){
+                    while (!level.getBlockState(wormAt).getFluidState().isEmpty() && wormAt.getY() > level.getMinBuildHeight()) {
                         wormAt = wormAt.below();
                     }
                     wormAttachedToPos = wormAt.below();
                 }
-                if(level.getBlockState(wormAt).is(ACTagRegistry.TUBE_WORM_AVOIDS)){
+                if (level.getBlockState(wormAt).is(ACTagRegistry.TUBE_WORM_AVOIDS)) {
                     continue;
                 }
                 int maxSegments = 4 + randomsource.nextInt(12);
@@ -61,7 +61,7 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
     }
 
     private void growWorm(WorldGenLevel level, BlockPos wormAttachedToPos, Direction wormAttachDirection, RandomSource randomsource, int maxSegments) {
-        if(wormAttachedToPos.getY() > level.getSeaLevel() - 30){
+        if (wormAttachedToPos.getY() > level.getSeaLevel() - 30) {
             return;
         }
         int placedWorms = 0;
@@ -71,38 +71,38 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
         worm.set(wormAttachedToPos.relative(wormAttachDirection.getOpposite()));
         BlockState defaultWormState = ACBlockRegistry.TUBE_WORM.get().defaultBlockState().setValue(TubeWormBlock.WATERLOGGED, true);
         boolean canBranch = false;
-        while (placedWorms < maxSegments){
+        while (placedWorms < maxSegments) {
             BlockState wormState = defaultWormState;
             prevWorm.set(worm);
-            if(worm.getY() > level.getSeaLevel() - 30){
+            if (worm.getY() > level.getSeaLevel() - 30) {
                 return;
             }
-            if(canBranch){
-                if(randomsource.nextBoolean()){
+            if (canBranch) {
+                if (randomsource.nextBoolean()) {
                     Direction randomDirection = Direction.from2DDataValue(2 + randomsource.nextInt(3));
                     worm.move(randomDirection.getStepX(), randomDirection.getStepY(), randomDirection.getStepZ());
-                    if(!level.getFluidState(worm).isEmpty()){
+                    if (!level.getFluidState(worm).isEmpty()) {
                         level.setBlock(prevWorm, wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.TURN).setValue(TubeWormBlock.FACING, randomDirection), 4);
                         wormState = wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, randomDirection.getOpposite());
-                    }else{
+                    } else {
                         worm.set(prevWorm);
                         worm.move(0, 1, 0);
                     }
                 }
                 canBranch = false;
-            }else{
+            } else {
                 worm.move(0, 1, 0);
                 canBranch = placedWorms > 1;
             }
-            if(!level.isWaterAt(worm) && level.getFluidState(worm).isEmpty()){
+            if (!level.isWaterAt(worm) && level.getFluidState(worm).isEmpty()) {
                 break;
-            }else{
+            } else {
                 level.setBlock(worm, wormState, 4);
             }
 
             placedWorms++;
         }
-        if(wormAttachDirection.getAxis().isHorizontal()){
+        if (wormAttachDirection.getAxis().isHorizontal()) {
             level.setBlock(wormAttachedToPos.relative(wormAttachDirection.getOpposite()), defaultWormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, wormAttachDirection), 4);
         }
     }

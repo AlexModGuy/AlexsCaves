@@ -207,7 +207,7 @@ public class MineGuardianModel extends AdvancedEntityModel<MineGuardianEntity> {
         spike10.rotationPointY += ACMath.walkValue(ageInTicks, 1.0F, 0.1F + explodeProgress, 10F, 1F, false) + 2F;
         spike11.rotationPointY += ACMath.walkValue(ageInTicks, 1.0F, 0.1F + explodeProgress, 11F, 1F, false) + 2F;
         Entity look = Minecraft.getInstance().getCameraEntity();
-        if(look != null){
+        if (look != null) {
             Vec3 vector3d = look.getEyePosition(0.0F);
             Vec3 vector3d1 = entity.getEyePosition(0.0F);
             Vec3 vector3d2 = entity.getViewVector(0.0F);
@@ -221,7 +221,7 @@ public class MineGuardianModel extends AdvancedEntityModel<MineGuardianEntity> {
     }
 
 
-    public void translateToEye(PoseStack stack){
+    public void translateToEye(PoseStack stack) {
         this.head.translateAndRotate(stack);
         this.eye.translateAndRotate(stack);
     }

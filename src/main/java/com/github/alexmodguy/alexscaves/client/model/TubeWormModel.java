@@ -31,15 +31,15 @@ public class TubeWormModel extends AdvancedEntityModel {
     }
 
     @Override
-    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+    public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
     }
 
-    public void animateParticle(float age, float tuckAmount, float animationOffset, float yRot, float partialTicks){
+    public void animateParticle(float age, float tuckAmount, float animationOffset, float yRot, float partialTicks) {
         this.resetToDefaultPose();
         float ageInTicks = age + partialTicks;
         float invTuckAmount = 1F - tuckAmount;
-        float bob = (float)(1.0F + Math.sin(ageInTicks * 0.3F + animationOffset)) * 2;
+        float bob = (float) (1.0F + Math.sin(ageInTicks * 0.3F + animationOffset)) * 2;
         worm.rotationPointY -= (invTuckAmount * 10) - invTuckAmount * bob + 5;
         worm.rotateAngleY += Math.toRadians(yRot);
         this.walk(worm, 0.35F, 0.15F, false, animationOffset - 1F, 0.0F, ageInTicks, invTuckAmount);

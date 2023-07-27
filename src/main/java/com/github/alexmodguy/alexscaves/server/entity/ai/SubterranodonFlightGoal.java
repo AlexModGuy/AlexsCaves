@@ -33,7 +33,7 @@ public class SubterranodonFlightGoal extends Goal {
         } else {
             boolean flag = false;
             if (entity.isPackFollower()) {
-                if (((SubterranodonEntity)entity.getPackLeader()).isFlying()) {
+                if (((SubterranodonEntity) entity.getPackLeader()).isFlying()) {
                     this.isFlying = true;
                     flag = true;
                 }
@@ -73,7 +73,7 @@ public class SubterranodonFlightGoal extends Goal {
             }
             entity.getMoveControl().setWantedPosition(this.x, this.y, this.z, 1F);
         } else {
-            if(entity.isFlying() || ((SubterranodonEntity)entity.getPackLeader()).landingFlag){
+            if (entity.isFlying() || ((SubterranodonEntity) entity.getPackLeader()).landingFlag) {
                 entity.landingFlag = true;
             }
             entity.getNavigation().moveTo(this.x, this.y, this.z, 1F);
@@ -93,10 +93,10 @@ public class SubterranodonFlightGoal extends Goal {
         }
         Vec3 vec3 = findOrFollowFlightPos();
         if (isFlying) {
-            if ((entity.timeFlying < 2000 ||  isLeaderStillGoing() || isOverWaterOrVoid()) && !entity.isOrderedToSit()) {
+            if ((entity.timeFlying < 2000 || isLeaderStillGoing() || isOverWaterOrVoid()) && !entity.isOrderedToSit()) {
                 return vec3;
             } else {
-                if(entity.hasRestriction() && !entity.horizontalCollision){
+                if (entity.hasRestriction() && !entity.horizontalCollision) {
                     return Vec3.atCenterOf(entity.getRestrictCenter());
                 }
                 return groundPosition(vec3);
@@ -109,14 +109,14 @@ public class SubterranodonFlightGoal extends Goal {
 
     private Vec3 findFlightPos() {
         Vec3 targetVec;
-        if(entity.hasRestriction() && entity.getRestrictCenter() != null){
+        if (entity.hasRestriction() && entity.getRestrictCenter() != null) {
             float maxRot = 360;
             Vec3 center = Vec3.atCenterOf(entity.getRestrictCenter());
             float xRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * (maxRot - (maxRot / 2)) * 0.5F);
             float yRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * maxRot - (maxRot / 2));
             Vec3 distVec = new Vec3(0, 0, 15 + entity.getRandom().nextInt(15)).xRot(xRotOffset).yRot(yRotOffset);
             targetVec = center.add(distVec);
-        }else{
+        } else {
             float maxRot = entity.horizontalCollision ? 360 : 90;
             float xRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * (maxRot - (maxRot / 2)) * 0.5F);
             float yRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * maxRot - (maxRot / 2));
@@ -124,10 +124,10 @@ public class SubterranodonFlightGoal extends Goal {
             targetVec = entity.position().add(lookVec);
         }
         Vec3 heightAdjusted = targetVec;
-        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
+        if (entity.level().canSeeSky(BlockPos.containing(heightAdjusted))) {
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 5 + entity.getRandom().nextInt(10), heightAdjusted.z);
-        }else{
+        } else {
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
             while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {
@@ -147,7 +147,7 @@ public class SubterranodonFlightGoal extends Goal {
     }
 
     private Vec3 findOrFollowFlightPos() {
-        SubterranodonEntity leader = ((SubterranodonEntity)entity.getPackLeader());
+        SubterranodonEntity leader = ((SubterranodonEntity) entity.getPackLeader());
         if (leader == entity || leader.lastFlightTargetPos == null) {
             Vec3 randOffsetMove = new Vec3(entity.getRandom().nextFloat() - 0.5F, entity.getRandom().nextFloat() - 0.5F, entity.getRandom().nextFloat() - 0.5F).scale(2);
             return findFlightPos().add(randOffsetMove);
@@ -163,7 +163,7 @@ public class SubterranodonFlightGoal extends Goal {
 
 
     private boolean isLeaderStillGoing() {
-        return entity.isPackFollower() && ((SubterranodonEntity)entity.getPackLeader()).isFlying();
+        return entity.isPackFollower() && ((SubterranodonEntity) entity.getPackLeader()).isFlying();
     }
 
     private int getPackPosition(PackAnimal subterranodon, int index) {

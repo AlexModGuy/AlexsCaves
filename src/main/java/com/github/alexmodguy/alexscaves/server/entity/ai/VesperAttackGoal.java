@@ -40,14 +40,14 @@ public class VesperAttackGoal extends Goal {
     }
 
     public void tick() {
-        if(entity.groundedFor <= 0){
-            if(entity.isHanging()){
+        if (entity.groundedFor <= 0) {
+            if (entity.isHanging()) {
                 entity.setHanging(false);
                 entity.setFlying(true);
-            }else if(!entity.isFlying()){
+            } else if (!entity.isFlying()) {
                 entity.setFlying(true);
             }
-        }else{
+        } else {
             entity.setFlying(false);
         }
         LivingEntity target = entity.getTarget();
@@ -72,9 +72,9 @@ public class VesperAttackGoal extends Goal {
                     entity.setAnimation(VesperEntity.ANIMATION_BITE);
                 } else if (entity.getAnimationTick() == 8 && entity.hasLineOfSight(target)) {
                     boolean flag = target.isBlocking();
-                    if(target.hurt(target.damageSources().mobAttack(entity), (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue())){
-                        if(!target.isAlive() && target instanceof GloomothEntity gloomothEntity){
-                            if(gloomothEntity.lightPos != null && gloomothEntity.distanceToSqr(Vec3.atCenterOf(gloomothEntity.lightPos)) < 32.0F){
+                    if (target.hurt(target.damageSources().mobAttack(entity), (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue())) {
+                        if (!target.isAlive() && target instanceof GloomothEntity gloomothEntity) {
+                            if (gloomothEntity.lightPos != null && gloomothEntity.distanceToSqr(Vec3.atCenterOf(gloomothEntity.lightPos)) < 32.0F) {
                                 entity.groundedFor = 100 + entity.getRandom().nextInt(40);
                                 entity.setFlying(false);
                             }
@@ -82,7 +82,7 @@ public class VesperAttackGoal extends Goal {
                     }
                     maxOrbitTime = 60 + entity.getRandom().nextInt(80);
                     startOrbitFrom = target.getEyePosition();
-                    if(flag){
+                    if (flag) {
                         if (target instanceof final Player player) {
                             damageShieldFor(player, (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue());
                         }

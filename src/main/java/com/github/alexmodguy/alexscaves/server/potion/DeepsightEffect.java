@@ -11,21 +11,22 @@ public class DeepsightEffect extends MobEffect {
 
     private int lastDuration = -1;
     private int firstDuration = -1;
+
     protected DeepsightEffect() {
         super(MobEffectCategory.BENEFICIAL, 0X002972);
     }
 
-    public int getActiveTime(){
+    public int getActiveTime() {
         return firstDuration - lastDuration;
     }
 
     public boolean isDurationEffectTick(int duration, int amplifier) {
         lastDuration = duration;
-        if(duration <= 0){
+        if (duration <= 0) {
             lastDuration = -1;
             firstDuration = -1;
         }
-        if(firstDuration == -1){
+        if (firstDuration == -1) {
             firstDuration = duration;
         }
         return duration > 0;
@@ -44,11 +45,11 @@ public class DeepsightEffect extends MobEffect {
     }
 
 
-    public static float getIntensity(Player player, float partialTicks){
+    public static float getIntensity(Player player, float partialTicks) {
         MobEffectInstance instance = player.getEffect(ACEffectRegistry.DEEPSIGHT.get());
-        if(instance == null){
+        if (instance == null) {
             return 0.0F;
-        }else{
+        } else {
             DeepsightEffect deepsightEffect = (DeepsightEffect) instance.getEffect();
             float j = instance.isInfiniteDuration() ? 0 : deepsightEffect.getActiveTime() + partialTicks;
             int duration = instance.getDuration();

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:polymer_plate"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.polymer_plate.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.polymer_plate.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/toxic_paste",
+    "criteria": {
+        "cooked_dinosaur_chop": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:polymer_plate"]
+                    }
+                ]
+            }
+        }
+    }
+}

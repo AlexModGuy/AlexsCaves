@@ -1,0 +1,47 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:slam"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.eat_radiation_foods.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.eat_radiation_foods.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/sulfur_dust",
+  "criteria": {
+    "spelunkie": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "alexscaves:spelunkie"
+          ]
+        }
+      }
+    },
+    "slam": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "alexscaves:slam"
+          ]
+        }
+      }
+    },
+    "green_soylent": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "alexscaves:green_soylent"
+          ]
+        }
+      }
+    }
+  }
+}

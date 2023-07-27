@@ -30,38 +30,38 @@ public class BiomeGenerationNoiseCondition {
         this.alexscavesRarityOffset = alexscavesRarityOffset;
     }
 
-    public boolean test(EventReplaceBiome event){
-        if(disabledCompletely){
+    public boolean test(EventReplaceBiome event) {
+        if (disabledCompletely) {
             return false;
         }
-        if(!isFarEnoughFromSpawn(event, distanceFromSpawn)){
+        if (!isFarEnoughFromSpawn(event, distanceFromSpawn)) {
             return false;
         }
-        if(alexscavesRarity != null && alexscavesRarity.length >= 2 && !ACBiomeRarity.testBiomeRarity(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ(), alexscavesRarity[0], alexscavesRarity[1])){
+        if (alexscavesRarity != null && alexscavesRarity.length >= 2 && !ACBiomeRarity.testBiomeRarity(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ(), alexscavesRarity[0], alexscavesRarity[1])) {
             return false;
         }
-        if(continentalness != null && continentalness.length >= 2 && !event.testContinentalness(continentalness[0], continentalness[1])){
+        if (continentalness != null && continentalness.length >= 2 && !event.testContinentalness(continentalness[0], continentalness[1])) {
             return false;
         }
-        if(erosion != null && erosion.length >= 2 && !event.testErosion(erosion[0], erosion[1])){
+        if (erosion != null && erosion.length >= 2 && !event.testErosion(erosion[0], erosion[1])) {
             return false;
         }
-        if(humidity != null && humidity.length >= 2 && !event.testHumidity(humidity[0], humidity[1])){
+        if (humidity != null && humidity.length >= 2 && !event.testHumidity(humidity[0], humidity[1])) {
             return false;
         }
-        if(temperature != null && temperature.length >= 2 && !event.testTemperature(temperature[0], temperature[1])){
+        if (temperature != null && temperature.length >= 2 && !event.testTemperature(temperature[0], temperature[1])) {
             return false;
         }
-        if(weirdness != null && weirdness.length >= 2 && !event.testWeirdness(weirdness[0], weirdness[1])){
+        if (weirdness != null && weirdness.length >= 2 && !event.testWeirdness(weirdness[0], weirdness[1])) {
             return false;
         }
-        if(depth != null && depth.length >= 2 && !event.testDepth(depth[0], depth[1])){
+        if (depth != null && depth.length >= 2 && !event.testDepth(depth[0], depth[1])) {
             return false;
         }
         return true;
     }
 
-    private static boolean isFarEnoughFromSpawn(EventReplaceBiome event, double dist){
+    private static boolean isFarEnoughFromSpawn(EventReplaceBiome event, double dist) {
         int x = QuartPos.fromSection(event.getX());
         int z = QuartPos.toBlock(event.getZ());
         return x * x + z * z >= dist * dist;
@@ -101,6 +101,7 @@ public class BiomeGenerationNoiseCondition {
             this.alexBiomeRarity = alexBiomeRarity;
             return this;
         }
+
         public Builder continentalness(float... continentalness) {
             this.continentalness = continentalness;
             return this;

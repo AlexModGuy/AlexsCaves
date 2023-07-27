@@ -20,21 +20,21 @@ public class BubbledEffect extends MobEffect {
     }
 
     public void applyEffectTick(LivingEntity entity, int tick) {
-        if(entity.canBreatheUnderwater() || entity.getMobType() == MobType.WATER){
-            if(!entity.getType().is(ACTagRegistry.RESISTS_BUBBLED)){
+        if (entity.canBreatheUnderwater() || entity.getMobType() == MobType.WATER) {
+            if (!entity.getType().is(ACTagRegistry.RESISTS_BUBBLED)) {
                 entity.setAirSupply(entity.getMaxAirSupply());
-                if(!entity.onGround() ){
+                if (!entity.onGround()) {
                     entity.setDeltaMovement(entity.getDeltaMovement().add(0, -0.08, 0));
                 }
             }
-        }else if(!MobEffectUtil.hasWaterBreathing(entity) && !(entity instanceof Player player && player.getAbilities().invulnerable)){
+        } else if (!MobEffectUtil.hasWaterBreathing(entity) && !(entity instanceof Player player && player.getAbilities().invulnerable)) {
             entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.8F, 1.0F, 0.8F));
             entity.setAirSupply(Math.max(entity.getAirSupply() - 2, -20));
-            if(entity.getAirSupply() <= -20){
+            if (entity.getAirSupply() <= -20) {
                 entity.setAirSupply(0);
                 Vec3 vec3 = entity.getDeltaMovement();
 
-                for(int i = 0; i < 8; ++i) {
+                for (int i = 0; i < 8; ++i) {
                     double d2 = entity.getRandom().nextDouble() - entity.getRandom().nextDouble();
                     double d3 = entity.getRandom().nextDouble() - entity.getRandom().nextDouble();
                     double d4 = entity.getRandom().nextDouble() - entity.getRandom().nextDouble();

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    "PRP",
+    " P "
+  ],
+  "key": {
+    "F": {
+      "item": "alexscaves:fissile_core"
+    },
+    "R": {
+      "tag": "forge:storage_blocks/redstone"
+    },
+    "P": {
+      "item": "alexscaves:polymer_plate"
+    }
+  },
+  "result": {
+    "item": "alexscaves:remote_detonator"
+  }
+}

@@ -1,0 +1,36 @@
+{
+    "display": {
+        "icon": {
+            "item" : "citadel:icon_item",
+            "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/tab_icon.png\"}"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.root.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.root.desc"
+        },
+        "background": "minecraft:textures/block/stone.png",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden" : false
+    },
+    "criteria": {
+        "underground_cabin": {
+            "conditions": {
+                "player": [
+                    {
+                        "condition": "minecraft:entity_properties",
+                        "entity": "this",
+                        "predicate": {
+                            "location": {
+                                "structure": "alexscaves:underground_cabin"
+                            }
+                        }
+                    }
+                ]
+            },
+            "trigger": "minecraft:location"
+        }
+    }
+}

@@ -76,9 +76,9 @@ public class WaveEntity extends Entity {
     @Nullable
     public LivingEntity getOwner() {
         if (this.owner == null && this.ownerUUID != null && this.level() instanceof ServerLevel) {
-            Entity entity = ((ServerLevel)this.level()).getEntity(this.ownerUUID);
+            Entity entity = ((ServerLevel) this.level()).getEntity(this.ownerUUID);
             if (entity instanceof LivingEntity) {
-                this.owner = (LivingEntity)entity;
+                this.owner = (LivingEntity) entity;
             }
         }
 
@@ -107,7 +107,7 @@ public class WaveEntity extends Entity {
         if (tag.hasUUID("Owner")) {
             this.ownerUUID = tag.getUUID("Owner");
         }
-        if(tag.contains("Lifespan")){
+        if (tag.contains("Lifespan")) {
             this.setLifespan(tag.getInt("Lifespan"));
         }
     }
@@ -143,7 +143,7 @@ public class WaveEntity extends Entity {
         this.entityData.set(SLAMMING, bool);
     }
 
-    private void spawnParticleAt(float yOffset, float zOffset, float xOffset, ParticleOptions particleType){
+    private void spawnParticleAt(float yOffset, float zOffset, float xOffset, ParticleOptions particleType) {
         Vec3 vec3 = new Vec3(xOffset, yOffset, zOffset).yRot((float) Math.toRadians(-this.getYRot()));
         this.level().addParticle(particleType, this.getX() + vec3.x, this.getY() + vec3.y, this.getZ() + vec3.z, this.getDeltaMovement().x, 0.1F, this.getDeltaMovement().z);
     }
@@ -152,17 +152,17 @@ public class WaveEntity extends Entity {
 
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
         prevSlamProgress = slamProgress;
-        if(isSlamming() && slamProgress < 10.0F){
+        if (isSlamming() && slamProgress < 10.0F) {
             slamProgress += 1F;
         }
-        if(isSlamming() && slamProgress == 10.0F){
-           this.discard();
+        if (isSlamming() && slamProgress == 10.0F) {
+            this.discard();
         }
         if (!this.isNoGravity() && !this.isInWaterOrBubble()) {
-            this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double)-0.04F, 0.0D));
+            this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double) -0.04F, 0.0D));
         }
 
         float f = Math.min(this.tickCount / 10F, 1F);
@@ -179,37 +179,38 @@ public class WaveEntity extends Entity {
             } else {
                 this.reapplyPosition();
             }
-            for(int i = 0; i <= 4; i++){
-                float xOffset = (float)i / 4F - 0.5F;
+            for (int i = 0; i <= 4; i++) {
+                float xOffset = (float) i / 4F - 0.5F;
                 spawnParticleAt(0.2F + random.nextFloat() * 0.2F, 1.2F, xOffset * 1.2F, ACParticleRegistry.WATER_FOAM.get());
                 spawnParticleAt(0.2F + random.nextFloat() * 0.2F, -0.2F, xOffset * 1.4F, ParticleTypes.SPLASH);
             }
-        }else{
+        } else {
             this.reapplyPosition();
             this.setRot(this.getYRot(), this.getXRot());
         }
-        if(!level().isClientSide){
+        if (!level().isClientSide) {
             attackEntities(getSlamAmount(1.0F) * 2 + 1);
         }
         Vec3 vec3 = this.getDeltaMovement().scale(0.9F).add(directionVec);
         this.move(MoverType.SELF, vec3);
-        this.setDeltaMovement(vec3.multiply((double)0.99F, (double)0.98F, (double)0.99F));
-        if(this.tickCount > getLifespan() || this.tickCount > 10 && this.getDeltaMovement().horizontalDistance() < 0.04){
+        this.setDeltaMovement(vec3.multiply((double) 0.99F, (double) 0.98F, (double) 0.99F));
+        if (this.tickCount > getLifespan() || this.tickCount > 10 && this.getDeltaMovement().horizontalDistance() < 0.04) {
             this.setSlamming(true);
         }
     }
 
-    private void attackEntities(float scale){
+    private void attackEntities(float scale) {
         AABB bashBox = this.getBoundingBox().inflate(0.5f, 0.5f, 0.5f);
         DamageSource source = damageSources().mobProjectile(this, owner);
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity) && (owner == null || !owner.equals(entity) && !owner.isAlliedTo(entity))) {
                 entity.hurt(source, scale + 1.0F);
                 this.setSlamming(true);
-                entity.knockback(0.1D + 0.5D * scale, (double)Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+                entity.knockback(0.1D + 0.5D * scale, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
             }
         }
     }
+
     @Override
     public void lerpTo(double x, double y, double z, float yr, float xr, int steps, boolean b) {
         this.lx = x;

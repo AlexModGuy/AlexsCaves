@@ -20,6 +20,7 @@ import net.minecraftforge.network.PlayMessages;
 
 public class SeekingArrowEntity extends AbstractArrow {
     private static final EntityDataAccessor<Integer> ARC_TOWARDS_ENTITY_ID = SynchedEntityData.defineId(SeekingArrowEntity.class, EntityDataSerializers.INT);
+
     public SeekingArrowEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
@@ -51,23 +52,23 @@ public class SeekingArrowEntity extends AbstractArrow {
     public void tick() {
         super.tick();
         int id = this.getArcTowardsID();
-        if(!inGround){
-            if(id == -1){
-                if(!level().isClientSide){
+        if (!inGround) {
+            if (id == -1) {
+                if (!level().isClientSide) {
                     Entity closest = null;
                     float boxExpandBy = Math.min(10, 3 + (this.tickCount / 4));
-                    for(Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(boxExpandBy), this::canHitEntity)){
-                        if((closest == null || entity.distanceTo(this) < closest.distanceTo(this)) && !ownedBy(entity)){
+                    for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(boxExpandBy), this::canHitEntity)) {
+                        if ((closest == null || entity.distanceTo(this) < closest.distanceTo(this)) && !ownedBy(entity)) {
                             closest = entity;
                         }
                     }
-                    if(closest != null){
+                    if (closest != null) {
                         this.setArcTowardsID(closest.getId());
                     }
                 }
-            }else{
+            } else {
                 Entity arcTowards = level().getEntity(id);
-                if(arcTowards != null){
+                if (arcTowards != null) {
                     Vec3 arcVec = arcTowards.position().add(0, 0.65F * arcTowards.getBbHeight(), 0).subtract(this.position()).normalize();
                     this.setDeltaMovement(this.getDeltaMovement().scale(0.3F).add(arcVec.scale(0.7F)));
                 }
@@ -84,11 +85,11 @@ public class SeekingArrowEntity extends AbstractArrow {
         return new ItemStack(ACItemRegistry.SEEKING_ARROW.get());
     }
 
-    private int getArcTowardsID(){
+    private int getArcTowardsID() {
         return this.entityData.get(ARC_TOWARDS_ENTITY_ID);
     }
 
-    private void setArcTowardsID(int id){
+    private void setArcTowardsID(int id) {
         this.entityData.set(ARC_TOWARDS_ENTITY_ID, id);
     }
 }

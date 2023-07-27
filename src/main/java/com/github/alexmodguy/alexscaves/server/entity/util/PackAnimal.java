@@ -23,7 +23,7 @@ public interface PackAnimal {
     default int getPackSize() {
         PackAnimal leader = getPackLeader();
         int i = 1;
-        while(leader.getAfterPackMember() != null){
+        while (leader.getAfterPackMember() != null) {
             leader = leader.getAfterPackMember();
             i++;
         }
@@ -32,8 +32,8 @@ public interface PackAnimal {
 
     default boolean isInPack(PackAnimal packAnimal) {
         PackAnimal leader = getPackLeader();
-        while(leader.getAfterPackMember() != null){
-            if(packAnimal.equals(leader)){
+        while (leader.getAfterPackMember() != null) {
+            if (packAnimal.equals(leader)) {
                 return true;
             }
             leader = leader.getAfterPackMember();
@@ -42,7 +42,7 @@ public interface PackAnimal {
     }
 
     default boolean isValidLeader(PackAnimal packLeader) {
-        return !packLeader.isPackFollower() && ((LivingEntity)packLeader).isAlive();
+        return !packLeader.isPackFollower() && ((LivingEntity) packLeader).isAlive();
     }
 
     PackAnimal getPriorPackMember();
@@ -59,13 +59,14 @@ public interface PackAnimal {
         resetPackFlags();
     }
 
-   default void leavePack() {
-       if (this.getPriorPackMember() != null) {
-           this.getPriorPackMember().setAfterPackMember(null);
-       }
-       this.setPriorPackMember(null);
-       resetPackFlags();
-   }
+    default void leavePack() {
+        if (this.getPriorPackMember() != null) {
+            this.getPriorPackMember().setAfterPackMember(null);
+        }
+        this.setPriorPackMember(null);
+        resetPackFlags();
+    }
 
-    default void resetPackFlags(){}
+    default void resetPackFlags() {
+    }
 }

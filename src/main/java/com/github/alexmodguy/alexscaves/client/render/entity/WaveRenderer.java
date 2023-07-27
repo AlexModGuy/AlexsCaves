@@ -32,11 +32,11 @@ public class WaveRenderer extends EntityRenderer<WaveEntity> {
 
     public void render(WaveEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
         matrixStackIn.pushPose();
-        matrixStackIn.translate(0.0D, (double)1.5F, 0.0D);
+        matrixStackIn.translate(0.0D, (double) 1.5F, 0.0D);
         matrixStackIn.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entityIn.yRotO, entityIn.getYRot()) + 180.0F));
         float ageInTicks = entityIn.tickCount + partialTicks;
         float f = ageInTicks / 10F;
-        matrixStackIn.translate(0.0D, -0.1F + (1 - f) * -1, -(double)0.5);
+        matrixStackIn.translate(0.0D, -0.1F + (1 - f) * -1, -(double) 0.5);
         matrixStackIn.scale(1F, -(0.2F + f * 0.9F), 1F);
         MODEL.setupAnim(entityIn, 0.0F, 0.0F, ageInTicks, 0.0F, 0.0F);
         VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getWaveTexture(entityIn.tickCount)));
@@ -55,9 +55,9 @@ public class WaveRenderer extends EntityRenderer<WaveEntity> {
         return getWaveTexture(entity.tickCount);
     }
 
-    private ResourceLocation getWaveTexture(int tickCount){
+    private ResourceLocation getWaveTexture(int tickCount) {
         int j = tickCount % 12 / 3;
-        switch (j){
+        switch (j) {
             case 0:
                 return TEXTURE_0;
             case 1:
@@ -69,9 +69,9 @@ public class WaveRenderer extends EntityRenderer<WaveEntity> {
         }
     }
 
-    private ResourceLocation getOverlayTexture(int tickCount){
+    private ResourceLocation getOverlayTexture(int tickCount) {
         int j = tickCount % 12 / 3;
-        switch (j){
+        switch (j) {
             case 0:
                 return OVERLAY_TEXTURE_0;
             case 1:

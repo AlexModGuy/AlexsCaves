@@ -2,6 +2,8 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
+import com.github.alexmodguy.alexscaves.server.item.HazmatArmorItem;
+import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
 import java.util.Map;
@@ -46,20 +49,27 @@ public class AcidBlock extends LiquidBlock {
     public void entityInside(BlockState blockState, Level level, BlockPos pos, Entity entity) {
         if (!entity.getType().is(ACTagRegistry.RESISTS_ACID) && entity.getFluidTypeHeight(ACFluidRegistry.ACID_FLUID_TYPE.get()) > 0.1) {
             boolean armor = false;
-            if (entity instanceof LivingEntity living && !(entity instanceof Player player && player.isCreative())) {
+            float dmgMultiplier = 1.0F;
+            if (entity instanceof LivingEntity living) {
                 for (EquipmentSlot slot : EquipmentSlot.values()) {
                     if (slot.isArmor()) {
                         ItemStack item = living.getItemBySlot(slot);
-                        if (item != null && item.isDamageableItem()) {
+                        if (item != null && item.isDamageableItem() && !(item.getItem() instanceof HazmatArmorItem)) {
                             armor = true;
-                            if (living.getRandom().nextFloat() < 0.1F) {
+                            if (living.getRandom().nextFloat() < 0.1F && !(entity instanceof Player player && player.isCreative())) {
                                 item.hurtAndBreak(1, living, e -> e.broadcastBreakEvent(slot));
                             }
                         }
                     }
                 }
+                dmgMultiplier = 1.0F - (HazmatArmorItem.getWornAmount(living) / 4F);
             }
-            entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), (float) (armor ? 0.01D : 3.0D));
+            if (armor) {
+                ACAdvancementTriggerRegistry.ENTER_ACID_WITH_ARMOR.triggerForEntity(entity);
+            }
+            if (level.random.nextFloat() < dmgMultiplier) {
+                entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 3.0D));
+            }
         }
     }
 
@@ -73,24 +83,29 @@ public class AcidBlock extends LiquidBlock {
         tickCorrosion(worldIn, pos);
     }
 
-    public void tickCorrosion(Level worldIn, BlockPos pos){
+    public void tickCorrosion(Level worldIn, BlockPos pos) {
         initCorrosion();
-        for(Direction direction : ACMath.HORIZONTAL_DIRECTIONS){
+        for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
             BlockPos offset = pos.relative(direction);
             BlockState state1 = worldIn.getBlockState(offset);
-            if(CORRODES_INTERACTIONS.containsKey(state1.getBlock())){
+            if (CORRODES_INTERACTIONS.containsKey(state1.getBlock())) {
                 BlockState transform = CORRODES_INTERACTIONS.get(state1.getBlock()).defaultBlockState();
-                for(Property prop : state1.getProperties()) {
+                for (Property prop : state1.getProperties()) {
                     transform = transform.hasProperty(prop) ? transform.setValue(prop, state1.getValue(prop)) : transform;
                 }
                 worldIn.levelEvent(1501, offset, 0);
                 worldIn.setBlockAndUpdate(offset, transform);
+                Vec3 vec3 = offset.getCenter();
+                Player player = worldIn.getNearestPlayer(vec3.x, vec3.y, vec3.z, 8, false);
+                if (player != null) {
+                    ACAdvancementTriggerRegistry.ACID_CREATE_RUST.triggerForEntity(player);
+                }
             }
         }
     }
 
     private void initCorrosion() {
-        if(CORRODES_INTERACTIONS != null){
+        if (CORRODES_INTERACTIONS != null) {
             return;
         }
         CORRODES_INTERACTIONS = Util.make(Maps.newHashMap(), (map) -> {

@@ -36,37 +36,54 @@ import java.util.List;
 @Mixin(AbstractMinecart.class)
 public abstract class AbstractMinecartMixin extends Entity implements MinecartAccessor {
 
-    @Shadow private boolean flipped;
+    @Shadow
+    private boolean flipped;
 
-    @Shadow public abstract IMinecartCollisionHandler getCollisionHandler();
+    @Shadow
+    public abstract IMinecartCollisionHandler getCollisionHandler();
 
-    @Shadow public abstract int getHurtTime();
+    @Shadow
+    public abstract int getHurtTime();
 
-    @Shadow public abstract void setHurtTime(int p_38155_);
+    @Shadow
+    public abstract void setHurtTime(int p_38155_);
 
-    @Shadow public abstract void setDamage(float p_38110_);
+    @Shadow
+    public abstract void setDamage(float p_38110_);
 
-    @Shadow public abstract float getDamage();
+    @Shadow
+    public abstract float getDamage();
 
-    @Shadow private int lSteps;
-    @Shadow private double lx;
-    @Shadow private double ly;
-    @Shadow private double lz;
-    @Shadow private double lyr;
-    @Shadow private double lxr;
+    @Shadow
+    private int lSteps;
+    @Shadow
+    private double lx;
+    @Shadow
+    private double ly;
+    @Shadow
+    private double lz;
+    @Shadow
+    private double lyr;
+    @Shadow
+    private double lxr;
 
-    @Shadow @Nullable public abstract Vec3 getPos(double p_38180_, double p_38181_, double p_38182_);
+    @Shadow
+    @Nullable
+    public abstract Vec3 getPos(double p_38180_, double p_38181_, double p_38182_);
 
     @Shadow
     private static Pair<Vec3i, Vec3i> exits(RailShape p_38126_) {
         return null;
     }
 
-    @Shadow protected abstract void applyNaturalSlowdown();
+    @Shadow
+    protected abstract void applyNaturalSlowdown();
 
-    @Shadow protected abstract boolean isRedstoneConductor(BlockPos p_38130_);
+    @Shadow
+    protected abstract boolean isRedstoneConductor(BlockPos p_38130_);
 
-    @Shadow public abstract boolean isOnRails();
+    @Shadow
+    public abstract boolean isOnRails();
 
     private BlockPos lastMagLevCheck = null;
     private BlockPos magLevBelow = null;
@@ -104,11 +121,11 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
         }
         if (magLevBelow != null) {
 
-            if(magLevProgress < 1.0F){
+            if (magLevProgress < 1.0F) {
                 magLevProgress += 0.2F;
             }
             BlockState magLevBlockState = level().getBlockState(magLevBelow);
-            if(magLevBlockState.is(ACBlockRegistry.MAGNETIC_LEVITATION_RAIL.get())){
+            if (magLevBlockState.is(ACBlockRegistry.MAGNETIC_LEVITATION_RAIL.get())) {
                 ci.cancel();
 
                 if (this.getHurtTime() > 0) {
@@ -196,15 +213,15 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
                 }
             }
 
-            if(level().isClientSide && random.nextFloat() < 0.4F){
+            if (level().isClientSide && random.nextFloat() < 0.4F) {
                 Vec3 randomLightningFrom = magLevBelow.getCenter().add(random.nextFloat() - 0.5F, -0.4F, random.nextFloat() - 0.5F);
                 Vec3 vec3 = this.position().add(getDeltaMovement()).add(new Vec3(random.nextFloat() - 0.5F, 0.2F, random.nextFloat() - 0.5F));
                 this.level().addParticle(ACParticleRegistry.AZURE_SHIELD_LIGHTNING.get(), randomLightningFrom.x, randomLightningFrom.y, randomLightningFrom.z, vec3.x, vec3.y, vec3.z);
             }
-        }else{
-            if(magLevProgress > 0.0F){
+        } else {
+            if (magLevProgress > 0.0F) {
                 magLevProgress -= 0.2F;
-                if(!this.isOnRails()){
+                if (!this.isOnRails()) {
                     this.setDeltaMovement(this.getDeltaMovement().multiply(1.5F, 1F, 1.5F).add(0, 0.1F, 0));
                 }
             }
@@ -226,7 +243,7 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
         }
 
         Vec3 vec31 = this.getDeltaMovement();
-        RailShape railshape = ((BaseRailBlock)railState.getBlock()).getRailDirection(railState, this.level(), railPos, ((AbstractMinecart) (Entity) this));
+        RailShape railshape = ((BaseRailBlock) railState.getBlock()).getRailDirection(railState, this.level(), railPos, ((AbstractMinecart) (Entity) this));
         switch (railshape) {
             case ASCENDING_EAST:
                 this.setDeltaMovement(vec31.add(-d3, 0.0D, 0.0D));
@@ -249,8 +266,8 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
         Pair<Vec3i, Vec3i> pair = exits(railshape);
         Vec3i vec3i = pair.getFirst();
         Vec3i vec3i1 = pair.getSecond();
-        double d4 = (double)(vec3i1.getX() - vec3i.getX());
-        double d5 = (double)(vec3i1.getZ() - vec3i.getZ());
+        double d4 = (double) (vec3i1.getX() - vec3i.getX());
+        double d5 = (double) (vec3i1.getZ() - vec3i.getZ());
         double d6 = Math.sqrt(d4 * d4 + d5 * d5);
         double d7 = vec31.x * d4 + vec31.z * d5;
         if (d7 < 0.0D) {
@@ -281,17 +298,17 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
             }
         }
 
-        double d23 = (double)railPos.getX() + 0.5D + (double)vec3i.getX() * 0.5D;
-        double d10 = (double)railPos.getZ() + 0.5D + (double)vec3i.getZ() * 0.5D;
-        double d12 = (double)railPos.getX() + 0.5D + (double)vec3i1.getX() * 0.5D;
-        double d13 = (double)railPos.getZ() + 0.5D + (double)vec3i1.getZ() * 0.5D;
+        double d23 = (double) railPos.getX() + 0.5D + (double) vec3i.getX() * 0.5D;
+        double d10 = (double) railPos.getZ() + 0.5D + (double) vec3i.getZ() * 0.5D;
+        double d12 = (double) railPos.getX() + 0.5D + (double) vec3i1.getX() * 0.5D;
+        double d13 = (double) railPos.getZ() + 0.5D + (double) vec3i1.getZ() * 0.5D;
         d4 = d12 - d23;
         d5 = d13 - d10;
         double d14;
         if (d4 == 0.0D) {
-            d14 = d2 - (double)railPos.getZ();
+            d14 = d2 - (double) railPos.getZ();
         } else if (d5 == 0.0D) {
-            d14 = d0 - (double)railPos.getX();
+            d14 = d0 - (double) railPos.getX();
         } else {
             double d15 = d0 - d23;
             double d16 = d2 - d10;
@@ -308,9 +325,9 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
 
         this.moveMinecartOnMagLev(railPos);
         if (vec3i.getY() != 0 && Mth.floor(this.getX()) - railPos.getX() == vec3i.getX() && Mth.floor(this.getZ()) - railPos.getZ() == vec3i.getZ()) {
-            this.setPos(this.getX(), this.getY() + (double)vec3i.getY(), this.getZ());
+            this.setPos(this.getX(), this.getY() + (double) vec3i.getY(), this.getZ());
         } else if (vec3i1.getY() != 0 && Mth.floor(this.getX()) - railPos.getX() == vec3i1.getX() && Mth.floor(this.getZ()) - railPos.getZ() == vec3i1.getZ()) {
-            this.setPos(this.getX(), this.getY() + (double)vec3i1.getY(), this.getZ());
+            this.setPos(this.getX(), this.getY() + (double) vec3i1.getY(), this.getZ());
         }
 
         Vec3 vec33 = this.getPos(this.getX(), this.getY(), this.getZ());
@@ -328,11 +345,11 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
         if (j != railPos.getX() || i != railPos.getZ()) {
             Vec3 vec35 = this.getDeltaMovement();
             double d26 = vec35.horizontalDistance();
-            this.setDeltaMovement(d26 * (double)(j - railPos.getX()), vec35.y, d26 * (double)(i - railPos.getZ()));
+            this.setDeltaMovement(d26 * (double) (j - railPos.getX()), vec35.y, d26 * (double) (i - railPos.getZ()));
         }
 
         if (doRailFunctions)
-            ((BaseRailBlock)railState.getBlock()).onMinecartPass(railState, level(), railPos, ((AbstractMinecart) (Entity)this));
+            ((BaseRailBlock) railState.getBlock()).onMinecartPass(railState, level(), railPos, ((AbstractMinecart) (Entity) this));
 
         if (flag && doRailFunctions) {
             Vec3 vec36 = this.getDeltaMovement();
@@ -376,7 +393,7 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
     )
     public void ac_getPos(double x, double y, double z, CallbackInfoReturnable<Vec3> cir) {
         double magLevAmount = prevMagLevProgress + (magLevProgress - prevMagLevProgress) * AlexsCaves.PROXY.getPartialTicks();
-        if(magLevAmount >= 0.0F){
+        if (magLevAmount >= 0.0F) {
             double yClientSide = yOld + (this.getY() - yOld) * AlexsCaves.PROXY.getPartialTicks();
             Vec3 prev = cir.getReturnValue();
             Vec3 modified = prev == null ? this.getPosition(AlexsCaves.PROXY.getPartialTicks()) : new Vec3(prev.x, prev.y + (yClientSide - prev.y) * magLevAmount, prev.z);
@@ -392,7 +409,7 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
     )
     public void ac_getPosOffs(double x, double y, double z, double offset, CallbackInfoReturnable<Vec3> cir) {
         double magLevAmount = prevMagLevProgress + (magLevProgress - prevMagLevProgress) * AlexsCaves.PROXY.getPartialTicks();
-        if(magLevAmount >= 0.0F){
+        if (magLevAmount >= 0.0F) {
             double yClientSide = yOld + (this.getY() - yOld) * AlexsCaves.PROXY.getPartialTicks();
             Vec3 prev = cir.getReturnValue();
             Vec3 modified = prev == null ? this.getPosition(AlexsCaves.PROXY.getPartialTicks()) : new Vec3(prev.x, prev.y + (yClientSide - prev.y) * magLevAmount, prev.z);
@@ -404,10 +421,10 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
         double d24 = this.isVehicle() ? 0.75D : 1.0D;
 
         double d25 = 0.05F;
-        if(magLevBelow != null){
+        if (magLevBelow != null) {
             BlockState magLevState = level().getBlockState(magLevBelow);
-            if(magLevState.getBlock() instanceof MagneticLevitationRailBlock magRailBlock){
-                d25 = magRailBlock.getRailMaxSpeed(magLevState, this.level(), pos, (AbstractMinecart)(Entity)this);
+            if (magLevState.getBlock() instanceof MagneticLevitationRailBlock magRailBlock) {
+                d25 = magRailBlock.getRailMaxSpeed(magLevState, this.level(), pos, (AbstractMinecart) (Entity) this);
             }
         }
         Vec3 vec3d1 = this.getDeltaMovement();
@@ -415,7 +432,7 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
     }
 
     @Override
-    public boolean isOnMagLevRail(){
+    public boolean isOnMagLevRail() {
         return magLevProgress >= 0.5F;
     }
 }

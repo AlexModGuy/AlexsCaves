@@ -32,7 +32,7 @@ public class RecipeCaveMap extends ShapedRecipe implements SpecialRecipeInGuideB
             }
         }
         ResourceKey<Biome> key = CaveInfoItem.getCaveBiome(scroll);
-        if(key != null){
+        if (key != null) {
             return CaveMapItem.createMap(key);
         }
         return ItemStack.EMPTY;
@@ -66,7 +66,7 @@ public class RecipeCaveMap extends ShapedRecipe implements SpecialRecipeInGuideB
             }
         }
         ResourceKey<Biome> key = CaveInfoItem.getCaveBiome(scroll);
-        if(key != null){
+        if (key != null) {
             return CaveMapItem.createMap(key);
         }
         return ItemStack.EMPTY;

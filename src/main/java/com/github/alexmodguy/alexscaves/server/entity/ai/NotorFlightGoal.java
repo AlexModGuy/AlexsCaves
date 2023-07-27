@@ -73,10 +73,10 @@ public class NotorFlightGoal extends Goal {
         Vec3 lookVec = entity.getLookAngle().scale(6 + entity.getRandom().nextInt(6)).xRot(xRotOffset).yRot(yRotOffset);
         Vec3 targetVec = entity.position().add(lookVec);
         Vec3 heightAdjusted = targetVec;
-        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
+        if (entity.level().canSeeSky(BlockPos.containing(heightAdjusted))) {
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
-        }else{
+        } else {
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
             while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {

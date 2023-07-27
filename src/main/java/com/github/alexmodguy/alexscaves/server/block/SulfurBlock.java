@@ -23,18 +23,18 @@ public class SulfurBlock extends Block {
         if (randomSource.nextInt(10) == 0) {
             Direction direction = Util.getRandom(Direction.values(), randomSource);
             BlockPos offset = blockPos.relative(direction);
-            if(level.getBlockState(offset).isAir() && isDrippingAcidAbove(level, offset)){
+            if (level.getBlockState(offset).isAir() && isDrippingAcidAbove(level, offset)) {
                 BlockState blockstate1 = ACBlockRegistry.SULFUR_BUD_SMALL.get().defaultBlockState().setValue(SulfurBudBlock.FACING, direction).setValue(SulfurBudBlock.LIQUID_LOGGED, SulfurBudBlock.getLiquidType(level.getFluidState(offset)));
                 level.setBlockAndUpdate(offset, blockstate1);
             }
         }
     }
 
-    private boolean isDrippingAcidAbove(Level level, BlockPos pos){
-        if(level.getFluidState(pos).getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()){
+    private boolean isDrippingAcidAbove(Level level, BlockPos pos) {
+        if (level.getFluidState(pos).getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()) {
             return true;
         }
-        while(level.getBlockState(pos).isAir() && pos.getY() < level.getMaxBuildHeight()){
+        while (level.getBlockState(pos).isAir() && pos.getY() < level.getMaxBuildHeight()) {
             pos = pos.above();
         }
         BlockState acidState = level.getBlockState(pos);

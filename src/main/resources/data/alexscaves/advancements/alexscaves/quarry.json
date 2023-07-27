@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:quarry"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.quarry.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.quarry.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_magnetron",
+    "criteria": {
+        "quarry": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:quarry"]
+                    }
+                ]
+            }
+        }
+    }
+}

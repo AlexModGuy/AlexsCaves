@@ -32,7 +32,7 @@ public class GalenaGauntletItem extends Item {
         ItemStack itemstack = player.getItemInHand(interactionHand);
         ItemStack otherHand = interactionHand == InteractionHand.MAIN_HAND ? player.getItemInHand(InteractionHand.OFF_HAND) : player.getItemInHand(InteractionHand.MAIN_HAND);
         if (otherHand.is(ACTagRegistry.MAGNETIC_ITEMS)) {
-            if(!player.isCreative()){
+            if (!player.isCreative()) {
                 itemstack.hurtAndBreak(1, player, (player1) -> {
                     player1.broadcastBreakEvent(player1.getUsedItemHand());
                 });
@@ -67,7 +67,7 @@ public class GalenaGauntletItem extends Item {
             otherHand = InteractionHand.OFF_HAND;
         }
         ItemStack otherStack = living.getItemInHand(otherHand);
-        if(otherStack.is(ACTagRegistry.MAGNETIC_ITEMS) && i <= 0){
+        if (otherStack.is(ACTagRegistry.MAGNETIC_ITEMS) && i <= 0) {
             ItemStack copy = otherStack.copy();
             MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(level);
             magneticWeapon.setItemStack(copy);
@@ -75,7 +75,7 @@ public class GalenaGauntletItem extends Item {
             magneticWeapon.setControllerUUID(living.getUUID());
             level.addFreshEntity(magneticWeapon);
             otherStack.shrink(1);
-        }else if(!otherStack.isEmpty()){
+        } else if (!otherStack.isEmpty()) {
             living.stopUsingItem();
         }
     }

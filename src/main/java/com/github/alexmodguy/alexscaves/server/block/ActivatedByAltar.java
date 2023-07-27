@@ -31,7 +31,7 @@ public interface ActivatedByAltar {
         return distance < MAX_DISTANCE;
     }
 
-    default void updateDistanceShape(LevelAccessor accessor, BlockState state, BlockPos pos){
+    default void updateDistanceShape(LevelAccessor accessor, BlockState state, BlockPos pos) {
         int i = getDistanceAt(state) + 1;
         if (i != 1 || state.getValue(DISTANCE) != i) {
             accessor.scheduleTick(pos, (Block) this, 1);
@@ -42,7 +42,7 @@ public interface ActivatedByAltar {
         int i = MAX_DISTANCE;
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
 
-        for(Direction direction : Direction.values()) {
+        for (Direction direction : Direction.values()) {
             blockpos$mutableblockpos.setWithOffset(blockPos, direction);
             i = Math.min(i, getDistanceAt(levelAccessor.getBlockState(blockpos$mutableblockpos)) + 1);
             if (i == 1) {

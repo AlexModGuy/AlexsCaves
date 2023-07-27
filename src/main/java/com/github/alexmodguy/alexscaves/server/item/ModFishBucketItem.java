@@ -34,15 +34,15 @@ public class ModFishBucketItem extends MobBucketItem {
     @Override
     public void checkExtraContent(@Nullable Player player, Level level, ItemStack stack, BlockPos pos) {
         if (level instanceof ServerLevel) {
-            this.spawnFish((ServerLevel)level, stack, pos);
+            this.spawnFish((ServerLevel) level, stack, pos);
             level.gameEvent(player, GameEvent.ENTITY_PLACE, pos);
         }
     }
 
     private void spawnFish(ServerLevel serverLevel, ItemStack stack, BlockPos pos) {
-        Entity entity = getFishType().spawn(serverLevel, stack, (Player)null, pos, MobSpawnType.BUCKET, true, false);
+        Entity entity = getFishType().spawn(serverLevel, stack, (Player) null, pos, MobSpawnType.BUCKET, true, false);
         if (entity instanceof Bucketable) {
-            Bucketable bucketable = (Bucketable)entity;
+            Bucketable bucketable = (Bucketable) entity;
             bucketable.loadFromBucketTag(stack.getOrCreateTag());
             bucketable.setFromBucket(true);
         }

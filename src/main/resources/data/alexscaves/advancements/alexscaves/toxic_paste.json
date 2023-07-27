@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:toxic_paste"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.toxic_paste.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.toxic_paste.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/feed_gammaroach",
+    "criteria": {
+        "toxic_paste": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:toxic_paste"]
+                    }
+                ]
+            }
+        }
+    }
+}

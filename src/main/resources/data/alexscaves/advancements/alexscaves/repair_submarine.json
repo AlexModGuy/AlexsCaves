@@ -1,0 +1,29 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecraft:copper_ingot"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.repair_submarine.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.repair_submarine.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/ride_submarine",
+    "criteria": {
+        "interact": {
+            "trigger": "minecraft:player_interacted_with_entity",
+            "conditions": {
+                "item": {
+                    "items": [
+                        "minecraft:copper_ingot"
+                    ]
+                },
+                "entity": {
+                    "type": "alexscaves:submarine"
+                }
+            }
+        }
+    }
+}

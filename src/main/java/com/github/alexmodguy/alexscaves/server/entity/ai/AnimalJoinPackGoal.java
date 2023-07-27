@@ -33,7 +33,7 @@ public class AnimalJoinPackGoal extends Goal {
             LivingEntity closestTail = null;
             double d0 = Double.MAX_VALUE;
             for (LivingEntity animal : list) {
-                if (!((PackAnimal)animal).hasPackFollower() && ((PackAnimal)animal).isValidLeader(((PackAnimal)animal).getPackLeader()) && !animal.getUUID().equals(entity.getUUID()) && !((PackAnimal) animal).isInPack(packAnimal) && ((PackAnimal)animal).getPackSize() < packSize) {
+                if (!((PackAnimal) animal).hasPackFollower() && ((PackAnimal) animal).isValidLeader(((PackAnimal) animal).getPackLeader()) && !animal.getUUID().equals(entity.getUUID()) && !((PackAnimal) animal).isInPack(packAnimal) && ((PackAnimal) animal).getPackSize() < packSize) {
                     double d1 = this.entity.distanceToSqr(animal);
                     if (!(d1 > d0)) {
                         d0 = d1;
@@ -45,7 +45,7 @@ public class AnimalJoinPackGoal extends Goal {
                 return false;
             } else if (d0 < 1.0D) {
                 return false;
-            } else if (!packAnimal.isValidLeader(((PackAnimal)closestTail).getPackLeader())) {
+            } else if (!packAnimal.isValidLeader(((PackAnimal) closestTail).getPackLeader())) {
                 return false;
             } else {
                 this.packAnimal.joinPackOf((PackAnimal) closestTail);
@@ -58,7 +58,7 @@ public class AnimalJoinPackGoal extends Goal {
 
     public boolean canContinueToUse() {
         if (this.packAnimal.isPackFollower() && packAnimal.isValidLeader(packAnimal.getPackLeader())) {
-            double d0 = this.entity.distanceToSqr((LivingEntity)this.packAnimal.getPriorPackMember());
+            double d0 = this.entity.distanceToSqr((LivingEntity) this.packAnimal.getPriorPackMember());
             if (d0 > 676.0D) {
                 if (this.distCheckCounter == 0) {
                     return false;

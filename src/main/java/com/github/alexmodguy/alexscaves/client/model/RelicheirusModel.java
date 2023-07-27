@@ -690,7 +690,7 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         if (entity.getAnimation() != IAnimatedEntity.NO_ANIMATION) {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, f, ageInTicks);
         }
-        if(buryEggsAmount > 0.0F){
+        if (buryEggsAmount > 0.0F) {
             limbSwing = ageInTicks;
             limbSwingAmount = buryEggsAmount * 0.5F;
             this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);
@@ -735,7 +735,7 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
         this.head.rotateAngleX += pitchAmount * 0.5F;
         this.neck.rotateAngleY += yawAmount * 0.5F;
         this.head.rotateAngleY += yawAmount * 0.5F;
-        progressPositionPrev(body, danceAmount, 0,-3, 0, 1F);
+        progressPositionPrev(body, danceAmount, 0, -3, 0, 1F);
         progressRotationPrev(rarm, danceAmount, 0, (float) Math.toRadians(30), (float) Math.toRadians(30), 1F);
         progressRotationPrev(larm, danceAmount, 0, (float) Math.toRadians(-30), (float) Math.toRadians(-30), 1F);
         progressRotationPrev(body, danceAmount, (float) Math.toRadians(-20), 0, 0, 1F);

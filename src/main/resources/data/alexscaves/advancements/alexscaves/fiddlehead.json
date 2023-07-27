@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:fiddlehead"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.fiddlehead.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.fiddlehead.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/breed_grottoceratops",
+    "criteria": {
+        "fiddlehead": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:fiddlehead"]
+                    }
+                ]
+            }
+        }
+    }
+}

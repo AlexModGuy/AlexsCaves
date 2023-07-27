@@ -57,13 +57,13 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
         int biomeSouth = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.SOUTH, ground, widthRad);
         int widthBlocks = (biomeEast + biomeWest + biomeNorth + biomeSouth) / 4;
         int heightBlocks = (biomeUp + biomeDown) / 2;
-        int widthChunks = (int)Math.ceil((widthBlocks + 16) / 16F / 2F) + 2;
-        int heightChunks = getHeightOverride((int)Math.ceil((heightBlocks + 16) / 16F / 2F));
+        int widthChunks = (int) Math.ceil((widthBlocks + 16) / 16F / 2F) + 2;
+        int heightChunks = getHeightOverride((int) Math.ceil((heightBlocks + 16) / 16F / 2F));
         int minYChunks = (int) Math.ceil(context.chunkGenerator().getMinY() / 16F);
         int maxYChunks = (int) Math.ceil(320 / 16F);
-        for(int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++){
-            for(int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++){
-                for(int chunkY = Math.max(-heightChunks, minYChunks); chunkY <= Math.min(heightChunks, maxYChunks); chunkY++){
+        for (int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++) {
+            for (int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++) {
+                for (int chunkY = Math.max(-heightChunks, minYChunks); chunkY <= Math.min(heightChunks, maxYChunks); chunkY++) {
                     StructurePiece piece = createPiece(center.offset(new BlockPos(chunkX * 16, chunkY * 16, chunkZ * 16)), center, heightBlocks, widthBlocks, context.randomState());
                     builder.addPiece(piece);
                 }
@@ -81,16 +81,16 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
 
     protected abstract StructurePiece createPiece(BlockPos offset, BlockPos center, int heightBlocks, int widthBlocks, RandomState randomState);
 
-    private static Holder<Biome> getBiomeHolder(BiomeSource biomeSource, RandomState randomState, BlockPos pos){
+    private static Holder<Biome> getBiomeHolder(BiomeSource biomeSource, RandomState randomState, BlockPos pos) {
         return biomeSource.getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()), randomState.sampler());
     }
 
-    protected int biomeContinuesInDirectionFor(BiomeSource biomeSource, RandomState randomState, Direction direction, BlockPos start, int cutoff){
+    protected int biomeContinuesInDirectionFor(BiomeSource biomeSource, RandomState randomState, Direction direction, BlockPos start, int cutoff) {
         int i = 0;
-        while(i < cutoff){
+        while (i < cutoff) {
             BlockPos check = start.relative(direction, i);
             Holder<Biome> biomeHolder = getBiomeHolder(biomeSource, randomState, check);
-            if(!biomeHolder.is(matchingBiome)){
+            if (!biomeHolder.is(matchingBiome)) {
                 break;
             }
             i += 16;
@@ -99,7 +99,9 @@ public abstract class AbstractCaveGenerationStructure extends Structure {
     }
 
     public abstract int getGenerateYHeight(WorldgenRandom random, int x, int y);
+
     public abstract int getWidthRadius(WorldgenRandom random);
+
     public abstract int getHeightRadius(WorldgenRandom random, int seaLevel);
 
     @Override

@@ -38,16 +38,16 @@ public class DeepOnesRuinsFeature extends UndergroundRuinsFeature {
         BoundingBox box = new BoundingBox(boundingBox.minX(), boundingBox.minY(), boundingBox.minZ(), boundingBox.maxX(), boundingBox.minY() + 1, boundingBox.maxZ());
         Set<BlockPos> supportsNeededBelow = Sets.newHashSet();
         BlockPos.betweenClosedStream(box).forEach((pos) -> {
-            if(!level.getBlockState(pos).is(ACBlockRegistry.MUCK.get()) && !level.getBlockState(pos).is(Blocks.WATER)){
-                if(level.getBlockState(pos.below()).is(Blocks.WATER) || !level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below())){
+            if (!level.getBlockState(pos).is(ACBlockRegistry.MUCK.get()) && !level.getBlockState(pos).is(Blocks.WATER)) {
+                if (level.getBlockState(pos.below()).is(Blocks.WATER) || !level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below())) {
                     supportsNeededBelow.add(pos.immutable());
                 }
             }
         });
         BlockPos.MutableBlockPos grounded = new BlockPos.MutableBlockPos();
-        for(BlockPos pos : supportsNeededBelow){
+        for (BlockPos pos : supportsNeededBelow) {
             grounded.set(pos.getX(), pos.getY() - 1, pos.getZ());
-            while((level.getBlockState(grounded).is(Blocks.WATER) || !level.getBlockState(grounded).isCollisionShapeFullBlock(level, grounded)) && grounded.getY() > level.getMinBuildHeight()){
+            while ((level.getBlockState(grounded).is(Blocks.WATER) || !level.getBlockState(grounded).isCollisionShapeFullBlock(level, grounded)) && grounded.getY() > level.getMinBuildHeight()) {
                 level.setBlock(grounded, ACBlockRegistry.ABYSSMARINE_BRICKS.get().defaultBlockState(), 4);
                 grounded.move(0, -1, 0);
             }

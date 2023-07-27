@@ -30,9 +30,9 @@ public class WaterFoamParticle extends TextureSheetParticle {
 
 
     public void setFadeColor(int p_107660_) {
-        this.fadeR = (float)((p_107660_ & 16711680) >> 16) / 255.0F;
-        this.fadeG = (float)((p_107660_ & '\uff00') >> 8) / 255.0F;
-        this.fadeB = (float)((p_107660_ & 255) >> 0) / 255.0F;
+        this.fadeR = (float) ((p_107660_ & 16711680) >> 16) / 255.0F;
+        this.fadeG = (float) ((p_107660_ & '\uff00') >> 8) / 255.0F;
+        this.fadeB = (float) ((p_107660_ & 255) >> 0) / 255.0F;
     }
 
 
@@ -41,7 +41,7 @@ public class WaterFoamParticle extends TextureSheetParticle {
         this.yo = this.y;
         this.zo = this.z;
         if (this.age > this.lifetime / 2) {
-            this.setAlpha(1.0F - ((float)this.age - (float)(this.lifetime / 2)) / (float)this.lifetime);
+            this.setAlpha(1.0F - ((float) this.age - (float) (this.lifetime / 2)) / (float) this.lifetime);
         }
         this.rCol += (fadeR - this.rCol) * 0.25F;
         this.gCol += (fadeG - this.gCol) * 0.25F;
@@ -56,6 +56,7 @@ public class WaterFoamParticle extends TextureSheetParticle {
             this.zd *= (double) this.friction;
         }
     }
+
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;

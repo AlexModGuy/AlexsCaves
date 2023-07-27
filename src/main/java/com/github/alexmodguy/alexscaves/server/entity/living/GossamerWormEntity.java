@@ -216,7 +216,7 @@ public class GossamerWormEntity extends WaterAnimal {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
+        while (!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()) {
             down = down.below();
         }
         float f = this.blockPosition().getY() - down.getY();
@@ -234,7 +234,6 @@ public class GossamerWormEntity extends WaterAnimal {
     public int getMaxSpawnClusterSize() {
         return 1;
     }
-
 
 
     @Override

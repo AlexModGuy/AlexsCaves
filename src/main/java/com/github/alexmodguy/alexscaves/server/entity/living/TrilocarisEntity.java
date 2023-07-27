@@ -67,7 +67,7 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
     }
 
     private static boolean isInCave(ServerLevelAccessor iServerWorld, BlockPos pos) {
-        while(iServerWorld.getFluidState(pos).is(FluidTags.WATER)){
+        while (iServerWorld.getFluidState(pos).is(FluidTags.WATER)) {
             pos = pos.above();
         }
         return !iServerWorld.canSeeSky(pos) && pos.getY() < iServerWorld.getSeaLevel();
@@ -345,12 +345,12 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
                 if (target.isInWaterOrBubble()) {
                     TrilocarisEntity.this.getNavigation().moveTo(target, 1F);
                 }
-                if(TrilocarisEntity.this.distanceTo(target) < 1.2F && cooldown == 0){
+                if (TrilocarisEntity.this.distanceTo(target) < 1.2F && cooldown == 0) {
                     TrilocarisEntity.this.doHurtTarget(target);
                     cooldown = 30;
                 }
             }
-            if(cooldown > 0){
+            if (cooldown > 0) {
                 cooldown--;
             }
         }

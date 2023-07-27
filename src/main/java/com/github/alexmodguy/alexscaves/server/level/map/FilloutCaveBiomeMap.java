@@ -51,7 +51,7 @@ public class FilloutCaveBiomeMap implements Runnable {
             tag.putLong("RandomSeed", serverLevel.getRandom().nextLong());
             tag.putBoolean("Filled", true);
             AlexsCaves.LOGGER.info("Found cave biome at {}, {}, {}", centered.getX(), centered.getY(), centered.getZ());
-        }else{
+        } else {
             player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error").withStyle(ChatFormatting.RED));
         }
         map.setTag(tag);
@@ -64,23 +64,23 @@ public class FilloutCaveBiomeMap implements Runnable {
         int biomeWest = 0;
         int biomeUp = 0;
         int biomeDown = 0;
-        while(biomeUp < 32 && serverLevel.getBiome(biomeCorner.above(biomeUp)).is(biomeResourceKey)){
+        while (biomeUp < 32 && serverLevel.getBiome(biomeCorner.above(biomeUp)).is(biomeResourceKey)) {
             biomeUp += 8;
         }
-        while(biomeDown < 64 && serverLevel.getBiome(biomeCorner.below(biomeDown)).is(biomeResourceKey)){
+        while (biomeDown < 64 && serverLevel.getBiome(biomeCorner.below(biomeDown)).is(biomeResourceKey)) {
             biomeDown += 8;
         }
         BlockPos yCentered = biomeCorner.atY((int) (Math.floor(biomeUp * 0.25F)) - biomeDown);
-        while(biomeNorth < 800 && serverLevel.getBiome(yCentered.north(biomeNorth)).is(biomeResourceKey)){
+        while (biomeNorth < 800 && serverLevel.getBiome(yCentered.north(biomeNorth)).is(biomeResourceKey)) {
             biomeNorth += 8;
         }
-        while(biomeSouth < 800 && serverLevel.getBiome(yCentered.south(biomeSouth)).is(biomeResourceKey)){
+        while (biomeSouth < 800 && serverLevel.getBiome(yCentered.south(biomeSouth)).is(biomeResourceKey)) {
             biomeSouth += 8;
         }
-        while(biomeEast < 800 && serverLevel.getBiome(yCentered.east(biomeEast)).is(biomeResourceKey)){
+        while (biomeEast < 800 && serverLevel.getBiome(yCentered.east(biomeEast)).is(biomeResourceKey)) {
             biomeEast += 8;
         }
-        while(biomeWest < 800 && serverLevel.getBiome(yCentered.west(biomeWest)).is(biomeResourceKey)){
+        while (biomeWest < 800 && serverLevel.getBiome(yCentered.west(biomeWest)).is(biomeResourceKey)) {
             biomeWest += 8;
         }
         return yCentered.offset(biomeEast - biomeWest, 0, biomeSouth - biomeNorth);

@@ -62,7 +62,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                 int minY = (int) (level.getMinBuildHeight() + 2 + seaFloorExtra);
                 for (int y = priorHeight + 3; y >= minY; y--) {
                     carve.set(carveX, Mth.clamp(y, minY, level.getMaxBuildHeight()), carveZ);
-                    if(carve.getY() > seaLevel - 2){
+                    if (carve.getY() > seaLevel - 2) {
                         continue;
                     }
                     if (shouldDig(level, carve, seaLevel, priorHeight)) {
@@ -80,20 +80,20 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                     }
                 }
                 if (doFloor.isTrue()) {
-                    for(Direction direction : WALL_DIRECTIONS){
+                    for (Direction direction : WALL_DIRECTIONS) {
                         carveCliff.set(carveX, carveBelow.getY() + 1, carveZ);
                         carveCliff.move(direction);
                         BlockState state = level.getBlockState(carveCliff.atY(holeCenter.getY()));
                         int wallPriorHeight = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, carveCliff.getX(), carveCliff.getZ());
-                        if(!shouldDig(level, carveCliff, seaLevel, wallPriorHeight) && (!state.getFluidState().is(Fluids.WATER) && !state.is(Blocks.VOID_AIR))){
+                        if (!shouldDig(level, carveCliff, seaLevel, wallPriorHeight) && (!state.getFluidState().is(Fluids.WATER) && !state.is(Blocks.VOID_AIR))) {
                             BlockPos.MutableBlockPos wallPos = new BlockPos.MutableBlockPos(carveCliff.getX(), level.getMinBuildHeight() + 1, carveCliff.getZ());
                             boolean seaMountBeneath = false;
-                            while(wallPos.getY() < wallPriorHeight - 2){
+                            while (wallPos.getY() < wallPriorHeight - 2) {
                                 wallPos.move(0, 1, 0);
-                                if(!seaMountBeneath || !level.getBlockState(wallPos).getFluidState().is(Fluids.WATER)){
+                                if (!seaMountBeneath || !level.getBlockState(wallPos).getFluidState().is(Fluids.WATER)) {
                                     setWallBlock(level, wallPos, wallPriorHeight);
                                 }
-                                if(isSeaMountBlocking(wallPos)){
+                                if (isSeaMountBlocking(wallPos)) {
                                     seaMountBeneath = true;
                                 }
                             }
@@ -127,9 +127,9 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
             int dist = priorHeight - carve.getY();
             BlockState toSet;
             int layerOffset = level.getRandom().nextInt(2);
-            if(prior.is(Blocks.LAVA)){
+            if (prior.is(Blocks.LAVA)) {
                 toSet = Blocks.MAGMA_BLOCK.defaultBlockState();
-            }else if (dist <= 5 + layerOffset) {
+            } else if (dist <= 5 + layerOffset) {
                 toSet = carve.getY() < 0 ? Blocks.DEEPSLATE.defaultBlockState() : Blocks.STONE.defaultBlockState();
             } else if (dist <= 12 + layerOffset) {
                 toSet = Blocks.DEEPSLATE.defaultBlockState();
@@ -162,7 +162,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
         double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY() - 1, this.holeCenter.getZ());
         double radiusXZ = getRadiusSq(carve);
         double cornerAmount = radiusXZ - distToCenter;
-        if(cornerAmount > 0 && cornerAmount <= 100){
+        if (cornerAmount > 0 && cornerAmount <= 100) {
             yDist *= (float) (cornerAmount / 100F);
         }
         double targetRadius = yDist * radiusXZ;
@@ -204,9 +204,9 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                 if (at.is(ACTagRegistry.UNMOVEABLE)) {
                     break;
                 }
-                if(!at.getFluidState().isEmpty() && !at.getFluidState().is(FluidTags.WATER)){
+                if (!at.getFluidState().isEmpty() && !at.getFluidState().is(FluidTags.WATER)) {
                     checkedSetBlock(level, muckAt, Blocks.DEEPSLATE.defaultBlockState());
-                }else{
+                } else {
                     checkedSetBlock(level, muckAt, ACBlockRegistry.MUCK.get().defaultBlockState());
                 }
             }

@@ -23,8 +23,8 @@ public class ACSurfaceRules {
         SurfaceRules.RuleSource scarlet = SurfaceRules.state(ACBlockRegistry.ENERGIZED_GALENA_SCARLET.get().defaultBlockState());
         SurfaceRules.RuleSource azure = SurfaceRules.state(ACBlockRegistry.ENERGIZED_GALENA_AZURE.get().defaultBlockState());
         SurfaceRules.RuleSource neutral = SurfaceRules.state(ACBlockRegistry.ENERGIZED_GALENA_NEUTRAL.get().defaultBlockState());
-        SurfaceRules.ConditionSource azureCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.025F, 0.025F, 90,  1F,0);
-        SurfaceRules.ConditionSource scarletCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.025F, 0.025F, 90, 1F,1);
+        SurfaceRules.ConditionSource azureCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.025F, 0.025F, 90, 1F, 0);
+        SurfaceRules.ConditionSource scarletCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.025F, 0.025F, 90, 1F, 1);
         return SurfaceRules.sequence(bedrock(), SurfaceRules.ifTrue(azureCondition, SurfaceRules.ifTrue(scarletCondition, neutral)), SurfaceRules.ifTrue(scarletCondition, scarlet), SurfaceRules.ifTrue(azureCondition, azure), galena);
     }
 
@@ -58,7 +58,7 @@ public class ACSurfaceRules {
         SurfaceRules.RuleSource mud = SurfaceRules.state(Blocks.PACKED_MUD.defaultBlockState());
         SurfaceRules.RuleSource guanostone = SurfaceRules.state(ACBlockRegistry.GUANOSTONE.get().defaultBlockState());
         SurfaceRules.RuleSource corpolith = SurfaceRules.state(ACBlockRegistry.COPROLITH.get().defaultBlockState());
-        SurfaceRules.ConditionSource corpolithCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.2F, 0.4F, 40,  6F, 3);
+        SurfaceRules.ConditionSource corpolithCondition = ACSurfaceRuleConditionRegistry.simplexCondition(-0.2F, 0.4F, 40, 6F, 3);
         return SurfaceRules.sequence(bedrock(), SurfaceRules.ifTrue(SurfaceRules.ON_FLOOR, mud), SurfaceRules.ifTrue(corpolithCondition, corpolith), guanostone);
     }
 

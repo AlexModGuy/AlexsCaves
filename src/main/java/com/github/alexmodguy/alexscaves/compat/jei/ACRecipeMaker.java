@@ -24,7 +24,7 @@ public class ACRecipeMaker {
     public static List<CraftingRecipe> createCaveMapRecipes() {
         String group = "jei.cave_map";
         List<CraftingRecipe> recipes = new ArrayList<>();
-        for(ResourceKey<Biome> biome : ACBiomeRegistry.ALEXS_CAVES_BIOMES){
+        for (ResourceKey<Biome> biome : ACBiomeRegistry.ALEXS_CAVES_BIOMES) {
             ItemStack scroll = CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), biome);
             ItemStack map = CaveMapItem.createMap(biome);
             ResourceLocation id = new ResourceLocation(AlexsCaves.MODID, "jei.cave_map_" + biome.location().getPath());

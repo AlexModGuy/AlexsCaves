@@ -119,7 +119,7 @@ public class NucleeperModel extends AdvancedEntityModel<NucleeperEntity> {
 
 
     @Override
-    public void setupAnim(NucleeperEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch){
+    public void setupAnim(NucleeperEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         float walkSpeed = 0.8F;
         float walkDegree = 1.2F;
@@ -130,10 +130,10 @@ public class NucleeperModel extends AdvancedEntityModel<NucleeperEntity> {
         progressPositionPrev(head, closeProgress, 0, 8, 0, 1F);
         progressPositionPrev(coreTop, closeProgress, 0, 14, 0, 1F);
         progressPositionPrev(coreBottom, closeProgress, 0, 1, 0, 1F);
-        progressRotationPrev(lleg, stillProgress,0,  (float) Math.toRadians(-25), 0, 1F);
-        progressRotationPrev(lleg2, stillProgress,0,  (float) Math.toRadians(25), 0, 1F);
-        progressRotationPrev(rleg, stillProgress,0,  (float) Math.toRadians(25), 0, 1F);
-        progressRotationPrev(rleg2, stillProgress,0,  (float) Math.toRadians(-25), 0, 1F);
+        progressRotationPrev(lleg, stillProgress, 0, (float) Math.toRadians(-25), 0, 1F);
+        progressRotationPrev(lleg2, stillProgress, 0, (float) Math.toRadians(25), 0, 1F);
+        progressRotationPrev(rleg, stillProgress, 0, (float) Math.toRadians(25), 0, 1F);
+        progressRotationPrev(rleg2, stillProgress, 0, (float) Math.toRadians(-25), 0, 1F);
         this.base.setScale(1F - explodeProgress * 0.15F, 1F - explodeProgress * 0.65F, 1F - explodeProgress * 0.15F);
         this.base.scaleChildren = true;
         this.flap(base, walkSpeed, walkDegree * 0.1F, true, 1F, 0F, limbSwing, limbSwingAmount);
@@ -164,7 +164,7 @@ public class NucleeperModel extends AdvancedEntityModel<NucleeperEntity> {
         this.flap(base, 3F, 0.3F, true, 1F, 0F, ageInTicks, explodeProgress);
 
         Entity look = Minecraft.getInstance().getCameraEntity();
-        if(look != null){
+        if (look != null) {
             Vec3 vector3d = look.getEyePosition(0.0F);
             Vec3 vector3d1 = entity.getEyePosition(0.0F);
             double d0 = vector3d.y - vector3d1.y;
@@ -181,7 +181,7 @@ public class NucleeperModel extends AdvancedEntityModel<NucleeperEntity> {
         }
     }
 
-    public Vec3 getSirenPosition(Vec3 offsetIn){
+    public Vec3 getSirenPosition(Vec3 offsetIn) {
         PoseStack armStack = new PoseStack();
         armStack.pushPose();
         base.translateAndRotate(armStack);

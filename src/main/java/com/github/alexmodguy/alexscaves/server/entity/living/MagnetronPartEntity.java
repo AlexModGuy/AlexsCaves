@@ -47,11 +47,11 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
         return true;
     }
 
-    public MagnetronJoint getJoint(){
+    public MagnetronJoint getJoint() {
         return joint;
     }
 
-    public boolean isLeft(){
+    public boolean isLeft() {
         return left;
     }
 
@@ -62,7 +62,7 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
             return InteractionResult.PASS;
         } else {
             this.playSound(SoundEvents.ITEM_BREAK);
-            if(player.level().isClientSide){
+            if (player.level().isClientSide) {
                 AlexsCaves.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
             }
             return parent.interact(player, hand);
@@ -90,9 +90,9 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         MagnetronEntity parent = this.getParent();
-        if(!this.isInvulnerableTo(source) && parent != null){
+        if (!this.isInvulnerableTo(source) && parent != null) {
             Entity player = source.getEntity();
-            if(player != null && player.level().isClientSide){
+            if (player != null && player.level().isClientSide) {
                 AlexsCaves.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 1, amount));
             }
         }
@@ -144,11 +144,11 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
         return startPosition;
     }
 
-    public BlockState getBlockState(){
+    public BlockState getBlockState() {
         return blockState;
     }
 
-    public void setBlockState(BlockState state){
+    public void setBlockState(BlockState state) {
         blockState = state;
     }
 

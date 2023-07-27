@@ -5,12 +5,8 @@ import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.grower.AncientTreeGrower;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
-import com.github.alexmodguy.alexscaves.server.item.BlockItemWithISTER;
-import com.github.alexmodguy.alexscaves.server.item.BlockItemWithScaffolding;
-import com.github.alexmodguy.alexscaves.server.item.BlockItemWithSupplierLore;
+import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -172,12 +168,12 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RADROCK_BRICK_SLAB = registerBlockAndItem("radrock_brick_slab", () -> new SlabBlock(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_BRICK_WALL = registerBlockAndItem("radrock_brick_wall", () -> new WallBlock(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_CHISELED = registerBlockAndItem("radrock_chiseled", () -> new Block(RADROCK_PROPERTIES));
-    public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)));
+    public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)), 4);
     public static final RegistryObject<Block> ACIDIC_RADROCK = registerBlockAndItem("acidic_radrock", () -> new AcidicRadrockBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT = registerBlockAndItem("geothermal_vent", () -> new GeothermalVentBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
     public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
-    public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable()));
+    public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable().replaceable()));
     public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable()));
     public static final RegistryObject<Block> POTTED_UNDERWEED = registerBlockAndItem("potted_underweed", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, UNDERWEED, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
@@ -187,8 +183,8 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RUSTY_BARREL = registerBlockAndItem("rusty_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> RUSTY_REBAR = registerBlockAndItem("rusty_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);
-    public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock());
-    public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumOreBlock());
+    public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock(), 4);
+    public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumOreBlock(), 4);
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
     public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new SulfurBlock());
     public static final RegistryObject<Block> SULFUR_BUD_SMALL = registerBlockAndItem("sulfur_bud_small", () -> new SulfurBudBlock(6, 4));
@@ -199,6 +195,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> CINDER_BLOCK_STAIRS = registerBlockAndItem("cinder_block_stairs", () -> new StairBlock(CINDER_BLOCK.get().defaultBlockState(), CINDER_BLOCK_PROPERTIES));
     public static final RegistryObject<Block> CINDER_BLOCK_SLAB = registerBlockAndItem("cinder_block_slab", () -> new SlabBlock(CINDER_BLOCK_PROPERTIES));
     public static final RegistryObject<Block> CINDER_BLOCK_WALL = registerBlockAndItem("cinder_block_wall", () -> new WallBlock(CINDER_BLOCK_PROPERTIES));
+    public static final RegistryObject<Block> HAZMAT_BLOCK = registerBlockAndItem("hazmat_block", () -> new HazmatBlock());
+    public static final RegistryObject<Block> SIREN_LIGHT = registerBlockAndItem("siren_light", () -> new SirenLightBlock(), 3);
+    public static final RegistryObject<Block> NUCLEAR_SIREN = registerBlockAndItem("nuclear_siren", () -> new NuclearSirenBlock());
     public static final RegistryObject<Block> WHITE_RADON_LAMP = registerBlockAndItem("radon_lamp_white", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> ORANGE_RADON_LAMP = registerBlockAndItem("radon_lamp_orange", () -> new Block(RADON_LAMP_PROPERTIES));
     public static final RegistryObject<Block> MAGENTA_RADON_LAMP = registerBlockAndItem("radon_lamp_magenta", () -> new Block(RADON_LAMP_PROPERTIES));
@@ -291,18 +290,33 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> THORNWOOD_FENCE_GATE = registerBlockAndItem("thornwood_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
     public static final RegistryObject<Block> THORNWOOD_DOOR = DEF_REG.register("thornwood_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
 
-    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block) {
+    private static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block) {
         return registerBlockAndItem(name, block, 0);
     }
 
-    public static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, int itemType) {
+    private static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, int itemType) {
         RegistryObject<Block> blockObj = DEF_REG.register(name, block);
-        ACItemRegistry.DEF_REG.register(name, () -> itemType == 3 ? new BlockItemWithISTER(blockObj, new Item.Properties()) : itemType == 2 ? new BlockItemWithScaffolding(blockObj, new Item.Properties()) : itemType == 1 ? new BlockItemWithSupplierLore(blockObj, new Item.Properties()) : new BlockItemWithSupplier(blockObj, new Item.Properties()));
+        ACItemRegistry.DEF_REG.register(name, getBlockSupplier(itemType, blockObj));
         return blockObj;
     }
 
-    public static void setup(){
-        FlowerPotBlock flowerPotBlock = (FlowerPotBlock)Blocks.FLOWER_POT;
+    private static Supplier<? extends BlockItemWithSupplier> getBlockSupplier(int itemType, RegistryObject<Block> blockObj) {
+        switch (itemType) {
+            default:
+                return () -> new BlockItemWithSupplier(blockObj, new Item.Properties());
+            case 1:
+                return () -> new BlockItemWithSupplierLore(blockObj, new Item.Properties());
+            case 2:
+                return () -> new BlockItemWithScaffolding(blockObj, new Item.Properties());
+            case 3:
+                return () -> new BlockItemWithISTER(blockObj, new Item.Properties());
+            case 4:
+                return () -> new RadioactiveBlockItem(blockObj, new Item.Properties(), 0.001F);
+        }
+    }
+
+    public static void setup() {
+        FlowerPotBlock flowerPotBlock = (FlowerPotBlock) Blocks.FLOWER_POT;
         flowerPotBlock.addPlant(FLYTRAP.getId(), POTTED_FLYTRAP);
         flowerPotBlock.addPlant(CURLY_FERN.getId(), POTTED_CURLY_FERN);
         flowerPotBlock.addPlant(CYCAD.getId(), POTTED_CYCAD);

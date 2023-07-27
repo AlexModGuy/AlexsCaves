@@ -66,9 +66,10 @@ public class TremorsaurusMeleeGoal extends Goal {
         }
     }
 
-    private boolean isFlyingTarget(){
+    private boolean isFlyingTarget() {
         return tremorsaurus.getTarget() instanceof FlyingAnimal;
     }
+
     private boolean tryAnimation(Animation animation) {
         if (tremorsaurus.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             tremorsaurus.setAnimation(animation);

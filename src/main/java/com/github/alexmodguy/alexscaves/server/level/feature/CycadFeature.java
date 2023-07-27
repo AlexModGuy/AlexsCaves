@@ -24,13 +24,13 @@ public class CycadFeature extends Feature<NoneFeatureConfiguration> {
         RandomSource randomsource = context.random();
         WorldGenLevel level = context.level();
         BlockPos treeBottom = context.origin();
-        if(!level.getBlockState(treeBottom.below()).is(BlockTags.DIRT)){
+        if (!level.getBlockState(treeBottom.below()).is(BlockTags.DIRT)) {
             return false;
         }
-        int height = 1 + (int)Math.ceil(randomsource.nextFloat() * 2.5F);
-        for(int i = 0; i <= height; i++){
+        int height = 1 + (int) Math.ceil(randomsource.nextFloat() * 2.5F);
+        for (int i = 0; i <= height; i++) {
             BlockPos trunk = treeBottom.above(i);
-            if(canReplace(level.getBlockState(trunk))){
+            if (canReplace(level.getBlockState(trunk))) {
                 level.setBlock(trunk, ACBlockRegistry.CYCAD.get().defaultBlockState().setValue(CycadBlock.TOP, i == height), 4);
             }
         }

@@ -75,7 +75,7 @@ public class MineGuardianAnchorEntity extends Entity {
                 double distance = this.distanceTo(mineGuardian);
                 int i = mineGuardian.getMaxChainLength();
                 double distanceGoal = (mineGuardian.isInWaterOrBubble() ? i + Math.sin(tickCount * 0.1F + i * 0.5F) * 0.25F : 5) + (hasTarget ? 5 : 0);
-                if(mineGuardian.isInWaterOrBubble() && !hasTarget){
+                if (mineGuardian.isInWaterOrBubble() && !hasTarget) {
                     double f = this.getX() + (float) -Math.sin(tickCount * 0.025F + i) * 0.5F;
                     double f1 = this.getZ() + (float) Math.cos(tickCount * 0.025F + i) * 0.5F;
                     double f2 = this.getY() + distanceGoal;

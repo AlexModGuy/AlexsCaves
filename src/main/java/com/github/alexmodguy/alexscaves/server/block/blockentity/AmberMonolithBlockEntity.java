@@ -45,60 +45,60 @@ public class AmberMonolithBlockEntity extends BlockEntity {
         entity.tickCount++;
         entity.previousRotation = entity.rotation;
         entity.rotation += 1F;
-        if(entity.spawnsMobIn <= 1000){
+        if (entity.spawnsMobIn <= 1000) {
             float f = (1000F - entity.spawnsMobIn) / 1000F;
             entity.rotation += f * 20;
         }
-        if(entity.prevDisplayEntity != entity.displayEntity){
-            if(entity.displayEntity == null){
-                if(entity.switchProgress > 0.0F){
+        if (entity.prevDisplayEntity != entity.displayEntity) {
+            if (entity.displayEntity == null) {
+                if (entity.switchProgress > 0.0F) {
                     entity.switchProgress--;
-                }else{
+                } else {
                     entity.prevDisplayEntity = null;
                 }
-            }else{
-                if(entity.switchProgress < 10.0F){
+            } else {
+                if (entity.switchProgress < 10.0F) {
                     entity.switchProgress++;
-                }else{
+                } else {
                     entity.prevDisplayEntity = entity.displayEntity;
                 }
 
             }
         }
-        if(!level.isClientSide){
-            if(entity.spawnType == null && entity.findSpawnsCooldown-- <= 0){
+        if (!level.isClientSide) {
+            if (entity.spawnType == null && entity.findSpawnsCooldown-- <= 0) {
                 entity.findSpawnsCooldown = 40 + level.random.nextInt(50);
                 entity.generateSpawnData();
             }
-            if(entity.spawnsMobIn <= 0){
-                if(entity.spawnType == null){
+            if (entity.spawnsMobIn <= 0) {
+                if (entity.spawnType == null) {
                     entity.generateSpawnData();
-                }else{
-                    if(entity.spawnMobs()){
+                } else {
+                    if (entity.spawnMobs()) {
                         entity.generateSpawnData();
                     }
                 }
             }
         }
-        if(entity.spawnsMobIn > 0){
+        if (entity.spawnsMobIn > 0) {
             entity.spawnsMobIn--;
         }
     }
 
-    private boolean spawnMobs(){
+    private boolean spawnMobs() {
         SpawnGroupData spawngroupdata = null;
         boolean spawned = false;
-        for(int l1 = 0; l1 < spawnCount; l1++) {
+        for (int l1 = 0; l1 < spawnCount; l1++) {
             boolean flag = false;
-            for(int i2 = 0; !flag && i2 < 6; i2++) {
+            for (int i2 = 0; !flag && i2 < 6; i2++) {
                 BlockPos blockpos = getRandomSpawnPos();
-                if(blockpos == null){
+                if (blockpos == null) {
                     continue;
                 }
                 if (spawnType.canSummon() && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.getPlacementType(spawnType), level, blockpos, spawnType)) {
                     double d0 = blockpos.getX() + 0.5F;
                     double d1 = blockpos.getZ() + 0.5F;
-                    if (!level.noCollision(spawnType.getAABB(d0, (double)blockpos.getY(), d1)) || !SpawnPlacements.checkSpawnRules(spawnType, (ServerLevelAccessor)level, MobSpawnType.CHUNK_GENERATION, BlockPos.containing(d0, (double)blockpos.getY(), d1), level.getRandom())) {
+                    if (!level.noCollision(spawnType.getAABB(d0, (double) blockpos.getY(), d1)) || !SpawnPlacements.checkSpawnRules(spawnType, (ServerLevelAccessor) level, MobSpawnType.CHUNK_GENERATION, BlockPos.containing(d0, (double) blockpos.getY(), d1), level.getRandom())) {
                         continue;
                     }
 
@@ -106,7 +106,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                     try {
                         entity = spawnType.create(level);
                     } catch (Exception exception) {
-                        AlexsCaves.LOGGER.warn("Failed to create mob", (Throwable)exception);
+                        AlexsCaves.LOGGER.warn("Failed to create mob", (Throwable) exception);
                         continue;
                     }
 
@@ -114,23 +114,23 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                         continue;
                     }
 
-                    entity.moveTo(d0, (double)blockpos.getY(), d1, level.random.nextFloat() * 360.0F, 0.0F);
+                    entity.moveTo(d0, (double) blockpos.getY(), d1, level.random.nextFloat() * 360.0F, 0.0F);
                     if (entity instanceof Mob) {
-                        Mob mob = (Mob)entity;
-                        if (net.minecraftforge.event.ForgeEventFactory.checkSpawnPosition(mob, (ServerLevelAccessor)level, MobSpawnType.CHUNK_GENERATION)) {
-                            spawngroupdata = mob.finalizeSpawn((ServerLevelAccessor)level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.CHUNK_GENERATION, spawngroupdata, (CompoundTag)null);
-                            ((ServerLevel)level).addFreshEntityWithPassengers(mob);
+                        Mob mob = (Mob) entity;
+                        if (net.minecraftforge.event.ForgeEventFactory.checkSpawnPosition(mob, (ServerLevelAccessor) level, MobSpawnType.CHUNK_GENERATION)) {
+                            spawngroupdata = mob.finalizeSpawn((ServerLevelAccessor) level, level.getCurrentDifficultyAt(mob.blockPosition()), MobSpawnType.CHUNK_GENERATION, spawngroupdata, (CompoundTag) null);
+                            ((ServerLevel) level).addFreshEntityWithPassengers(mob);
                             spawned = true;
                             flag = true;
                             Vec3 center = this.getBlockPos().getCenter();
                             Vec3 target = entity.getEyePosition();
                             Vec3 distance = target.subtract(center);
                             int maxDist = (int) (distance.length() * 1.5);
-                            for(int i = 0; i < maxDist; i++){
-                                Vec3 vec3 = center.add(distance.normalize().scale(distance.length() * (i / (float)maxDist))).add(level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F);
+                            for (int i = 0; i < maxDist; i++) {
+                                Vec3 vec3 = center.add(distance.normalize().scale(distance.length() * (i / (float) maxDist))).add(level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F);
                                 ((ServerLevel) level).sendParticles(ACParticleRegistry.AMBER_MONOLITH.get(), vec3.x, vec3.y, vec3.z, 0, target.x, target.y, target.z, 1D);
                             }
-                            for(int i = 0; i < 5; i++){
+                            for (int i = 0; i < 5; i++) {
                                 ((ServerLevel) level).sendParticles(ACParticleRegistry.AMBER_EXPLOSION.get(), entity.getRandomX(1.0F), entity.getRandomY(), entity.getRandomZ(1.0F), 0, 0, 0, 0, 1D);
                             }
                         }
@@ -143,15 +143,15 @@ public class AmberMonolithBlockEntity extends BlockEntity {
 
     private BlockPos getRandomSpawnPos() {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
-        for(int i = 0; i < 20; i++){
+        for (int i = 0; i < 20; i++) {
             mutableBlockPos.set(this.getBlockPos().getX() + level.getRandom().nextInt(20) - 10, this.getBlockPos().getY() - 10, this.getBlockPos().getZ() + level.getRandom().nextInt(20) - 10);
-            if(!level.isLoaded(mutableBlockPos)){
+            if (!level.isLoaded(mutableBlockPos)) {
                 continue;
-            }else{
-                while (!level.getBlockState(mutableBlockPos).isAir() && mutableBlockPos.getY() < level.getMaxBuildHeight()){
+            } else {
+                while (!level.getBlockState(mutableBlockPos).isAir() && mutableBlockPos.getY() < level.getMaxBuildHeight()) {
                     mutableBlockPos.move(0, 1, 0);
                 }
-                if(Math.abs(mutableBlockPos.getY() - this.getBlockPos().getY()) < 20){
+                if (Math.abs(mutableBlockPos.getY() - this.getBlockPos().getY()) < 20) {
                     return mutableBlockPos.immutable();
                 }
             }
@@ -159,9 +159,9 @@ public class AmberMonolithBlockEntity extends BlockEntity {
         return null;
     }
 
-    private void generateSpawnData(){
+    private void generateSpawnData() {
         MobSpawnSettings.SpawnerData spawnerData = getDepopulatedEntitySpawnData(level, this.getBlockPos(), 4 + level.random.nextInt(8), 64);
-        if(spawnerData != null){
+        if (spawnerData != null) {
             spawnType = spawnerData.type;
             int j = Math.max(spawnerData.maxCount - spawnerData.minCount, 0);
             spawnCount = j <= 0 ? spawnerData.minCount : level.random.nextInt(j) + spawnerData.minCount;
@@ -171,29 +171,29 @@ public class AmberMonolithBlockEntity extends BlockEntity {
         level.sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 2);
     }
 
-    private static boolean isEntitySpawnSettingsNearby(MobSpawnSettings.SpawnerData settings, Level level, BlockPos pos, int range){
+    private static boolean isEntitySpawnSettingsNearby(MobSpawnSettings.SpawnerData settings, Level level, BlockPos pos, int range) {
         return !level.getEntities(settings.type, (new AABB(pos)).inflate(range), Entity::isAlive).isEmpty();
     }
 
-    private static MobSpawnSettings.SpawnerData getEntitySpawnSettingsForBiome(Level level, BlockPos pos){
+    private static MobSpawnSettings.SpawnerData getEntitySpawnSettingsForBiome(Level level, BlockPos pos) {
         Biome biome = level.getBiome(pos).value();
-        if(biome != null){
+        if (biome != null) {
             WeightedRandomList<MobSpawnSettings.SpawnerData> spawnList = biome.getMobSettings().getMobs(ACEntityRegistry.CAVE_CREATURE);
-            if(spawnList.isEmpty()){
+            if (spawnList.isEmpty()) {
                 spawnList = biome.getMobSettings().getMobs(MobCategory.CREATURE);
             }
-            if(!spawnList.isEmpty()){
+            if (!spawnList.isEmpty()) {
                 return spawnList.getRandom(level.random).get();
             }
         }
         return null;
     }
 
-    private static MobSpawnSettings.SpawnerData getDepopulatedEntitySpawnData(Level level, BlockPos pos, int rolls, int range){
+    private static MobSpawnSettings.SpawnerData getDepopulatedEntitySpawnData(Level level, BlockPos pos, int rolls, int range) {
         MobSpawnSettings.SpawnerData spawnerData = null;
         int roll = 0;
-        while(roll < rolls){
-            if(spawnerData != null && !isEntitySpawnSettingsNearby(spawnerData, level, pos, range)){
+        while (roll < rolls) {
+            if (spawnerData != null && !isEntitySpawnSettingsNearby(spawnerData, level, pos, range)) {
                 return spawnerData;
             }
             spawnerData = getEntitySpawnSettingsForBiome(level, pos);
@@ -210,7 +210,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
         if (packet != null && packet.getTag() != null) {
-            if(packet.getTag().contains("EntityType")){
+            if (packet.getTag().contains("EntityType")) {
                 String str = packet.getTag().getString("EntityType");
                 this.spawnType = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
             }
@@ -221,7 +221,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
 
     public void load(CompoundTag tag) {
         super.load(tag);
-        if(tag.contains("EntityType")){
+        if (tag.contains("EntityType")) {
             String str = tag.getString("EntityType");
             this.spawnType = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
         }
@@ -232,7 +232,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
 
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        if(this.spawnType != null){
+        if (this.spawnType != null) {
             tag.putString("EntityType", ForgeRegistries.ENTITY_TYPES.getKey(this.spawnType).toString());
         }
         tag.putInt("SpawnCount", this.spawnCount);
@@ -243,12 +243,12 @@ public class AmberMonolithBlockEntity extends BlockEntity {
         return this.saveWithoutMetadata();
     }
 
-    public int getSpawnsMobIn(){
+    public int getSpawnsMobIn() {
         return spawnsMobIn;
     }
 
-    public Entity getDisplayEntity(Level level){
-        if(displayEntity == null && spawnType != null || displayEntity != null && displayEntity.getType() != spawnType){
+    public Entity getDisplayEntity(Level level) {
+        if (displayEntity == null && spawnType != null || displayEntity != null && displayEntity.getType() != spawnType) {
             displayEntity = spawnType.create(level);
         }
         return displayEntity;

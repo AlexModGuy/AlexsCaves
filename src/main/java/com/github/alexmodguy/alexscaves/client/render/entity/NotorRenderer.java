@@ -149,7 +149,7 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     model.riding = shouldSit;
                     model.attackTime = living.getAttackAnim(partialTicks);
                     boolean prevCrouching = false;
-                    if(model instanceof HumanoidModel<?> humanoidModel){
+                    if (model instanceof HumanoidModel<?> humanoidModel) {
                         prevCrouching = humanoidModel.crouching;
                         humanoidModel.crouching = false;
                     }
@@ -157,7 +157,7 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     matrixStack.scale(living.getScale(), -living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();
-                    if(model instanceof HumanoidModel<?> humanoidModel){
+                    if (model instanceof HumanoidModel<?> humanoidModel) {
                         humanoidModel.crouching = prevCrouching;
                     }
                 }

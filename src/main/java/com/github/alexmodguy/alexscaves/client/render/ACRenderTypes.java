@@ -45,7 +45,6 @@ public class ACRenderTypes extends RenderType {
     });
 
 
-
     public ACRenderTypes(String s, VertexFormat format, VertexFormat.Mode mode, int i, boolean b1, boolean b2, Runnable runnable1, Runnable runnable2) {
         super(s, format, mode, i, b1, b2, runnable1, runnable2);
     }
@@ -117,7 +116,7 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(true));
     }
 
-    public static RenderType getRadiationGlow(ResourceLocation locationIn){
+    public static RenderType getRadiationGlow(ResourceLocation locationIn) {
         return create("radiation_glow", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
                 .setShaderState(RENDERTYPE_IRRADIATED_SHADER)
                 .setCullState(NO_CULL)
@@ -173,12 +172,12 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
-    public static RenderType getBubbledCull(ResourceLocation locationIn){
+    public static RenderType getBubbledCull(ResourceLocation locationIn) {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_BUBBLED_SHADER).setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false)).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setLightmapState(LIGHTMAP).setOutputState(RenderStateShard.ITEM_ENTITY_TARGET).setOverlayState(OVERLAY).setWriteMaskState(RenderStateShard.COLOR_DEPTH_WRITE).createCompositeState(true);
         return create("bubbled_cull", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, rendertype$compositestate);
     }
 
-    public static RenderType getBubbledNoCull(ResourceLocation locationIn){
+    public static RenderType getBubbledNoCull(ResourceLocation locationIn) {
         RenderType.CompositeState rendertype$compositestate = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_BUBBLED_SHADER).setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false)).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setLightmapState(LIGHTMAP).createCompositeState(true);
         return create("bubbled_no_cull", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, false, rendertype$compositestate);
     }

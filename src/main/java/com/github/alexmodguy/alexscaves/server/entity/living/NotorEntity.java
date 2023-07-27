@@ -49,15 +49,16 @@ public class NotorEntity extends PathfinderMob {
     private static final EntityDataAccessor<Integer> HOLOGRAM_ENTITY_ID = SynchedEntityData.defineId(NotorEntity.class, EntityDataSerializers.INT);
 
     public static final Predicate<LivingEntity> SCAN_TARGET = (mob) -> {
-        return mob.isAlive() &&  !mob.getType().is(ACTagRegistry.NOTOR_IGNORES) && !mob.isInvisible();
+        return mob.isAlive() && !mob.getType().is(ACTagRegistry.NOTOR_IGNORES) && !mob.isInvisible();
     };
+
     public NotorEntity(EntityType entityType, Level level) {
         super(entityType, level);
         this.moveControl = new FlightMoveHelper(this);
     }
 
     protected PathNavigation createNavigation(Level worldIn) {
-        return new FlyingPathNavigation(this, worldIn){
+        return new FlyingPathNavigation(this, worldIn) {
             public boolean isStableDestination(BlockPos blockPos) {
                 return this.level.getBlockState(blockPos).isAir();
             }
@@ -112,22 +113,22 @@ public class NotorEntity extends PathfinderMob {
         if (!this.onGround() && groundProgress > 0.0F) {
             groundProgress--;
         }
-        boolean hasHologram  = hologram != null && this.showingHologram();
+        boolean hasHologram = hologram != null && this.showingHologram();
         boolean hasBeam = this.getScanningMob() != null || hasHologram;
-        if(hasBeam && beamProgress < 5.0F){
+        if (hasBeam && beamProgress < 5.0F) {
             beamProgress++;
         }
         if (!hasBeam && beamProgress > 0.0F) {
-            if(this.hologramProgress > 0.0F){
+            if (this.hologramProgress > 0.0F) {
                 hologramProgress--;
-            }else{
+            } else {
                 beamProgress--;
             }
         }
-        if(hasHologram && beamProgress >= 5.0F && hologramProgress < 5.0F){
+        if (hasHologram && beamProgress >= 5.0F && hologramProgress < 5.0F) {
             hologramProgress++;
         }
-        if(!hasHologram && hologramProgress > 0.0F){
+        if (!hasHologram && hologramProgress > 0.0F) {
             hologramProgress--;
         }
         double speed = this.getDeltaMovement().horizontalDistance();
@@ -143,7 +144,7 @@ public class NotorEntity extends PathfinderMob {
             } else {
                 this.entityData.set(HOLOGRAM_ENTITY_ID, -1);
             }
-            if(stopScanningFor > 0){
+            if (stopScanningFor > 0) {
                 stopScanningFor--;
             }
         }
@@ -156,7 +157,7 @@ public class NotorEntity extends PathfinderMob {
     }
 
     public void calculateEntityAnimation(boolean flying) {
-        float f1 = (float) Mth.length(this.getX() - this.xo,this.getY() - this.yo, this.getZ() - this.zo);
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
         float f2 = Math.min(f1 * 6.0F, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
 
@@ -222,19 +223,19 @@ public class NotorEntity extends PathfinderMob {
 
     @javax.annotation.Nullable
     public BlockPos getHologramPos() {
-        return this.getEntityData().get(HOLOGRAM_POS).orElse((BlockPos)null);
+        return this.getEntityData().get(HOLOGRAM_POS).orElse((BlockPos) null);
     }
 
     public Vec3 getBeamEndPosition(float partialTicks) {
         Entity scanning = this.getScanningMob();
-        if(scanning != null){
+        if (scanning != null) {
             float f = (float) Math.abs(Math.sin((tickCount + partialTicks) * 0.1F));
             return scanning.getPosition(partialTicks).add(0, scanning.getBbHeight() * f, 0);
-        }else{
-            BlockPos pos = this.getEntityData().get(HOLOGRAM_POS).orElse((BlockPos)null);
-            if(pos == null){
+        } else {
+            BlockPos pos = this.getEntityData().get(HOLOGRAM_POS).orElse((BlockPos) null);
+            if (pos == null) {
                 return this.getPosition(partialTicks).add(0, -3, 0);
-            }else{
+            } else {
                 return Vec3.atCenterOf(pos);
             }
         }
@@ -280,7 +281,7 @@ public class NotorEntity extends PathfinderMob {
 
         public void tick() {
             boolean gravity = true;
-            if(parentEntity.getScanningId() != -1 || parentEntity.getHologramEntity() != null){
+            if (parentEntity.getScanningId() != -1 || parentEntity.getHologramEntity() != null) {
                 gravity = false;
                 float angle = (0.01745329251F * (parentEntity.yBodyRot + 90));
                 float radius = (float) Math.sin(parentEntity.tickCount * 0.2F) * 2;

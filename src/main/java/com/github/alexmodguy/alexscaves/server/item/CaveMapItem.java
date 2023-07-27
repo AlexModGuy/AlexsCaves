@@ -24,14 +24,15 @@ import java.util.List;
 public class CaveMapItem extends Item {
 
     public static int MAP_SCALE = 10;
+
     public CaveMapItem(Item.Properties properties) {
         super(properties);
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
-        if(!isLoading(itemstack) && !isFilled(itemstack)) {
-            if(!level.isClientSide){
+        if (!isLoading(itemstack) && !isFilled(itemstack)) {
+            if (!level.isClientSide) {
                 itemstack.getOrCreateTag().putBoolean("Loading", true);
                 CaveBiomeFinder.fillOutCaveMap(itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition(), player);
             }
@@ -40,7 +41,7 @@ public class CaveMapItem extends Item {
         return InteractionResultHolder.pass(itemstack);
     }
 
-    public static ItemStack createMap(ResourceKey<Biome> biomeResourceKey){
+    public static ItemStack createMap(ResourceKey<Biome> biomeResourceKey) {
         ItemStack map = new ItemStack(ACItemRegistry.CAVE_MAP.get());
         CompoundTag tag = new CompoundTag();
         tag.putString("BiomeTargetResourceKey", biomeResourceKey.location().toString());
@@ -56,22 +57,22 @@ public class CaveMapItem extends Item {
         return stack.getTag() != null && stack.getTag().getBoolean("Filled");
     }
 
-    public static BlockPos getBiomeBlockPos(ItemStack stack){
-        if(stack.getTag() != null){
+    public static BlockPos getBiomeBlockPos(ItemStack stack) {
+        if (stack.getTag() != null) {
             return new BlockPos(stack.getTag().getInt("BiomeX"), stack.getTag().getInt("BiomeY"), stack.getTag().getInt("BiomeZ"));
         }
         return BlockPos.ZERO;
     }
 
-    public static int[] getBiomes(ItemStack stack){
-        if(stack.getTag() != null){
+    public static int[] getBiomes(ItemStack stack) {
+        if (stack.getTag() != null) {
             return stack.getTag().getIntArray("MapBiomes");
         }
         return new int[0];
     }
 
-    public static long getSeed(ItemStack stack){
-        if(stack.getTag() != null){
+    public static long getSeed(ItemStack stack) {
+        if (stack.getTag() != null) {
             return stack.getTag().getLong("RandomSeed");
         }
         return 0;
@@ -79,15 +80,15 @@ public class CaveMapItem extends Item {
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         ResourceKey<Biome> biomeResourceKey = getBiomeTarget(stack);
-        if(biomeResourceKey != null){
+        if (biomeResourceKey != null) {
             String biomeName = "biome." + biomeResourceKey.location().toString().replace(":", ".");
             tooltip.add(Component.translatable(biomeName).withStyle(ChatFormatting.GRAY));
         }
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 
-    public static ResourceKey<Biome> getBiomeTarget(ItemStack stack){
-        if(stack.getTag() != null){
+    public static ResourceKey<Biome> getBiomeTarget(ItemStack stack) {
+        if (stack.getTag() != null) {
             String s = stack.getTag().getString("BiomeTargetResourceKey");
             return s == null ? null : ResourceKey.create(Registries.BIOME, new ResourceLocation(s));
         }

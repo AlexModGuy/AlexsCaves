@@ -58,7 +58,7 @@ public class HullbreakerInspectMobGoal extends Goal {
         return inspectingTarget != null && inspectingTarget.isAlive() && (target == null || !target.isAlive());
     }
 
-    public void start(){
+    public void start() {
         staring = true;
         clockwise = entity.getRandom().nextBoolean();
         phaseTime = 0;
@@ -67,39 +67,39 @@ public class HullbreakerInspectMobGoal extends Goal {
 
     public void tick() {
         double distance = entity.distanceTo(inspectingTarget);
-        if(entity.getInterestLevel() >= 5 && HullbreakerEntity.GLOWING_TARGET.test(inspectingTarget)){
-            if(!(inspectingTarget instanceof Player) || !((Player)inspectingTarget).isCreative()){
+        if (entity.getInterestLevel() >= 5 && HullbreakerEntity.GLOWING_TARGET.test(inspectingTarget)) {
+            if (!(inspectingTarget instanceof Player) || !((Player) inspectingTarget).isCreative()) {
                 entity.setTarget(inspectingTarget);
             }
             inspectingTarget = null;
             return;
         }
-        if(entity.getRandom().nextInt(20) == 0 && !HullbreakerEntity.GLOWING_TARGET.test(inspectingTarget)){
+        if (entity.getRandom().nextInt(20) == 0 && !HullbreakerEntity.GLOWING_TARGET.test(inspectingTarget)) {
             inspectingTarget = null;
-        }else{
-            if(entity.getAnimation() == HullbreakerEntity.ANIMATION_PUZZLE && entity.getAnimationTick() > 50){
+        } else {
+            if (entity.getAnimation() == HullbreakerEntity.ANIMATION_PUZZLE && entity.getAnimationTick() > 50) {
                 phaseTime = maxPhaseTime;
             }
-            if(phaseTime++ > maxPhaseTime){
+            if (phaseTime++ > maxPhaseTime) {
                 entity.setInterestLevel(entity.getInterestLevel() + 1);
                 staring = entity.getRandom().nextBoolean() && !staring;
                 phaseTime = 0;
                 startCirclingAt = inspectingTarget.getEyePosition();
                 maxPhaseTime = staring ? 120 : 120 + 80 * Math.min(0, 5 - entity.getInterestLevel());
             }
-            if(staring){
+            if (staring) {
                 entity.lookAt(EntityAnchorArgument.Anchor.EYES, inspectingTarget.getEyePosition());
-                if(isPreyWatching() && distance < 18){
-                    if(entity.getAnimation() == IAnimatedEntity.NO_ANIMATION){
+                if (isPreyWatching() && distance < 18) {
+                    if (entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                         entity.setAnimation(HullbreakerEntity.ANIMATION_PUZZLE);
                     }
                     entity.getNavigation().stop();
-                }else if(entity.getNavigation().isDone()){
+                } else if (entity.getNavigation().isDone()) {
                     Vec3 frontVision = inspectingTarget.getEyePosition().add(inspectingTarget.getLookAngle().scale(12.0F));
                     entity.getNavigation().moveTo(frontVision.x, frontVision.y, frontVision.z, 1.0F);
                 }
-            }else{
-                if(startCirclingAt == null){
+            } else {
+                if (startCirclingAt == null) {
                     startCirclingAt = inspectingTarget.getEyePosition();
                 }
                 Vec3 circle = orbitAroundPos(inspectingTarget.getEyePosition(), 12 + Math.min(0, 5 - entity.getInterestLevel()) * 3);
@@ -111,7 +111,7 @@ public class HullbreakerInspectMobGoal extends Goal {
     }
 
     public boolean isPreyWatching() {
-        if(!(inspectingTarget instanceof Player)){
+        if (!(inspectingTarget instanceof Player)) {
             return true;
         }
         Entity lowestPrey = inspectingTarget.getRootVehicle();
@@ -125,15 +125,15 @@ public class HullbreakerInspectMobGoal extends Goal {
     }
 
 
-    public void stop(){
+    public void stop() {
         LivingEntity target = entity.getTarget();
-        if(target == null || !target.isAlive()){
+        if (target == null || !target.isAlive()) {
             entity.setInterestLevel(0);
         }
     }
 
     public Vec3 orbitAroundPos(Vec3 target, float circleDistance) {
-        final float angle = 3 * (float) (Math.PI * (clockwise ? -phaseTime : phaseTime) / (float)maxPhaseTime);
+        final float angle = 3 * (float) (Math.PI * (clockwise ? -phaseTime : phaseTime) / (float) maxPhaseTime);
         final double extraX = circleDistance * Mth.sin((angle));
         final double extraZ = circleDistance * Mth.cos(angle);
         return startCirclingAt.add(extraX, -1, extraZ);

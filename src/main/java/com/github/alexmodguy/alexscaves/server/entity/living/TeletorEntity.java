@@ -214,8 +214,8 @@ public class TeletorEntity extends Monster {
         MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(this.level());
         ItemStack stack = createItemStack(level().getRandom());
         float f = difficultyIn.getSpecialMultiplier();
-        if(level().getRandom().nextFloat() < 0.25F * (f + 0.5F)){
-            stack = EnchantmentHelper.enchantItem(level().getRandom(), stack, (int)(5.0F + f * (float)level().getRandom().nextInt(18)), false);
+        if (level().getRandom().nextFloat() < 0.25F * (f + 0.5F)) {
+            stack = EnchantmentHelper.enchantItem(level().getRandom(), stack, (int) (5.0F + f * (float) level().getRandom().nextInt(18)), false);
         }
         magneticWeapon.setItemStack(stack);
         magneticWeapon.setPos(this.getWeaponPosition());
@@ -251,7 +251,7 @@ public class TeletorEntity extends Monster {
     protected void dropEquipment() {
         super.dropEquipment();
         Entity weapon = this.getWeapon();
-        if(weapon instanceof MagneticWeaponEntity magneticWeapon){
+        if (weapon instanceof MagneticWeaponEntity magneticWeapon) {
             ItemStack itemstack = magneticWeapon.getItemStack();
             float f = this.getEquipmentDropChance(EquipmentSlot.MAINHAND);
             if (!itemstack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemstack) && this.random.nextFloat() < f) {
@@ -315,6 +315,7 @@ public class TeletorEntity extends Monster {
             }
         }
     }
+
     class MoveController extends MoveControl {
         private final Mob parentEntity;
 
@@ -332,9 +333,9 @@ public class TeletorEntity extends Monster {
                 LivingEntity attackTarget = parentEntity.getTarget();
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * 0.025D / d0);
                 parentEntity.setDeltaMovement(parentEntity.getDeltaMovement().add(vector3d1));
-                if(d0 < width * 0.3F){
+                if (d0 < width * 0.3F) {
                     this.operation = Operation.WAIT;
-                }else if (d0 >= width && attackTarget == null) {
+                } else if (d0 >= width && attackTarget == null) {
                     parentEntity.setYRot(-((float) Mth.atan2(vector3d1.x, vector3d1.z)) * (180F / (float) Math.PI));
                     if (TeletorEntity.this.getTarget() != null) {
                         parentEntity.yBodyRot = parentEntity.getYRot();

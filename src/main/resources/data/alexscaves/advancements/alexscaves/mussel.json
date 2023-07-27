@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:mussel"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.mussel.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.mussel.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_abyssal_chasm",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:mussel"]
+                    }
+                ]
+            }
+        }
+    }
+}

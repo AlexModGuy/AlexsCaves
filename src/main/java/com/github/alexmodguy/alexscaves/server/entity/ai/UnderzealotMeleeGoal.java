@@ -31,19 +31,19 @@ public class UnderzealotMeleeGoal extends Goal {
         if (target != null) {
             double dist = entity.distanceTo(target);
             float f = entity.getBbWidth() + target.getBbWidth();
-            if(shouldBurrow && entity.onGround()){
+            if (shouldBurrow && entity.onGround()) {
                 shouldBurrow = false;
                 entity.setBuried(true);
                 entity.reemergeAt(entity.findReemergePos(target.blockPosition(), 15), 20 + entity.getRandom().nextInt(60));
-            }else if(!entity.isBuried()){
-                if(entity.isDiggingInProgress()){
+            } else if (!entity.isBuried()) {
+                if (entity.isDiggingInProgress()) {
                     entity.getNavigation().stop();
-                }else{
+                } else {
                     entity.getNavigation().moveTo(target, 1.3D);
-                    if(dist < f + 1.0F){
+                    if (dist < f + 1.0F) {
                         tryAnimation(entity.getRandom().nextBoolean() ? UnderzealotEntity.ANIMATION_ATTACK_0 : UnderzealotEntity.ANIMATION_ATTACK_1);
                     }
-                    if((entity.getAnimation() == UnderzealotEntity.ANIMATION_ATTACK_0 || entity.getAnimation() == UnderzealotEntity.ANIMATION_ATTACK_1) && entity.getAnimationTick() == 8){
+                    if ((entity.getAnimation() == UnderzealotEntity.ANIMATION_ATTACK_0 || entity.getAnimation() == UnderzealotEntity.ANIMATION_ATTACK_1) && entity.getAnimationTick() == 8) {
                         checkAndDealDamage(target, 1.0F);
                     }
                 }
@@ -58,15 +58,15 @@ public class UnderzealotMeleeGoal extends Goal {
             target.hurt(target.damageSources().mobAttack(entity), f);
             target.knockback(0.2D + 0.3D * multiplier, entity.getX() - target.getX(), entity.getZ() - target.getZ());
             Entity entity = target.getVehicle();
-            if(entity != null){
+            if (entity != null) {
                 entity.setDeltaMovement(target.getDeltaMovement());
-                entity.hurt(target.damageSources().mobAttack(this.entity),f * 0.5F);
+                entity.hurt(target.damageSources().mobAttack(this.entity), f * 0.5F);
             }
             shouldBurrow = true;
         }
     }
 
-    public void stop(){
+    public void stop() {
         shouldBurrow = false;
     }
 

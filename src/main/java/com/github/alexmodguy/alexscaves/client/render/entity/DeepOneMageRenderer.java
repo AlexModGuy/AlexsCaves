@@ -28,7 +28,7 @@ public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneM
 
     @Override
     protected void scale(DeepOneMageEntity mob, PoseStack matrixStackIn, float partialTicks) {
-        if(mob.isSummoned()){
+        if (mob.isSummoned()) {
             matrixStackIn.translate(0, (mob.getBbHeight() + 1F) * (1F - mob.getSummonProgress(partialTicks)), 0);
         }
     }
@@ -56,7 +56,7 @@ public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneM
         }
 
         public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, DeepOneMageEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if(!entitylivingbaseIn.isInvisible()) {
+            if (!entitylivingbaseIn.isInvisible()) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getGhostly(TEXTURE));
                 float alpha = 1.0F;
                 this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, alpha);

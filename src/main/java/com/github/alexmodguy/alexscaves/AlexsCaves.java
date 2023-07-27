@@ -24,10 +24,7 @@ import com.github.alexmodguy.alexscaves.server.level.structure.processor.ACStruc
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRuleConditionRegistry;
 import com.github.alexmodguy.alexscaves.server.level.surface.ACSurfaceRules;
 import com.github.alexmodguy.alexscaves.server.message.*;
-import com.github.alexmodguy.alexscaves.server.misc.ACCreativeTabRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACLootTableRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACPotPatternRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.*;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.recipe.ACRecipeRegistry;
 import com.mojang.logging.LogUtils;
@@ -140,6 +137,7 @@ public class AlexsCaves {
         ACEffectRegistry.setup();
         ACBlockRegistry.setup();
         ACItemRegistry.setup();
+        ACAdvancementTriggerRegistry.setup();
         ACPotPatternRegistry.expandVanillaDefinitions();
         ACBlockEntityRegistry.expandVanillaDefinitions();
     }

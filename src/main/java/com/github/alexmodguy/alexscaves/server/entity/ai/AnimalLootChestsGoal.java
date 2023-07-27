@@ -63,7 +63,7 @@ public class AnimalLootChestsGoal extends MoveToBlockGoal {
 
     protected void moveMobToBlock() {
         BlockPos pos = getMoveToTarget();
-        this.mob.getNavigation().moveTo((double)((float)pos.getX()) + 0.5D, (double)(pos.getY() + 1), (double)((float)pos.getZ()) + 0.5D, this.speedModifier);
+        this.mob.getNavigation().moveTo((double) ((float) pos.getX()) + 0.5D, (double) (pos.getY() + 1), (double) ((float) pos.getZ()) + 0.5D, this.speedModifier);
     }
 
     @Override

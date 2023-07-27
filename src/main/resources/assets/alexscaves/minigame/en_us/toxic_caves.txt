@@ -22,6 +22,10 @@ peril
 underweed
 waste
 rod
+gloomy
+hazmat
+polymer
+siren
 apocalypse
 geothermal
 vent

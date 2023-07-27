@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:nuclear_bomb"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.nuclear_bomb.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.nuclear_bomb.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "alexscaves:alexscaves/uranium_rod",
+    "criteria": {
+        "nuclear_bomb": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:nuclear_bomb"]
+                    }
+                ]
+            }
+        }
+    }
+}

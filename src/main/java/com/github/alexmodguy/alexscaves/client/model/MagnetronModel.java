@@ -55,7 +55,7 @@ public class MagnetronModel extends AdvancedEntityModel<MagnetronEntity> {
         float formProgress = Math.min(1, entity.getFormProgress(partialTick) * 10);
         float rollProgress = 1F - formProgress;
         float rollLeanProgress = rollProgress * entity.getRollLeanProgress(partialTick);
-        float timeRolling = (float)Math.toRadians(Mth.wrapDegrees(entity.getRollPosition(partialTick)));
+        float timeRolling = (float) Math.toRadians(Mth.wrapDegrees(entity.getRollPosition(partialTick)));
         float bodyYaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
         float wheelYaw = (entity.getWheelYaw(partialTick) - bodyYaw) * rollProgress + 90F * formProgress;
 
@@ -63,17 +63,17 @@ public class MagnetronModel extends AdvancedEntityModel<MagnetronEntity> {
         progressPositionPrev(headPivot, rollLeanProgress, 0, -2, -4, 1F);
         this.bob(headPivot, 0.15F, 1.5F, false, ageInTicks, 1);
         this.wheel.rotateAngleY = (float) Math.toRadians(wheelYaw);
-        if(entity.isFormed()){
+        if (entity.isFormed()) {
             float rollDeg = (float) Mth.wrapDegrees(Math.toDegrees(entity.clientRoll));
-        }else{
+        } else {
             wheel.rotateAngleX = timeRolling * rollProgress;
             entity.clientRoll = wheel.rotateAngleX;
             this.bob(wheel, 1, 10, true, timeRolling, rollProgress);
             this.bob(headPivot, 1, 4, true, timeRolling, rollProgress);
         }
-        if(entity.isAlive()){
+        if (entity.isAlive()) {
             this.wheel.showModel = true;
-        }else{
+        } else {
             this.wheel.showModel = false;
         }
         this.faceTarget(netHeadYaw, headPitch, 1, headPivot);

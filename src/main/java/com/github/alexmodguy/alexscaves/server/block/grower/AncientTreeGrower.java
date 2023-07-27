@@ -22,8 +22,8 @@ public class AncientTreeGrower extends AbstractTreeGrower {
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_ANCIENT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AlexsCaves.MODID, "giant_ancient_tree"));
 
     public boolean growTree(ServerLevel serverLevel, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockState state, RandomSource randomSource) {
-        for(int i = 0; i >= -2; --i) {
-            for(int j = 0; j >= -2; --j) {
+        for (int i = 0; i >= -2; --i) {
+            for (int j = 0; j >= -2; --j) {
                 if (isThreeByThreeSapling(state, serverLevel, blockPos, i, j)) {
                     return this.placeMega(serverLevel, chunkGenerator, blockPos, state, randomSource, i, j);
                 }
@@ -38,7 +38,7 @@ public class AncientTreeGrower extends AbstractTreeGrower {
         if (resourcekey == null) {
             return false;
         } else {
-            Holder<ConfiguredFeature<?, ?>> holder = serverLevel.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(resourcekey).orElse((Holder.Reference<ConfiguredFeature<?, ?>>)null);
+            Holder<ConfiguredFeature<?, ?>> holder = serverLevel.registryAccess().registryOrThrow(Registries.CONFIGURED_FEATURE).getHolder(resourcekey).orElse((Holder.Reference<ConfiguredFeature<?, ?>>) null);
             var event = net.minecraftforge.event.ForgeEventFactory.blockGrowFeature(serverLevel, randomSource, blockPos, holder);
             holder = event.getFeature();
             if (event.getResult() == net.minecraftforge.eventbus.api.Event.Result.DENY) return false;
@@ -47,7 +47,7 @@ public class AncientTreeGrower extends AbstractTreeGrower {
             } else {
                 ConfiguredFeature<?, ?> configuredfeature = holder.value();
                 BlockState blockstate = Blocks.AIR.defaultBlockState();
-                for(int i = 0; i < 3; i++) {
+                for (int i = 0; i < 3; i++) {
                     for (int j = 0; j < 3; j++) {
                         serverLevel.setBlock(blockPos.offset(x + i, 0, z + j), blockstate, 4);
                     }
@@ -55,7 +55,7 @@ public class AncientTreeGrower extends AbstractTreeGrower {
                 if (configuredfeature.place(serverLevel, chunkGenerator, randomSource, blockPos.offset(x + 1, 0, z + 1))) {
                     return true;
                 } else {
-                    for(int i = 0; i < 3; i++) {
+                    for (int i = 0; i < 3; i++) {
                         for (int j = 0; j < 3; j++) {
                             serverLevel.setBlock(blockPos.offset(x + i, 0, z + j), blockstate, 4);
                         }
@@ -69,11 +69,11 @@ public class AncientTreeGrower extends AbstractTreeGrower {
     public static boolean isThreeByThreeSapling(BlockState state, BlockGetter level, BlockPos pos, int x, int z) {
         Block block = state.getBlock();
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 3; j++){
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 mutableBlockPos.set(pos.getX() + x + i, pos.getY(), pos.getZ() + z + j);
-                if(!level.getBlockState(mutableBlockPos).is(block)){
-                  return false;
+                if (!level.getBlockState(mutableBlockPos).is(block)) {
+                    return false;
                 }
             }
         }

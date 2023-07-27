@@ -44,7 +44,7 @@ public class MineGuardianAnchorRenderer extends EntityRenderer<MineGuardianAncho
 
     public void render(MineGuardianAnchorEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
         poseStack.pushPose();
-        poseStack.translate(0.0D, (double)1.35F, 0.0D);
+        poseStack.translate(0.0D, (double) 1.35F, 0.0D);
         poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.getYRot())));
         poseStack.mulPose(Axis.XP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.getXRot()) + 180));
         MODEL.setupAnim(entity, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);

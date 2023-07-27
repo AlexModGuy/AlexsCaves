@@ -1,0 +1,29 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:primordial_soup"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.feed_relicheirus.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.feed_relicheirus.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/trilocaris_bucket",
+    "criteria": {
+        "interact": {
+            "trigger": "minecraft:player_interacted_with_entity",
+            "conditions": {
+                "item": {
+                    "items": [
+                        "alexscaves:primordial_soup"
+                    ]
+                },
+                "entity": {
+                    "type": "alexscaves:relicheirus"
+                }
+            }
+        }
+    }
+}

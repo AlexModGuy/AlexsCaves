@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
+import java.awt.*;
 import java.util.List;
 
 public class CaveInfoItem extends Item {
@@ -30,9 +31,14 @@ public class CaveInfoItem extends Item {
     }
 
     public static int getBiomeColorOf(Level level, ItemStack stack) {
+        if (stack.getTag() != null && stack.getTag().getBoolean("Rainbow")) {
+            float hue = (System.currentTimeMillis() % 4000) / 4000f;
+            int rainbow = Color.HSBtoRGB(hue, 1f, 0.8f);
+            return rainbow;
+        }
         if (stack.getItem() instanceof CaveInfoItem) {
             ResourceKey<Biome> biomeResourceKey = getCaveBiome(stack);
-            if(biomeResourceKey != null){
+            if (biomeResourceKey != null) {
                 int color = ACBiomeRegistry.getBiomeTabletColor(biomeResourceKey);
                 if (color == -1) {
                     if (level != null) {

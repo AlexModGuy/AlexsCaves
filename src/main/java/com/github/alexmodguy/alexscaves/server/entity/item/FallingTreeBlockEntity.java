@@ -51,18 +51,18 @@ public class FallingTreeBlockEntity extends AbstractMovingBlockEntity {
         compound.putFloat("FallProgress", 0F);
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
         prevFallProgress = this.getFallProgress();
-        if(this.getFallProgress() >= 1.0F){
+        if (this.getFallProgress() >= 1.0F) {
             BlockPos pos = BlockPos.containing(this.getX(), this.getBoundingBox().maxY, this.getZ());
-            if(!level().isClientSide && !droppedItems){
+            if (!level().isClientSide && !droppedItems) {
                 for (MovingBlockData dataBlock : this.getData()) {
                     BlockPos offset = dataBlock.getOffset();
-                    if(!offset.equals(BlockPos.ZERO)){
+                    if (!offset.equals(BlockPos.ZERO)) {
                         BlockPos rotatedOffset = new BlockPos(offset.getX(), offset.getZ(), -offset.getY()).rotate(getRotationFromDirection(this.getFallDirection()));
                         BlockPos fallPos = pos.offset(rotatedOffset);
-                        while(level().getBlockState(fallPos).isAir() && fallPos.getY() > level().getMinBuildHeight()){
+                        while (level().getBlockState(fallPos).isAir() && fallPos.getY() > level().getMinBuildHeight()) {
                             fallPos = fallPos.below();
                         }
                         createBlockDropAt(fallPos.above(), dataBlock.getState(), dataBlock.blockData);
@@ -79,8 +79,8 @@ public class FallingTreeBlockEntity extends AbstractMovingBlockEntity {
         Block.dropResources(state, level(), fallPos);
     }
 
-    public Rotation getRotationFromDirection(Direction direction){
-        switch (direction){
+    public Rotation getRotationFromDirection(Direction direction) {
+        switch (direction) {
             case NORTH:
                 return Rotation.NONE;
             case EAST:
@@ -112,6 +112,7 @@ public class FallingTreeBlockEntity extends AbstractMovingBlockEntity {
     public void setFallProgress(float f) {
         this.entityData.set(FALL_PROGRESS, f);
     }
+
     public boolean canBePlaced() {
         return false;
     }

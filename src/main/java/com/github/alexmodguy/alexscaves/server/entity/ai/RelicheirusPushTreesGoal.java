@@ -72,7 +72,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
                         relicheirus.setPeckY(blockPos.getY());
                         relicheirus.setAnimation(RelicheirusEntity.ANIMATION_PUSH_TREE);
                     } else if (relicheirus.getAnimation() == RelicheirusEntity.ANIMATION_PUSH_TREE) {
-                        if(relicheirus.getAnimationTick() >= 35 && !madeTreeEntity){
+                        if (relicheirus.getAnimationTick() >= 35 && !madeTreeEntity) {
                             madeTreeEntity = true;
                             List<BlockPos> gathered = new ArrayList<>();
                             gatherAttachedBlocks(blockPos, blockPos, gathered);
@@ -102,10 +102,10 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
                     }
                 }
             } else {
-                if(relicheirus.getNavigation().isDone()){
+                if (relicheirus.getNavigation().isDone()) {
                     Vec3 vec31 = Vec3.atCenterOf(target);
                     Vec3 vec32 = vec31.subtract(relicheirus.position());
-                    if(vec32.length() > 1){
+                    if (vec32.length() > 1) {
                         vec32 = vec32.normalize();
                     }
                     Vec3 delta = new Vec3(vec32.x * 0.1F, 0F, vec32.z * 0.1F);
@@ -136,12 +136,12 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
 
     @Override
     protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
-        if(worldIn.getBlockState(pos).is(ACTagRegistry.RELICHEIRUS_KNOCKABLE_LOGS)){
+        if (worldIn.getBlockState(pos).is(ACTagRegistry.RELICHEIRUS_KNOCKABLE_LOGS)) {
             BlockPos treeTop = new BlockPos(pos);
-            while(worldIn.getBlockState(treeTop).is(ACTagRegistry.RELICHEIRUS_KNOCKABLE_LOGS) && treeTop.getY() < worldIn.getMaxBuildHeight()){
+            while (worldIn.getBlockState(treeTop).is(ACTagRegistry.RELICHEIRUS_KNOCKABLE_LOGS) && treeTop.getY() < worldIn.getMaxBuildHeight()) {
                 treeTop = treeTop.above();
             }
-            if(worldIn.getBlockState(treeTop).is(ACTagRegistry.RELICHEIRUS_KNOCKABLE_LEAVES)){
+            if (worldIn.getBlockState(treeTop).is(ACTagRegistry.RELICHEIRUS_KNOCKABLE_LEAVES)) {
                 return true;
             }
         }
@@ -150,10 +150,10 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
 
     public void gatherAttachedBlocks(BlockPos origin, BlockPos pos, List<BlockPos> list) {
         if (list.size() < MAXIMUM_BLOCKS_PUSHED) {
-            if(!list.contains(pos)){
+            if (!list.contains(pos)) {
                 list.add(pos);
-                for(BlockPos blockpos1 : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-                    if(!blockpos1.equals(pos) && pos.distToCenterSqr(origin.getX(), pos.getY(), origin.getZ()) < MAX_TREE_SPREAD){
+                for (BlockPos blockpos1 : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
+                    if (!blockpos1.equals(pos) && pos.distToCenterSqr(origin.getX(), pos.getY(), origin.getZ()) < MAX_TREE_SPREAD) {
                         if (isTreePart(blockpos1)) {
                             gatherAttachedBlocks(origin, blockpos1.immutable(), list);
                         }

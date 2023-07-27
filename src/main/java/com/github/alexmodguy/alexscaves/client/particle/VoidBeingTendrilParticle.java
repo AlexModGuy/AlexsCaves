@@ -54,7 +54,7 @@ public class VoidBeingTendrilParticle extends Particle {
         this.zd = 0;
         this.lifetime = 300;
         this.size = 1.0F;
-        tipTarget = new Vec3(random.nextFloat() - 0.5F, random.nextFloat()  - 0.5F, random.nextFloat() - 0.5F).normalize().scale(12).add(x, y, z);
+        tipTarget = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).normalize().scale(12).add(x, y, z);
         this.targetId = (int) targetId;
         this.animationOffset = (float) (Math.PI * random.nextFloat());
         this.tipX = x;
@@ -62,7 +62,7 @@ public class VoidBeingTendrilParticle extends Particle {
         this.tipZ = z;
         this.cameraOffsetX = (random.nextFloat() - 0.5F) * 1.3F;
         this.cameraOffsetY = (random.nextFloat() - 0.5F) * 1.3F;
-        this.seekByTime = (int)seekByTime;
+        this.seekByTime = (int) seekByTime;
     }
 
     public void tick() {
@@ -71,18 +71,18 @@ public class VoidBeingTendrilParticle extends Particle {
         prevTipY = tipY;
         prevTipZ = tipZ;
         Entity entityTarget = null;
-        if(targetId != -1 && age > this.seekByTime){
+        if (targetId != -1 && age > this.seekByTime) {
             entityTarget = Minecraft.getInstance().level.getEntity(targetId);
-            if(entityTarget == null){
+            if (entityTarget == null) {
                 targetId = -1;
-            }else{
+            } else {
                 tipTarget = entityTarget.position().add(0, 0.25F, 0);
             }
         }
         if (tipTarget != null) {
             float ageSmooth = age * 0.3F;
             Vec3 tippening = tipTarget.subtract(tipX, tipY, tipZ);
-            if(entityTarget == null){
+            if (entityTarget == null) {
                 tippening = tippening.add((float) Math.sin(ageSmooth + animationOffset), (float) Math.cos(ageSmooth - Math.PI / 2 + animationOffset), -(float) Math.cos(ageSmooth + animationOffset));
             }
             if (tippening.length() > 1F) {
@@ -92,7 +92,7 @@ public class VoidBeingTendrilParticle extends Particle {
             tipY += tippening.y * 0.2;
             tipZ += tippening.z * 0.2;
             if (entityTarget == null && random.nextFloat() < 0.1F) {
-                tipTarget = new Vec3(random.nextFloat() - 0.5F, random.nextFloat()  - 0.5F, random.nextFloat() - 0.5F).normalize().scale(12).add(x, y, z);
+                tipTarget = new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F).normalize().scale(12).add(x, y, z);
             }
         }
         this.xd *= 0.97D;
@@ -109,12 +109,12 @@ public class VoidBeingTendrilParticle extends Particle {
         Vector3f cameraOffset = new Vector3f(cameraOffsetX, cameraOffsetY, -0.1F);
         Quaternionf quaternion = new Quaternionf(camera.rotation());
         cameraOffset.rotate(quaternion);
-        float width = targetId == -1 ? 1.5F : 1.5F + (age / (float)lifetime);
+        float width = targetId == -1 ? 1.5F : 1.5F + (age / (float) lifetime);
         MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
         VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(TENDRIL_TEXTURE));
         PoseStack posestack = new PoseStack();
         posestack.pushPose();
-        posestack.translate(-cameraPos.x + x + cameraOffset.x, -cameraPos.y + y + cameraOffset.y + 0.2F * (float)Math.sin((age + partialTick + animationOffset) * 0.1F), -cameraPos.z + z + cameraOffset.z);
+        posestack.translate(-cameraPos.x + x + cameraOffset.x, -cameraPos.y + y + cameraOffset.y + 0.2F * (float) Math.sin((age + partialTick + animationOffset) * 0.1F), -cameraPos.z + z + cameraOffset.z);
         int samples = 1;
         Vec3 drawFrom = new Vec3(0, 0, 0);
         Vec3 topAngleVec = new Vec3(0, width, 0);
@@ -149,7 +149,7 @@ public class VoidBeingTendrilParticle extends Particle {
         float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
         float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
         float ageSmooth = (age + partialTick) * (targetId == -1 || age < 200 ? 0.04F : 1F);
-        Vec3 wiggleVec = new Vec3((float) Math.sin(ageSmooth + f + animationOffset), (float) Math.cos(ageSmooth - Math.PI / 2 + f + animationOffset), -(float) Math.cos(ageSmooth + f + animationOffset)).scale(wiggleAmount * 0.2F );
+        Vec3 wiggleVec = new Vec3((float) Math.sin(ageSmooth + f + animationOffset), (float) Math.cos(ageSmooth - Math.PI / 2 + f + animationOffset), -(float) Math.cos(ageSmooth + f + animationOffset)).scale(wiggleAmount * 0.2F);
         Vec3 lerpOf = new Vec3(tipX - prevTipX, tipY - prevTipY, tipZ - prevTipZ).scale(partialTick);
         Vec3 vec31 = new Vec3(prevTipX, prevTipY, prevTipZ).add(lerpOf).subtract(cameraOffset);
         return vec31.subtract(x, y, z).scale(f).add(wiggleVec);

@@ -29,8 +29,8 @@ public abstract class AbstractArrowMixin extends Projectile {
             cancellable = true,
             at = @At(value = "HEAD")
     )
-    private void ac_canHitEntity(Entity entity, CallbackInfoReturnable<Boolean> cir){
-        if(getOwner() instanceof DeepOneBaseEntity && entity instanceof DeepOneBaseEntity){
+    private void ac_canHitEntity(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if (getOwner() instanceof DeepOneBaseEntity && entity instanceof DeepOneBaseEntity) {
             cir.setReturnValue(false);
         }
     }
@@ -41,7 +41,7 @@ public abstract class AbstractArrowMixin extends Projectile {
             at = @At(value = "TAIL")
     )
     private void ac_playerConstructor(EntityType arrowEntityType, LivingEntity shooter, Level level, CallbackInfo ci) {
-        if(MagnetUtil.getEntityMagneticDirection(shooter) != Direction.DOWN){
+        if (MagnetUtil.getEntityMagneticDirection(shooter) != Direction.DOWN) {
             this.setPos(shooter.getEyePosition().add(0, -0.1, 0));
         }
     }

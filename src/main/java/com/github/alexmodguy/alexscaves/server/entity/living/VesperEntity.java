@@ -151,7 +151,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
             capturedProgress--;
         }
         if (!level().isClientSide) {
-            if(captured){
+            if (captured) {
                 this.setFlying(false);
                 this.setHanging(false);
             }
@@ -164,7 +164,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                 }
                 if (validHangingPos) {
                     this.setDeltaMovement(this.getDeltaMovement().multiply(0.1F, 0.3F, 0.1F).add(0, 0.08D, 0));
-                }else{
+                } else {
                     this.setHanging(false);
                     this.setFlying(true);
                 }
@@ -179,7 +179,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                 if (this.isLandNavigator) {
                     switchNavigator(false);
                 }
-                if(groundedFor > 0){
+                if (groundedFor > 0) {
                     this.setFlying(false);
                 }
             } else {
@@ -189,24 +189,24 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                 }
             }
         }
-        if(groundedFor > 0){
+        if (groundedFor > 0) {
             groundedFor--;
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
         tickRotation((float) this.getDeltaMovement().y * 2 * -(float) (180F / (float) Math.PI));
         if (isBeingSacrificed && !level().isClientSide) {
             sacrificeTime--;
-            if(sacrificeTime < 10){
+            if (sacrificeTime < 10) {
                 this.level().broadcastEntityEvent(this, (byte) 61);
             }
             if (sacrificeTime < 0) {
-                if(this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot){
+                if (this.isPassenger() && this.getVehicle() instanceof UnderzealotEntity underzealot) {
                     underzealot.postSacrifice(this);
                     underzealot.triggerIdleDigging();
                 }
                 this.stopRiding();
                 ForsakenEntity forsakenEntity = this.convertTo(ACEntityRegistry.FORSAKEN.get(), true);
-                if(forsakenEntity != null){
+                if (forsakenEntity != null) {
                     forsakenEntity.setAnimation(ForsakenEntity.ANIMATION_SUMMON);
                     net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, forsakenEntity);
                     forsakenEntity.stopRiding();
@@ -217,10 +217,10 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
 
     public void handleEntityEvent(byte b) {
         if (b == 61) {
-            for(int i = 0; i < 1 + random.nextInt(4); i++){
+            for (int i = 0; i < 1 + random.nextInt(4); i++) {
                 this.level().addParticle(ACParticleRegistry.UNDERZEALOT_EXPLOSION.get(), this.getRandomX(1), this.getRandomY(), this.getRandomZ(1), 0, 0, 0);
             }
-        }else{
+        } else {
             super.handleEntityEvent(b);
         }
     }
@@ -351,13 +351,13 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         BlockPos above = this.blockPosition();
         int upBy = 100;
         int k = 0;
-        while(world.isEmptyBlock(above) && above.getY() < level().getMaxBuildHeight() && k < upBy){
+        while (world.isEmptyBlock(above) && above.getY() < level().getMaxBuildHeight() && k < upBy) {
             above = above.above();
             k++;
         }
-        if(world.isEmptyBlock(above)){
+        if (world.isEmptyBlock(above)) {
             this.setFlying(true);
-        }else{
+        } else {
             this.setHanging(true);
         }
         this.setPos(above.getX() + 0.5F, above.getY() - this.getBoundingBox().getYsize(), above.getZ() + 0.5F);
@@ -372,14 +372,14 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
     }
 
     public static boolean checkVesperSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
-        if(checkMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)){
+        if (checkMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)) {
             BlockPos.MutableBlockPos above = new BlockPos.MutableBlockPos();
             above.set(blockPos);
             int k = 0;
-            while(levelAccessor.isEmptyBlock(above) && above.getY() < levelAccessor.getMaxBuildHeight()){
+            while (levelAccessor.isEmptyBlock(above) && above.getY() < levelAccessor.getMaxBuildHeight()) {
                 above.move(0, 1, 0);
                 k++;
-                if(k > 5){
+                if (k > 5) {
                     return true;
                 }
             }
@@ -425,7 +425,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                     parentEntity.setYRot(Mth.approachDegrees(parentEntity.getYRot(), yaw, 8));
                 }
                 this.parentEntity.setNoGravity(true);
-            }else{
+            } else {
                 this.parentEntity.setNoGravity(false);
             }
         }

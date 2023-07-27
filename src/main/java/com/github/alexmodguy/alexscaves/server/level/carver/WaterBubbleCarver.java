@@ -19,7 +19,7 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 
 import java.util.function.Function;
 
-public class WaterBubbleCarver  extends CaveWorldCarver {
+public class WaterBubbleCarver extends CaveWorldCarver {
 
     public WaterBubbleCarver(Codec<CaveCarverConfiguration> p_64873_) {
         super(p_64873_);
@@ -41,17 +41,17 @@ public class WaterBubbleCarver  extends CaveWorldCarver {
         int i = SectionPos.sectionToBlockCoord(this.getRange() * 2 - 1);
         int j = p_224889_.nextInt(p_224889_.nextInt(p_224889_.nextInt(this.getCaveBound()) + 1) + 1);
 
-        for(int k = 0; k < j; ++k) {
-            double d0 = (double)p_224891_.getBlockX(p_224889_.nextInt(16));
-            double d1 = (double)p_224886_.y.sample(p_224889_, p_224885_);
-            double d2 = (double)p_224891_.getBlockZ(p_224889_.nextInt(16));
-            double d3 = (double)p_224886_.horizontalRadiusMultiplier.sample(p_224889_);
-            double d4 = (double)p_224886_.verticalRadiusMultiplier.sample(p_224889_);
+        for (int k = 0; k < j; ++k) {
+            double d0 = (double) p_224891_.getBlockX(p_224889_.nextInt(16));
+            double d1 = (double) p_224886_.y.sample(p_224889_, p_224885_);
+            double d2 = (double) p_224891_.getBlockZ(p_224889_.nextInt(16));
+            double d3 = (double) p_224886_.horizontalRadiusMultiplier.sample(p_224889_);
+            double d4 = (double) p_224886_.verticalRadiusMultiplier.sample(p_224889_);
             double d5 = -0.4F - p_224889_.nextFloat() * 0.6F;
             WorldCarver.CarveSkipChecker worldcarver$carveskipchecker = (p_159202_, p_159203_, p_159204_, p_159205_, p_159206_) -> {
                 return shouldSkip(p_159203_, p_159204_, p_159205_, d5);
             };
-            double d6 = (double)p_224886_.yScale.sample(p_224889_);
+            double d6 = (double) p_224886_.yScale.sample(p_224889_);
             float f1 = 3;
             this.createRoom(p_224885_, p_224886_, p_224887_, p_224888_, p_224890_, d0, d1, d2, f1, d6, p_224892_, worldcarver$carveskipchecker);
 

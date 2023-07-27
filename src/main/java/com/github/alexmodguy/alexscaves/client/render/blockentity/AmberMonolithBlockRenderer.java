@@ -39,10 +39,10 @@ public class AmberMonolithBlockRenderer<T extends AmberMonolithBlockEntity> impl
         float spin = amber.getRotation(partialTicks);
         poseStack.pushPose();
         poseStack.translate(0.5F, 1.65F, 0.5F);
-        if(currentEntity != null){
+        if (currentEntity != null) {
             float f = 0.45F;
             float f1 = Math.max(currentEntity.getBbWidth(), currentEntity.getBbHeight());
-            if ((double)f1 > 1.0D) {
+            if ((double) f1 > 1.0D) {
                 f /= f1 * 1.5F;
             }
             poseStack.translate(0, f * 1.5F - 1.25F + (float) (Math.cos(age * 0.05) * 0.05F), 0);
@@ -93,7 +93,7 @@ public class AmberMonolithBlockRenderer<T extends AmberMonolithBlockEntity> impl
                     model.riding = shouldSit;
                     model.attackTime = living.getAttackAnim(partialTicks);
                     boolean prevCrouching = false;
-                    if(model instanceof HumanoidModel<?> humanoidModel){
+                    if (model instanceof HumanoidModel<?> humanoidModel) {
                         prevCrouching = humanoidModel.crouching;
                         humanoidModel.crouching = false;
                     }
@@ -101,7 +101,7 @@ public class AmberMonolithBlockRenderer<T extends AmberMonolithBlockEntity> impl
                     matrixStack.scale(living.getScale(), -living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 0.3F, 0.16F, 0.2F, transparency);
                     matrixStack.popPose();
-                    if(model instanceof HumanoidModel<?> humanoidModel){
+                    if (model instanceof HumanoidModel<?> humanoidModel) {
                         humanoidModel.crouching = prevCrouching;
                     }
                 }

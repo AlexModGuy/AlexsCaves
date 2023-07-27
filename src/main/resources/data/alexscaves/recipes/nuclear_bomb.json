@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "IFI",
+    "UBU",
+    "IFI"
+  ],
+  "key": {
+    "U": {
+      "item": "alexscaves:uranium_rod"
+    },
+    "B": {
+      "tag": "forge:storage_blocks/uranium"
+    },
+    "F": {
+      "item": "alexscaves:fissile_core"
+    },
+    "I": {
+      "tag": "forge:storage_blocks/iron"
+    }
+  },
+  "result": {
+    "item": "alexscaves:nuclear_bomb",
+    "count": 1
+  }
+}

@@ -29,20 +29,20 @@ public class ClientLayerRegistry {
         entityTypes.forEach((entityType -> {
             addLayerIfApplicable(entityType, event);
         }));
-        for (String skinType : event.getSkins()){
+        for (String skinType : event.getSkins()) {
             event.getSkin(skinType).addLayer(new ACPotionEffectLayer(event.getSkin(skinType)));
         }
     }
 
     private static void addLayerIfApplicable(EntityType<? extends LivingEntity> entityType, EntityRenderersEvent.AddLayers event) {
         LivingEntityRenderer renderer = null;
-        if(entityType != EntityType.ENDER_DRAGON){
-            try{
+        if (entityType != EntityType.ENDER_DRAGON) {
+            try {
                 renderer = event.getRenderer(entityType);
-            }catch (Exception e){
+            } catch (Exception e) {
                 AlexsCaves.LOGGER.warn("Could not apply radiation glow layer to " + ForgeRegistries.ENTITY_TYPES.getKey(entityType) + ", has custom renderer that is not LivingEntityRenderer.");
             }
-            if(renderer != null){
+            if (renderer != null) {
                 renderer.addLayer(new ACPotionEffectLayer(renderer));
             }
         }

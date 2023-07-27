@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:resistor_shield"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.resistor_shield.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.resistor_shield.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_magnetron",
+    "criteria": {
+        "resistor_shield": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:resistor_shield"]
+                    }
+                ]
+            }
+        }
+    }
+}

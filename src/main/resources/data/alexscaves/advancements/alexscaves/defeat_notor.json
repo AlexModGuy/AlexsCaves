@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:notor_gizmo"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_notor.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_notor.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/discover_magnetic_caves",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:notor"
+        }
+      }
+    }
+  }
+}

@@ -16,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FoodData.class)
 public abstract class FoodDataMixin {
 
-    @Shadow public abstract void eat(int nutrition, float saturation);
+    @Shadow
+    public abstract void eat(int nutrition, float saturation);
 
     @Inject(
             method = {"Lnet/minecraft/world/food/FoodData;eat(Lnet/minecraft/world/item/Item;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/entity/LivingEntity;)V"},
@@ -25,9 +26,9 @@ public abstract class FoodDataMixin {
             at = @At(value = "HEAD")
     )
     public void ac_eat(Item item, ItemStack stack, LivingEntity entity, CallbackInfo ci) {
-        if(entity != null && stack.is(ACTagRegistry.RAW_MEATS)){
+        if (entity != null && stack.is(ACTagRegistry.RAW_MEATS)) {
             int extraShanksFromArmor = PrimordialArmorItem.getExtraSaturationFromArmor(entity);
-            if(extraShanksFromArmor != 0){
+            if (extraShanksFromArmor != 0) {
                 ci.cancel();
                 if (item.isEdible()) {
                     FoodProperties foodproperties = stack.getFoodProperties(entity);

@@ -17,7 +17,7 @@ public class BigSplashEffectParticle extends WaterDropParticle {
         this.xd = xMotion;
         this.yd = yMotion;
         this.zd = zMotion;
-        this.lifetime = (int)(15.0D / (Math.random() * 0.8D + 0.2D));
+        this.lifetime = (int) (15.0D / (Math.random() * 0.8D + 0.2D));
 
     }
 

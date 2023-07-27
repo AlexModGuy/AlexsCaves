@@ -40,7 +40,9 @@ public abstract class ItemInHandRendererMixin {
     @Shadow
     protected abstract void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, float f1, float f2, HumanoidArm arm);
 
-    @Shadow @Final private ItemRenderer itemRenderer;
+    @Shadow
+    @Final
+    private ItemRenderer itemRenderer;
 
     @Inject(
             method = {"Lnet/minecraft/client/renderer/ItemInHandRenderer;renderArmWithItem(Lnet/minecraft/client/player/AbstractClientPlayer;FFLnet/minecraft/world/InteractionHand;FLnet/minecraft/world/item/ItemStack;FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"},
@@ -78,10 +80,10 @@ public abstract class ItemInHandRendererMixin {
         poseStack.pushPose();
         poseStack.translate(f * 0.51F, -0.08F + animation1 * -1.2F, -0.75F);
         float f1 = Mth.sqrt(animation2);
-        float f2 = Mth.sin(f1 * (float)Math.PI);
+        float f2 = Mth.sin(f1 * (float) Math.PI);
         float f3 = -0.5F * f2;
-        float f4 = 0.4F * Mth.sin(f1 * ((float)Math.PI * 2F));
-        float f5 = -0.3F * Mth.sin(animation2 * (float)Math.PI);
+        float f4 = 0.4F * Mth.sin(f1 * ((float) Math.PI * 2F));
+        float f5 = -0.3F * Mth.sin(animation2 * (float) Math.PI);
         poseStack.translate(f * f3, f4 - 0.3F * f2, f5);
         poseStack.mulPose(Axis.XP.rotationDegrees(f2 * -45.0F));
         poseStack.mulPose(Axis.YP.rotationDegrees(f * f2 * -30.0F));
@@ -107,8 +109,8 @@ public abstract class ItemInHandRendererMixin {
 
     private void renderTwoHandedCaveMap(PoseStack poseStack, MultiBufferSource multiBufferSource, int packedLight, float partialTick, float animation1, float animation2) {
         float f = Mth.sqrt(animation2);
-        float f1 = -0.2F * Mth.sin(animation2 * (float)Math.PI);
-        float f2 = -0.4F * Mth.sin(f * (float)Math.PI);
+        float f1 = -0.2F * Mth.sin(animation2 * (float) Math.PI);
+        float f2 = -0.4F * Mth.sin(f * (float) Math.PI);
         poseStack.translate(0.0F, -f1 / 2.0F, f2);
         float f3 = this.calculateMapTilt(partialTick);
         poseStack.translate(0.0F, 0.04F + animation1 * -1.2F + f3 * -0.5F, -0.72F);
@@ -121,7 +123,7 @@ public abstract class ItemInHandRendererMixin {
             poseStack.popPose();
         }
 
-        float f4 = Mth.sin(f * (float)Math.PI);
+        float f4 = Mth.sin(f * (float) Math.PI);
         poseStack.mulPose(Axis.XP.rotationDegrees(f4 * 20.0F));
         poseStack.scale(2.0F, 2.0F, 2.0F);
         this.renderCaveMap(poseStack, multiBufferSource, packedLight, mainHandItem);

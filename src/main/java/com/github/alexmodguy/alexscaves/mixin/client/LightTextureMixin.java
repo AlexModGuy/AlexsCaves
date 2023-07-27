@@ -31,15 +31,15 @@ public class LightTextureMixin {
             at = @At(value = "TAIL")
     )
     private static void ac_getBrightness(DimensionType dimensionType, int lightTextureIndex, CallbackInfoReturnable<Float> cir) {
-        if(AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()){
+        if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()) {
             float f = calculateBiomeAmbientLight(Minecraft.getInstance().player);
-            if(Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity){
+            if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity) {
                 f = Math.max(f, 0.35F);
             }
-            if(Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get()) && Minecraft.getInstance().player.isUnderWater()){
+            if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get()) && Minecraft.getInstance().player.isUnderWater()) {
                 f = Math.min(1.0F, f + 0.05F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, Minecraft.getInstance().getFrameTime()));
             }
-            if(f != 0){
+            if (f != 0) {
                 cir.setReturnValue(f + cir.getReturnValue());
             }
         }
@@ -48,8 +48,8 @@ public class LightTextureMixin {
     @Redirect(method = "Lnet/minecraft/client/renderer/LightTexture;updateLightTexture(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/DimensionSpecialEffects;adjustLightmapColors(Lnet/minecraft/client/multiplayer/ClientLevel;FFFFIILorg/joml/Vector3f;)V"))
     private void ac_adjustLightmapColors(DimensionSpecialEffects specialEffects, ClientLevel clientLevel, float partialTicks, float skyDarken, float skyLight, float blockLight, int pixelX, int pixelY, Vector3f vector3f) {
         specialEffects.adjustLightmapColors(clientLevel, partialTicks, skyDarken, skyLight, blockLight, pixelX, pixelY, vector3f);
-        if(AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get()){
-            if(!clientLevel.effects().forceBrightLightmap()){
+        if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get()) {
+            if (!clientLevel.effects().forceBrightLightmap()) {
                 Vec3 in = new Vec3(vector3f);
                 Vec3 to = calculateBiomeLightColor(Minecraft.getInstance().player);
                 vector3f.set(to.x * in.x, to.y * in.y, to.z * in.z);

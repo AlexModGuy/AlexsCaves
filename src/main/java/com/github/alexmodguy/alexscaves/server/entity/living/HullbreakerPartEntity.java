@@ -48,7 +48,7 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
             return InteractionResult.PASS;
         } else {
             this.playSound(SoundEvents.ITEM_BREAK);
-            if(player.level().isClientSide){
+            if (player.level().isClientSide) {
                 AlexsCaves.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 0, 0));
             }
             return parent.interact(player, hand);
@@ -76,9 +76,9 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         HullbreakerEntity parent = this.getParent();
-        if(!this.isInvulnerableTo(source) && parent != null){
+        if (!this.isInvulnerableTo(source) && parent != null) {
             Entity player = source.getEntity();
-            if(player != null && player.level().isClientSide){
+            if (player != null && player.level().isClientSide) {
                 AlexsCaves.sendMSGToServer(new MultipartEntityMessage(parent.getId(), player.getId(), 1, amount));
             }
         }
@@ -114,7 +114,7 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
         return this.getBoundingBox().inflate(2.0D, 0.5D, 2.0D);
     }
 
-    public float calculateAnimationAngle(float partialTicks, boolean pitch){
+    public float calculateAnimationAngle(float partialTicks, boolean pitch) {
         HullbreakerEntity parent = this.getParent();
         float parentRot = parent == null ? 0 : (parent.yBodyRotO + (parent.yBodyRot - parent.yBodyRotO) * partialTicks);
         Vec3 connection = connectedTo.getPosition(partialTicks).add(0, connectedTo.getBbHeight() * 0.5F, 0);
@@ -124,13 +124,14 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
         double d0 = connection.x - back.x;
         double d1 = connection.y - back.y;
         double d2 = connection.z - back.z;
-        if(pitch){
+        if (pitch) {
             double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
-            return Mth.wrapDegrees((float) (-(Mth.atan2(d1, d3) * 180.0F / (float) Math.PI)))  * 0.35F;
-        }else{
+            return Mth.wrapDegrees((float) (-(Mth.atan2(d1, d3) * 180.0F / (float) Math.PI))) * 0.35F;
+        } else {
             return (float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90.0F - parentRot;
         }
     }
+
     public boolean shouldBeSaved() {
         return false;
     }

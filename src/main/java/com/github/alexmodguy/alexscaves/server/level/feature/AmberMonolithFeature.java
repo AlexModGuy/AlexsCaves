@@ -23,36 +23,36 @@ public class AmberMonolithFeature extends Feature<NoneFeatureConfiguration> {
         RandomSource randomsource = context.random();
         WorldGenLevel level = context.level();
         BlockPos below = context.origin();
-        if(!level.getBlockState(below.below()).isSolid()){
+        if (!level.getBlockState(below.below()).isSolid()) {
             return false;
         }
         BlockPos.MutableBlockPos pillar = new BlockPos.MutableBlockPos();
         pillar.set(below);
-        for(int i = 0; i < 4 + randomsource.nextInt(2); i++){
+        for (int i = 0; i < 4 + randomsource.nextInt(2); i++) {
             level.setBlock(pillar, ACBlockRegistry.LIMESTONE_PILLAR.get().defaultBlockState(), 4);
             pillar.move(0, 1, 0);
         }
         level.setBlock(pillar, ACBlockRegistry.AMBER_MONOLITH.get().defaultBlockState(), 4);
-        if(randomsource.nextBoolean()){
+        if (randomsource.nextBoolean()) {
             pillar.move(0, 1, 0);
             level.setBlock(pillar, ACBlockRegistry.LIMESTONE_SLAB.get().defaultBlockState(), 4);
         }
         BlockPos pillarTop = pillar.immutable();
-        for(int i = 0; i < 4 + randomsource.nextInt(6); i++){
+        for (int i = 0; i < 4 + randomsource.nextInt(6); i++) {
             BlockPos offset = pillarTop.offset(randomsource.nextInt(6) - 3, 1, randomsource.nextInt(6) - 3);
-            while(level.isEmptyBlock(offset) && offset.getY() > level.getMinBuildHeight()){
+            while (level.isEmptyBlock(offset) && offset.getY() > level.getMinBuildHeight()) {
                 offset = offset.below();
             }
-            if(level.getBlockState(offset).isFaceSturdy(level, offset, Direction.UP) && level.isEmptyBlock(offset.above())){
+            if (level.getBlockState(offset).isFaceSturdy(level, offset, Direction.UP) && level.isEmptyBlock(offset.above())) {
                 BlockState randomState;
                 float f = randomsource.nextFloat();
-                if(f < 0.3F){
+                if (f < 0.3F) {
                     randomState = ACBlockRegistry.LIMESTONE_SLAB.get().defaultBlockState();
-                }else if(f < 0.6F){
+                } else if (f < 0.6F) {
                     randomState = ACBlockRegistry.LIMESTONE_PILLAR.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.X);
-                }else if(f < 0.9F){
+                } else if (f < 0.9F) {
                     randomState = ACBlockRegistry.LIMESTONE_PILLAR.get().defaultBlockState().setValue(RotatedPillarBlock.AXIS, Direction.Axis.Z);
-                }else{
+                } else {
                     randomState = ACBlockRegistry.AMBER.get().defaultBlockState();
                 }
                 level.setBlock(offset.above(), randomState, 4);

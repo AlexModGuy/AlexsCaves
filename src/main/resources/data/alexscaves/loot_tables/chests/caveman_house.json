@@ -107,7 +107,7 @@
         },
         {
           "type": "item",
-          "name": "alexscaves:dinosaur_pottery_shard",
+          "name": "alexscaves:dinosaur_pottery_sherd",
           "weight": 5,
           "functions": [
             {
@@ -121,7 +121,7 @@
         },
         {
           "type": "item",
-          "name": "alexscaves:footprint_pottery_shard",
+          "name": "alexscaves:footprint_pottery_sherd",
           "weight": 5,
           "functions": [
             {

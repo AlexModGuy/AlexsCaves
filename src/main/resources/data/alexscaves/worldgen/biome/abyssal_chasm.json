@@ -10,6 +10,12 @@
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000
     },
+    "music": {
+      "max_delay": 24000,
+      "min_delay": 12000,
+      "replace_current_music": false,
+      "sound": "alexscaves:abyssal_chasm_music"
+    },
     "sky_color": 8103167,
     "water_color": 5451,
     "water_fog_color": 3623

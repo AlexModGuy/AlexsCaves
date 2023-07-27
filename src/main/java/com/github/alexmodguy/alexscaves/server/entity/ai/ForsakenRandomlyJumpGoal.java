@@ -69,17 +69,17 @@ public class ForsakenRandomlyJumpGoal extends Goal {
     @Override
     public void tick() {
         if (entity.isLeaping()) {
-            if(!hasPreformedJump){
+            if (!hasPreformedJump) {
                 hasPreformedJump = true;
                 Vec3 vec3 = this.entity.getDeltaMovement();
                 Vec3 vec31 = new Vec3(this.jumpTarget.getX() + 0.5F - this.entity.getX(), 0.0D, this.jumpTarget.getZ() + 0.5F - this.entity.getZ());
-                if(vec31.length() > 100){
+                if (vec31.length() > 100) {
                     vec31 = vec3.normalize().scale(100);
                 }
                 if (vec31.lengthSqr() > 1.0E-7D) {
                     vec31 = vec31.scale(0.155F).add(vec3.scale(0.2D));
                 }
-                this.entity.setDeltaMovement(vec31.x, 0.2F + (double)vec31.length() * 0.3F, vec31.z);
+                this.entity.setDeltaMovement(vec31.x, 0.2F + (double) vec31.length() * 0.3F, vec31.z);
 
 
             }

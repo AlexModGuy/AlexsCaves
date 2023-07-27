@@ -11,11 +11,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class AmbersolBlockEntity extends BlockEntity {
 
-   private final RandomSource randomSource;
+    private final RandomSource randomSource;
     private final int lights;
     private final float rotSpeed;
     private final float rotOffset;
     private final Vec3 randomOffset;
+
     public AmbersolBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.AMBERSOL.get(), pos, state);
         randomSource = RandomSource.create(pos.asLong());
@@ -35,19 +36,19 @@ public class AmbersolBlockEntity extends BlockEntity {
         return randomSource;
     }
 
-    public int getLights(){
+    public int getLights() {
         return lights;
     }
 
-    public float getRotOffset(){
+    public float getRotOffset() {
         return rotOffset;
     }
 
-    public float getRotSpeed(){
+    public float getRotSpeed() {
         return rotSpeed;
     }
 
-    public Vec3 getRandomOffset(){
+    public Vec3 getRandomOffset() {
         return randomOffset;
     }
 

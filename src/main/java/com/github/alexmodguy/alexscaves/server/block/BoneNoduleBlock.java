@@ -54,7 +54,7 @@ public class BoneNoduleBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        switch (state.getValue(FACING)){
+        switch (state.getValue(FACING)) {
             case UP:
                 return SHAPE_UP;
             case DOWN:

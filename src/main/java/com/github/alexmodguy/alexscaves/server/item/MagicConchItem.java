@@ -33,12 +33,12 @@ public class MagicConchItem extends Item {
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
         int i = this.getUseDuration(stack) - useTimeLeft;
-        if(i > 25){
+        if (i > 25) {
             stack.hurtAndBreak(1, player, (player1) -> {
                 player1.broadcastBreakEvent(player1.getUsedItemHand());
             });
             RandomSource randomSource = player.getRandom();
-            if(!level.isClientSide){
+            if (!level.isClientSide) {
                 int maxNormal = 3 + randomSource.nextInt(1);
                 int maxKnights = 2 + randomSource.nextInt(1);
                 int maxMage = 1 + randomSource.nextInt(1);
@@ -46,34 +46,35 @@ public class MagicConchItem extends Item {
                 int knights = 0;
                 int mage = 0;
                 int tries = 0;
-                while(normal < maxNormal && tries < 99){
+                while (normal < maxNormal && tries < 99) {
                     tries++;
-                    if(summonDeepOne(ACEntityRegistry.DEEP_ONE.get(), player)){
+                    if (summonDeepOne(ACEntityRegistry.DEEP_ONE.get(), player)) {
                         normal++;
                     }
                 }
                 tries = 0;
-                while(knights < maxKnights && tries < 99){
+                while (knights < maxKnights && tries < 99) {
                     tries++;
-                    if(summonDeepOne(ACEntityRegistry.DEEP_ONE_KNIGHT.get(), player)){
+                    if (summonDeepOne(ACEntityRegistry.DEEP_ONE_KNIGHT.get(), player)) {
                         knights++;
                     }
                 }
                 tries = 0;
-                while(mage < maxMage && tries < 99){
+                while (mage < maxMage && tries < 99) {
                     tries++;
-                    if(summonDeepOne(ACEntityRegistry.DEEP_ONE_MAGE.get(), player)){
+                    if (summonDeepOne(ACEntityRegistry.DEEP_ONE_MAGE.get(), player)) {
                         mage++;
                     }
                 }
             }
-            if(player instanceof Player realPlayer){
+            if (player instanceof Player realPlayer) {
                 realPlayer.awardStat(Stats.ITEM_USED.get(this));
                 realPlayer.getCooldowns().addCooldown(this, 1200);
             }
         }
 
     }
+
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         player.startUsingItem(hand);
@@ -90,26 +91,26 @@ public class MagicConchItem extends Item {
         return UseAnim.BOW;
     }
 
-    private boolean summonDeepOne(EntityType type, LivingEntity summoner){
+    private boolean summonDeepOne(EntityType type, LivingEntity summoner) {
         RandomSource random = summoner.getRandom();
         BlockPos randomPos = summoner.blockPosition().offset(random.nextInt(20) - 10, 7, random.nextInt(20) - 10);
-        while((summoner.level().getFluidState(randomPos).is(FluidTags.WATER) || summoner.level().isEmptyBlock(randomPos)) && randomPos.getY() > summoner.level().getMinBuildHeight()){
+        while ((summoner.level().getFluidState(randomPos).is(FluidTags.WATER) || summoner.level().isEmptyBlock(randomPos)) && randomPos.getY() > summoner.level().getMinBuildHeight()) {
             randomPos = randomPos.below();
         }
         BlockState state = summoner.level().getBlockState(randomPos);
-        if(!state.getFluidState().is(FluidTags.WATER) && !state.entityCanStandOn(summoner.level(), randomPos, summoner)){
+        if (!state.getFluidState().is(FluidTags.WATER) && !state.entityCanStandOn(summoner.level(), randomPos, summoner)) {
             return false;
         }
         Vec3 at = Vec3.atCenterOf(randomPos).add(0, 0.5, 0);
         Entity created = type.create(summoner.level());
-        if(created instanceof DeepOneBaseEntity deepOne){
+        if (created instanceof DeepOneBaseEntity deepOne) {
             float f = random.nextFloat() * 360;
             deepOne.moveTo(at.x, at.y, at.z, f, -60);
             deepOne.yBodyRot = f;
             deepOne.setYHeadRot(f);
             deepOne.setSummonedBy(summoner, 1200);
-            deepOne.finalizeSpawn((ServerLevel)summoner.level(), summoner.level().getCurrentDifficultyAt(BlockPos.containing(at)), MobSpawnType.TRIGGERED, (SpawnGroupData)null, (CompoundTag)null);
-            if(deepOne.checkSpawnObstruction(summoner.level())){
+            deepOne.finalizeSpawn((ServerLevel) summoner.level(), summoner.level().getCurrentDifficultyAt(BlockPos.containing(at)), MobSpawnType.TRIGGERED, (SpawnGroupData) null, (CompoundTag) null);
+            if (deepOne.checkSpawnObstruction(summoner.level())) {
                 summoner.level().addFreshEntity(deepOne);
                 deepOne.copyTarget(summoner);
                 return true;

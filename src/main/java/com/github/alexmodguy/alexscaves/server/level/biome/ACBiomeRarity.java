@@ -16,20 +16,20 @@ public class ACBiomeRarity {
     private static final Map<Integer, PerlinSimplexNoise> SIMPLEX_NOISE_HASH_MAP = new HashMap<>();
 
     public static boolean testBiomeRarity(long worldSeed, int rarityOffset, int x, int z, float min, float max) {
-        if(lastTestedSeed != worldSeed){
+        if (lastTestedSeed != worldSeed) {
             lastTestedSeed = worldSeed;
             SIMPLEX_NOISE_HASH_MAP.clear();
         }
-        if(!SIMPLEX_NOISE_HASH_MAP.containsKey(rarityOffset)){
-            SIMPLEX_NOISE_HASH_MAP.put(rarityOffset, new PerlinSimplexNoise(new LegacyRandomSource(32L * rarityOffset + worldSeed), BIOME_OCTAVES));
+        if (!SIMPLEX_NOISE_HASH_MAP.containsKey(rarityOffset)) {
+            SIMPLEX_NOISE_HASH_MAP.put(rarityOffset, new PerlinSimplexNoise(new LegacyRandomSource(1234L * rarityOffset + worldSeed), BIOME_OCTAVES));
         }
         PerlinSimplexNoise noise = SIMPLEX_NOISE_HASH_MAP.get(rarityOffset);
-        if(noise == null){
+        if (noise == null) {
             return false;
-        }else{
+        } else {
             double simplexScale = 100.0D * Math.max(AlexsCaves.COMMON_CONFIG.biomeRarityScale.get(), 1);
             double simplexElevation = Mth.clamp(AlexsCaves.COMMON_CONFIG.biomeRarityElevation.get(), 0.1D, 10D) * 3D;
-            double simplex = noise.getValue(x / simplexScale,  z / simplexScale, false);
+            double simplex = noise.getValue(x / simplexScale, z / simplexScale, false);
             double elevatedSimplex = Math.min(Math.pow(simplex, simplexElevation), 1);
             return elevatedSimplex >= min && elevatedSimplex <= max;
         }

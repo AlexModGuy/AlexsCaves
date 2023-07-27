@@ -27,8 +27,8 @@ public class MusselFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos pos = context.origin();
         WorldGenLevel level = context.level();
         RandomSource randomSource = context.random();
-        if(tryPlaceMussel(level, pos, randomSource)){
-            for(int i = 0; i < randomSource.nextInt(3); i++){
+        if (tryPlaceMussel(level, pos, randomSource)) {
+            for (int i = 0; i < randomSource.nextInt(3); i++) {
                 tryPlaceMussel(level, pos.offset(randomSource.nextInt(4) - 2, randomSource.nextInt(4) - 2, randomSource.nextInt(4) - 2), randomSource);
             }
             return true;
@@ -36,7 +36,7 @@ public class MusselFeature extends Feature<NoneFeatureConfiguration> {
         return false;
     }
 
-    private boolean tryPlaceMussel(WorldGenLevel level, BlockPos pos, RandomSource randomSource){
+    private boolean tryPlaceMussel(WorldGenLevel level, BlockPos pos, RandomSource randomSource) {
         if (level.getBlockState(pos).is(Blocks.WATER)) {
             List<Direction> possiblities = new ArrayList<>();
             for (Direction possible : Direction.values()) {

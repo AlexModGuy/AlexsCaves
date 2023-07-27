@@ -47,14 +47,14 @@ public class NotorHologramGoal extends Goal {
         return canUse() && (this.monster == null || monster.isAlive() && monster.distanceTo(notor) < 40);
     }
 
-    public void start(){
+    public void start() {
         checkForMonsterTime = 0;
         hologramTime = 0;
         monster = null;
     }
 
 
-    public void stop(){
+    public void stop() {
         notor.setScanningId(-1);
         notor.setHologramPos(null);
         notor.setShowingHologram(false);
@@ -62,12 +62,12 @@ public class NotorHologramGoal extends Goal {
         monster = null;
     }
 
-    public void tick(){
+    public void tick() {
         Entity hologram = notor.getHologramEntity();
         double holoHeight = hologram == null ? 1 : hologram.getBbHeight();
-        if(checkForMonsterTime < 0){
+        if (checkForMonsterTime < 0) {
             checkForMonsterTime = 20 + notor.getRandom().nextInt(10);
-            if(monster == null || !monster.isAlive()){
+            if (monster == null || !monster.isAlive()) {
                 Predicate<Entity> monsterAway = (entity) -> entity instanceof Enemy && (hologram == null || !entity.equals(hologram)) && entity.distanceTo(notor) > 5 && !entity.isPassenger() && hasNoTarget(entity);
                 List<Mob> list = notor.level().getEntitiesOfClass(Mob.class, notor.getBoundingBox().inflate(30, 12, 30), EntitySelector.NO_SPECTATORS.and(monsterAway));
                 list.sort(Comparator.comparingDouble(notor::distanceToSqr));
@@ -75,13 +75,13 @@ public class NotorHologramGoal extends Goal {
                     monster = list.get(0);
                 }
             }
-        }else{
+        } else {
             checkForMonsterTime--;
         }
-        if(monster == null || !monster.isAlive() || !hasNoTarget(monster)){
-            if(hologram != null){
+        if (monster == null || !monster.isAlive() || !hasNoTarget(monster)) {
+            if (hologram != null) {
                 int j = 0;
-                while((moveTarget == null  || moveTarget.distanceTo(notor.position()) < 4) && j < 10){
+                while ((moveTarget == null || moveTarget.distanceTo(notor.position()) < 4) && j < 10) {
                     moveTarget = DefaultRandomPos.getPosAway(notor, 40, 15, hologram.position());
                     j++;
                 }
@@ -89,48 +89,48 @@ public class NotorHologramGoal extends Goal {
             if (moveTarget != null && moveTarget.distanceTo(notor.position()) >= 4) {
                 notor.getNavigation().moveTo(moveTarget.x, moveTarget.y, moveTarget.z, 1.2F);
             }
-        }else{
+        } else {
             double distToMonster = monster.distanceTo(notor);
             double distMonsterToPlayer = monster.distanceTo(notor);
-            if(hologramTime < MAX_HOLOGRAM_TIME){
-                if(distToMonster < 8 && notor.hasLineOfSight(monster)){
+            if (hologramTime < MAX_HOLOGRAM_TIME) {
+                if (distToMonster < 8 && notor.hasLineOfSight(monster)) {
                     notor.getNavigation().stop();
-                    if(notor.getHologramPos() == null){
+                    if (notor.getHologramPos() == null) {
                         BlockPos set = monster.blockPosition();
-                        for(int i = 0; i < 15; i++){
+                        for (int i = 0; i < 15; i++) {
                             BlockPos holoPos = monster.blockPosition().offset(notor.getRandom().nextInt(10) - 5, (int) (monster.getBbHeight() + 3), notor.getRandom().nextInt(10) - 5);
-                            while(notor.level().isEmptyBlock(holoPos) && holoPos.getY() > notor.level().getMinBuildHeight()){
+                            while (notor.level().isEmptyBlock(holoPos) && holoPos.getY() > notor.level().getMinBuildHeight()) {
                                 holoPos = holoPos.below();
                             }
                             holoPos = holoPos.above();
                             Vec3 holoVec = Vec3.atCenterOf(holoPos);
-                            if(!isTargetBlocked(monster, holoVec) && !isTargetBlocked(notor, holoVec)){
+                            if (!isTargetBlocked(monster, holoVec) && !isTargetBlocked(notor, holoVec)) {
                                 set = holoPos;
                                 break;
                             }
                         }
-                        notor.setHologramPos(set.above((int) holoHeight ));
+                        notor.setHologramPos(set.above((int) holoHeight));
                     }
                     BlockPos gotten = notor.getHologramPos();
-                    Vec3 stareAt = gotten == null ? notor.getEyePosition() : Vec3.atCenterOf(gotten).add(0,0, 0);
+                    Vec3 stareAt = gotten == null ? notor.getEyePosition() : Vec3.atCenterOf(gotten).add(0, 0, 0);
                     monster.lookAt(EntityAnchorArgument.Anchor.EYES, stareAt);
                     notor.lookAt(EntityAnchorArgument.Anchor.EYES, stareAt);
                     monster.getNavigation().stop();
                     notor.setShowingHologram(true);
                     hologramTime++;
-                }else{
+                } else {
                     notor.getNavigation().moveTo(monster.getX(), monster.getY(1.0F) + 1, monster.getZ(), 1.2F);
                 }
-            }else{
+            } else {
                 notor.setShowingHologram(false);
-                if(hologram instanceof Player player && !player.isCreative()){
+                if (hologram instanceof Player player && !player.isCreative()) {
                     monster.getNavigation().moveTo(notor.getX(), notor.getY(), notor.getZ(), 1.2F);
                     notor.getNavigation().moveTo(player.getX(), player.getY(1.0F) + 2, player.getZ(), 1.2F);
                     monster.setTarget(player);
-                    if(distMonsterToPlayer < Math.min(monster.getAttributeValue(Attributes.FOLLOW_RANGE) - 15, 10)){
+                    if (distMonsterToPlayer < Math.min(monster.getAttributeValue(Attributes.FOLLOW_RANGE) - 15, 10)) {
                         notor.setHologramUUID(null);
                     }
-                }else{
+                } else {
                     notor.setHologramUUID(null);
                 }
             }
@@ -138,7 +138,7 @@ public class NotorHologramGoal extends Goal {
     }
 
     private boolean hasNoTarget(Entity entity) {
-        if(entity instanceof Mob living){
+        if (entity instanceof Mob living) {
             LivingEntity target = living.getTarget();
             return target == null || !target.isAlive();
         }

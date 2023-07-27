@@ -45,7 +45,9 @@ public abstract class LevelRendererMixin {
     @Shadow
     protected abstract boolean doesMobEffectBlockSky(Camera camera);
 
-    @Shadow @Final private RenderBuffers renderBuffers;
+    @Shadow
+    @Final
+    private RenderBuffers renderBuffers;
 
     @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;initOutline()V",
             at = @At("TAIL"))
@@ -87,7 +89,7 @@ public abstract class LevelRendererMixin {
         ACPostEffectRegistry.blitEffects();
     }
 
-    
+
     @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",
             at = @At("HEAD"),
             cancellable = true)
@@ -107,7 +109,7 @@ public abstract class LevelRendererMixin {
             at = @At("HEAD"),
             cancellable = true)
     private static void ac_getLightColor(BlockAndTintGetter level, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-        if(state.getBlock() instanceof EnergizedGalenaBlock){
+        if (state.getBlock() instanceof EnergizedGalenaBlock) {
             int i = level.getBrightness(LightLayer.SKY, pos);
             int j = level.getBrightness(LightLayer.BLOCK, pos);
             int k = state.getLightEmission(level, pos) - 1;
@@ -118,7 +120,7 @@ public abstract class LevelRendererMixin {
         }
     }
 
-        private static float calculateBiomeSkyOverride(Entity player) {
+    private static float calculateBiomeSkyOverride(Entity player) {
         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
         if (i == 0) {
             return ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));

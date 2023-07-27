@@ -695,11 +695,11 @@ public class ForsakenModel extends AdvancedEntityModel<ForsakenEntity> {
         PoseStack translationStack = new PoseStack();
         translationStack.pushPose();
         root.translateAndRotate(translationStack);
-        if(right){
+        if (right) {
             rupperArm.translateAndRotate(translationStack);
             rupperForeArm.translateAndRotate(translationStack);
             rupperHand.translateAndRotate(translationStack);
-        }else{
+        } else {
             lupperArm.translateAndRotate(translationStack);
             lupperForeArm.translateAndRotate(translationStack);
             lupperHand.translateAndRotate(translationStack);

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:cooked_dinosaur_chop"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.cooked_dinosaur_chop.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.cooked_dinosaur_chop.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_big_dinosaur",
+    "criteria": {
+        "cooked_dinosaur_chop": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:cooked_dinosaur_chop"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:grottoceratops_egg"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.breed_grottoceratops.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.breed_grottoceratops.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/tree_star",
+    "criteria": {
+        "breed": {
+            "trigger": "minecraft:bred_animals",
+            "conditions": {
+                "child": {
+                    "type": "alexscaves:grottoceratops"
+                }
+            }
+        }
+    }
+}

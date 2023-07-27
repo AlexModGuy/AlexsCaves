@@ -56,13 +56,13 @@ public class DrainBlock extends AbstractGlassBlock {
         if (!worldIn.isClientSide) {
             this.updateState(state, worldIn, pos, state.getBlock());
 
-            if(state.getValue(OPEN)){
+            if (state.getValue(OPEN)) {
                 drainLogic(state, worldIn, pos);
             }
         }
     }
 
-    public void drainLogic(BlockState state, Level worldIn, BlockPos pos){
+    public void drainLogic(BlockState state, Level worldIn, BlockPos pos) {
         BlockPos above = pos.above();
         if (!worldIn.getFluidState(above).isEmpty() && (worldIn.isEmptyBlock(pos.below()) || !worldIn.getFluidState(pos.below()).isEmpty())) {
             BlockPos.MutableBlockPos highestWaterMutable = new BlockPos.MutableBlockPos();
@@ -192,8 +192,8 @@ public class DrainBlock extends AbstractGlassBlock {
                 if (lastFluidState != null && !fluidstate.isEmpty() && lastFluidState.getFluidType() != fluidstate.getFluidType()) {
                     continue;
                 }
-                if(blockstate.getBlock() instanceof SimpleWaterloggedBlock){
-                    if(!fluidstate.isEmpty()){
+                if (blockstate.getBlock() instanceof SimpleWaterloggedBlock) {
+                    if (!fluidstate.isEmpty()) {
                         lastFluidState = fluidstate;
                     }
                     ++i;
@@ -202,8 +202,8 @@ public class DrainBlock extends AbstractGlassBlock {
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
-                }else if (blockstate.getBlock() instanceof BucketPickup && !((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos1, blockstate).isEmpty()) {
-                    if(!fluidstate.isEmpty()){
+                } else if (blockstate.getBlock() instanceof BucketPickup && !((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos1, blockstate).isEmpty()) {
+                    if (!fluidstate.isEmpty()) {
                         lastFluidState = fluidstate;
                     }
                     ++i;
@@ -213,7 +213,7 @@ public class DrainBlock extends AbstractGlassBlock {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
                 } else if (blockstate.getBlock() instanceof LiquidBlock) {
-                    if(!fluidstate.isEmpty()){
+                    if (!fluidstate.isEmpty()) {
                         lastFluidState = fluidstate;
                     }
                     level.setBlockAndUpdate(blockpos1, Blocks.AIR.defaultBlockState());
@@ -225,7 +225,7 @@ public class DrainBlock extends AbstractGlassBlock {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
                 } else if (blockstate.is(ACTagRegistry.DRAIN_BREAKS)) {
-                    if(!fluidstate.isEmpty()){
+                    if (!fluidstate.isEmpty()) {
                         lastFluidState = fluidstate;
                     }
                     BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(blockpos1) : null;

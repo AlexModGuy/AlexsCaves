@@ -54,14 +54,14 @@ public class ACPotionEffectLayer extends RenderLayer {
         RenderSystem.setShaderColor(f, f, f, translate ? 0.3F : 1.0F);
         Matrix4f matrix4f = poseStack.last().pose();
         bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-        if(translate){
+        if (translate) {
             float f7 = -p110726.player.getYRot() / 64.0F;
             float f8 = p110726.player.getXRot() / 64.0F;
             bufferbuilder.vertex(matrix4f, -1.0F, -1.0F, -0.5F).uv(4.0F + f7, 4.0F + f8).endVertex();
             bufferbuilder.vertex(matrix4f, 1.0F, -1.0F, -0.5F).uv(0.0F + f7, 4.0F + f8).endVertex();
             bufferbuilder.vertex(matrix4f, 1.0F, 1.0F, -0.5F).uv(0.0F + f7, 0.0F + f8).endVertex();
             bufferbuilder.vertex(matrix4f, -1.0F, 1.0F, -0.5F).uv(4.0F + f7, 0.0F + f8).endVertex();
-        }else{
+        } else {
             float min = -0.5F;
             float max = 1.5F;
             bufferbuilder.vertex(matrix4f, -1.0F, -1.0F, -0.5F).uv(max, max).endVertex();

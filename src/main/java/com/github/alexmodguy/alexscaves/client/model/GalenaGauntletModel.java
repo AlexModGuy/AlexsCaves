@@ -33,12 +33,12 @@ public class GalenaGauntletModel extends AdvancedEntityModel<Entity> {
 
 
         thumb = new AdvancedModelBox(this);
-        if(!left){
+        if (!left) {
             thumb.setRotationPoint(4.0F, 0.5F, 2.0F);
             setRotateAngle(thumb, 0.0F, 3.1416F, 0.0F);
             thumb.setTextureOffset(27, 0).addBox(-4.5F, -1.5F, -2.0F, 5.0F, 3.0F, 4.0F, 0.25F, false);
             thumb.setTextureOffset(36, 23).addBox(-4.5F, -1.5F, -2.0F, 5.0F, 3.0F, 4.0F, 0.0F, false);
-        }else{
+        } else {
             thumb.setRotationPoint(-5.0F, 0.5F, 2.0F);
             thumb.setTextureOffset(27, 0).addBox(-4.5F, -1.5F, -2.0F, 5.0F, 3.0F, 4.0F, 0.25F, false);
             thumb.setTextureOffset(36, 23).addBox(-4.5F, -1.5F, -2.0F, 5.0F, 3.0F, 4.0F, 0.0F, false);
@@ -71,12 +71,12 @@ public class GalenaGauntletModel extends AdvancedEntityModel<Entity> {
         this.resetToDefaultPose();
         float closeAmount = 1F - openAmount;
         float leftOff = left ? -1 : 1;
-        if(left){
-            progressRotationPrev(base, closeAmount, 0, (float) Math.toRadians(-90),  0, 1F);
-            progressRotationPrev(thumb, closeAmount, 0, 0,  (float) Math.toRadians(-90), 1F);
-        }else{
-            progressRotationPrev(base, closeAmount, 0, (float) Math.toRadians(90),  0, 1F);
-            progressRotationPrev(thumb, closeAmount, 0, 0,  (float) Math.toRadians(90), 1F);
+        if (left) {
+            progressRotationPrev(base, closeAmount, 0, (float) Math.toRadians(-90), 0, 1F);
+            progressRotationPrev(thumb, closeAmount, 0, 0, (float) Math.toRadians(-90), 1F);
+        } else {
+            progressRotationPrev(base, closeAmount, 0, (float) Math.toRadians(90), 0, 1F);
+            progressRotationPrev(thumb, closeAmount, 0, 0, (float) Math.toRadians(90), 1F);
         }
         progressRotationPrev(finger, closeAmount, (float) Math.toRadians(180), 0, 0, 1F);
         progressRotationPrev(finger2, closeAmount, (float) Math.toRadians(180), 0, 0, 1F);

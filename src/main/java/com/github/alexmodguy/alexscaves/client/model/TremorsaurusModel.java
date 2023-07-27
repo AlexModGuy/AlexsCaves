@@ -343,16 +343,16 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         this.glasses.showModel = danceAmount > 0;
         float walkSpeed = 0.8F;
         float walkDegree = 1F;
-        progressPositionPrev(body, sitAmount,0, 18, -1F, 1F);
-        progressPositionPrev(rleg, sitAmount,0, -11, 12, 1F);
-        progressPositionPrev(lleg, sitAmount,0, -11, 12, 1F);
+        progressPositionPrev(body, sitAmount, 0, 18, -1F, 1F);
+        progressPositionPrev(rleg, sitAmount, 0, -11, 12, 1F);
+        progressPositionPrev(lleg, sitAmount, 0, -11, 12, 1F);
         progressRotationPrev(rleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(15), 0, 1F);
         progressRotationPrev(rleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
         progressRotationPrev(rfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
         progressRotationPrev(lleg, sitAmount, (float) Math.toRadians(-20), (float) Math.toRadians(-15), 0, 1F);
         progressRotationPrev(lleg2, sitAmount, (float) Math.toRadians(-50), 0, 0, 1F);
         progressRotationPrev(lfoot, sitAmount, (float) Math.toRadians(70), 0, 0, 1F);
-        if(buryEggsAmount > 0.0F){
+        if (buryEggsAmount > 0.0F) {
             limbSwing = ageInTicks;
             limbSwingAmount = buryEggsAmount * 0.5F;
             this.body.swing(0.25F, 0.4F, false, 0F, 0F, ageInTicks, buryEggsAmount);

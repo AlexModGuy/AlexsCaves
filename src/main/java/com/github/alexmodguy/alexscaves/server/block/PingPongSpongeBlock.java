@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 public class PingPongSpongeBlock extends BushBlock implements LiquidBlockContainer {
     public static final BooleanProperty TOP = BooleanProperty.create("top");
     public static final VoxelShape SHAPE = Block.box(6, 0, 6, 10, 16, 10);
-    public static final VoxelShape SHAPE_TOP =  Block.box(3, 0, 3, 13, 16, 13);
+    public static final VoxelShape SHAPE_TOP = Block.box(3, 0, 3, 13, 16, 13);
 
     public PingPongSpongeBlock() {
         super(Properties.of().mapColor(DyeColor.WHITE).dynamicShape().instabreak().lightLevel(blockstate -> 5).sound(SoundType.WET_GRASS).offsetType(OffsetType.XZ));
@@ -84,7 +84,7 @@ public class PingPongSpongeBlock extends BushBlock implements LiquidBlockContain
         BlockPos blockpos = context.getClickedPos();
         BlockState above = levelaccessor.getBlockState(blockpos.above());
         FluidState fluidstate = context.getLevel().getFluidState(blockpos);
-        return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ?  this.defaultBlockState().setValue(TOP, above.getBlock() != this) : null;
+        return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ? this.defaultBlockState().setValue(TOP, above.getBlock() != this) : null;
     }
 
 

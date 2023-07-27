@@ -158,7 +158,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         this.entityData.set(POSSESSED_ENTITY_UUID, Optional.ofNullable(hologram));
     }
 
-    public boolean isPossessionBreakable(){
+    public boolean isPossessionBreakable() {
         return isPossessionBreakable;
     }
 
@@ -184,12 +184,12 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                 int i = node.x - target.getBlockX();
                 int j = node.y - target.getBlockY();
                 int k = node.z - target.getBlockZ();
-                return (double)(i * i + j * j + k * k) <= 3D;
+                return (double) (i * i + j * j + k * k) <= 3D;
             }
         }
     }
 
-    public void tick(){
+    public void tick() {
         super.tick();
         prevRunProgress = runProgress;
         prevShadeProgress = shadeProgress;
@@ -219,53 +219,53 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         if (possessedEntity instanceof Player) {
             this.yHeadRot = Mth.approachDegrees(this.yHeadRotO, yHeadRot, 3);
         }
-        if(!level().isClientSide){
-            if(possessedEntity != null && possessedEntity.isAlive()){
+        if (!level().isClientSide) {
+            if (possessedEntity != null && possessedEntity.isAlive()) {
                 double dist = possessedEntity.distanceTo(this);
-                if(this.entityData.get(POSSESSED_ENTITY_ID) != possessedEntity.getId()){
+                if (this.entityData.get(POSSESSED_ENTITY_ID) != possessedEntity.getId()) {
                     this.entityData.set(POSSESSED_ENTITY_ID, possessedEntity.getId());
                     this.setPossessionStrength(1.0F);
                 }
                 lastPossessionTimestamp = this.tickCount;
-                if(possessedTimeout++ > 140){
+                if (possessedTimeout++ > 140) {
                     this.setPossessionStrength(Math.max(0, this.getPossessionStrength() + 0.1F));
                 }
-                if(dist < 1 || stopPossession(possessedEntity) || !this.isAlive()){
+                if (dist < 1 || stopPossession(possessedEntity) || !this.isAlive()) {
                     this.level().broadcastEntityEvent(this, (byte) 78);
                     this.setPossessedEntityUUID(null);
                     this.entityData.set(POSSESSED_ENTITY_ID, -1);
-                }else{
+                } else {
                     this.level().broadcastEntityEvent(this, (byte) 77);
-                    if(possessedEntity instanceof LivingEntity living){
+                    if (possessedEntity instanceof LivingEntity living) {
                         living.zza = 0;
                         living.yya = 0;
                         living.xxa = 0;
                     }
                 }
-            }else{
+            } else {
                 possessedTimeout = 0;
                 this.level().broadcastEntityEvent(this, (byte) 78);
                 this.entityData.set(POSSESSED_ENTITY_ID, -1);
             }
-        }else if(possessedEntity instanceof LivingEntity living){
+        } else if (possessedEntity instanceof LivingEntity living) {
             living.zza = 0;
             living.yya = 0;
             living.xxa = 0;
-            if(this.getPossessionStrength() == 0){
+            if (this.getPossessionStrength() == 0) {
                 isPossessionBreakable = true;
             }
-            if(living instanceof Player player && isPossessionBreakable){
+            if (living instanceof Player player && isPossessionBreakable) {
                 player.jumping = false;
                 Player clientSidePlayer = AlexsCaves.PROXY.getClientSidePlayer();
                 if (AlexsCaves.PROXY.isKeyDown(-1) && player == clientSidePlayer) {
                     AlexsCaves.sendMSGToServer(new WatcherKeyMessage(this.getId(), player.getId(), 0));
                 }
             }
-            if(prevPossessedEntity != living){
+            if (prevPossessedEntity != living) {
                 isPossessionBreakable = false;
             }
             prevPossessedEntity = living;
-        }else{
+        } else {
             prevPossessedEntity = null;
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
@@ -284,15 +284,15 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         return possessionStrength >= 1.0F && possessedTimeout > 40;
     }
 
-    public boolean canPossessTargetEntity(Entity entity){
-        if(true){
+    public boolean canPossessTargetEntity(Entity entity) {
+        if (true) {
             return true;
         }
-        if(entity instanceof Player player){
+        if (entity instanceof Player player) {
             CompoundTag playerData = player.getPersistentData();
             CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
-            if(data != null){
-               return level().getGameTime() - data.getLong(LAST_POSSESSED_TIME_IDENTIFIER) >= 3600;
+            if (data != null) {
+                return level().getGameTime() - data.getLong(LAST_POSSESSED_TIME_IDENTIFIER) >= 3600;
             }
         }
         return true;
@@ -301,10 +301,10 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
     public void handleEntityEvent(byte b) {
         if (b == 77 || b == 78) {
             Entity possessedEntity = getPossessedEntity();
-            if(possessedEntity instanceof Player player){
-                if(b == 77){
+            if (possessedEntity instanceof Player player) {
+                if (b == 77) {
                     AlexsCaves.PROXY.setRenderViewEntity(player, this);
-                }else{
+                } else {
                     level().addParticle(ACParticleRegistry.WATCHER_APPEARANCE.get(), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
                     AlexsCaves.PROXY.resetRenderViewEntity();
                 }
@@ -320,7 +320,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         this.walkAnimation.update(f2, 0.4F);
     }
 
-    public float getShadeAmount(float partialTick){
+    public float getShadeAmount(float partialTick) {
         return (prevShadeProgress + (shadeProgress - prevShadeProgress) * partialTick) * 0.2F;
     }
 
@@ -328,14 +328,14 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         return (prevRunProgress + (runProgress - prevRunProgress) * partialTick) * 0.2F;
     }
 
-    public boolean attemptPossession(LivingEntity living){
-        if(tickCount - lastPossessionTimestamp > 100 && (lastPossessionSite == null || lastPossessionSite.distSqr(this.blockPosition()) > 10)){
+    public boolean attemptPossession(LivingEntity living) {
+        if (tickCount - lastPossessionTimestamp > 100 && (lastPossessionSite == null || lastPossessionSite.distSqr(this.blockPosition()) > 10)) {
             lastPossessionSite = this.blockPosition();
             lastPossessionTimestamp = tickCount;
-            if(living instanceof Player player){
+            if (living instanceof Player player) {
                 CompoundTag playerData = player.getPersistentData();
                 CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
-                if(data != null){
+                if (data != null) {
                     data.putLong(LAST_POSSESSED_TIME_IDENTIFIER, level().getGameTime());
                     playerData.put(Player.PERSISTED_NBT_TAG, data);
 
@@ -348,7 +348,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
 
     public void onKeyPacket(Entity keyPresser, int type) {
         Entity possessed = this.getPossessedEntity();
-        if(possessed.equals(keyPresser)){
+        if (possessed.equals(keyPresser)) {
             this.setPossessionStrength(this.getPossessionStrength() + 0.07F);
         }
     }
@@ -395,7 +395,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         public void tick() {
             if (this.operation == MoveControl.Operation.MOVE_TO) {
                 Vec3 ed = this.mob.getNavigation().getTargetPos().getCenter();
-               // ((ServerLevel)mob.level).sendParticles(ParticleTypes.HEART, ed.x, ed.y, ed.z, 0, 0, 0, 0, 1);
+                // ((ServerLevel)mob.level).sendParticles(ParticleTypes.HEART, ed.x, ed.y, ed.z, 0, 0, 0, 0, 1);
                 //((ServerLevel)mob.level).sendParticles(ParticleTypes.SNEEZE, wantedX, wantedY, wantedZ, 0, 0, 0, 0, 1);
                 double d1 = this.wantedY - this.mob.getY();
                 Vec3 vector3d = new Vec3(this.wantedX - parentEntity.getX(), this.wantedY - parentEntity.getY(), this.wantedZ - parentEntity.getZ());
@@ -404,9 +404,9 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                 LivingEntity attackTarget = parentEntity.getTarget();
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * 0.025D / d0).add(0.0D, 0.08 + (double) (d1 / d0) * 0.1D, 0.0D);
                 parentEntity.setDeltaMovement(parentEntity.getDeltaMovement().add(vector3d1));
-                if(d0 < width * 0.8F){
+                if (d0 < width * 0.8F) {
                     this.operation = Operation.WAIT;
-                }else if (d0 >= width && attackTarget == null) {
+                } else if (d0 >= width && attackTarget == null) {
                     parentEntity.setYRot(-((float) Mth.atan2(vector3d1.x, vector3d1.z)) * (180F / (float) Math.PI));
                     if (WatcherEntity.this.getTarget() != null) {
                         parentEntity.yBodyRot = parentEntity.getYRot();

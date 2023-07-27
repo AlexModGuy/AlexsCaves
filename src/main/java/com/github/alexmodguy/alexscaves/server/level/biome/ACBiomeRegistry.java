@@ -69,13 +69,13 @@ public class ACBiomeRegistry {
     public static float getBiomeSkyOverride(Holder<Biome> value) {
         if (value.is(MAGNETIC_CAVES)) {
             return 1.0F;
-        }else if (value.is(PRIMORDIAL_CAVES)) {
+        } else if (value.is(PRIMORDIAL_CAVES)) {
             return 1.0F;
-        }else if (value.is(TOXIC_CAVES)) {
+        } else if (value.is(TOXIC_CAVES)) {
             return 1.0F;
-        }else if (value.is(ABYSSAL_CHASM)) {
+        } else if (value.is(ABYSSAL_CHASM)) {
             return 1.0F;
-        }else if (value.is(FORLORN_HOLLOWS)) {
+        } else if (value.is(FORLORN_HOLLOWS)) {
             return 1.0F;
         }
         return 0.0F;

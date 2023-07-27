@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.deep_ones_become_neutral.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.deep_ones_become_neutral.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/trade_with_deep_one",
+  "criteria": {
+    "stalked_by_deep_one": {
+      "trigger": "alexscaves:deep_one_neutral"
+    }
+  }
+}

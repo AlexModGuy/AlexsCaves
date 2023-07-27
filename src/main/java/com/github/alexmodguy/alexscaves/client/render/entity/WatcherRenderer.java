@@ -34,7 +34,8 @@ public class WatcherRenderer extends MobRenderer<WatcherEntity, WatcherModel> {
     }
 
     public void render(WatcherEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int light) {
-        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderLivingEvent.Pre<WatcherEntity, WatcherModel>(entity, this, partialTicks, poseStack, bufferSource, light))) return;
+        if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.client.event.RenderLivingEvent.Pre<WatcherEntity, WatcherModel>(entity, this, partialTicks, poseStack, bufferSource, light)))
+            return;
         poseStack.pushPose();
         this.model.attackTime = this.getAttackAnim(entity, partialTicks);
 
@@ -45,7 +46,7 @@ public class WatcherRenderer extends MobRenderer<WatcherEntity, WatcherModel> {
         float f1 = Mth.rotLerp(partialTicks, entity.yHeadRotO, entity.yHeadRot);
         float f2 = f1 - f;
         if (shouldSit && entity.getVehicle() instanceof LivingEntity) {
-            LivingEntity livingentity = (LivingEntity)entity.getVehicle();
+            LivingEntity livingentity = (LivingEntity) entity.getVehicle();
             f = Mth.rotLerp(partialTicks, livingentity.yBodyRotO, livingentity.yBodyRot);
             f2 = f1 - f;
             float f3 = Mth.wrapDegrees(f2);
@@ -75,7 +76,7 @@ public class WatcherRenderer extends MobRenderer<WatcherEntity, WatcherModel> {
             Direction direction = entity.getBedOrientation();
             if (direction != null) {
                 float f4 = entity.getEyeHeight(Pose.STANDING) - 0.1F;
-                poseStack.translate((float)(-direction.getStepX()) * f4, 0.0F, (float)(-direction.getStepZ()) * f4);
+                poseStack.translate((float) (-direction.getStepX()) * f4, 0.0F, (float) (-direction.getStepZ()) * f4);
             }
         }
 
@@ -113,7 +114,7 @@ public class WatcherRenderer extends MobRenderer<WatcherEntity, WatcherModel> {
         }
 
         if (!entity.isSpectator()) {
-            for(RenderLayer<WatcherEntity, WatcherModel> renderlayer : this.layers) {
+            for (RenderLayer<WatcherEntity, WatcherModel> renderlayer : this.layers) {
                 renderlayer.render(poseStack, bufferSource, light, entity, f5, f8, partialTicks, f7, f2, f6);
             }
         }

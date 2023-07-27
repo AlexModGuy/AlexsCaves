@@ -195,8 +195,8 @@ public class DeepOneMageModel extends AdvancedEntityModel<DeepOneMageEntity> imp
         animator.rotate(smTentacleright, (float) Math.toRadians(10), 0, 0);
         animator.rotate(bTendrilLeft, (float) Math.toRadians(10), 0, 0);
         animator.rotate(bTendrilRight, (float) Math.toRadians(10), 0, 0);
-        animator.rotate(bigTentacleleftArm,  (float) Math.toRadians(-10), (float) Math.toRadians(-10), (float) Math.toRadians(-85));
-        animator.rotate(bigTentaclerightArm,  (float) Math.toRadians(-10), (float) Math.toRadians(10), (float) Math.toRadians(85));
+        animator.rotate(bigTentacleleftArm, (float) Math.toRadians(-10), (float) Math.toRadians(-10), (float) Math.toRadians(-85));
+        animator.rotate(bigTentaclerightArm, (float) Math.toRadians(-10), (float) Math.toRadians(10), (float) Math.toRadians(85));
         animator.endKeyframe();
         animator.startKeyframe(5);
         animator.rotate(body, (float) Math.toRadians(15), 0, 0);
@@ -245,11 +245,11 @@ public class DeepOneMageModel extends AdvancedEntityModel<DeepOneMageEntity> imp
         animator.resetKeyframe(10);
     }
 
-    private void animatePose(int pose){
-        if(pose == 0){
+    private void animatePose(int pose) {
+        if (pose == 0) {
             animator.rotate(smTentacleback, (float) Math.toRadians(80), 0, 0);
             animator.rotate(smTentaclefront, (float) Math.toRadians(-80), 0, 0);
-            animator.rotate(smTentacleleft, 0, 0,  (float) Math.toRadians(-80));
+            animator.rotate(smTentacleleft, 0, 0, (float) Math.toRadians(-80));
             animator.rotate(smTentacleright, 0, 0, (float) Math.toRadians(80));
             animator.rotate(bigTentaclerightFront, (float) Math.toRadians(-80), 0, 0);
             animator.rotate(bigTentacleleftFront, (float) Math.toRadians(-80), 0, 0);
@@ -259,7 +259,7 @@ public class DeepOneMageModel extends AdvancedEntityModel<DeepOneMageEntity> imp
             animator.rotate(bTendrilLeft, (float) Math.toRadians(30), 0, 0);
             animator.rotate(bigTentacleleftArm, 0, 0, (float) Math.toRadians(15));
             animator.rotate(bigTentaclerightArm, 0, 0, (float) Math.toRadians(-15));
-        }else if(pose == 1){
+        } else if (pose == 1) {
             animator.move(bigTentacleleftArm, 0, 0, -3);
             animator.move(bigTentaclerightArm, 0, 0, -3);
             animator.rotate(bigTentacleleftArm, (float) Math.toRadians(50), (float) Math.toRadians(40), (float) Math.toRadians(65));
@@ -290,7 +290,7 @@ public class DeepOneMageModel extends AdvancedEntityModel<DeepOneMageEntity> imp
         progressRotationPrev(bigTentacleleftArm, handsDownAmount, 0, 0, (float) Math.toRadians(45), 1F);
         progressPositionPrev(bigTentaclerightArm, handsDownAmount, -2, 1, 0, 1F);
         progressRotationPrev(bigTentaclerightArm, handsDownAmount, 0, 0, (float) Math.toRadians(-45), 1F);
-        if(entity.getAnimation() != DeepOneMageEntity.ANIMATION_TRADE){
+        if (entity.getAnimation() != DeepOneMageEntity.ANIMATION_TRADE) {
             this.flap(bigTentaclerightArm, 0.1F, 0.15F, false, 1F, -0.1F, ageInTicks, 1);
             this.swing(bigTentaclerightArm, 0.1F, 0.15F, false, 1F, -0.1F, ageInTicks, 1);
             this.flap(bigTentacleleftArm, 0.1F, 0.15F, true, 2F, 0F, ageInTicks, 1);

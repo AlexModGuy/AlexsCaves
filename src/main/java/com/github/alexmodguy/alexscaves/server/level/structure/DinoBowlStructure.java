@@ -17,6 +17,7 @@ public class DinoBowlStructure extends AbstractCaveGenerationStructure {
     private static final int BOWL_Y_CENTER = -1;
 
     public static final Codec<DinoBowlStructure> CODEC = simpleCodec((settings) -> new DinoBowlStructure(settings));
+
     public DinoBowlStructure(StructureSettings settings) {
         super(settings, ACBiomeRegistry.PRIMORDIAL_CAVES);
     }

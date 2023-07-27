@@ -10,6 +10,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class VentSmokeParticle extends TextureSheetParticle {
 
     private final boolean green;
+
     protected VentSmokeParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean green) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
@@ -27,7 +28,7 @@ public class VentSmokeParticle extends TextureSheetParticle {
         this.yo = this.y;
         this.zo = this.z;
         if (this.age > this.lifetime / 2) {
-            this.setAlpha(1.0F - ((float)this.age - (float)(this.lifetime / 2)) / (float)this.lifetime);
+            this.setAlpha(1.0F - ((float) this.age - (float) (this.lifetime / 2)) / (float) this.lifetime);
         }
         if (this.age++ >= this.lifetime) {
             this.remove();
@@ -38,6 +39,7 @@ public class VentSmokeParticle extends TextureSheetParticle {
             this.zd *= (double) this.friction;
         }
     }
+
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
@@ -49,9 +51,9 @@ public class VentSmokeParticle extends TextureSheetParticle {
 
     public int getLightColor(float partialTicks) {
         int i = super.getLightColor(partialTicks);
-        if(green){
+        if (green) {
             return 240;
-        }else{
+        } else {
             return i;
         }
     }

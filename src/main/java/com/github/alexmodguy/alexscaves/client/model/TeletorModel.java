@@ -88,7 +88,7 @@ public class TeletorModel extends AdvancedEntityModel<TeletorEntity> {
 
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(body, head, larm, lleg, llegcrossed, rarm, rleg, rlegcrossed,rarmPivot, larmPivot);
+        return ImmutableList.of(body, head, larm, lleg, llegcrossed, rarm, rleg, rlegcrossed, rarmPivot, larmPivot);
     }
 
     @Override
@@ -133,10 +133,10 @@ public class TeletorModel extends AdvancedEntityModel<TeletorEntity> {
         this.swing(rlegcrossed, 0.1F, 0.2F, true, -2F, 0F, ageInTicks, 1);
         this.swing(rarm, 0.5F, 0.2F, false, 2F, 0F, ageInTicks, controlProgress);
         this.swing(larm, 0.5F, 0.2F, true, 2F, 0F, ageInTicks, controlProgress);
-        rarm.rotationPointZ -=  (float) (Math.sin(ageInTicks * 0.5F) * controlProgress);
-        rarm.rotationPointX -=  (float) (Math.sin(ageInTicks * 0.5F + 2F) * controlProgress * 0.5F);
-        larm.rotationPointZ -=  (float) (Math.sin(ageInTicks * 0.5F) * controlProgress);
-        larm.rotationPointX +=  (float) (Math.sin(ageInTicks * 0.5F + 2F) * controlProgress * 0.5F);
+        rarm.rotationPointZ -= (float) (Math.sin(ageInTicks * 0.5F) * controlProgress);
+        rarm.rotationPointX -= (float) (Math.sin(ageInTicks * 0.5F + 2F) * controlProgress * 0.5F);
+        larm.rotationPointZ -= (float) (Math.sin(ageInTicks * 0.5F) * controlProgress);
+        larm.rotationPointX += (float) (Math.sin(ageInTicks * 0.5F + 2F) * controlProgress * 0.5F);
         this.faceTarget(netHeadYaw, headPitch, 1, head);
         Entity look = entity.getWeapon();
         if (look != null) {
@@ -145,31 +145,31 @@ public class TeletorModel extends AdvancedEntityModel<TeletorEntity> {
             double d0 = Mth.clamp((vector3d.y - vector3d1.y) * 0.5F, -1F, 1F) * Math.PI / 2F;
             Vec3 vector3d2 = entity.getViewVector(0.0F);
             vector3d2 = new Vec3(vector3d2.x, 0.0D, vector3d2.z);
-            Vec3 vector3d3 = (new Vec3(vector3d.x - vector3d1.x, 0.0D, vector3d.z - vector3d1.z)).normalize().yRot(((float)Math.PI / 2F));
+            Vec3 vector3d3 = (new Vec3(vector3d.x - vector3d1.x, 0.0D, vector3d.z - vector3d1.z)).normalize().yRot(((float) Math.PI / 2F));
             double d1 = vector3d2.dot(vector3d3);
             this.rarmPivot.rotateAngleX -= d0 * controlProgress;
             this.larmPivot.rotateAngleX -= d0 * controlProgress;
             this.rarmPivot.rotateAngleY += d1 * controlProgress;
             this.larmPivot.rotateAngleY += d1 * controlProgress;
-            if(d0 > 0){
+            if (d0 > 0) {
                 this.head.rotationPointY -= d0 * controlProgress * 5;
             }
         }
     }
 
-    public Vec3 translateToHead(Vec3 in, float yawIn){
+    public Vec3 translateToHead(Vec3 in, float yawIn) {
         PoseStack modelTranslateStack = new PoseStack();
         modelTranslateStack.mulPose(Axis.YP.rotationDegrees(180.0F - yawIn));
-        modelTranslateStack.translate((double)(body.rotationPointX / 16.0F), (double)(body.rotationPointY / 16.0F), (double)(body.rotationPointZ / 16.0F));
+        modelTranslateStack.translate((double) (body.rotationPointX / 16.0F), (double) (body.rotationPointY / 16.0F), (double) (body.rotationPointZ / 16.0F));
         modelTranslateStack.mulPose(Axis.ZN.rotation(body.rotateAngleZ));
         modelTranslateStack.mulPose(Axis.YN.rotation(body.rotateAngleY));
         modelTranslateStack.mulPose(Axis.XN.rotation(body.rotateAngleX));
-        modelTranslateStack.translate((double)(head.rotationPointX / 16.0F), (double)(head.rotationPointY / 16.0F), (double)(head.rotationPointZ / 16.0F));
+        modelTranslateStack.translate((double) (head.rotationPointX / 16.0F), (double) (head.rotationPointY / 16.0F), (double) (head.rotationPointZ / 16.0F));
         modelTranslateStack.mulPose(Axis.ZN.rotation(head.rotateAngleZ));
         modelTranslateStack.mulPose(Axis.YN.rotation(head.rotateAngleY));
         modelTranslateStack.mulPose(Axis.XN.rotation(head.rotateAngleX));
 
-        Vector4f bodyOffsetVec = new Vector4f((float)in.x, (float)in.y, (float)in.z, 1.0F);
+        Vector4f bodyOffsetVec = new Vector4f((float) in.x, (float) in.y, (float) in.z, 1.0F);
         bodyOffsetVec.mul(modelTranslateStack.last().pose());
         Vec3 offset = new Vec3(bodyOffsetVec.x(), bodyOffsetVec.y(), bodyOffsetVec.z());
         modelTranslateStack.popPose();

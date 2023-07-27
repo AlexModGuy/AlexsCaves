@@ -25,7 +25,7 @@ public class BlackVentFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos ventBottom = new BlockPos.MutableBlockPos();
         ventBottom.set(context.origin());
-        while(!level.getBlockState(ventBottom).getFluidState().isEmpty() && ventBottom.getY() > level.getMinBuildHeight()){
+        while (!level.getBlockState(ventBottom).getFluidState().isEmpty() && ventBottom.getY() > level.getMinBuildHeight()) {
             ventBottom.move(0, -1, 0);
         }
         if (level.getBlockState(ventBottom.below()).equals(Blocks.TUFF.defaultBlockState())) {

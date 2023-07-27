@@ -64,7 +64,7 @@ public class TeslaBulbModel extends AdvancedEntityModel<Entity> {
     public void setupAnim(Entity entity, float limbSwing, float explode, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         float intensity = 1F + explode;
-        float zoom = (float) ((Math.sin(ageInTicks * 0.5F * intensity) + 1F) * 0.5F) * 0.1F + (float)Math.sin(explode * Math.PI);
+        float zoom = (float) ((Math.sin(ageInTicks * 0.5F * intensity) + 1F) * 0.5F) * 0.1F + (float) Math.sin(explode * Math.PI);
         outer.setScale(1F + zoom, 1F + zoom, 1F + zoom);
         bulb.rotationPointY += -1F + Math.sin(ageInTicks * 0.045F * intensity) * 1F;
         baseRing.rotationPointY -= -1F + Math.sin(ageInTicks * 0.045F * intensity) * 1F;

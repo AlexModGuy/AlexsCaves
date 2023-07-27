@@ -190,7 +190,7 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
                     levelAccessor.setBlock(pos, blockState.setValue(LIQUID_LOGGED, 1), 3);
                 } else if (fluidState.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()) {
                     BlockState state = blockState;
-                    if(blockState.getBlock() == ACBlockRegistry.METAL_SCAFFOLDING.get()){
+                    if (blockState.getBlock() == ACBlockRegistry.METAL_SCAFFOLDING.get()) {
                         levelAccessor.levelEvent(1501, pos, 0);
                         state = ACBlockRegistry.RUSTY_SCAFFOLDING.get().defaultBlockState().setValue(DISTANCE, blockState.getValue(DISTANCE));
                     }

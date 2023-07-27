@@ -73,15 +73,15 @@ public class SeaGlassBlock extends AbstractGlassBlock {
     }
 
     private static Boolean noOption(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
-        return (boolean)false;
+        return (boolean) false;
     }
 
     private static Boolean yes(BlockState p_50806_, BlockGetter p_50807_, BlockPos p_50808_) {
-        return (boolean)false;
+        return (boolean) false;
     }
 
     private static Boolean noOption(BlockState p_50779_, BlockGetter p_50780_, BlockPos p_50781_, EntityType<?> p_50782_) {
-        return (boolean)false;
+        return (boolean) false;
     }
 
 

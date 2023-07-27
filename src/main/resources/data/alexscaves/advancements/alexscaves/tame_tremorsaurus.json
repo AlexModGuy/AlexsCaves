@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:cave_painting_footprint"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.tame_tremorsaurus.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.tame_tremorsaurus.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/primitive_club",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:tremorsaurus"
+        }
+      }
+    }
+  }
+}

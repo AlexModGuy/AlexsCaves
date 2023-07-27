@@ -61,7 +61,7 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        switch (state.getValue(FACING)){
+        switch (state.getValue(FACING)) {
             case UP:
                 return SHAPE_UP;
             case DOWN:
@@ -84,11 +84,11 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
         BlockPos connectedToPos = blockPos.relative(direction.getOpposite());
         BlockState connectedState = serverLevel.getBlockState(connectedToPos);
         int mussels = state.getValue(MUSSELS);
-        if(randomSource.nextInt(4) == 0 && connectedState.is(ACTagRegistry.GROWS_MUSSELS)){
-            if(mussels >= 5){
+        if (randomSource.nextInt(4) == 0 && connectedState.is(ACTagRegistry.GROWS_MUSSELS)) {
+            if (mussels >= 5) {
                 BlockPos randomOffsetPos = connectedToPos.offset(randomSource.nextInt(6) - 3, randomSource.nextInt(6) - 3, randomSource.nextInt(6) - 3);
                 BlockState randomOffsetState = serverLevel.getBlockState(randomOffsetPos);
-                if(randomOffsetState.is(Blocks.WATER) || randomOffsetState.is(this) && randomOffsetState.getValue(WATERLOGGED)){
+                if (randomOffsetState.is(Blocks.WATER) || randomOffsetState.is(this) && randomOffsetState.getValue(WATERLOGGED)) {
                     List<Direction> possiblities = new ArrayList<>();
                     for (Direction possible : Direction.values()) {
                         BlockPos check = randomOffsetPos.relative(possible);
@@ -97,15 +97,15 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
                         }
                     }
                     Direction chosen = null;
-                    if(!possiblities.isEmpty()){
+                    if (!possiblities.isEmpty()) {
                         if (possiblities.size() <= 1) {
                             chosen = possiblities.get(0);
                         } else {
                             chosen = possiblities.get(randomSource.nextInt(possiblities.size() - 1));
                         }
                     }
-                    if(chosen != null){
-                        int taxicab = Mth.clamp(6 - (int)(Math.ceil(randomOffsetPos.distToLowCornerSqr(blockPos.getX(), blockPos.getY(), blockPos.getZ()))), 1, 5);
+                    if (chosen != null) {
+                        int taxicab = Mth.clamp(6 - (int) (Math.ceil(randomOffsetPos.distToLowCornerSqr(blockPos.getX(), blockPos.getY(), blockPos.getZ()))), 1, 5);
                         int currentMussels = randomOffsetState.is(this) ? randomOffsetState.getValue(MUSSELS) : 0;
                         int setMussels = Math.max(currentMussels, taxicab);
                         int musselCountOf = randomOffsetState.is(this) ? Math.min(randomOffsetState.getValue(MUSSELS) + 1, setMussels) : 1;
@@ -113,7 +113,7 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
                         serverLevel.setBlockAndUpdate(randomOffsetPos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, musselDirectionOf).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, musselCountOf));
                     }
                 }
-            }else{
+            } else {
                 serverLevel.setBlockAndUpdate(blockPos, state.setValue(MUSSELS, mussels + 1));
             }
         }

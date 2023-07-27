@@ -12,12 +12,12 @@ public class WhalefallFeatureConfiguration implements FeatureConfiguration {
     public static final Codec<WhalefallFeatureConfiguration> CODEC = RecordCodecBuilder.create((configurationInstance) -> {
         return configurationInstance.group(ResourceLocation.CODEC.listOf().fieldOf("head_structures").forGetter((p_159830_) -> {
                     return p_159830_.headStructures;
-                }),ResourceLocation.CODEC.listOf().fieldOf("body_structures").forGetter((p_159830_) -> {
+                }), ResourceLocation.CODEC.listOf().fieldOf("body_structures").forGetter((p_159830_) -> {
                     return p_159830_.bodyStructures;
-                }),ResourceLocation.CODEC.listOf().fieldOf("tail_structures").forGetter((p_159830_) -> {
+                }), ResourceLocation.CODEC.listOf().fieldOf("tail_structures").forGetter((p_159830_) -> {
                     return p_159830_.tailStructures;
                 })
-                ).apply(configurationInstance, WhalefallFeatureConfiguration::new);
+        ).apply(configurationInstance, WhalefallFeatureConfiguration::new);
     });
     public final List<ResourceLocation> headStructures;
     public final List<ResourceLocation> bodyStructures;

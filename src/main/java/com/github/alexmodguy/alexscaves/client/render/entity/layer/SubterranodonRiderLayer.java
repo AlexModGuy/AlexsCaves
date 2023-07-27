@@ -25,7 +25,7 @@ public class SubterranodonRiderLayer extends RenderLayer<SubterranodonEntity, Su
 
     public void render(PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn, SubterranodonEntity entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         float bodyYaw = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTicks;
-        if(entity.isVehicle()){
+        if (entity.isVehicle()) {
             float flight = entity.getFlyProgress(partialTicks) - entity.getHoverProgress(partialTicks);
             float flightRoll = flight * entity.getFlightRoll(partialTicks);
             Vec3 offset = new Vec3(0, 0.25F, 0.5F);
@@ -36,7 +36,7 @@ public class SubterranodonRiderLayer extends RenderLayer<SubterranodonEntity, Su
                 }
                 AlexsCaves.PROXY.releaseRenderingEntity(passenger.getUUID());
                 poseStack.pushPose();
-                poseStack.translate(centerLegPos.x, centerLegPos.y + passenger.getBbHeight() - 1.25F * flight, centerLegPos.z  + 2 * flight);
+                poseStack.translate(centerLegPos.x, centerLegPos.y + passenger.getBbHeight() - 1.25F * flight, centerLegPos.z + 2 * flight);
                 poseStack.mulPose(Axis.XP.rotationDegrees(70F * flight));
                 poseStack.mulPose(Axis.XN.rotationDegrees(180F));
                 poseStack.mulPose(Axis.YN.rotationDegrees(360 - bodyYaw + flightRoll));

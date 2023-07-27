@@ -32,6 +32,8 @@ hologram
 energized
 field
 stabilize
+quarry
+gauntlet
 notor
 boundroid
 ferrouslime

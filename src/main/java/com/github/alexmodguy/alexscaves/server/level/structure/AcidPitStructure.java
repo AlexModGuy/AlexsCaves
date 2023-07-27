@@ -15,6 +15,7 @@ public class AcidPitStructure extends AbstractCaveGenerationStructure {
     private static final int BOWL_HEIGHT_RADIUS = 50;
 
     public static final Codec<AcidPitStructure> CODEC = simpleCodec((settings) -> new AcidPitStructure(settings));
+
     public AcidPitStructure(StructureSettings settings) {
         super(settings, ACBiomeRegistry.TOXIC_CAVES);
     }

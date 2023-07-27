@@ -19,7 +19,7 @@ public class LakeFeatureMixin {
             at = @At(value = "HEAD")
     )
     private void ac_place(FeaturePlaceContext context, CallbackInfoReturnable<Boolean> cir) {
-        if(FeaturePositionValidator.isBiome(context, ACBiomeRegistry.ABYSSAL_CHASM)){
+        if (FeaturePositionValidator.isBiome(context, ACBiomeRegistry.ABYSSAL_CHASM)) {
             cir.cancel();
         }
     }

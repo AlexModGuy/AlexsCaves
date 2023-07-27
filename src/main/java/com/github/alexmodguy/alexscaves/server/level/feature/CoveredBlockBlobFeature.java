@@ -21,7 +21,7 @@ public class CoveredBlockBlobFeature extends Feature<CoveredBlockBlobConfigurati
         RandomSource randomsource = context.random();
 
         CoveredBlockBlobConfiguration blockstateconfiguration;
-        for(blockstateconfiguration = context.config(); blockpos.getY() > worldgenlevel.getMinBuildHeight() + 3; blockpos = blockpos.below()) {
+        for (blockstateconfiguration = context.config(); blockpos.getY() > worldgenlevel.getMinBuildHeight() + 3; blockpos = blockpos.below()) {
             if (!worldgenlevel.isEmptyBlock(blockpos.below())) {
                 BlockState blockstate = worldgenlevel.getBlockState(blockpos.below());
                 if (isDirt(blockstate) || isStone(blockstate)) {
@@ -33,13 +33,13 @@ public class CoveredBlockBlobFeature extends Feature<CoveredBlockBlobConfigurati
         if (blockpos.getY() <= worldgenlevel.getMinBuildHeight() + 3) {
             return false;
         } else {
-            for(int l = 0; l < 3; ++l) {
+            for (int l = 0; l < 3; ++l) {
                 int i = randomsource.nextInt(2);
                 int j = randomsource.nextInt(2);
                 int k = randomsource.nextInt(2);
-                float f = (float)(i + j + k) * 0.333F + 0.5F;
-                double radius = (double)(f * f);
-                for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
+                float f = (float) (i + j + k) * 0.333F + 0.5F;
+                double radius = (double) (f * f);
+                for (BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
                     if (blockpos1.distSqr(blockpos) <= radius) {
                         worldgenlevel.setBlock(blockpos1, blockstateconfiguration.block.getState(randomsource, blockpos1), 4);
                         BlockPos blockpos2 = blockpos1.above();

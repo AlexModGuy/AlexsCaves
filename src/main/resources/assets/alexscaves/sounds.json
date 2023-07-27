@@ -1,11 +1,44 @@
 {
+  "magnetic_caves_music": {
+    "sounds": [
+      {
+        "name": "alexscaves:music/alloy_allure",
+        "stream": true
+      }
+    ]
+  },
+  "primordial_caves_music": {
+    "sounds": []
+  },
+  "toxic_caves_music": {
+    "sounds": [
+      {
+        "name": "alexscaves:music/ray",
+        "stream": true
+      }
+    ]
+  },
+  "abyssal_chasm_music": {
+    "sounds": []
+  },
+  "forlorn_hollows_music": {
+    "sounds": []
+  },
   "disappointment": {
-    "category": "neutral",
     "sounds": [
       {
         "name": "alexscaves:disappointment"
       }
     ],
-    "subtitle": "alexsmobs.sound.subtitle.disappointment"
+    "subtitle": "alexscaves.sound.subtitle.disappointment"
+  },
+  "nuclear_siren": {
+    "sounds": [
+      {
+        "name": "alexscaves:nuclear_siren",
+        "stream": true
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.nuclear_siren"
   }
 }

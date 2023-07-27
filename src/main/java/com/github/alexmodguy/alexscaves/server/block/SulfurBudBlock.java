@@ -51,17 +51,17 @@ public class SulfurBudBlock extends Block implements SimpleWaterloggedBlock {
     public void randomTick(BlockState currentState, ServerLevel level, BlockPos blockPos, RandomSource randomSource) {
         if (randomSource.nextInt(3) == 0 && !currentState.is(ACBlockRegistry.SULFUR_CLUSTER.get())) {
             BlockPos acidAbove = blockPos.above();
-            while(level.getBlockState(acidAbove).isAir() && acidAbove.getY() < level.getMaxBuildHeight()){
+            while (level.getBlockState(acidAbove).isAir() && acidAbove.getY() < level.getMaxBuildHeight()) {
                 acidAbove = acidAbove.above();
             }
             BlockState acidState = level.getBlockState(acidAbove);
             Block block = null;
-            if(acidState.is(ACBlockRegistry.ACIDIC_RADROCK.get()) || currentState.getValue(LIQUID_LOGGED) == 2){
-                if(currentState.is(ACBlockRegistry.SULFUR_BUD_SMALL.get())){
+            if (acidState.is(ACBlockRegistry.ACIDIC_RADROCK.get()) || currentState.getValue(LIQUID_LOGGED) == 2) {
+                if (currentState.is(ACBlockRegistry.SULFUR_BUD_SMALL.get())) {
                     block = ACBlockRegistry.SULFUR_BUD_MEDIUM.get();
-                }else if(currentState.is(ACBlockRegistry.SULFUR_BUD_MEDIUM.get())){
+                } else if (currentState.is(ACBlockRegistry.SULFUR_BUD_MEDIUM.get())) {
                     block = ACBlockRegistry.SULFUR_BUD_LARGE.get();
-                }else if(currentState.is(ACBlockRegistry.SULFUR_BUD_LARGE.get())){
+                } else if (currentState.is(ACBlockRegistry.SULFUR_BUD_LARGE.get())) {
                     block = ACBlockRegistry.SULFUR_CLUSTER.get();
                 }
             }
@@ -72,7 +72,7 @@ public class SulfurBudBlock extends Block implements SimpleWaterloggedBlock {
         }
     }
 
-    public static Map<Direction, VoxelShape> buildShapeMap(int pixWidth, int pixHeight){
+    public static Map<Direction, VoxelShape> buildShapeMap(int pixWidth, int pixHeight) {
         Map<Direction, VoxelShape> map = new HashMap<>();
         map.put(Direction.UP, Block.box(8 - pixWidth / 2, 0.0D, 8 - pixWidth / 2, 8 + pixWidth / 2, pixHeight, 8 + pixWidth / 2));
         map.put(Direction.DOWN, Block.box(8 - pixWidth / 2, 16 - pixHeight, 8 - pixWidth / 2, 8 + pixWidth / 2, 16, 8 + pixWidth / 2));

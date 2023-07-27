@@ -53,18 +53,18 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
         this.registerDefaultState(this.stateDefinition.any().setValue(CONNECT_X, false).setValue(CONNECT_Y, true).setValue(CONNECT_Z, false).setValue(LIQUID_LOGGED, 0));
     }
 
-    protected VoxelShape getRebarShape(BlockState state){
-        if(shapeMap.containsKey(state)){
+    protected VoxelShape getRebarShape(BlockState state) {
+        if (shapeMap.containsKey(state)) {
             return shapeMap.get(state);
-        }else{
+        } else {
             VoxelShape merge = CENTER_SHAPE;
-            if(state.getValue(CONNECT_X)){
+            if (state.getValue(CONNECT_X)) {
                 merge = Shapes.join(merge, X_SHAPE, BooleanOp.OR);
             }
-            if(state.getValue(CONNECT_Y)){
+            if (state.getValue(CONNECT_Y)) {
                 merge = Shapes.join(merge, Y_SHAPE, BooleanOp.OR);
             }
-            if(state.getValue(CONNECT_Z)){
+            if (state.getValue(CONNECT_Z)) {
                 merge = Shapes.join(merge, Z_SHAPE, BooleanOp.OR);
             }
             shapeMap.put(state, merge);
@@ -126,7 +126,7 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
                     levelAccessor.setBlock(pos, blockState.setValue(LIQUID_LOGGED, 1), 3);
                 } else if (fluidState.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()) {
                     BlockState state = blockState;
-                    if(blockState.getBlock() == ACBlockRegistry.METAL_REBAR.get()){
+                    if (blockState.getBlock() == ACBlockRegistry.METAL_REBAR.get()) {
                         levelAccessor.levelEvent(1501, pos, 0);
                         state = ACBlockRegistry.RUSTY_REBAR.get().defaultBlockState().setValue(CONNECT_X, blockState.getValue(CONNECT_X)).setValue(CONNECT_Y, blockState.getValue(CONNECT_Y)).setValue(CONNECT_Z, blockState.getValue(CONNECT_Z));
                     }
@@ -168,20 +168,20 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
         return 0;
     }
 
-    public BlockState getDesiredRebarState(BlockState blockstate, Direction.Axis clickedAxis){
+    public BlockState getDesiredRebarState(BlockState blockstate, Direction.Axis clickedAxis) {
         boolean xAxis = false;
         boolean yAxis = false;
         boolean zAxis = false;
-        if(blockstate.is(this)){
+        if (blockstate.is(this)) {
             xAxis = blockstate.getValue(CONNECT_X);
             yAxis = blockstate.getValue(CONNECT_Y);
             zAxis = blockstate.getValue(CONNECT_Z);
         }
-        if(clickedAxis == Direction.Axis.X){
+        if (clickedAxis == Direction.Axis.X) {
             xAxis = true;
-        }else if(clickedAxis == Direction.Axis.Y){
+        } else if (clickedAxis == Direction.Axis.Y) {
             yAxis = true;
-        }else if(clickedAxis == Direction.Axis.Z){
+        } else if (clickedAxis == Direction.Axis.Z) {
             zAxis = true;
         }
         return this.defaultBlockState().setValue(CONNECT_X, xAxis).setValue(CONNECT_Y, yAxis).setValue(CONNECT_Z, zAxis);
@@ -191,22 +191,22 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
         super.playerDestroy(level, player, blockPos, blockState, blockEntity, stack);
         Vec3 findDirOf = player.getEyePosition().subtract(Vec3.atCenterOf(blockPos));
         Direction.Axis axis = Direction.getNearest(findDirOf.x, findDirOf.y, findDirOf.z).getAxis();
-        if(axis == Direction.Axis.X && blockState.getValue(CONNECT_X)){
+        if (axis == Direction.Axis.X && blockState.getValue(CONNECT_X)) {
             level.setBlock(blockPos, blockState.setValue(CONNECT_X, false), 2);
-        }else if(axis == Direction.Axis.Y && blockState.getValue(CONNECT_Y)){
+        } else if (axis == Direction.Axis.Y && blockState.getValue(CONNECT_Y)) {
             level.setBlock(blockPos, blockState.setValue(CONNECT_Y, false), 2);
-        }else if(axis == Direction.Axis.Z && blockState.getValue(CONNECT_Z)){
+        } else if (axis == Direction.Axis.Z && blockState.getValue(CONNECT_Z)) {
             level.setBlock(blockPos, blockState.setValue(CONNECT_Z, false), 2);
         }
     }
 
     public BlockState rotate(BlockState state, Rotation rotation) {
         BlockState def = state.setValue(CONNECT_X, false).setValue(CONNECT_Z, false);
-        if(rotation == Rotation.CLOCKWISE_90 || rotation == Rotation.COUNTERCLOCKWISE_90){
-            if(state.getValue(CONNECT_X)){
+        if (rotation == Rotation.CLOCKWISE_90 || rotation == Rotation.COUNTERCLOCKWISE_90) {
+            if (state.getValue(CONNECT_X)) {
                 def = def.setValue(CONNECT_Z, true);
             }
-            if(state.getValue(CONNECT_Z)){
+            if (state.getValue(CONNECT_Z)) {
                 def = def.setValue(CONNECT_X, true);
             }
         }

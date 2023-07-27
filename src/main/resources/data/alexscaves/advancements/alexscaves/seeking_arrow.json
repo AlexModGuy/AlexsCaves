@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:seeking_arrow"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.seeking_arrow.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.seeking_arrow.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/neodymium_ingot",
+    "criteria": {
+        "seeking_arrow": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:seeking_arrow"]
+                    }
+                ]
+            }
+        }
+    }
+}

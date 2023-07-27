@@ -1,0 +1,46 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:abyssal_altar"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.pearl_on_abyssal_altar.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.pearl_on_abyssal_altar.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/stalked_by_deep_one",
+  "criteria": {
+    "use_charcoal": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": [
+                "alexscaves:pearl"
+              ]
+            }
+          },
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": [
+                  "alexscaves:abyssal_altar"
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "requirements": [
+    [
+      "use_charcoal"
+    ]
+  ]
+}

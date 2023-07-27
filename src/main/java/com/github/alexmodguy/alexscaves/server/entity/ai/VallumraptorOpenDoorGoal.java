@@ -25,14 +25,14 @@ public class VallumraptorOpenDoorGoal extends DoorInteractGoal {
         return this.raptor.isTame() ? timeSincePassing < 15 : !isOpen();
     }
 
-    public boolean hasNotPassed(){
+    public boolean hasNotPassed() {
         return super.canContinueToUse();
     }
 
     public void tick() {
         super.tick();
         Vec3 vec3 = Vec3.atCenterOf(this.doorPos);
-        if(!isOpen() && this.raptor.distanceToSqr(vec3) < 4){
+        if (!isOpen() && this.raptor.distanceToSqr(vec3) < 4) {
             this.raptor.lookAt(EntityAnchorArgument.Anchor.EYES, vec3);
             if (this.raptor.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                 this.raptor.setAnimation(VallumraptorEntity.ANIMATION_GRAB);
@@ -41,14 +41,14 @@ public class VallumraptorOpenDoorGoal extends DoorInteractGoal {
         if (this.raptor.getAnimation() == VallumraptorEntity.ANIMATION_GRAB && this.raptor.getAnimationTick() == 16) {
             this.setOpen(true);
         }
-        if(!hasNotPassed()){
+        if (!hasNotPassed()) {
             timeSincePassing++;
         }
     }
 
     public void stop() {
         super.stop();
-        if(this.raptor.isTame()){
+        if (this.raptor.isTame()) {
             this.setOpen(false);
         }
         timeSincePassing = 0;

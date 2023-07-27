@@ -55,14 +55,14 @@ public class PrimordialArmorModel extends HumanoidModel {
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
-    public PrimordialArmorModel withAnimations(LivingEntity entity){
+    public PrimordialArmorModel withAnimations(LivingEntity entity) {
         float partialTick = Minecraft.getInstance().getFrameTime();
         float limbSwingAmount = entity.walkAnimation.speed(partialTick);
         float minLeg = Math.min(this.rightLeg.xRot, this.leftLeg.xRot);
         float maxLeg = Math.max(this.rightLeg.xRot, this.leftLeg.xRot);
-        this.frontFlap.xRot = minLeg - (float)(limbSwingAmount * Math.toRadians(25));
+        this.frontFlap.xRot = minLeg - (float) (limbSwingAmount * Math.toRadians(25));
         this.frontFlap.y = 12.0F - limbSwingAmount * 1.2F;
-        this.backFlap.xRot = maxLeg + (float)(limbSwingAmount * Math.toRadians(25));
+        this.backFlap.xRot = maxLeg + (float) (limbSwingAmount * Math.toRadians(25));
         this.backFlap.y = 12.0F - limbSwingAmount * 1.2F;
         return this;
     }

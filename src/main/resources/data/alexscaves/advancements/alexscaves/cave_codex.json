@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:cave_codex",
+            "nbt": "{Rainbow:1}"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.cave_codex.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.cave_codex.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/cave_tablet",
+    "criteria": {
+        "cave_codex": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:cave_codex"]
+                    }
+                ]
+            }
+        }
+    }
+}

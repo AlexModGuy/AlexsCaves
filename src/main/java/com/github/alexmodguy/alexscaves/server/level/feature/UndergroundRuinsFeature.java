@@ -39,7 +39,7 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         BlockPos chunkCenter = context.origin().atY(level.getMinBuildHeight() + 3);
         List<BlockPos> genPos = new ArrayList<>();
         int surface = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, chunkCenter.getX(), chunkCenter.getZ()) - 5;
-        int j  = 0;
+        int j = 0;
         while (chunkCenter.getY() < surface) {
             BlockPos next = chunkCenter.above();
             BlockState currentState = level.getBlockState(chunkCenter);
@@ -51,11 +51,11 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
             chunkCenter = next;
         }
 
-        if(genPos.isEmpty()){
+        if (genPos.isEmpty()) {
             return false;
         }
         BlockPos blockpos = genPos.size() <= 1 ? genPos.get(0) : genPos.get(randomsource.nextInt(genPos.size() - 1));
-        if(!canGenerateAt(level, blockpos)){
+        if (!canGenerateAt(level, blockpos)) {
             return false;
         }
         Rotation rotation = Rotation.getRandom(randomsource);
@@ -70,7 +70,7 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
         Vec3i vec3i = structuretemplate.getSize(rotation);
         BlockPos blockpos1 = blockpos.offset(-vec3i.getX() / 2, 0, -vec3i.getZ() / 2);
         int replaceDown = 0;
-        while(skipsOver(level.getBlockState(blockpos1), replaceDown) && blockpos1.getY() < level.getMinBuildHeight()){
+        while (skipsOver(level.getBlockState(blockpos1), replaceDown) && blockpos1.getY() < level.getMinBuildHeight()) {
             blockpos1 = blockpos1.below();
             replaceDown++;
         }
@@ -82,7 +82,7 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
                 if (marker.equals("loot_chest")) {
                     level.setBlock(structuretemplate$structureblockinfo.pos(), Blocks.CAVE_AIR.defaultBlockState(), 4);
                     RandomizableContainerBlockEntity.setLootTable(level, randomsource, structuretemplate$structureblockinfo.pos().below(), context.config().chestLoot);
-                }else{
+                } else {
                     processMarker(marker, level, structuretemplate$structureblockinfo.pos(), randomsource);
                 }
             }

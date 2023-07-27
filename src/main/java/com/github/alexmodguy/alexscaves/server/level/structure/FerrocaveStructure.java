@@ -12,6 +12,7 @@ import net.minecraft.world.level.levelgen.structure.StructureType;
 public class FerrocaveStructure extends AbstractCaveGenerationStructure {
 
     public static final Codec<FerrocaveStructure> CODEC = simpleCodec((settings) -> new FerrocaveStructure(settings));
+
     public FerrocaveStructure(StructureSettings settings) {
         super(settings, ACBiomeRegistry.MAGNETIC_CAVES);
     }

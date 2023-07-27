@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "P P",
+    "P P"
+  ],
+  "key": {
+    "P": {
+      "item": "alexscaves:polymer_plate"
+    }
+  },
+  "result": {
+    "item": "alexscaves:hazmat_leggings"
+  }
+}

@@ -14,26 +14,26 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class ArchaicVineBlock extends GrowingPlantHeadBlock {
-   protected static final VoxelShape SHAPE = Block.box(4.0D, 9.0D, 4.0D, 12.0D, 16.0D, 12.0D);
+    protected static final VoxelShape SHAPE = Block.box(4.0D, 9.0D, 4.0D, 12.0D, 16.0D, 12.0D);
 
-   public ArchaicVineBlock() {
-      super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).randomTicks().noCollission().instabreak().sound(SoundType.ROOTS), Direction.DOWN, SHAPE, false, 0.1D);
-   }
+    public ArchaicVineBlock() {
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).randomTicks().noCollission().instabreak().sound(SoundType.ROOTS), Direction.DOWN, SHAPE, false, 0.1D);
+    }
 
-   protected int getBlocksToGrowWhenBonemealed(RandomSource randomSource) {
-      return NetherVines.getBlocksToGrowWhenBonemealed(randomSource);
-   }
+    protected int getBlocksToGrowWhenBonemealed(RandomSource randomSource) {
+        return NetherVines.getBlocksToGrowWhenBonemealed(randomSource);
+    }
 
-   public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
-      //no natural growth
-   }
+    public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource randomSource) {
+        //no natural growth
+    }
 
 
-   protected Block getBodyBlock() {
-      return ACBlockRegistry.ARCHAIC_VINE_PLANT.get();
-   }
+    protected Block getBodyBlock() {
+        return ACBlockRegistry.ARCHAIC_VINE_PLANT.get();
+    }
 
-   protected boolean canGrowInto(BlockState state) {
-      return state.isAir();
-   }
+    protected boolean canGrowInto(BlockState state) {
+        return state.isAir();
+    }
 }

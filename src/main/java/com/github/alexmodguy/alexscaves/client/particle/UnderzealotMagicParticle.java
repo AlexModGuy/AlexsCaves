@@ -13,6 +13,7 @@ public class UnderzealotMagicParticle extends TextureSheetParticle {
     private static final RandomSource RANDOM = RandomSource.create();
     private final SpriteSet sprites;
     private Vec3 target;
+
     public UnderzealotMagicParticle(ClientLevel level, double x, double y, double z, double toX, double toY, double toZ, SpriteSet spriteSet) {
         super(level, x, y, z, 0, 0, 0);
         this.friction = 0.96F;
@@ -45,7 +46,7 @@ public class UnderzealotMagicParticle extends TextureSheetParticle {
         this.setSpriteFromAge(this.sprites);
         this.setAlpha(Mth.lerp(0.05F, this.alpha, 1.0F));
         Vec3 to = this.target.subtract(x, y, z);
-        if(to.length() > 1F){
+        if (to.length() > 1F) {
             to = to.normalize();
         }
         this.xd += to.x * 0.03F;

@@ -40,12 +40,12 @@ public class MagnetUtil {
         return pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(ACPOIRegistry.REPELLING_MAGNETS.getKey()), Predicates.alwaysTrue(), blockpos, range, PoiManager.Occupancy.ANY);
     }
 
-    public static void tickMagnetism(Entity entity){
-        if(!entity.level().isClientSide && entity.level() instanceof ServerLevel serverLevel){
+    public static void tickMagnetism(Entity entity) {
+        if (!entity.level().isClientSide && entity.level() instanceof ServerLevel serverLevel) {
             int range = 5;
             Stream<BlockPos> attracts = getNearbyAttractingMagnets(entity.blockPosition(), serverLevel, range);
             Stream<BlockPos> repels = getNearbyRepellingMagnets(entity.blockPosition(), serverLevel, range);
-            attracts.forEach((magnet)-> {
+            attracts.forEach((magnet) -> {
                 Vec3 center = Vec3.atCenterOf(magnet);
                 double distance = Mth.clamp(Math.sqrt(entity.distanceToSqr(center)) / range, 0, 1);
                 Vec3 pull = Vec3.atCenterOf(magnet).subtract(entity.position());
@@ -53,7 +53,7 @@ public class MagnetUtil {
                 Vec3 pullScale = pullNorm.scale((1 - distance) * 0.25F);
                 setEntityMagneticDelta(entity, getEntityMagneticDelta(entity).scale(0.9).add(pullScale));
             });
-            repels.forEach((magnet)-> {
+            repels.forEach((magnet) -> {
                 Vec3 center = Vec3.atCenterOf(magnet);
                 double distance = Mth.clamp(Math.sqrt(entity.distanceToSqr(center)) / range, 0, 1);
                 Vec3 pull = entity.position().subtract(Vec3.atCenterOf(magnet));
@@ -64,14 +64,14 @@ public class MagnetUtil {
         }
         Vec3 vec3 = getEntityMagneticDelta(entity);
         Direction dir = getEntityMagneticDirection(entity);
-        MagneticEntityAccessor magneticAccessor = (MagneticEntityAccessor)entity;
+        MagneticEntityAccessor magneticAccessor = (MagneticEntityAccessor) entity;
         boolean attatchesToMagnets = attachesToMagnets(entity);
-        if(vec3 != Vec3.ZERO){
+        if (vec3 != Vec3.ZERO) {
             Direction standingOnDirection = getStandingOnMagnetSurface(entity);
             float overrideByWalking = 1.0F;
-            if(entity instanceof LivingEntity living){
-                if(living.jumping && standingOnDirection == dir){
-                    if(living.level().isClientSide){
+            if (entity instanceof LivingEntity living) {
+                if (living.jumping && standingOnDirection == dir) {
+                    if (living.level().isClientSide) {
                         AlexsCaves.sendMSGToServer(new PlayerJumpFromMagnetMessage(living.getId(), living.jumping));
                     }
                     magneticAccessor.postMagnetJump();
@@ -79,7 +79,7 @@ public class MagnetUtil {
                 float detract = living.xxa * living.xxa + living.yya * living.yya + living.zza * living.zza;
                 overrideByWalking -= Math.min(1.0F, Math.sqrt(detract) * 0.7F);
             }
-            if(!isEntityOnMovingMetal(entity)) {
+            if (!isEntityOnMovingMetal(entity)) {
                 if (attatchesToMagnets) {
                     Vec3 vec31;
                     if (dir == Direction.DOWN && standingOnDirection == null) {
@@ -99,8 +99,8 @@ public class MagnetUtil {
                             vec31 = processMovementControls(entity.getDeltaMovement(), living, dir);
                         }
                         entity.setDeltaMovement(vec31);
-                        if(entity instanceof Player player){
-                            double bobDelta = dir == Direction.UP ? (float)player.getDeltaMovement().horizontalDistance() : Math.max(Math.abs(player.xxa), Math.abs(player.zza)) * 0.3F;
+                        if (entity instanceof Player player) {
+                            double bobDelta = dir == Direction.UP ? (float) player.getDeltaMovement().horizontalDistance() : Math.max(Math.abs(player.xxa), Math.abs(player.zza)) * 0.3F;
                             float f = (float) Math.min(0.1F, bobDelta);
                             //player.walkDist += (float)bobDelta * 0.6F;
                             //player.bob += (f - player.bob) * 0.4F;
@@ -120,9 +120,9 @@ public class MagnetUtil {
                     entity.setDeltaMovement(entity.getDeltaMovement().add(vec3));
                 }
             }
-            setEntityMagneticDelta(entity, vec3.scale( 0.08F));
+            setEntityMagneticDelta(entity, vec3.scale(0.08F));
         }
-        if(!attatchesToMagnets && dir != Direction.DOWN){
+        if (!attatchesToMagnets && dir != Direction.DOWN) {
             setEntityMagneticDirection(entity, Direction.DOWN);
             entity.refreshDimensions();
             entity.setPose(Pose.STANDING);
@@ -137,55 +137,55 @@ public class MagnetUtil {
     private static Vec3 processMovementControls(Vec3 entityMotion, LivingEntity living, Direction dir) {
         double dSpeed = living.getAttributeValue(Attributes.MOVEMENT_SPEED);
         float jump = living.jumping && getStandingOnMagnetSurface(living) != null ? 0.5F : 0.0F;
-        if(dir == Direction.UP){
+        if (dir == Direction.UP) {
             return new Vec3(entityMotion.x * 0.98, -entityMotion.y - jump, entityMotion.z * 0.98);
-        }else if(dir == Direction.NORTH){
+        } else if (dir == Direction.NORTH) {
             return new Vec3(-living.xxa * dSpeed * 0.6F, living.zza * dSpeed, entityMotion.y * dSpeed + jump);
-        }else if(dir == Direction.SOUTH){
+        } else if (dir == Direction.SOUTH) {
             return new Vec3(living.xxa * dSpeed * 0.6F, living.zza * dSpeed, -entityMotion.y * dSpeed - jump);
-        }else if(dir == Direction.EAST){
+        } else if (dir == Direction.EAST) {
             return new Vec3(-entityMotion.y - jump, living.zza * dSpeed, -living.xxa * dSpeed * 0.6F);
-        }else if(dir == Direction.WEST){
-            return new Vec3(entityMotion.y + jump, living.zza * dSpeed, living.xxa * dSpeed  * 0.6F);
+        } else if (dir == Direction.WEST) {
+            return new Vec3(entityMotion.y + jump, living.zza * dSpeed, living.xxa * dSpeed * 0.6F);
         }
         return entityMotion;
     }
 
-    public static Vec3 getEntityMagneticDelta(Entity entity){
-        if(entity instanceof MagneticEntityAccessor magnetic){
+    public static Vec3 getEntityMagneticDelta(Entity entity) {
+        if (entity instanceof MagneticEntityAccessor magnetic) {
             float f1 = magnetic.getMagneticDeltaX();
             float f2 = magnetic.getMagneticDeltaY();
             float f3 = magnetic.getMagneticDeltaZ();
-            if(f1 != 0.0 || f2 != 0.0 || f3 != 0.0){
+            if (f1 != 0.0 || f2 != 0.0 || f3 != 0.0) {
                 return new Vec3(f1, f2, f3);
             }
         }
         return Vec3.ZERO;
     }
 
-    public static void setEntityMagneticDelta(Entity entity, Vec3 vec3){
-        if(entity instanceof MagneticEntityAccessor magnetic){
+    public static void setEntityMagneticDelta(Entity entity, Vec3 vec3) {
+        if (entity instanceof MagneticEntityAccessor magnetic) {
             magnetic.setMagneticDeltaX((float) vec3.x);
             magnetic.setMagneticDeltaY((float) vec3.y);
             magnetic.setMagneticDeltaZ((float) vec3.z);
         }
     }
 
-    public static Direction getEntityMagneticDirection(Entity entity){
-        if(entity instanceof MagneticEntityAccessor magnetic){
+    public static Direction getEntityMagneticDirection(Entity entity) {
+        if (entity instanceof MagneticEntityAccessor magnetic) {
             return magnetic.getMagneticAttachmentFace();
         }
         return Direction.DOWN;
     }
 
-    public static void setEntityMagneticDirection(Entity entity, Direction direction){
-        if(entity instanceof MagneticEntityAccessor magnetic){
+    public static void setEntityMagneticDirection(Entity entity, Direction direction) {
+        if (entity instanceof MagneticEntityAccessor magnetic) {
             magnetic.setMagneticAttachmentFace(direction);
         }
     }
 
-    private static Direction getStandingOnMagnetSurface(Entity entity){
-        if(entity.isShiftKeyDown()){
+    private static Direction getStandingOnMagnetSurface(Entity entity) {
+        if (entity.isShiftKeyDown()) {
             return Direction.DOWN;
         }
         for (Direction dir : Direction.values()) {
@@ -198,9 +198,9 @@ public class MagnetUtil {
         return null;
     }
 
-    private static Direction calculateClosestDirection(Entity entity){
+    private static Direction calculateClosestDirection(Entity entity) {
         Direction closestDirection = Direction.DOWN;
-        if(entity.isShiftKeyDown()){
+        if (entity.isShiftKeyDown()) {
             return Direction.DOWN;
         }
         double closestDistance = entity.getBbHeight() + entity.getBbWidth();
@@ -214,7 +214,7 @@ public class MagnetUtil {
             if ((closestDistance > dist || dir == Direction.UP) && blockState.is(ACTagRegistry.MAGNETIC_ATTACHABLES)) {
                 closestDistance = dist;
                 closestDirection = dir;
-                if(dir == Direction.UP){
+                if (dir == Direction.UP) {
                     break;
                 }
             }
@@ -222,8 +222,8 @@ public class MagnetUtil {
         return closestDirection;
     }
 
-    private static BlockPos getSamplePosForDirection(Entity entity, Direction direction, float expand){
-        switch (direction){
+    private static BlockPos getSamplePosForDirection(Entity entity, Direction direction, float expand) {
+        switch (direction) {
             case DOWN:
                 return BlockPos.containing(entity.getX(), entity.getBoundingBox().minY - expand, entity.getZ());
             case UP:
@@ -240,27 +240,27 @@ public class MagnetUtil {
         return entity.blockPosition();
     }
 
-    private static boolean isDynamicallyMagnetic(LivingEntity entity, boolean legsOnly){
-        if(entity.hasEffect(ACEffectRegistry.MAGNETIZING.get())){
+    private static boolean isDynamicallyMagnetic(LivingEntity entity, boolean legsOnly) {
+        if (entity.hasEffect(ACEffectRegistry.MAGNETIZING.get())) {
             return true;
-        }else if(legsOnly){
+        } else if (legsOnly) {
             return entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.MAGNETIC_ITEMS);
-        }else{
-            for(EquipmentSlot slot : EquipmentSlot.values()){
-                if(entity.getItemBySlot(slot).is(ACTagRegistry.MAGNETIC_ITEMS)){
+        } else {
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                if (entity.getItemBySlot(slot).is(ACTagRegistry.MAGNETIC_ITEMS)) {
                     return true;
                 }
             }
         }
-       return false;
+        return false;
     }
 
-    public static boolean isPulledByMagnets(Entity entity){
-        if(entity instanceof ItemEntity item){
+    public static boolean isPulledByMagnets(Entity entity) {
+        if (entity instanceof ItemEntity item) {
             return item.getItem() != null && item.getItem().is(ACTagRegistry.MAGNETIC_ITEMS);
-        }else if(entity instanceof LivingEntity living && isDynamicallyMagnetic(living, false)){
+        } else if (entity instanceof LivingEntity living && isDynamicallyMagnetic(living, false)) {
             return true;
-        }else if(entity instanceof FallingBlockEntity block){
+        } else if (entity instanceof FallingBlockEntity block) {
             return block.getBlockState() != null && block.getBlockState().is(ACTagRegistry.MAGNETIC_BLOCKS);
 
         }
@@ -268,7 +268,7 @@ public class MagnetUtil {
     }
 
     public static boolean attachesToMagnets(Entity entity) {
-        if(entity instanceof LivingEntity living && isDynamicallyMagnetic(living, true) && !living.isShiftKeyDown()){
+        if (entity instanceof LivingEntity living && isDynamicallyMagnetic(living, true) && !living.isShiftKeyDown()) {
             return true;
         }
         return entity.getType().is(ACTagRegistry.MAGNETIC_ENTITIES);
@@ -277,14 +277,14 @@ public class MagnetUtil {
     public static void rotateHead(LivingEntity entity) {
         Direction direction = getEntityMagneticDirection(entity);
 
-        if(direction == Direction.UP){
+        if (direction == Direction.UP) {
             float f = entity.getYHeadRot() - entity.yBodyRot;
             float f1 = entity.yHeadRotO - entity.yBodyRotO;
             entity.setYHeadRot(entity.yBodyRot - f);
             entity.yHeadRotO = entity.yBodyRotO - f1;
             entity.setXRot(180 - entity.getXRot());
             entity.xRotO = 180 - entity.xRotO;
-        }else if(direction != Direction.DOWN){
+        } else if (direction != Direction.DOWN) {
             float f = entity instanceof Player ? 90 : 0;
             entity.setXRot(entity.getXRot() + f);
             entity.xRotO = entity.xRotO + f;
@@ -293,11 +293,11 @@ public class MagnetUtil {
     }
 
     public static Vec3 getEyePositionForAttachment(Entity entity, Direction face, float partialTicks) {
-        float progress = ((MagneticEntityAccessor)entity).getAttachmentProgress(partialTicks);
+        float progress = ((MagneticEntityAccessor) entity).getAttachmentProgress(partialTicks);
         double eyeHeight = entity.getEyeHeight(Pose.STANDING);
-        double d0 = Mth.lerp((double)partialTicks, entity.xo, entity.getX());
-        double d1 = Mth.lerp((double)partialTicks, entity.yo, entity.getY());
-        double d2 = Mth.lerp((double)partialTicks, entity.zo, entity.getZ());
+        double d0 = Mth.lerp((double) partialTicks, entity.xo, entity.getX());
+        double d1 = Mth.lerp((double) partialTicks, entity.yo, entity.getY());
+        double d2 = Mth.lerp((double) partialTicks, entity.zo, entity.getZ());
         Vec3 offset = new Vec3(-face.getStepX() * eyeHeight, -face.getStepY() * eyeHeight, -face.getStepZ() * eyeHeight);
         Vec3 from = new Vec3(d0, d1 + eyeHeight, d2);
         Vec3 to = new Vec3(d0, d1, d2).add(offset);
@@ -313,8 +313,8 @@ public class MagnetUtil {
                 return List.of();
             } else {
                 List<VoxelShape> shapes = new ArrayList<>();
-                for(AbstractMovingBlockEntity metalEntity : list) {
-                    if(metalEntity != entity){
+                for (AbstractMovingBlockEntity metalEntity : list) {
+                    if (metalEntity != entity) {
                         shapes.add(metalEntity.getShape());
                     }
                 }
@@ -324,9 +324,9 @@ public class MagnetUtil {
     }
 
     public static void turnEntityOnMagnet(Entity entity, double xBy, double yBy, Direction magneticAttachmentFace) {
-        float progress = ((MagneticEntityAccessor)entity).getAttachmentProgress(AlexsCaves.PROXY.getPartialTicks());
-        float f = (float)xBy * 0.15F;
-        float f1 = (float)yBy * 0.15F * (magneticAttachmentFace == Direction.UP ? -1F : 1F);
+        float progress = ((MagneticEntityAccessor) entity).getAttachmentProgress(AlexsCaves.PROXY.getPartialTicks());
+        float f = (float) xBy * 0.15F;
+        float f1 = (float) yBy * 0.15F * (magneticAttachmentFace == Direction.UP ? -1F : 1F);
         float magnetOffset = (magneticAttachmentFace == Direction.UP ? -180 : -90) * progress;
         entity.setXRot(entity.getXRot() + f);
         entity.setYRot(entity.getYRot() + f1);
@@ -338,15 +338,15 @@ public class MagnetUtil {
 
     public static AABB rotateBoundingBox(EntityDimensions dimensions, Direction dir, Vec3 position) {
         AABB zeroCentered = dimensions.makeBoundingBox(Vec3.ZERO);
-        switch (dir){
+        switch (dir) {
             case NORTH:
                 return new AABB(dimensions.width * -0.5F, dimensions.width * -0.5F, dimensions.height - 0.25F, dimensions.width * 0.5F, dimensions.width * 0.5F, -0.25F).move(position);
             case SOUTH:
                 return new AABB(dimensions.width * -0.5F, dimensions.width * -0.5F, -dimensions.height + 0.25F, dimensions.width * 0.5F, dimensions.width * 0.5F, 0.25F).move(position);
             case EAST:
-                return new AABB(-dimensions.height + 0.25F, dimensions.width * -0.5F, dimensions.width * -0.5F,  0.25F, dimensions.width * 0.5F, dimensions.width * 0.5F).move(position);
+                return new AABB(-dimensions.height + 0.25F, dimensions.width * -0.5F, dimensions.width * -0.5F, 0.25F, dimensions.width * 0.5F, dimensions.width * 0.5F).move(position);
             case WEST:
-                return new AABB(dimensions.height - 0.25F, dimensions.width * -0.5F, dimensions.width * -0.5F,  -0.25F, dimensions.width * 0.5F, dimensions.width * 0.5F).move(position);
+                return new AABB(dimensions.height - 0.25F, dimensions.width * -0.5F, dimensions.width * -0.5F, -0.25F, dimensions.width * 0.5F, dimensions.width * 0.5F).move(position);
         }
         return dimensions.makeBoundingBox(position);
     }

@@ -40,16 +40,16 @@ public class ForsakenHeldMobLayer extends RenderLayer<ForsakenEntity, ForsakenMo
             }
             matrixStackIn.pushPose();
             Vec3 offset;
-            if(right){
+            if (right) {
                 offset = new Vec3(0.8F + animationIntensity, 0.8F - animationIntensity, 0.35F * heldMob.getBbHeight() - animationIntensity * 0.5F);
-            }else{
+            } else {
                 offset = new Vec3(-0.8F - animationIntensity, 0.8F - animationIntensity, 0.35F * heldMob.getBbHeight() - animationIntensity * 0.5F);
             }
             Vec3 handPosition = getParentModel().getHandPosition(right, offset);
             matrixStackIn.translate(handPosition.x, handPosition.y, handPosition.z);
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180F));
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(vehicleRot - riderRot));
-            if(!ClientProxy.isFirstPersonPlayer(heldMob)){
+            if (!ClientProxy.isFirstPersonPlayer(heldMob)) {
                 renderEntity(heldMob, 0, 0, 0, 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             }
             matrixStackIn.popPose();

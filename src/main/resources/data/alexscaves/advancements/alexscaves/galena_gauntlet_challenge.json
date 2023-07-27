@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:galena_gauntlet",
+      "nbt": "{UseTime:5,PrevUseTime:5}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.galena_gauntlet_challenge.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.galena_gauntlet_challenge.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/telecore",
+  "criteria": {
+    "killed": {
+      "trigger": "alexscaves:kill_mob_with_galena_gauntlet"
+    }
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.discover_dinosaur.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.discover_dinosaur.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/discover_primordial_caves",
+  "criteria": {
+    "killed_grottoceratops": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:grottoceratops"
+        }
+      }
+    },
+    "killed_by_grottoceratops": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:grottoceratops"
+        }
+      }
+    },
+    "interact_grottoceratops": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:grottoceratops"
+        }
+      }
+    },
+
+    "killed_vallumraptor": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:vallumraptor"
+        }
+      }
+    },
+    "killed_by_vallumraptor": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:vallumraptor"
+        }
+      }
+    },
+    "interact_vallumraptor": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:vallumraptor"
+        }
+      }
+    },
+
+    "killed_tremorsaurus": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:tremorsaurus"
+        }
+      }
+    },
+    "killed_by_tremorsaurus": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:tremorsaurus"
+        }
+      }
+    },
+    "interact_tremorsaurus": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:tremorsaurus"
+        }
+      }
+    },
+
+    "killed_relicheirus": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:relicheirus"
+        }
+      }
+    },
+    "killed_by_relicheirus": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:relicheirus"
+        }
+      }
+    },
+    "interact_relicheirus": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:relicheirus"
+        }
+      }
+    },
+
+    "killed_subterranodon": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:subterranodon"
+        }
+      }
+    },
+    "killed_by_subterranodon": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:subterranodon"
+        }
+      }
+    },
+    "interact_subterranodon": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:subterranodon"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "killed_grottoceratops",
+      "killed_by_grottoceratops",
+      "interact_grottoceratops",
+      "killed_vallumraptor",
+      "killed_by_vallumraptor",
+      "interact_vallumraptor",
+      "killed_tremorsaurus",
+      "killed_by_tremorsaurus",
+      "interact_tremorsaurus",
+      "killed_relicheirus",
+      "killed_by_relicheirus",
+      "interact_relicheirus",
+      "killed_subterranodon",
+      "killed_by_subterranodon",
+      "interact_subterranodon"
+    ]
+  ]
+}

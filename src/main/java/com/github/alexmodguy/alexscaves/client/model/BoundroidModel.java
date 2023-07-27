@@ -44,12 +44,12 @@ public class BoundroidModel extends AdvancedEntityModel<BoundroidEntity> {
         return ImmutableList.of(head, bump2, bump1);
     }
 
-    public void showChains(){
+    public void showChains() {
         bump1.showModel = true;
         bump2.showModel = true;
     }
 
-    public void hideChains(){
+    public void hideChains() {
         bump1.showModel = false;
         bump2.showModel = false;
     }

@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:remote_detonator"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.remote_detonation.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.remote_detonation.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/polymer_plate",
+  "criteria": {
+    "stalked_by_deep_one": {
+      "trigger": "alexscaves:remote_detonation"
+    }
+  }
+}

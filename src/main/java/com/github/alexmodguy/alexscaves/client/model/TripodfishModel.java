@@ -109,10 +109,10 @@ public class TripodfishModel extends AdvancedEntityModel<TripodfishEntity> {
         float swimSpeed = 0.8F;
         float swimDegree = 0.6F;
         progressRotationPrev(mainBody, landProgress, 0, 0, (float) Math.toRadians(85), 1F);
-        progressPositionPrev(mainBody, standProgress,0, -15F, -1F, 1F);
-        progressPositionPrev(mainBody, landProgress,0, -1F, -1F, 1F);
-        progressPositionPrev(rpelvicFin, swimProgress,0, 0F, 1F, 1F);
-        progressPositionPrev(lpelvicFin, swimProgress,0, 0F, 1F, 1F);
+        progressPositionPrev(mainBody, standProgress, 0, -15F, -1F, 1F);
+        progressPositionPrev(mainBody, landProgress, 0, -1F, -1F, 1F);
+        progressPositionPrev(rpelvicFin, swimProgress, 0, 0F, 1F, 1F);
+        progressPositionPrev(lpelvicFin, swimProgress, 0, 0F, 1F, 1F);
         progressRotationPrev(rpelvicFin, swimProgress, (float) Math.toRadians(70), 0, (float) Math.toRadians(-30), 1F);
         progressRotationPrev(lpelvicFin, swimProgress, (float) Math.toRadians(70), 0, (float) Math.toRadians(30), 1F);
         progressRotationPrev(ttailFin, swimProgress, (float) Math.toRadians(-10), 0, 0, 1F);

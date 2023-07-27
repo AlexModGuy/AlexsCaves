@@ -26,13 +26,13 @@ public class QuarryBlockRenderer<T extends QuarryBlockEntity> implements BlockEn
         poseStack.pushPose();
         BlockState state = valve.getBlockState();
         Direction dir = state.getValue(QuarryBlock.FACING);
-        if(dir == Direction.NORTH){
+        if (dir == Direction.NORTH) {
             poseStack.translate(0.5, 0.5F, -0.5F);
-        }else if(dir == Direction.EAST){
+        } else if (dir == Direction.EAST) {
             poseStack.translate(1.5F, 0.5F, 0.5F);
-        }else if(dir == Direction.SOUTH){
+        } else if (dir == Direction.SOUTH) {
             poseStack.translate(0.5, 0.5F, 1.5F);
-        }else if(dir == Direction.WEST){
+        } else if (dir == Direction.WEST) {
             poseStack.translate(-0.5F, 0.5F, 0.5F);
         }
         poseStack.mulPose(dir.getOpposite().getRotation());

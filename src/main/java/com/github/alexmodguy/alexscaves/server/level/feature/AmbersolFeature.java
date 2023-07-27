@@ -22,7 +22,7 @@ public class AmbersolFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel worldgenlevel = context.level();
         RandomSource randomsource = context.random();
 
-        for(blockpos = context.origin(); blockpos.getY() >= worldgenlevel.getMaxBuildHeight() - 3; blockpos = blockpos.above()) {
+        for (blockpos = context.origin(); blockpos.getY() >= worldgenlevel.getMaxBuildHeight() - 3; blockpos = blockpos.above()) {
             if (!worldgenlevel.isEmptyBlock(blockpos.above())) {
                 break;
             }
@@ -31,7 +31,7 @@ public class AmbersolFeature extends Feature<NoneFeatureConfiguration> {
         if (blockpos.getY() >= worldgenlevel.getMaxBuildHeight() - 3) {
             return false;
         } else {
-            for(int i = 0; i < 3; i++){
+            for (int i = 0; i < 3; i++) {
                 drawOrb(worldgenlevel, blockpos.offset(randomsource.nextInt(4) - 2, randomsource.nextInt(4) - 2, randomsource.nextInt(4) - 2), randomsource, ACBlockRegistry.AMBER.get().defaultBlockState(), 2 + randomsource.nextInt(2), 2 + randomsource.nextInt(2), 2 + randomsource.nextInt(2));
             }
             drawOrb(worldgenlevel, blockpos, randomsource, ACBlockRegistry.AMBER.get().defaultBlockState(), 2, 2, 2);
@@ -51,8 +51,8 @@ public class AmbersolFeature extends Feature<NoneFeatureConfiguration> {
             for (int y = -radiusY; y <= radiusY; y++) {
                 for (int z = -radiusZ; z <= radiusZ; z++) {
                     BlockPos fill = center.offset(x, y, z);
-                    if(fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius - random.nextFloat() * 4){
-                        if(canReplace(level.getBlockState(fill))){
+                    if (fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius - random.nextFloat() * 4) {
+                        if (canReplace(level.getBlockState(fill))) {
                             level.setBlock(fill, blockState, 4);
                         }
                     }

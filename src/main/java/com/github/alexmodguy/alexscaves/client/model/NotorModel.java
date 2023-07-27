@@ -108,7 +108,7 @@ public class NotorModel extends AdvancedEntityModel<NotorEntity> {
     }
 
 
-    public Vec3 getChainPosition(Vec3 offsetIn){
+    public Vec3 getChainPosition(Vec3 offsetIn) {
         PoseStack armStack = new PoseStack();
         armStack.pushPose();
         body.translateAndRotate(armStack);

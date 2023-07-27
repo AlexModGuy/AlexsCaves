@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:dinosaur_nugget"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.dinosaur_nugget.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.dinosaur_nugget.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/cooked_dinosaur_chop",
+    "criteria": {
+        "cooked_dinosaur_chop": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:dinosaur_nugget"]
+                    }
+                ]
+            }
+        }
+    }
+}

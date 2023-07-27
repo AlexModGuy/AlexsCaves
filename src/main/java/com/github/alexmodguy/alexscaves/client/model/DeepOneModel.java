@@ -199,7 +199,7 @@ public class DeepOneModel extends AdvancedEntityModel<DeepOneEntity> implements 
         progressRotationPrev(body, swim, (float) Math.toRadians(80), 0, 0, 1F);
         progressRotationPrev(head, swim, (float) Math.toRadians(-70), 0, 0, 1F);
         progressRotationPrev(tail, swim, (float) Math.toRadians(-50), 0, 0, 1F);
-        progressPositionPrev(body, swim, 0,8, 0, 1F);
+        progressPositionPrev(body, swim, 0, 8, 0, 1F);
         this.flap(body, walkSpeed, walkDegree * 0.1F, false, 1F, 0F, limbSwing, walkAmount);
         this.flap(lleg, walkSpeed, walkDegree * 0.1F, true, 1F, 0F, limbSwing, walkAmount);
         this.flap(rleg, walkSpeed, walkDegree * 0.1F, true, 1F, 0F, limbSwing, walkAmount);
@@ -232,7 +232,7 @@ public class DeepOneModel extends AdvancedEntityModel<DeepOneEntity> implements 
 
         this.walk(rleg, swimSpeed * 1.5F, swimDegree * 1F, true, 2F, 0.0F, limbSwing, swimAmount);
         this.walk(lleg, swimSpeed * 1.5F, swimDegree * 1F, false, 2F, 0.0F, limbSwing, swimAmount);
-        if(entity.getAnimation() != entity.getTradingAnimation()){
+        if (entity.getAnimation() != entity.getTradingAnimation()) {
             this.body.rotateAngleX += fishPitchAmount;
             this.head.rotateAngleX += headPitchAmount;
         }
@@ -247,9 +247,9 @@ public class DeepOneModel extends AdvancedEntityModel<DeepOneEntity> implements 
     @Override
     public void translateToHand(HumanoidArm arm, PoseStack poseStack) {
         body.translateAndRotate(poseStack);
-        if(arm == HumanoidArm.RIGHT){
+        if (arm == HumanoidArm.RIGHT) {
             rarm.translateAndRotate(poseStack);
-        }else{
+        } else {
             larm.translateAndRotate(poseStack);
         }
         poseStack.translate(0, 0.65F, 0.1F);

@@ -19,7 +19,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
 
-public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
+public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
     protected final MobTargetItemGoal.Sorter theNearestAttackableTargetSorter;
     protected final Predicate<? super ItemEntity> targetEntitySelector;
     protected int executionChance;
@@ -61,7 +61,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
             @Override
             public boolean apply(@Nullable ItemEntity item) {
                 ItemStack stack = item.getItem();
-                return !stack.isEmpty()  && hunter.canTargetItem(stack) && item.tickCount > tickThreshold;
+                return !stack.isEmpty() && hunter.canTargetItem(stack) && item.tickCount > tickThreshold;
             }
         };
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
@@ -72,7 +72,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
         if (this.mob.isPassenger() || mob.isVehicle() && mob.getControllingPassenger() != null) {
             return false;
         }
-        if(!mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()){
+        if (!mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
             return false;
         }
         if (!this.mustUpdate) {
@@ -102,7 +102,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
 
 
     protected AABB getTargetableArea(double targetDistance) {
-        Vec3 renderCenter = new Vec3(this.mob.getX() + 0.5, this.mob.getY()+ 0.5, this.mob.getZ() + 0.5D);
+        Vec3 renderCenter = new Vec3(this.mob.getX() + 0.5, this.mob.getY() + 0.5, this.mob.getZ() + 0.5D);
         AABB aabb = new AABB(-radius, -radius, -radius, radius, radius, radius);
         return aabb.move(renderCenter);
     }
@@ -113,10 +113,10 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
         super.start();
     }
 
-    protected void moveTo(){
-        if(walkCooldown > 0){
+    protected void moveTo() {
+        if (walkCooldown > 0) {
             walkCooldown--;
-        }else{
+        } else {
             this.mob.getNavigation().moveTo(this.targetEntity.getX(), this.targetEntity.getY(), this.targetEntity.getZ(), 1);
             this.mob.lookAt(EntityAnchorArgument.Anchor.EYES, targetEntity.position());
             walkCooldown = 30 + this.mob.getRandom().nextInt(40);
@@ -135,10 +135,10 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
         if (this.targetEntity == null || this.targetEntity != null && !this.targetEntity.isAlive()) {
             this.stop();
             this.mob.getNavigation().stop();
-        }else{
+        } else {
             moveTo();
         }
-        if(targetEntity != null && this.mob.hasLineOfSight(targetEntity) && this.mob.getBbWidth() > 2D && this.mob.onGround()){
+        if (targetEntity != null && this.mob.hasLineOfSight(targetEntity) && this.mob.getBbWidth() > 2D && this.mob.onGround()) {
             this.mob.getMoveControl().setWantedPosition(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ(), 1);
         }
         if (this.targetEntity != null && this.targetEntity.isAlive() && this.mob.distanceToSqr(this.targetEntity) < this.hunter.getMaxDistToItem() && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
@@ -153,7 +153,7 @@ public class MobTargetItemGoal <T extends ItemEntity> extends TargetGoal {
 
     @Override
     public boolean canContinueToUse() {
-        boolean path = this.mob.getBbWidth() > 2D ||  !this.mob.getNavigation().isDone();
+        boolean path = this.mob.getBbWidth() > 2D || !this.mob.getNavigation().isDone();
         return path && targetEntity != null && targetEntity.isAlive();
     }
 

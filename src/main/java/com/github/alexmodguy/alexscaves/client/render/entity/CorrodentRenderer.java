@@ -47,7 +47,7 @@ public class CorrodentRenderer extends MobRenderer<CorrodentEntity, CorrodentMod
             double digEffectDistance = 3;
             for (BlockPos mutableBlockPos : BlockPos.betweenClosed((int) Math.floor(x - digEffectDistance), (int) Math.floor(y - digEffectDistance), (int) Math.floor(z - digEffectDistance), (int) Math.floor(x + digEffectDistance), (int) Math.floor(y + digEffectDistance), (int) Math.floor(z + digEffectDistance))) {
                 int amount = (int) (entityIn.getCorrosionAmount(mutableBlockPos) * digAmount);
-                if(amount >= 0){
+                if (amount >= 0) {
                     allDugBlocksOnScreen.put(mutableBlockPos.immutable(), Math.max(allDugBlocksOnScreen.getOrDefault(mutableBlockPos, -1), amount));
                 }
             }
@@ -62,10 +62,10 @@ public class CorrodentRenderer extends MobRenderer<CorrodentEntity, CorrodentMod
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
             for (Map.Entry<BlockPos, Integer> posAndInt : allDugBlocksOnScreen.entrySet()) {
                 int progress = posAndInt.getValue() - 1;
-                if(progress >= 0 && progress < 10){
+                if (progress >= 0 && progress < 10) {
                     poseStack.pushPose();
                     BlockPos pos = posAndInt.getKey();
-                    poseStack.translate((double)pos.getX(), (double)pos.getY(), (double)pos.getZ());
+                    poseStack.translate((double) pos.getX(), (double) pos.getY(), (double) pos.getZ());
                     PoseStack.Pose posestack$pose1 = poseStack.last();
                     VertexConsumer vertexconsumer1 = new SheetedDecalTextureGenerator(multibuffersource$buffersource.getBuffer(ModelBakery.DESTROY_TYPES.get(progress)), posestack$pose1.pose(), posestack$pose1.normal(), 1.0F);
                     net.minecraftforge.client.model.data.ModelData modelData = Minecraft.getInstance().level.getModelDataManager().getAt(pos);

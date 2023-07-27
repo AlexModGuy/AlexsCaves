@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:submarine"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.ride_submarine.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.ride_submarine.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/discover_abyssal_ruins",
+  "criteria": {
+    "ride_a_boat_with_a_goat": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "vehicle": {
+                "type": "alexscaves:submarine"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:started_riding"
+    }
+  }
+}

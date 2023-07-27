@@ -47,7 +47,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
-public class RadgillEntity extends WaterAnimal implements Bucketable{
+public class RadgillEntity extends WaterAnimal implements Bucketable {
 
     private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(RadgillEntity.class, EntityDataSerializers.BOOLEAN);
     private float landProgress;
@@ -79,7 +79,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new WaterBoundPathNavigation(this, level){
+        return new WaterBoundPathNavigation(this, level) {
 
             protected PathFinder createPathFinder(int p_26598_) {
                 this.nodeEvaluator = new AcidSwimNodeEvaluator(true);
@@ -132,6 +132,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
     protected int calculateFallDamage(float f, float f1) {
         return super.calculateFallDamage(f, f1) - 5;
     }
+
     public static boolean checkRadgillSpawnRules(EntityType<? extends LivingEntity> type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource randomSource) {
         return spawnType == MobSpawnType.SPAWNER || !level.getFluidState(pos).isEmpty() && level.getFluidState(pos).getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get();
     }
@@ -150,13 +151,13 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
         }
         fishPitch = Mth.clamp((float) this.getDeltaMovement().y * 1.8F, -1.0F, 1.0F) * -(float) (180F / (float) Math.PI);
         boolean inAcid = this.isInAcid();
-        if(inAcid != wasJustInAcid){
-            for(int i = 0; i < 5 + random.nextInt(5); i++){
+        if (inAcid != wasJustInAcid) {
+            for (int i = 0; i < 5 + random.nextInt(5); i++) {
                 level().addParticle(ACParticleRegistry.RADGILL_SPLASH.get(), this.getRandomX(0.8F), this.getBoundingBox().minY + 0.1F, this.getRandomZ(0.8F), (random.nextDouble() - 0.5F) * 0.3F, 0.1F + random.nextFloat() * 0.3F, (random.nextDouble() - 0.5F) * 0.3F);
             }
             wasJustInAcid = inAcid;
         }
-        if(!isInLiquid() && this.isAlive()){
+        if (!isInLiquid() && this.isAlive()) {
             if (this.onGround() && random.nextFloat() < 0.1F) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);
@@ -203,7 +204,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         InteractionResult type = super.mobInteract(player, hand);
-        if(!type.consumesAction()){
+        if (!type.consumesAction()) {
             if (itemstack.getItem() == ACItemRegistry.ACID_BUCKET.get() && this.isAlive()) {
                 this.playSound(this.getPickupSound(), 1.0F, 1.0F);
                 ItemStack itemstack1 = this.getBucketItemStack();
@@ -211,13 +212,14 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
                 ItemStack itemstack2 = ItemUtils.createFilledResult(itemstack, player, itemstack1, false);
                 player.setItemInHand(hand, itemstack2);
                 if (!level().isClientSide) {
-                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer)player, itemstack1);
+                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
                 }
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }
         return type;
     }
+
     @Override
     public void saveToBucketTag(@Nonnull ItemStack bucket) {
         if (this.hasCustomName()) {
@@ -258,6 +260,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
         private boolean isJump;
         private boolean hasJumped;
         private int timeout = 0;
+
         private WanderGoal() {
             this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
         }
@@ -276,10 +279,10 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
                 }
                 if (!isLiquidAt(offset) && isLiquidAt(offset.below())) {
                     BlockPos surface = offset.below();
-                    if(jump){
+                    if (jump) {
                         surface = surface.above(2 + random.nextInt(2));
                         return surface;
-                    }else{
+                    } else {
                         surface = surface.below(1 + random.nextInt(4));
                         return isLiquidAt(surface) ? surface : null;
                     }
@@ -309,7 +312,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
             return (RadgillEntity.this.isInLiquid() && !hasJumped || isJump) && RadgillEntity.this.distanceToSqr(Vec3.atCenterOf(target)) < 3 && timeout < 200;
         }
 
-        public void stop(){
+        public void stop() {
             hasJumped = false;
             timeout = 0;
         }
@@ -319,19 +322,19 @@ public class RadgillEntity extends WaterAnimal implements Bucketable{
             timeout++;
             RadgillEntity.this.getNavigation().moveTo(target.getX() + 0.5F, target.getY() + 0.25F, target.getZ() + 0.5F, 1.0D);
             double horizDistance = RadgillEntity.this.distanceToSqr(target.getX() + 0.5F, RadgillEntity.this.getY(), target.getZ() + 0.5F);
-            if(horizDistance < 16 && isJump && !hasJumped){
+            if (horizDistance < 16 && isJump && !hasJumped) {
                 Vec3 targetVec = Vec3.atCenterOf(target);
                 Vec3 vec3 = targetVec.subtract(RadgillEntity.this.position());
-                if(vec3.length() < 1.0F){
+                if (vec3.length() < 1.0F) {
                     vec3 = Vec3.ZERO;
-                }else{
+                } else {
                     vec3 = vec3.normalize();
                 }
                 Vec3 vec31 = new Vec3(vec3.x * 0.8F, 0.75F + random.nextFloat() * 0.3F, vec3.y * 0.8F);
                 RadgillEntity.this.setDeltaMovement(vec31);
-                if(RadgillEntity.this.getY() > target.getY()){
+                if (RadgillEntity.this.getY() > target.getY()) {
                     hasJumped = true;
-                }else{
+                } else {
                     RadgillEntity.this.lookAt(EntityAnchorArgument.Anchor.EYES, targetVec);
                 }
             }

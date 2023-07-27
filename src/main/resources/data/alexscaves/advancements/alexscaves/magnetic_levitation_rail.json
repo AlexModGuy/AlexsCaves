@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:magnetic_levitation_rail"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.magnetic_levitation_rail.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.magnetic_levitation_rail.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/neodymium_ingot",
+    "criteria": {
+        "rail": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:magnetic_levitation_rail"]
+                    }
+                ]
+            }
+        }
+    }
+}

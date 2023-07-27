@@ -39,8 +39,8 @@ public class QuarrySmasherItem extends Item {
             if (!list.isEmpty()) {
                 Vec3 vec31 = player.getEyePosition();
 
-                for(Entity entity : list) {
-                    AABB aabb = entity.getBoundingBox().inflate((double)entity.getPickRadius());
+                for (Entity entity : list) {
+                    AABB aabb = entity.getBoundingBox().inflate((double) entity.getPickRadius());
                     if (aabb.contains(vec31)) {
                         return InteractionResultHolder.pass(itemstack);
                     }

@@ -41,40 +41,40 @@ public class WatcherAttackGoal extends Goal {
             double dist = watcher.distanceTo(target);
             watcher.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
 
-            if(retreatFor-- > 0){
-                if(retreatTo == null){
+            if (retreatFor-- > 0) {
+                if (retreatTo == null) {
                     retreatFor = 0;
-                }else{
+                } else {
                     Vec3 retreatVec = retreatTo.subtract(watcher.position());
-                    if(retreatVec.length() > 1){
+                    if (retreatVec.length() > 1) {
                         retreatVec = retreatVec.normalize();
                         watcher.setDeltaMovement(watcher.getDeltaMovement().add(retreatVec.scale(0.2F)));
                         watcher.setShadeMode(true);
-                    }else{
+                    } else {
                         retreatTo = null;
                     }
                 }
-            }else{
+            } else {
                 if (!canReachViaGround && !watcher.isShadeMode() && watcher.onGround()) {
                     watcher.setShadeMode(true);
                 }
                 watcher.setShadeMode(!canReachViaGround);
-                if(dist < 6 && watcher.hasLineOfSight(target) && watcher.onGround()){
+                if (dist < 6 && watcher.hasLineOfSight(target) && watcher.onGround()) {
                     watcher.setShadeMode(false);
                 }
                 if (dist > target.getBbWidth() + watcher.getBbWidth() + 0.5F) {
                     watcher.getNavigation().moveTo(target, (watcher.isRunning() ? 1.3F : 1F) + Math.min(Math.log(possessions + 1), 1F) * 0.6F);
                 } else {
-                    if(watcher.hasLineOfSight(target)){
-                        if(watcher.getAnimation() == IAnimatedEntity.NO_ANIMATION){
+                    if (watcher.hasLineOfSight(target)) {
+                        if (watcher.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                             watcher.setAnimation(watcher.getRandom().nextBoolean() ? WatcherEntity.ANIMATION_ATTACK_0 : WatcherEntity.ANIMATION_ATTACK_1);
-                        }else if(watcher.getAnimationTick() == 8){
+                        } else if (watcher.getAnimationTick() == 8) {
                             target.hurt(target.damageSources().mobAttack(watcher), (float) watcher.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
                             target.knockback(0.5D, watcher.getX() - target.getX(), watcher.getZ() - target.getZ());
                             retreatFor = 30 + watcher.getRandom().nextInt(30);
-                            for (int i = 0; i < 15; i++){
+                            for (int i = 0; i < 15; i++) {
                                 Vec3 vec3 = DefaultRandomPos.getPosAway(watcher, 30, 15, target.position());
-                                if(vec3 != null){
+                                if (vec3 != null) {
                                     retreatTo = vec3;
                                     break;
                                 }
@@ -84,12 +84,12 @@ public class WatcherAttackGoal extends Goal {
                     watcher.getNavigation().stop();
                 }
             }
-            if(possessions > 2 || dist < 20){
+            if (possessions > 2 || dist < 20) {
                 watcher.setRunning(true);
             }
 
             if (watcher.attemptPossession(target)) {
-                if(watcher.getPossessedEntity() == null){
+                if (watcher.getPossessedEntity() == null) {
                     possessions++;
                 }
                 watcher.setPossessedEntityUUID(target.getUUID());

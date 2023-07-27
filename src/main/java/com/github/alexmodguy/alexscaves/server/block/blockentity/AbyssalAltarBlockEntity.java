@@ -46,6 +46,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
     private LivingEntity lastInteracter;
     private UUID placingPlayer = null;
     private long lastInteractionTime = 0;
+
     public AbyssalAltarBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.ABYSSAL_ALTAR.get(), pos, state);
     }
@@ -74,21 +75,21 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
                     entity.lastInteracter.onItemPickup(itemEntity);
                     entity.lastInteracter.take(itemEntity, entity.popStack.getCount());
                     boolean kill = false;
-                    if(entity.lastInteracter instanceof Player player){
-                        if(player.addItem(itemEntity.getItem())){
+                    if (entity.lastInteracter instanceof Player player) {
+                        if (player.addItem(itemEntity.getItem())) {
                             kill = true;
                         }
-                    }else if(entity.lastInteracter instanceof DeepOneBaseEntity deepOne){
+                    } else if (entity.lastInteracter instanceof DeepOneBaseEntity deepOne) {
                         deepOne.swapItemsForAnimation(itemEntity.getItem());
                         deepOne.setItemInHand(InteractionHand.MAIN_HAND, itemEntity.getItem());
                         deepOne.setAnimation(deepOne.getTradingAnimation());
-                        if(entity.placingPlayer != null){
+                        if (entity.placingPlayer != null) {
                             deepOne.addReputation(entity.placingPlayer, 5);
                             entity.placingPlayer = null;
                         }
                         kill = true;
                     }
-                    if(kill){
+                    if (kill) {
                         itemEntity.discard();
                     }
                 }
@@ -101,12 +102,12 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
 
     public void onEntityInteract(LivingEntity entity, boolean flip) {
         if (flip) {
-            if(this.getBlockState().getValue(AbyssalAltarBlock.ACTIVE)){
+            if (this.getBlockState().getValue(AbyssalAltarBlock.ACTIVE)) {
                 level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(AbyssalAltarBlock.ACTIVE, false));
             }
-        }else{
+        } else {
             displayCopyStack = this.getItem(0).copy();
-            if(entity instanceof DeepOneBaseEntity){
+            if (entity instanceof DeepOneBaseEntity) {
                 level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(AbyssalAltarBlock.ACTIVE, true));
             }
         }
@@ -115,9 +116,9 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
         prevSlideProgress = 5.0F;
         slideProgress = 5.0F;
         lastInteracter = entity;
-        if(entity instanceof Player){
+        if (entity instanceof Player) {
             placingPlayer = entity.getUUID();
-        }else{
+        } else {
             lastInteractionTime = entity.level().getGameTime();
         }
     }

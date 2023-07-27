@@ -27,16 +27,16 @@ public class ForlornRuinsFeature extends UndergroundRuinsFeature {
         BoundingBox box = new BoundingBox(boundingBox.minX(), boundingBox.minY(), boundingBox.minZ(), boundingBox.maxX(), boundingBox.minY() + 1, boundingBox.maxZ());
         Set<BlockPos> supportsNeededBelow = Sets.newHashSet();
         BlockPos.betweenClosedStream(box).forEach((pos) -> {
-            if(!level.getBlockState(pos).isAir()){
-                if(!level.getFluidState(pos.below()).isEmpty() || !level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below())){
+            if (!level.getBlockState(pos).isAir()) {
+                if (!level.getFluidState(pos.below()).isEmpty() || !level.getBlockState(pos.below()).isCollisionShapeFullBlock(level, pos.below())) {
                     supportsNeededBelow.add(pos.immutable());
                 }
             }
         });
         BlockPos.MutableBlockPos grounded = new BlockPos.MutableBlockPos();
-        for(BlockPos pos : supportsNeededBelow){
+        for (BlockPos pos : supportsNeededBelow) {
             grounded.set(pos.getX(), pos.getY() - 1, pos.getZ());
-            while((!level.getBlockState(grounded).getFluidState().isEmpty() || !level.getBlockState(grounded).isCollisionShapeFullBlock(level, grounded)) && grounded.getY() > level.getMinBuildHeight()){
+            while ((!level.getBlockState(grounded).getFluidState().isEmpty() || !level.getBlockState(grounded).isCollisionShapeFullBlock(level, grounded)) && grounded.getY() > level.getMinBuildHeight()) {
                 level.setBlock(grounded, Blocks.PACKED_MUD.defaultBlockState(), 3);
                 grounded.move(0, -1, 0);
             }

@@ -74,7 +74,7 @@ public class TeletorRenderer extends MobRenderer<TeletorEntity, TeletorModel> {
         double y = Mth.lerp(partialTicks, entityIn.yOld, entityIn.getY());
         double z = Mth.lerp(partialTicks, entityIn.zOld, entityIn.getZ());
         float yaw = entityIn.yBodyRotO + (entityIn.yBodyRot - entityIn.yBodyRotO) * partialTicks;
-        if(entityIn.hasTrail()){
+        if (entityIn.hasTrail()) {
             poseStack.pushPose();
             poseStack.translate(-x, -y, -z);
             setupRotations(entityIn, poseStack, 0F, 180F, partialTicks);
@@ -85,7 +85,7 @@ public class TeletorRenderer extends MobRenderer<TeletorEntity, TeletorModel> {
             poseStack.popPose();
         }
         Entity weapon = entityIn.getWeapon();
-        if(weapon != null && entityIn.isAlive() && weapon.isAlive()){
+        if (weapon != null && entityIn.isAlive() && weapon.isAlive()) {
             poseStack.pushPose();
             poseStack.translate(-x, -y, -z);
             setupRotations(entityIn, poseStack, 0F, 180F, partialTicks);
@@ -117,19 +117,19 @@ public class TeletorRenderer extends MobRenderer<TeletorEntity, TeletorModel> {
             lightningRender.render(partialTicks, poseStack, bufferIn);
             poseStack.popPose();
         }
-        if(!entityIn.isAlive() && lightningRenderMap.containsKey(entityIn.getUUID())){
+        if (!entityIn.isAlive() && lightningRenderMap.containsKey(entityIn.getUUID())) {
             lightningRenderMap.remove(entityIn.getUUID());
         }
     }
 
     private LightningRender getLightingRender(UUID uuid) {
-        if(lightningRenderMap.get(uuid) == null){
+        if (lightningRenderMap.get(uuid) == null) {
             lightningRenderMap.put(uuid, new LightningRender());
         }
         return lightningRenderMap.get(uuid);
     }
 
-    private void renderTrail(TeletorEntity entityIn, int side, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn){
+    private void renderTrail(TeletorEntity entityIn, int side, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, float trailR, float trailG, float trailB, float trailA, int packedLightIn) {
         int samples = 0;
         int sampleSize = 10;
         float trailHeight = 0.2F;
@@ -138,10 +138,10 @@ public class TeletorRenderer extends MobRenderer<TeletorEntity, TeletorModel> {
         Vec3 bottomAngleVec = new Vec3(0, -trailHeight, 0).zRot(trailZRot);
         Vec3 drawFrom = entityIn.getTrailPosition(0, side, partialTicks);
         VertexConsumer vertexconsumer = bufferIn.getBuffer(RenderType.entityTranslucent(TRAIL_TEXTURE));
-        while(samples < sampleSize){
+        while (samples < sampleSize) {
             Vec3 sample = entityIn.getTrailPosition(samples + 2, side, partialTicks);
-            float u1 = samples / (float)sampleSize;
-            float u2 = u1 + 1 / (float)sampleSize;
+            float u1 = samples / (float) sampleSize;
+            float u2 = u1 + 1 / (float) sampleSize;
 
             Vec3 draw1 = drawFrom;
             Vec3 draw2 = sample;
@@ -149,10 +149,10 @@ public class TeletorRenderer extends MobRenderer<TeletorEntity, TeletorModel> {
             PoseStack.Pose posestack$pose = poseStack.last();
             Matrix4f matrix4f = posestack$pose.pose();
             Matrix3f matrix3f = posestack$pose.normal();
-            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float)bottomAngleVec.x, (float) draw1.y + (float)bottomAngleVec.y, (float) draw1.z + (float)bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float)bottomAngleVec.x, (float) draw2.y + (float)bottomAngleVec.y, (float) draw2.z + (float)bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float)topAngleVec.x, (float) draw2.y + (float)topAngleVec.y, (float) draw2.z + (float)topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float)topAngleVec.x, (float) draw1.y + (float)topAngleVec.y, (float) draw1.z + (float)topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+            vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(packedLightIn).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
             samples++;
             drawFrom = sample;
         }

@@ -29,17 +29,17 @@ public class CopperValveBlockRenderer<T extends CopperValveBlockEntity> implemen
         poseStack.pushPose();
         BlockState state = valve.getBlockState();
         Direction dir = state.getValue(CopperValveBlock.FACING);
-        if(dir == Direction.UP){
+        if (dir == Direction.UP) {
             poseStack.translate(0.5F, 1.5F, 0.5F);
-        }else if(dir == Direction.DOWN){
+        } else if (dir == Direction.DOWN) {
             poseStack.translate(0.5F, -0.5F, 0.5F);
-        }else if(dir == Direction.NORTH){
+        } else if (dir == Direction.NORTH) {
             poseStack.translate(0.5, 0.5F, -0.5F);
-        }else if(dir == Direction.EAST){
+        } else if (dir == Direction.EAST) {
             poseStack.translate(1.5F, 0.5F, 0.5F);
-        }else if(dir == Direction.SOUTH){
+        } else if (dir == Direction.SOUTH) {
             poseStack.translate(0.5, 0.5F, 1.5F);
-        }else if(dir == Direction.WEST){
+        } else if (dir == Direction.WEST) {
             poseStack.translate(-0.5F, 0.5F, 0.5F);
         }
         poseStack.mulPose(dir.getOpposite().getRotation());

@@ -1,0 +1,46 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:primordial_helmet"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.primordial_armor.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.primordial_armor.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_big_dinosaur",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:primordial_helmet"]
+                    }
+                ]
+            }
+        },
+        "tunic": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:primordial_tunic"]
+                    }
+                ]
+            }
+        },
+        "pants": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:primordial_pants"]
+                    }
+                ]
+            }
+        }
+    }
+}

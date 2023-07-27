@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:cave_map",
+            "nbt": "{Filled:1}"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.cave_map.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.cave_map.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/cave_codex",
+    "criteria": {
+        "cave_map": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:cave_map"]
+                    }
+                ]
+            }
+        }
+    }
+}

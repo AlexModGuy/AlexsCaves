@@ -74,22 +74,22 @@ public class GalenaSpireBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     public int getShapeInt(BlockState above, BlockState below, boolean down) {
-        if(above.getBlock() == ACBlockRegistry.TESLA_BULB.get()){
+        if (above.getBlock() == ACBlockRegistry.TESLA_BULB.get()) {
             return 2;
         }
         if (!isGalenaSpireConnectable(above, down)) {
             return 3;
         } else {
             int aboveShape = above.getValue(SHAPE);
-            if(aboveShape <= 1){
+            if (aboveShape <= 1) {
                 boolean connectedUnder;
-                if(down){
+                if (down) {
                     connectedUnder = above.getBlock() != ACBlockRegistry.GALENA_SPIRE.get();
-                }else{
+                } else {
                     connectedUnder = below.getBlock() != ACBlockRegistry.GALENA_SPIRE.get();
                 }
                 return connectedUnder ? 0 : 1;
-            }else{
+            } else {
                 return aboveShape - 1;
             }
         }
@@ -99,9 +99,9 @@ public class GalenaSpireBlock extends Block implements SimpleWaterloggedBlock {
     public boolean canSurvive(BlockState state, LevelReader levelAccessor, BlockPos blockPos) {
         BlockState above = levelAccessor.getBlockState(blockPos.above());
         BlockState below = levelAccessor.getBlockState(blockPos.below());
-        if(state.getValue(DOWN)){
+        if (state.getValue(DOWN)) {
             return above.isFaceSturdy(levelAccessor, blockPos.above(), Direction.UP) || isGalenaSpireConnectable(above, true);
-        }else{
+        } else {
             return below.isFaceSturdy(levelAccessor, blockPos.below(), Direction.DOWN) || isGalenaSpireConnectable(below, false);
         }
     }

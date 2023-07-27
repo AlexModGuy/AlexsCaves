@@ -31,7 +31,8 @@ public class DoublePlantWithRotationBlock extends DoublePlantBlock {
             return super.canSurvive(state, levelReader, pos);
         } else {
             BlockState blockstate = levelReader.getBlockState(pos.below());
-            if (state.getBlock() != this) return super.canSurvive(state, levelReader, pos); //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
+            if (state.getBlock() != this)
+                return super.canSurvive(state, levelReader, pos); //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
             return blockstate.is(this) && blockstate.getValue(HALF) == DoubleBlockHalf.LOWER && blockstate.getValue(FACING) == state.getValue(FACING);
         }
     }

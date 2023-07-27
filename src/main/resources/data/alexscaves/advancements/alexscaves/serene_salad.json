@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:serene_salad"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.serene_salad.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.serene_salad.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/fiddlehead",
+    "criteria": {
+        "serene_salad": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:serene_salad"]
+                    }
+                ]
+            }
+        }
+    }
+}

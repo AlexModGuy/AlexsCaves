@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "LDL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "tag": "alexscaves:radon_lamps"
+    },
+    "D": {
+      "tag": "forge:dyes/gray"
+    }
+  },
+  "result": {
+    "item": "alexscaves:radon_lamp_gray",
+    "count": 8
+  }
+}

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:sulfur_dust"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.sulfur_dust.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.sulfur_dust.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/uranium",
+    "criteria": {
+        "sulfur_dust": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:sulfur_dust"]
+                    }
+                ]
+            }
+        }
+    }
+}

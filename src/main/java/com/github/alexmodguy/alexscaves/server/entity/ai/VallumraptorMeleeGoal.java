@@ -14,6 +14,7 @@ import java.util.EnumSet;
 public class VallumraptorMeleeGoal extends Goal {
 
     private VallumraptorEntity raptor;
+
     public VallumraptorMeleeGoal(VallumraptorEntity raptor) {
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         this.raptor = raptor;
@@ -24,25 +25,25 @@ public class VallumraptorMeleeGoal extends Goal {
         return raptor.getTarget() != null && raptor.getTarget().isAlive() && !raptor.isDancing();
     }
 
-    public void stop(){
+    public void stop() {
         raptor.setRunning(false);
         raptor.setLeaping(false);
     }
 
-    public void tick(){
+    public void tick() {
         LivingEntity target = raptor.getTarget();
         raptor.setRunning(true);
-        if(target != null){
+        if (target != null) {
             double dist = raptor.distanceTo(target);
-            if(raptor.isLeaping()){
+            if (raptor.isLeaping()) {
                 checkAndDealDamage(target);
-                if(raptor.onGround()){
+                if (raptor.onGround()) {
                     raptor.setLeaping(false);
                 }
-            }else if(raptor.getAnimation() == VallumraptorEntity.ANIMATION_STARTLEAP){
+            } else if (raptor.getAnimation() == VallumraptorEntity.ANIMATION_STARTLEAP) {
                 raptor.getNavigation().stop();
                 raptor.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
-                if(raptor.getAnimationTick() > 15 && raptor.onGround()){
+                if (raptor.getAnimationTick() > 15 && raptor.onGround()) {
                     raptor.setLeaping(true);
                     Vec3 vector3d = raptor.getDeltaMovement();
                     Vec3 vector3d1 = new Vec3(target.getX() - raptor.getX(), 0.0D, target.getZ() - raptor.getZ());
@@ -51,19 +52,19 @@ public class VallumraptorMeleeGoal extends Goal {
                     }
                     raptor.setDeltaMovement(vector3d1.x, 0.6F, vector3d1.z);
                 }
-            }else{
+            } else {
                 raptor.getNavigation().moveTo(target, 1.0D);
-                if(dist < raptor.getBbWidth() + target.getBbWidth() + 1){
+                if (dist < raptor.getBbWidth() + target.getBbWidth() + 1) {
                     tryAnimation(raptor.getRandom().nextBoolean() ? VallumraptorEntity.ANIMATION_MELEE_BITE : raptor.getRandom().nextBoolean() ? VallumraptorEntity.ANIMATION_MELEE_SLASH_2 : VallumraptorEntity.ANIMATION_MELEE_SLASH_1);
-                    if(raptor.getAnimation() == VallumraptorEntity.ANIMATION_MELEE_BITE && raptor.getAnimationTick() > 5 && raptor.getAnimationTick() <= 8){
+                    if (raptor.getAnimation() == VallumraptorEntity.ANIMATION_MELEE_BITE && raptor.getAnimationTick() > 5 && raptor.getAnimationTick() <= 8) {
                         checkAndDealDamage(target);
                     }
-                    if((raptor.getAnimation() == VallumraptorEntity.ANIMATION_MELEE_SLASH_1 || raptor.getAnimation() == VallumraptorEntity.ANIMATION_MELEE_SLASH_2) && raptor.getAnimationTick() > 7 && raptor.getAnimationTick() <= 10){
+                    if ((raptor.getAnimation() == VallumraptorEntity.ANIMATION_MELEE_SLASH_1 || raptor.getAnimation() == VallumraptorEntity.ANIMATION_MELEE_SLASH_2) && raptor.getAnimationTick() > 7 && raptor.getAnimationTick() <= 10) {
                         checkAndDealDamage(target);
                     }
-                }else{
+                } else {
                     int jumpChance = raptor.isTame() ? 5 : 10;
-                    if(dist > 3.0F && dist < 7.0F && raptor.getRandom().nextInt(jumpChance) == 0){
+                    if (dist > 3.0F && dist < 7.0F && raptor.getRandom().nextInt(jumpChance) == 0) {
                         tryAnimation(VallumraptorEntity.ANIMATION_STARTLEAP);
                     }
                 }
@@ -72,13 +73,13 @@ public class VallumraptorMeleeGoal extends Goal {
     }
 
     private void checkAndDealDamage(LivingEntity target) {
-        if(raptor.hasLineOfSight(target) && raptor.distanceTo(target) < raptor.getBbWidth() + target.getBbWidth() + 1){
+        if (raptor.hasLineOfSight(target) && raptor.distanceTo(target) < raptor.getBbWidth() + target.getBbWidth() + 1) {
             target.hurt(target.damageSources().mobAttack(raptor), (float) raptor.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         }
     }
 
-    private boolean tryAnimation(Animation animation){
-        if(raptor.getAnimation() == IAnimatedEntity.NO_ANIMATION){
+    private boolean tryAnimation(Animation animation) {
+        if (raptor.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             raptor.setAnimation(animation);
             return true;
         }

@@ -39,7 +39,7 @@ public class FerrouslimeParticle extends TextureSheetParticle {
             this.remove();
         } else {
             Entity entity = level.getEntity(followEntityId);
-            if(entity != null){
+            if (entity != null) {
                 Vec3 vec3 = entity.getEyePosition().add(entity.getDeltaMovement());
                 Vec3 movement = vec3.subtract(this.x, this.y, this.z).normalize().scale(0.05F);
                 this.xd = movement.x;

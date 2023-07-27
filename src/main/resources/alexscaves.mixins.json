@@ -19,6 +19,7 @@
     "SeagrassFeatureMixin"
   ],
   "client": [
+    "client.AdvancementTabMixin",
     "client.CameraMixin",
     "client.ClientPacketListenerMixin",
     "client.GameRendererMixin",

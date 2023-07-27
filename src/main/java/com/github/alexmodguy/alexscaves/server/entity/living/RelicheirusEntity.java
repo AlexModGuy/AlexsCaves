@@ -57,6 +57,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     public static final Animation ANIMATION_MELEE_SLASH_2 = Animation.create(20);
     private float prevRaiseArmsAmount = 0;
     private float raiseArmsAmount = 0;
+
     public RelicheirusEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
     }
@@ -89,7 +90,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
-        if(!this.isBaby()){
+        if (!this.isBaby()) {
             this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
         }
     }
@@ -99,8 +100,8 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     }
 
     @Override
-    public boolean onFeedMixture(ItemStack itemStack, Player player){
-        if(itemStack.is(ACItemRegistry.PRIMORDIAL_SOUP.get())){
+    public boolean onFeedMixture(ItemStack itemStack, Player player) {
+        if (itemStack.is(ACItemRegistry.PRIMORDIAL_SOUP.get())) {
             this.setPushingTreesFor(1200);
             return true;
         }
@@ -110,8 +111,8 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         InteractionResult prev = super.mobInteract(player, hand);
         ItemStack itemstack = player.getItemInHand(hand);
-        if(!prev.consumesAction() && itemstack.is(Items.SUSPICIOUS_STEW)){
-            if(!itemstack.getCraftingRemainingItem().isEmpty()){
+        if (!prev.consumesAction() && itemstack.is(Items.SUSPICIOUS_STEW)) {
+            if (!itemstack.getCraftingRemainingItem().isEmpty()) {
                 this.spawnAtLocation(itemstack.getCraftingRemainingItem().copy());
             }
             this.usePlayerItem(player, hand, itemstack);
@@ -121,7 +122,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     }
 
     public void push(double x, double y, double z) {
-        if(this.getAnimation() != ANIMATION_EAT_TRILOCARIS){
+        if (this.getAnimation() != ANIMATION_EAT_TRILOCARIS) {
             super.push(x, y, z);
         }
     }
@@ -140,7 +141,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
         if (!shouldRaiseArms() && raiseArmsAmount > 0F) {
             raiseArmsAmount--;
         }
-        if(this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()){
+        if (this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()) {
             this.heal(2);
         }
         if (!level().isClientSide) {
@@ -160,10 +161,10 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
             LivingEntity target = this.getTarget();
             if (target != null && target.distanceTo(this) < 10 && target instanceof TrilocarisEntity) {
                 if (this.getAnimation() == ANIMATION_EAT_TRILOCARIS) {
-                    if(this.getAnimationTick() < 20){
+                    if (this.getAnimationTick() < 20) {
                         held = true;
                         this.setHeldMobId(target.getId());
-                    }else if(this.getAnimationTick() <= 50){
+                    } else if (this.getAnimationTick() <= 50) {
                         Vec3 trilocarisPos = getTrilocarisPos();
                         target.setPos(trilocarisPos);
                         if (this.getAnimationTick() >= 45 && target.isAlive()) {
@@ -177,7 +178,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
             if (!held && getHeldMobId() != -1) {
                 this.setHeldMobId(-1);
             }
-            if(this.getPushingTreesFor() > 0){
+            if (this.getPushingTreesFor() > 0) {
                 this.setPushingTreesFor(this.getPushingTreesFor() - 1);
             }
         }
@@ -245,7 +246,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     }
 
     public void setPushingTreesFor(int time) {
-        this.entityData.set(PUSHING_TREES_FOR,time);
+        this.entityData.set(PUSHING_TREES_FOR, time);
     }
 
     public int getPushingTreesFor() {
@@ -344,6 +345,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     public boolean isFood(ItemStack stack) {
         return stack.is(ACBlockRegistry.TREE_STAR.get().asItem());
     }
+
     @Override
     public BlockState createEggBlockState() {
         return ACBlockRegistry.RELICHEIRUS_EGG.get().defaultBlockState();

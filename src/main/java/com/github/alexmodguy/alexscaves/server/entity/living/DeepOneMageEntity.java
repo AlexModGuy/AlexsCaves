@@ -48,6 +48,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     private int rangedCooldown = 0;
     private Vec3 strafeTarget = null;
     public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_mage_barter");
+
     public DeepOneMageEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
@@ -62,7 +63,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
         this.goalSelector.addGoal(2, new DeepOneReactToPlayerGoal(this));
         this.goalSelector.addGoal(3, new DeepOneDisappearGoal(this));
         this.goalSelector.addGoal(4, new DeepOneWanderGoal(this, 12, 1D));
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 45){
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 1.0D, 45) {
             @Override
             public boolean canUse() {
                 return !DeepOneMageEntity.this.isInWaterOrBubble() && super.canUse() && DeepOneMageEntity.this.getAnimation() != DeepOneMageEntity.ANIMATION_TRADE;
@@ -108,20 +109,20 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     @Override
     public void tick() {
         super.tick();
-        if(!this.isInWaterOrBubble() && !this.hasEffect(ACEffectRegistry.BUBBLED.get())){
+        if (!this.isInWaterOrBubble() && !this.hasEffect(ACEffectRegistry.BUBBLED.get())) {
             this.addEffect(new MobEffectInstance(ACEffectRegistry.BUBBLED.get(), 200));
         }
-        if(this.isInWaterOrBubble() && this.hasEffect(ACEffectRegistry.BUBBLED.get())){
+        if (this.isInWaterOrBubble() && this.hasEffect(ACEffectRegistry.BUBBLED.get())) {
             this.removeEffect(ACEffectRegistry.BUBBLED.get());
         }
-        if(this.getAnimation() == ANIMATION_SPIN){
+        if (this.getAnimation() == ANIMATION_SPIN) {
             this.setDeltaMovement(this.getDeltaMovement().scale(0.6F));
             LivingEntity target = this.getTarget();
-            if(target != null){
+            if (target != null) {
                 Vec3 vec = target.position().subtract(this.position()).normalize();
                 this.setDeltaMovement(this.getDeltaMovement().add(vec.scale(0.1)));
             }
-            if(this.getAnimationTick() % 6 == 0){
+            if (this.getAnimationTick() % 6 == 0) {
                 AABB bashBox = this.getBoundingBox().inflate(2.0D, 0, 2.0D);
                 for (LivingEntity entity : DeepOneMageEntity.this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
                     if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity)) {
@@ -131,21 +132,21 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
 
             }
         }
-        if(this.getAnimation() == ANIMATION_ATTACK) {
+        if (this.getAnimation() == ANIMATION_ATTACK) {
             LivingEntity target = this.getTarget();
-            if(target != null && target.isAlive()) {
-                if(this.getAnimationTick() == 16){
+            if (target != null && target.isAlive()) {
+                if (this.getAnimationTick() == 16) {
                     useMagicAttack(target);
-                }else if(this.getAnimationTick() < 16){
-                    this.level().broadcastEntityEvent(this, (byte)68);
+                } else if (this.getAnimationTick() < 16) {
+                    this.level().broadcastEntityEvent(this, (byte) 68);
                 }
                 this.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ(), 180.0F, 10.0F);
             }
         }
-        if(spinCooldown > 0){
+        if (spinCooldown > 0) {
             spinCooldown--;
         }
-        if(rangedCooldown > 0){
+        if (rangedCooldown > 0) {
             rangedCooldown--;
         }
     }
@@ -167,18 +168,18 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     }
 
     public void useMagicAttack(LivingEntity target) {
-        this.level().broadcastEntityEvent(this, (byte)68);
-        if(random.nextBoolean()){
-            int lifespan = (int) (Math.floor(this.distanceTo(target)) ) + 10;
+        this.level().broadcastEntityEvent(this, (byte) 68);
+        if (random.nextBoolean()) {
+            int lifespan = (int) (Math.floor(this.distanceTo(target))) + 10;
             Vec3 vec3 = target.position().subtract(this.position());
-            for(int i = -2; i <= 2; i++){
+            for (int i = -2; i <= 2; i++) {
                 WaveEntity waveEntity = new WaveEntity(this.level(), this);
                 waveEntity.setPos(this.getX(), target.getY(), this.getZ());
                 waveEntity.setLifespan(lifespan);
-                waveEntity.setYRot(-(float)(Mth.atan2(vec3.x, vec3.z) * (double)(180F / (float)Math.PI)) + (i * 10));
+                waveEntity.setYRot(-(float) (Mth.atan2(vec3.x, vec3.z) * (double) (180F / (float) Math.PI)) + (i * 10));
                 this.level().addFreshEntity(waveEntity);
             }
-        }else{
+        } else {
             WaterBoltEntity waterBoltEntity = new WaterBoltEntity(this.level(), this);
             double d0 = target.getX() - this.getX();
             double d1 = target.getY(0.3333333333333333D) - waterBoltEntity.getY();
@@ -186,7 +187,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
             double d3 = Math.sqrt(d0 * d0 + d2 * d2);
             waterBoltEntity.setBubbling(random.nextInt(2) == 0);
             waterBoltEntity.setArcingTowards(target.getUUID());
-            waterBoltEntity.shoot(d0, d1 + d3 * (double)0.67F, d2, 0.6F, 30);
+            waterBoltEntity.shoot(d0, d1 + d3 * (double) 0.67F, d2, 0.6F, 30);
             this.level().addFreshEntity(waterBoltEntity);
 
         }
@@ -197,23 +198,23 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
         this.yBodyRot = this.getYRot();
         double distance = this.distanceTo(target);
         float f = this.getBbWidth() + target.getBbWidth();
-        if(distance > 20 + f){
+        if (distance > 20 + f) {
             this.getNavigation().moveTo(target, 1.2);
-        }else if(distance < 2F + f && spinCooldown <= 0){
-            if(this.getAnimation() == NO_ANIMATION){
+        } else if (distance < 2F + f && spinCooldown <= 0) {
+            if (this.getAnimation() == NO_ANIMATION) {
                 this.setAnimation(ANIMATION_SPIN);
                 spinCooldown = 1000 + random.nextInt(60);
             }
-        }else{
-            if(strafeTarget == null || strafeTarget.distanceTo(this.position()) < 4){
+        } else {
+            if (strafeTarget == null || strafeTarget.distanceTo(this.position()) < 4) {
                 Vec3 possible = target.position().add(random.nextInt(20) - 10, random.nextInt(2), random.nextInt(20) - 10);
-                if(!isTargetBlocked(possible)){
+                if (!isTargetBlocked(possible)) {
                     strafeTarget = possible;
                 }
-            }else{
+            } else {
                 this.getNavigation().moveTo(strafeTarget.x, strafeTarget.y, strafeTarget.z, 1.5F);
             }
-            if(rangedCooldown <= 0 && this.getAnimation() == NO_ANIMATION && hasLineOfSight(target)){
+            if (rangedCooldown <= 0 && this.getAnimation() == NO_ANIMATION && hasLineOfSight(target)) {
                 this.setAnimation(ANIMATION_ATTACK);
                 rangedCooldown = 30 + random.nextInt(20);
             }
@@ -261,16 +262,16 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     public boolean startDisappearBehavior(Player player) {
         this.getLookControl().setLookAt(player.getX(), player.getEyeY(), player.getZ(), 20.0F, (float) this.getMaxHeadXRot());
         this.getNavigation().stop();
-        if(this.getAnimation() == NO_ANIMATION){
+        if (this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_DISAPPEAR);
         }
-        if(this.getAnimation() == ANIMATION_DISAPPEAR){
-            if(this.getAnimationTick() > 50){
-                this.level().broadcastEntityEvent(this, (byte)67);
+        if (this.getAnimation() == ANIMATION_DISAPPEAR) {
+            if (this.getAnimationTick() > 50) {
+                this.level().broadcastEntityEvent(this, (byte) 67);
                 this.remove(RemovalReason.DISCARDED);
                 return true;
-            }else{
-                this.level().broadcastEntityEvent(this, (byte)66);
+            } else {
+                this.level().broadcastEntityEvent(this, (byte) 66);
             }
         }
         return false;
@@ -278,22 +279,22 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
 
     public void handleEntityEvent(byte b) {
         if (b == 66) {
-            for(int i = 0; i < 2 + random.nextInt(4); i++){
+            for (int i = 0; i < 2 + random.nextInt(4); i++) {
                 this.level().addParticle(random.nextBoolean() ? ACParticleRegistry.DEEP_ONE_MAGIC.get() : ParticleTypes.DOLPHIN, this.getRandomX(1F), this.getRandomY(), this.getRandomZ(1F), 0F, -0.1F, 0F);
             }
         } else if (b == 67) {
-            for(int i = 0; i < 13 + random.nextInt(6); i++){
+            for (int i = 0; i < 13 + random.nextInt(6); i++) {
                 this.level().addParticle(ACParticleRegistry.DEEP_ONE_MAGIC.get(), this.getRandomX(1F), this.getRandomY(), this.getRandomZ(1F), random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F);
                 this.level().addParticle(ParticleTypes.NAUTILUS, this.getRandomX(1F), this.getRandomY() + 1, this.getRandomZ(1F), random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F);
             }
-        }  else if (b == 68) {
+        } else if (b == 68) {
             Vec3 deltaPos = this.position().add(getDeltaMovement());
             Vec3 rVec = new Vec3(0.65F, this.getBbHeight() * 0.5F + 0.15F, 0.2F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYHeadRot() * ((float) Math.PI / 180F)).add(deltaPos);
             Vec3 lVec = new Vec3(-0.65F, this.getBbHeight() * 0.5F + 0.15F, 0.2F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYHeadRot() * ((float) Math.PI / 180F)).add(deltaPos);
             this.level().addParticle(ACParticleRegistry.DEEP_ONE_MAGIC.get(), rVec.x + (random.nextFloat() - 0.5F) * 0.1F, rVec.y + (random.nextFloat() - 0.5F) * 0.1F, rVec.z + (random.nextFloat() - 0.5F) * 0.1F, (random.nextFloat() - 0.5F) * 0.3F + getDeltaMovement().x, 1, (random.nextFloat() - 0.5F) * 0.3F + getDeltaMovement().z);
             this.level().addParticle(ACParticleRegistry.DEEP_ONE_MAGIC.get(), lVec.x + (random.nextFloat() - 0.5F) * 0.1F, lVec.y + (random.nextFloat() - 0.5F) * 0.1F, lVec.z + (random.nextFloat() - 0.5F) * 0.1F, (random.nextFloat() - 0.5F) * 0.3F + getDeltaMovement().x, 1, (random.nextFloat() - 0.5F) * 0.3F + getDeltaMovement().z);
 
-        } else{
+        } else {
             super.handleEntityEvent(b);
         }
     }
@@ -321,12 +322,12 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
                 LivingEntity attackTarget = parentEntity.getTarget();
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * 0.025D / d0);
                 parentEntity.setDeltaMovement(parentEntity.getDeltaMovement().add(vector3d1));
-                if(d0 < width * 0.3F){
+                if (d0 < width * 0.3F) {
                     this.operation = Operation.WAIT;
-                }else if (d0 >= width && attackTarget == null) {
+                } else if (d0 >= width && attackTarget == null) {
                     if (DeepOneMageEntity.this.getTarget() != null) {
                         parentEntity.yBodyRot = parentEntity.getYRot();
-                    }else{
+                    } else {
                         parentEntity.setYRot(-((float) Mth.atan2(vector3d1.x, vector3d1.z)) * (180F / (float) Math.PI));
                     }
                 }

@@ -40,10 +40,10 @@ public class GuanoPileFeature extends Feature<NoneFeatureConfiguration> {
             for (int z = -radius; z <= radius; z++) {
                 int placedLayers = 0;
                 side.set(pileBottom.getX() + x, pileBottom.getY() + placedLayers, pileBottom.getZ() + z);
-                while(!level.getBlockState(side).canBeReplaced() && side.getY() < level.getMaxBuildHeight()){
+                while (!level.getBlockState(side).canBeReplaced() && side.getY() < level.getMaxBuildHeight()) {
                     side.move(0, 1, 0);
                 }
-                while(level.getBlockState(side).canBeReplaced() && side.getY() > level.getMinBuildHeight()){
+                while (level.getBlockState(side).canBeReplaced() && side.getY() > level.getMinBuildHeight()) {
                     side.move(0, -1, 0);
                 }
                 double dist = side.distToLowCornerSqr(center.getX(), side.getY(), center.getZ());
@@ -51,17 +51,17 @@ public class GuanoPileFeature extends Feature<NoneFeatureConfiguration> {
                 double radiusSq = radius * (radius - seaFloorExtra);
                 if (dist <= radiusSq) {
                     int y = 0;
-                    double invDist = (1F - (dist / (float)radiusSq));
-                    while(y < centerLayerHeight * invDist){
+                    double invDist = (1F - (dist / (float) radiusSq));
+                    while (y < centerLayerHeight * invDist) {
                         BlockState guanoState = ACBlockRegistry.GUANO_LAYER.get().defaultBlockState();
                         y++;
-                        if(y < centerLayerHeight){
+                        if (y < centerLayerHeight) {
                             guanoState = guanoState.setValue(GuanoLayerBlock.LAYERS, 8);
-                        }else{
-                            int j = Mth.clamp( (int)Math.round(8 * invDist * invDist) - randomsource.nextInt(2), 1, 8);
+                        } else {
+                            int j = Mth.clamp((int) Math.round(8 * invDist * invDist) - randomsource.nextInt(2), 1, 8);
                             guanoState = guanoState.setValue(GuanoLayerBlock.LAYERS, j);
                         }
-                        if(canReplace(level.getBlockState(side)) && level.getBlockState(side.below()).isCollisionShapeFullBlock(level, side.below())){
+                        if (canReplace(level.getBlockState(side)) && level.getBlockState(side.below()).isCollisionShapeFullBlock(level, side.below())) {
                             level.setBlock(side, guanoState, 4);
                         }
                         side.move(0, 1, 0);

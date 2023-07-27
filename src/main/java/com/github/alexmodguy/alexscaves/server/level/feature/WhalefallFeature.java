@@ -36,10 +36,10 @@ public class WhalefallFeature extends Feature<WhalefallFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos trenchBottom = new BlockPos.MutableBlockPos();
         trenchBottom.set(context.origin());
-        while(!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()){
+        while (!level.getBlockState(trenchBottom).getFluidState().isEmpty() && trenchBottom.getY() > level.getMinBuildHeight()) {
             trenchBottom.move(0, -1, 0);
         }
-        if(level.getBlockState(trenchBottom.below()).is(ACBlockRegistry.MUCK.get())){
+        if (level.getBlockState(trenchBottom.below()).is(ACBlockRegistry.MUCK.get())) {
             Rotation rotation = Rotation.getRandom(randomsource);
             ResourceLocation head = context.config().headStructures.get(randomsource.nextInt(context.config().headStructures.size()));
             ResourceLocation body = context.config().bodyStructures.get(randomsource.nextInt(context.config().bodyStructures.size()));
@@ -73,13 +73,13 @@ public class WhalefallFeature extends Feature<WhalefallFeatureConfiguration> {
     private void decorateWhalefallPos(BlockPos pos, WorldGenLevel worldgenlevel, RandomSource randomsource) {
         Direction dir = Direction.getRandom(randomsource);
         BlockPos blockpos2 = pos.relative(dir);
-        if(worldgenlevel.getBlockState(blockpos2).is(ACTagRegistry.WHALEFALL_IGNORES) || randomsource.nextInt(5) == 0){
+        if (worldgenlevel.getBlockState(blockpos2).is(ACTagRegistry.WHALEFALL_IGNORES) || randomsource.nextInt(5) == 0) {
             BlockState replaceAt = worldgenlevel.getBlockState(pos);
-            if((replaceAt.is(Blocks.WATER) || replaceAt.isAir()) && worldgenlevel.getBlockState(blockpos2).isFaceSturdy(worldgenlevel, blockpos2, dir.getOpposite())){
+            if ((replaceAt.is(Blocks.WATER) || replaceAt.isAir()) && worldgenlevel.getBlockState(blockpos2).isFaceSturdy(worldgenlevel, blockpos2, dir.getOpposite())) {
                 boolean waterlog = worldgenlevel.getFluidState(pos).is(FluidTags.WATER);
-                if(randomsource.nextBoolean()){
+                if (randomsource.nextBoolean()) {
                     worldgenlevel.setBlock(pos, ACBlockRegistry.BONE_WORMS.get().defaultBlockState().setValue(MusselBlock.FACING, dir.getOpposite()).setValue(MusselBlock.WATERLOGGED, waterlog), 4);
-                }else{
+                } else {
                     worldgenlevel.setBlock(pos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, dir.getOpposite()).setValue(MusselBlock.WATERLOGGED, waterlog).setValue(MusselBlock.MUSSELS, 1 + randomsource.nextInt(4)), 4);
                 }
             }

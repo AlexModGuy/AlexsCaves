@@ -111,12 +111,12 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
         this.access.execute((p_39170_, p_39171_) -> {
             ItemStack itemInFinalSlot = this.resultContainer.getItem(2);
             ItemStack itemstack = biomeResourceKey == null ? new ItemStack(Items.PAPER) : CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), biomeResourceKey);
-            if(itemInFinalSlot.isEmpty()){
+            if (itemInFinalSlot.isEmpty()) {
                 this.resultContainer.setItem(2, itemstack);
-            }else if(ItemStack.isSameItemSameTags(itemInFinalSlot, itemstack) && itemInFinalSlot.getCount() + itemstack.getCount() < itemInFinalSlot.getMaxStackSize()){
+            } else if (ItemStack.isSameItemSameTags(itemInFinalSlot, itemstack) && itemInFinalSlot.getCount() + itemstack.getCount() < itemInFinalSlot.getMaxStackSize()) {
                 itemInFinalSlot.setCount(itemInFinalSlot.getCount() + itemstack.getCount());
                 this.resultContainer.setItem(2, itemInFinalSlot);
-            }else{
+            } else {
                 player.drop(itemstack, true);
             }
             this.broadcastChanges();
@@ -178,12 +178,12 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
     public void onMessageFromScreen(Player player, boolean pass) {
         ItemStack copyOf = this.getSlot(0).getItem().copy();
         this.getSlot(0).getItem().shrink(1);
-        if(pass && !copyOf.isEmpty()){
-            if(this.getSlot(1).getItem().is(Items.PAPER)){
+        if (pass && !copyOf.isEmpty()) {
+            if (this.getSlot(1).getItem().is(Items.PAPER)) {
                 this.getSlot(1).getItem().shrink(1);
             }
             ResourceKey<Biome> biomeResourceKey = CaveInfoItem.getCaveBiome(copyOf);
-            if(biomeResourceKey != null){
+            if (biomeResourceKey != null) {
                 this.setupResultSlot(biomeResourceKey, player);
             }
             setTutorialComplete(player, true);
@@ -191,35 +191,35 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
         this.access.execute(this::makeStoneParticles);
     }
 
-    public static void setTutorialComplete(Player player, boolean done){
+    public static void setTutorialComplete(Player player, boolean done) {
         CompoundTag playerData = player.getPersistentData();
         CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
-        if(data != null){
+        if (data != null) {
             data.putBoolean(NEEDS_TUTORIAL_IDENTIFIER, done);
             playerData.put(Player.PERSISTED_NBT_TAG, data);
         }
     }
 
-    public static boolean hasCompletedTutorial(Player player){
+    public static boolean hasCompletedTutorial(Player player) {
         CompoundTag playerData = player.getPersistentData();
         CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
         return data != null && data.getBoolean(NEEDS_TUTORIAL_IDENTIFIER);
     }
 
-    public void makeStoneParticles(Level level, BlockPos blockPos){
+    public void makeStoneParticles(Level level, BlockPos blockPos) {
         BlockParticleOption blockparticleoption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState());
 
         level.playSound(null, blockPos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS);
-        if(level instanceof ServerLevel serverLevel){
-            for(int i = 0; i < 8; i++){
-                serverLevel.sendParticles(blockparticleoption, blockPos.getX() + level.random.nextFloat(), blockPos.getY() + 1.0F, blockPos.getZ() + level.random.nextFloat(),  0,0, 0, 0, 0);
+        if (level instanceof ServerLevel serverLevel) {
+            for (int i = 0; i < 8; i++) {
+                serverLevel.sendParticles(blockparticleoption, blockPos.getX() + level.random.nextFloat(), blockPos.getY() + 1.0F, blockPos.getZ() + level.random.nextFloat(), 0, 0, 0, 0, 0);
             }
         }
     }
 
-    public int getHighlightColor(Level level){
+    public int getHighlightColor(Level level) {
         ItemStack stack = this.getSlot(0).getItem();
-        if(stack.getItem() == ACItemRegistry.CAVE_TABLET.get()){
+        if (stack.getItem() == ACItemRegistry.CAVE_TABLET.get()) {
             return CaveInfoItem.getBiomeColorOf(level, stack);
         }
         return -1;

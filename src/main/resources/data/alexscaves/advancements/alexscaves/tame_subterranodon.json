@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:subterranodon_egg"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.tame_subterranodon.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.tame_subterranodon.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/trilocaris_bucket",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:subterranodon"
+        }
+      }
+    }
+  }
+}

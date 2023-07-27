@@ -1,0 +1,56 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:hazmat_mask"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.hazmat_armor.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.hazmat_armor.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/polymer_plate",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:hazmat_mask"]
+                    }
+                ]
+            }
+        },
+        "shirt": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:hazmat_chestplate"]
+                    }
+                ]
+            }
+        },
+        "pants": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:hazmat_leggings"]
+                    }
+                ]
+            }
+        },
+        "boots": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:hazmat_boots"]
+                    }
+                ]
+            }
+        }
+    }
+}

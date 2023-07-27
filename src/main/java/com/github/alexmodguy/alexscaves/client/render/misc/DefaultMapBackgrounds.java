@@ -44,18 +44,19 @@ public enum DefaultMapBackgrounds {
 
     private ResourceLocation texture;
 
-    private DefaultMapBackgrounds(){
+    private DefaultMapBackgrounds() {
         texture = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/" + this.name().toLowerCase() + "_background.png");
     }
+
     private static final HashMap<Integer, MapBackgroundTexture> TEXTURE_HASH_MAP = new HashMap<>();
 
-    private static MapBackgroundTexture getBackgroundTexture(int id, ResourceLocation resourceLocation){
-        if(TEXTURE_HASH_MAP.containsKey(id)){
+    private static MapBackgroundTexture getBackgroundTexture(int id, ResourceLocation resourceLocation) {
+        if (TEXTURE_HASH_MAP.containsKey(id)) {
             return TEXTURE_HASH_MAP.get(id);
-        }else{
+        } else {
             MapBackgroundTexture simpleTexture = new MapBackgroundTexture(resourceLocation);
             Minecraft.getInstance().getTextureManager().register(resourceLocation, simpleTexture);
-            TEXTURE_HASH_MAP.put(id,simpleTexture);
+            TEXTURE_HASH_MAP.put(id, simpleTexture);
             return simpleTexture;
         }
     }
@@ -69,7 +70,7 @@ public enum DefaultMapBackgrounds {
         return nativeImage.getPixelRGBA(u % nativeImage.getWidth(), v % nativeImage.getHeight());
     }
 
-    public static class MapBackgroundTexture extends SimpleTexture{
+    public static class MapBackgroundTexture extends SimpleTexture {
 
         private NativeImage nativeImage;
 
@@ -77,7 +78,7 @@ public enum DefaultMapBackgrounds {
             super(resourceLocation);
         }
 
-        public NativeImage getNativeImage(){
+        public NativeImage getNativeImage() {
             return nativeImage;
         }
 

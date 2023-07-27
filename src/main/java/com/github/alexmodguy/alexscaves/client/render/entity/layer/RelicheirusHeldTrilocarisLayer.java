@@ -25,7 +25,7 @@ public class RelicheirusHeldTrilocarisLayer extends RenderLayer<RelicheirusEntit
 
     public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, RelicheirusEntity relicheirus, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
         Entity heldMob = relicheirus.getHeldMob();
-        if(heldMob instanceof TrilocarisEntity && relicheirus.getAnimation() == RelicheirusEntity.ANIMATION_EAT_TRILOCARIS && relicheirus.getAnimationTick() > 15){
+        if (heldMob instanceof TrilocarisEntity && relicheirus.getAnimation() == RelicheirusEntity.ANIMATION_EAT_TRILOCARIS && relicheirus.getAnimationTick() > 15) {
             float riderRot = heldMob.yRotO + (heldMob.getYRot() - heldMob.yRotO) * partialTicks;
             AlexsCaves.PROXY.releaseRenderingEntity(heldMob.getUUID());
             matrixStackIn.pushPose();

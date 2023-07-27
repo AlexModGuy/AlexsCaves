@@ -177,7 +177,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
     }
 
     public void calculateEntityAnimation(boolean flying) {
-        float f1 = (float)Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
+        float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
         float f2 = Math.min(f1 * 10.0F, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
     }
@@ -295,7 +295,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
+        while (!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()) {
             down = down.below();
         }
         this.setPos(down.getX() + 0.5F, down.getY() + 2, down.getZ() + 0.5F);
@@ -413,7 +413,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
             if (level().isNight()) {
                 base = fish.blockPosition().atY(Mth.clamp(fishY, floorY + (int) (oceanHeight * 0.85F), surfaceY));
             } else {
-                base = fish.blockPosition().atY(Mth.clamp(fishY, floorY  + (int) (oceanHeight * 0.25F), surfaceY - (int) (oceanHeight * 0.85F)));
+                base = fish.blockPosition().atY(Mth.clamp(fishY, floorY + (int) (oceanHeight * 0.25F), surfaceY - (int) (oceanHeight * 0.85F)));
             }
 
             for (int i = 0; i < 15; i++) {
@@ -492,7 +492,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
         }
     }
 
-    private class LanternfishMoveControl extends MoveControl{
+    private class LanternfishMoveControl extends MoveControl {
         public LanternfishMoveControl() {
             super(LanternfishEntity.this);
         }

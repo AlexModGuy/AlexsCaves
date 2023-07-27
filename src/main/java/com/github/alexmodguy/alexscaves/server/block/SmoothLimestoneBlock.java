@@ -52,7 +52,7 @@ public class SmoothLimestoneBlock extends Block {
             if (!player.isCreative()) {
                 itemstack.shrink(1);
             }
-            if(!level.isClientSide){
+            if (!level.isClientSide) {
                 BlockState cavePainting = Util.getRandom(CAVE_PAINTINGS, player.getRandom()).get().defaultBlockState();
                 level.setBlockAndUpdate(blockPos, cavePainting.setValue(CavePaintingBlock.FACING, blockHitResult.getDirection()));
                 level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);

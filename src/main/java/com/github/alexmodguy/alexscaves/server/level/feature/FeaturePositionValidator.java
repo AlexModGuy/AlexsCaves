@@ -7,7 +7,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 
 public class FeaturePositionValidator {
 
-    public static boolean isBiome(FeaturePlaceContext context, ResourceKey<Biome> biomeResourceKey){
+    public static boolean isBiome(FeaturePlaceContext context, ResourceKey<Biome> biomeResourceKey) {
         int j = context.level().getHeight(Heightmap.Types.OCEAN_FLOOR, context.origin().getX(), context.origin().getZ());
         return context.level().getBiome(context.origin().atY(Math.min(context.level().getMinBuildHeight(), j - 30))).is(biomeResourceKey);
     }

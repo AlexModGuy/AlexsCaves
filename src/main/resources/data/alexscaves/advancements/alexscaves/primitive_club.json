@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:primitive_club"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.primitive_club.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.primitive_club.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_big_dinosaur",
+    "criteria": {
+        "limestone": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:primitive_club"]
+                    }
+                ]
+            }
+        }
+    }
+}

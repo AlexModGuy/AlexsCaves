@@ -107,7 +107,7 @@ public class QuarrySmasherRenderer extends EntityRenderer<QuarrySmasherEntity> {
                     .lifespan(1)
                     .spawn(LightningBoltData.SpawnFunction.CONSECUTIVE)
                     .fade(LightningBoltData.FadeFunction.NONE);
-            if(!Minecraft.getInstance().isPaused()){
+            if (!Minecraft.getInstance().isPaused()) {
                 lightningRender.update(1, bolt1, partialTicks);
                 lightningRender.update(2, bolt2, partialTicks);
                 lightningRender.update(3, bolt3, partialTicks);

@@ -23,8 +23,8 @@ public class GossamerWormRenderer extends MobRenderer<GossamerWormEntity, Gossam
         if (super.shouldRender(entity, camera, x, y, z)) {
             return true;
         } else {
-            for(PartEntity part : entity.getParts()){
-                if(camera.isVisible(part.getBoundingBoxForCulling())){
+            for (PartEntity part : entity.getParts()) {
+                if (camera.isVisible(part.getBoundingBoxForCulling())) {
                     return true;
                 }
             }

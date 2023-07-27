@@ -117,7 +117,7 @@ public class MineGuardianEntity extends Monster {
         if (!level().isClientSide) {
             UUID id = getAnchorUUID();
             return id == null ? null : ((ServerLevel) level()).getEntity(id);
-        }else{
+        } else {
             int id = this.entityData.get(ANCHOR_ID);
             return id == -1 ? null : level().getEntity(id);
         }
@@ -171,20 +171,20 @@ public class MineGuardianEntity extends Monster {
         super.tick();
         prevExplodeProgress = explodeProgress;
         prevScanProgress = scanProgress;
-        if(this.isScanning() && scanProgress < 5F){
+        if (this.isScanning() && scanProgress < 5F) {
             scanProgress++;
         }
-        if(!this.isScanning() && scanProgress > 0F){
+        if (!this.isScanning() && scanProgress > 0F) {
             scanProgress--;
         }
-        if(this.isExploding() && explodeProgress < 10F){
+        if (this.isExploding() && explodeProgress < 10F) {
             explodeProgress += 0.5F;
         }
-        if(!this.isExploding() && explodeProgress > 0F){
+        if (!this.isExploding() && explodeProgress > 0F) {
             explodeProgress -= 0.5F;
         }
-        if(this.isExploding()){
-            if(explodeProgress >= 10.0F){
+        if (this.isExploding()) {
+            if (explodeProgress >= 10.0F) {
                 this.remove(RemovalReason.KILLED);
                 Explosion.BlockInteraction blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this) ? level().getGameRules().getBoolean(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP;
 
@@ -210,21 +210,21 @@ public class MineGuardianEntity extends Monster {
             if (this.isInWaterOrBubble()) {
                 this.setAirSupply(300);
             } else if (this.onGround()) {
-                this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F), 0.6F, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F)));
+                this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F), 0.6F, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F)));
                 this.setYRot(this.random.nextFloat() * 360.0F);
                 this.setOnGround(false);
                 this.hasImpulse = true;
             }
             Entity target = this.getTarget();
-            if(target == null || !target.isAlive()){
+            if (target == null || !target.isAlive()) {
                 timeSinceHadTarget++;
-            }else{
+            } else {
                 timeSinceHadTarget = 0;
             }
-            if(this.isScanning()){
+            if (this.isScanning()) {
                 this.setEyeClosed(false);
-                if(scanTime < maxScanTime){
-                    if(scanTime % 5 == 0 && scanProgress >= 5.0F){
+                if (scanTime < maxScanTime) {
+                    if (scanTime % 5 == 0 && scanProgress >= 5.0F) {
                         Entity found = null;
                         HitResult hitresult = level().clip(new ClipContext(this.getEyePosition(), this.getEyePosition().add(this.getLookAngle().scale(8)), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));
                         if (hitresult instanceof EntityHitResult entityHitResult && isValidTarget(entityHitResult.getEntity())) {
@@ -242,33 +242,33 @@ public class MineGuardianEntity extends Monster {
                                 }
                             }
                         }
-                        if(found instanceof LivingEntity living){
+                        if (found instanceof LivingEntity living) {
                             this.setTarget(living);
                             this.setScanning(false);
                         }
                     }
                     scanTime++;
-                }else{
+                } else {
                     scanTime = 0;
                     lastScanTime = tickCount;
                     this.setScanning(false);
                 }
-            }else if(this.isEyeClosed()){
+            } else if (this.isEyeClosed()) {
                 int j = this.tickCount - lastScanTime;
-                if(timeSinceHadTarget == 0 || !this.isInWaterOrBubble()){
+                if (timeSinceHadTarget == 0 || !this.isInWaterOrBubble()) {
                     this.setEyeClosed(false);
-                }else if(this.isInWaterOrBubble() && (timeSinceHadTarget > maxSleepTime &&  j > 200 || this.hurtTime > 0) ){
+                } else if (this.isInWaterOrBubble() && (timeSinceHadTarget > maxSleepTime && j > 200 || this.hurtTime > 0)) {
                     maxSleepTime = 200 + random.nextInt(100);
                     this.setScanning(true);
                     scanTime = 0;
                     maxScanTime = 100 + random.nextInt(100);
                 }
-            }else{
-                if(this.isInWaterOrBubble() && timeSinceHadTarget > 100){
+            } else {
+                if (this.isInWaterOrBubble() && timeSinceHadTarget > 100) {
                     this.setEyeClosed(true);
                 }
             }
-        }else{
+        } else {
             Vec3 vec3 = this.getDeltaMovement();
             if (vec3.y > 0.0D && this.clientSideTouchedGround && !this.isSilent()) {
                 this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), this.getFlopSound(), this.getSoundSource(), 1.0F, 1.0F, false);
@@ -288,14 +288,14 @@ public class MineGuardianEntity extends Monster {
             return false;
         } else {
             boolean flag = level.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(level, blockPos, randomSource) && (mobSpawnType == MobSpawnType.SPAWNER || level.getFluidState(blockPos).is(FluidTags.WATER));
-            if(randomSource.nextInt(10) == 0 && blockPos.getY() < level.getSeaLevel() - 50 && flag) {
+            if (randomSource.nextInt(10) == 0 && blockPos.getY() < level.getSeaLevel() - 50 && flag) {
                 BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(blockPos.getX(), blockPos.getY(), blockPos.getZ());
-                while(!level.getFluidState(pos).isEmpty() && pos.getY() < level.getSeaLevel()){
+                while (!level.getFluidState(pos).isEmpty() && pos.getY() < level.getSeaLevel()) {
                     pos.move(0, 1, 0);
                 }
                 int belowAirBy = pos.getY() - blockPos.getY();
                 pos.set(blockPos);
-                while(!level.getFluidState(pos).isEmpty() && pos.getY() > level.getMinBuildHeight()){
+                while (!level.getFluidState(pos).isEmpty() && pos.getY() > level.getMinBuildHeight()) {
                     pos.move(0, -1, 0);
                 }
                 BlockState groundState = level.getBlockState(pos);
@@ -347,10 +347,10 @@ public class MineGuardianEntity extends Monster {
     @Override
     protected void dropAllDeathLoot(DamageSource damageSource) {
         super.dropAllDeathLoot(damageSource);
-        if(!level().isClientSide && damageSource.getEntity() instanceof Player player){
+        if (!level().isClientSide && damageSource.getEntity() instanceof Player player) {
             ACWorldData worldData = ACWorldData.get(level());
             int relations = worldData.getDeepOneReputation(player.getUUID());
-            if(relations < 0){
+            if (relations < 0) {
                 worldData.setDeepOneReputation(player.getUUID(), relations + random.nextInt(3) + 1);
             }
         }
@@ -359,6 +359,7 @@ public class MineGuardianEntity extends Monster {
     private class MeleeGoal extends Goal {
 
         private int timer = 0;
+
         public MeleeGoal() {
             this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
         }
@@ -369,7 +370,7 @@ public class MineGuardianEntity extends Monster {
             return target != null;
         }
 
-        public void start(){
+        public void start() {
             timer = 0;
         }
 
@@ -379,14 +380,14 @@ public class MineGuardianEntity extends Monster {
                 timer++;
                 double dist = MineGuardianEntity.this.distanceTo(target);
                 MineGuardianEntity.this.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
-                if(dist > 2.0F){
-                    if(MineGuardianEntity.this.isInWaterOrBubble()){
+                if (dist > 2.0F) {
+                    if (MineGuardianEntity.this.isInWaterOrBubble()) {
                         MineGuardianEntity.this.getNavigation().moveTo(target, 1.6D);
                     }
-                }else{
+                } else {
                     MineGuardianEntity.this.setExploding(true);
                 }
-                if(timer > 300){
+                if (timer > 300) {
                     MineGuardianEntity.this.lastScanTime = MineGuardianEntity.this.tickCount;
                     MineGuardianEntity.this.timeSinceHadTarget = 5;
                     MineGuardianEntity.this.setEyeClosed(true);

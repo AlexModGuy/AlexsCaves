@@ -69,10 +69,10 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
                     }
                 }
             } else {
-                if(relicheirus.getNavigation().isDone()){
+                if (relicheirus.getNavigation().isDone()) {
                     Vec3 vec31 = Vec3.atCenterOf(target);
                     Vec3 vec32 = vec31.subtract(relicheirus.position());
-                    if(vec32.length() > 1){
+                    if (vec32.length() > 1) {
                         vec32 = vec32.normalize();
                     }
                     Vec3 delta = new Vec3(vec32.x * 0.1F, 0F, vec32.z * 0.1F);
@@ -84,7 +84,7 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
 
     protected void moveMobToBlock() {
         BlockPos pos = getMoveToTarget();
-        this.mob.getNavigation().moveTo((double) ((float) pos.getX()) + 0.5D, (double) (pos.getY() ), (double) ((float) pos.getZ()) + 0.5D, this.speedModifier);
+        this.mob.getNavigation().moveTo((double) ((float) pos.getX()) + 0.5D, (double) (pos.getY()), (double) ((float) pos.getZ()) + 0.5D, this.speedModifier);
     }
 
 
@@ -109,7 +109,7 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
 
     private boolean highEnough(LevelReader worldIn, BlockPos pos) {
         int height = getHeightOfBlock(worldIn, pos);
-        if (relicheirus.isBaby()){
+        if (relicheirus.isBaby()) {
             return height <= 1;
         }
         return height > 3 && height < 7;

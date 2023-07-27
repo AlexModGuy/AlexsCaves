@@ -61,7 +61,7 @@ public class DinoBowlStructurePiece extends AbstractCaveGenerationStructurePiece
                 }
             }
         }
-        if (flag){
+        if (flag) {
             replaceBiomes(level, ACBiomeRegistry.PRIMORDIAL_CAVES, 32);
         }
     }

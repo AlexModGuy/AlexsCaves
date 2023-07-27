@@ -50,7 +50,7 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     public static boolean canSupportWormAt(Level level, BlockState state, BlockPos blockPos) {
-        if(state.is(ACBlockRegistry.TUBE_WORM.get()) && state.getValue(TUBE_TYPE) != TubeShape.TURN){
+        if (state.is(ACBlockRegistry.TUBE_WORM.get()) && state.getValue(TUBE_TYPE) != TubeShape.TURN) {
             BlockState aboveState = level.getBlockState(blockPos.above());
             return aboveState.getFluidState().is(FluidTags.WATER) && !aboveState.isFaceSturdy(level, blockPos.above(), Direction.DOWN, SupportType.CENTER);
         }
@@ -58,10 +58,10 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        if(state.getValue(TUBE_TYPE) == TubeShape.STRAIGHT){
+        if (state.getValue(TUBE_TYPE) == TubeShape.STRAIGHT) {
             return STRAIGHT_SHAPE;
-        }else if(state.getValue(TUBE_TYPE) == TubeShape.TURN){
-            switch (state.getValue(FACING)){
+        } else if (state.getValue(TUBE_TYPE) == TubeShape.TURN) {
+            switch (state.getValue(FACING)) {
                 case NORTH:
                     return SHAPE_TURN_NORTH;
                 case EAST:
@@ -71,8 +71,8 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
                 case WEST:
                     return SHAPE_TURN_WEST;
             }
-        }else{
-            switch (state.getValue(FACING)){
+        } else {
+            switch (state.getValue(FACING)) {
                 case NORTH:
                     return SHAPE_ELBOW_NORTH;
                 case EAST:
@@ -95,15 +95,15 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
         }
         BlockState prior = state;
         BlockState above = levelAccessor.getBlockState(blockPos.above());
-        if(state1.is(this) && direction != null && state.getValue(TUBE_TYPE) == TubeShape.STRAIGHT && !above.is(this)){
-            if(direction.getAxis().isHorizontal()){
+        if (state1.is(this) && direction != null && state.getValue(TUBE_TYPE) == TubeShape.STRAIGHT && !above.is(this)) {
+            if (direction.getAxis().isHorizontal()) {
                 BlockState below = levelAccessor.getBlockState(blockPos.below());
-                if(below.isFaceSturdy(levelAccessor, blockPos.below(), Direction.UP, SupportType.CENTER)){
+                if (below.isFaceSturdy(levelAccessor, blockPos.below(), Direction.UP, SupportType.CENTER)) {
                     prior = prior.setValue(TUBE_TYPE, TubeShape.TURN).setValue(FACING, direction);
-                }else{
+                } else {
                     prior = prior.setValue(TUBE_TYPE, TubeShape.ELBOW).setValue(FACING, direction);
                 }
-            }else if(direction == Direction.DOWN){
+            } else if (direction == Direction.DOWN) {
                 prior = prior.setValue(TUBE_TYPE, TubeShape.STRAIGHT);
             }
         }
@@ -116,20 +116,20 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
         BlockPos blockpos = context.getClickedPos().relative(direction.getOpposite());
         BlockState neighbor = levelaccessor.getBlockState(blockpos);
         BlockState aboveNeighbor = levelaccessor.getBlockState(blockpos.above());
-        if(neighbor.is(this)){
+        if (neighbor.is(this)) {
             TubeShape tubeShape = neighbor.getValue(TUBE_TYPE);
-            if(tubeShape == TubeShape.STRAIGHT && aboveNeighbor.is(this) ){
+            if (tubeShape == TubeShape.STRAIGHT && aboveNeighbor.is(this)) {
                 return null;
             }
-            if(tubeShape == TubeShape.ELBOW && direction != Direction.UP){
+            if (tubeShape == TubeShape.ELBOW && direction != Direction.UP) {
                 return null;
             }
-            if(tubeShape == TubeShape.TURN && direction != neighbor.getValue(FACING)) {
+            if (tubeShape == TubeShape.TURN && direction != neighbor.getValue(FACING)) {
                 return null;
             }
         }
         BlockState tube = this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(levelaccessor.getFluidState(context.getClickedPos()).getType() == Fluids.WATER));
-        if(direction.getAxis().isHorizontal()){
+        if (direction.getAxis().isHorizontal()) {
             tube = tube.setValue(TUBE_TYPE, TubeShape.ELBOW).setValue(FACING, direction.getOpposite());
         }
         return tube;
@@ -138,9 +138,9 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
 
     public boolean canSurvive(BlockState state, LevelReader levelAccessor, BlockPos blockPos) {
         BlockState belowState = levelAccessor.getBlockState(blockPos.below());
-        if(belowState.isFaceSturdy(levelAccessor, blockPos.below(), Direction.UP, SupportType.CENTER)){
+        if (belowState.isFaceSturdy(levelAccessor, blockPos.below(), Direction.UP, SupportType.CENTER)) {
             return true;
-        }else if(state.getValue(TUBE_TYPE) == TubeShape.ELBOW){
+        } else if (state.getValue(TUBE_TYPE) == TubeShape.ELBOW) {
             BlockPos offset = blockPos.relative(state.getValue(FACING));
             BlockState offsetState = levelAccessor.getBlockState(offset);
             return offsetState.isFaceSturdy(levelAccessor, offset, state.getValue(FACING).getOpposite(), SupportType.CENTER) || offsetState.is(this);
@@ -161,13 +161,14 @@ public class TubeWormBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
-        if(randomSource.nextInt(3) == 0 && canSupportWormAt(level, state, pos)){
-            if(AlexsCaves.PROXY.checkIfParticleAt(ACParticleRegistry.TUBE_WORM.get(), pos)){
+        if (randomSource.nextInt(3) == 0 && canSupportWormAt(level, state, pos)) {
+            if (AlexsCaves.PROXY.checkIfParticleAt(ACParticleRegistry.TUBE_WORM.get(), pos)) {
                 Vec3 center = Vec3.upFromBottomCenterOf(pos, 0.5F);
                 level.addParticle(ACParticleRegistry.TUBE_WORM.get(), center.x, center.y, center.z, 0, 0, 0);
             }
         }
     }
+
     public enum TubeShape implements StringRepresentable {
         STRAIGHT("straight"),
         TURN("turn"),

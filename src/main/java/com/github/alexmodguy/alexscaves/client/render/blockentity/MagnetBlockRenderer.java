@@ -24,7 +24,7 @@ public class MagnetBlockRenderer<T extends MagnetBlockEntity> implements BlockEn
     public void render(T magnet, float partialTicks, PoseStack stack, MultiBufferSource bufferIn, int combinedLightIn, int combinedOverlayIn) {
         BlockState state = magnet.getBlockState();
         float ageInTicks = (magnet.age + partialTicks) * 3F;
-        if(state.getValue(MagnetBlock.POWERED)){
+        if (state.getValue(MagnetBlock.POWERED)) {
             float twitch = 0.01F;
             BlockState copy = state.setValue(MagnetBlock.POWERED, false);
             stack.pushPose();
@@ -32,7 +32,7 @@ public class MagnetBlockRenderer<T extends MagnetBlockEntity> implements BlockEn
             Minecraft.getInstance().getBlockRenderer().renderSingleBlock(copy, stack, bufferIn, combinedLightIn, OverlayTexture.NO_OVERLAY);
             stack.popPose();
         }
-        if(magnet.getRangeVisuality(partialTicks) > 0.0F){
+        if (magnet.getRangeVisuality(partialTicks) > 0.0F) {
             stack.pushPose();
             stack.translate(-magnet.getBlockPos().getX(), -magnet.getBlockPos().getY(), -magnet.getBlockPos().getZ());
             AABB aabb = magnet.getRangeBB(magnet.getEffectiveRange(), false).inflate(-0.001F);
@@ -41,20 +41,20 @@ public class MagnetBlockRenderer<T extends MagnetBlockEntity> implements BlockEn
             float g = 0.2F;
             float b = 0.2F;
             float advance = (float) (Math.sin(ageInTicks * 0.04F) * 0.5F + 0.5F);
-            if(magnet.isAzure()){
+            if (magnet.isAzure()) {
                 r = 0.2F;
                 g = 0.2F;
                 b = 1.0F;
             }
-            if(player != null){
+            if (player != null) {
                 AABB aabb2 = null;
-                if(magnet.isExtenderItem(player.getMainHandItem()) || magnet.isExtenderItem(player.getOffhandItem())){
+                if (magnet.isExtenderItem(player.getMainHandItem()) || magnet.isExtenderItem(player.getOffhandItem())) {
                     aabb2 = magnet.getRangeBB(magnet.getEffectiveRange() + advance, false).inflate(-0.002F);
                 }
-                if(magnet.isRetracterItem(player.getMainHandItem()) || magnet.isRetracterItem(player.getOffhandItem())){
+                if (magnet.isRetracterItem(player.getMainHandItem()) || magnet.isRetracterItem(player.getOffhandItem())) {
                     aabb2 = magnet.getRangeBB(magnet.getEffectiveRange() - advance, false).inflate(-0.002F);
                 }
-                if(aabb2 != null && (magnet.canAddRange() || magnet.canRemoveRange()) ){
+                if (aabb2 != null && (magnet.canAddRange() || magnet.canRemoveRange())) {
                     LevelRenderer.renderLineBox(stack, bufferIn.getBuffer(RenderType.lines()), aabb2, r, g, b, 0.3F * magnet.getRangeVisuality(partialTicks));
 
                 }

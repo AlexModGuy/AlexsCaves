@@ -24,22 +24,20 @@ public class AcidFluidType extends FluidType {
     }
 
     @Override
-    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)
-    {
-        consumer.accept(new IClientFluidTypeExtensions()
-        {
+    public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+        consumer.accept(new IClientFluidTypeExtensions() {
             @Override
             public ResourceLocation getStillTexture() {
                 return FLUID_STILL;
             }
 
             @Override
-            public ResourceLocation getFlowingTexture()  {
+            public ResourceLocation getFlowingTexture() {
                 return FLUID_FLOWING;
             }
 
             @Override
-            public ResourceLocation getRenderOverlayTexture(Minecraft mc)  {
+            public ResourceLocation getRenderOverlayTexture(Minecraft mc) {
                 return OVERLAY;
             }
         });
@@ -69,7 +67,7 @@ public class AcidFluidType extends FluidType {
             f4 = 0.96F;
         }
 
-        f5 *= (float)entity.getAttribute(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue();
+        f5 *= (float) entity.getAttribute(net.minecraftforge.common.ForgeMod.SWIM_SPEED.get()).getValue();
         entity.moveRelative(f5, movementVector);
         entity.move(MoverType.SELF, entity.getDeltaMovement());
         Vec3 vec36 = entity.getDeltaMovement();
@@ -77,11 +75,11 @@ public class AcidFluidType extends FluidType {
             vec36 = new Vec3(vec36.x, 0.2D, vec36.z);
         }
 
-        entity.setDeltaMovement(vec36.multiply((double)f4, (double)0.8F, (double)f4));
+        entity.setDeltaMovement(vec36.multiply((double) f4, (double) 0.8F, (double) f4));
         Vec3 vec32 = entity.getFluidFallingAdjustedMovement(d0, flag, entity.getDeltaMovement());
         entity.setDeltaMovement(vec32);
-        if (entity.horizontalCollision && entity.isFree(vec32.x, vec32.y + (double)0.6F - entity.getY() + d9, vec32.z)) {
-            entity.setDeltaMovement(vec32.x, (double)0.3F, vec32.z);
+        if (entity.horizontalCollision && entity.isFree(vec32.x, vec32.y + (double) 0.6F - entity.getY() + d9, vec32.z)) {
+            entity.setDeltaMovement(vec32.x, (double) 0.3F, vec32.z);
         }
         return true;
     }

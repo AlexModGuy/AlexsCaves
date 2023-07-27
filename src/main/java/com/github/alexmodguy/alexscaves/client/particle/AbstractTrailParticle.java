@@ -46,15 +46,15 @@ public abstract class AbstractTrailParticle extends Particle {
             this.remove();
         } else {
             this.move(this.xd, this.yd, this.zd);
-            this.yd -= (double)this.gravity;
+            this.yd -= (double) this.gravity;
         }
     }
 
-    public void tickTrail(){
+    public void tickTrail() {
 
         Vec3 currentPosition = new Vec3(this.x, this.y, this.z);
-        if(trailPointer == -1){
-            for(int i = 0; i < trailPositions.length; i++){
+        if (trailPointer == -1) {
+            for (int i = 0; i < trailPositions.length; i++) {
                 trailPositions[i] = currentPosition;
             }
         }
@@ -66,11 +66,11 @@ public abstract class AbstractTrailParticle extends Particle {
 
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-        if(trailPointer > -1){
+        if (trailPointer > -1) {
             Vec3 cameraPos = camera.getPosition();
-            float x = (float)(Mth.lerp((double)partialTick, this.xo, this.x));
-            float y = (float)(Mth.lerp((double)partialTick, this.yo, this.y));
-            float z = (float)(Mth.lerp((double)partialTick, this.zo, this.z));
+            float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
+            float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
+            float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
 
             PoseStack posestack = new PoseStack();
             posestack.pushPose();
@@ -82,10 +82,10 @@ public abstract class AbstractTrailParticle extends Particle {
             Vec3 topAngleVec = new Vec3(0, getTrailHeight() / 2F, 0).zRot(zRot);
             Vec3 bottomAngleVec = new Vec3(0, getTrailHeight() / -2F, 0).zRot(zRot);
             int j = getLightColor(partialTick);
-            while(samples < sampleCount()){
+            while (samples < sampleCount()) {
                 Vec3 sample = getTrailPosition(samples * sampleStep(), partialTick);
-                float u1 = samples / (float)sampleCount();
-                float u2 = u1 + 1 / (float)sampleCount();
+                float u1 = samples / (float) sampleCount();
+                float u2 = u1 + 1 / (float) sampleCount();
 
                 Vec3 draw1 = drawFrom;
                 Vec3 draw2 = sample;
@@ -93,10 +93,10 @@ public abstract class AbstractTrailParticle extends Particle {
                 PoseStack.Pose posestack$pose = posestack.last();
                 Matrix4f matrix4f = posestack$pose.pose();
                 Matrix3f matrix3f = posestack$pose.normal();
-                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float)bottomAngleVec.x, (float) draw1.y + (float)bottomAngleVec.y, (float) draw1.z + (float)bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float)bottomAngleVec.x, (float) draw2.y + (float)bottomAngleVec.y, (float) draw2.z + (float)bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float)topAngleVec.x, (float) draw2.y + (float)topAngleVec.y, (float) draw2.z + (float)topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
-                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float)topAngleVec.x, (float) draw1.y + (float)topAngleVec.y, (float) draw1.z + (float)topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
                 samples++;
                 drawFrom = sample;
             }
@@ -106,18 +106,18 @@ public abstract class AbstractTrailParticle extends Particle {
     }
 
     public float getTrailRot(Camera camera) {
-       return -0.017453292F * camera.getXRot();
+        return -0.017453292F * camera.getXRot();
     }
 
     public abstract float getTrailHeight();
 
     public abstract RenderType getTrailRenderType();
 
-    public int sampleCount(){
+    public int sampleCount() {
         return 20;
     }
 
-    public int sampleStep(){
+    public int sampleStep() {
         return 1;
     }
 

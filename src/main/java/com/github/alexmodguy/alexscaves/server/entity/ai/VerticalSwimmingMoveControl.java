@@ -35,24 +35,24 @@ public class VerticalSwimmingMoveControl extends MoveControl {
             float f1 = (float) (this.speedModifier * this.mob.getAttributeValue(Attributes.MOVEMENT_SPEED) * secondSpeedModifier);
             float rotBy = this.maxRotChange;
             this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, (double) f1 * d1 * 0.4D, 0.0D));
-            if(d4 < this.mob.getBbWidth() + 1.4F){
+            if (d4 < this.mob.getBbWidth() + 1.4F) {
                 f1 *= 0.7F;
-                if(d4 < 0.3F){
+                if (d4 < 0.3F) {
                     rotBy = 0;
-                }else{
+                } else {
                     rotBy = Math.max(40, this.maxRotChange);
                 }
             }
             float f = (float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90.0F;
             this.mob.setYRot(this.rotlerp(this.mob.getYRot(), f, rotBy));
-            if(d3 > 0.3){
+            if (d3 > 0.3) {
                 this.mob.setSpeed(f1);
-            }else{
+            } else {
                 this.mob.setSpeed(0.0F);
             }
         } else {
             this.mob.setSpeed(0.0F);
-            if(mob instanceof DeepOneBaseEntity deepOne){
+            if (mob instanceof DeepOneBaseEntity deepOne) {
                 this.mob.setDeltaMovement(this.mob.getDeltaMovement().add(0.0D, -0.1D, 0.0D));
             }
         }

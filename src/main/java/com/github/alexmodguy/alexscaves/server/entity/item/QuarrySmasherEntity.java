@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.block.QuarryBlock;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.QuarryBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -20,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -67,6 +69,7 @@ public class QuarrySmasherEntity extends Entity {
     public int shakeTime = 0;
 
     public List<ItemEntity> pulledItems = new ArrayList<>();
+    private boolean triggerAdvancement;
 
     public QuarrySmasherEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -99,19 +102,19 @@ public class QuarrySmasherEntity extends Entity {
         super.tick();
         prevInactiveProgress = inactiveProgress;
         prevHeadGroundProgress = headGroundProgress;
-        if(this.isInactive() && inactiveProgress < 10.0F){
+        if (this.isInactive() && inactiveProgress < 10.0F) {
             inactiveProgress++;
         }
-        if(!this.isInactive() && inactiveProgress > 0.0F){
+        if (!this.isInactive() && inactiveProgress > 0.0F) {
             inactiveProgress--;
         }
-        if(this.isSlamming() && headGroundProgress < 5.0F){
+        if (this.isSlamming() && headGroundProgress < 5.0F) {
             headGroundProgress++;
         }
-        if(!this.isSlamming() && headGroundProgress > 0.0F){
+        if (!this.isSlamming() && headGroundProgress > 0.0F) {
             headGroundProgress--;
         }
-        if(damageSustained > 0 && tickCount % 500 == 0) {
+        if (damageSustained > 0 && tickCount % 500 == 0) {
             damageSustained--;
         }
         if (this.level().isClientSide) {
@@ -126,32 +129,42 @@ public class QuarrySmasherEntity extends Entity {
             } else {
                 this.reapplyPosition();
             }
+        } else if (triggerAdvancement && tickCount % 20 == 0) {
+            boolean flag = false;
+            double advancementRange = 20.0D;
+            for (Player player : level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(advancementRange))) {
+                if (player.distanceTo(this) < advancementRange) {
+                    flag = true;
+                    ACAdvancementTriggerRegistry.FINISHED_QUARRY.triggerForEntity(player);
+                }
+            }
+            triggerAdvancement = !flag;
         }
-        if(this.isInactive()){
+        if (this.isInactive()) {
             if (!this.isNoGravity()) {
                 this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.2D, 0.0D));
             }
-        }else{
+        } else {
             BlockPos quarryPos = getQuarryPos();
-            if(quarryActivityTime-- < 0){
+            if (quarryActivityTime-- < 0) {
                 quarryActivityTime = 20;
-                if(quarryPos == null || !level().getBlockState(quarryPos).is(ACBlockRegistry.QUARRY.get())){
+                if (quarryPos == null || !level().getBlockState(quarryPos).is(ACBlockRegistry.QUARRY.get())) {
                     setQuarryPos(null);
                     setInactive(true);
-                }else if(level().getBlockEntity(quarryPos) instanceof QuarryBlockEntity quarryBlockEntity){
+                } else if (level().getBlockEntity(quarryPos) instanceof QuarryBlockEntity quarryBlockEntity) {
                     lastMiningArea = quarryBlockEntity.getMiningBox();
                 }
             }
             BlockPos targetPos = getTargetPos();
-            if(!level().isClientSide){
-                if(targetPos == null){
+            if (!level().isClientSide) {
+                if (targetPos == null) {
                     this.setTargetPos(findTarget());
-                }else{
+                } else {
                     Vec3 dist = Vec3.upFromBottomCenterOf(quarryPos == null ? targetPos : targetPos.atY(quarryPos.getY()), 4).subtract(this.position());
-                    if(dist.horizontalDistance() < 0.5F){
-                        if(blockBreakCooldown <= 0){
+                    if (dist.horizontalDistance() < 0.5F) {
+                        if (blockBreakCooldown <= 0) {
                             this.setSlamming(true);
-                            if(this.headPart.position().distanceTo(Vec3.atBottomCenterOf(targetPos)) < 1.1){
+                            if (this.headPart.position().distanceTo(Vec3.atBottomCenterOf(targetPos)) < 1.1) {
                                 this.setSlamming(false);
                                 level().destroyBlock(targetPos, true);
                                 this.setTargetPos(null);
@@ -159,50 +172,50 @@ public class QuarrySmasherEntity extends Entity {
                                 this.setPullingItemsFor(20);
                             }
                         }
-                    }else{
+                    } else {
                         this.setDeltaMovement(this.getDeltaMovement().add(dist.normalize().scale(0.1F)));
                     }
                 }
             }
         }
-        if(this.pullingItemsFor() > 0){
+        if (this.pullingItemsFor() > 0) {
             int i = this.pullingItemsFor() - 1;
             this.setPullingItemsFor(i);
             BlockPos quarry = getQuarryPos();
             boolean flag = false;
-            for(ItemEntity itemEntity : level().getEntitiesOfClass(ItemEntity.class, this.headPart.getBoundingBox().inflate(2, 4, 2))){
+            for (ItemEntity itemEntity : level().getEntitiesOfClass(ItemEntity.class, this.headPart.getBoundingBox().inflate(2, 4, 2))) {
                 itemEntity.hasImpulse = true;
-                if(!pulledItems.contains(itemEntity)){
+                if (!pulledItems.contains(itemEntity)) {
                     pulledItems.add(itemEntity);
                 }
                 flag = true;
             }
-            for(ItemEntity itemEntity : pulledItems){
-                if(i == 0){
-                    if(quarry != null && level().getBlockState(quarry).is(ACBlockRegistry.QUARRY.get())){
+            for (ItemEntity itemEntity : pulledItems) {
+                if (i == 0) {
+                    if (quarry != null && level().getBlockState(quarry).is(ACBlockRegistry.QUARRY.get())) {
                         itemEntity.setPos(quarry.getX() + 0.5F, quarry.getY() + 1F, quarry.getZ() + 0.5F);
                         Direction facing = level().getBlockState(quarry).getValue(QuarryBlock.FACING);
                         itemEntity.setDefaultPickUpDelay();
                         itemEntity.setDeltaMovement(new Vec3(facing.getStepX() * 0.1F, 0.4F, facing.getStepZ() * 0.1F));
                     }
-                }else{
+                } else {
                     itemEntity.setPos(this.headPart.position().subtract(0, 0.5, 0));
                     itemEntity.setDeltaMovement(Vec3.ZERO);
                 }
             }
-            if(flag && quarry != null){
-                if(level().getBlockEntity(quarry) instanceof QuarryBlockEntity quarryBlockEntity){
+            if (flag && quarry != null) {
+                if (level().getBlockEntity(quarry) instanceof QuarryBlockEntity quarryBlockEntity) {
                     quarryBlockEntity.spinFor = 13;
                 }
             }
-            if(i == 0){
+            if (i == 0) {
                 pulledItems.clear();
             }
         }
-        if(blockBreakCooldown > 0){
+        if (blockBreakCooldown > 0) {
             blockBreakCooldown--;
         }
-        if(shakeTime > 0){
+        if (shakeTime > 0) {
             shakeTime--;
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
@@ -238,10 +251,15 @@ public class QuarrySmasherEntity extends Entity {
         this.setDeltaMovement(this.lxd, this.lyd, this.lzd);
     }
 
-    public BlockPos findTarget(){
+    public BlockPos findTarget() {
         BlockPos quarry = getQuarryPos();
-        if(quarry != null && level().getBlockEntity(quarry) instanceof QuarryBlockEntity quarryBlockEntity && quarryBlockEntity.isComplete()){
-            return quarryBlockEntity.findMinableBlock(level(), quarry.getY() + 3).orElse(null);
+        if (quarry != null && level().getBlockEntity(quarry) instanceof QuarryBlockEntity quarryBlockEntity && quarryBlockEntity.hasMiningArea()) {
+            BlockPos pos = quarryBlockEntity.findMinableBlock(level(), quarry.getY() + 3).orElse(null);
+            if (pos != null) {
+                return pos;
+            } else {
+                triggerAdvancement = true;
+            }
         }
         return null;
     }
@@ -249,29 +267,29 @@ public class QuarrySmasherEntity extends Entity {
     public void tickMultipart() {
         Vec3 headTarget = getHeadTargetPos();
         float fallSpeed = 0.05F;
-        if(isInactive()){
+        if (isInactive()) {
             fallSpeed = 0.5F;
-        }else if(isSlamming()){
+        } else if (isSlamming()) {
             fallSpeed = getHeadGroundProgress(1.0F) * 0.3F;
-        }else if(this.pullingItemsFor() > 5){
+        } else if (this.pullingItemsFor() > 5) {
             fallSpeed = 0.0F;
         }
         Vec3 moveHeadBy = headTarget.subtract(this.headPart.position()).scale(fallSpeed);
-        if(tickCount > 1){
+        if (tickCount > 1) {
             this.headPart.setOldPosAndRot();
             this.headPart.setPos(moveHeadBy.add(headPart.position()));
-        }else{
+        } else {
             this.headPart.setPos(this.position());
             this.headPart.setOldPosAndRot();
         }
     }
 
     private Vec3 getHeadTargetPos() {
-        if(this.isInactive()){
+        if (this.isInactive()) {
             return this.position().add(0.75F, 0, -0.75F);
-        }else if(this.isSlamming()){
+        } else if (this.isSlamming()) {
             BlockPos target = getTargetPos();
-            if(target != null){
+            if (target != null) {
                 return Vec3.upFromBottomCenterOf(target, 1);
             }
         }
@@ -317,13 +335,14 @@ public class QuarrySmasherEntity extends Entity {
     public float getHeadGroundProgress(float partialTick) {
         return (prevHeadGroundProgress + (headGroundProgress - prevHeadGroundProgress) * partialTick) * 0.2F;
     }
+
     public void setQuarryPos(@javax.annotation.Nullable BlockPos pos) {
         this.getEntityData().set(QUARRY_POS, Optional.ofNullable(pos));
     }
 
     @javax.annotation.Nullable
     public BlockPos getQuarryPos() {
-        return this.getEntityData().get(QUARRY_POS).orElse((BlockPos)null);
+        return this.getEntityData().get(QUARRY_POS).orElse((BlockPos) null);
     }
 
     public void setTargetPos(@javax.annotation.Nullable BlockPos pos) {
@@ -332,7 +351,7 @@ public class QuarrySmasherEntity extends Entity {
 
     @javax.annotation.Nullable
     public BlockPos getTargetPos() {
-        return this.getEntityData().get(TARGET_POS).orElse((BlockPos)null);
+        return this.getEntityData().get(TARGET_POS).orElse((BlockPos) null);
     }
 
     @Override
@@ -341,9 +360,9 @@ public class QuarrySmasherEntity extends Entity {
     }
 
     public void handleEntityEvent(byte b) {
-        if(b == 48){
+        if (b == 48) {
             shakeTime = 10;
-        }else {
+        } else {
             super.handleEntityEvent(b);
         }
     }
@@ -392,13 +411,13 @@ public class QuarrySmasherEntity extends Entity {
         } else {
             damageSustained += damageValue;
             this.level().broadcastEntityEvent(this, (byte) 48);
-            if(damageSustained >= 10){
+            if (damageSustained >= 10) {
                 this.playSound(SoundEvents.ITEM_BREAK);
-                if(!this.isRemoved()){
-                    for(int i = 0; i < 1 + random.nextInt(1); i++){
+                if (!this.isRemoved()) {
+                    for (int i = 0; i < 1 + random.nextInt(1); i++) {
                         this.spawnAtLocation(ACItemRegistry.AZURE_NEODYMIUM_INGOT.get());
                     }
-                    for(int i = 0; i < 1 + random.nextInt(1); i++){
+                    for (int i = 0; i < 1 + random.nextInt(1); i++) {
                         this.spawnAtLocation(ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get());
                     }
                 }

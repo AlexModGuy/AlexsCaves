@@ -55,7 +55,7 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
         float yaw = entityIn.yBodyRotO + (entityIn.yBodyRot - entityIn.yBodyRotO) * partialTicks;
         LightningRender lightningRender = getLightingRender(entityIn.getUUID());
         poseStack.pushPose();
-        if(entityIn.isFunctionallyMultipart() && entityIn.allParts.length > 0){
+        if (entityIn.isFunctionallyMultipart() && entityIn.allParts.length > 0) {
             Entity rShoulder = entityIn;
             Entity lShoulder = entityIn;
             Entity rElbow = entityIn;
@@ -66,27 +66,27 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
             Entity lKnee = entityIn;
             Entity rFoot = entityIn;
             Entity lFoot = entityIn;
-            for(MagnetronPartEntity part : entityIn.allParts){
+            for (MagnetronPartEntity part : entityIn.allParts) {
                 double partX = Mth.lerp(partialTicks, part.xOld, part.getX()) - x;
                 double partY = Mth.lerp(partialTicks, part.yOld, part.getY()) - y;
                 double partZ = Mth.lerp(partialTicks, part.zOld, part.getZ()) - z;
                 BlockState blockstate = part.getBlockState();
-                if(blockstate != null){
+                if (blockstate != null) {
                     poseStack.pushPose();
                     poseStack.translate(partX, partY, partZ);
                     poseStack.translate(-0.5D, 0D, -0.5D);
-                    if(blockstate.hasProperty(HorizontalDirectionalBlock.FACING)){
+                    if (blockstate.hasProperty(HorizontalDirectionalBlock.FACING)) {
                         blockstate = blockstate.setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH);
                     }
-                    if(blockstate.hasProperty(BlockStateProperties.FACING)){
+                    if (blockstate.hasProperty(BlockStateProperties.FACING)) {
                         blockstate = blockstate.setValue(BlockStateProperties.FACING, Direction.DOWN);
                     }
-                    if(blockstate.hasProperty(HorizontalDirectionalBlock.FACING)){
+                    if (blockstate.hasProperty(HorizontalDirectionalBlock.FACING)) {
                         poseStack.translate(0.5D, 0.5D, 0.5D);
                         poseStack.mulPose(Axis.YP.rotationDegrees(-blockstate.getValue(HorizontalDirectionalBlock.FACING).toYRot()));
                         poseStack.translate(-0.5D, -0.5D, -0.5D);
                     }
-                    if(blockstate.is(ACTagRegistry.MAGNETRON_WEAPONS) && part.getJoint() == MagnetronJoint.HAND){
+                    if (blockstate.is(ACTagRegistry.MAGNETRON_WEAPONS) && part.getJoint() == MagnetronJoint.HAND) {
                         poseStack.translate(0.5D, 0.5D, 0.5D);
                         poseStack.mulPose(Axis.YP.rotationDegrees(-yaw));
                         float poseProgress = entityIn.getAttackPoseProgress(1.0F);
@@ -98,34 +98,34 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
                     Minecraft.getInstance().getBlockRenderer().renderSingleBlock(blockstate, poseStack, bufferIn, packedLightIn, OverlayTexture.NO_OVERLAY);
                     poseStack.popPose();
                 }
-                if(part.getJoint() == MagnetronJoint.SHOULDER){
-                    if(part.left){
+                if (part.getJoint() == MagnetronJoint.SHOULDER) {
+                    if (part.left) {
                         lShoulder = part;
-                    }else{
+                    } else {
                         rShoulder = part;
                     }
-                }else if(part.getJoint() == MagnetronJoint.ELBOW){
-                    if(part.left){
+                } else if (part.getJoint() == MagnetronJoint.ELBOW) {
+                    if (part.left) {
                         lElbow = part;
-                    }else{
+                    } else {
                         rElbow = part;
                     }
-                }else if(part.getJoint() == MagnetronJoint.HAND){
-                    if(part.left){
+                } else if (part.getJoint() == MagnetronJoint.HAND) {
+                    if (part.left) {
                         lHand = part;
-                    }else{
+                    } else {
                         rHand = part;
                     }
-                }else if(part.getJoint() == MagnetronJoint.KNEE){
-                    if(part.left){
+                } else if (part.getJoint() == MagnetronJoint.KNEE) {
+                    if (part.left) {
                         lKnee = part;
-                    }else{
+                    } else {
                         rKnee = part;
                     }
-                }else if(part.getJoint() == MagnetronJoint.FOOT){
-                    if(part.left){
+                } else if (part.getJoint() == MagnetronJoint.FOOT) {
+                    if (part.left) {
                         lFoot = part;
-                    }else{
+                    } else {
                         rFoot = part;
                     }
                 }
@@ -133,18 +133,18 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
             Vector4f red = new Vector4f(0.9F, 0.2F, 0.2F, 1F);
             Vector4f blue = new Vector4f(0.2F, 0.2F, 0.8F, 1F);
             spawnLightningBetweenEntities(entityIn, rShoulder, 0.5F, lightningRender, blue, partialTicks, entityIn.lightningAnimOffsets[0]);
-            spawnLightningBetweenEntities(entityIn, lShoulder,0.5F, lightningRender, red, partialTicks, entityIn.lightningAnimOffsets[1]);
-            spawnLightningBetweenEntities(rShoulder, rElbow,0.5F, lightningRender, blue, partialTicks, Vec3.ZERO);
+            spawnLightningBetweenEntities(entityIn, lShoulder, 0.5F, lightningRender, red, partialTicks, entityIn.lightningAnimOffsets[1]);
+            spawnLightningBetweenEntities(rShoulder, rElbow, 0.5F, lightningRender, blue, partialTicks, Vec3.ZERO);
             spawnLightningBetweenEntities(rElbow, rHand, 0.0F, lightningRender, blue, partialTicks, Vec3.ZERO);
             spawnLightningBetweenEntities(lShoulder, lElbow, 0.0F, lightningRender, red, partialTicks, Vec3.ZERO);
-            spawnLightningBetweenEntities(lElbow, lHand,0.0F, lightningRender, red, partialTicks, Vec3.ZERO);
+            spawnLightningBetweenEntities(lElbow, lHand, 0.0F, lightningRender, red, partialTicks, Vec3.ZERO);
             spawnLightningBetweenEntities(entityIn, rKnee, 0.5F, lightningRender, blue, partialTicks, entityIn.lightningAnimOffsets[2]);
             spawnLightningBetweenEntities(entityIn, lKnee, 0.5F, lightningRender, red, partialTicks, entityIn.lightningAnimOffsets[3]);
             spawnLightningBetweenEntities(rKnee, rFoot, 0.0F, lightningRender, blue, partialTicks, Vec3.ZERO);
             spawnLightningBetweenEntities(lKnee, lFoot, 0.0F, lightningRender, red, partialTicks, Vec3.ZERO);
 
             Vec3 lightningHeadFrom = entityIn.getPosition(partialTicks).add(0, 0.5F, 0);
-            float yawRadian = (float)Math.toRadians(-yaw);
+            float yawRadian = (float) Math.toRadians(-yaw);
             Vec3 lHeadFrom = lightningHeadFrom.add(new Vec3(0.2, 1, 0).yRot(yawRadian));
             Vec3 rHeadFrom = lightningHeadFrom.add(new Vec3(-0.2, 1, 0).yRot(yawRadian));
             spawnLightningBetweenVecs(entityIn, lightningHeadFrom.add(entityIn.lightningAnimOffsets[4]), lHeadFrom, lightningRender, blue, partialTicks);
@@ -156,14 +156,14 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
 
         lightningRender.render(partialTicks, poseStack, bufferIn);
         poseStack.popPose();
-        if(!entityIn.isAlive() && lightningRenderMap.containsKey(entityIn.getUUID())){
+        if (!entityIn.isAlive() && lightningRenderMap.containsKey(entityIn.getUUID())) {
             lightningRenderMap.remove(entityIn.getUUID());
         }
         poseStack.popPose();
     }
 
     private void rotateHandFor(PoseStack poseStack, MagnetronPartEntity part, MagnetronEntity.AttackPose attackPose, float poseProgress) {
-        if(attackPose.isRotatedJoint(part.getJoint(), part.left)){
+        if (attackPose.isRotatedJoint(part.getJoint(), part.left)) {
             poseStack.mulPose(Axis.XN.rotationDegrees(90 * poseProgress));
         }
     }
@@ -176,12 +176,12 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
                 .lifespan(2)
                 .spawn(LightningBoltData.SpawnFunction.NO_DELAY)
                 .fade(LightningBoltData.FadeFunction.fade(0.75F));
-        if(!Minecraft.getInstance().isPaused()){
+        if (!Minecraft.getInstance().isPaused()) {
             lightningRender.update(entityIn, bolt1, partialTicks);
         }
     }
 
-    private void spawnLightningBetweenEntities(Entity start, Entity end, float centerUp, LightningRender lightningRender, Vector4f color, float partialTicks, Vec3 offset){
+    private void spawnLightningBetweenEntities(Entity start, Entity end, float centerUp, LightningRender lightningRender, Vector4f color, float partialTicks, Vec3 offset) {
         int segCount = 14;
         float spreadFactor = 0.05F;
         float size = 0.15F;
@@ -192,13 +192,13 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
                 .lifespan(2)
                 .spawn(LightningBoltData.SpawnFunction.NO_DELAY)
                 .fade(LightningBoltData.FadeFunction.fade(0.75F));
-        if(!Minecraft.getInstance().isPaused()){
+        if (!Minecraft.getInstance().isPaused()) {
             lightningRender.update(end, bolt1, partialTicks);
         }
     }
 
     private LightningRender getLightingRender(UUID uuid) {
-        if(lightningRenderMap.get(uuid) == null){
+        if (lightningRenderMap.get(uuid) == null) {
             lightningRenderMap.put(uuid, new LightningRender());
         }
         return lightningRenderMap.get(uuid);

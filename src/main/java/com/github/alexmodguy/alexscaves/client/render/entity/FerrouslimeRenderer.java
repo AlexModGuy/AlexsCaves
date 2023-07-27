@@ -70,15 +70,14 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
     }
 
 
-
-    private void renderGelSpikes(FerrouslimeEntity entity, float partialTicks, PoseStack poseStack, VertexConsumer consumer, float size, int packedLight){
+    private void renderGelSpikes(FerrouslimeEntity entity, float partialTicks, PoseStack poseStack, VertexConsumer consumer, float size, int packedLight) {
         float length = (size + 1) * entity.getAttackProgress(partialTicks);
-        if(length > 0){
-            for(int i = 0; i < 8; i++){
+        if (length > 0) {
+            for (int i = 0; i < 8; i++) {
                 poseStack.pushPose();
                 poseStack.mulPose(Axis.YP.rotationDegrees(i * 45));
-                poseStack.mulPose(Axis.XP.rotationDegrees(20 * (float)Math.sin(i * 2.3F + (entity.tickCount + partialTicks) * 0.4F)));
-                poseStack.mulPose(Axis.ZP.rotationDegrees(20 * (float)Math.sin(i * 2.3F + (entity.tickCount + partialTicks) * 0.4F)));
+                poseStack.mulPose(Axis.XP.rotationDegrees(20 * (float) Math.sin(i * 2.3F + (entity.tickCount + partialTicks) * 0.4F)));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(20 * (float) Math.sin(i * 2.3F + (entity.tickCount + partialTicks) * 0.4F)));
                 Matrix4f cubeAt = poseStack.last().pose();
                 Matrix3f matrix3f = poseStack.last().normal();
                 this.spikeCubeFace(entity, cubeAt, matrix3f, consumer, size * 0.25F, length, size * 0.25F, packedLight);
@@ -86,12 +85,13 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
             }
         }
     }
+
     private void spikeCubeFace(FerrouslimeEntity entity, Matrix4f matrix4f, Matrix3f matrix3f, VertexConsumer vertexConsumer, float offset, float length, float width, int packedLightIn) {
         int overlayCoords = LivingEntityRenderer.getOverlayCoords(entity, 0.0F);
         int hurtColor = entity.hurtTime > 0 || entity.deathTime > 0 ? 10 : 255;
         vertexConsumer.vertex(matrix4f, 0, 0, offset + length).color(255, hurtColor, hurtColor, 255).uv((float) 0, (float) 0).overlayCoords(overlayCoords).uv2(packedLightIn).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
         vertexConsumer.vertex(matrix4f, 0, width, offset).color(255, hurtColor, hurtColor, 255).uv((float) width, (float) length).overlayCoords(overlayCoords).uv2(packedLightIn).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        vertexConsumer.vertex(matrix4f, 0,  -width, offset).color(255, hurtColor, hurtColor, 255).uv((float) 0, (float) length).overlayCoords(overlayCoords).uv2(packedLightIn).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+        vertexConsumer.vertex(matrix4f, 0, -width, offset).color(255, hurtColor, hurtColor, 255).uv((float) 0, (float) length).overlayCoords(overlayCoords).uv2(packedLightIn).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
 
     }
 
@@ -109,6 +109,7 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
         this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeStart, cubeStart, cubeStart, cubeStart, cubeEnd, cubeEnd, textureScale);
         this.renderCubeFace(entity, cubeAt, matrix3f, consumer, packedLight, cubeStart, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeEnd, cubeStart, cubeStart, textureScale);
     }
+
     private void renderCubeFace(FerrouslimeEntity entity, Matrix4f matrix4f, Matrix3f matrix3f, VertexConsumer vertexConsumer, int packedLightIn, float f1, float f2, float f3, float f4, float f5, float f6, float f7, float f8, float textureScale) {
         int overlayCoords = LivingEntityRenderer.getOverlayCoords(entity, 0.0F);
         int hurtColor = entity.hurtTime > 0 || entity.deathTime > 0 ? 10 : 255;

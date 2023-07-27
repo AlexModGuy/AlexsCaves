@@ -98,20 +98,20 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
         MODEL.renderToBuffer(poseStack, textureBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         VertexConsumer damageBuffer = source.getBuffer(RenderType.entityTranslucent(getSubmarineDamageTexture(entity)));
         MODEL.renderToBuffer(poseStack, damageBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        if(entity.getDamageLevel() <= 3){
+        if (entity.getDamageLevel() <= 3) {
             VertexConsumer buttonsBuffer = source.getBuffer(RenderType.eyes(TEXTURE_BUTTONS));
             MODEL.renderToBuffer(poseStack, buttonsBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            if(entity.areLightsOn() && entity.isVehicle()){
+            if (entity.areLightsOn() && entity.isVehicle()) {
                 VertexConsumer glowBuffer = source.getBuffer(RenderType.eyes(TEXTURE_GLOW));
                 MODEL.renderToBuffer(poseStack, glowBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             }
         }
-        if(maskWater){
+        if (maskWater) {
             VertexConsumer waterMask = source.getBuffer(ACRenderTypes.getSubmarineMask());
             MODEL.setupWaterMask(entity, partialTicks);
             MODEL.getWaterMask().render(poseStack, waterMask, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
-        if (!isFirstPersonFloodlightsMode(entity)  && entity.areLightsOn() && entity.isVehicle()) {
+        if (!isFirstPersonFloodlightsMode(entity) && entity.areLightsOn() && entity.isVehicle()) {
             Entity first = entity.getFirstPassenger();
             float xRot = 0;
             float yRot = 0;
@@ -144,8 +144,8 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
         poseStack.popPose();
     }
 
-    private static ResourceLocation getSubmarineDamageTexture(SubmarineEntity entity){
-        switch (entity.getDamageLevel()){
+    private static ResourceLocation getSubmarineDamageTexture(SubmarineEntity entity) {
+        switch (entity.getDamageLevel()) {
             case 0:
                 return TEXTURE_NEW;
             case 1:
@@ -197,8 +197,8 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
         p_114224_.vertex(p_114225_, HALF_SQRT_3 * p_114227_, p_114226_, 0).color(200, 235, 255, 0).uv(xOffset + 1, yOffset + 1).overlayCoords(NO_OVERLAY).uv2(240).normal(p_114092_, 0.0F, -1.0F, 0.0F).endVertex();
     }
 
-    private static ResourceLocation getSubmarineBaseTexture(SubmarineEntity entity){
-        switch (entity.getOxidizationLevel()){
+    private static ResourceLocation getSubmarineBaseTexture(SubmarineEntity entity) {
+        switch (entity.getOxidizationLevel()) {
             case 0:
                 return TEXTURE;
             case 1:

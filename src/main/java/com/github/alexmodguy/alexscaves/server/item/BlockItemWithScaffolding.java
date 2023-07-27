@@ -33,7 +33,7 @@ public class BlockItemWithScaffolding extends BlockItemWithSupplier {
         BlockState blockstate = level.getBlockState(blockpos);
         Block block = this.getBlock();
         if (!(blockstate.getBlock() instanceof MetalScaffoldingBlock)) {
-            return MetalScaffoldingBlock.getDistance(level, blockpos) == MetalScaffoldingBlock.STABILITY_MAX_DISTANCE ? null :context;
+            return MetalScaffoldingBlock.getDistance(level, blockpos) == MetalScaffoldingBlock.STABILITY_MAX_DISTANCE ? null : context;
         } else {
             Direction direction;
             if (context.isSecondaryUseActive()) {
@@ -45,12 +45,12 @@ public class BlockItemWithScaffolding extends BlockItemWithSupplier {
             int i = 0;
             BlockPos.MutableBlockPos blockpos$mutableblockpos = blockpos.mutable().move(direction);
 
-            while(i < MetalScaffoldingBlock.STABILITY_MAX_DISTANCE) {
+            while (i < MetalScaffoldingBlock.STABILITY_MAX_DISTANCE) {
                 if (!level.isClientSide && !level.isInWorldBounds(blockpos$mutableblockpos)) {
                     Player player = context.getPlayer();
                     int j = level.getMaxBuildHeight();
                     if (player instanceof ServerPlayer && blockpos$mutableblockpos.getY() >= j) {
-                        ((ServerPlayer)player).sendSystemMessage(Component.translatable("build.tooHigh", j - 1).withStyle(ChatFormatting.RED), true);
+                        ((ServerPlayer) player).sendSystemMessage(Component.translatable("build.tooHigh", j - 1).withStyle(ChatFormatting.RED), true);
                     }
                     break;
                 }

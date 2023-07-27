@@ -74,6 +74,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private int tutorialStep = 0;
     private boolean hasClickedLens = false;
     private boolean doneWithTutorial = false;
+
     public SpelunkeryTableScreen(SpelunkeryTableMenu menu, Inventory inventory, Component name) {
         super(menu, inventory, name);
         this.imageWidth = 208;
@@ -143,55 +144,55 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
 
     @Override
     protected void renderTooltip(GuiGraphics guiGraphics, int mouseX, int mouseY) {
-        if(isFirstTimeUsing() && tutorialStep < 6){
+        if (isFirstTimeUsing() && tutorialStep < 6) {
             int i = this.leftPos;
             int j = this.topPos;
             int exclaimX = 0;
             int exclaimY = 0;
-            if(tutorialStep == 0){
+            if (tutorialStep == 0) {
                 exclaimX = 54;
                 exclaimY = 143;
-                if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
+                if (mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15) {
                     Component tabletName = Component.translatable(ACItemRegistry.CAVE_TABLET.get().getDescriptionId()).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.YELLOW);
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.slot_info_tablet_0", tabletName).withStyle(ChatFormatting.GRAY), Component.translatable("alexscaves.container.spelunkery_table.slot_info_tablet_1").withStyle(ChatFormatting.GRAY));
                     guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
-            }else if(tutorialStep == 1){
+            } else if (tutorialStep == 1) {
                 exclaimX = 74;
                 exclaimY = 143;
-                if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
+                if (mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15) {
                     Component paperName = Component.translatable(Items.PAPER.getDescriptionId()).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.WHITE);
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.slot_info_paper", paperName).withStyle(ChatFormatting.GRAY));
                     guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
-            }else if(tutorialStep == 2){
+            } else if (tutorialStep == 2) {
                 exclaimX = 170;
                 exclaimY = 23;
-                if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
+                if (mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15) {
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.translate").withStyle(ChatFormatting.GRAY));
                     guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
-            }else if(tutorialStep == 3){
+            } else if (tutorialStep == 3) {
                 exclaimX = 185;
                 exclaimY = 140;
-                if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
+                if (mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15) {
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.glass").withStyle(ChatFormatting.GRAY));
                     guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
-            }else if(tutorialStep == 4){
+            } else if (tutorialStep == 4) {
                 exclaimX = -15;
                 exclaimY = 15;
-                if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
+                if (mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15) {
                     List<Component> step1Tooltip = List.of(Component.translatable("alexscaves.container.spelunkery_table.guess_name").withStyle(ChatFormatting.GRAY));
                     guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
-            }else if(tutorialStep == 5){
+            } else if (tutorialStep == 5) {
                 exclaimX = 35;
                 exclaimY = 142;
-                if(mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15){
+                if (mouseX > i + exclaimX - 5 && mouseY > j + exclaimY - 5 && mouseX < i + exclaimX + 15 && mouseY < j + exclaimY + 15) {
                     Component scrollName = Component.translatable(ACItemRegistry.CAVE_CODEX.get().getDescriptionId()).withStyle(ChatFormatting.BOLD).withStyle(ChatFormatting.YELLOW);
                     int toDoLevels = Math.max(0, 3 - level);
-                    List<Component> step1Tooltip = List.of(Component.translatable(toDoLevels == 1 ? "alexscaves.container.spelunkery_table.level" :  "alexscaves.container.spelunkery_table.levels", toDoLevels, scrollName).withStyle(ChatFormatting.GRAY));
+                    List<Component> step1Tooltip = List.of(Component.translatable(toDoLevels == 1 ? "alexscaves.container.spelunkery_table.level" : "alexscaves.container.spelunkery_table.levels", toDoLevels, scrollName).withStyle(ChatFormatting.GRAY));
                     guiGraphics.renderTooltip(font, step1Tooltip, Optional.empty(), mouseX, mouseY);
                 }
             }
@@ -244,7 +245,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         for (int bulb = 0; bulb < Math.min(level, 3); bulb++) {
             guiGraphics.blit(WIDGETS_TEXTURE, i + 92 + bulb * 15, j + 143, 0, 0, 13, 14);
         }
-        if(hasPaper()){
+        if (hasPaper()) {
             guiGraphics.blit(WIDGETS_TEXTURE, i - 80, j + 10, 176, 0, 80, 149);
         }
         int tablet = hasTablet() ? attemptsLeft <= 1 ? 2 : 1 : 0;
@@ -261,8 +262,8 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         return menu.getSlot(1).hasItem() && menu.getSlot(1).getItem().is(Items.PAPER);
     }
 
-    public boolean isFirstTimeUsing(){
-       return !AlexsCaves.PROXY.isSpelunkeryTutorialComplete();
+    public boolean isFirstTimeUsing() {
+        return !AlexsCaves.PROXY.isSpelunkeryTutorialComplete();
     }
 
     protected void containerTick() {
@@ -296,9 +297,9 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             passLevelProgress -= 0.5F;
         }
         boolean resetTabletFromWin = finishedLevel && passLevelProgress >= 10.0F && attemptsLeft > 0;
-        if(!menu.getSlot(0).hasItem()){
+        if (!menu.getSlot(0).hasItem()) {
             prevWordsFile = null;
-        }else if (prevWordsFile == null || resetTabletFromWin) {
+        } else if (prevWordsFile == null || resetTabletFromWin) {
             prevWordsFile = getWordsForItem(menu.getSlot(0).getItem());
             if (prevWordsFile == null) {
                 clearWordWidgets();
@@ -323,30 +324,30 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             fullResetWords();
             Minecraft.getInstance().setScreen(null);
         }
-        if(!hasTablet() && !wordButtons.isEmpty()){
+        if (!hasTablet() && !wordButtons.isEmpty()) {
             clearWordWidgets();
         }
-        if(doneWithTutorial){
+        if (doneWithTutorial) {
             tutorialStep = 6;
-        }else if(!hasTablet()){
+        } else if (!hasTablet()) {
             tutorialStep = 0;
-        }else if(!hasPaper()) {
+        } else if (!hasPaper()) {
             tutorialStep = 1;
-        }else if(attemptsLeft == 5 && level == 0){
+        } else if (attemptsLeft == 5 && level == 0) {
             tutorialStep = 2;
-        }else if(!hasClickedLens){
+        } else if (!hasClickedLens) {
             tutorialStep = 3;
-        }else if(level == 0){
+        } else if (level == 0) {
             tutorialStep = 4;
-        }else{
+        } else {
             tutorialStep = 5;
         }
     }
 
-    public void fullResetWords(){
+    public void fullResetWords() {
         clearWordWidgets();
         prevWordsFile = getWordsForItem(menu.getSlot(0).getItem());
-        if(prevWordsFile != null){
+        if (prevWordsFile != null) {
             generateWords(prevWordsFile);
         }
     }
@@ -366,7 +367,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             lastMouseY = (int) height;
             if (!draggingMagnify && lastMouseX >= this.magnifyPosX && lastMouseX <= this.magnifyPosX + 38 && lastMouseY >= this.magnifyPosY && lastMouseY <= this.magnifyPosY + 38) {
                 draggingMagnify = true;
-                if(tutorialStep > 2){
+                if (tutorialStep > 2) {
                     hasClickedLens = true;
                 }
             }
@@ -380,7 +381,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     }
 
     protected void renderLabels(GuiGraphics guiGraphics, int x, int y) {
-        guiGraphics.drawString(font, this.title,  this.titleLabelX - (font.width(title) / 2), this.titleLabelY, 4210752, false);
+        guiGraphics.drawString(font, this.title, this.titleLabelX - (font.width(title) / 2), this.titleLabelY, 4210752, false);
     }
 
     private ResourceLocation getWordsForItem(ItemStack stack) {

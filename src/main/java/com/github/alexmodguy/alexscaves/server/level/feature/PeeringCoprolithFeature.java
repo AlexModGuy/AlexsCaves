@@ -32,24 +32,24 @@ public class PeeringCoprolithFeature extends Feature<NoneFeatureConfiguration> {
         RandomSource randomsource = context.random();
         BlockPos blockpos = context.origin();
         WorldGenLevel worldgenlevel = context.level();
-        float f = randomsource.nextFloat() * (float)Math.PI;
-        float f1 = (float)SIZE / 8.0F;
-        int i = Mth.ceil(((float)SIZE / 16.0F * 2.0F + 1.0F) / 2.0F);
-        double d0 = (double)blockpos.getX() + Math.sin((double)f) * (double)f1;
-        double d1 = (double)blockpos.getX() - Math.sin((double)f) * (double)f1;
-        double d2 = (double)blockpos.getZ() + Math.cos((double)f) * (double)f1;
-        double d3 = (double)blockpos.getZ() - Math.cos((double)f) * (double)f1;
+        float f = randomsource.nextFloat() * (float) Math.PI;
+        float f1 = (float) SIZE / 8.0F;
+        int i = Mth.ceil(((float) SIZE / 16.0F * 2.0F + 1.0F) / 2.0F);
+        double d0 = (double) blockpos.getX() + Math.sin((double) f) * (double) f1;
+        double d1 = (double) blockpos.getX() - Math.sin((double) f) * (double) f1;
+        double d2 = (double) blockpos.getZ() + Math.cos((double) f) * (double) f1;
+        double d3 = (double) blockpos.getZ() - Math.cos((double) f) * (double) f1;
         int j = 2;
-        double d4 = (double)(blockpos.getY() + randomsource.nextInt(3) - 2);
-        double d5 = (double)(blockpos.getY() + randomsource.nextInt(3) - 2);
+        double d4 = (double) (blockpos.getY() + randomsource.nextInt(3) - 2);
+        double d5 = (double) (blockpos.getY() + randomsource.nextInt(3) - 2);
         int k = blockpos.getX() - Mth.ceil(f1) - i;
         int l = blockpos.getY() - 2 - i;
         int i1 = blockpos.getZ() - Mth.ceil(f1) - i;
         int j1 = 2 * (Mth.ceil(f1) + i);
         int k1 = 2 * (2 + i);
 
-        for(int l1 = k; l1 <= k + j1; ++l1) {
-            for(int i2 = i1; i2 <= i1 + j1; ++i2) {
+        for (int l1 = k; l1 <= k + j1; ++l1) {
+            for (int i2 = i1; i2 <= i1 + j1; ++i2) {
                 if (l <= worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, l1, i2)) {
                     return this.doPlace(worldgenlevel, randomsource, d0, d1, d2, d3, d4, d5, k, l, i1, j1, k1);
                 }
@@ -59,29 +59,29 @@ public class PeeringCoprolithFeature extends Feature<NoneFeatureConfiguration> {
         return false;
     }
 
-    protected boolean doPlace(WorldGenLevel worldGenLevel, RandomSource randomSource,  double xMin, double xMax, double zMin, double zMax, double yMin, double yMax, int sizeX, int sizeY, int sizeZ, int length, int width) {
+    protected boolean doPlace(WorldGenLevel worldGenLevel, RandomSource randomSource, double xMin, double xMax, double zMin, double zMax, double yMin, double yMax, int sizeX, int sizeY, int sizeZ, int length, int width) {
         int i = 0;
         BitSet bitset = new BitSet(length * width * length);
         BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
         int j = SIZE;
         double[] adouble = new double[j * 4];
 
-        for(int k = 0; k < j; ++k) {
-            float f = (float)k / (float)j;
-            double d0 = Mth.lerp((double)f, xMin, xMax);
-            double d1 = Mth.lerp((double)f, yMin, yMax);
-            double d2 = Mth.lerp((double)f, zMin, zMax);
-            double d3 = randomSource.nextDouble() * (double)j / 16.0D;
-            double d4 = ((double)(Mth.sin((float)Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
+        for (int k = 0; k < j; ++k) {
+            float f = (float) k / (float) j;
+            double d0 = Mth.lerp((double) f, xMin, xMax);
+            double d1 = Mth.lerp((double) f, yMin, yMax);
+            double d2 = Mth.lerp((double) f, zMin, zMax);
+            double d3 = randomSource.nextDouble() * (double) j / 16.0D;
+            double d4 = ((double) (Mth.sin((float) Math.PI * f) + 1.0F) * d3 + 1.0D) / 2.0D;
             adouble[k * 4 + 0] = d0;
             adouble[k * 4 + 1] = d1;
             adouble[k * 4 + 2] = d2;
             adouble[k * 4 + 3] = d4;
         }
 
-        for(int l3 = 0; l3 < j - 1; ++l3) {
+        for (int l3 = 0; l3 < j - 1; ++l3) {
             if (!(adouble[l3 * 4 + 3] <= 0.0D)) {
-                for(int i4 = l3 + 1; i4 < j; ++i4) {
+                for (int i4 = l3 + 1; i4 < j; ++i4) {
                     if (!(adouble[i4 * 4 + 3] <= 0.0D)) {
                         double d8 = adouble[l3 * 4 + 0] - adouble[i4 * 4 + 0];
                         double d10 = adouble[l3 * 4 + 1] - adouble[i4 * 4 + 1];
@@ -100,7 +100,7 @@ public class PeeringCoprolithFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         try (BulkSectionAccess bulksectionaccess = new BulkSectionAccess(worldGenLevel)) {
-            for(int j4 = 0; j4 < j; ++j4) {
+            for (int j4 = 0; j4 < j; ++j4) {
                 double d9 = adouble[j4 * 4 + 3];
                 if (!(d9 < 0.0D)) {
                     double d11 = adouble[j4 * 4 + 0];
@@ -113,14 +113,14 @@ public class PeeringCoprolithFeature extends Feature<NoneFeatureConfiguration> {
                     int k1 = Math.max(Mth.floor(d13 + d9), l);
                     int l1 = Math.max(Mth.floor(d15 + d9), i1);
 
-                    for(int i2 = k4; i2 <= j1; ++i2) {
-                        double d5 = ((double)i2 + 0.5D - d11) / d9;
+                    for (int i2 = k4; i2 <= j1; ++i2) {
+                        double d5 = ((double) i2 + 0.5D - d11) / d9;
                         if (d5 * d5 < 1.0D) {
-                            for(int j2 = l; j2 <= k1; ++j2) {
-                                double d6 = ((double)j2 + 0.5D - d13) / d9;
+                            for (int j2 = l; j2 <= k1; ++j2) {
+                                double d6 = ((double) j2 + 0.5D - d13) / d9;
                                 if (d5 * d5 + d6 * d6 < 1.0D) {
-                                    for(int k2 = i1; k2 <= l1; ++k2) {
-                                        double d7 = ((double)k2 + 0.5D - d15) / d9;
+                                    for (int k2 = i1; k2 <= l1; ++k2) {
+                                        double d7 = ((double) k2 + 0.5D - d15) / d9;
                                         if (d5 * d5 + d6 * d6 + d7 * d7 < 1.0D && !worldGenLevel.isOutsideBuildHeight(j2)) {
                                             int l2 = i2 - sizeX + (j2 - sizeY) * length + (k2 - sizeZ) * length * width;
                                             if (!bitset.get(l2)) {
@@ -157,7 +157,7 @@ public class PeeringCoprolithFeature extends Feature<NoneFeatureConfiguration> {
     public static boolean canPlaceOre(BlockState blockState, Function<BlockPos, BlockState> blockStateFunction, RandomSource randomSource, BlockPos.MutableBlockPos blockPos) {
         if (!blockState.is(ACBlockRegistry.COPROLITH.get()) && !blockState.is(ACBlockRegistry.GUANOSTONE.get())) {
             return false;
-        }else {
+        } else {
             return isAdjacentToAir(blockStateFunction, blockPos);
         }
     }

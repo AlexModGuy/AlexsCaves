@@ -4,7 +4,7 @@ import net.minecraft.world.entity.Entity;
 
 public interface ShakesScreen {
 
-    default boolean canFeelShake(Entity player){
+    default boolean canFeelShake(Entity player) {
         return player.onGround();
     }
 

@@ -48,9 +48,9 @@ public class GloomothFindLightGoal extends MoveToBlockGoal {
     public void tick() {
         super.tick();
         BlockPos target = getMoveToTarget();
-        if(target != null){
+        if (target != null) {
             gloomoth.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(target));
-            if(this.isReachedTarget()){
+            if (this.isReachedTarget()) {
                 gloomoth.lightPos = blockPos;
             }
         }

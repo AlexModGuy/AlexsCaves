@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:trilocaris_bucket"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.trilocaris_bucket.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.trilocaris_bucket.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_dinosaur",
+    "criteria": {
+        "trilocaris_bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:trilocaris_bucket"]
+                    }
+                ]
+            }
+        }
+    }
+}

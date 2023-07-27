@@ -145,9 +145,9 @@ public class CopperValveBlock extends BaseEntityBlock implements SimpleWaterlogg
 
     public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
         if (worldIn.getBlockEntity(pos) instanceof CopperValveBlockEntity copperValve && !player.isShiftKeyDown()) {
-            if(state.getValue(TURNED)){
+            if (state.getValue(TURNED)) {
                 copperValve.moveDown(false);
-            }else{
+            } else {
                 copperValve.moveDown(!copperValve.isMovingDown());
             }
             return InteractionResult.SUCCESS;
@@ -161,7 +161,7 @@ public class CopperValveBlock extends BaseEntityBlock implements SimpleWaterlogg
         return new CopperValveBlockEntity(pos, state);
     }
 
-    private static VoxelShape buildShape(VoxelShape... from){
+    private static VoxelShape buildShape(VoxelShape... from) {
         return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 

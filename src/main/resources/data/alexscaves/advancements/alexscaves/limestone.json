@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:limestone"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.limestone.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.limestone.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_primordial_caves",
+    "criteria": {
+        "limestone": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:limestone"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -22,17 +22,23 @@ public abstract class CameraMixin {
     @Shadow
     public abstract void move(double forwards, double up, double side);
 
-    @Shadow protected abstract void setPosition(Vec3 vec3);
+    @Shadow
+    protected abstract void setPosition(Vec3 vec3);
 
-    @Shadow protected abstract double getMaxZoom(double p_90567_);
+    @Shadow
+    protected abstract double getMaxZoom(double p_90567_);
 
-    @Shadow protected abstract void setRotation(float p_90573_, float p_90574_);
+    @Shadow
+    protected abstract void setRotation(float p_90573_, float p_90574_);
 
-    @Shadow private float yRot;
+    @Shadow
+    private float yRot;
 
-    @Shadow private float xRot;
+    @Shadow
+    private float xRot;
 
-    @Shadow private boolean initialized;
+    @Shadow
+    private boolean initialized;
 
     @Inject(
             method = {"Lnet/minecraft/client/Camera;setup(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;ZZF)V"},
@@ -41,9 +47,9 @@ public abstract class CameraMixin {
     )
     public void ac_onSyncedDataUpdated(BlockGetter level, Entity entity, boolean detatched, boolean mirrored, float partialTicks, CallbackInfo ci) {
         Direction dir = MagnetUtil.getEntityMagneticDirection(entity);
-        if(dir != Direction.DOWN && dir != Direction.UP){
+        if (dir != Direction.DOWN && dir != Direction.UP) {
             this.setPosition(MagnetUtil.getEyePositionForAttachment(entity, dir, partialTicks));
-            if(detatched){
+            if (detatched) {
                 if (mirrored) {
                     this.setRotation(this.yRot + 180.0F, -this.xRot);
                 }
@@ -59,7 +65,7 @@ public abstract class CameraMixin {
             at = @At(value = "HEAD")
     )
     public void ac_getFluidInCamera(CallbackInfoReturnable<FogType> cir) {
-        if(initialized && Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasEffect(ACEffectRegistry.BUBBLED.get()) && Minecraft.getInstance().options.getCameraType().isFirstPerson()){
+        if (initialized && Minecraft.getInstance().player != null && Minecraft.getInstance().player.hasEffect(ACEffectRegistry.BUBBLED.get()) && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
             cir.setReturnValue(FogType.WATER);
         }
     }

@@ -58,7 +58,7 @@ public class StunStarParticle extends AbstractTrailParticle {
     }
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {
-        if(age < 2){
+        if (age < 2) {
             return;
         }
         Vec3 vec3 = camera.getPosition();
@@ -113,19 +113,19 @@ public class StunStarParticle extends AbstractTrailParticle {
         this.roll = (float) ((float) Math.PI * Math.sin(age * 0.6F) * 0.3F);
         super.tick();
         this.trailA = 0.2F * Mth.clamp(age / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
-        if(entityId != -1) {
+        if (entityId != -1) {
             Vec3 orbit = getOrbitPos();
             this.setPos(orbit.x, orbit.y, orbit.z);
             Entity entity = level.getEntity(entityId);
-            if(entity instanceof LivingEntity living && !living.hasEffect(ACEffectRegistry.STUNNED.get())){
+            if (entity instanceof LivingEntity living && !living.hasEffect(ACEffectRegistry.STUNNED.get())) {
                 this.remove();
             }
         }
     }
 
-    public Vec3 getOrbitPos(){
+    public Vec3 getOrbitPos() {
         Entity entity = level.getEntity(entityId);
-        if(entity != null) {
+        if (entity != null) {
             float angle = this.age * 10 + offset;
             Vec3 eyes = entity.getEyePosition().add(entity.getViewVector(0.0F).scale(entity.getBbWidth() * 0.85F)).add(0, 0.5 + 0.12 * entity.getBbHeight(), 0);
             Vec3 orbitOffset = new Vec3(0, 0, entity.getBbWidth() * 0.5F + 0.2F).yRot(angle * (reverseOrbit ? -1 : 1) * (float) (Math.PI / 180F));
@@ -133,6 +133,7 @@ public class StunStarParticle extends AbstractTrailParticle {
         }
         return Vec3.ZERO;
     }
+
     @Override
     public float getTrailHeight() {
         return 0.4F;
@@ -144,7 +145,6 @@ public class StunStarParticle extends AbstractTrailParticle {
     }
 
 
-
     @Override
     public int sampleCount() {
         return Math.min(10, lifetime - age);
@@ -153,7 +153,7 @@ public class StunStarParticle extends AbstractTrailParticle {
     public static class Factory implements ParticleProvider<SimpleParticleType> {
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            StunStarParticle particle = new StunStarParticle(worldIn, x, y, z, (int)xSpeed, (float)ySpeed);
+            StunStarParticle particle = new StunStarParticle(worldIn, x, y, z, (int) xSpeed, (float) ySpeed);
             particle.trailR = 1.0F;
             particle.trailG = 1.0F;
             particle.trailB = 1.0F;

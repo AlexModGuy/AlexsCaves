@@ -59,21 +59,22 @@ public class ForlornBridgeStructure extends Structure {
         int biomeForwards = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), bridgeDirection, center, 32 + worldgenrandom.nextInt(6) * 16);
         int biomeBackwards = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), bridgeDirection.getOpposite(), center, 32 + worldgenrandom.nextInt(6) * 16);
         int maxSections = (int) Math.ceil((biomeBackwards + biomeForwards) / BRIDGE_SECTION_LENGTH);
-        for(int section = 0; section <= maxSections; section++){
-            BlockPos at = center.relative(bridgeDirection, section * BRIDGE_SECTION_LENGTH - BRIDGE_SECTION_LENGTH/2 - biomeBackwards);
+        for (int section = 0; section <= maxSections; section++) {
+            BlockPos at = center.relative(bridgeDirection, section * BRIDGE_SECTION_LENGTH - BRIDGE_SECTION_LENGTH / 2 - biomeBackwards);
             builder.addPiece(new ForlornBridgeStructurePiece(at, section, maxSections, bridgeDirection));
         }
     }
-    private static Holder<Biome> getBiomeHolder(BiomeSource biomeSource, RandomState randomState, BlockPos pos){
+
+    private static Holder<Biome> getBiomeHolder(BiomeSource biomeSource, RandomState randomState, BlockPos pos) {
         return biomeSource.getNoiseBiome(QuartPos.fromBlock(pos.getX()), QuartPos.fromBlock(pos.getY()), QuartPos.fromBlock(pos.getZ()), randomState.sampler());
     }
 
-    protected int biomeContinuesInDirectionFor(BiomeSource biomeSource, RandomState randomState, Direction direction, BlockPos start, int cutoff){
+    protected int biomeContinuesInDirectionFor(BiomeSource biomeSource, RandomState randomState, Direction direction, BlockPos start, int cutoff) {
         int i = 0;
-        while(i < cutoff){
+        while (i < cutoff) {
             BlockPos check = start.relative(direction, i);
             Holder<Biome> biomeHolder = getBiomeHolder(biomeSource, randomState, check);
-            if(!biomeHolder.is(ACBiomeRegistry.FORLORN_HOLLOWS)){
+            if (!biomeHolder.is(ACBiomeRegistry.FORLORN_HOLLOWS)) {
                 break;
             }
             i += 16;

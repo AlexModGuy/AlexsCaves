@@ -6,7 +6,7 @@ import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.entity.Entity;
 
-public class LimestoneSpearModel  extends AdvancedEntityModel {
+public class LimestoneSpearModel extends AdvancedEntityModel {
     private final AdvancedModelBox spear;
     private final AdvancedModelBox spear2;
 

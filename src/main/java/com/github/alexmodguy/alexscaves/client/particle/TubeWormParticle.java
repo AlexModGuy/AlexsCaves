@@ -58,7 +58,7 @@ public class TubeWormParticle extends Particle {
     public void tick() {
         super.tick();
         prevTuckAmount = tuckAmount;
-        if(checkScareCooldown-- <= 0){
+        if (checkScareCooldown-- <= 0) {
             this.checkScareCooldown = 10 + random.nextInt(10);
             Vec3 vec3 = Vec3.atCenterOf(blockPos);
             AABB scareBox = new AABB(vec3.add(-5, -1.5, -5), vec3.add(5, 3, 5));
@@ -66,27 +66,26 @@ public class TubeWormParticle extends Particle {
         }
         float targetTuckAmount;
         BlockState state = level.getBlockState(blockPos);
-        if(scared || this.age >= this.lifetime - 10 || !state.getFluidState().is(FluidTags.WATER) || !level.getFluidState(blockPos.above()).is(FluidTags.WATER)){
+        if (scared || this.age >= this.lifetime - 10 || !state.getFluidState().is(FluidTags.WATER) || !level.getFluidState(blockPos.above()).is(FluidTags.WATER)) {
             targetTuckAmount = 1.0F;
-        }else{
+        } else {
             targetTuckAmount = 0F;
         }
-        if(tuckAmount < targetTuckAmount){
+        if (tuckAmount < targetTuckAmount) {
             tuckAmount = Math.min(targetTuckAmount, tuckAmount + 0.1F);
         }
-        if(tuckAmount > targetTuckAmount){
+        if (tuckAmount > targetTuckAmount) {
             tuckAmount = Math.max(targetTuckAmount, tuckAmount - 0.1F);
         }
-        if(!TubeWormBlock.canSupportWormAt(level, state, blockPos)) {
+        if (!TubeWormBlock.canSupportWormAt(level, state, blockPos)) {
             this.remove();
         }
     }
 
 
-
     public void remove() {
         super.remove();
-        ((ClientProxy)AlexsCaves.PROXY).removeParticleAt(this.blockPos);
+        ((ClientProxy) AlexsCaves.PROXY).removeParticleAt(this.blockPos);
     }
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {

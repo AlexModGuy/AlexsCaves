@@ -25,19 +25,19 @@ public class ThornwoodRootsFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos generateAt = new BlockPos.MutableBlockPos();
         generateAt.set(context.origin());
-        if(!level.getBlockState(generateAt).getFluidState().is(Fluids.WATER) && !level.isEmptyBlock(generateAt)){
+        if (!level.getBlockState(generateAt).getFluidState().is(Fluids.WATER) && !level.isEmptyBlock(generateAt)) {
             return false;
         }
-        while((level.getBlockState(generateAt).getFluidState().is(Fluids.WATER) || !level.getBlockState(generateAt).isFaceSturdy(level, generateAt, Direction.DOWN)) && generateAt.getY() < level.getMaxBuildHeight()){
+        while ((level.getBlockState(generateAt).getFluidState().is(Fluids.WATER) || !level.getBlockState(generateAt).isFaceSturdy(level, generateAt, Direction.DOWN)) && generateAt.getY() < level.getMaxBuildHeight()) {
             generateAt.move(0, 1, 0);
         }
-        if(level.getBlockState(generateAt).isAir()){
+        if (level.getBlockState(generateAt).isAir()) {
             return false;
         }
         BlockPos rootsFrom = generateAt.immutable();
         level.setBlock(rootsFrom, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 4);
         ThornwoodTreeFeature.generateRoot(level, rootsFrom, 0F, randomsource, Direction.DOWN, 1 + randomsource.nextInt(2));
-        for(Direction direction : ACMath.HORIZONTAL_DIRECTIONS){
+        for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
             ThornwoodTreeFeature.generateRoot(level, rootsFrom, 0.4F, randomsource, direction, 2 + randomsource.nextInt(5));
         }
         return true;

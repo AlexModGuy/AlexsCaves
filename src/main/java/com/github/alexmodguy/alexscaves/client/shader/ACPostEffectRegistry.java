@@ -21,21 +21,21 @@ public class ACPostEffectRegistry {
 
     private static Map<ResourceLocation, PostEffect> postEffects = new HashMap<>();
 
-    public static void clear(){
-        for(PostEffect postEffect : postEffects.values()){
+    public static void clear() {
+        for (PostEffect postEffect : postEffects.values()) {
             postEffect.close();
         }
         postEffects.clear();
     }
 
-    public static void registerEffect(ResourceLocation resourceLocation){
+    public static void registerEffect(ResourceLocation resourceLocation) {
         registry.add(resourceLocation);
     }
 
-    public static void onInitializeOutline(){
+    public static void onInitializeOutline() {
         clear();
         Minecraft minecraft = Minecraft.getInstance();
-        for(ResourceLocation resourceLocation : registry){
+        for (ResourceLocation resourceLocation : registry) {
             PostChain postChain;
             RenderTarget renderTarget;
             try {
@@ -56,24 +56,24 @@ public class ACPostEffectRegistry {
     }
 
     public static void resize(int x, int y) {
-        for(PostEffect postEffect : postEffects.values()){
+        for (PostEffect postEffect : postEffects.values()) {
             postEffect.resize(x, y);
         }
     }
 
-    public static PostChain getPostChainFor(ResourceLocation resourceLocation){
+    public static PostChain getPostChainFor(ResourceLocation resourceLocation) {
         PostEffect effect = postEffects.get(resourceLocation);
         return effect == null ? null : effect.getPostChain();
     }
 
-    public static RenderTarget getRenderTargetFor(ResourceLocation resourceLocation){
+    public static RenderTarget getRenderTargetFor(ResourceLocation resourceLocation) {
         PostEffect effect = postEffects.get(resourceLocation);
         return effect == null ? null : effect.getRenderTarget();
     }
 
-    public static void renderEffectForNextTick(ResourceLocation resourceLocation){
+    public static void renderEffectForNextTick(ResourceLocation resourceLocation) {
         PostEffect effect = postEffects.get(resourceLocation);
-        if(effect != null){
+        if (effect != null) {
             effect.setEnabled(true);
         }
     }
@@ -82,7 +82,7 @@ public class ACPostEffectRegistry {
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        for(PostEffect postEffect : postEffects.values()) {
+        for (PostEffect postEffect : postEffects.values()) {
             if (postEffect.getPostChain() != null && postEffect.isEnabled()) {
                 postEffect.getRenderTarget().blitToScreen(Minecraft.getInstance().getWindow().getWidth(), Minecraft.getInstance().getWindow().getHeight(), false);
                 postEffect.setEnabled(false);
@@ -95,7 +95,7 @@ public class ACPostEffectRegistry {
     }
 
     public static void copyDepth(RenderTarget mainTarget) {
-        for(PostEffect postEffect : postEffects.values()) {
+        for (PostEffect postEffect : postEffects.values()) {
             if (postEffect.getPostChain() != null && postEffect.isEnabled()) {
                 postEffect.getRenderTarget().clear(Minecraft.ON_OSX);
                 postEffect.getRenderTarget().copyDepthFrom(mainTarget);
@@ -104,9 +104,9 @@ public class ACPostEffectRegistry {
     }
 
     public static void processEffects(RenderTarget mainTarget, float f) {
-        for(PostEffect postEffect : postEffects.values()) {
+        for (PostEffect postEffect : postEffects.values()) {
             if (postEffect.isEnabled() && postEffect.postChain != null) {
-               postEffect.postChain.process(Minecraft.getInstance().getFrameTime());
+                postEffect.postChain.process(Minecraft.getInstance().getFrameTime());
                 mainTarget.bindWrite(false);
             }
         }
@@ -140,13 +140,13 @@ public class ACPostEffectRegistry {
             this.enabled = enabled;
         }
 
-        public void close(){
+        public void close() {
             if (postChain != null) {
                 postChain.close();
             }
         }
 
-        public void resize(int x, int y){
+        public void resize(int x, int y) {
             if (postChain != null) {
                 postChain.resize(x, y);
             }

@@ -23,13 +23,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor {
 
-    @Shadow public abstract float getYHeadRot();
+    @Shadow
+    public abstract float getYHeadRot();
 
-    @Shadow public float yHeadRotO;
+    @Shadow
+    public float yHeadRotO;
 
-    @Shadow public abstract boolean hasEffect(MobEffect p_21024_);
+    @Shadow
+    public abstract boolean hasEffect(MobEffect p_21024_);
 
-    @Shadow @Final public WalkAnimationState walkAnimation;
+    @Shadow
+    @Final
+    public WalkAnimationState walkAnimation;
     private float prevHeadYaw;
     private float prevHeadYaw0;
     private float prevHeadPitch;
@@ -46,7 +51,7 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
             at = @At(value = "HEAD")
     )
     public void ac_calculateEntityAnimation(boolean b, CallbackInfo ci) {
-        if(MagnetUtil.isPulledByMagnets(this) && ((MagneticEntityAccessor)this).getMagneticAttachmentFace() != Direction.DOWN){
+        if (MagnetUtil.isPulledByMagnets(this) && ((MagneticEntityAccessor) this).getMagneticAttachmentFace() != Direction.DOWN) {
             ci.cancel();
             float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
             float f2 = Math.min(f1 * 6, 1.0F);
@@ -61,21 +66,21 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
             at = @At(value = "HEAD")
     )
     protected void ac_increaseAirSupply(int air, CallbackInfoReturnable<Integer> cir) {
-        if(this.hasEffect(ACEffectRegistry.BUBBLED.get())) {
+        if (this.hasEffect(ACEffectRegistry.BUBBLED.get())) {
             cir.setReturnValue(air);
         }
     }
 
-    public void setMagnetHeadRotation(){
+    public void setMagnetHeadRotation() {
         prevHeadYaw = this.getYHeadRot();
         prevHeadYaw0 = this.yHeadRotO;
         prevHeadPitch = this.getXRot();
         prevHeadPitch0 = this.xRotO;
-        MagnetUtil.rotateHead((LivingEntity)(Entity)this);
+        MagnetUtil.rotateHead((LivingEntity) (Entity) this);
     }
 
 
-    public void resetMagnetHeadRotation(){
+    public void resetMagnetHeadRotation() {
         setYHeadRot(prevHeadYaw);
         this.yHeadRotO = prevHeadYaw0;
         setXRot(prevHeadPitch);

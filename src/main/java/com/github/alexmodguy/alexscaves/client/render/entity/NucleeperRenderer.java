@@ -59,7 +59,7 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
 
     public void render(NucleeperEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
         float closeProgress = entityIn.getCloseProgress(partialTicks);
-        if(closeProgress > 0F && entityIn.isAlive() && !entityIn.isExploding()){
+        if (closeProgress > 0F && entityIn.isAlive() && !entityIn.isExploding()) {
             float sq = Mth.sqrt(closeProgress);
             float length = sq * 3;
             float width = (1F - sq) * 1.25F;
@@ -90,7 +90,7 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
         super.render(entityIn, entityYaw, partialTicks, poseStack, bufferIn, packedLightIn);
     }
 
-        class LayerGlow extends RenderLayer<NucleeperEntity, NucleeperModel> {
+    class LayerGlow extends RenderLayer<NucleeperEntity, NucleeperModel> {
 
         public LayerGlow() {
             super(NucleeperRenderer.this);
@@ -105,11 +105,11 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
             this.getParentModel().renderToBuffer(poseStack, ivertexbuilder2, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
             ResourceLocation buttons;
             int buttonDiv = entitylivingbaseIn.tickCount / 5 % 6;
-            if(buttonDiv < 2){
+            if (buttonDiv < 2) {
                 buttons = TEXTURE_BUTTONS_0;
-            }else if(buttonDiv < 4){
+            } else if (buttonDiv < 4) {
                 buttons = TEXTURE_BUTTONS_1;
-            }else {
+            } else {
                 buttons = TEXTURE_BUTTONS_2;
             }
             VertexConsumer ivertexbuilder3 = bufferIn.getBuffer(RenderType.eyes(buttons));

@@ -26,7 +26,7 @@ public class DeepOneKnightRenderer extends MobRenderer<DeepOneKnightEntity, Deep
 
     @Override
     protected void scale(DeepOneKnightEntity mob, PoseStack matrixStackIn, float partialTicks) {
-        if(mob.isSummoned()){
+        if (mob.isSummoned()) {
             matrixStackIn.translate(0, (mob.getBbHeight() + 1F) * (1F - mob.getSummonProgress(partialTicks)), 0);
         }
     }
@@ -42,7 +42,7 @@ public class DeepOneKnightRenderer extends MobRenderer<DeepOneKnightEntity, Deep
         }
 
         public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, DeepOneKnightEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            if(!entitylivingbaseIn.isInvisible() && !entitylivingbaseIn.isNoon()){
+            if (!entitylivingbaseIn.isInvisible() && !entitylivingbaseIn.isNoon()) {
                 VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.eyes(TEXTURE_GLOW));
                 float alpha = 1.0F;
                 this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, 240, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, alpha);

@@ -22,7 +22,7 @@ public final class CaveBiomeFinder {
         return executor;
     }
 
-    public static void fillOutCaveMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
+    public static void fillOutCaveMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player) {
         getExecutor().execute(new FilloutCaveBiomeMap(map, serverLevel, center, player));
     }
 

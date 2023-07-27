@@ -231,7 +231,7 @@ public class TripodfishEntity extends WaterAnimal {
 
     private void doInitialPosing(LevelAccessor world) {
         BlockPos down = this.blockPosition();
-        while(!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()){
+        while (!world.getFluidState(down).isEmpty() && down.getY() > world.getMinBuildHeight()) {
             down = down.below();
         }
         this.setPos(down.getX() + 0.5F, down.getY() + 1, down.getZ() + 0.5F);
@@ -370,7 +370,7 @@ public class TripodfishEntity extends WaterAnimal {
                 Vec3 vec3 = Vec3.atCenterOf(above);
                 if (!isTargetBlocked(vec3)) {
                     return vec3;
-                }else{
+                } else {
                     return null;
                 }
             } else {

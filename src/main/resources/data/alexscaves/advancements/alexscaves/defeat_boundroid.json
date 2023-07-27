@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:heavyweight"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_boundroid.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_boundroid.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/neodymium",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:boundroid"
+        }
+      }
+    }
+  }
+}

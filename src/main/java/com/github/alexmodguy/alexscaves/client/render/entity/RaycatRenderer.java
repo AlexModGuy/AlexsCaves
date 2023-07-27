@@ -65,11 +65,11 @@ public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
         ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
         float absorbAmount = entityIn.getAbsorbAmount(partialTicks);
         Entity absorbTarget = entityIn.getAbsorbTarget();
-        if(absorbAmount > 0F && entityIn.isAlive() && absorbTarget != null){
+        if (absorbAmount > 0F && entityIn.isAlive() && absorbTarget != null) {
             Vec3 to = absorbTarget.getPosition(partialTicks).add(0, absorbTarget.getBbHeight() * 0.5F, 0);
             Vec3 toTranslate = to.subtract(entityIn.getPosition(partialTicks).add(0, entityIn.getBbHeight() * 0.5F, 0));
             float yRot = ((float) Mth.atan2(toTranslate.x, toTranslate.z)) * 180.0F / (float) Math.PI;
-            float xRot = -(float)(Mth.atan2(toTranslate.y, toTranslate.horizontalDistance()) * (double)(180F / (float)Math.PI));
+            float xRot = -(float) (Mth.atan2(toTranslate.y, toTranslate.horizontalDistance()) * (double) (180F / (float) Math.PI));
             float length = (float) toTranslate.length() * absorbAmount;
             float width = absorbAmount * 0.8F;
             poseStack.pushPose();

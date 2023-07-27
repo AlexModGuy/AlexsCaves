@@ -72,7 +72,7 @@ public class OceanFloraBlock extends BushBlock implements LiquidBlockContainer {
         BlockPos blockpos = context.getClickedPos();
         BlockState above = levelaccessor.getBlockState(blockpos.above());
         FluidState fluidstate = context.getLevel().getFluidState(blockpos);
-        return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ?  this.defaultBlockState() : null;
+        return fluidstate.is(FluidTags.WATER) && fluidstate.getAmount() == 8 ? this.defaultBlockState() : null;
     }
 
     public FluidState getFluidState(BlockState p_154537_) {

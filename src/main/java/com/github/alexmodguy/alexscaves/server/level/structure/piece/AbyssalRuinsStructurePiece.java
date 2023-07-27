@@ -56,7 +56,7 @@ public class AbyssalRuinsStructurePiece extends TemplateStructurePiece {
         this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
         BlockPos blockpos = StructureTemplate.transform(new BlockPos(this.template.getSize().getX() - 1, 0, this.template.getSize().getZ() - 1), Mirror.NONE, this.placeSettings.getRotation(), BlockPos.ZERO).offset(this.templatePosition);
         this.templatePosition = new BlockPos(this.templatePosition.getX(), this.getHeight(this.templatePosition, worldGenLevel, blockpos), this.templatePosition.getZ());
-        if(templatePosition.getY() > chunkGenerator.getSeaLevel() - 20){
+        if (templatePosition.getY() > chunkGenerator.getSeaLevel() - 20) {
             templatePosition = templatePosition.atY(-128);
         }
         super.postProcess(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, pos);
@@ -68,14 +68,14 @@ public class AbyssalRuinsStructurePiece extends TemplateStructurePiece {
         int k = i - 1;
         int l = 0;
 
-        for(BlockPos blockpos : BlockPos.betweenClosed(blockPos, pos)) {
+        for (BlockPos blockpos : BlockPos.betweenClosed(blockPos, pos)) {
             int i1 = blockpos.getX();
             int j1 = blockpos.getZ();
             int k1 = blockPos.getY() - 1;
             BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i1, k1, j1);
             BlockState blockstate = level.getBlockState(blockpos$mutableblockpos);
 
-            for(FluidState fluidstate = level.getFluidState(blockpos$mutableblockpos); (blockstate.isAir() || fluidstate.is(FluidTags.WATER) || blockstate.is(BlockTags.ICE)) && k1 > level.getMinBuildHeight() + 1; fluidstate = level.getFluidState(blockpos$mutableblockpos)) {
+            for (FluidState fluidstate = level.getFluidState(blockpos$mutableblockpos); (blockstate.isAir() || fluidstate.is(FluidTags.WATER) || blockstate.is(BlockTags.ICE)) && k1 > level.getMinBuildHeight() + 1; fluidstate = level.getFluidState(blockpos$mutableblockpos)) {
                 --k1;
                 blockpos$mutableblockpos.set(i1, k1, j1);
                 blockstate = level.getBlockState(blockpos$mutableblockpos);
@@ -105,7 +105,7 @@ public class AbyssalRuinsStructurePiece extends TemplateStructurePiece {
                 spawnSubmarine(accessor, pos, false);
                 break;
             case "submarine_damaged":
-                if(random.nextFloat() > 0.5F){
+                if (random.nextFloat() > 0.5F) {
                     spawnSubmarine(accessor, pos, true);
                 }
                 break;
@@ -114,19 +114,19 @@ public class AbyssalRuinsStructurePiece extends TemplateStructurePiece {
 
     private void spawnSubmarine(ServerLevelAccessor level, BlockPos pos, boolean totaled) {
         SubmarineEntity submarine = ACEntityRegistry.SUBMARINE.get().create(level.getLevel());
-        while(level.getBlockState(pos).getFluidState().isEmpty() && !level.isEmptyBlock(pos) && pos.getY() < level.getMaxBuildHeight()){
+        while (level.getBlockState(pos).getFluidState().isEmpty() && !level.isEmptyBlock(pos) && pos.getY() < level.getMaxBuildHeight()) {
             pos = pos.above();
         }
         Vec3 vec31 = Vec3.atCenterOf(pos);
         submarine.setYRot(level.getRandom().nextFloat() * 360);
         submarine.setPos(vec31.x, vec31.y, vec31.z);
-        while (!level.isUnobstructed(submarine)){
+        while (!level.isUnobstructed(submarine)) {
             submarine.setPos(submarine.position().add(new Vec3(0, 1, 0)));
         }
-        if(totaled){
+        if (totaled) {
             submarine.setDamageLevel(4);
             submarine.setOxidizationLevel(3);
-        }else{
+        } else {
             submarine.setOxidizationLevel(2);
         }
         level.addFreshEntity(submarine);

@@ -55,7 +55,7 @@ public class MineGuardianAnchorModel extends AdvancedEntityModel<MineGuardianAnc
         return ImmutableList.of(cube_r1, cube_r2, anchor);
     }
 
-    public Vec3 getChainPosition(Vec3 offsetIn){
+    public Vec3 getChainPosition(Vec3 offsetIn) {
         PoseStack armStack = new PoseStack();
         armStack.pushPose();
         anchor.translateAndRotate(armStack);

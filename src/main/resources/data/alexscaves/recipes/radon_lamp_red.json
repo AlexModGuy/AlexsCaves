@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DRD",
+    "RGR",
+    "DRD"
+  ],
+  "key": {
+    "R": {
+      "item": "alexscaves:radon_bottle"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    },
+    "D": {
+      "tag": "forge:dyes/red"
+    }
+  },
+  "result": {
+    "item": "alexscaves:radon_lamp_red",
+    "count": 4
+  }
+}

@@ -21,7 +21,7 @@ public class LiquidBlockRendererMixin {
             at = @At(value = "TAIL")
     )
     private static void isFaceOccludedByNeighbor(BlockGetter blockGetter, BlockPos pos, Direction direction, float f, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-        if(state.is(ACBlockRegistry.SEA_GLASS.get())){
+        if (state.is(ACBlockRegistry.SEA_GLASS.get())) {
             cir.setReturnValue(true);
         }
     }

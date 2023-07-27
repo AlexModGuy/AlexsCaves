@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -85,7 +84,7 @@ public class DinosaurEggBlock extends Block {
                 if (trampler instanceof LivingEntity) {
                     List<Mob> list = worldIn.getEntitiesOfClass(Mob.class, bb, living -> living.isAlive() && living.getType() == births.get());
                     for (Mob living : list) {
-                        if (!(living instanceof TamableAnimal) || !((TamableAnimal)living).isTame() || !((TamableAnimal)living).isOwnedBy((LivingEntity) trampler)) {
+                        if (!(living instanceof TamableAnimal) || !((TamableAnimal) living).isTame() || !((TamableAnimal) living).isOwnedBy((LivingEntity) trampler)) {
                             living.setTarget((LivingEntity) trampler);
                         }
                     }
@@ -103,7 +102,7 @@ public class DinosaurEggBlock extends Block {
     }
 
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-        if (this.canGrow(worldIn, worldIn.getBlockState(pos.below())) && isProperHabitat(worldIn, pos) && (!state.getValue(NEEDS_PLAYER) || worldIn.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 15, EntitySelector.NO_SPECTATORS) != null)) {
+        if (this.canGrow(worldIn, worldIn.getBlockState(pos.below())) && isProperHabitat(worldIn, pos) && (!state.getValue(NEEDS_PLAYER) || worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 15, EntitySelector.NO_SPECTATORS) != null)) {
             int i = state.getValue(HATCH);
             if (i < 2) {
                 worldIn.playSound(null, pos, SoundEvents.TURTLE_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
@@ -116,14 +115,14 @@ public class DinosaurEggBlock extends Block {
                 for (int j = 0; j < getDinosaursBornFrom(state); ++j) {
                     worldIn.levelEvent(2001, pos, Block.getId(state));
                     Entity fromType = births.get().create(worldIn);
-                    if(fromType instanceof Animal animal){
+                    if (fromType instanceof Animal animal) {
                         animal.setAge(-24000);
                     }
                     fromType.moveTo((double) pos.getX() + 0.3D + (double) j * 0.2D, pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
                     if (!worldIn.isClientSide) {
                         Player closest = worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 10, EntitySelector.NO_SPECTATORS);
                         if (closest != null) {
-                            if(fromType instanceof DinosaurEntity dinosaur && dinosaur.tamesFromHatching()){
+                            if (fromType instanceof DinosaurEntity dinosaur && dinosaur.tamesFromHatching()) {
                                 dinosaur.setTame(true);
                                 dinosaur.setOrderedToSit(true);
                                 dinosaur.tame(closest);

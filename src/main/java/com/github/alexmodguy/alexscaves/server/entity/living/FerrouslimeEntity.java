@@ -89,7 +89,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     protected void dropFromLootTable(DamageSource source, boolean b) {
-        if(this.getHeadCount() <= 1){
+        if (this.getHeadCount() <= 1) {
             super.dropFromLootTable(source, b);
         }
     }
@@ -131,15 +131,15 @@ public class FerrouslimeEntity extends Monster {
                 double particleZ = this.getZ() + (random.nextDouble() - 0.5F) * (slimeSize + 1.5F);
                 level().addParticle(ACParticleRegistry.FERROUSLIME.get(), particleX, particleY, particleZ, this.getId(), 0, 0);
             }
-        }else{
+        } else {
             LivingEntity living = this.getTarget();
-            if(living != null && living.isAlive()){
-                if(this.getDeltaMovement().length() <0.1){
+            if (living != null && living.isAlive()) {
+                if (this.getDeltaMovement().length() < 0.1) {
                     noMoveTime++;
-                }else{
+                } else {
                     noMoveTime = 0;
                 }
-                if(noMoveTime > 40 && mergeCooldown <= 0){
+                if (noMoveTime > 40 && mergeCooldown <= 0) {
                     split(1200);
                 }
             }
@@ -236,7 +236,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     public boolean split(int cooldown) {
-        if(this.getHeadCount() >= 2){
+        if (this.getHeadCount() >= 2) {
             int ours = this.getHeadCount() / 2;
             int theirs = this.getHeadCount() - ours;
             this.mergeCooldown = 1200;
@@ -248,7 +248,7 @@ public class FerrouslimeEntity extends Monster {
         return false;
     }
 
-    private FerrouslimeEntity makeSlime(int heads, int cooldown){
+    private FerrouslimeEntity makeSlime(int heads, int cooldown) {
         Component component = this.getCustomName();
         FerrouslimeEntity ferrouslime = ACEntityRegistry.FERROUSLIME.get().create(level());
         ferrouslime.setPos(this.position());
@@ -329,9 +329,9 @@ public class FerrouslimeEntity extends Monster {
                 double width = parentEntity.getBoundingBox().getSize();
                 LivingEntity attackTarget = parentEntity.getTarget();
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * 0.25D / d0);
-                if(d0 < 0.5){
+                if (d0 < 0.5) {
                     this.operation = Operation.WAIT;
-                }else{
+                } else {
                     parentEntity.setDeltaMovement(vector3d1);
                     if (d0 >= width && attackTarget == null) {
                         parentEntity.setYRot(-((float) Mth.atan2(vector3d1.x, vector3d1.z)) * (180F / (float) Math.PI));

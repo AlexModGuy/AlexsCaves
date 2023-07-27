@@ -52,17 +52,17 @@ public class ForsakenSonarParticle extends TextureSheetParticle {
     }
 
     public void setFadeColor(int i) {
-        this.fadeR = (float)((i & 16711680) >> 16) / 255.0F;
-        this.fadeG = (float)((i & '\uff00') >> 8) / 255.0F;
-        this.fadeB = (float)((i & 255) >> 0) / 255.0F;
+        this.fadeR = (float) ((i & 16711680) >> 16) / 255.0F;
+        this.fadeG = (float) ((i & '\uff00') >> 8) / 255.0F;
+        this.fadeB = (float) ((i & 255) >> 0) / 255.0F;
     }
 
     public void tick() {
         this.xo = this.x;
         this.yo = this.y;
         this.zo = this.z;
-        float f = ((float)this.age - (float)(this.lifetime / 2)) / (float)this.lifetime;
-        float f1 = this.age / (float)this.lifetime;
+        float f = ((float) this.age - (float) (this.lifetime / 2)) / (float) this.lifetime;
+        float f1 = this.age / (float) this.lifetime;
         float f2 = 1F - 0.1F * f1;
         friction = 1F - 0.65F * f1;
         if (this.age > this.lifetime / 2) {
@@ -86,30 +86,30 @@ public class ForsakenSonarParticle extends TextureSheetParticle {
         }
     }
 
-    public void setInMouthPos(float partialTick){
-        if(forsakenId != -1 && level.getEntity(forsakenId) instanceof ForsakenEntity entity){
+    public void setInMouthPos(float partialTick) {
+        if (forsakenId != -1 && level.getEntity(forsakenId) instanceof ForsakenEntity entity) {
             Vec3 mouthPos = ForsakenRenderer.getMouthPositionFor(forsakenId);
-            if(mouthPos != null){
-                Vec3 translate = mouthPos.add(new Vec3(0, this.massive ? 0.75F : 0F, 0F)).yRot((float) (Math.PI - entity.yBodyRot * ((float)Math.PI / 180F)));
+            if (mouthPos != null) {
+                Vec3 translate = mouthPos.add(new Vec3(0, this.massive ? 0.75F : 0F, 0F)).yRot((float) (Math.PI - entity.yBodyRot * ((float) Math.PI / 180F)));
                 this.setPos(entity.getX() + translate.x, entity.getY() + translate.y, entity.getZ() + translate.z);
             }
-            if(!this.massive){
+            if (!this.massive) {
                 Entity target = entity.getSonarTarget();
-                if(target == null){
+                if (target == null) {
                     lifetime = 40;
-                }else{
+                } else {
                     lifetime = 15 + Math.min(15, (int) Math.ceil(entity.distanceTo(target) * 3));
                 }
             }
         }
     }
 
-    public void angleTowardsTarget(){
-        if(!massive && forsakenId != -1 && !passedTarget && level.getEntity(forsakenId) instanceof ForsakenEntity forsakenEntity){
+    public void angleTowardsTarget() {
+        if (!massive && forsakenId != -1 && !passedTarget && level.getEntity(forsakenId) instanceof ForsakenEntity forsakenEntity) {
             Entity target = forsakenEntity.getSonarTarget();
-            if(target != null){
+            if (target != null) {
                 Vec3 vector3d1 = target.getEyePosition().subtract(x, y, z);
-                if(vector3d1.length() < 2){
+                if (vector3d1.length() < 2) {
                     passedTarget = true;
                 }
                 this.yRot = -((float) Mth.atan2(vector3d1.x, vector3d1.z)) * (180F / (float) Math.PI);
@@ -138,22 +138,22 @@ public class ForsakenSonarParticle extends TextureSheetParticle {
             quaternionf.rotateY(-(float) Math.toRadians(yRot)).rotateX(-(float) Math.toRadians(xRot));
         });
         this.renderSignal(vertexConsumer, camera, partialTick, (quaternionf) -> {
-            quaternionf.rotateY(-(float)Math.PI - (float) Math.toRadians(yRot)).rotateX((float) Math.toRadians(xRot));
+            quaternionf.rotateY(-(float) Math.PI - (float) Math.toRadians(yRot)).rotateX((float) Math.toRadians(xRot));
         });
     }
 
     private void renderSignal(VertexConsumer consumer, Camera camera, float partialTicks, Consumer<Quaternionf> rots) {
         Vec3 vec3 = camera.getPosition();
-        float f = (float)(Mth.lerp((double)partialTicks, this.xo, this.x) - vec3.x());
-        float f1 = (float)(Mth.lerp((double)partialTicks, this.yo, this.y) - vec3.y());
-        float f2 = (float)(Mth.lerp((double)partialTicks, this.zo, this.z) - vec3.z());
+        float f = (float) (Mth.lerp((double) partialTicks, this.xo, this.x) - vec3.x());
+        float f1 = (float) (Mth.lerp((double) partialTicks, this.yo, this.y) - vec3.y());
+        float f2 = (float) (Mth.lerp((double) partialTicks, this.zo, this.z) - vec3.z());
         Vector3f vector3f = (new Vector3f(0.5F, 0.5F, 0.5F)).normalize();
         Quaternionf quaternionf = (new Quaternionf()).setAngleAxis(0.0F, vector3f.x(), vector3f.y(), vector3f.z());
         rots.accept(quaternionf);
         Vector3f[] avector3f = new Vector3f[]{new Vector3f(-1.0F, -1.0F, 0.0F), new Vector3f(-1.0F, 1.0F, 0.0F), new Vector3f(1.0F, 1.0F, 0.0F), new Vector3f(1.0F, -1.0F, 0.0F)};
         float f3 = this.getQuadSize(partialTicks);
 
-        for(int i = 0; i < 4; ++i) {
+        for (int i = 0; i < 4; ++i) {
             Vector3f vector3f1 = avector3f[i];
             vector3f1.rotate(quaternionf);
             vector3f1.mul(f3);
@@ -165,10 +165,10 @@ public class ForsakenSonarParticle extends TextureSheetParticle {
         float f4 = this.getV0();
         float f5 = this.getV1();
         int j = this.getLightColor(partialTicks);
-        consumer.vertex((double)avector3f[0].x(), (double)avector3f[0].y(), (double)avector3f[0].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
-        consumer.vertex((double)avector3f[1].x(), (double)avector3f[1].y(), (double)avector3f[1].z()).uv(f7, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
-        consumer.vertex((double)avector3f[2].x(), (double)avector3f[2].y(), (double)avector3f[2].z()).uv(f6, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
-        consumer.vertex((double)avector3f[3].x(), (double)avector3f[3].y(), (double)avector3f[3].z()).uv(f6, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+        consumer.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+        consumer.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).uv(f7, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+        consumer.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).uv(f6, f4).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
+        consumer.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).uv(f6, f5).color(this.rCol, this.gCol, this.bCol, this.alpha).uv2(j).endVertex();
     }
 
 

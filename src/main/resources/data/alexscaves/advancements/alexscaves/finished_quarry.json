@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:quarry_smasher"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.finished_quarry.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.finished_quarry.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/quarry",
+  "criteria": {
+    "finished_quarry": {
+      "trigger": "alexscaves:finished_quarry"
+    }
+  }
+}

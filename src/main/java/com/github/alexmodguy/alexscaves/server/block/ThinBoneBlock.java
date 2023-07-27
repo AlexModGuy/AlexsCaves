@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ThinBoneBlock extends RotatedPillarBlock implements SimpleWaterloggedBlock  {
+public class ThinBoneBlock extends RotatedPillarBlock implements SimpleWaterloggedBlock {
 
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty OFFSET = IntegerProperty.create("offset", 0, 2);
@@ -40,10 +40,10 @@ public class ThinBoneBlock extends RotatedPillarBlock implements SimpleWaterlogg
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(OFFSET, 1).setValue(AXIS, Direction.Axis.Y));
     }
 
-    protected VoxelShape getThinBoneShape(BlockState state){
-        if(shapeMap.containsKey(state)){
+    protected VoxelShape getThinBoneShape(BlockState state) {
+        if (shapeMap.containsKey(state)) {
             return shapeMap.get(state);
-        }else{
+        } else {
             VoxelShape merge;
             switch (state.getValue(AXIS)) {
                 case X:
@@ -52,17 +52,17 @@ public class ThinBoneBlock extends RotatedPillarBlock implements SimpleWaterlogg
                 case Y:
                     merge = SHAPE_Y;
                     break;
-                    case Z:
-                        merge = SHAPE_Z;
-                        break;
+                case Z:
+                    merge = SHAPE_Z;
+                    break;
                 default:
                     merge = SHAPE_Z;
                     break;
             }
             int offset;
-            if(state.getValue(AXIS) == Direction.Axis.Y || state.getValue(OFFSET) == 1){
+            if (state.getValue(AXIS) == Direction.Axis.Y || state.getValue(OFFSET) == 1) {
                 offset = 0;
-            }else{
+            } else {
                 offset = state.getValue(OFFSET) == 0 ? -6 : 6;
                 merge = merge.move(0, offset / 16F, 0);
             }
@@ -87,13 +87,13 @@ public class ThinBoneBlock extends RotatedPillarBlock implements SimpleWaterlogg
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         int offset = 0;
-        if(context.getClickedFace().getAxis().isHorizontal()){
+        if (context.getClickedFace().getAxis().isHorizontal()) {
             Vec3 vec3 = context.getClickLocation().subtract(Vec3.atLowerCornerOf(context.getClickedPos()));
-            if(vec3.y < 0.33F){
+            if (vec3.y < 0.33F) {
                 offset = 0;
-            }else if(vec3.y < 0.66F){
+            } else if (vec3.y < 0.66F) {
                 offset = 1;
-            }else{
+            } else {
                 offset = 2;
             }
         }

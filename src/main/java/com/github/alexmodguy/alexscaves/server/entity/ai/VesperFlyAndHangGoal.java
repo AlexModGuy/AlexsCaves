@@ -22,7 +22,7 @@ public class VesperFlyAndHangGoal extends Goal {
 
     private int hangCheckIn = 0;
 
-    public VesperFlyAndHangGoal(VesperEntity entity){
+    public VesperFlyAndHangGoal(VesperEntity entity) {
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
         this.entity = entity;
     }
@@ -32,7 +32,7 @@ public class VesperFlyAndHangGoal extends Goal {
         if (entity.isVehicle() || (entity.getTarget() != null && entity.getTarget().isAlive()) || entity.isPassenger()) {
             return false;
         }
-        if(entity.isHanging() || entity.groundedFor > 0){
+        if (entity.isHanging() || entity.groundedFor > 0) {
             return false;
         }
         if (!entity.isFlying() && entity.getRandom().nextInt(70) != 0) {
@@ -51,27 +51,27 @@ public class VesperFlyAndHangGoal extends Goal {
     }
 
     private Vec3 getPosition() {
-        if(wantsToHang){
+        if (wantsToHang) {
             Vec3 hangPos = findHangFromPos();
-            if(hangPos != null){
+            if (hangPos != null) {
                 return hangPos;
             }
         }
         return findFlightPos();
     }
 
-    public void start(){
+    public void start() {
         this.entity.setFlying(true);
         entity.setHanging(false);
         hangCheckIn = 0;
         entity.getNavigation().moveTo(this.x, this.y, this.z, 1F);
     }
 
-    public void tick(){
-        if(wantsToHang){
-            if(hangCheckIn-- < 0){
+    public void tick() {
+        if (wantsToHang) {
+            if (hangCheckIn-- < 0) {
                 hangCheckIn = 5 + entity.getRandom().nextInt(5);
-                if(!entity.isHanging() && entity.canHangFrom(entity.posAbove(), entity.level().getBlockState(entity.posAbove()))){
+                if (!entity.isHanging() && entity.canHangFrom(entity.posAbove(), entity.level().getBlockState(entity.posAbove()))) {
                     entity.setHanging(true);
                     entity.setFlying(false);
                 }
@@ -90,8 +90,8 @@ public class VesperFlyAndHangGoal extends Goal {
         }
     }
 
-    public void stop(){
-        if(wantsToHang){
+    public void stop() {
+        if (wantsToHang) {
             this.entity.getNavigation().stop();
         }
         wantsToHang = false;
@@ -99,10 +99,10 @@ public class VesperFlyAndHangGoal extends Goal {
 
     private Vec3 findFlightPos() {
         Vec3 heightAdjusted = entity.position().add(entity.getRandom().nextInt(32) - 16, 0, entity.getRandom().nextInt(32) - 16);
-        if(entity.level().canSeeSky(BlockPos.containing(heightAdjusted))){
+        if (entity.level().canSeeSky(BlockPos.containing(heightAdjusted))) {
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
-        }else{
+        } else {
             Vec3 ground = groundPosition(heightAdjusted);
             BlockPos ceiling = BlockPos.containing(ground).above(2);
             while (ceiling.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ceiling).isSolid()) {
@@ -142,7 +142,7 @@ public class VesperFlyAndHangGoal extends Goal {
         int range = 14;
         for (int i = 0; i < 15; i++) {
             BlockPos blockpos1 = this.entity.blockPosition().offset(random.nextInt(range) - range / 2, 0, random.nextInt(range) - range / 2);
-            if(!this.entity.level().isEmptyBlock(blockpos1)){
+            if (!this.entity.level().isEmptyBlock(blockpos1)) {
                 continue;
             }
             while (this.entity.level().isEmptyBlock(blockpos1) && blockpos1.getY() < this.entity.level().getMaxBuildHeight()) {

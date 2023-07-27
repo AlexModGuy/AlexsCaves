@@ -232,7 +232,7 @@ public class GammaroachModel extends AdvancedEntityModel<GammaroachEntity> {
         float deathAmount = (entity.deathTime + partialTicks) / 20F;
         progressRotationPrev(rantennae, limbSwingAmount, (float) Math.toRadians(-80), 0, (float) Math.toRadians(20), 1F);
         progressRotationPrev(lantennae, limbSwingAmount, (float) Math.toRadians(-80), 0, (float) Math.toRadians(-20), 1F);
-        if(entity.deathTime > 0.0){
+        if (entity.deathTime > 0.0) {
             limbSwing = ageInTicks;
             limbSwingAmount = 1;
         }

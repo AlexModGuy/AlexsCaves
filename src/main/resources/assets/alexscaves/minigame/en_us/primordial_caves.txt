@@ -28,6 +28,9 @@ flying
 ancestor
 caveman
 troglodyte
+spear
+club
+chop
 sandstone
 subterranodon
 vallumraptor

@@ -22,6 +22,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class PrimitiveClubItem extends Item {
     private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+
     public PrimitiveClubItem(Item.Properties properties) {
         super(properties);
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
@@ -34,9 +35,9 @@ public class PrimitiveClubItem extends Item {
         stack.hurtAndBreak(1, player, (entity) -> {
             entity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
-        if(hurtEntity.getRandom().nextFloat() < 0.8F && !hurtEntity.level().isClientSide){
+        if (hurtEntity.getRandom().nextFloat() < 0.8F && !hurtEntity.level().isClientSide) {
             MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.STUNNED.get(), 200 + hurtEntity.getRandom().nextInt(200), 0, false, false);
-            if(hurtEntity.addEffect(instance)){
+            if (hurtEntity.addEffect(instance)) {
                 AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(hurtEntity.getId(), player.getId(), 3, instance.getDuration()));
 
             }

@@ -31,17 +31,17 @@ public class AcidDropParticle extends TextureSheetParticle {
     }
 
     public void tick() {
-        if(this.age < this.lifetime * 0.25F){
+        if (this.age < this.lifetime * 0.25F) {
             this.gravity = 0;
-        }else{
+        } else {
             this.gravity = 1F;
-            if(onGround){
+            if (onGround) {
                 onGroundTime++;
             }
         }
         int sprite = this.onGround ? 1 : 0;
         this.setSprite(sprites.get(sprite, 1));
-        if(onGroundTime > 5){
+        if (onGroundTime > 5) {
             this.remove();
             this.level.addParticle(ParticleTypes.SMOKE.getType(), x, y, z, 0, 0, 0);
         }

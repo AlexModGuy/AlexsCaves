@@ -29,9 +29,12 @@ public abstract class GameRendererMixin {
     @Shadow
     private float darkenWorldAmount;
 
-    @Shadow @Final private RenderBuffers renderBuffers;
+    @Shadow
+    @Final
+    private RenderBuffers renderBuffers;
 
-    @Shadow public abstract void resetProjectionMatrix(Matrix4f p_253668_);
+    @Shadow
+    public abstract void resetProjectionMatrix(Matrix4f p_253668_);
 
     @Inject(
             method = {"Lnet/minecraft/client/renderer/GameRenderer;tick()V"},
@@ -71,7 +74,7 @@ public abstract class GameRendererMixin {
     )
     public void ac_renderLevel(float partialTicks, long time, PoseStack poseStack, CallbackInfo ci) {
         Entity player = Minecraft.getInstance().cameraEntity;
-        if(player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
+        if (player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
             Vec3 offset = submarine.getPosition(partialTicks).subtract(player.getEyePosition(partialTicks));
             poseStack.pushPose();
             poseStack.translate(offset.x, offset.y, offset.z);

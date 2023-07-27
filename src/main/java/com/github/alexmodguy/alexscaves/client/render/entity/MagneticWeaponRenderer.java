@@ -32,6 +32,7 @@ import java.util.UUID;
 public class MagneticWeaponRenderer extends EntityRenderer<MagneticWeaponEntity> {
 
     private Map<UUID, LightningRender> lightningRenderMap = new HashMap<>();
+
     public MagneticWeaponRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.5F;
@@ -46,31 +47,31 @@ public class MagneticWeaponRenderer extends EntityRenderer<MagneticWeaponEntity>
         poseStack.pushPose();
         poseStack.translate(0, 0.1F + Math.sin(ageInTicks * 0.1F) * 0.1F, 0);
         Entity controller = entity.getController();
-        if(controller instanceof Player player){
+        if (controller instanceof Player player) {
             double x = Mth.lerp(partialTicks, entity.xOld, entity.getX());
             double y = Mth.lerp(partialTicks, entity.yOld, entity.getY());
             double z = Mth.lerp(partialTicks, entity.zOld, entity.getZ());
             Vec3 fromVec;
-            if(controller == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()){
+            if (controller == Minecraft.getInstance().player && Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
                 int leftAmount = 1;
                 ItemStack itemstack = player.getMainHandItem();
                 if (!itemstack.is(ACItemRegistry.GALENA_GAUNTLET.get())) {
                     leftAmount = -leftAmount;
                 }
-                double d7 = 1000.0D / (double)this.entityRenderDispatcher.options.fov().get().intValue();
+                double d7 = 1000.0D / (double) this.entityRenderDispatcher.options.fov().get().intValue();
                 float f = player.getAttackAnim(partialTicks);
-                float f1 = Mth.sin(Mth.sqrt(f) * (float)Math.PI);
-                Vec3 vec3 = this.entityRenderDispatcher.camera.getNearPlane().getPointOnPlane((float)leftAmount * 0.525F, -0.7F);
+                float f1 = Mth.sin(Mth.sqrt(f) * (float) Math.PI);
+                Vec3 vec3 = this.entityRenderDispatcher.camera.getNearPlane().getPointOnPlane((float) leftAmount * 0.525F, -0.7F);
                 vec3 = vec3.scale(d7);
                 vec3 = vec3.yRot(f1 * 0.5F);
                 vec3 = vec3.xRot(-f1 * 0.7F);
-                float d4 = (float) (Mth.lerp((double)partialTicks, player.xo, player.getX()) + vec3.x);
-                float d5 = (float) (Mth.lerp((double)partialTicks, player.yo, player.getY()) + vec3.y);
-                float d6 = (float) (Mth.lerp((double)partialTicks, player.zo, player.getZ()) + vec3.z);
+                float d4 = (float) (Mth.lerp((double) partialTicks, player.xo, player.getX()) + vec3.x);
+                float d5 = (float) (Mth.lerp((double) partialTicks, player.yo, player.getY()) + vec3.y);
+                float d6 = (float) (Mth.lerp((double) partialTicks, player.zo, player.getZ()) + vec3.z);
                 float f3 = player.getEyeHeight();
                 Vec3 behind = controller.getViewVector(partialTicks).normalize().scale(-0.2F);
                 fromVec = new Vec3(d4, d5 + f3, d6).add(behind);
-            }else{
+            } else {
                 fromVec = entity.getControllerHandPos(player, partialTicks);
             }
             Vec3 toVec = entity.position().add(0, 0.24F, 0);
@@ -100,13 +101,13 @@ public class MagneticWeaponRenderer extends EntityRenderer<MagneticWeaponEntity>
         poseStack.popPose();
 
         super.render(entity, entityYaw, partialTicks, poseStack, source, i);
-        if(entity.isRemoved() && lightningRenderMap.containsKey(entity.getUUID())){
+        if (entity.isRemoved() && lightningRenderMap.containsKey(entity.getUUID())) {
             lightningRenderMap.remove(entity.getUUID());
         }
     }
 
     private LightningRender getLightingRender(UUID uuid) {
-        if(lightningRenderMap.get(uuid) == null){
+        if (lightningRenderMap.get(uuid) == null) {
             lightningRenderMap.put(uuid, new LightningRender());
         }
         return lightningRenderMap.get(uuid);

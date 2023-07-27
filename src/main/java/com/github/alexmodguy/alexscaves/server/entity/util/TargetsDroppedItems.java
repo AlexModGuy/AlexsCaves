@@ -9,7 +9,10 @@ public interface TargetsDroppedItems {
 
     void onGetItem(ItemEntity e);
 
-    default void onFindTarget(ItemEntity e){}
+    default void onFindTarget(ItemEntity e) {
+    }
 
-    default double getMaxDistToItem() {return 3.0D; }
+    default double getMaxDistToItem() {
+        return 3.0D;
+    }
 }

@@ -1,0 +1,36 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:raw_scarlet_neodymium"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.neodymium.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.neodymium.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_magnetic_caves",
+    "criteria": {
+        "azure": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:raw_scarlet_neodymium"]
+                    }
+                ]
+            }
+        },
+        "scarlet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:raw_scarlet_neodymium"]
+                    }
+                ]
+            }
+        }
+    }
+}

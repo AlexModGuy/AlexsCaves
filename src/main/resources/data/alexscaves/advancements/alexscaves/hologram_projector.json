@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:hologram_projector"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.hologram_projector.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.hologram_projector.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_notor",
+    "criteria": {
+        "hologram_projector": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:hologram_projector"]
+                    }
+                ]
+            }
+        }
+    }
+}

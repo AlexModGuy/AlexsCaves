@@ -15,6 +15,7 @@ import java.util.List;
 public class BlockItemWithSupplierLore extends BlockItemWithSupplier {
 
     private final RegistryObject<Block> block;
+
     public BlockItemWithSupplierLore(RegistryObject<Block> blockSupplier, Properties props) {
         super(blockSupplier, props);
         this.block = blockSupplier;
@@ -22,7 +23,7 @@ public class BlockItemWithSupplierLore extends BlockItemWithSupplier {
 
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         String blockName = block.getId().getNamespace() + "." + block.getId().getPath();
-        tooltip.add(Component.translatable("block."  + blockName + ".desc").withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("block." + blockName + ".desc").withStyle(ChatFormatting.GRAY));
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 }

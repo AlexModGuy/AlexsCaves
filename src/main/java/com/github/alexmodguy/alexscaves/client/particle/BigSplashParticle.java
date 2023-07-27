@@ -43,10 +43,10 @@ public class BigSplashParticle extends Particle {
         super.tick();
         int k = this.lifetime - this.age;
         if (k < 5) {
-            float f =  k / 5F;
+            float f = k / 5F;
             this.setAlpha(f);
-        }else{
-            for(int j = 0; j < scale * 2 + 1; j++){
+        } else {
+            for (int j = 0; j < scale * 2 + 1; j++) {
                 Vec3 sputterFrom = new Vec3((level.random.nextFloat() - 0.5F) * 0.1F * scale, -0.25F, (level.random.nextFloat() - 0.5F) * 0.1F * scale).add(this.x, this.y, this.z);
                 this.level.addParticle(ACParticleRegistry.BIG_SPLASH_EFFECT.get(), sputterFrom.x, sputterFrom.y, sputterFrom.z, (level.random.nextFloat() - 0.5F) * 0.2F, 0.3F + level.random.nextFloat() * 0.2F, (level.random.nextFloat() - 0.5F) * 0.2F);
             }
@@ -89,10 +89,10 @@ public class BigSplashParticle extends Particle {
     public static class Factory implements ParticleProvider<SimpleParticleType> {
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            if(xSpeed == 0.0){
+            if (xSpeed == 0.0) {
                 xSpeed = 1.0F;
             }
-            int lifetime = 5 + (int)Math.round(ySpeed * 5);
+            int lifetime = 5 + (int) Math.round(ySpeed * 5);
             return new BigSplashParticle(worldIn, x, y, z, (float) Math.max(0.5F, xSpeed), lifetime);
         }
     }

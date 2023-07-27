@@ -25,7 +25,7 @@ public class AbyssalBoulderFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel worldgenlevel = context.level();
         RandomSource randomsource = context.random();
 
-        for(; blockpos.getY() > worldgenlevel.getMinBuildHeight() + 1; blockpos = blockpos.below()) {
+        for (; blockpos.getY() > worldgenlevel.getMinBuildHeight() + 1; blockpos = blockpos.below()) {
             if (!worldgenlevel.isEmptyBlock(blockpos.below())) {
                 BlockState blockstate = worldgenlevel.getBlockState(blockpos.below());
                 if (blockstate.is(ACBlockRegistry.MUCK.get())) {
@@ -38,19 +38,19 @@ public class AbyssalBoulderFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         } else {
             blockpos = blockpos.above(1 + randomsource.nextInt(1));
-            for(int l = 0; l < 3; ++l) {
+            for (int l = 0; l < 3; ++l) {
                 int i = randomsource.nextInt(3);
                 int j = randomsource.nextInt(3);
                 int k = randomsource.nextInt(3);
-                float f = (float)(i + j + k) * 0.333F + 0.5F;
-                double radius = (double)(f * f);
-                for(BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
+                float f = (float) (i + j + k) * 0.333F + 0.5F;
+                double radius = (double) (f * f);
+                for (BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
                     if (blockpos1.distSqr(blockpos) <= radius && !worldgenlevel.getBlockState(blockpos1).is(ACTagRegistry.UNMOVEABLE)) {
                         worldgenlevel.setBlock(blockpos1, Blocks.DEEPSLATE.defaultBlockState(), 4);
-                        if(randomsource.nextInt(2) == 0){
+                        if (randomsource.nextInt(2) == 0) {
                             Direction dir = Direction.getRandom(randomsource);
                             BlockPos blockpos2 = blockpos1.relative(dir);
-                            if(worldgenlevel.getBlockState(blockpos2).is(Blocks.WATER)){
+                            if (worldgenlevel.getBlockState(blockpos2).is(Blocks.WATER)) {
                                 worldgenlevel.setBlock(blockpos2, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, dir).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, 1 + randomsource.nextInt(4)), 4);
                             }
                         }

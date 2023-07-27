@@ -9,6 +9,7 @@ import net.minecraft.world.phys.Vec3;
 public class GammaroachParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
+
     protected GammaroachParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = 0;
@@ -29,7 +30,7 @@ public class GammaroachParticle extends TextureSheetParticle {
         this.zo = this.z;
         this.setSpriteFromAge(this.sprites);
         if (this.age > this.lifetime / 2) {
-            this.setAlpha(1.0F - ((float)this.age - (float)(this.lifetime / 4)) / (float)this.lifetime);
+            this.setAlpha(1.0F - ((float) this.age - (float) (this.lifetime / 4)) / (float) this.lifetime);
         }
         if (this.age++ >= this.lifetime) {
             this.remove();
