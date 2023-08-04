@@ -32,12 +32,15 @@ public class ACTagRegistry {
     public static final TagKey<Block> TUBE_WORM_AVOIDS = registerBlockTag("tube_worm_avoids");
     public static final TagKey<Block> GROWS_MUSSELS = registerBlockTag("grows_mussels");
     public static final TagKey<Block> WHALEFALL_IGNORES = registerBlockTag("whalefall_ignores");
+    public static final TagKey<Block> SUBMARINE_ASSEMBLY_BLOCKS = registerBlockTag("submarine_assembly_blocks");
     public static final TagKey<Block> UNDERZEALOT_LIGHT_SOURCES = registerBlockTag("underzealot_light_sources");
     public static final TagKey<Block> GLOOMOTH_LIGHT_SOURCES = registerBlockTag("gloomoth_light_sources");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
     public static final TagKey<Item> VALLUMRAPTOR_STEALS = registerItemTag("vallumraptor_steals");
     public static final TagKey<Item> RAW_MEATS = registerItemTag("raw_meats");
+    public static final TagKey<Item> NUCLEAR_FURNACE_BARRELS = registerItemTag("nuclear_furnace_barrels");
+    public static final TagKey<Item> NUCLEAR_FURNACE_RODS = registerItemTag("nuclear_furnace_rods");
     public static final TagKey<Item> SEA_PIG_DIGESTS = registerItemTag("sea_pig_digests");
     public static final TagKey<Item> DEEP_ONE_BARTERS = registerItemTag("deep_one_barters");
     public static final TagKey<Item> RESTRICTED_BIOME_LOCATORS = registerItemTag("restricted_biome_locators");

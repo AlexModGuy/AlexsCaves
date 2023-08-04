@@ -6,11 +6,15 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -18,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
@@ -119,6 +124,16 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
         }
     }
 
+    protected void removeOneMussel(Level worldIn, BlockPos pos, BlockState state) {
+        int i = state.getValue(MUSSELS);
+        if (i <= 1) {
+            worldIn.destroyBlock(pos, false);
+        } else {
+            worldIn.setBlock(pos, state.setValue(MUSSELS, Integer.valueOf(i - 1)), 2);
+            worldIn.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
+            worldIn.levelEvent(2001, pos, Block.getId(state));
+        }
+    }
 
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
@@ -157,4 +172,8 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
     }
 
 
+    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
+        super.playerDestroy(worldIn, player, pos, state, te, stack);
+        this.removeOneMussel(worldIn, pos, state);
+    }
 }

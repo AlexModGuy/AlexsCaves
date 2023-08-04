@@ -4,7 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
-import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
+import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -208,7 +208,7 @@ public class WaterBoltEntity extends Projectile {
                 if (entity.hurt(source, 3.0F) && this.isBubbling()) {
                     entity.addEffect(new MobEffectInstance(ACEffectRegistry.BUBBLED.get(), 200));
                     if (!entity.level().isClientSide) {
-                        AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(entity.getId(), this.getId(), 1, 200));
+                        AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(entity.getId(), this.getId(), 1, 200));
                     }
                 }
             }

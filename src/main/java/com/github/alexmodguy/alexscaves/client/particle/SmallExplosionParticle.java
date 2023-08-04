@@ -8,7 +8,10 @@ import net.minecraft.util.FastColor;
 public class SmallExplosionParticle extends TextureSheetParticle {
 
     private final SpriteSet sprites;
-
+    private boolean hasFadeColor = false;
+    private float fadeR;
+    private float fadeG;
+    private float fadeB;
     protected SmallExplosionParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprites, boolean shortLifespan, int color1) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
@@ -23,6 +26,13 @@ public class SmallExplosionParticle extends TextureSheetParticle {
         this.setColor(Math.min(FastColor.ARGB32.red(color1) / 255F + randCol, 1), FastColor.ARGB32.green(color1) / 255F + randCol, FastColor.ARGB32.blue(color1) / 255F + randCol);
     }
 
+    public void setFadeColor(int i){
+        hasFadeColor = true;
+        this.fadeR = (float) ((i & 16711680) >> 16) / 255.0F;
+        this.fadeG = (float) ((i & '\uff00') >> 8) / 255.0F;
+        this.fadeB = (float) ((i & 255) >> 0) / 255.0F;
+    }
+
     public void tick() {
         this.xo = this.x;
         this.yo = this.y;
@@ -31,9 +41,15 @@ public class SmallExplosionParticle extends TextureSheetParticle {
         if (this.age++ >= this.lifetime) {
             this.remove();
         } else {
-            this.rCol = this.rCol * 0.95F;
-            this.gCol = this.gCol * 0.95F;
-            this.bCol = this.bCol * 0.95F;
+            if(hasFadeColor){
+                this.rCol += (fadeR - this.rCol) * 0.2F;
+                this.gCol += (fadeG - this.gCol) * 0.2F;
+                this.bCol += (fadeB - this.bCol) * 0.2F;
+            }else{
+                this.rCol = this.rCol * 0.95F;
+                this.gCol = this.gCol * 0.95F;
+                this.bCol = this.bCol * 0.95F;
+            }
             this.move(this.xd, this.yd, this.zd);
             this.xd *= (double) this.friction;
             this.yd *= (double) this.friction;
@@ -92,6 +108,23 @@ public class SmallExplosionParticle extends TextureSheetParticle {
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0);
             particle.setSpriteFromAge(spriteSet);
+            return particle;
+        }
+    }
+
+    public static class RaygunFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public RaygunFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XEEEEEE);
+            particle.setSpriteFromAge(spriteSet);
+            particle.lifetime = 5 + worldIn.random.nextInt(3);
+            particle.scale(0.6F + worldIn.random.nextFloat() * 0.3F);
+            particle.setFadeColor(0X40EE40);
             return particle;
         }
     }

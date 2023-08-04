@@ -2,13 +2,11 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.mojang.datafixers.DataFixUtils;
-import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -31,8 +29,6 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemUtils;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -115,6 +111,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
         return !this.fromBucket() && !this.hasCustomName();
     }
 
+
     @Override
     public boolean fromBucket() {
         return this.entityData.get(FROM_BUCKET);
@@ -187,22 +184,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
-        ItemStack itemstack = player.getItemInHand(hand);
-        InteractionResult type = super.mobInteract(player, hand);
-        if (!type.consumesAction()) {
-            if (itemstack.getItem() == ACItemRegistry.ACID_BUCKET.get() && this.isAlive()) {
-                this.playSound(this.getPickupSound(), 1.0F, 1.0F);
-                ItemStack itemstack1 = this.getBucketItemStack();
-                this.saveToBucketTag(itemstack1);
-                ItemStack itemstack2 = ItemUtils.createFilledResult(itemstack, player, itemstack1, false);
-                player.setItemInHand(hand, itemstack2);
-                if (!level().isClientSide) {
-                    CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
-                }
-                return InteractionResult.sidedSuccess(this.level().isClientSide);
-            }
-        }
-        return type;
+        return Bucketable.bucketMobPickup(player, hand, this).orElse(super.mobInteract(player, hand));
     }
 
     @Override
@@ -226,7 +208,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(Items.WATER_BUCKET);
+        return new ItemStack(ACItemRegistry.LANTERNFISH_BUCKET.get());
     }
 
     @Override

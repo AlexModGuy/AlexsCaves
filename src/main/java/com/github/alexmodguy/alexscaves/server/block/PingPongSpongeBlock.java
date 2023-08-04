@@ -18,6 +18,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
@@ -45,6 +46,10 @@ public class PingPongSpongeBlock extends BushBlock implements LiquidBlockContain
         Vec3 vec3 = state.getOffset(getter, pos);
         VoxelShape shape = state.getValue(TOP) ? SHAPE_TOP : SHAPE;
         return shape.move(vec3.x, vec3.y, vec3.z);
+    }
+
+    public VoxelShape getCollisionShape(BlockState state, BlockGetter getter, BlockPos pos, CollisionContext context) {
+        return Shapes.empty();
     }
 
     @Override

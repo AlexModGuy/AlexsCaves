@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "render_type": "translucent",
-  "textures": {
-    "all": "alexscaves:block/sea_glass_all"
-  }
-}

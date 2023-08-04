@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:waste_drum"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.stop_nuclear_furnace_meltdown.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.stop_nuclear_furnace_meltdown.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/nuclear_furnace_component",
+  "criteria": {
+    "stop_nuclear_furnace_meltdown": {
+      "trigger": "alexscaves:stop_nuclear_furnace_meltdown"
+    }
+  }
+}

@@ -214,6 +214,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable {
                 if (!level().isClientSide) {
                     CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, itemstack1);
                 }
+                this.discard();
                 return InteractionResult.sidedSuccess(this.level().isClientSide);
             }
         }

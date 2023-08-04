@@ -30,8 +30,10 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -126,6 +128,16 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
 
     protected void playSwimSound(float f) {
 
+    }
+
+    @Override
+    public ItemEntity spawnAtLocation(ItemStack stack) {
+        ItemEntity itementity = this.spawnAtLocation(stack, 0.0F);
+        if (itementity != null) {
+            itementity.setGlowingTag(true);
+            itementity.setUnlimitedLifetime();
+        }
+        return itementity;
     }
 
     protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {

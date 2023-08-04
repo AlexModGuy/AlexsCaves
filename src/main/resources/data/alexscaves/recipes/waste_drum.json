@@ -1,16 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SSS",
-    "ABA",
-    "SSS"
+    "UUU",
+    "UBU",
+    "UUU"
   ],
   "key": {
-    "S": {
-      "tag": "forge:dusts/sulfur"
-    },
-    "A": {
-      "item": "alexscaves:acid_bucket"
+    "U": {
+      "item": "alexscaves:unrefined_waste"
     },
     "B": {
       "item": "alexscaves:metal_barrel"

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "alexscaves:lanternfish"
+  },
+  "result": "alexscaves:cooked_lanternfish",
+  "experience": 0.15,
+  "cookingtime": 100
+}

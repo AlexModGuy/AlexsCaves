@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:raygun",
+            "nbt": "{UseTime:5,PrevUseTime:5}"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.raygun.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.raygun.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/uranium_rod",
+    "criteria": {
+        "raygun": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:raygun"]
+                    }
+                ]
+            }
+        }
+    }
+}

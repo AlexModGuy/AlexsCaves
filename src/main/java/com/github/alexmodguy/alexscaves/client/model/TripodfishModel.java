@@ -35,7 +35,7 @@ public class TripodfishModel extends AdvancedEntityModel<TripodfishEntity> {
         dorsalfin.setTextureOffset(0, 7).addBox(0.0F, -5.0F, -1.0F, 0.0F, 6.0F, 9.0F, 0.0F, false);
 
         bfin = new AdvancedModelBox(this);
-        bfin.setRotationPoint(0.5F, 2.0F, 3.75F);
+        bfin.setRotationPoint(0F, 2.0F, 3.75F);
         mainBody.addChild(bfin);
         bfin.setTextureOffset(22, 10).addBox(0.0F, -1.0F, -1.5F, 0.0F, 5.0F, 6.0F, 0.0F, false);
 

@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "active=false": [
+      {
+        "model": "alexscaves:block/nuclear_furnace_component"
+      }
+    ],
+    "active=true": [
+      {
+        "model": "alexscaves:block/active_nuclear_furnace"
+      }
+    ]
+  }
+}

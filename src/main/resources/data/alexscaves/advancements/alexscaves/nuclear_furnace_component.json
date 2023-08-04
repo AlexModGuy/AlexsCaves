@@ -1,0 +1,30 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:nuclear_furnace_component"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.nuclear_furnace_component.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.nuclear_furnace_component.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_brainiac",
+    "criteria": {
+        "raygun": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:nuclear_furnace_component"],
+                        "count": {
+                            "min": 8,
+                            "max": 64
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

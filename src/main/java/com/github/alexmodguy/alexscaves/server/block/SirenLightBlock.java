@@ -157,7 +157,6 @@ public class SirenLightBlock extends BaseEntityBlock {
         }
         return InteractionResult.PASS;
     }
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {

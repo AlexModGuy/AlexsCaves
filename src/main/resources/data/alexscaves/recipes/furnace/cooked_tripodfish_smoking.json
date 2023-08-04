@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "alexscaves:tripodfish"
+  },
+  "result": "alexscaves:cooked_tripodfish",
+  "experience": 0.15,
+  "cookingtime": 100
+}

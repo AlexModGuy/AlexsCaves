@@ -249,6 +249,9 @@ public class CommonProxy {
 
     public void resetRenderViewEntity() {
     }
+    public int getPlayerTime() {
+        return 0;
+    }
 
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {
 

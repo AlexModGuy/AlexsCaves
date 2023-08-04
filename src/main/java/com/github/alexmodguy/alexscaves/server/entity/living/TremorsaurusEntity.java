@@ -9,7 +9,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
-import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
+import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -512,7 +512,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     public boolean onFeedMixture(ItemStack itemStack, Player player) {
         if (itemStack.is(ACItemRegistry.SERENE_SALAD.get()) && this.hasEffect(ACEffectRegistry.STUNNED.get())) {
             this.removeEffect(ACEffectRegistry.STUNNED.get());
-            AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(this.getId(), this.getId(), 3, 0, true));
+            AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(this.getId(), this.getId(), 3, 0, true));
             if (!level().isClientSide) {
                 this.setTameAttempts(this.getTameAttempts() + 1);
                 if (this.getTameAttempts() > 3 && this.getRandom().nextInt(2) == 0 || this.getTameAttempts() > 8) {

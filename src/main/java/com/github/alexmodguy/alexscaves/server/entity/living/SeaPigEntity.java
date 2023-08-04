@@ -1,9 +1,13 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
@@ -23,6 +27,7 @@ import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
+import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -37,11 +42,13 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.List;
 
-public class SeaPigEntity extends WaterAnimal {
+public class SeaPigEntity extends WaterAnimal implements Bucketable {
 
+    private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData.defineId(SeaPigEntity.class, EntityDataSerializers.BOOLEAN);
     private float digestProgress;
     private float prevDigestProgress;
 
@@ -53,6 +60,12 @@ public class SeaPigEntity extends WaterAnimal {
         super(entityType, level);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.75F, 0.5F, false);
         this.setAirSupply(40);
+    }
+
+    @Override
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(FROM_BUCKET, false);
     }
 
     protected PathNavigation createNavigation(Level worldIn) {
@@ -173,7 +186,7 @@ public class SeaPigEntity extends WaterAnimal {
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         final ItemStack itemstack = player.getItemInHand(hand);
-        final InteractionResult type = super.mobInteract(player, hand);
+        final InteractionResult type = Bucketable.bucketMobPickup(player, hand, this).orElse(super.mobInteract(player, hand));
         if (itemstack.is(ACTagRegistry.SEA_PIG_DIGESTS) && !this.isDigesting() && !type.consumesAction()) {
             ItemStack copy = itemstack.copy();
             if (!player.getAbilities().instabuild) {
@@ -204,6 +217,68 @@ public class SeaPigEntity extends WaterAnimal {
         this.walkAnimation.update(f2, 0.4F);
 
     }
+
+    public void addAdditionalSaveData(CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.putBoolean("FromBucket", this.fromBucket());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
+        this.setFromBucket(compound.getBoolean("FromBucket"));
+    }
+
+    @Override
+    public void saveToBucketTag(@Nonnull ItemStack bucket) {
+        if (this.hasCustomName()) {
+            bucket.setHoverName(this.getCustomName());
+        }
+        CompoundTag platTag = new CompoundTag();
+        this.addAdditionalSaveData(platTag);
+        CompoundTag compound = bucket.getOrCreateTag();
+        compound.put("FishBucketTag", platTag);
+    }
+
+
+    public boolean requiresCustomPersistence() {
+        return super.requiresCustomPersistence() || this.fromBucket();
+    }
+
+    public boolean removeWhenFarAway(double dist) {
+        return !this.fromBucket() && !this.hasCustomName();
+    }
+
+    @Override
+    public boolean fromBucket() {
+        return this.entityData.get(FROM_BUCKET);
+    }
+
+    @Override
+    public void setFromBucket(boolean sit) {
+        this.entityData.set(FROM_BUCKET, sit);
+    }
+
+
+    @Override
+    public void loadFromBucketTag(@Nonnull CompoundTag compound) {
+        if (compound.contains("FishBucketTag")) {
+            this.readAdditionalSaveData(compound.getCompound("FishBucketTag"));
+        }
+        this.setAirSupply(2000);
+    }
+
+    @Override
+    public ItemStack getBucketItemStack() {
+        return new ItemStack(ACItemRegistry.SEA_PIG_BUCKET.get());
+    }
+
+    @Override
+    @Nonnull
+    public SoundEvent getPickupSound() {
+        return SoundEvents.BUCKET_FILL_FISH;
+    }
+
+
 
     private class WanderGoal extends Goal {
 

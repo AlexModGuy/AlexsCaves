@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:uranium"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:uranium_shard",
+    "count": 9
+  }
+}

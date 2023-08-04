@@ -1,7 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
+import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -38,7 +38,7 @@ public class PrimitiveClubItem extends Item {
         if (hurtEntity.getRandom().nextFloat() < 0.8F && !hurtEntity.level().isClientSide) {
             MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.STUNNED.get(), 200 + hurtEntity.getRandom().nextInt(200), 0, false, false);
             if (hurtEntity.addEffect(instance)) {
-                AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(hurtEntity.getId(), player.getId(), 3, instance.getDuration()));
+                AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(hurtEntity.getId(), player.getId(), 3, instance.getDuration()));
 
             }
         }

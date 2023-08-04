@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "alexscaves:tripodfish"
+  },
+  "result": "alexscaves:cooked_tripodfish",
+  "experience": 0.15,
+  "cookingtime": 200
+}

@@ -10,6 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,6 +23,7 @@ public abstract class FallingBlockEntityMixin extends Entity implements FallingB
 
     @Shadow
     public int time;
+    @Shadow private BlockState blockState;
     private static final EntityDataAccessor<Integer> FALL_BLOCK_TIME = SynchedEntityData.defineId(FallingBlockEntity.class, EntityDataSerializers.INT);
 
     public FallingBlockEntityMixin(EntityType<?> entityType, Level level) {
@@ -61,5 +63,9 @@ public abstract class FallingBlockEntityMixin extends Entity implements FallingB
 
     public void setFallBlockingTime() {
         entityData.set(FALL_BLOCK_TIME, 10);
+    }
+
+    public void setBlockState(BlockState blockStateIn) {
+        this.blockState = blockStateIn;
     }
 }

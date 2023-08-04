@@ -50,6 +50,7 @@
     [],
     [
       "alexscaves:metal_swarf_replace_mud",
+      "alexscaves:unrefined_waste_replace_mud",
       "minecraft:ore_dirt",
       "minecraft:ore_gravel",
       "minecraft:ore_granite_upper",

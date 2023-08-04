@@ -1,0 +1,14 @@
+{
+  "parent": "block/cube",
+  "render_type": "cutout_mipped",
+  "textures": {
+    "particle": "alexscaves:block/depth_glass_all",
+    "down": "alexscaves:block/depth_glass_left",
+    "up": "alexscaves:block/depth_glass_left",
+    "north": "alexscaves:block/depth_glass_right",
+    "east": "alexscaves:block/depth_glass_blank",
+    "south": "alexscaves:block/depth_glass_left",
+    "west": "alexscaves:block/depth_glass_blank"
+  }
+}
+

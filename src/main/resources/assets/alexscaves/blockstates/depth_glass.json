@@ -1,0 +1,24 @@
+{
+    "multipart": [
+        {   "apply": { "model": "alexscaves:block/depth_glass" }},
+
+        {   "when": { "up": "false" },
+            "apply": { "model": "alexscaves:block/depth_glass_up", "uvlock": false }
+        },
+        {   "when": { "down": "false" },
+            "apply": { "model": "alexscaves:block/depth_glass_down", "uvlock": false }
+        },
+        {   "when": { "east": "false" },
+            "apply": { "model": "alexscaves:block/depth_glass_right", "y" : 0, "uvlock": false }
+        },
+        {   "when": { "west": "false" },
+            "apply": { "model": "alexscaves:block/depth_glass_left", "y" : 0, "uvlock": false }
+        },
+        {   "when": { "north": "false" },
+            "apply": { "model": "alexscaves:block/depth_glass_left", "y" : 90, "uvlock": false }
+        },
+        {   "when": { "south": "false" },
+            "apply": { "model": "alexscaves:block/depth_glass_right", "y" : 90, "uvlock": false }
+        }
+    ]
+}

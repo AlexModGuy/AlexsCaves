@@ -12,5 +12,6 @@ public class ACMenuRegistry {
     public static final DeferredRegister<MenuType<?>> DEF_REG = DeferredRegister.create(ForgeRegistries.MENU_TYPES, AlexsCaves.MODID);
 
     public static final RegistryObject<MenuType<SpelunkeryTableMenu>> SPELUNKERY_TABLE_MENU = DEF_REG.register("spelunkery_table_menu", () -> new MenuType<SpelunkeryTableMenu>(SpelunkeryTableMenu::new, FeatureFlags.DEFAULT_FLAGS));
+    public static final RegistryObject<MenuType<NuclearFurnaceMenu>> NUCLEAR_FURNACE_MENU = DEF_REG.register("nuclear_furnace_menu", () -> new MenuType<NuclearFurnaceMenu>(NuclearFurnaceMenu::new, FeatureFlags.DEFAULT_FLAGS));
 
 }

@@ -10,6 +10,7 @@ import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -177,15 +178,18 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable()));
     public static final RegistryObject<Block> POTTED_UNDERWEED = registerBlockAndItem("potted_underweed", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, UNDERWEED, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
-    public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock());
+    public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock(), 5);
     public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> RUSTY_SCRAP_METAL_PLATE = registerBlockAndItem("rusty_scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
     public static final RegistryObject<Block> RUSTY_BARREL = registerBlockAndItem("rusty_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> RUSTY_REBAR = registerBlockAndItem("rusty_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);
-    public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock(), 4);
+    public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock());
     public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumOreBlock(), 4);
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
+    public static final RegistryObject<Block> UNREFINED_WASTE = registerBlockAndItem("unrefined_waste", () -> new UnrefinedWasteBlock(), 4);
+    public static final RegistryObject<Block> NUCLEAR_FURNACE_COMPONENT = registerBlockAndItem("nuclear_furnace_component", () -> new NuclearFurnaceComponentBlock());
+    public static final RegistryObject<Block> NUCLEAR_FURNACE = DEF_REG.register("nuclear_furnace", () -> new NuclearFurnaceBlock());
     public static final RegistryObject<Block> SULFUR = registerBlockAndItem("sulfur", () -> new SulfurBlock());
     public static final RegistryObject<Block> SULFUR_BUD_SMALL = registerBlockAndItem("sulfur_bud_small", () -> new SulfurBudBlock(6, 4));
     public static final RegistryObject<Block> SULFUR_BUD_MEDIUM = registerBlockAndItem("sulfur_bud_medium", () -> new SulfurBudBlock(6, 8));
@@ -243,8 +247,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> MIDNIGHT_ANEMONE = registerBlockAndItem("midnight_anemone", () -> new OceanFloraBlock());
     public static final RegistryObject<Block> MUSSEL = registerBlockAndItem("mussel", () -> new MusselBlock());
     public static final RegistryObject<Block> DRAIN = registerBlockAndItem("drain", () -> new DrainBlock());
-    public static final RegistryObject<Block> SEA_GLASS = registerBlockAndItem("sea_glass", () -> new SeaGlassBlock());
+    public static final RegistryObject<Block> DEPTH_GLASS = registerBlockAndItem("depth_glass", () -> new DepthGlassBlock());
     public static final RegistryObject<Block> COPPER_VALVE = registerBlockAndItem("copper_valve", () -> new CopperValveBlock(), 3);
+    public static final RegistryObject<Block> ENIGMATIC_ENGINE = registerBlockAndItem("enigmatic_engine", () -> new EnigmaticEngineBlock(), 6);
     public static final RegistryObject<Block> GUANO_BLOCK = registerBlockAndItem("guano_block", () -> new GuanoBlock());
     public static final RegistryObject<Block> GUANO_LAYER = registerBlockAndItem("guano_layer", () -> new GuanoLayerBlock());
     public static final RegistryObject<Block> GUANOSTONE = registerBlockAndItem("guanostone", () -> new Block(GUANOSTONE_PROPERTIES));
@@ -312,6 +317,10 @@ public class ACBlockRegistry {
                 return () -> new BlockItemWithISTER(blockObj, new Item.Properties());
             case 4:
                 return () -> new RadioactiveBlockItem(blockObj, new Item.Properties(), 0.001F);
+            case 5:
+                return () -> new RadioactiveOnDestroyedBlockItem(blockObj, new Item.Properties(), 0.01F);
+            case 6:
+                return () -> new BlockItemWithSupplier(blockObj, new Item.Properties().rarity(Rarity.UNCOMMON));
         }
     }
 

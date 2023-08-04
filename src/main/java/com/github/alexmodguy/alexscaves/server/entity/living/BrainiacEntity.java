@@ -15,6 +15,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -231,11 +232,18 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
 
     protected void dropEquipment() {
         super.dropEquipment();
-        if (this.hasBarrel()) {
+        if (this.hasBarrel() && shouldDropBlocks()) {
             this.spawnAtLocation(new ItemStack(ACBlockRegistry.WASTE_DRUM.get()));
         }
     }
 
+    private boolean shouldDropBlocks() {
+        DamageSource lastDamageSource = getLastDamageSource();
+        if (lastDamageSource != null) {
+            return lastDamageSource.getEntity() != null || lastDamageSource.getDirectEntity() != null;
+        }
+        return false;
+    }
 
     public void postAttackEffect(LivingEntity entity) {
         if (entity != null && entity.isAlive()) {

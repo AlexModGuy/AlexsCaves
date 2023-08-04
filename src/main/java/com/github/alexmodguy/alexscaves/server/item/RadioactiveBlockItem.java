@@ -1,7 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntity;
+import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -29,7 +29,7 @@ public class RadioactiveBlockItem extends BlockItemWithSupplier {
             if (!living.hasEffect(ACEffectRegistry.IRRADIATED.get()) && level.random.nextFloat() < stackChance * hazmatMultiplier) {
                 MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 1800);
                 living.addEffect(instance);
-                AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntity(entity.getId(), entity.getId(), 0, instance.getDuration()));
+                AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(entity.getId(), entity.getId(), 0, instance.getDuration()));
             }
         }
     }

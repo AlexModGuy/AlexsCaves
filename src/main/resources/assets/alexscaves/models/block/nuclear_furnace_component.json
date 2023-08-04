@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "alexscaves:block/nuclear_furnace_component_top",
+    "side": "alexscaves:block/nuclear_furnace_component"
+  }
+}

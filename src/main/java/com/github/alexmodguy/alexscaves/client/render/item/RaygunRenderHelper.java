@@ -1,14 +1,14 @@
 package com.github.alexmodguy.alexscaves.client.render.item;
 
+import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.item.RaygunItem;
-import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.FishingHookRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -17,92 +17,81 @@ import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.ForgeRenderTypes;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class RaygunRenderHelper {
 
     private static final ResourceLocation RAYGUN_RAY = new ResourceLocation("alexscaves:textures/entity/raygun_ray.png");
-    private static void renderRay(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 vec3, float useAmount, float offset) {
-        float f2 = -1.0F * (offset * 0.15F % 1.0F);
+    private static void renderRay(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 vec3, float useAmount, float offset, boolean irradiated) {
+        float f2 = -1.0F * (offset * 0.25F % 1.0F);
         poseStack.pushPose();
-        float f4 = (float) (vec3.length());
+        float length = (float) (vec3.length());
         vec3 = vec3.normalize();
         float f5 = (float) Math.acos(vec3.y);
         float f6 = (float) Math.atan2(vec3.z, vec3.x);
         poseStack.mulPose(Axis.YP.rotationDegrees(((Mth.PI / 2F) - f6) * Mth.RAD_TO_DEG));
         poseStack.mulPose(Axis.XP.rotationDegrees(f5 * Mth.RAD_TO_DEG));
+        poseStack.mulPose(Axis.YP.rotationDegrees(offset * 3.0F));
         float f8 = 1F;
         int j = (int) (f8 * 255.0F);
         int k = (int) (f8 * 255.0F);
         int l = (int) (f8 * 255.0F);
-        float f11 = Mth.cos(0 + 2.3561945F) * 0.8F;
-        float f12 = Mth.sin(0 + 2.3561945F) * 0.8F;
-        float f13 = Mth.cos(0 + ACMath.QUARTER_PI) * 0.8F;
-        float f14 = Mth.sin(0 + ACMath.QUARTER_PI) * 0.8F;
-        float f15 = Mth.cos(0 + 3.926991F) * 0.8F;
-        float f16 = Mth.sin(0 + 3.926991F) * 0.8F;
-        float f17 = Mth.cos(0 + 5.4977875F) * 0.8F;
-        float f18 = Mth.sin(0 + 5.4977875F) * 0.8F;
-        float f19 = Mth.cos(0 + Mth.PI) * 0.4F;
-        float f20 = Mth.sin(0 + Mth.PI) * 0.4F;
-        float f21 = Mth.cos(0 + 0.0F) * 0.4F;
-        float f22 = Mth.sin(0 + 0.0F) * 0.4F;
-        float f23 = Mth.cos(0 + (Mth.PI / 2F)) * 0.4F;
-        float f24 = Mth.sin(0 + (Mth.PI / 2F)) * 0.4F;
-        float f25 = Mth.cos(0 + (Mth.PI * 1.5F)) * 0.4F;
-        float f26 = Mth.sin(0 + (Mth.PI * 1.5F)) * 0.4F;
-        float f29 = -1.0F + f2;
-        float f30 = f4 * 1F + f29;
-        VertexConsumer ivertexbuilder = bufferSource.getBuffer(ForgeRenderTypes.getUnlitTranslucent(RAYGUN_RAY));
+        float v = -1.0F + f2;
+        float v1 = length * 1F + v;
+        float endWidth = 1.3F;
+        float startMiddle = 0;
+        if(irradiated){
+            ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
+        }
+        VertexConsumer ivertexbuilder = bufferSource.getBuffer(ACRenderTypes.getRaygunRay(RAYGUN_RAY, irradiated));
         PoseStack.Pose matrixstack$entry = poseStack.last();
         Matrix4f matrix4f = matrixstack$entry.pose();
         Matrix3f matrix3f = matrixstack$entry.normal();
 
-        vertex(ivertexbuilder, matrix4f, matrix3f, f19, f4, f20, j, k, l, 1F, f30);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f19, 0.0F, f20, j, k, l, 1F, f29);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f21, 0.0F, f22, j, k, l, 0.0F, f29);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f21, f4, f22, j, k, l, 0.0F, f30);
+        vertex(ivertexbuilder, matrix4f, matrix3f, startMiddle, 0.0F, 0, j, k, l, 0.5F, v);
+        vertex(ivertexbuilder, matrix4f, matrix3f, -endWidth, length, 0, j, k, l, 0.0F, v1);
+        vertex(ivertexbuilder, matrix4f, matrix3f, endWidth, length, 0, j, k, l, 1.0F, v1);
 
-        vertex(ivertexbuilder, matrix4f, matrix3f, f23, f4, f24, j, k, l, 1F, f30);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f23, 0.0F, f24, j, k, l, 1F, f29);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f25, 0.0F, f26, j, k, l, 0.0F, f29);
-        vertex(ivertexbuilder, matrix4f, matrix3f, f25, f4, f26, j, k, l, 0.0F, f30);
+        vertex(ivertexbuilder, matrix4f, matrix3f, 0, 0.0F, startMiddle, j, k, l, 0.5F, v);
+        vertex(ivertexbuilder, matrix4f, matrix3f, 0, length, endWidth, j, k, l, 1F, v1);
+        vertex(ivertexbuilder, matrix4f, matrix3f, 0, length, -endWidth, j, k, l, 0F, v1);
         poseStack.popPose();
     }
 
-    private static void vertex(VertexConsumer p_229108_0_, Matrix4f p_229108_1_, Matrix3f p_229108_2_, float p_229108_3_, float p_229108_4_, float p_229108_5_, int p_229108_6_, int p_229108_7_, int p_229108_8_, float u, float v) {
-        p_229108_0_.vertex(p_229108_1_, p_229108_3_, p_229108_4_, p_229108_5_).color(p_229108_6_, p_229108_7_, p_229108_8_, 255).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(240).normal(p_229108_2_, 0.0F, 1.0F, 0.0F).endVertex();
+    private static void vertex(VertexConsumer p_229108_0_, Matrix4f p_229108_1_, Matrix3f p_229108_2_, float x, float y, float z, int p_229108_6_, int p_229108_7_, int p_229108_8_, float u, float v) {
+        p_229108_0_.vertex(p_229108_1_, x, y, z).color(p_229108_6_, p_229108_7_, p_229108_8_, 255).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(240).normal(p_229108_2_, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     public static void renderRaysFor(LivingEntity entity,  Vec3 rayFrom, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, boolean firstPerson) {
-        if (entity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof RaygunItem) {
+        if (entity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof RaygunItem && entity.isUsingItem()) {
             ItemStack stack = entity.getItemInHand(InteractionHand.MAIN_HAND);
             float useRaygunAmount = RaygunItem.getUseTime(stack) / 5F;
             float ageInTicks = entity.tickCount + partialTick;
             float up = firstPerson ? 0F : entity.getEyeHeight();
             Vec3 rayPosition = RaygunItem.getLerpedRayPosition(stack, partialTick);
-            if (rayPosition != null) {
+            if (rayPosition != null && RaygunItem.getUseTime(stack) >= 5F) {
                 Vec3 gunPos = getGunOffset(entity, partialTick, firstPerson, entity.getMainArm() == HumanoidArm.LEFT);
                 Vec3 vec3 = rayPosition.subtract(rayFrom.add(gunPos));
                 poseStack.pushPose();
                 poseStack.translate(gunPos.x, gunPos.y, gunPos.z);
-                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks);
+                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
+                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
                 poseStack.popPose();
             }
         }
-        if (entity.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof RaygunItem) {
+        if (entity.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof RaygunItem && entity.isUsingItem()) {
             ItemStack stack = entity.getItemInHand(InteractionHand.OFF_HAND);
             float useRaygunAmount = RaygunItem.getUseTime(stack) / 5F;
             float ageInTicks = entity.tickCount + partialTick;
             Vec3 rayPosition = RaygunItem.getLerpedRayPosition(stack, partialTick);
-            if (rayPosition != null) {
+            if (rayPosition != null && RaygunItem.getUseTime(stack) >= 5F) {
                 Vec3 gunPos = getGunOffset(entity, partialTick, firstPerson, entity.getMainArm() == HumanoidArm.RIGHT);
                 Vec3 vec3 = rayPosition.subtract(rayFrom.add(gunPos));
                 poseStack.pushPose();
                 poseStack.translate(gunPos.x, gunPos.y, gunPos.z);
-                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks);
+                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
+                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
                 poseStack.popPose();
             }
         }

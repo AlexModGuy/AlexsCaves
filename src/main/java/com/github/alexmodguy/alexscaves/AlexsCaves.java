@@ -131,8 +131,9 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, PlayerJumpFromMagnetMessage.class, PlayerJumpFromMagnetMessage::write, PlayerJumpFromMagnetMessage::read, PlayerJumpFromMagnetMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MountedEntityKeyMessage.class, MountedEntityKeyMessage::write, MountedEntityKeyMessage::read, MountedEntityKeyMessage::handle);
-        NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateEffectVisualityEntity.class, UpdateEffectVisualityEntity::write, UpdateEffectVisualityEntity::read, UpdateEffectVisualityEntity::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateEffectVisualityEntityMessage.class, UpdateEffectVisualityEntityMessage::write, UpdateEffectVisualityEntityMessage::read, UpdateEffectVisualityEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, WatcherKeyMessage.class, WatcherKeyMessage::write, WatcherKeyMessage::read, WatcherKeyMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateItemTagMessage.class, UpdateItemTagMessage::write, UpdateItemTagMessage::read, UpdateItemTagMessage::handle);
         ACSurfaceRules.setup();
         ACEffectRegistry.setup();
         ACBlockRegistry.setup();

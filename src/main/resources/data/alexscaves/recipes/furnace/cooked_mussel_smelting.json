@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "alexscaves:mussel"
+  },
+  "result": "alexscaves:cooked_mussel",
+  "experience": 0.15,
+  "cookingtime": 200
+}

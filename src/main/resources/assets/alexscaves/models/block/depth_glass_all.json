@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "render_type": "cutout_mipped",
+  "textures": {
+    "all": "alexscaves:block/depth_glass_all"
+  }
+}

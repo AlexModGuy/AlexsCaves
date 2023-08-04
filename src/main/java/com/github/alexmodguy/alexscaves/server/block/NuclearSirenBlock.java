@@ -1,11 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -77,6 +75,17 @@ public class NuclearSirenBlock extends BaseEntityBlock implements SimpleWaterlog
         if (!worldIn.isClientSide) {
             this.updateState(state, worldIn, pos, blockIn);
         }
+    }
+
+    public boolean hasAnalogOutputSignal(BlockState state) {
+        return true;
+    }
+
+    public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+        if(level.getBlockEntity(pos) instanceof NuclearSirenBlockEntity nuclearSirenBlock){
+            return nuclearSirenBlock.isActivated(state) ? 15 : 0;
+        }
+        return 0;
     }
 
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {

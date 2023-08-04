@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.gui.ACAdvancementTabs;
+import com.github.alexmodguy.alexscaves.client.gui.NuclearFurnaceScreen;
 import com.github.alexmodguy.alexscaves.client.gui.SpelunkeryTableScreen;
 import com.github.alexmodguy.alexscaves.client.model.baked.BakedModelShadeLayerFullbright;
 import com.github.alexmodguy.alexscaves.client.particle.*;
@@ -70,7 +71,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.AABB;
@@ -149,6 +149,7 @@ public class ClientProxy extends CommonProxy {
         BlockEntityRenderers.register(ACBlockEntityRegistry.QUARRY.get(), QuarryBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBERSOL.get(), AmbersolBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.AMBER_MONOLITH.get(), AmberMonolithBlockRenderer::new);
+        BlockEntityRenderers.register(ACBlockEntityRegistry.NUCLEAR_FURNACE.get(), NuclearFurnaceBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.SIREN_LIGHT.get(), SirenLightBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.ABYSSAL_ALTAR.get(), AbyssalAltarBlockRenderer::new);
         BlockEntityRenderers.register(ACBlockEntityRegistry.COPPER_VALVE.get(), CopperValveBlockRenderer::new);
@@ -197,6 +198,9 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.WAVE.get(), WaveRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MINE_GUARDIAN.get(), MineGuardianRenderer::new);
         EntityRenderers.register(ACEntityRegistry.MINE_GUARDIAN_ANCHOR.get(), MineGuardianAnchorRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.DEPTH_CHARGE.get(), (context) -> {
+            return new ThrownItemRenderer<>(context, 1.75F, true);
+        });
         EntityRenderers.register(ACEntityRegistry.FALLING_GUANO.get(), FallingBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.GLOOMOTH.get(), GloomothRenderer::new);
         EntityRenderers.register(ACEntityRegistry.UNDERZEALOT.get(), UnderzealotRenderer::new);
@@ -234,7 +238,8 @@ public class ClientProxy extends CommonProxy {
         ACPostEffectRegistry.registerEffect(IRRADIATED_SHADER);
         ACPostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
         MenuScreens.register(ACMenuRegistry.SPELUNKERY_TABLE_MENU.get(), SpelunkeryTableScreen::new);
-        hasACSplashText = random.nextInt(9) == 0;
+        MenuScreens.register(ACMenuRegistry.NUCLEAR_FURNACE_MENU.get(), NuclearFurnaceScreen::new);
+        hasACSplashText = random.nextInt(30) == 0;
     }
 
     public static void setupParticles(RegisterParticleProvidersEvent registry) {
@@ -270,6 +275,8 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.NUCLEAR_SIREN_SONAR.get(), NuclearSirenSonarParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.RAYGUN_EXPLOSION.get(), SmallExplosionParticle.RaygunFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.RAYGUN_BLAST.get(), RaygunBlastParticle.Factory::new);
         registry.registerSpecial(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
         registry.registerSpriteSet(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
@@ -334,7 +341,7 @@ public class ClientProxy extends CommonProxy {
             magnetic.resetMagnetHeadRotation();
         }
         if (!Minecraft.getInstance().options.getCameraType().isFirstPerson() || Minecraft.getInstance().cameraEntity == null || !event.getEntity().is(Minecraft.getInstance().cameraEntity)) {
-            RaygunRenderHelper.renderRaysFor(entity, entity.getEyePosition(partialTick), event.getPoseStack(), event.getMultiBufferSource(), partialTick, false);
+            RaygunRenderHelper.renderRaysFor(entity, entity.getPosition(partialTick), event.getPoseStack(), event.getMultiBufferSource(), partialTick, false);
         }
     }
 
@@ -577,12 +584,14 @@ public class ClientProxy extends CommonProxy {
             float useProgress = Math.min(5F, leftHandRaygunUseProgress) / 5F;
             event.getModel().leftArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(80F)) * useProgress;
             event.getModel().leftArm.yRot = event.getModel().head.yRot * useProgress;
+            event.getModel().leftArm.zRot = 0;
             event.setResult(Event.Result.ALLOW);
         }
         if (rightHandRaygunUseProgress > 0.0F) {
             float useProgress = Math.min(5F, rightHandRaygunUseProgress) / 5F;
             event.getModel().rightArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(80F)) * useProgress;
             event.getModel().rightArm.yRot = event.getModel().head.yRot * useProgress;
+            event.getModel().rightArm.zRot = 0;
             event.setResult(Event.Result.ALLOW);
         }
     }
@@ -1043,6 +1052,10 @@ public class ClientProxy extends CommonProxy {
                 Minecraft.getInstance().getSoundManager().play(closestSirenSound);
             }
         }
+    }
+
+    public int getPlayerTime() {
+        return Minecraft.getInstance().player == null ? 0 : Minecraft.getInstance().player.tickCount;
     }
 
     public void preScreenRender(float partialTick) {

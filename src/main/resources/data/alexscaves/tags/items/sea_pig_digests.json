@@ -1,5 +1,7 @@
 {
   "values": [
-    "minecraft:clay_ball"
+    "minecraft:clay_ball",
+    "minecraft:mud",
+    "alexscaves:muck"
   ]
 }

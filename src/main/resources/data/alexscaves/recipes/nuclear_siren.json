@@ -1,16 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SUS",
-    " S ",
-    " S "
+    "CUC",
+    " I ",
+    " I "
   ],
   "key": {
-    "S": {
-      "item": "alexscaves:scrap_metal"
+    "C": {
+      "item": "alexscaves:charred_remnant"
     },
     "U": {
       "tag": "forge:raw_materials/uranium"
+    },
+    "I": {
+      "tag": "forge:ingots/iron"
     }
   },
   "result": {

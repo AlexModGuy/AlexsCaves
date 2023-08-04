@@ -21,4 +21,11 @@ public class ACFoods {
     public static final FoodProperties SLAM = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.5F).meat().effect(() -> new MobEffectInstance(MobEffects.DAMAGE_BOOST, 400), 1.0F).build();
     public static final FoodProperties SOYLENT_GREEN = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.35F).meat().build();
 
+    public static final FoodProperties LANTERNFISH = (new FoodProperties.Builder()).nutrition(1).saturationMod(0.175F).fast().build();
+    public static final FoodProperties LANTERNFISH_COOKED = (new FoodProperties.Builder()).nutrition(2).saturationMod(0.3F).fast().build();
+    public static final FoodProperties TRIPODFISH = (new FoodProperties.Builder()).nutrition(2).saturationMod(0.2F).build();
+    public static final FoodProperties TRIPODFISH_COOKED = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.34F).fast().build();
+    public static final FoodProperties SEA_PIG = (new FoodProperties.Builder()).nutrition(1).saturationMod(0.2F).effect(() -> new MobEffectInstance(MobEffects.HUNGER, 1200), 0.7F).build();
+    public static final FoodProperties MUSSEL_COOKED = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.3F).fast().build();
+
 }

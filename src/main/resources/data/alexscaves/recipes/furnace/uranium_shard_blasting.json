@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "alexscaves:unrefined_waste"
+  },
+  "result": "alexscaves:uranium_shard",
+  "experience": 1.0,
+  "cookingtime": 100
+}
