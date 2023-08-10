@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " P ",
+    "AAA",
+    " A "
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:abyssmarine"
+    },
+    "P": {
+      "item": "alexscaves:pearl"
+    }
+  },
+  "result": {
+    "item": "alexscaves:abyssal_altar"
+  }
+}

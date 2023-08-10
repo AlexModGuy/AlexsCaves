@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
@@ -129,7 +130,7 @@ public class MineExplosion {
                         for (float f1 = 0.3F; f > 0.0F; f -= 0.22500001F) {
                             BlockPos blockpos = BlockPos.containing(d4, d6, d8);
                             BlockState blockstate = this.level.getBlockState(blockpos);
-                            if (!this.level.isInWorldBounds(blockpos)) {
+                            if (!this.level.isInWorldBounds(blockpos) || blockstate.is(ACTagRegistry.UNMOVEABLE)) {
                                 break;
                             }
 
@@ -221,7 +222,7 @@ public class MineExplosion {
             for (BlockPos blockpos : this.toBlow) {
                 BlockState blockstate = this.level.getBlockState(blockpos);
                 Block block = blockstate.getBlock();
-                if (!blockstate.isAir()) {
+                if (!blockstate.isAir() ) {
                     BlockPos blockpos1 = blockpos.immutable();
                     this.level.getProfiler().push("explosion_blocks");
                     Level $$9 = this.level;

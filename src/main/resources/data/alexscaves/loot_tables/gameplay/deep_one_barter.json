@@ -117,6 +117,11 @@
         },
         {
           "type": "item",
+          "name": "alexscaves:gazing_pearl",
+          "weight": 8
+        },
+        {
+          "type": "item",
           "name": "alexscaves:rusty_barrel",
           "weight": 1
         },

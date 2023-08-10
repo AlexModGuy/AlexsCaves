@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/deep_sea_sushi_roll"
+  }
+}

@@ -25,7 +25,6 @@ public abstract class AbstractArrowMixin extends Projectile {
 
     @Inject(
             method = {"Lnet/minecraft/world/entity/projectile/AbstractArrow;canHitEntity(Lnet/minecraft/world/entity/Entity;)Z"},
-            remap = true,
             cancellable = true,
             at = @At(value = "HEAD")
     )
@@ -37,7 +36,6 @@ public abstract class AbstractArrowMixin extends Projectile {
 
     @Inject(
             method = {"Lnet/minecraft/world/entity/projectile/AbstractArrow;<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;)V"},
-            remap = true,
             at = @At(value = "TAIL")
     )
     private void ac_playerConstructor(EntityType arrowEntityType, LivingEntity shooter, Level level, CallbackInfo ci) {

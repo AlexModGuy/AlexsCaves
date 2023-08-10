@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "alexscaves:block/thornwood/thornwood_branch"
+    "layer0": "alexscaves:item/thornwood_branch"
   }
 }

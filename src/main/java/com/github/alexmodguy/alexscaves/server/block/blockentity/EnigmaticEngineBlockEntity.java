@@ -75,7 +75,6 @@ public class EnigmaticEngineBlockEntity extends BlockEntity {
                 if (windowPos.contains(pos) || pos.equals(this.getBlockPos())) {
                     continue;
                 } else if (!level.getBlockState(pos).is(ACTagRegistry.SUBMARINE_ASSEMBLY_BLOCKS)) {
-                    System.out.println(level.getBlockState(pos));
                     return false;
                 }
             }

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "alexscaves:block/thornwood/thornwood_branch_top"
+  }
+}

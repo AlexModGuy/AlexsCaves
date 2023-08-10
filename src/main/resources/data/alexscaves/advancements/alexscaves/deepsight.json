@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "citadel:effect_item",
+      "nbt": "{DisplayEffect:\"alexscaves:deepsight\"}"
+    },
+    "title": {
+      "translate": "advancements.alexsmobs.deepsight.title"
+    },
+    "description": {
+      "translate": "advancements.alexsmobs.deepsight.desc"
+    }
+  },
+  "parent": "alexsmobs:alexsmobs/abyssal_bucket",
+  "criteria": {
+    "all_effects": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "alexscaves:deepsight": {}
+        }
+      }
+    }
+  }
+}

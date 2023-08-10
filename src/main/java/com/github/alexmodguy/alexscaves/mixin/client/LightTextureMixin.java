@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
+import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
@@ -11,6 +12,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.util.CubicSampler;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.Vec3;
@@ -33,7 +35,7 @@ public class LightTextureMixin {
     private static void ac_getBrightness(DimensionType dimensionType, int lightTextureIndex, CallbackInfoReturnable<Float> cir) {
         if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()) {
             float f = calculateBiomeAmbientLight(Minecraft.getInstance().player);
-            if (Minecraft.getInstance().getCameraEntity() instanceof WatcherEntity) {
+            if (Minecraft.getInstance().getCameraEntity() instanceof PossessesCamera || Minecraft.getInstance().getCameraEntity() instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get())) {
                 f = Math.max(f, 0.35F);
             }
             if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get()) && Minecraft.getInstance().player.isUnderWater()) {

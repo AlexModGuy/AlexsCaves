@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "D D",
+    "DOD",
+    "DDD"
+  ],
+  "key": {
+    "D": {
+      "item": "alexscaves:dark_tatters"
+    },
+    "O": {
+      "item": "alexscaves:occult_gem"
+    }
+  },
+  "result": {
+    "item": "alexscaves:cloak_of_darkness"
+  }
+}

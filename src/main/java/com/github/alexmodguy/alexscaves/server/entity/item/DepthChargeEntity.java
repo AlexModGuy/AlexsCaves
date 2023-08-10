@@ -9,6 +9,7 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Explosion;
@@ -65,7 +66,23 @@ public class DepthChargeEntity extends ThrowableItemProjectile {
     }
 
     public void tick(){
-        super.tick();
+        this.baseTick();
+        this.checkInsideBlocks();
+        if(!this.isNoGravity()){
+            this.setDeltaMovement(this.getDeltaMovement().add(0, -0.05F, 0));
+        }
+        this.move(MoverType.SELF, this.getDeltaMovement());
+        this.updateRotation();
+        this.setDeltaMovement(this.getDeltaMovement().scale(0.99F));
+        if(this.onGround() || this.horizontalCollision || this.verticalCollision){
+            hitGround = true;
+        }
+        if (this.isInWater()) {
+            for(int i = 0; i < 4; ++i) {
+                float f1 = 0.25F;
+                this.level().addParticle(ParticleTypes.BUBBLE, this.getX(), this.getY(0.5F), this.getZ(), 0, 0, 0);
+            }
+        }
         if(hitGround){
             this.setDeltaMovement(this.getDeltaMovement().multiply(0, 0, 0));
             if(groundTime++ > 30){

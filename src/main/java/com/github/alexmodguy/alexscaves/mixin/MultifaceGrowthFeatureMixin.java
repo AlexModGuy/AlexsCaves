@@ -14,7 +14,6 @@ public class MultifaceGrowthFeatureMixin {
 
     @Inject(
             method = {"Lnet/minecraft/world/level/levelgen/feature/MultifaceGrowthFeature;place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z"},
-            remap = true,
             cancellable = true,
             at = @At(value = "HEAD")
     )

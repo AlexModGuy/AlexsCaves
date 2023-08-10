@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GG",
+    " G"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:thin_bone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:bone_ribs",
+    "count": 1
+  }
+}

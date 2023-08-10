@@ -49,6 +49,7 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> BIG_SPLASH = DEF_REG.register("big_splash", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BIG_SPLASH_EFFECT = DEF_REG.register("big_splash_effect", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MINE_EXPLOSION = DEF_REG.register("mine_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> BIO_POP = DEF_REG.register("bio_pop", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WATCHER_APPEARANCE = DEF_REG.register("watcher_appearance", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> VOID_BEING_CLOUD = DEF_REG.register("void_being_cloud", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> VOID_BEING_TENDRIL = DEF_REG.register("void_being_tendril", () -> new SimpleParticleType(false));
@@ -56,6 +57,7 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> UNDERZEALOT_MAGIC = DEF_REG.register("underzealot_magic", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> UNDERZEALOT_EXPLOSION = DEF_REG.register("underzealot_explosion", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FALLING_GUANO = DEF_REG.register("falling_guano", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> MOTH_DUST = DEF_REG.register("moth_dust", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SPIT = DEF_REG.register("forsaken_spit", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR = DEF_REG.register("forsaken_sonar", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR_LARGE = DEF_REG.register("forsaken_sonar_large", () -> new SimpleParticleType(false));

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:deep_sea_sushi_roll"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.deep_sea_sushi_roll.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.deep_sea_sushi_roll.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/abyssal_bucket",
+    "criteria": {
+        "deep_sea_sushi_roll": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:deep_sea_sushi_roll"]
+                    }
+                ]
+            }
+        }
+    }
+}

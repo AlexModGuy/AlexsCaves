@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:bioluminescent_torch"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.bioluminescent_torch.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.bioluminescent_torch.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/bioluminesscence",
+    "criteria": {
+        "bioluminescent_torch": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:bioluminescent_torch"]
+                    }
+                ]
+            }
+        }
+    }
+}

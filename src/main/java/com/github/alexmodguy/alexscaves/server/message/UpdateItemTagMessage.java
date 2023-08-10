@@ -39,18 +39,21 @@ public class UpdateItemTagMessage {
         if (context.get().getDirection().getReceptionSide() == LogicalSide.CLIENT) {
             playerSided = AlexsCaves.PROXY.getClientSidePlayer();
         }
-        Entity holder = playerSided.level().getEntity(message.entityId);
+        if(playerSided != null){
 
-        if (holder instanceof LivingEntity living) {
-            ItemStack stackFrom = message.itemStackFrom;
-            ItemStack to = null;
-            if(living.getItemInHand(InteractionHand.MAIN_HAND).is(stackFrom.getItem())){
-                to = living.getItemInHand(InteractionHand.MAIN_HAND);
-            }else if(living.getItemInHand(InteractionHand.OFF_HAND).is(stackFrom.getItem())){
-                to = living.getItemInHand(InteractionHand.OFF_HAND);
-            }
-            if(to != null && stackFrom.getTag() != null){
-                to.setTag(stackFrom.getTag());
+            Entity holder = playerSided.level().getEntity(message.entityId);
+
+            if (holder instanceof LivingEntity living) {
+                ItemStack stackFrom = message.itemStackFrom;
+                ItemStack to = null;
+                if(living.getItemInHand(InteractionHand.MAIN_HAND).is(stackFrom.getItem())){
+                    to = living.getItemInHand(InteractionHand.MAIN_HAND);
+                }else if(living.getItemInHand(InteractionHand.OFF_HAND).is(stackFrom.getItem())){
+                    to = living.getItemInHand(InteractionHand.OFF_HAND);
+                }
+                if(to != null && stackFrom.getTag() != null){
+                    to.setTag(stackFrom.getTag());
+                }
             }
         }
     }

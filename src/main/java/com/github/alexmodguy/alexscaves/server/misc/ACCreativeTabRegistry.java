@@ -310,18 +310,23 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.BIOLUMINESSCENCE.get());
                 add(output, ACItemRegistry.PEARL.get());
                 add(output, ACItemRegistry.COOKED_MUSSEL.get());
+                add(output, ACItemRegistry.DEEP_SEA_SUSHI_ROLL.get());
                 add(output, ACItemRegistry.SEA_GLASS_SHARDS.get());
                 add(output, ACItemRegistry.SUBMARINE.get());
                 add(output, ACItemRegistry.DIVING_HELMET.get());
                 add(output, ACItemRegistry.DIVING_CHESTPLATE.get());
                 add(output, ACItemRegistry.DIVING_LEGGINGS.get());
                 add(output, ACItemRegistry.DIVING_BOOTS.get());
+                add(output, ACItemRegistry.FLOATER.get());
+                add(output, ACItemRegistry.GAZING_PEARL.get());
                 add(output, ACItemRegistry.INK_BOMB.get());
                 add(output, ACItemRegistry.GLOW_INK_BOMB.get());
                 add(output, ACItemRegistry.ORTHOLANCE.get());
                 add(output, ACItemRegistry.MAGIC_CONCH.get());
                 add(output, ACItemRegistry.SEA_STAFF.get());
                 add(output, ACItemRegistry.DEPTH_CHARGE.get());
+                add(output, ACItemRegistry.GUARDIAN_POTTERY_SHERD.get());
+                add(output, ACItemRegistry.HERO_POTTERY_SHERD.get());
                 add(output, ACBlockRegistry.ABYSSMARINE.get());
                 add(output, ACBlockRegistry.ABYSSMARINE_STAIRS.get());
                 add(output, ACBlockRegistry.ABYSSMARINE_SLAB.get());
@@ -353,6 +358,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.TWILIGHT_ANEMONE.get());
                 add(output, ACBlockRegistry.MIDNIGHT_ANEMONE.get());
                 add(output, ACBlockRegistry.MUSSEL.get());
+                add(output, ACBlockRegistry.BLOCK_OF_PEARL.get());
+                add(output, ACItemRegistry.BIOLUMINESCENT_TORCH.get());
                 add(output, ACBlockRegistry.DRAIN.get());
                 add(output, ACBlockRegistry.DEPTH_GLASS.get());
                 add(output, ACBlockRegistry.COPPER_VALVE.get());
@@ -379,6 +386,13 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.FORLORN_HOLLOWS));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.FORLORN_HOLLOWS).forEach((spawnEgg -> add(output, spawnEgg.get())));
+                add(output, ACItemRegistry.GUANO.get());
+                add(output, ACItemRegistry.MOTH_DUST.get());
+                add(output, ACItemRegistry.FERTILIZER.get());
+                add(output, ACItemRegistry.DARK_TATTERS.get());
+                add(output, ACItemRegistry.OCCULT_GEM.get());
+                add(output, ACItemRegistry.HOOD_OF_DARKNESS.get());
+                add(output, ACItemRegistry.CLOAK_OF_DARKNESS.get());
                 add(output, ACBlockRegistry.GUANO_BLOCK.get());
                 add(output, ACBlockRegistry.GUANO_LAYER.get());
                 add(output, ACBlockRegistry.GUANOSTONE.get());
@@ -406,6 +420,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.FORSAKEN_IDOL.get());
                 add(output, ACBlockRegistry.THORNWOOD_LOG.get());
                 add(output, ACBlockRegistry.THORNWOOD_BRANCH.get());
+                add(output, ACBlockRegistry.THORNWOOD_SAPLING.get());
                 add(output, ACBlockRegistry.THORNWOOD_WOOD.get());
                 add(output, ACBlockRegistry.STRIPPED_THORNWOOD_LOG.get());
                 add(output, ACBlockRegistry.STRIPPED_THORNWOOD_WOOD.get());
@@ -423,6 +438,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.THORNWOOD_BOAT.get());
                 add(output, ACItemRegistry.THORNWOOD_CHEST_BOAT.get());
                 add(output, ACBlockRegistry.UNDERWEED.get());
+                add(output, ACBlockRegistry.MOTH_BALL.get());
+                add(output, ACBlockRegistry.BEHOLDER.get());
             })
             .build());
 

@@ -10,16 +10,20 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -41,12 +45,18 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
@@ -54,6 +64,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     public static final Animation ANIMATION_PUZZLE = Animation.create(60);
     public static final Animation ANIMATION_BITE = Animation.create(20);
     public static final Animation ANIMATION_BASH = Animation.create(25);
+    public static final Animation ANIMATION_DIE = Animation.create(50);
 
     private static final EntityDataAccessor<Integer> INTEREST_LEVEL = SynchedEntityData.defineId(HullbreakerEntity.class, EntityDataSerializers.INT);
 
@@ -78,6 +89,8 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     private float[] yawBuffer = new float[128];
     private int yawPointer = -1;
     private int blockBreakCooldown = 0;
+
+    private List<ItemStack> deathItems = new ArrayList<>();
 
     public HullbreakerEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -132,12 +145,60 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
 
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
-        ItemEntity itementity = this.spawnAtLocation(stack, 0.0F);
+        ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + (double)1, this.getZ(), stack);
         if (itementity != null) {
+            if(this.headPart != null){
+                Vec3 yOnlyViewVector = new Vec3(this.getViewVector(1.0F).x, 0, this.getViewVector(1.0F).z);
+                Vec3 mouth = this.headPart.position().add(yOnlyViewVector.scale(-0.5F)).add(0, 0.5F, 0);
+                itementity.setPos(mouth);
+                itementity.setDeltaMovement(yOnlyViewVector.add(random.nextFloat() * 0.2F - 0.1F, random.nextFloat() * 0.2F - 0.1F, random.nextFloat() * 0.2F - 0.1F).normalize().scale(0.8F + level().random.nextFloat() * 0.3F));
+            }
             itementity.setGlowingTag(true);
-            itementity.setUnlimitedLifetime();
+            itementity.setDefaultPickUpDelay();
         }
+        level().addFreshEntity(itementity);
         return itementity;
+    }
+
+    protected void tickDeath() {
+        this.deathTime++;
+        this.setAnimation(ANIMATION_DIE);
+        this.setXRot(0.0F);
+        this.setYHeadRot(this.getYRot());
+        if(!level().isClientSide){
+            if(deathItems.isEmpty()){
+                populateDeathLootForHullbreaker();
+            }
+            if(this.getAnimation() == ANIMATION_DIE && this.getAnimationTick() > 10 && this.getAnimationTick() % 7 == 0 && !deathItems.isEmpty()){
+                ItemStack randomItem = Util.getRandom(deathItems, getRandom());
+                spawnAtLocation(randomItem.copy());
+                deathItems.remove(randomItem);
+            }
+        }
+        if (this.getAnimation() == ANIMATION_DIE && this.getAnimationTick() > 45 && !this.level().isClientSide() && !this.isRemoved()) {
+            this.level().broadcastEntityEvent(this, (byte)60);
+            this.remove(Entity.RemovalReason.KILLED);
+        }
+
+    }
+
+    private void populateDeathLootForHullbreaker(){
+        ResourceLocation resourcelocation = this.getLootTable();
+        DamageSource damageSource = getLastDamageSource();
+        if(damageSource != null){
+            LootTable loottable = this.level().getServer().getLootData().getLootTable(resourcelocation);
+            LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel)this.level())).withParameter(LootContextParams.THIS_ENTITY, this).withParameter(LootContextParams.ORIGIN, this.position()).withParameter(LootContextParams.DAMAGE_SOURCE, damageSource).withOptionalParameter(LootContextParams.KILLER_ENTITY, damageSource.getEntity()).withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, damageSource.getDirectEntity());
+            if (this.lastHurtByPlayer != null) {
+                lootparams$builder = lootparams$builder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, this.lastHurtByPlayer).withLuck(this.lastHurtByPlayer.getLuck());
+            }
+            LootParams lootparams = lootparams$builder.create(LootContextParamSets.ENTITY);
+            loottable.getRandomItems(lootparams, this.getLootTableSeed(), deathItems::add);
+        }
+    }
+
+    @Override
+    protected void dropFromLootTable(DamageSource damageSource, boolean b) {
+
     }
 
     protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
@@ -150,7 +211,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.MAX_HEALTH, 350.0D).add(Attributes.ATTACK_DAMAGE, 16.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.ATTACK_DAMAGE, 16.0D);
     }
 
     public void remove(Entity.RemovalReason removalReason) {
@@ -169,7 +230,11 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         prevLandProgress = landProgress;
         prevFishPitch = fishPitch;
         prevPulseAmount = pulseAmount;
-        fishPitch = Mth.approachDegrees(fishPitch, Mth.clamp((float) this.getDeltaMovement().y * 2F, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI), 2.5F);
+        float targetFishPitch = Mth.clamp((float) this.getDeltaMovement().y * 2F, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI);
+        if(!isAlive()){
+            targetFishPitch = 0.0F;
+        }
+        fishPitch = Mth.approachDegrees(fishPitch, targetFishPitch, 2.5F);
         boolean grounded = this.onGround() && !isInWaterOrBubble();
         if (grounded && landProgress < 5F) {
             landProgress++;
@@ -342,7 +407,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
 
     @Override
     public Animation[] getAnimations() {
-        return new Animation[]{ANIMATION_PUZZLE, ANIMATION_BITE, ANIMATION_BASH};
+        return new Animation[]{ANIMATION_PUZZLE, ANIMATION_BITE, ANIMATION_BASH, ANIMATION_DIE};
     }
 
 }

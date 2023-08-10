@@ -1,0 +1,24 @@
+{
+  "pools": [
+    {
+      "name": "underzealot",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "alexscaves:dark_tatters",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

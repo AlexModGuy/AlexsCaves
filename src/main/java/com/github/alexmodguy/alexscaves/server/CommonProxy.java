@@ -14,7 +14,9 @@ import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -33,7 +35,9 @@ import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -122,6 +126,9 @@ public class CommonProxy {
         if (event.getEntity().hasEffect(ACEffectRegistry.BUBBLED.get()) && event.getEntity().isInFluidType()) {
             event.getEntity().removeEffect(ACEffectRegistry.BUBBLED.get());
         }
+        if (event.getEntity().hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get()) && event.getEntity().tickCount % 5 == 0 && DarknessIncarnateEffect.isInLight(event.getEntity(), 11)) {
+            event.getEntity().removeEffect(ACEffectRegistry.DARKNESS_INCARNATE.get());
+        }
         if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get()) && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
             event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810, 0, false, false, true));
         }
@@ -158,6 +165,20 @@ public class CommonProxy {
             }
         } catch (Exception e) {
             AlexsCaves.LOGGER.warn("Tried to add unique behaviors to vanilla mobs and encountered an error");
+        }
+    }
+
+    @SubscribeEvent
+    public void livingRemoveEffect(MobEffectEvent.Remove event) {
+        if(event.getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect){
+            darknessIncarnateEffect.toggleFlight(event.getEntity(), false);
+        }
+    }
+
+    @SubscribeEvent
+    public void livingExpireEffect(MobEffectEvent.Expired event) {
+        if(event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect){
+            darknessIncarnateEffect.toggleFlight(event.getEntity(), false);
         }
     }
 
@@ -217,6 +238,10 @@ public class CommonProxy {
         return null;
     }
 
+    public Vec3 getCameraRotation() {
+        return Vec3.ZERO;
+    }
+
     public boolean isKeyDown(int keyType) {
         return false;
     }
@@ -247,13 +272,18 @@ public class CommonProxy {
     public void setRenderViewEntity(Player player, Entity entity) {
     }
 
-    public void resetRenderViewEntity() {
+    public void resetRenderViewEntity(Player player) {
     }
+
     public int getPlayerTime() {
         return 0;
     }
 
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {
 
+    }
+
+    public Vec3 getDarknessTrailPosFor(LivingEntity living, int pointer, float partialTick) {
+        return living.position();
     }
 }

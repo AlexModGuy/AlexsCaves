@@ -65,6 +65,34 @@
         },
         {
           "type": "item",
+          "name": "alexscaves:hero_pottery_sherd",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:guardian_pottery_sherd",
+          "weight": 6,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
           "name": "alexscaves:diving_helmet",
           "weight": 5
         },

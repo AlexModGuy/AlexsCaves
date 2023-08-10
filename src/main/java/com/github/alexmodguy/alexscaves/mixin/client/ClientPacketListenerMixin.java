@@ -34,7 +34,7 @@ public class ClientPacketListenerMixin {
     protected void iws_handleSetEntityPassengersPacket(ClientboundSetPassengersPacket packet, CallbackInfo ci) {
         Entity entity = this.level.getEntity(packet.getVehicle());
         if (entity instanceof SubmarineEntity) {
-            Component componentBoard = Component.translatable("entity.alexscaves.submarine.mount_message", Minecraft.getInstance().options.keyJump.getTranslatedKeyMessage(), Minecraft.getInstance().options.keySprint.getTranslatedKeyMessage(), ACKeybindRegistry.KEY_MOUNT_ABILITY.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
+            Component componentBoard = Component.translatable("entity.alexscaves.submarine.mount_message", Minecraft.getInstance().options.keyJump.getTranslatedKeyMessage(), Minecraft.getInstance().options.keySprint.getTranslatedKeyMessage(), ACKeybindRegistry.KEY_SPECIAL_ABILITY.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
             Minecraft.getInstance().gui.setOverlayMessage(componentBoard, false);
             Minecraft.getInstance().getNarrator().sayNow(componentBoard);
         }
@@ -44,7 +44,7 @@ public class ClientPacketListenerMixin {
             Minecraft.getInstance().getNarrator().sayNow(componentBoard);
         }
         if (entity instanceof TremorsaurusEntity) {
-            Component componentBoard = Component.translatable("entity.alexscaves.tremorsaurus.mount_message", ACKeybindRegistry.KEY_MOUNT_ABILITY.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
+            Component componentBoard = Component.translatable("entity.alexscaves.tremorsaurus.mount_message", ACKeybindRegistry.KEY_SPECIAL_ABILITY.getTranslatedKeyMessage(), Minecraft.getInstance().options.keyShift.getTranslatedKeyMessage());
             Minecraft.getInstance().gui.setOverlayMessage(componentBoard, false);
             Minecraft.getInstance().getNarrator().sayNow(componentBoard);
         }

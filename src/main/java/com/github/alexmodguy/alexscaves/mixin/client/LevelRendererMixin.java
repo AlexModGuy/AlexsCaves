@@ -9,11 +9,10 @@ import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LevelRenderer;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.SectionPos;
 import net.minecraft.util.CubicSampler;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -29,6 +28,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import javax.annotation.Nullable;
+
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
 
@@ -42,12 +43,21 @@ public abstract class LevelRendererMixin {
     @Shadow
     private int ticks;
 
+    private double aclastCameraX;
+    private double aclastCameraY;
+    private double aclastCameraZ;
+    private int aclastCameraChunkX;
+    private int aclastCameraChunkY;
+    private int aclastCameraChunkZ;
+
     @Shadow
     protected abstract boolean doesMobEffectBlockSky(Camera camera);
 
     @Shadow
     @Final
     private RenderBuffers renderBuffers;
+
+    @Shadow @Nullable private ViewArea viewArea;
 
     @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;initOutline()V",
             at = @At("TAIL"))
@@ -89,8 +99,33 @@ public abstract class LevelRendererMixin {
         ACPostEffectRegistry.blitEffects();
     }
 
+   @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;setupRender(Lnet/minecraft/client/Camera;Lnet/minecraft/client/renderer/culling/Frustum;ZZ)V",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/chunk/ChunkRenderDispatcher;setCamera(Lnet/minecraft/world/phys/Vec3;)V",
+                    shift = At.Shift.BEFORE
+            ))
+    private void ac_setupRender(Camera camera, Frustum frustum, boolean b1, boolean b2, CallbackInfo ci) {
+        if(Minecraft.getInstance().cameraEntity != null && Minecraft.getInstance().cameraEntity != Minecraft.getInstance().player){ // fixes chunks being too far to load when not the player
+            double d0 = Minecraft.getInstance().cameraEntity.getX();
+            double d1 = Minecraft.getInstance().cameraEntity.getY();
+            double d2 = Minecraft.getInstance().cameraEntity.getZ();
+            int i = SectionPos.posToSectionCoord(d0);
+            int j = SectionPos.posToSectionCoord(d1);
+            int k = SectionPos.posToSectionCoord(d2);
+            if (this.aclastCameraChunkX != i || this.aclastCameraChunkY != j || this.aclastCameraChunkZ != k) {
+                this.aclastCameraX = d0;
+                this.aclastCameraY = d1;
+                this.aclastCameraZ = d2;
+                this.aclastCameraChunkX = i;
+                this.aclastCameraChunkY = j;
+                this.aclastCameraChunkZ = k;
+                viewArea.repositionCamera(d0, d2);
+            }
+        }
+    }
 
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",
+        @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;renderSky(Lcom/mojang/blaze3d/vertex/PoseStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",
             at = @At("HEAD"),
             cancellable = true)
     private void ac_renderSky(PoseStack poseStack, Matrix4f matrix4f, float f, Camera camera, boolean b, Runnable runnable, CallbackInfo ci) {

@@ -1,31 +1,41 @@
 package com.github.alexmodguy.alexscaves.client.render.item;
 
-import com.github.alexmodguy.alexscaves.client.model.layered.ACModelLayers;
-import com.github.alexmodguy.alexscaves.client.model.layered.DivingArmorModel;
-import com.github.alexmodguy.alexscaves.client.model.layered.HazmatArmorModel;
-import com.github.alexmodguy.alexscaves.client.model.layered.PrimordialArmorModel;
-import com.github.alexmodguy.alexscaves.server.item.DivingArmorItem;
-import com.github.alexmodguy.alexscaves.server.item.HazmatArmorItem;
-import com.github.alexmodguy.alexscaves.server.item.PrimordialArmorItem;
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.model.layered.*;
+import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.server.item.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.Model;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.ForgeRenderTypes;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class ACArmorRenderProperties implements IClientItemExtensions {
 
+    private static final ResourceLocation DARKNESS_ARMOR_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/armor/darkness_armor_glow.png");
     private static boolean init;
     public static PrimordialArmorModel PRIMORDIAL_ARMOR_MODEL;
     public static HazmatArmorModel HAZMAT_ARMOR_MODEL;
     public static DivingArmorModel DIVING_ARMOR_MODEL;
+    public static DarknessArmorModel DARKNESS_ARMOR_MODEL;
+
 
     public static void initializeModels() {
         init = true;
         PRIMORDIAL_ARMOR_MODEL = new PrimordialArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.PRIMORDIAL_ARMOR));
         HAZMAT_ARMOR_MODEL = new HazmatArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.HAZMAT_ARMOR));
         DIVING_ARMOR_MODEL = new DivingArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.DIVING_ARMOR));
+        DARKNESS_ARMOR_MODEL = new DarknessArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.DARKNESS_ARMOR));
     }
 
     @Override
@@ -42,6 +52,22 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
         if (itemStack.getItem() instanceof DivingArmorItem) {
             return DIVING_ARMOR_MODEL;
         }
+        if (itemStack.getItem() instanceof DarknessArmorItem) {
+            return DARKNESS_ARMOR_MODEL.withAnimations(entityLiving);
+        }
         return _default;
+    }
+
+    public static void onPreRenderArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
+        if(armorItem.getMaterial() == ACItemRegistry.DARKNESS_ARMOR_MATERIAL){
+            VertexConsumer vertexconsumer1 = multiBufferSource.getBuffer(RenderType.entityTranslucent(texture, false));
+            armorModel.renderToBuffer(poseStack, vertexconsumer1, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer vertexconsumer2 = multiBufferSource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(DARKNESS_ARMOR_GLOW));
+            armorModel.renderToBuffer(poseStack, vertexconsumer2, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        }
+    }
+
+    public static void onPostRenderArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
+
     }
 }

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:smooth_bone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:smooth_bone_slab",
+    "count": 3
+  }
+}

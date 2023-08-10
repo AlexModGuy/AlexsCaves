@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "alexscaves:dinosaur_pottery_sherd",
-    "alexscaves:footprint_pottery_sherd"
+    "alexscaves:footprint_pottery_sherd",
+    "alexscaves:guardian_pottery_sherd",
+    "alexscaves:hero_pottery_sherd"
   ]
 }

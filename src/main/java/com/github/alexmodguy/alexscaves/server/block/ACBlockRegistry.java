@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.grower.AncientTreeGrower;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
+import com.github.alexmodguy.alexscaves.server.block.grower.ThornwoodGrower;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
@@ -246,6 +247,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> TWILIGHT_ANEMONE = registerBlockAndItem("twilight_anemone", () -> new OceanFloraBlock());
     public static final RegistryObject<Block> MIDNIGHT_ANEMONE = registerBlockAndItem("midnight_anemone", () -> new OceanFloraBlock());
     public static final RegistryObject<Block> MUSSEL = registerBlockAndItem("mussel", () -> new MusselBlock());
+    public static final RegistryObject<Block> BLOCK_OF_PEARL = registerBlockAndItem("block_of_pearl", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(3.5F).sound(SoundType.AMETHYST)));
+    public static final RegistryObject<Block> BIOLUMINESCENT_TORCH = DEF_REG.register("bioluminescent_torch", () -> new BioluminescentTorch());
+    public static final RegistryObject<Block> BIOLUMINESCENT_WALL_TORCH = DEF_REG.register("bioluminescent_wall_torch", () -> new BioluminescentWallTorch());
     public static final RegistryObject<Block> DRAIN = registerBlockAndItem("drain", () -> new DrainBlock());
     public static final RegistryObject<Block> DEPTH_GLASS = registerBlockAndItem("depth_glass", () -> new DepthGlassBlock());
     public static final RegistryObject<Block> COPPER_VALVE = registerBlockAndItem("copper_valve", () -> new CopperValveBlock(), 3);
@@ -294,6 +298,10 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> THORNWOOD_BUTTON = registerBlockAndItem("thornwood_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK, 30, true));
     public static final RegistryObject<Block> THORNWOOD_FENCE_GATE = registerBlockAndItem("thornwood_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(2.0F, 3.0F).sound(SoundType.WOOD), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
     public static final RegistryObject<Block> THORNWOOD_DOOR = DEF_REG.register("thornwood_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
+    public static final RegistryObject<Block> THORNWOOD_SAPLING = registerBlockAndItem("thornwood_sapling", () -> new CaveSaplingBlock(new ThornwoodGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+    public static final RegistryObject<Block> POTTED_THORNWOOD_SAPLING = registerBlockAndItem("potted_thornwood_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, THORNWOOD_SAPLING, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> MOTH_BALL = registerBlockAndItem("moth_ball", () -> new MothBallBlock());
+    public static final RegistryObject<Block> BEHOLDER = registerBlockAndItem("beholder", () -> new BeholderBlock(), 3);
 
     private static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block) {
         return registerBlockAndItem(name, block, 0);
@@ -335,5 +343,6 @@ public class ACBlockRegistry {
         flowerPotBlock.addPlant(ANCIENT_SAPLING.getId(), POTTED_ANCIENT_SAPLING);
         flowerPotBlock.addPlant(UNDERWEED.getId(), POTTED_UNDERWEED);
         flowerPotBlock.addPlant(THORNWOOD_BRANCH.getId(), POTTED_THORNWOOD_BRANCH);
+        flowerPotBlock.addPlant(THORNWOOD_SAPLING.getId(), POTTED_THORNWOOD_SAPLING);
     }
 }

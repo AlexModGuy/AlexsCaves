@@ -1,0 +1,89 @@
+{
+  "variants": {
+    "balls=1": [
+      {
+        "model": "alexscaves:block/moth_ball_1"
+      },
+      {
+        "model": "alexscaves:block/moth_ball_1",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/moth_ball_1",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/moth_ball_1",
+        "y": 270
+      }
+    ],
+    "balls=2": [
+      {
+        "model": "alexscaves:block/moth_ball_2"
+      },
+      {
+        "model": "alexscaves:block/moth_ball_2",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/moth_ball_2",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/moth_ball_2",
+        "y": 270
+      }
+    ],
+    "balls=3": [
+      {
+        "model": "alexscaves:block/moth_ball_3"
+      },
+      {
+        "model": "alexscaves:block/moth_ball_3",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/moth_ball_3",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/moth_ball_3",
+        "y": 270
+      }
+    ],
+    "balls=4": [
+      {
+        "model": "alexscaves:block/moth_ball_4"
+      },
+      {
+        "model": "alexscaves:block/moth_ball_4",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/moth_ball_4",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/moth_ball_4",
+        "y": 270
+      }
+    ],
+    "balls=5": [
+      {
+        "model": "alexscaves:block/moth_ball_5"
+      },
+      {
+        "model": "alexscaves:block/moth_ball_5",
+        "y": 90
+      },
+      {
+        "model": "alexscaves:block/moth_ball_5",
+        "y": 180
+      },
+      {
+        "model": "alexscaves:block/moth_ball_5",
+        "y": 270
+      }
+    ]
+  }
+}

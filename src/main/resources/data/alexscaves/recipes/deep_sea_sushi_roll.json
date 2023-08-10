@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:tripodfish"
+    },
+    {
+      "item": "alexscaves:sea_pig"
+    },
+    {
+      "item": "alexscaves:lanternfish"
+    },
+    {
+      "item": "minecraft:dried_kelp"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:deep_sea_sushi_roll",
+    "count": 2
+  }
+}

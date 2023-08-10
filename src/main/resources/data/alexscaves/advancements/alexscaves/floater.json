@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:floater"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.floater.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.floater.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/bioluminesscence",
+    "criteria": {
+        "floater": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:floater"]
+                    }
+                ]
+            }
+        }
+    }
+}

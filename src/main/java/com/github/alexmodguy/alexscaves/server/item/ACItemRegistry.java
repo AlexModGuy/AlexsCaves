@@ -4,8 +4,12 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.item.CinderBrickEntity;
+import com.github.alexmodguy.alexscaves.server.entity.item.DepthChargeEntity;
+import com.github.alexmodguy.alexscaves.server.entity.item.GuanoEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
@@ -25,8 +29,9 @@ import java.util.Map;
 public class ACItemRegistry {
     private static Map<RegistryObject<Item>, ResourceKey<Biome>> creativeTabSpawnEggMap = new LinkedHashMap<>();
     public static final ACArmorMaterial PRIMORDIAL_ARMOR_MATERIAL = new ACArmorMaterial("primordial", 20, new int[]{3, 4, 3, 2}, 25, SoundEvents.ARMOR_EQUIP_LEATHER, 0F);
-    public static final ACArmorMaterial DIVING_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("diving_suit", 20, new int[]{2, 5, 6, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 1F);
     public static final ACArmorMaterial HAZMAT_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("hazmat_suit", 20, new int[]{2, 4, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 0.5F);
+    public static final ACArmorMaterial DIVING_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("diving_suit", 20, new int[]{2, 5, 6, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 1F);
+    public static final ACArmorMaterial DARKNESS_ARMOR_MATERIAL = new ACArmorMaterial("darkness", 15, new int[]{4, 5, 1, 1}, 50, SoundEvents.ARMOR_EQUIP_LEATHER, 0.5F);
     public static final DeferredRegister<Item> DEF_REG = DeferredRegister.create(ForgeRegistries.ITEMS, AlexsCaves.MODID);
 
     public static final RegistryObject<Item> CAVE_TABLET = DEF_REG.register("cave_tablet", () -> new CaveInfoItem(new Item.Properties(), true));
@@ -78,7 +83,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> URANIUM_SHARD = DEF_REG.register("uranium_shard", () -> new RadioactiveItem(new Item.Properties(), 0.001F));
     public static final RegistryObject<Item> SULFUR_DUST = DEF_REG.register("sulfur_dust", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> RADON_BOTTLE = DEF_REG.register("radon_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)));
-    public static final RegistryObject<Item> CINDER_BRICK = DEF_REG.register("cinder_brick", () -> new CinderBrickItem(new Item.Properties()));
+    public static final RegistryObject<Item> CINDER_BRICK = DEF_REG.register("cinder_brick", () -> new ThrownProjectileItem(new Item.Properties(), player -> new CinderBrickEntity(player.level(), player), -20.0F, 0.65F, 0.9F));
     public static final RegistryObject<Item> SPELUNKIE = DEF_REG.register("spelunkie", () -> new RadiationRemovingFoodItem(new Item.Properties().food(ACFoods.SPELUNKIE)));
     public static final RegistryObject<Item> SLAM = DEF_REG.register("slam", () -> new RadiationRemovingFoodItem(new Item.Properties().food(ACFoods.SLAM)));
     public static final RegistryObject<Item> GREEN_SOYLENT = DEF_REG.register("green_soylent", () -> new RadiationRemovingFoodItem(new Item.Properties().food(ACFoods.SOYLENT_GREEN)));
@@ -105,20 +110,33 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> BIOLUMINESSCENCE = DEF_REG.register("bioluminesscence", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> PEARL = DEF_REG.register("pearl", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> COOKED_MUSSEL = DEF_REG.register("cooked_mussel", () -> new Item(new Item.Properties().food(ACFoods.MUSSEL_COOKED)));
+    public static final RegistryObject<Item> DEEP_SEA_SUSHI_ROLL = DEF_REG.register("deep_sea_sushi_roll", () -> new Item(new Item.Properties().food(ACFoods.DEEP_SEA_SUSHI_ROLL)));
     public static final RegistryObject<Item> SEA_GLASS_SHARDS = DEF_REG.register("sea_glass_shards", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SUBMARINE = DEF_REG.register("submarine", () -> new SubmarineItem(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> DIVING_HELMET = DEF_REG.register("diving_helmet", () -> new DivingArmorItem(DIVING_SUIT_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> DIVING_CHESTPLATE = DEF_REG.register("diving_chestplate", () -> new DivingArmorItem(DIVING_SUIT_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> DIVING_LEGGINGS = DEF_REG.register("diving_leggings", () -> new DivingArmorItem(DIVING_SUIT_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> DIVING_BOOTS = DEF_REG.register("diving_boots", () -> new DivingArmorItem(DIVING_SUIT_ARMOR_MATERIAL, ArmorItem.Type.BOOTS));
+    public static final RegistryObject<Item> FLOATER = DEF_REG.register("floater", () -> new FloaterItem());
+    public static final RegistryObject<Item> GAZING_PEARL = DEF_REG.register("gazing_pearl", () -> new GazingPearlItem());
     public static final RegistryObject<Item> INK_BOMB = DEF_REG.register("ink_bomb", () -> new InkBombItem(new Item.Properties(), false));
     public static final RegistryObject<Item> GLOW_INK_BOMB = DEF_REG.register("glow_ink_bomb", () -> new InkBombItem(new Item.Properties(), true));
     public static final RegistryObject<Item> MAGIC_CONCH = DEF_REG.register("magic_conch", () -> new MagicConchItem(new Item.Properties().defaultDurability(5).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SEA_STAFF = DEF_REG.register("sea_staff", () -> new SeaStaffItem(new Item.Properties().defaultDurability(256).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SEA_STAFF_SPRITE = DEF_REG.register("sea_staff_inventory", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> ORTHOLANCE = DEF_REG.register("ortholance", () -> new OrtholanceItem(new Item.Properties().defaultDurability(340)));
+    public static final RegistryObject<Item> ORTHOLANCE = DEF_REG.register("ortholance", () -> new OrtholanceItem(new Item.Properties().defaultDurability(340).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> ORTHOLANCE_SPRITE = DEF_REG.register("ortholance_inventory", () -> new Item(new Item.Properties()));
-    public static final RegistryObject<Item> DEPTH_CHARGE = DEF_REG.register("depth_charge", () -> new DepthChargeItem(new Item.Properties()));
+    public static final RegistryObject<Item> DEPTH_CHARGE = DEF_REG.register("depth_charge", () -> new ThrownProjectileItem(new Item.Properties(), player -> new DepthChargeEntity(player.level(), player), -10.0F, 0.65F, 1.5F));
+    public static final RegistryObject<Item> GUARDIAN_POTTERY_SHERD = DEF_REG.register("guardian_pottery_sherd", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> HERO_POTTERY_SHERD = DEF_REG.register("hero_pottery_sherd", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BIOLUMINESCENT_TORCH = DEF_REG.register("bioluminescent_torch", () -> new StandingAndWallBlockItem(ACBlockRegistry.BIOLUMINESCENT_TORCH.get(), ACBlockRegistry.BIOLUMINESCENT_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
+    public static final RegistryObject<Item> GUANO = DEF_REG.register("guano", () -> new ThrownProjectileItem(new Item.Properties(), player -> new GuanoEntity(player.level(), player), 0.0F, 1.0F, 1.0F));
+    public static final RegistryObject<Item> MOTH_DUST = DEF_REG.register("moth_dust", () -> new MothDustItem());
+    public static final RegistryObject<Item> FERTILIZER = DEF_REG.register("fertilizer", () -> new FertilizerItem());
+    public static final RegistryObject<Item> DARK_TATTERS = DEF_REG.register("dark_tatters", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> OCCULT_GEM = DEF_REG.register("occult_gem", () -> new OccultGemItem());
+    public static final RegistryObject<Item> HOOD_OF_DARKNESS = DEF_REG.register("hood_of_darkness", () -> new DarknessArmorItem(DARKNESS_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
+    public static final RegistryObject<Item> CLOAK_OF_DARKNESS = DEF_REG.register("cloak_of_darkness", () -> new DarknessArmorItem(DARKNESS_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> THORNWOOD_DOOR = DEF_REG.register("thornwood_door", () -> new DoubleHighBlockItem(ACBlockRegistry.THORNWOOD_DOOR.get(), (new Item.Properties())));
     public static final RegistryObject<Item> THORNWOOD_SIGN = DEF_REG.register("thornwood_sign", () -> new SignItem((new Item.Properties()).stacksTo(16), ACBlockRegistry.THORNWOOD_SIGN.get(), ACBlockRegistry.THORNWOOD_WALL_SIGN.get()));
     public static final RegistryObject<Item> THORNWOOD_HANGING_SIGN = DEF_REG.register("thornwood_hanging_sign", () -> new HangingSignItem(ACBlockRegistry.THORNWOOD_HANGING_SIGN.get(), ACBlockRegistry.THORNWOOD_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
@@ -165,7 +183,10 @@ public class ACItemRegistry {
     }
 
     public static void setup() {
+        PRIMORDIAL_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(TOUGH_HIDE.get()));
+        HAZMAT_SUIT_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(POLYMER_PLATE.get()));
         DIVING_SUIT_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(Items.COPPER_INGOT));
+        DARKNESS_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(DARK_TATTERS.get()));
     }
 
     public static List<RegistryObject<Item>> getSpawnEggsForTab(ResourceKey<Biome> tabName) {

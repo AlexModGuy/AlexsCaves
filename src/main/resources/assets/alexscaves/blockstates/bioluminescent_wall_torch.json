@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "alexscaves:block/bioluminescent_wall_torch"
+    },
+    "facing=north": {
+      "model": "alexscaves:block/bioluminescent_wall_torch",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "alexscaves:block/bioluminescent_wall_torch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "alexscaves:block/bioluminescent_wall_torch",
+      "y": 180
+    }
+  }
+}

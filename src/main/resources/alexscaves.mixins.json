@@ -21,8 +21,10 @@
   "client": [
     "client.AdvancementTabMixin",
     "client.CameraMixin",
+    "client.ClientChunkCacheStorageMixin",
     "client.ClientPacketListenerMixin",
     "client.GameRendererMixin",
+    "client.HumanoidArmorLayerMixin",
     "client.ItemFrameRendererMixin",
     "client.ItemInHandRendererMixin",
     "client.LevelRendererMixin",

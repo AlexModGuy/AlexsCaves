@@ -5,7 +5,8 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.WatcherAttackGoal;
-import com.github.alexmodguy.alexscaves.server.message.WatcherKeyMessage;
+import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
+import com.github.alexmodguy.alexscaves.server.message.PossessionKeyMessage;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -40,7 +41,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.Optional;
 import java.util.UUID;
 
-public class WatcherEntity extends Monster implements IAnimatedEntity {
+public class WatcherEntity extends Monster implements IAnimatedEntity, PossessesCamera {
 
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(WatcherEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SHADE_MODE = SynchedEntityData.defineId(WatcherEntity.class, EntityDataSerializers.BOOLEAN);
@@ -140,8 +141,13 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         this.entityData.set(SHADE_MODE, bool);
     }
 
-    public float getPossessionStrength() {
+    public float getPossessionStrength(float partialTicks) {
         return this.entityData.get(POSSESSION_STRENGTH);
+    }
+
+    @Override
+    public boolean instant() {
+        return false;
     }
 
     public void setPossessionStrength(float possessionStrength) {
@@ -228,7 +234,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                 }
                 lastPossessionTimestamp = this.tickCount;
                 if (possessedTimeout++ > 140) {
-                    this.setPossessionStrength(Math.max(0, this.getPossessionStrength() + 0.1F));
+                    this.setPossessionStrength(Math.max(0, this.getPossessionStrength(1.0F) + 0.1F));
                 }
                 if (dist < 1 || stopPossession(possessedEntity) || !this.isAlive()) {
                     this.level().broadcastEntityEvent(this, (byte) 78);
@@ -251,14 +257,14 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
             living.zza = 0;
             living.yya = 0;
             living.xxa = 0;
-            if (this.getPossessionStrength() == 0) {
+            if (this.getPossessionStrength(1.0F) == 0) {
                 isPossessionBreakable = true;
             }
             if (living instanceof Player player && isPossessionBreakable) {
                 player.jumping = false;
                 Player clientSidePlayer = AlexsCaves.PROXY.getClientSidePlayer();
                 if (AlexsCaves.PROXY.isKeyDown(-1) && player == clientSidePlayer) {
-                    AlexsCaves.sendMSGToServer(new WatcherKeyMessage(this.getId(), player.getId(), 0));
+                    AlexsCaves.sendMSGToServer(new PossessionKeyMessage(this.getId(), player.getId(), 0));
                 }
             }
             if (prevPossessedEntity != living) {
@@ -279,7 +285,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
     }
 
     private boolean stopPossession(Entity possessed) {
-        float possessionStrength = getPossessionStrength();
+        float possessionStrength = getPossessionStrength(1.0F);
         this.setPossessionStrength(Math.max(0, possessionStrength - 0.05F));
         return possessionStrength >= 1.0F && possessedTimeout > 40;
     }
@@ -306,7 +312,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
                     AlexsCaves.PROXY.setRenderViewEntity(player, this);
                 } else {
                     level().addParticle(ACParticleRegistry.WATCHER_APPEARANCE.get(), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
-                    AlexsCaves.PROXY.resetRenderViewEntity();
+                    AlexsCaves.PROXY.resetRenderViewEntity(player);
                 }
             }
         } else {
@@ -346,10 +352,10 @@ public class WatcherEntity extends Monster implements IAnimatedEntity {
         return false;
     }
 
-    public void onKeyPacket(Entity keyPresser, int type) {
+    public void onPossessionKeyPacket(Entity keyPresser, int type) {
         Entity possessed = this.getPossessedEntity();
         if (possessed.equals(keyPresser)) {
-            this.setPossessionStrength(this.getPossessionStrength() + 0.07F);
+            this.setPossessionStrength(this.getPossessionStrength(1.0F) + 0.07F);
         }
     }
 

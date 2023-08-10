@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:bioluminesscence"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.bioluminesscence.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.bioluminesscence.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/abyssal_bucket",
+    "criteria": {
+        "bioluminesscence": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:bioluminesscence"]
+                    }
+                ]
+            }
+        }
+    }
+}

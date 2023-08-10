@@ -132,8 +132,11 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MultipartEntityMessage.class, MultipartEntityMessage::write, MultipartEntityMessage::read, MultipartEntityMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, MountedEntityKeyMessage.class, MountedEntityKeyMessage::write, MountedEntityKeyMessage::read, MountedEntityKeyMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateEffectVisualityEntityMessage.class, UpdateEffectVisualityEntityMessage::write, UpdateEffectVisualityEntityMessage::read, UpdateEffectVisualityEntityMessage::handle);
-        NETWORK_WRAPPER.registerMessage(packetsRegistered++, WatcherKeyMessage.class, WatcherKeyMessage::write, WatcherKeyMessage::read, WatcherKeyMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, PossessionKeyMessage.class, PossessionKeyMessage::write, PossessionKeyMessage::read, PossessionKeyMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateItemTagMessage.class, UpdateItemTagMessage::write, UpdateItemTagMessage::read, UpdateItemTagMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, BeholderSyncMessage.class, BeholderSyncMessage::write, BeholderSyncMessage::read, BeholderSyncMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, BeholderRotateMessage.class, BeholderRotateMessage::write, BeholderRotateMessage::read, BeholderRotateMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, ArmorKeyMessage.class, ArmorKeyMessage::write, ArmorKeyMessage::read, ArmorKeyMessage::handle);
         ACSurfaceRules.setup();
         ACEffectRegistry.setup();
         ACBlockRegistry.setup();

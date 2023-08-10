@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A  ",
+    "AA ",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:abyssmarine"
+    }
+  },
+  "result": {
+    "item": "alexscaves:abyssmarine_stairs",
+    "count": 4
+  }
+}

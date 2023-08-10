@@ -48,6 +48,11 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation COPPER_VALVE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/copper_valve.png");
     private static final CopperValveModel COPPER_VALVE_MODEL = new CopperValveModel();
 
+    private static final BeholderModel BEHOLDER_MODEL = new BeholderModel();
+    private static final ResourceLocation BEHOLDER_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder.png");
+    private static final ResourceLocation BEHOLDER_TEXTURE_EYE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder_eye.png");
+
+
     public ACItemstackRenderer() {
         super(null, null);
     }
@@ -217,6 +222,17 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             poseStack.mulPose(Axis.XP.rotationDegrees(-180));
             COPPER_VALVE_MODEL.resetToDefaultPose();
             COPPER_VALVE_MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.entityCutoutNoCull(COPPER_VALVE_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            poseStack.popPose();
+        }
+
+        if (itemStackIn.is(ACBlockRegistry.BEHOLDER.get().asItem())) {
+            float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
+            poseStack.pushPose();
+            poseStack.translate(0.5F, 1.5F, 0.5F);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-180));
+            BEHOLDER_MODEL.setupAnim(null, 0.0F, 45F, ageInTicks, 0, 0);
+            BEHOLDER_MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.entityCutoutNoCull(BEHOLDER_TEXTURE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            BEHOLDER_MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.eyes(BEHOLDER_TEXTURE_EYE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             poseStack.popPose();
         }
     }

@@ -16,12 +16,16 @@ public class ACPotPatternRegistry {
 
     public static final RegistryObject<String> DINOSAUR = DEF_REG.register("dinosaur_pottery_pattern", () -> AlexsCaves.MODID + ":dinosaur_pottery_pattern");
     public static final RegistryObject<String> FOOTPRINT = DEF_REG.register("footprint_pottery_pattern", () -> AlexsCaves.MODID + ":footprint_pottery_pattern");
+    public static final RegistryObject<String> GUARDIAN = DEF_REG.register("guardian_pottery_pattern", () -> AlexsCaves.MODID + ":guardian_pottery_pattern");
+    public static final RegistryObject<String> HERO = DEF_REG.register("hero_pottery_pattern", () -> AlexsCaves.MODID + ":hero_pottery_pattern");
 
     public static void expandVanillaDefinitions() {
         ImmutableMap.Builder<Item, ResourceKey<String>> itemsToPot = new ImmutableMap.Builder<>();
         itemsToPot.putAll(DecoratedPotPatterns.ITEM_TO_POT_TEXTURE);
         itemsToPot.put(ACItemRegistry.DINOSAUR_POTTERY_SHERD.get(), DINOSAUR.getKey());
         itemsToPot.put(ACItemRegistry.FOOTPRINT_POTTERY_SHERD.get(), FOOTPRINT.getKey());
+        itemsToPot.put(ACItemRegistry.GUARDIAN_POTTERY_SHERD.get(), GUARDIAN.getKey());
+        itemsToPot.put(ACItemRegistry.HERO_POTTERY_SHERD.get(), HERO.getKey());
         DecoratedPotPatterns.ITEM_TO_POT_TEXTURE = itemsToPot.build();
     }
 }

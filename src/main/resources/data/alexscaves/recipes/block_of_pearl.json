@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:pearl"
+    }
+  },
+  "result": {
+    "item": "alexscaves:block_of_pearl",
+    "count": 1
+  }
+}

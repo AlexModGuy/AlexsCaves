@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:depth_charge"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_mine_guardian.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_mine_guardian.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/discover_abyssal_ruins",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:mine_guardian"
+        }
+      }
+    }
+  }
+}

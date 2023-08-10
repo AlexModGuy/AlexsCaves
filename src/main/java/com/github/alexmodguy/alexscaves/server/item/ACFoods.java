@@ -28,4 +28,6 @@ public class ACFoods {
     public static final FoodProperties SEA_PIG = (new FoodProperties.Builder()).nutrition(1).saturationMod(0.2F).effect(() -> new MobEffectInstance(MobEffects.HUNGER, 1200), 0.7F).build();
     public static final FoodProperties MUSSEL_COOKED = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.3F).fast().build();
 
+    public static final FoodProperties DEEP_SEA_SUSHI_ROLL = (new FoodProperties.Builder()).nutrition(8).saturationMod(0.3F).build();
+
 }

@@ -1,7 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.model.BeholderModel;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.BeholderBlock;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -27,6 +29,7 @@ public class ACBlockEntityRegistry {
     public static final RegistryObject<BlockEntityType<AbyssalAltarBlockEntity>> ABYSSAL_ALTAR = DEF_REG.register("abyssal_altar", () -> BlockEntityType.Builder.of(AbyssalAltarBlockEntity::new, ACBlockRegistry.ABYSSAL_ALTAR.get()).build(null));
     public static final RegistryObject<BlockEntityType<CopperValveBlockEntity>> COPPER_VALVE = DEF_REG.register("copper_valve", () -> BlockEntityType.Builder.of(CopperValveBlockEntity::new, ACBlockRegistry.COPPER_VALVE.get()).build(null));
     public static final RegistryObject<BlockEntityType<EnigmaticEngineBlockEntity>> ENIGMATIC_ENGINE = DEF_REG.register("enigmatic_engine", () -> BlockEntityType.Builder.of(EnigmaticEngineBlockEntity::new, ACBlockRegistry.ENIGMATIC_ENGINE.get()).build(null));
+    public static final RegistryObject<BlockEntityType<BeholderBlockEntity>> BEHOLDER = DEF_REG.register("beholder", () -> BlockEntityType.Builder.of(BeholderBlockEntity::new, ACBlockRegistry.BEHOLDER.get()).build(null));
 
     public static void expandVanillaDefinitions() {
         ImmutableSet.Builder<Block> validSignBlocks = new ImmutableSet.Builder<>();

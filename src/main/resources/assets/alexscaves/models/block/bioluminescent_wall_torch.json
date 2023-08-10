@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_torch_wall",
+  "render_type": "cutout",
+  "textures": {
+    "torch": "alexscaves:block/bioluminescent_torch"
+  }
+}

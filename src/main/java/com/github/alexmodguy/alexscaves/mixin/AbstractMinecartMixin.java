@@ -97,7 +97,6 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
 
     @Inject(
             method = {"Lnet/minecraft/world/entity/vehicle/AbstractMinecart;tick()V"},
-            remap = true,
             at = @At(value = "HEAD"),
             cancellable = true
     )

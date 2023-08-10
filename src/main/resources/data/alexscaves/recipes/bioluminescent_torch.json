@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B",
+    "S"
+  ],
+  "key": {
+    "B": {
+      "item": "alexscaves:bioluminesscence"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "alexscaves:bioluminescent_torch",
+    "count": 4
+  }
+}

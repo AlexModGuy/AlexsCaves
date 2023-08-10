@@ -1,0 +1,56 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:magic_conch"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.deep_one_items.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.deep_one_items.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/deep_ones_become_helpful",
+    "criteria": {
+        "magic_conch": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:magic_conch"]
+                    }
+                ]
+            }
+        },
+        "gazing_pearl": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:gazing_pearl"]
+                    }
+                ]
+            }
+        },
+        "sea_staff": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:sea_staff"]
+                    }
+                ]
+            }
+        },
+        "ortholance": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:ortholance"]
+                    }
+                ]
+            }
+        }
+    }
+}

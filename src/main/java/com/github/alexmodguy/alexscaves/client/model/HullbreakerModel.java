@@ -230,6 +230,20 @@ public class HullbreakerModel extends AdvancedEntityModel<HullbreakerEntity> {
         animator.rotate(head, (float) Math.toRadians(30), 0, 0);
         animator.endKeyframe();
         animator.resetKeyframe(10);
+        animator.setAnimation(HullbreakerEntity.ANIMATION_DIE);
+        animator.startKeyframe(10);
+        animator.move(head, 0, -2, 10);
+        animator.rotate(head, (float) Math.toRadians(-40), 0, 0);
+        animator.rotate(jaw, (float) Math.toRadians(80), 0, 0);
+        animator.rotate(body, 0, 0,  (float) Math.toRadians(5));
+        animator.endKeyframe();
+        animator.startKeyframe(35);
+        animator.move(head, 0, -2, 10);
+        animator.rotate(head, (float) Math.toRadians(-30), 0,  (float) Math.toRadians(-20));
+        animator.rotate(jaw, (float) Math.toRadians(40), 0, 0);
+        animator.rotate(body, 0, 0,  (float) Math.toRadians(10));
+        animator.endKeyframe();
+        animator.resetKeyframe(5);
     }
 
     @Override

@@ -6,6 +6,8 @@
     "minecraft:soul_torch",
     "minecraft:soul_wall_torch",
     "minecraft:soul_lantern",
-    "minecraft:end_rod"
+    "minecraft:end_rod",
+    "alexscaves:bioluminescent_torch",
+    "alexscaves:bioluminescent_wall_torch"
   ]
 }

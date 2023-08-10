@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:cooked_mussel"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.cooked_mussel.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.cooked_mussel.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/mussel",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:cooked_mussel"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -27,6 +27,7 @@ public class ACEffectRegistry {
     public static final RegistryObject<MobEffect> IRRADIATED = DEF_REG.register("irradiated", () -> new IrradiatedEffect());
     public static final RegistryObject<MobEffect> BUBBLED = DEF_REG.register("bubbled", () -> new BubbledEffect());
     public static final RegistryObject<MobEffect> DEEPSIGHT = DEF_REG.register("deepsight", () -> new DeepsightEffect());
+    public static final RegistryObject<MobEffect> DARKNESS_INCARNATE = DEF_REG.register("darkness_incarnate", () -> new DarknessIncarnateEffect());
     public static final RegistryObject<Potion> MAGNETIZING_POTION = POTION_DEF_REG.register("magnetizing", () -> new Potion(new MobEffectInstance(MAGNETIZING.get(), 3600)));
     public static final RegistryObject<Potion> LONG_MAGNETIZING_POTION = POTION_DEF_REG.register("long_magnetizing", () -> new Potion(new MobEffectInstance(MAGNETIZING.get(), 9600)));
     public static final RegistryObject<Potion> DEEPSIGHT_POTION = POTION_DEF_REG.register("deepsight", () -> new Potion(new MobEffectInstance(DEEPSIGHT.get(), 3600)));

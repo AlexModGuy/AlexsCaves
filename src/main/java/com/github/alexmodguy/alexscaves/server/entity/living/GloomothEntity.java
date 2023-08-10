@@ -1,19 +1,26 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.MothBallBlock;
+import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFindLightGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFleeMothBallsGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -22,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -30,6 +38,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.stream.Stream;
 
 public class GloomothEntity extends PathfinderMob implements UnderzealotSacrifice {
 
@@ -84,8 +94,9 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new GloomothFindLightGoal(this, 32));
-        this.goalSelector.addGoal(2, new GloomothFlightGoal(this));
+        this.goalSelector.addGoal(1, new GloomothFleeMothBallsGoal(this));
+        this.goalSelector.addGoal(2, new GloomothFindLightGoal(this, 32));
+        this.goalSelector.addGoal(3, new GloomothFlightGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -242,6 +253,13 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         return MobType.ARTHROPOD;
     }
 
+    @Override
+    protected void dropFromLootTable(DamageSource damageSource, boolean idk) {
+        if(!(damageSource.getEntity() instanceof ForsakenEntity || damageSource.getEntity() instanceof VesperEntity)){
+            super.dropFromLootTable(damageSource, idk);
+        }
+    }
+
     public static boolean isValidLightLevel(ServerLevelAccessor levelAccessor, BlockPos blockPos, RandomSource randomSource) {
         if (levelAccessor.getBrightness(LightLayer.SKY, blockPos) > randomSource.nextInt(32)) {
             return false;
@@ -267,6 +285,21 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    public BlockPos getNearestMothBall(ServerLevel world, BlockPos to, int range) {
+        PoiManager pointofinterestmanager = world.getPoiManager();
+        return pointofinterestmanager.findClosest(poiTypeHolder -> poiTypeHolder.is(ACPOIRegistry.MOTH_BALL.getKey()), blockPos -> isWithinMothBallRange(blockPos, range), to, range, PoiManager.Occupancy.ANY).orElse(null);
+    }
+
+    private boolean isWithinMothBallRange(BlockPos blockPos, int range) {
+        BlockState state = level().getBlockState(blockPos);
+        if (state.is(ACBlockRegistry.MOTH_BALL.get())) {
+            float balls = state.getValue(MothBallBlock.BALLS) / 5F;
+            int distance = (int) Math.sqrt(blockPos.distSqr(this.blockPosition()));
+            return distance < balls * range;
         }
         return false;
     }

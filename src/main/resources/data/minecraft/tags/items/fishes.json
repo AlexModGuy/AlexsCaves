@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:radgill",
+    "alexscaves:cooked_radgill",
+    "alexscaves:lanternfish",
+    "alexscaves:cooked_lanternfish",
+    "alexscaves:tripodfish",
+    "alexscaves:cooked_tripodfish"
+  ]
+}

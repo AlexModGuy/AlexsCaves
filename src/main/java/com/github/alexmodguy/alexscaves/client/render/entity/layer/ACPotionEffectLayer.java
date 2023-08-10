@@ -4,14 +4,19 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -21,15 +26,26 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector3d;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class ACPotionEffectLayer extends RenderLayer {
 
     private static final ResourceLocation TEXTURE_BUBBLE = new ResourceLocation("alexscaves:textures/entity/deep_one/bubble.png");
     private static final ResourceLocation TEXTURE_WATER = new ResourceLocation("textures/block/water_still.png");
     public static final ResourceLocation INSIDE_BUBBLE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/misc/inside_bubble.png");
+    public static final ResourceLocation TEXTURE_DARKNESS = new ResourceLocation(AlexsCaves.MODID, "textures/entity/darkness_incarnate.png");
     private RenderLayerParent parent;
+
 
     public ACPotionEffectLayer(RenderLayerParent parent) {
         super(parent);
@@ -97,6 +113,13 @@ public class ACPotionEffectLayer extends RenderLayer {
                 renderBubble(living, partialTicks, poseStack, bufferIn.getBuffer(ACRenderTypes.getBubbledNoCull(TEXTURE_BUBBLE)), size, packedLightIn, 1, 1, 0, false);
                 poseStack.popPose();
             }
+            if (living.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get()) && AlexsCaves.CLIENT_CONFIG.radiationGlowEffect.get() && living.isAlive()) {
+                VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.entityTranslucent(getTextureLocation(entity)));
+                poseStack.pushPose();
+                float alpha = DarknessIncarnateEffect.getIntensity(living, partialTicks, 25F);
+                this.getParentModel().renderToBuffer(poseStack, ivertexbuilder, 0, LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0), 0F, 0F, 0F, alpha);
+                poseStack.popPose();
+            }
         }
     }
 
@@ -130,5 +153,4 @@ public class ACPotionEffectLayer extends RenderLayer {
         vertexConsumer.vertex(matrix4f, f2, f4, f7).color(colorR, colorG, colorB, colorA).uv((float) textureScaleXZ, (float) uvOffset).overlayCoords(overlayCoords).uv2(packedLightIn).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
         vertexConsumer.vertex(matrix4f, f1, f4, f8).color(colorR, colorG, colorB, colorA).uv((float) 0, (float) uvOffset).overlayCoords(overlayCoords).uv2(packedLightIn).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
     }
-
 }

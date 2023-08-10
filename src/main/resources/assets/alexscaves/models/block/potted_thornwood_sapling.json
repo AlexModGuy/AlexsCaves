@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "render_type": "cutout",
+  "textures": {
+    "plant": "alexscaves:block/thornwood/thornwood_sapling"
+  }
+}

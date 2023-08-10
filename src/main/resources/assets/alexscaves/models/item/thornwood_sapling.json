@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "alexscaves:block/thornwood_sapling"
+    "layer0": "alexscaves:block/thornwood/thornwood_sapling"
   }
 }

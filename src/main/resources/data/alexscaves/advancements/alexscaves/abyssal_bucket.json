@@ -1,0 +1,64 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:gossamer_worm_bucket"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.abyssal_bucket.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.abyssal_bucket.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_abyssal_chasm",
+    "criteria": {
+        "lanternfish_bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:lanternfish_bucket"]
+                    }
+                ]
+            }
+        },
+        "sea_pig_bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:sea_pig_bucket"]
+                    }
+                ]
+            }
+        },
+        "tripodfish_bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:tripodfish_bucket"]
+                    }
+                ]
+            }
+        },
+        "gossamer_worm_bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:gossamer_worm_bucket"]
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "lanternfish_bucket",
+            "sea_pig_bucket",
+            "tripodfish_bucket",
+            "gossamer_worm_bucket"
+        ]
+    ]
+}

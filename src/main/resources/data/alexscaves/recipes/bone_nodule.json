@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:bone_block"
+    }
+  },
+  "result": {
+    "item": "alexscaves:bone_nodule",
+    "count": 12
+  }
+}

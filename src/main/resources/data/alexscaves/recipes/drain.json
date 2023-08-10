@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "DRD",
+    "BBB"
+  ],
+  "key": {
+    "D": {
+      "item": "alexscaves:depth_charge"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "B": {
+      "item": "minecraft:bucket"
+    }
+  },
+  "result": {
+    "item": "alexscaves:drain",
+    "count": 1
+  }
+}

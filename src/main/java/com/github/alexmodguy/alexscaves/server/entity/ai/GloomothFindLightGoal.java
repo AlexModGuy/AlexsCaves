@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.GloomothEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
@@ -23,7 +24,6 @@ public class GloomothFindLightGoal extends MoveToBlockGoal {
     protected int nextStartTick(PathfinderMob mob) {
         return reducedTickDelay(50 + gloomoth.getRandom().nextInt(50));
     }
-
 
     @Override
     public boolean canUse() {
@@ -70,9 +70,12 @@ public class GloomothFindLightGoal extends MoveToBlockGoal {
         return this.blockPos;
     }
 
-
     @Override
     protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
-        return pos != null && worldIn.getBlockState(pos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) && worldIn.getLightEmission(pos) > 0;
+         if(pos != null && worldIn.getBlockState(pos).is(ACTagRegistry.GLOOMOTH_LIGHT_SOURCES) && worldIn.getLightEmission(pos) > 0 && worldIn instanceof ServerLevel serverLevel){
+            return gloomoth.getNearestMothBall(serverLevel, blockPos, 10) == null;
+         }else{
+             return false;
+         }
     }
 }

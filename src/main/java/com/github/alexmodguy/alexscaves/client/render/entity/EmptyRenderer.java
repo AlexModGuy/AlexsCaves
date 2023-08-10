@@ -7,19 +7,20 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 
-public class NuclearExplosionRenderer extends EntityRenderer<NuclearExplosionEntity> {
+public class EmptyRenderer<T extends Entity> extends EntityRenderer<T> {
 
-    public NuclearExplosionRenderer(EntityRendererProvider.Context context) {
+    public EmptyRenderer(EntityRendererProvider.Context context) {
         super(context);
         this.shadowRadius = 0.0F;
     }
 
-    public void render(NuclearExplosionEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource source, int i) {
+    public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource source, int i) {
         super.render(entity, entityYaw, partialTicks, poseStack, source, i);
     }
 
-    public ResourceLocation getTextureLocation(NuclearExplosionEntity entity) {
+    public ResourceLocation getTextureLocation(T entity) {
         return TextureAtlas.LOCATION_BLOCKS;
     }
 }

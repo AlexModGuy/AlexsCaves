@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.CopperValveBlockEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -38,32 +39,32 @@ public class CopperValveBlock extends BaseEntityBlock implements SimpleWaterlogg
     public static final BooleanProperty TURNED = BooleanProperty.create("turned");
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    private static final VoxelShape SHAPE_UP = buildShape(
+    private static final VoxelShape SHAPE_UP = ACMath.buildShape(
             Block.box(7, 0, 7, 9, 11, 9),
             Block.box(1, 9, 1, 15, 11, 15)
     );
 
-    private static final VoxelShape SHAPE_DOWN = buildShape(
+    private static final VoxelShape SHAPE_DOWN = ACMath.buildShape(
             Block.box(7, 4, 7, 9, 16, 9),
             Block.box(1, 5, 1, 15, 7, 15)
     );
 
-    private static final VoxelShape SHAPE_NORTH = buildShape(
+    private static final VoxelShape SHAPE_NORTH = ACMath.buildShape(
             Block.box(7, 7, 4, 9, 9, 16),
             Block.box(1, 1, 5, 15, 15, 7)
     );
 
-    private static final VoxelShape SHAPE_SOUTH = buildShape(
+    private static final VoxelShape SHAPE_SOUTH = ACMath.buildShape(
             Block.box(7, 7, 0, 9, 9, 11),
             Block.box(1, 1, 9, 15, 15, 11)
     );
 
-    private static final VoxelShape SHAPE_EAST = buildShape(
+    private static final VoxelShape SHAPE_EAST = ACMath.buildShape(
             Block.box(0, 7, 7, 11, 9, 9),
             Block.box(9, 1, 1, 11, 15, 15)
     );
 
-    private static final VoxelShape SHAPE_WEST = buildShape(
+    private static final VoxelShape SHAPE_WEST = ACMath.buildShape(
             Block.box(4, 7, 7, 16, 9, 9),
             Block.box(5, 1, 1, 7, 15, 15)
     );
@@ -159,10 +160,6 @@ public class CopperValveBlock extends BaseEntityBlock implements SimpleWaterlogg
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new CopperValveBlockEntity(pos, state);
-    }
-
-    private static VoxelShape buildShape(VoxelShape... from) {
-        return Stream.of(from).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     }
 
     public int getSignal(BlockState state, BlockGetter blockGetter, BlockPos blockPos, Direction direction) {
