@@ -8,7 +8,6 @@ public class BiomeGenerationNoiseCondition {
 
     private boolean disabledCompletely;
     private int distanceFromSpawn;
-    private final float[] alexscavesRarity;
     private final int alexscavesRarityOffset;
     private final float[] continentalness;
     private final float[] erosion;
@@ -17,7 +16,7 @@ public class BiomeGenerationNoiseCondition {
     private final float[] weirdness;
     private final float[] depth;
 
-    private BiomeGenerationNoiseCondition(boolean disabledCompletely, int distanceFromSpawn, float[] alexscavesRarity, int alexscavesRarityOffset, float[] continentalness, float[] erosion, float[] humidity, float[] temperature, float[] weirdness, float[] depth) {
+    private BiomeGenerationNoiseCondition(boolean disabledCompletely, int distanceFromSpawn, int alexscavesRarityOffset, float[] continentalness, float[] erosion, float[] humidity, float[] temperature, float[] weirdness, float[] depth) {
         this.disabledCompletely = disabledCompletely;
         this.distanceFromSpawn = distanceFromSpawn;
         this.continentalness = continentalness;
@@ -26,7 +25,6 @@ public class BiomeGenerationNoiseCondition {
         this.temperature = temperature;
         this.weirdness = weirdness;
         this.depth = depth;
-        this.alexscavesRarity = alexscavesRarity;
         this.alexscavesRarityOffset = alexscavesRarityOffset;
     }
 
@@ -37,7 +35,7 @@ public class BiomeGenerationNoiseCondition {
         if (!isFarEnoughFromSpawn(event, distanceFromSpawn)) {
             return false;
         }
-        if (alexscavesRarity != null && alexscavesRarity.length >= 2 && !ACBiomeRarity.testBiomeRarity(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ(), alexscavesRarity[0], alexscavesRarity[1])) {
+        if (!ACBiomeRarity.testBiomeRarity(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ())) {
             return false;
         }
         if (continentalness != null && continentalness.length >= 2 && !event.testContinentalness(continentalness[0], continentalness[1])) {
@@ -67,6 +65,10 @@ public class BiomeGenerationNoiseCondition {
         return x * x + z * z >= dist * dist;
     }
 
+    public boolean isDisabledCompletely() {
+        return disabledCompletely;
+    }
+
     public static final class Builder {
         private boolean disabledCompletely;
         private int distanceFromSpawn;
@@ -94,11 +96,6 @@ public class BiomeGenerationNoiseCondition {
 
         public Builder distanceFromSpawn(int distanceFromSpawn) {
             this.distanceFromSpawn = distanceFromSpawn;
-            return this;
-        }
-
-        public Builder alexBiomeRarity(float... alexBiomeRarity) {
-            this.alexBiomeRarity = alexBiomeRarity;
             return this;
         }
 
@@ -133,7 +130,7 @@ public class BiomeGenerationNoiseCondition {
         }
 
         public BiomeGenerationNoiseCondition build() {
-            return new BiomeGenerationNoiseCondition(disabledCompletely, distanceFromSpawn, alexBiomeRarity, rarityOffset, continentalness, erosion, humidity, temperature, weirdness, depth);
+            return new BiomeGenerationNoiseCondition(disabledCompletely, distanceFromSpawn, rarityOffset, continentalness, erosion, humidity, temperature, weirdness, depth);
         }
     }
 }

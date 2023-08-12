@@ -12,6 +12,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -20,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
@@ -31,7 +34,7 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
     private static final int MAX_CHARGE = 1000;
 
     public DarknessArmorItem(ArmorMaterial armorMaterial, Type slot) {
-        super(armorMaterial, slot, new Properties());
+        super(armorMaterial, slot, new Properties().rarity(Rarity.UNCOMMON));
     }
 
     private static boolean canChargeUp(LivingEntity entity, boolean creative){
@@ -62,14 +65,20 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
     }
 
     @Override
+    public SoundEvent getEquipSound() {
+        return SoundEvents.EMPTY;
+    }
+
+    @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
+
         if(stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get())){
             if (!level.isClientSide) {
                 CompoundTag tag = stack.getOrCreateTag();
                 int charge = tag.getInt("CloakCharge");
                 boolean flag = false;
                 if(charge < MAX_CHARGE && canChargeUp(stack)){
-                    charge += 10;
+                    charge += 1;
                     tag.putInt("CloakCharge", charge);
                     flag = true;
                 }
@@ -80,16 +89,22 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
         }
     }
 
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
+
+        public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
         if(stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get()) && entity instanceof LivingEntity living) {
             if(living.getItemBySlot(EquipmentSlot.CHEST) == stack){
                 CompoundTag tag = stack.getOrCreateTag();
                 if(!level.isClientSide) {
                     long lastLightTimestamp = tag.getLong("LastLightTimestamp");
+                    long lastEquipMessageTime = tag.getLong("LastEquipMessageTime");
                     if(lastLightTimestamp <= 0 || level.getGameTime() - lastLightTimestamp > 10) {
                         tag.putLong("LastLightTimestamp", level.getGameTime());
                         tag.putBoolean("CanCharge", canChargeUp(living, true));
+                    }
+                    if(lastEquipMessageTime <= 0 && entity instanceof Player player && !level.isClientSide) {
+                        tag.putLong("LastEquipMessageTime", level.getGameTime());
+                        player.displayClientMessage(Component.translatable("item.alexscaves.cloak_of_darkness.equip"), true);
                     }
                 }else if(AlexsCaves.PROXY.getClientSidePlayer() == entity && getMeterProgress(stack) >= 1.0F && AlexsCaves.PROXY.isKeyDown(2)){
                     AlexsCaves.sendMSGToServer(new ArmorKeyMessage(EquipmentSlot.CHEST.ordinal(), living.getId(), 2));

@@ -309,10 +309,14 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
             Entity possessedEntity = getPossessedEntity();
             if (possessedEntity instanceof Player player) {
                 if (b == 77) {
-                    AlexsCaves.PROXY.setRenderViewEntity(player, this);
+                    if(AlexsCaves.COMMON_CONFIG.watcherPossession.get()){
+                        AlexsCaves.PROXY.setRenderViewEntity(player, this);
+                    }
                 } else {
                     level().addParticle(ACParticleRegistry.WATCHER_APPEARANCE.get(), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
-                    AlexsCaves.PROXY.resetRenderViewEntity(player);
+                    if(AlexsCaves.COMMON_CONFIG.watcherPossession.get()) {
+                        AlexsCaves.PROXY.resetRenderViewEntity(player);
+                    }
                 }
             }
         } else {

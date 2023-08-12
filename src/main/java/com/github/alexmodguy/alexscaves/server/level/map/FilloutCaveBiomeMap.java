@@ -36,8 +36,7 @@ public class FilloutCaveBiomeMap implements Runnable {
 
     @Override
     public void run() {
-        double distScale = 640D;
-        int dist = (int) Math.ceil(distScale * AlexsCaves.COMMON_CONFIG.biomeRarityScale.get());
+        int dist = AlexsCaves.COMMON_CONFIG.caveMapSearchDistance.get();
         Pair<BlockPos, Holder<Biome>> pair = serverLevel.findClosestBiome3d((biomeHolder -> biomeHolder.is(biomeResourceKey)), center, dist, 64, 128);
         CompoundTag tag = map.getOrCreateTag();
         tag.putBoolean("Loading", false);

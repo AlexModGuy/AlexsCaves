@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/totem_of_possession_bound"
+  }
+}

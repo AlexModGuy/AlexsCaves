@@ -246,6 +246,9 @@ public class ClientProxy extends CommonProxy {
         ItemProperties.register(ACItemRegistry.ORTHOLANCE.get(), new ResourceLocation("charging"), (stack, level, living, j) -> {
             return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
         });
+        ItemProperties.register(ACItemRegistry.TOTEM_OF_POSSESSION.get(), new ResourceLocation("totem"), (stack, level, living, j) -> {
+            return TotemOfPossessionItem.isBound(stack) ? living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.5F : 0.0F;
+        });
         blockedParticleLocations.clear();
         ACPostEffectRegistry.registerEffect(IRRADIATED_SHADER);
         ACPostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
@@ -681,7 +684,9 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public void onPostRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
         Player player = getClientSidePlayer();
+        boolean flag = false;
         if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter()) {
+            flag = true;
             int screenWidth = event.getWindow().getGuiScaledWidth();
             int screenHeight = event.getWindow().getGuiScaledHeight();
             int forgeGuiY = Minecraft.getInstance().gui instanceof ForgeGui forgeGui ? Math.max(forgeGui.leftHeight, forgeGui.rightHeight) : 0;
@@ -714,7 +719,7 @@ public class ClientProxy extends CommonProxy {
                 forgeGuiY = 53;
             }
             int j = screenWidth / 2 - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorX.get() + 13;
-            int k = screenHeight - forgeGuiY - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get() + 9;
+            int k = screenHeight - forgeGuiY - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get() + 9 - (flag ? 21 : 0);
             float f = DarknessArmorItem.getMeterProgress(stack);
             float invProgress = 1 - f;
             int uvOffset = DarknessArmorItem.canChargeUp(stack) && f >= 1.0F ? 0 : 18;

@@ -440,11 +440,12 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     public boolean hurt(DamageSource damageSource, float f) {
-        if (super.hurt(damageSource, f) && this.isVehicle() && this.getRandom().nextFloat() < 0.65F) {
+        boolean prev = super.hurt(damageSource, f);
+        if (prev && this.isVehicle() && this.getRandom().nextFloat() < 0.65F) {
             this.ejectPassengers();
             return true;
         } else {
-            return false;
+            return prev;
         }
     }
 

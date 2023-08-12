@@ -1,0 +1,20 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "alexscaves:item/totem_of_possession_unbound"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "totem": 0.5
+      },
+      "model": "alexscaves:item/totem_of_possession_bound"
+    },
+    {
+      "predicate": {
+        "totem": 1
+      },
+      "model": "alexscaves:item/totem_of_possession_active"
+    }
+  ]
+}

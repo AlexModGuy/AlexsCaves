@@ -118,6 +118,10 @@
     "alexscaves:corrodent": {
       "charge": 0.4,
       "energy_budget": 0.1
+    },
+    "alexscaves:vesper": {
+      "charge": 0.6,
+      "energy_budget": 0.1
     }
   },
   "spawners": {
@@ -155,7 +159,7 @@
         "type": "alexscaves:vesper",
         "maxCount": 4,
         "minCount": 2,
-        "weight": 40
+        "weight": 70
       }
     ],
     "underground_water_creature": [],

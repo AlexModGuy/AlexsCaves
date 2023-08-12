@@ -391,6 +391,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.FERTILIZER.get());
                 add(output, ACItemRegistry.DARK_TATTERS.get());
                 add(output, ACItemRegistry.OCCULT_GEM.get());
+                add(output, ACItemRegistry.TOTEM_OF_POSSESSION.get());
                 add(output, ACItemRegistry.HOOD_OF_DARKNESS.get());
                 add(output, ACItemRegistry.CLOAK_OF_DARKNESS.get());
                 add(output, ACBlockRegistry.GUANO_BLOCK.get());

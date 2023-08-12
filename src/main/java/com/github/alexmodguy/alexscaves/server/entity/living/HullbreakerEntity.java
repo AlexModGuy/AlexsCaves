@@ -211,7 +211,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.ATTACK_DAMAGE, 16.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.MAX_HEALTH, 400.0D).add(Attributes.ATTACK_DAMAGE, 16.0D);
     }
 
     public void remove(Entity.RemovalReason removalReason) {
