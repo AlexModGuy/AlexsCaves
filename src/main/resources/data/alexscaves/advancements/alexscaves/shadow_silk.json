@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:shadow_silk"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.shadow_silk.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.shadow_silk.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_forsaken",
+    "criteria": {
+        "desolate_dagger": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:shadow_silk"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:totem_of_possession"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.totem_of_possession.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.totem_of_possession.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_watcher",
+    "criteria": {
+        "totem_of_possession": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:totem_of_possession"]
+                    }
+                ]
+            }
+        }
+    }
+}

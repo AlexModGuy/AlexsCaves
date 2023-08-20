@@ -145,6 +145,18 @@ public class QuarryBlockEntity extends BlockEntity {
             topRightTorch = null;
             return false;
         }
+        if(topRightTorch.getX() - topLeftTorch.getX() != 0 && topRightTorch.getZ() - topLeftTorch.getZ() != 0){
+            return false;
+        }
+        if(topRightTorch.getX() - bottomRightTorch.getX() != 0 && topRightTorch.getZ() - bottomRightTorch.getZ() != 0){
+            return false;
+        }
+        if(topLeftTorch.getX() - bottomLeftTorch.getX() != 0 && topLeftTorch.getZ() - bottomLeftTorch.getZ() != 0){
+            return false;
+        }
+        if(bottomRightTorch.getX() - bottomLeftTorch.getX() != 0 && bottomRightTorch.getZ() - bottomLeftTorch.getZ() != 0){
+            return false;
+        }
         return true;
     }
 

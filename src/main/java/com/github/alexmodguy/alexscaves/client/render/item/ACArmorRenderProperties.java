@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexMultiConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
@@ -17,7 +18,6 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.ForgeRenderTypes;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class ACArmorRenderProperties implements IClientItemExtensions {
@@ -58,16 +58,16 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
         return _default;
     }
 
-    public static void onPreRenderArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
+    public static void onPreRenderArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ItemStack itemStack, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
         if(armorItem.getMaterial() == ACItemRegistry.DARKNESS_ARMOR_MATERIAL){
-            VertexConsumer vertexconsumer1 = multiBufferSource.getBuffer(RenderType.entityTranslucent(texture, false));
+            VertexConsumer vertexconsumer1 = itemStack.hasFoil() ? VertexMultiConsumer.create(multiBufferSource.getBuffer(RenderType.entityGlintDirect()), multiBufferSource.getBuffer(RenderType.entityTranslucent(texture))) : multiBufferSource.getBuffer(RenderType.entityTranslucent(texture));
             armorModel.renderToBuffer(poseStack, vertexconsumer1, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             VertexConsumer vertexconsumer2 = multiBufferSource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(DARKNESS_ARMOR_GLOW));
             armorModel.renderToBuffer(poseStack, vertexconsumer2, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 
-    public static void onPostRenderArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
+    public static void onPostRenderArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ItemStack itemStack, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
 
     }
 }

@@ -1,14 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
-import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
-import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
-import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
-import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

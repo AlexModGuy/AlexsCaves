@@ -1,23 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
-import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
-import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
-import com.google.common.base.Predicates;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,16 +14,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
-
-import java.util.stream.Stream;
 
 public class FloaterEntity extends Entity {
 

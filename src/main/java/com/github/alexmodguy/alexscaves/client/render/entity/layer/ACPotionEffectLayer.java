@@ -4,19 +4,15 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -26,17 +22,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import org.joml.Vector3d;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class ACPotionEffectLayer extends RenderLayer {
 

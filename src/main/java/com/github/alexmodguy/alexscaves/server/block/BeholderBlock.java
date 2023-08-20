@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.BeholderBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.CopperValveBlockEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

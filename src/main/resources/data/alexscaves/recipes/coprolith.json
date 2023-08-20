@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PDP",
+    "DPD",
+    "PDP"
+  ],
+  "key": {
+    "P": {
+      "item": "alexscaves:guanostone"
+    },
+    "D": {
+      "item": "alexscaves:guano_block"
+    }
+  },
+  "result": {
+    "item": "alexscaves:coprolith"
+  }
+}

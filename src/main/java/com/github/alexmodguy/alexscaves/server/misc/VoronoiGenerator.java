@@ -6,6 +6,7 @@ import net.minecraft.world.phys.Vec3;
  * Simple Voronoi / Cellular Noise Generator
  * Adapted from FastNoiseLite library
  * https://github.com/Auburn/FastNoise
+ * thank you cappin!
  */
 public class VoronoiGenerator {
     private long seed;

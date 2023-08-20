@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
-import com.github.alexmodguy.alexscaves.server.entity.item.NuclearExplosionEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;

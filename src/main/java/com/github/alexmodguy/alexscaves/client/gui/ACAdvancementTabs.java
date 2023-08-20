@@ -11,6 +11,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 
+import java.util.Locale;
+
 public class ACAdvancementTabs {
 
     private static final float MAX_TRANSITION_TIME = 25F;
@@ -72,11 +74,8 @@ public class ACAdvancementTabs {
 
     private static boolean isBlockCarvedOut(int blockX, int blockY, Type type) {
         int biomeTypeOffset = type.ordinal() * 120;
-
-        float noise1 = (ACMath.sampleNoise2D(blockX * 10 + biomeTypeOffset, biomeTypeOffset, 20) + 1.0F) * 0.5F;
-        float verticality = (blockY - 1) / (float) (windowHeight / 16);
-        float centerAmount = 1F - (float) Math.sin(Math.PI * Mth.clamp(verticality, 0F, 1F));
-        return noise1 > centerAmount;
+        float noise = ACMath.sampleNoise2D(blockX + biomeTypeOffset, blockY + biomeTypeOffset, 20);
+        return noise < -0.25F || noise > 0.25F;
     }
 
     public static void tick() {
@@ -111,9 +110,12 @@ public class ACAdvancementTabs {
     }
 
     public enum Type {
-        DEFAULT(new ResourceLocation("alexscaves:alexscaves/root"), 0, new ResourceLocation("textures/block/stone.png")),
-        MAGNETIC(new ResourceLocation("alexscaves:alexscaves/discover_magnetic_caves"), 0X060607, new ResourceLocation(AlexsCaves.MODID, "textures/block/galena.png")),
-        PRIMORDIAL(new ResourceLocation("alexscaves:alexscaves/discover_primordial_caves"), 0XF2D860, new ResourceLocation(AlexsCaves.MODID, "textures/block/limestone.png"));
+        DEFAULT(new ResourceLocation(AlexsCaves.MODID,"alexscaves/root"), 0, new ResourceLocation("textures/block/stone.png")),
+        MAGNETIC(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_magnetic_caves"), 0X060607, new ResourceLocation(AlexsCaves.MODID, "textures/block/galena.png")),
+        PRIMORDIAL(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_primordial_caves"), 0XF2D860, new ResourceLocation(AlexsCaves.MODID, "textures/block/limestone.png")),
+        TOXIC(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_toxic_caves"), 0X7EFF00, new ResourceLocation(AlexsCaves.MODID, "textures/block/radrock.png")),
+        ABYSSAL(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_abyssal_chasm"), 0X011437, new ResourceLocation(AlexsCaves.MODID, "textures/block/abyssmarine.png")),
+        FORLORN(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_forlorn_hollows"), 0X15110E, new ResourceLocation(AlexsCaves.MODID, "textures/block/guanostone.png"));
 
         ResourceLocation root;
 
@@ -132,7 +134,7 @@ public class ACAdvancementTabs {
         }
 
         private ResourceLocation generateTexture(String type) {
-            return this == DEFAULT ? null : new ResourceLocation(AlexsCaves.MODID, "textures/misc/advancement/" + this.name().toLowerCase() + "_" + type + ".png");
+            return this == DEFAULT ? null : new ResourceLocation(AlexsCaves.MODID, "textures/misc/advancement/" + this.name().toLowerCase(Locale.ROOT) + "_" + type + ".png");
         }
 
         private static Type getDirectType(Advancement advancement) {

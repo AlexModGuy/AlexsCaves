@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.BeholderEyeEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -66,6 +67,10 @@ public class BeholderBlockEntity extends BlockEntity  {
 
     public void startObserving(Level level, Player player) {
         BeholderEyeEntity beholderEyeEntity = ACEntityRegistry.BEHOLDER_EYE.get().create(level);
+        double dist = Math.sqrt(this.getBlockPos().distSqr(player.blockPosition()));
+        if(dist > 1000){
+            ACAdvancementTriggerRegistry.BEHOLDER_FAR_AWAY.triggerForEntity(player);
+        }
         Vec3 vec = this.getBlockPos().getCenter().add(0, -0.15, 0);
         beholderEyeEntity.setPos(vec);
         beholderEyeEntity.setUsingPlayerUUID(player.getUUID());

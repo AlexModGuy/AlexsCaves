@@ -1,0 +1,36 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:hood_of_darkness"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.shadow_armor.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.shadow_armor.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/shadow_silk",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:hood_of_darkness"]
+                    }
+                ]
+            }
+        },
+        "tunic": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:cloak_of_darkness"]
+                    }
+                ]
+            }
+        }
+    }
+}

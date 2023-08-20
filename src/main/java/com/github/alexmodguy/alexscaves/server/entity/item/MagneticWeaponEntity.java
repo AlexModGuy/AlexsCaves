@@ -54,7 +54,6 @@ public class MagneticWeaponEntity extends Entity {
     private static final EntityDataAccessor<Boolean> IDLING = SynchedEntityData.defineId(MagneticWeaponEntity.class, EntityDataSerializers.BOOLEAN);
     private float prevStrikeProgress;
     private float strikeProgress;
-
     private float prevReturnProgress;
     private float returnProgress;
     private int playerUseCooldown = 0;

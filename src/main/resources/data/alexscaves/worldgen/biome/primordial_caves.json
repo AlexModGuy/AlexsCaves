@@ -125,7 +125,7 @@
       {
         "type": "alexscaves:subterranodon",
         "maxCount": 5,
-        "minCount": 5,
+        "minCount": 3,
         "weight": 5
       },
       {
@@ -138,19 +138,19 @@
         "type": "alexscaves:grottoceratops",
         "maxCount": 4,
         "minCount": 2,
-        "weight": 18
+        "weight": 22
       },
       {
         "type": "alexscaves:tremorsaurus",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 5
+        "weight": 7
       },
       {
         "type": "alexscaves:relicheirus",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 8
+        "weight": 10
       },
       {
         "type": "minecraft:frog",

@@ -4,17 +4,22 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.item.CinderBrickEntity;
-import com.github.alexmodguy.alexscaves.server.entity.item.DepthChargeEntity;
-import com.github.alexmodguy.alexscaves.server.entity.item.GuanoEntity;
+import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Position;
+import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,6 +33,7 @@ import java.util.Map;
 
 public class ACItemRegistry {
     private static Map<RegistryObject<Item>, ResourceKey<Biome>> creativeTabSpawnEggMap = new LinkedHashMap<>();
+    public static final Rarity RARITY_DEMONIC = Rarity.create("alexscaves:demonic", ChatFormatting.DARK_RED);
     public static final ACArmorMaterial PRIMORDIAL_ARMOR_MATERIAL = new ACArmorMaterial("primordial", 20, new int[]{3, 4, 3, 2}, 25, SoundEvents.ARMOR_EQUIP_LEATHER, 0F);
     public static final ACArmorMaterial HAZMAT_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("hazmat_suit", 20, new int[]{2, 4, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 0.5F);
     public static final ACArmorMaterial DIVING_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("diving_suit", 20, new int[]{2, 5, 6, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 1F);
@@ -135,8 +141,21 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> DARK_TATTERS = DEF_REG.register("dark_tatters", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> OCCULT_GEM = DEF_REG.register("occult_gem", () -> new OccultGemItem());
     public static final RegistryObject<Item> TOTEM_OF_POSSESSION = DEF_REG.register("totem_of_possession", () -> new TotemOfPossessionItem());
+    public static final RegistryObject<Item> DESOLATE_DAGGER = DEF_REG.register("desolate_dagger", () -> new DesolateDaggerItem());
+    public static final RegistryObject<Item> CORRODENT_TEETH = DEF_REG.register("corrodent_teeth", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> BURROWING_ARROW = DEF_REG.register("burrowing_arrow", () -> new BurrowingArrowItem());
+    public static final RegistryObject<Item> VESPER_WING = DEF_REG.register("vesper_wing", () -> new Item(new Item.Properties().food(ACFoods.VESPER_WING)));
+    public static final RegistryObject<Item> VESPER_STEW = DEF_REG.register("vesper_stew", () -> new Item(new Item.Properties().food(ACFoods.VESPER_SOUP)));
+    public static final RegistryObject<Item> PURE_DARKNESS = DEF_REG.register("pure_darkness", () -> new Item(new Item.Properties().rarity(RARITY_DEMONIC)));
+    public static final RegistryObject<Item> SHADOW_SILK = DEF_REG.register("shadow_silk", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> HOOD_OF_DARKNESS = DEF_REG.register("hood_of_darkness", () -> new DarknessArmorItem(DARKNESS_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
     public static final RegistryObject<Item> CLOAK_OF_DARKNESS = DEF_REG.register("cloak_of_darkness", () -> new DarknessArmorItem(DARKNESS_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
+    public static final RegistryObject<Item> DARKENED_APPLE = DEF_REG.register("darkened_apple", () -> new DarkenedAppleItem());
+    public static final RegistryObject<Item> DREADBOW = DEF_REG.register("dreadbow", () -> new DreadbowItem());
+    public static final RegistryObject<Item> DREADBOW_SPRITE = DEF_REG.register("dreadbow_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DREADBOW_PULLING_0_SPRITE = DEF_REG.register("dreadbow_pulling_0_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DREADBOW_PULLING_1_SPRITE = DEF_REG.register("dreadbow_pulling_1_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DREADBOW_PULLING_2_SPRITE = DEF_REG.register("dreadbow_pulling_2_inventory", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> THORNWOOD_DOOR = DEF_REG.register("thornwood_door", () -> new DoubleHighBlockItem(ACBlockRegistry.THORNWOOD_DOOR.get(), (new Item.Properties())));
     public static final RegistryObject<Item> THORNWOOD_SIGN = DEF_REG.register("thornwood_sign", () -> new SignItem((new Item.Properties()).stacksTo(16), ACBlockRegistry.THORNWOOD_SIGN.get(), ACBlockRegistry.THORNWOOD_WALL_SIGN.get()));
     public static final RegistryObject<Item> THORNWOOD_HANGING_SIGN = DEF_REG.register("thornwood_hanging_sign", () -> new HangingSignItem(ACBlockRegistry.THORNWOOD_HANGING_SIGN.get(), ACBlockRegistry.THORNWOOD_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
@@ -187,6 +206,30 @@ public class ACItemRegistry {
         HAZMAT_SUIT_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(POLYMER_PLATE.get()));
         DIVING_SUIT_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(Items.COPPER_INGOT));
         DARKNESS_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(DARK_TATTERS.get()));
+        DispenserBlock.registerBehavior(SEEKING_ARROW.get(), new AbstractProjectileDispenseBehavior() {
+            protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
+                AbstractArrow abstractarrow = new SeekingArrowEntity(level, position.x(), position.y(), position.z());
+                abstractarrow.pickup = AbstractArrow.Pickup.ALLOWED;
+                return abstractarrow;
+            }
+        });
+        DispenserBlock.registerBehavior(CINDER_BRICK.get(), new AbstractProjectileDispenseBehavior() {
+            protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
+                return new CinderBrickEntity(level, position.x(), position.y(), position.z());
+            }
+        });
+        DispenserBlock.registerBehavior(GUANO.get(), new AbstractProjectileDispenseBehavior() {
+            protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
+                return new GuanoEntity(level, position.x(), position.y(), position.z());
+            }
+        });
+        DispenserBlock.registerBehavior(BURROWING_ARROW.get(), new AbstractProjectileDispenseBehavior() {
+            protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
+                AbstractArrow abstractarrow = new BurrowingArrowEntity(level, position.x(), position.y(), position.z());
+                abstractarrow.pickup = AbstractArrow.Pickup.ALLOWED;
+                return abstractarrow;
+            }
+        });
     }
 
     public static List<RegistryObject<Item>> getSpawnEggsForTab(ResourceKey<Biome> tabName) {

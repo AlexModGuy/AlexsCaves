@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:guano"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.guano.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.guano.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_forlorn_hollows",
+    "criteria": {
+        "guano": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:guano"]
+                    }
+                ]
+            }
+        }
+    }
+}

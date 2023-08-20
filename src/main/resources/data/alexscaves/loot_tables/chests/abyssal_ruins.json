@@ -51,7 +51,49 @@
         },
         {
           "type": "item",
+          "name": "alexscaves:tripodfish",
+          "weight": 5,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:lanternfish",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
           "name": "alexscaves:muck",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 8
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:marine_snow",
           "weight": 10,
           "functions": [
             {

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:guanostone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:guanostone_wall",
+    "count": 6
+  }
+}

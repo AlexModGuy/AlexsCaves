@@ -4,10 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.*;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
-import com.github.alexmodguy.alexscaves.server.item.GalenaGauntletItem;
-import com.github.alexmodguy.alexscaves.server.item.RaygunItem;
-import com.github.alexmodguy.alexscaves.server.item.ResistorShieldItem;
+import com.github.alexmodguy.alexscaves.server.item.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -16,8 +13,11 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
@@ -47,11 +47,14 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final OrtholanceModel ORTHOLANCE_MODEL = new OrtholanceModel();
     private static final ResourceLocation COPPER_VALVE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/copper_valve.png");
     private static final CopperValveModel COPPER_VALVE_MODEL = new CopperValveModel();
-
     private static final BeholderModel BEHOLDER_MODEL = new BeholderModel();
     private static final ResourceLocation BEHOLDER_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder.png");
     private static final ResourceLocation BEHOLDER_TEXTURE_EYE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder_eye.png");
+    private static final ResourceLocation DREADBOW_TEXTURE = new ResourceLocation("alexscaves:textures/entity/dreadbow.png");
+    private static final ResourceLocation DREADBOW_TEXTURE_EYE = new ResourceLocation("alexscaves:textures/entity/dreadbow_eye.png");
+    private static final DreadbowModel DREADBOW_MODEL = new DreadbowModel();
 
+    private Entity renderedDreadbowArrow = null;
 
     public ACItemstackRenderer() {
         super(null, null);
@@ -235,5 +238,46 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             BEHOLDER_MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.eyes(BEHOLDER_TEXTURE_EYE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             poseStack.popPose();
         }
+
+        if (itemStackIn.is(ACItemRegistry.DREADBOW.get())) {
+            float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
+            float pullAmount = DreadbowItem.getPullingAmount(itemStackIn, partialTick);
+            poseStack.translate(0.5F, 0.5f, 0.5f);
+            ItemStack spriteItem = new ItemStack(pullAmount >= 0.8F ? ACItemRegistry.DREADBOW_PULLING_2_SPRITE.get() : pullAmount >= 0.5F ? ACItemRegistry.DREADBOW_PULLING_1_SPRITE.get() : pullAmount > 0.0F ? ACItemRegistry.DREADBOW_PULLING_0_SPRITE.get() : ACItemRegistry.DREADBOW_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if (heldIn3d) {
+                poseStack.pushPose();
+                if (transformType.firstPerson()) {
+                    poseStack.translate(left ? -0.1F : 0.1F, 0.1F, -0.1F);
+                    poseStack.scale(0.5F, 0.5F, 0.5F);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(15));
+                }else{
+                    poseStack.translate(left ? 0.1F : -0.1F, -0.45F, 0.35F - pullAmount * 0.3F);
+                    poseStack.mulPose(Axis.YP.rotationDegrees(left ? 7 : -7));
+                }
+                EntityType type = DreadbowItem.getTypeOfArrow(itemStackIn);
+                DREADBOW_MODEL.setupAnim(null, pullAmount, ageInTicks,  0, 0, 0);
+                if(Minecraft.getInstance().player != null && Minecraft.getInstance().player.isUsingItem() && pullAmount > 0 && type != null && Minecraft.getInstance().level != null){
+                    if(renderedDreadbowArrow == null || renderedDreadbowArrow.getType() != type){
+                        renderedDreadbowArrow = type.create(Minecraft.getInstance().level);
+                    }
+                    EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
+                    poseStack.pushPose();
+                    DREADBOW_MODEL.translateToBowString(poseStack);
+                    poseStack.mulPose(Axis.XP.rotationDegrees(180));
+                    poseStack.mulPose(Axis.YP.rotationDegrees(left ? 7 : -7));
+                    poseStack.translate(0, 0.0F, 0.75F);
+                    manager.render(renderedDreadbowArrow, 0.0D, 0.0D, 0.0D, 0.0F, 1.0F, poseStack, bufferIn, DreadbowItem.isConvertibleArrow (renderedDreadbowArrow) ? (int) (Math.round(240 * (1F - pullAmount))) : combinedLightIn);
+                    poseStack.popPose();
+                }
+                VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(DREADBOW_TEXTURE), false, itemStackIn.hasFoil());
+                DREADBOW_MODEL.renderToBuffer(poseStack, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                DREADBOW_MODEL.renderToBuffer(poseStack, bufferIn.getBuffer(RenderType.eyes(DREADBOW_TEXTURE_EYE)), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                poseStack.popPose();
+            } else {
+                Minecraft.getInstance().getItemRenderer().renderStatic(spriteItem, transformType, transformType == ItemDisplayContext.GROUND ? combinedLightIn : 240, combinedOverlayIn, poseStack, bufferIn, level, 0);
+            }
+        }
+
     }
 }

@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.HullbreakerModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
-import com.github.alexmodguy.alexscaves.server.entity.living.GammaroachEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

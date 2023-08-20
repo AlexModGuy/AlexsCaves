@@ -26,13 +26,9 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.stream.Stream;
 
 public class CopperValveBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;

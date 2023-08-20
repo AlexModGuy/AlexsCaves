@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DD",
+    "DD"
+  ],
+  "key": {
+    "D": {
+      "item": "alexscaves:dark_tatters"
+    }
+  },
+  "result": {
+    "item": "minecraft:black_wool",
+    "count": 1
+  }
+}

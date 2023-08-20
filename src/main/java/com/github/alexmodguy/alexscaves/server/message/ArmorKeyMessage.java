@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.message;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.item.KeybindUsingArmor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;

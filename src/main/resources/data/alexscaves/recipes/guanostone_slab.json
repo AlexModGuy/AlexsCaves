@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:guanostone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:guanostone_slab",
+    "count": 6
+  }
+}

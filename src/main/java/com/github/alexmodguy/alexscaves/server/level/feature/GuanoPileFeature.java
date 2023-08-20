@@ -26,7 +26,7 @@ public class GuanoPileFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos.MutableBlockPos pileBottom = new BlockPos.MutableBlockPos();
         pileBottom.set(context.origin());
-        if (!level.getBlockState(pileBottom).isAir()) {
+        if (!level.getBlockState(pileBottom).isAir() || level.canSeeSky(pileBottom)) {
             return false;
         }
         while (pileBottom.getY() > level.getMinBuildHeight() && level.getBlockState(pileBottom).canBeReplaced()) {
@@ -66,6 +66,9 @@ public class GuanoPileFeature extends Feature<NoneFeatureConfiguration> {
                         }
                         side.move(0, 1, 0);
                     }
+                }
+                if(level.canSeeSky(side)){
+                    break;
                 }
             }
         }

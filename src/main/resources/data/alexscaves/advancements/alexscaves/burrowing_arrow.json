@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:burrowing_arrow"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.burrowing_arrow.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.burrowing_arrow.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_corrodent",
+    "criteria": {
+        "burrowing_arrow": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:burrowing_arrow"]
+                    }
+                ]
+            }
+        }
+    }
+}

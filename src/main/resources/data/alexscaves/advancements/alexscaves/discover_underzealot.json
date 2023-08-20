@@ -1,0 +1,48 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.discover_underzealot.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.discover_underzealot.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/defeat_gloomoth",
+  "criteria": {
+    "killed_underzealot": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:underzealot"
+        }
+      }
+    },
+    "killed_by_underzealot": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:underzealot"
+        }
+      }
+    },
+    "interact_underzealot": {
+      "trigger": "minecraft:player_interacted_with_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:underzealot"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "killed_underzealot",
+      "killed_by_underzealot",
+      "interact_underzealot"
+    ]
+  ]
+}

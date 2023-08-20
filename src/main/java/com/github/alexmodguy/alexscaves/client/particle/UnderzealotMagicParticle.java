@@ -27,7 +27,7 @@ public class UnderzealotMagicParticle extends TextureSheetParticle {
         this.xd = (double) 0.0F;
         this.zd = (double) 0.0F;
         this.quadSize *= 1.15F;
-        this.lifetime = (int) (20.0D / (Math.random() * 0.8D + 0.2D));
+        this.lifetime = (int) (10.0D / (Math.random() * 0.8D + 0.2D));
         this.hasPhysics = false;
         this.target = new Vec3(toX, toY, toZ);
         this.setSpriteFromAge(spriteSet);

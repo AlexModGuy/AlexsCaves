@@ -46,6 +46,7 @@ public class RaygunRenderHelper {
         }
         VertexConsumer ivertexbuilder = bufferSource.getBuffer(ACRenderTypes.getRaygunRay(RAYGUN_RAY, irradiated));
         PoseStack.Pose matrixstack$entry = poseStack.last();
+        poseStack.pushPose();
         Matrix4f matrix4f = matrixstack$entry.pose();
         Matrix3f matrix3f = matrixstack$entry.normal();
 
@@ -57,26 +58,30 @@ public class RaygunRenderHelper {
         vertex(ivertexbuilder, matrix4f, matrix3f, 0, length, endWidth, j, k, l, 1F, v1);
         vertex(ivertexbuilder, matrix4f, matrix3f, 0, length, -endWidth, j, k, l, 0F, v1);
         poseStack.popPose();
+        poseStack.popPose();
     }
 
     private static void vertex(VertexConsumer p_229108_0_, Matrix4f p_229108_1_, Matrix3f p_229108_2_, float x, float y, float z, int p_229108_6_, int p_229108_7_, int p_229108_8_, float u, float v) {
         p_229108_0_.vertex(p_229108_1_, x, y, z).color(p_229108_6_, p_229108_7_, p_229108_8_, 255).uv(u, v).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(240).normal(p_229108_2_, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
-    public static void renderRaysFor(LivingEntity entity,  Vec3 rayFrom, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, boolean firstPerson) {
+    public static void renderRaysFor(LivingEntity entity,  Vec3 rayFrom, PoseStack poseStack, MultiBufferSource bufferSource, float partialTick, boolean firstPerson, int firstPersonPass) {
         if (entity.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof RaygunItem && entity.isUsingItem()) {
             ItemStack stack = entity.getItemInHand(InteractionHand.MAIN_HAND);
             float useRaygunAmount = RaygunItem.getUseTime(stack) / 5F;
             float ageInTicks = entity.tickCount + partialTick;
-            float up = firstPerson ? 0F : entity.getEyeHeight();
             Vec3 rayPosition = RaygunItem.getLerpedRayPosition(stack, partialTick);
             if (rayPosition != null && RaygunItem.getUseTime(stack) >= 5F) {
                 Vec3 gunPos = getGunOffset(entity, partialTick, firstPerson, entity.getMainArm() == HumanoidArm.LEFT);
                 Vec3 vec3 = rayPosition.subtract(rayFrom.add(gunPos));
                 poseStack.pushPose();
                 poseStack.translate(gunPos.x, gunPos.y, gunPos.z);
-                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
-                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
+                if(firstPersonPass == 0 || firstPersonPass == 1){
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
+                }
+                if(firstPersonPass == 0 || firstPersonPass == 2){
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
+                }
                 poseStack.popPose();
             }
         }
@@ -90,8 +95,12 @@ public class RaygunRenderHelper {
                 Vec3 vec3 = rayPosition.subtract(rayFrom.add(gunPos));
                 poseStack.pushPose();
                 poseStack.translate(gunPos.x, gunPos.y, gunPos.z);
-                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
-                RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
+                if(firstPersonPass == 0 || firstPersonPass == 1){
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
+                }
+                if(firstPersonPass == 0 || firstPersonPass == 2){
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
+                }
                 poseStack.popPose();
             }
         }

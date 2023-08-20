@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:darkened_apple"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.eat_darkened_apple.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.eat_darkened_apple.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/shadow_armor",
+  "criteria": {
+    "eat_darkened_apple": {
+      "trigger": "alexscaves:eat_darkened_apple"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:beholder"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.beholder_far_away.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.beholder_far_away.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/defeat_watcher",
+  "criteria": {
+    "beholder_far_away": {
+      "trigger": "alexscaves:beholder_far_away"
+    }
+  }
+}

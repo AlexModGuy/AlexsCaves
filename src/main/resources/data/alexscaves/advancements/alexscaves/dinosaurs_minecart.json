@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.dinosaurs_minecart.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.dinosaurs_minecart.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/discover_dinosaur",
+  "criteria": {
+    "dinosaurs_minecart": {
+      "trigger": "alexscaves:dinosaurs_minecart"
+    }
+  }
+}

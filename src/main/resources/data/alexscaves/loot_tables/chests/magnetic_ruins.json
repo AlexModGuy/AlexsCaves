@@ -187,6 +187,20 @@
         },
         {
           "type": "item",
+          "name": "alexscaves:seeking_arrow",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 3,
+                "max": 9
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
           "name": "minecraft:tnt",
           "weight": 9,
           "functions": [

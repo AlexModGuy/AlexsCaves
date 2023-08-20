@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "A A",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:coprolith"
+    }
+  },
+  "result": {
+    "item": "alexscaves:porous_coprolith",
+    "count": 8
+  }
+}

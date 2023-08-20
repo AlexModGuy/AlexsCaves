@@ -59,7 +59,7 @@ public class CorrodentRenderer extends MobRenderer<CorrodentEntity, CorrodentMod
             poseStack.pushPose();
             Vec3 cameraPos = camera.getPosition();
             poseStack.translate(-cameraPos.x, -cameraPos.y, -cameraPos.z);
-            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().crumblingBufferSource();
             for (Map.Entry<BlockPos, Integer> posAndInt : allDugBlocksOnScreen.entrySet()) {
                 int progress = posAndInt.getValue() - 1;
                 if (progress >= 0 && progress < 10) {

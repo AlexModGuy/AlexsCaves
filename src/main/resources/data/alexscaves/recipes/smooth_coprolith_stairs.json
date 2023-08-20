@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G  ",
+    "GG ",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:smooth_coprolith"
+    }
+  },
+  "result": {
+    "item": "alexscaves:smooth_coprolith_stairs",
+    "count": 4
+  }
+}

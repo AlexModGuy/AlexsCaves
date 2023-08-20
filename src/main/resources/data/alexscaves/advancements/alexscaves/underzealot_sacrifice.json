@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.underzealot_sacrifice.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.underzealot_sacrifice.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/discover_underzealot",
+  "criteria": {
+    "underzealot_sacrifice": {
+      "trigger": "alexscaves:underzealot_sacrifice"
+    }
+  }
+}

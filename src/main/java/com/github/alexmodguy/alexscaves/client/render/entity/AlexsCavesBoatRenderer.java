@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.ACBoatChestModel;
 import com.github.alexmodguy.alexscaves.client.model.ACBoatModel;
 import com.github.alexmodguy.alexscaves.client.model.PewenBoatModel;
+import com.github.alexmodguy.alexscaves.client.model.ThornwoodBoatModel;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -36,10 +37,9 @@ public class AlexsCavesBoatRenderer<T extends Boat & AlexsCavesBoat> extends Ent
             textureMap.put(type, new ResourceLocation(AlexsCaves.MODID, "textures/entity/boat/" + type.getName() + "_boat.png"));
         }
         modelMap.put(AlexsCavesBoat.Type.PEWEN, new PewenBoatModel());
-        modelMap.put(AlexsCavesBoat.Type.THORNWOOD, new PewenBoatModel());
+        modelMap.put(AlexsCavesBoat.Type.THORNWOOD, new ThornwoodBoatModel());
         this.isChest = isChest;
     }
-
 
     @Override
     public void render(T entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {

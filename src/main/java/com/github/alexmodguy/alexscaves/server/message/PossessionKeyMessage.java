@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.message;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;

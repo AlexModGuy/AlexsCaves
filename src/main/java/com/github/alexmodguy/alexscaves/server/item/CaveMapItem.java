@@ -21,9 +21,9 @@ import net.minecraft.world.level.biome.Biome;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CaveMapItem extends Item {
+public class CaveMapItem extends Item implements UpdatesStackTags {
 
-    public static int MAP_SCALE = 10;
+    public static int MAP_SCALE = 7;
 
     public CaveMapItem(Item.Properties properties) {
         super(properties);

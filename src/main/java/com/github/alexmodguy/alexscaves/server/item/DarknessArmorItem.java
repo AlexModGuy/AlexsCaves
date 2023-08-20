@@ -1,14 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
-import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.message.ArmorKeyMessage;
-import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
-import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,19 +18,17 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nullable;
 
-public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRender, KeybindUsingArmor {
+public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRender, KeybindUsingArmor, UpdatesStackTags {
 
     private static final int MAX_CHARGE = 1000;
 
     public DarknessArmorItem(ArmorMaterial armorMaterial, Type slot) {
-        super(armorMaterial, slot, new Properties().rarity(Rarity.UNCOMMON));
+        super(armorMaterial, slot, new Properties().rarity(ACItemRegistry.RARITY_DEMONIC));
     }
 
     private static boolean canChargeUp(LivingEntity entity, boolean creative){

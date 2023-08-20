@@ -45,7 +45,7 @@ public class TremorsaurusHeldMobLayer extends RenderLayer<TremorsaurusEntity, Tr
                 matrixStackIn.mulPose(Axis.YP.rotationDegrees(90F));
             }
             matrixStackIn.translate(0, -heldMob.getBbHeight() * 0.5F, 0);
-            if (!ClientProxy.isFirstPersonPlayer(heldMob)) {
+            if (!AlexsCaves.PROXY.isFirstPersonPlayer(heldMob)) {
                 renderEntity(heldMob, 0, 0, 0, 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             }
             matrixStackIn.popPose();

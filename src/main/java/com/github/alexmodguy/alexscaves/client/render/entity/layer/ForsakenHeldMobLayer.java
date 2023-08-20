@@ -49,7 +49,7 @@ public class ForsakenHeldMobLayer extends RenderLayer<ForsakenEntity, ForsakenMo
             matrixStackIn.translate(handPosition.x, handPosition.y, handPosition.z);
             matrixStackIn.mulPose(Axis.ZP.rotationDegrees(180F));
             matrixStackIn.mulPose(Axis.YP.rotationDegrees(vehicleRot - riderRot));
-            if (!ClientProxy.isFirstPersonPlayer(heldMob)) {
+            if (!AlexsCaves.PROXY.isFirstPersonPlayer(heldMob)) {
                 renderEntity(heldMob, 0, 0, 0, 0, partialTicks, matrixStackIn, bufferIn, packedLightIn);
             }
             matrixStackIn.popPose();

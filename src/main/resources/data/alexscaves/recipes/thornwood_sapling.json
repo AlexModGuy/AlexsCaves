@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "B",
+    "B",
+    "F"
+  ],
+  "key": {
+    "F": {
+      "item": "alexscaves:fertilizer"
+    },
+    "B": {
+      "item": "alexscaves:thornwood_branch"
+    }
+  },
+  "result": {
+    "item": "alexscaves:thornwood_sapling"
+  }
+}

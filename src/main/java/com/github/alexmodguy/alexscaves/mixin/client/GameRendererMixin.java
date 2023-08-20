@@ -58,8 +58,6 @@ public abstract class GameRendererMixin {
     )
     public void ac_render(float partialTick, long nanos, boolean idk, CallbackInfo ci) {
         ((ClientProxy) AlexsCaves.PROXY).preScreenRender(partialTick);
-
-
     }
 
 

@@ -1,7 +1,5 @@
 package com.github.alexmodguy.alexscaves.client.render.blockentity;
 
-import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.AmberMonolithBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -54,7 +52,6 @@ public class AmberMonolithBlockRenderer<T extends AmberMonolithBlockEntity> impl
     }
 
     public static <E extends Entity> void renderEntityInAmber(E entityIn, double x, double y, double z, float yaw, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, float transparency) {
-        ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.HOLOGRAM_SHADER);
 
         EntityRenderer<? super E> render = null;
         EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();

@@ -392,8 +392,17 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.DARK_TATTERS.get());
                 add(output, ACItemRegistry.OCCULT_GEM.get());
                 add(output, ACItemRegistry.TOTEM_OF_POSSESSION.get());
+                add(output, ACItemRegistry.DESOLATE_DAGGER.get());
+                add(output, ACItemRegistry.CORRODENT_TEETH.get());
+                add(output, ACItemRegistry.BURROWING_ARROW.get());
+                add(output, ACItemRegistry.VESPER_WING.get());
+                add(output, ACItemRegistry.VESPER_STEW.get());
+                add(output, ACItemRegistry.PURE_DARKNESS.get());
+                add(output, ACItemRegistry.SHADOW_SILK.get());
                 add(output, ACItemRegistry.HOOD_OF_DARKNESS.get());
                 add(output, ACItemRegistry.CLOAK_OF_DARKNESS.get());
+                add(output, ACItemRegistry.DARKENED_APPLE.get());
+                add(output, ACItemRegistry.DREADBOW.get());
                 add(output, ACBlockRegistry.GUANO_BLOCK.get());
                 add(output, ACBlockRegistry.GUANO_LAYER.get());
                 add(output, ACBlockRegistry.GUANOSTONE.get());
@@ -441,6 +450,12 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.UNDERWEED.get());
                 add(output, ACBlockRegistry.MOTH_BALL.get());
                 add(output, ACBlockRegistry.BEHOLDER.get());
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.STRONG_HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.STRONG_HASTE_POTION.get()));
             })
             .build());
 

@@ -30,11 +30,10 @@ public class ACBiomeRarity {
         //in blocks
         double biomeSize = AlexsCaves.COMMON_CONFIG.caveBiomeMeanWidth.get() * 0.25D;
         double seperationDistance = biomeSize + AlexsCaves.COMMON_CONFIG.caveBiomeMeanSeparation.get() * 0.25D;
-        //in blocks
         double sampleX = x / seperationDistance;
         double sampleZ = z / seperationDistance;
-        double positionOffsetX = 0.15F * noiseX.getValue(sampleX, sampleZ, false);
-        double positionOffsetZ = 0.15F * noiseZ.getValue(sampleX, sampleZ, false);
+        double positionOffsetX = AlexsCaves.COMMON_CONFIG.caveBiomeWidthRandomness.get() * noiseX.getValue(sampleX, sampleZ, false);
+        double positionOffsetZ = AlexsCaves.COMMON_CONFIG.caveBiomeWidthRandomness.get() * noiseZ.getValue(sampleX, sampleZ, false);
         VoronoiGenerator.VoronoiInfo info = voronoiGenerator.get2(sampleX + positionOffsetX, sampleZ + positionOffsetZ);
 
         if (info.distance() < (biomeSize / seperationDistance)) {

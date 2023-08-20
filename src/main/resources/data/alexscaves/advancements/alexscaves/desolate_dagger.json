@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:desolate_dagger"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.desolate_dagger.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.desolate_dagger.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/discover_underzealot",
+    "criteria": {
+        "desolate_dagger": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:desolate_dagger"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class RaygunItem extends Item {
+public class RaygunItem extends Item implements UpdatesStackTags{
 
     private static final int MAX_CHARGE = 1000;
 

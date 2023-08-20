@@ -32,9 +32,13 @@ public class ACEffectRegistry {
     public static final RegistryObject<Potion> LONG_MAGNETIZING_POTION = POTION_DEF_REG.register("long_magnetizing", () -> new Potion(new MobEffectInstance(MAGNETIZING.get(), 9600)));
     public static final RegistryObject<Potion> DEEPSIGHT_POTION = POTION_DEF_REG.register("deepsight", () -> new Potion(new MobEffectInstance(DEEPSIGHT.get(), 3600)));
     public static final RegistryObject<Potion> LONG_DEEPSIGHT_POTION = POTION_DEF_REG.register("long_deepsight", () -> new Potion(new MobEffectInstance(DEEPSIGHT.get(), 9600)));
-
     public static final RegistryObject<Potion> GLOWING_POTION = POTION_DEF_REG.register("glowing", () -> new Potion(new MobEffectInstance(MobEffects.GLOWING, 3600)));
     public static final RegistryObject<Potion> LONG_GLOWING_POTION = POTION_DEF_REG.register("long_glowing", () -> new Potion(new MobEffectInstance(MobEffects.GLOWING, 9600)));
+
+    public static final RegistryObject<Potion> HASTE_POTION = POTION_DEF_REG.register("haste", () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, 3600)));
+    public static final RegistryObject<Potion> LONG_HASTE_POTION = POTION_DEF_REG.register("long_haste", () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, 9600)));
+    public static final RegistryObject<Potion> STRONG_HASTE_POTION = POTION_DEF_REG.register("strong_haste", () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, 1800, 1)));
+
 
     public static void setup() {
         BrewingRecipeRegistry.addRecipe(Ingredient.of(createPotion(Potions.AWKWARD)), Ingredient.of(ACItemRegistry.FERROUSLIME_BALL.get()), createPotion(MAGNETIZING_POTION));
@@ -43,6 +47,9 @@ public class ACEffectRegistry {
         BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(DEEPSIGHT_POTION)), Ingredient.of(Items.REDSTONE), createPotion(LONG_DEEPSIGHT_POTION)));
         BrewingRecipeRegistry.addRecipe(Ingredient.of(createPotion(Potions.AWKWARD)), Ingredient.of(ACItemRegistry.BIOLUMINESSCENCE.get()), createPotion(GLOWING_POTION));
         BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(GLOWING_POTION)), Ingredient.of(Items.REDSTONE), createPotion(LONG_GLOWING_POTION)));
+        BrewingRecipeRegistry.addRecipe(Ingredient.of(createPotion(Potions.AWKWARD)), Ingredient.of(ACItemRegistry.CORRODENT_TEETH.get()), createPotion(HASTE_POTION));
+        BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(HASTE_POTION)), Ingredient.of(Items.REDSTONE), createPotion(LONG_HASTE_POTION)));
+        BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(HASTE_POTION)), Ingredient.of(Items.GLOWSTONE_DUST), createPotion(STRONG_HASTE_POTION)));
     }
 
     public static ItemStack createPotion(RegistryObject<Potion> potion) {

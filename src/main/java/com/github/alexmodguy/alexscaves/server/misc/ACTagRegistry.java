@@ -63,6 +63,7 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> FORSAKEN_IGNORES = registerEntityTag("forsaken_ignores");
     public static final TagKey<EntityType<?>> MOTH_DUST_ENRAGES = registerEntityTag("moth_dust_enrages");
     public static final TagKey<EntityType<?>> RESISTS_TOTEM_OF_POSSESSION = registerEntityTag("resists_totem_of_possession");
+    public static final TagKey<Structure> ON_UNDERGROUND_CABIN_MAPS = registerStructureTag("on_underground_cabin_maps");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));

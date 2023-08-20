@@ -2,10 +2,7 @@ package com.github.alexmodguy.alexscaves.client.render.blockentity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.BeholderModel;
-import com.github.alexmodguy.alexscaves.client.model.CopperValveModel;
-import com.github.alexmodguy.alexscaves.server.block.CopperValveBlock;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.BeholderBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.CopperValveBlockEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -13,10 +10,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.block.state.BlockState;
 
 public class BeholderBlockRenderer<T extends BeholderBlockEntity> implements BlockEntityRenderer<T> {
 

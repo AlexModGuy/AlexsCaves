@@ -13,6 +13,7 @@ import com.github.alexmodguy.alexscaves.server.config.ACServerConfig;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
+import com.github.alexmodguy.alexscaves.server.event.CommonEvents;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
@@ -88,7 +89,7 @@ public class AlexsCaves {
         modEventBus.addListener(this::reloadConfig);
         modEventBus.addListener(this::registerLayerDefinitions);
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(PROXY);
+        MinecraftForge.EVENT_BUS.register(new CommonEvents());
         ACBlockRegistry.DEF_REG.register(modEventBus);
         ACBlockEntityRegistry.DEF_REG.register(modEventBus);
         ACItemRegistry.DEF_REG.register(modEventBus);
@@ -112,7 +113,7 @@ public class AlexsCaves {
         ACLootTableRegistry.DEF_REG.register(modEventBus);
         ACCreativeTabRegistry.DEF_REG.register(modEventBus);
         ACPotPatternRegistry.DEF_REG.register(modEventBus);
-        PROXY.init();
+        PROXY.commonInit();
         ACBiomeRegistry.init();
     }
 

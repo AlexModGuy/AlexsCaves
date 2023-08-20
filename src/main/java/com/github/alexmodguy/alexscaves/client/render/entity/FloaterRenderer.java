@@ -1,33 +1,17 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.model.BoundroidModel;
 import com.github.alexmodguy.alexscaves.client.model.FloaterModel;
-import com.github.alexmodguy.alexscaves.client.model.QuarrySmasherModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.item.FloaterEntity;
-import com.github.alexmodguy.alexscaves.server.entity.item.QuarrySmasherEntity;
-import com.github.alexthe666.citadel.client.render.LightningBoltData;
-import com.github.alexthe666.citadel.client.render.LightningRender;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
-import org.joml.Vector4f;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class FloaterRenderer extends EntityRenderer<FloaterEntity> {
 

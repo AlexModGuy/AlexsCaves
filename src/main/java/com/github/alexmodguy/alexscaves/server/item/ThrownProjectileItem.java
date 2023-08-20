@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
-import com.github.alexmodguy.alexscaves.server.entity.item.CinderBrickEntity;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ThrownProjectileItem extends Item {
 

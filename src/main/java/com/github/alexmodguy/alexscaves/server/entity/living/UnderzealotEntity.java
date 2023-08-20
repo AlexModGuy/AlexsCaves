@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
+import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -451,6 +452,12 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
 
     public void postSacrifice(UnderzealotSacrifice sacrifice) {
         sacrificeCooldown = 6000 + random.nextInt(6000);
+        float advancementRange = 64.0F;
+        for (Player player : level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(advancementRange))) {
+            if (player.distanceTo(this) < advancementRange) {
+                ACAdvancementTriggerRegistry.UNDERZEALOT_SACRIFICE.triggerForEntity(player);
+            }
+        }
     }
 
     public void jumpFromGround() {

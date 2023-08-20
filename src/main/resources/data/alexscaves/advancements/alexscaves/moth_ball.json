@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:moth_ball"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.moth_ball.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.moth_ball.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_gloomoth",
+    "criteria": {
+        "moth_ball": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:moth_ball"]
+                    }
+                ]
+            }
+        }
+    }
+}

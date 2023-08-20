@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:dreadbow"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.dreadbow.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.dreadbow.desc"
+        },
+        "frame":"goal"
+    },
+    "parent": "alexscaves:alexscaves/shadow_silk",
+    "criteria": {
+        "dreadbow": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:dreadbow"]
+                    }
+                ]
+            }
+        }
+    }
+}

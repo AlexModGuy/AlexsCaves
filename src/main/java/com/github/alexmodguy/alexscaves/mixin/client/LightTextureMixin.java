@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;

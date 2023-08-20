@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:corrodent_teeth"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_corrodent.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_corrodent.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/discover_forlorn_hollows",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:corrodent"
+        }
+      }
+    }
+  }
+}

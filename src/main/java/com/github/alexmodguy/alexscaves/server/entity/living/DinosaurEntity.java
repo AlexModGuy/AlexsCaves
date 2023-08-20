@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
+import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
@@ -17,18 +18,19 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJukebox, LaysEggs {
 
@@ -253,6 +255,28 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
             }
         }
         return type;
+    }
+
+    public boolean startRiding(Entity entity, boolean force) {
+        boolean flag = super.startRiding(entity, force);
+        if (flag && entity instanceof AbstractMinecart) {
+            List<EntityType> nearbyDinosaurEntityTypes = new ArrayList<>();
+            double advancementRange = 30.0D;
+            for (DinosaurEntity dinosaur : this.level().getEntitiesOfClass(DinosaurEntity.class, this.getBoundingBox().inflate(advancementRange, advancementRange, advancementRange))) {
+                if (dinosaur.getRootVehicle() instanceof AbstractMinecart && !nearbyDinosaurEntityTypes.contains(dinosaur.getType())) {
+                    nearbyDinosaurEntityTypes.add(dinosaur.getType());
+                }
+            }
+            if (nearbyDinosaurEntityTypes.size() >= 5) {
+                for (Player player : level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(advancementRange))) {
+                    if (player.distanceTo(this) < advancementRange) {
+                        ACAdvancementTriggerRegistry.DINOSAURS_MINECART.triggerForEntity(player);
+                    }
+                }
+
+            }
+        }
+        return flag;
     }
 
     public boolean canOwnerMount(Player player) {

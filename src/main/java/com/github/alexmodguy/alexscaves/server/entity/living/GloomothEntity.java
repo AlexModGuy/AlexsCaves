@@ -10,7 +10,6 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFleeMothBallsGo
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
-import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -38,8 +37,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.stream.Stream;
 
 public class GloomothEntity extends PathfinderMob implements UnderzealotSacrifice {
 

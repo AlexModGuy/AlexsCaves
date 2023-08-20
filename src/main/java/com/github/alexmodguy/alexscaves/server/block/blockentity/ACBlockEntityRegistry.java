@@ -1,9 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.model.BeholderModel;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.BeholderBlock;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;

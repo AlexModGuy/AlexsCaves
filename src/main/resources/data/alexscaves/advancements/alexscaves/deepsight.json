@@ -5,13 +5,13 @@
       "nbt": "{DisplayEffect:\"alexscaves:deepsight\"}"
     },
     "title": {
-      "translate": "advancements.alexsmobs.deepsight.title"
+      "translate": "advancements.alexscaves.deepsight.title"
     },
     "description": {
-      "translate": "advancements.alexsmobs.deepsight.desc"
+      "translate": "advancements.alexscaves.deepsight.desc"
     }
   },
-  "parent": "alexsmobs:alexsmobs/abyssal_bucket",
+  "parent": "alexscaves:alexscaves/abyssal_bucket",
   "criteria": {
     "all_effects": {
       "trigger": "minecraft:effects_changed",

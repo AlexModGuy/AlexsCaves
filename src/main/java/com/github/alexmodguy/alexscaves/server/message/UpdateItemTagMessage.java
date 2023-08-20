@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.message;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.item.UpdatesStackTags;
 import com.github.alexthe666.citadel.server.message.PacketBufferUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.InteractionHand;
@@ -51,7 +52,7 @@ public class UpdateItemTagMessage {
                 }else if(living.getItemInHand(InteractionHand.OFF_HAND).is(stackFrom.getItem())){
                     to = living.getItemInHand(InteractionHand.OFF_HAND);
                 }
-                if(to != null && stackFrom.getTag() != null){
+                if(to != null && to.getItem() instanceof UpdatesStackTags && stackFrom.getTag() != null){
                     to.setTag(stackFrom.getTag());
                 }
             }

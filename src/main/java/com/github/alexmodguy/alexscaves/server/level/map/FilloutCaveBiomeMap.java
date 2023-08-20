@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.level.map;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -39,7 +40,6 @@ public class FilloutCaveBiomeMap implements Runnable {
         int dist = AlexsCaves.COMMON_CONFIG.caveMapSearchDistance.get();
         Pair<BlockPos, Holder<Biome>> pair = serverLevel.findClosestBiome3d((biomeHolder -> biomeHolder.is(biomeResourceKey)), center, dist, 64, 128);
         CompoundTag tag = map.getOrCreateTag();
-        tag.putBoolean("Loading", false);
         if (pair != null) {
             BlockPos biomeCorner = pair.getFirst();
             BlockPos centered = findBiomeCenter(biomeCorner);
@@ -49,11 +49,13 @@ public class FilloutCaveBiomeMap implements Runnable {
             tag.putInt("BiomeZ", centered.getZ());
             tag.putLong("RandomSeed", serverLevel.getRandom().nextLong());
             tag.putBoolean("Filled", true);
-            AlexsCaves.LOGGER.info("Found cave biome at {}, {}, {}", centered.getX(), centered.getY(), centered.getZ());
+            tag.putBoolean("Loading", false);
+            AlexsCaves.LOGGER.info("Found {} at {} {} {}", biomeResourceKey.location(), centered.getX(), centered.getY(), centered.getZ());
         } else {
             player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error").withStyle(ChatFormatting.RED));
         }
         map.setTag(tag);
+        AlexsCaves.sendMSGToAll(new UpdateItemTagMessage(player.getId(), map));
     }
 
     private BlockPos findBiomeCenter(BlockPos biomeCorner) {
@@ -99,8 +101,13 @@ public class FilloutCaveBiomeMap implements Runnable {
             for (int j1 = 0; j1 < 128; ++j1) {
                 for (int k1 = 0; k1 < 128; ++k1) {
                     Holder<Biome> holder1 = serverLevel.getBiome(mutableBlockPos.set((l + k1) * scale, first.getY(), (i1 + j1) * scale));
-                    Holder<Biome> holder2 = serverLevel.getBiome(mutableBlockPos.setY(serverLevel.getMinBuildHeight() + 1));
-                    arr[j1 * 128 + k1] = registry.getId(holder1.is(biomeResourceKey) ? holder1.value() : holder2.value());
+                    for(int yUpFromBottom = serverLevel.getMinBuildHeight() + 1; yUpFromBottom < serverLevel.getMaxBuildHeight(); yUpFromBottom += 32){
+                        holder1 = serverLevel.getBiome(mutableBlockPos.setY(yUpFromBottom));
+                        if(holder1.is(biomeResourceKey)){
+                            break;
+                        }
+                    }
+                    arr[j1 * 128 + k1] = registry.getId(holder1.value());
                 }
             }
         }

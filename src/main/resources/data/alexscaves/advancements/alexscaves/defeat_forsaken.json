@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_forsaken.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_forsaken.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/underzealot_sacrifice",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:forsaken"
+        }
+      }
+    }
+  }
+}
