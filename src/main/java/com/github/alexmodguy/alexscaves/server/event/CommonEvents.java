@@ -41,6 +41,7 @@ import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -194,13 +195,18 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onTradeSetup(VillagerTradesEvent event) {
+    public void onVillagerTradeSetup(VillagerTradesEvent event) {
         if (event.getType() == VillagerProfession.CARTOGRAPHER) {
             int level = 2;
             List<VillagerTrades.ItemListing> list = event.getTrades().get(level);
             list.add(new VillagerUndergroundCabinMapTrade(5, 10, 6));
             event.getTrades().put(level, list);
         }
+    }
+
+    @SubscribeEvent
+    public void onWanderingTradeSetup(WandererTradesEvent event) {
+        event.getGenericTrades().add(new VillagerUndergroundCabinMapTrade(8, 1, 10));
     }
 
     private static void checkAndDestroyExploitItem(Player player, EquipmentSlot slot) {

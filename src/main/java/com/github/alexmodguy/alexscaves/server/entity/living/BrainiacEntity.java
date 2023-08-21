@@ -27,6 +27,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -77,7 +78,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, true, false));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -145,9 +146,9 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
             LivingEntity attackTarget = this.getTarget();
             if (this.getLickTicks() > 0) {
                 this.setLickTicks(this.getLickTicks() - 1);
-                if (attackTarget != null && attackTarget.isAlive() && this.hasLineOfSight(attackTarget)) {
+                if (attackTarget != null && attackTarget.isAlive() && this.hasLineOfSight(attackTarget) && attackTarget.distanceTo(this) < 20) {
                     this.setTongueTargetId(attackTarget.getId());
-                    this.lookAt(attackTarget, 50, 50);
+                    this.lookAt(EntityAnchorArgument.Anchor.EYES, attackTarget.getEyePosition());
                 } else {
                     this.setTongueTargetId(-1);
                 }

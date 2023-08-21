@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:deep_one_mage",
+  "body": ["body"],
+  "head": [],
+  "right_arm": ["bigTentaclerightArm"],
+  "left_arm": ["bigTentacleleftArm"],
+  "right_leg": [],
+  "left_leg": [],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 0.0,
+  "face_forwards": true
+}

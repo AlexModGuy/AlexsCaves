@@ -1,10 +1,10 @@
 modLoader="javafml" #mandatory
 loaderVersion="[46,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="GNU LESSER GENERAL PUBLIC LICENSE"
-issueTrackerURL="https://github.com/AlexModGuy/alexscaves/issues" #optional
+issueTrackerURL="https://github.com/AlexModGuy/AlexsCavesBetaTest/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="0.6.8" #mandatory
+version="0.1.1" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
 authors="Alexthe668, Noon" #optional
@@ -25,4 +25,4 @@ modId="forge"
 mandatory=true
 versionRange="[46.0.12,)"
 ordering="NONE"
-side="BOTH"
+side="BOTH"           

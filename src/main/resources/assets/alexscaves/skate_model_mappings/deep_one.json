@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:deep_one",
+  "body": ["torso"],
+  "head": ["head"],
+  "right_arm": ["rarm"],
+  "left_arm": ["larm"],
+  "right_leg": ["rleg"],
+  "left_leg": ["lleg"],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 1.0,
+  "face_forwards": false
+}

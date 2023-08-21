@@ -37,7 +37,8 @@ public class UndergroundCabinProcessor extends StructureProcessor {
             }
         } else if (in.is(BlockTags.LOGS) || in.is(BlockTags.PLANKS)) {
             float above = relativeInfo.pos().getY() / 7F;
-            if (above * randomsource.nextFloat() > 0.2F) {
+            float woodDecay = levelReader.getBlockState(pos).isAir() ? 0.9F : 0.2F;
+            if (above * randomsource.nextFloat() > woodDecay) {
                 return null;
             }
         }

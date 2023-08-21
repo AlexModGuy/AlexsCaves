@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:corrodent",
+  "body": ["root"],
+  "head": ["head"],
+  "right_arm": [],
+  "left_arm": [],
+  "right_leg": ["rlegPivot", "rarmPivot"],
+  "left_leg": ["llegPivot", "larmPivot"],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 0.6,
+  "face_forwards": true
+}

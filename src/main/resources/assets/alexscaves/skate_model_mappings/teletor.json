@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:teletor",
+  "body": ["body"],
+  "head": ["head"],
+  "right_arm": ["rarm"],
+  "left_arm": ["larm"],
+  "right_leg": [],
+  "left_leg": [],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 0.0,
+  "face_forwards": false
+}

@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:vesper",
+  "body": ["body"],
+  "head": ["neck"],
+  "right_arm": [],
+  "left_arm": [],
+  "right_leg": ["rleg", "rwing"],
+  "left_leg": ["lleg", "lwing"],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 0.6,
+  "face_forwards": true
+}

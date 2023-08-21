@@ -12,7 +12,7 @@ import com.google.common.collect.ImmutableList;
 public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
     private final AdvancedModelBox root;
     private final AdvancedModelBox body;
-    private final AdvancedModelBox llarm;
+    private final AdvancedModelBox larm;
     private final AdvancedModelBox rarm;
     private final AdvancedModelBox head;
     private final AdvancedModelBox cube_r1;
@@ -39,12 +39,12 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
         body.setTextureOffset(67, 61).addBox(-4.0F, -5.125F, -2.5F, 8.0F, 12.0F, 5.0F, 0.0F, false);
         body.setTextureOffset(27, 22).addBox(-5.0F, -5.875F, -3.5F, 10.0F, 22.0F, 7.0F, 0.25F, false);
 
-        llarm = new AdvancedModelBox(this);
-        llarm.setRotationPoint(-5.1667F, -4.4583F, 0.0F);
-        body.addChild(llarm);
-        llarm.setTextureOffset(16, 61).addBox(-4.3333F, -0.6667F, -3.0F, 4.0F, 5.0F, 6.0F, 0.25F, false);
-        llarm.setTextureOffset(56, 46).addBox(-3.3333F, 0.3333F, -2.5F, 3.0F, 15.0F, 5.0F, 0.24F, false);
-        llarm.setTextureOffset(36, 65).addBox(-3.3333F, 15.3333F, -2.5F, 3.0F, 4.0F, 5.0F, 0.0F, false);
+        larm = new AdvancedModelBox(this);
+        larm.setRotationPoint(-5.1667F, -4.4583F, 0.0F);
+        body.addChild(larm);
+        larm.setTextureOffset(16, 61).addBox(-4.3333F, -0.6667F, -3.0F, 4.0F, 5.0F, 6.0F, 0.25F, false);
+        larm.setTextureOffset(56, 46).addBox(-3.3333F, 0.3333F, -2.5F, 3.0F, 15.0F, 5.0F, 0.24F, false);
+        larm.setTextureOffset(36, 65).addBox(-3.3333F, 15.3333F, -2.5F, 3.0F, 4.0F, 5.0F, 0.0F, false);
 
         rarm = new AdvancedModelBox(this);
         rarm.setRotationPoint(5.1667F, -4.4583F, 0.0F);
@@ -130,30 +130,30 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
         progressRotationPrev(body, runAmount, (float) Math.toRadians(-15), 0, 0, 1F);
         progressRotationPrev(head, runAmount, (float) Math.toRadians(15), 0, 0, 1F);
         progressRotationPrev(rarm, runProgress, (float) Math.toRadians(75), (float) Math.toRadians(35), 0, 1F);
-        progressRotationPrev(llarm, runProgress, (float) Math.toRadians(75), (float) Math.toRadians(-35), 0, 1F);
+        progressRotationPrev(larm, runProgress, (float) Math.toRadians(75), (float) Math.toRadians(-35), 0, 1F);
         progressPositionPrev(body, runAmount * groundAmount, 0, -6.5F, 4, 1F);
         progressPositionPrev(head, runAmount * groundAmount, 0, 1.5F, 2, 1F);
         this.swing(lwing, 0.2F, 0.25F, false, 1, 0.1F, ageInTicks, 1);
         this.swing(rwing, 0.2F, 0.25F, true, 1, 0.1F, ageInTicks, 1);
         this.flap(head, 4, 0.1F, false, 0, 0F, ageInTicks, twitchinessAmount);
-        this.flap(llarm, 0.1F, 0.1F, false, -0.5F, 0.1F, ageInTicks, 1);
+        this.flap(larm, 0.1F, 0.1F, false, -0.5F, 0.1F, ageInTicks, 1);
         this.flap(rarm, 0.1F, 0.1F, true, -0.5F, 0.1F, ageInTicks, 1);
-        this.swing(llarm, 0.1F, 0.1F, true, 2, 0F, ageInTicks, 1);
+        this.swing(larm, 0.1F, 0.1F, true, 2, 0F, ageInTicks, 1);
         this.swing(rarm, 0.1F, 0.1F, false, 2, 0F, ageInTicks, 1);
         this.walk(lleg, walkSpeed, walkDegree * 0.5F, false, 1, -0.1F, limbSwing, walkAmount * groundAmount);
         this.walk(rleg, walkSpeed, walkDegree * 0.5F, true, 1, 0.1F, limbSwing, walkAmount * groundAmount);
         this.walk(body, walkSpeed * 0.5F, walkDegree * 0.1F, false, -2, 0.0F, limbSwing, walkAmount);
         this.walk(head, walkSpeed * 0.5F, walkDegree * 0.1F, false, -1, 0.0F, limbSwing, walkAmount);
-        this.walk(llarm, walkSpeed * 0.5F, walkDegree * 0.25F, false, -0.5F, 0.1F, limbSwing, walkAmount);
+        this.walk(larm, walkSpeed * 0.5F, walkDegree * 0.25F, false, -0.5F, 0.1F, limbSwing, walkAmount);
         this.walk(rarm, walkSpeed * 0.5F, walkDegree * 0.25F, false, 0.5F, 0.1F, limbSwing, walkAmount);
         this.walk(head, runSpeed * 0.5F, runDegree * 0.1F, false, -1, 0.0F, limbSwing, runAmount);
         this.walk(lleg, runSpeed, runDegree * 0.5F, false, 4, -0.1F, limbSwing, runAmount * groundAmount);
         this.walk(rleg, runSpeed, runDegree * 0.5F, true, 4, 0.1F, limbSwing, runAmount * groundAmount);
         this.walk(rarm, runSpeed, runDegree * 0.15F, false, 2, 0.4F, limbSwing, runAmount);
-        this.walk(llarm, runSpeed, runDegree * 0.15F, true, 2, -0.4F, limbSwing, runAmount);
+        this.walk(larm, runSpeed, runDegree * 0.15F, true, 2, -0.4F, limbSwing, runAmount);
         this.swing(root, runSpeed, runDegree * 0.35F, true, 3, 0F, limbSwing, runAmount * groundAmount);
         this.swing(body, runSpeed, runDegree * 0.25F, false, 3, 0F, limbSwing, runAmount);
-        this.llarm.setScale(1F, 1F + runAmount * 0.4F, 1F);
+        this.larm.setScale(1F, 1F + runAmount * 0.4F, 1F);
         this.rarm.setScale(1F, 1F + runAmount * 0.4F, 1F);
         this.walk(lleg, walkSpeed, walkDegree * 0.3F, false, -1, -0.1F, limbSwing, limbSwingAmount * shadeAmount);
         this.walk(rleg, walkSpeed, walkDegree * 0.3F, false, -2, -0.1F, limbSwing, limbSwingAmount * shadeAmount);
@@ -168,7 +168,7 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
 
     @Override
     public Iterable<AdvancedModelBox> getAllParts() {
-        return ImmutableList.of(root, cube_r1, cube_r2, cube_r3, body, llarm, lleg, rarm, rleg, lhorn, rhorn, head, rwing, lwing);
+        return ImmutableList.of(root, cube_r1, cube_r2, cube_r3, body, larm, lleg, rarm, rleg, lhorn, rhorn, head, rwing, lwing);
     }
 
     public void animate(IAnimatedEntity entity) {
@@ -177,12 +177,12 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
         animator.startKeyframe(5);
         animator.rotate(body, 0, (float) Math.toRadians(30), 0);
         animator.rotate(rarm, (float) Math.toRadians(-35), (float) Math.toRadians(-60), (float) Math.toRadians(-25));
-        animator.rotate(llarm, (float) Math.toRadians(25), 0, (float) Math.toRadians(40));
+        animator.rotate(larm, (float) Math.toRadians(25), 0, (float) Math.toRadians(40));
         animator.endKeyframe();
         animator.startKeyframe(5);
         animator.rotate(body, 0, (float) Math.toRadians(-30), 0);
         animator.rotate(rarm, (float) Math.toRadians(25), 0, (float) Math.toRadians(-40));
-        animator.rotate(llarm, (float) Math.toRadians(-35), (float) Math.toRadians(60), (float) Math.toRadians(25));
+        animator.rotate(larm, (float) Math.toRadians(-35), (float) Math.toRadians(60), (float) Math.toRadians(25));
         animator.endKeyframe();
         animator.resetKeyframe(5);
         animator.setAnimation(WatcherEntity.ANIMATION_ATTACK_1);
@@ -190,11 +190,11 @@ public class WatcherModel extends AdvancedEntityModel<WatcherEntity> {
         animator.move(body, 0, 0, -5);
         animator.rotate(body, (float) Math.toRadians(20), 0, 0);
         animator.rotate(rarm, (float) Math.toRadians(-10), (float) Math.toRadians(75), (float) Math.toRadians(25));
-        animator.rotate(llarm, (float) Math.toRadians(-10), (float) Math.toRadians(-75), (float) Math.toRadians(-25));
+        animator.rotate(larm, (float) Math.toRadians(-10), (float) Math.toRadians(-75), (float) Math.toRadians(-25));
         animator.endKeyframe();
         animator.startKeyframe(5);
         animator.rotate(rarm, (float) Math.toRadians(-0), (float) Math.toRadians(-45), (float) Math.toRadians(25));
-        animator.rotate(llarm, (float) Math.toRadians(-0), (float) Math.toRadians(45), (float) Math.toRadians(-25));
+        animator.rotate(larm, (float) Math.toRadians(-0), (float) Math.toRadians(45), (float) Math.toRadians(-25));
         animator.endKeyframe();
         animator.resetKeyframe(5);
     }

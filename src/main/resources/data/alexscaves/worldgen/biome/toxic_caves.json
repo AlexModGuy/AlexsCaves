@@ -110,14 +110,14 @@
   "precipitation": "rain",
   "spawn_costs": {
   },
-  "creature_spawn_probability": 0.025,
+  "creature_spawn_probability": 0.01,
   "spawners": {
     "ambient": [
       {
         "type": "alexscaves:gammaroach",
         "maxCount": 8,
         "minCount": 8,
-        "weight": 22
+        "weight": 55
       },
       {
         "type": "minecraft:bat",
@@ -142,13 +142,13 @@
         "type": "alexscaves:brainiac",
         "maxCount": 2,
         "minCount": 1,
-        "weight": 190
+        "weight": 160
       },
       {
         "type": "alexscaves:nucleeper",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 70
+        "weight": 45
       },
       {
         "type": "minecraft:spider",

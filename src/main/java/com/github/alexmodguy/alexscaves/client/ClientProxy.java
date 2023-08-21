@@ -92,6 +92,7 @@ public class ClientProxy extends CommonProxy {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setupParticles);
         bus.addListener(this::registerKeybinds);
+        bus.addListener(this::onItemColors);
     }
 
     public void clientInit() {
@@ -99,7 +100,6 @@ public class ClientProxy extends CommonProxy {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(ClientLayerRegistry::addLayers);
         bus.addListener(this::bakeModels);
-        bus.addListener(this::onItemColors);
         bus.addListener(this::registerShaders);
         EntityRenderers.register(ACEntityRegistry.BOAT.get(), (context) -> {
             return new AlexsCavesBoatRenderer(context, false);

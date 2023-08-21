@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:radgill",
+  "body": ["body"],
+  "head": [],
+  "right_arm": [],
+  "left_arm": [],
+  "right_leg": ["rfin"],
+  "left_leg": ["lfin"],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 0.6,
+  "face_forwards": true
+}

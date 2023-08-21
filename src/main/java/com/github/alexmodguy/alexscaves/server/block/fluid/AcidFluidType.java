@@ -1,15 +1,29 @@
 package com.github.alexmodguy.alexscaves.server.block.fluid;
 
+import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.common.ForgeMod;
+import net.minecraftforge.common.SoundActions;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Consumer;
 
@@ -84,4 +98,19 @@ public class AcidFluidType extends FluidType {
         return true;
     }
 
+    @Override
+    public boolean isVaporizedOnPlacement(Level level, BlockPos pos, FluidStack stack) {
+        return level.dimensionType().ultraWarm();
+    }
+
+    @Override
+    public void onVaporize(@Nullable Player player, Level level, BlockPos pos, FluidStack stack) {
+        SoundEvent sound = this.getSound(player, level, pos, SoundActions.FLUID_VAPORIZE);
+        level.playSound(player, pos, sound != null ? sound : SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 2.6F + (level.random.nextFloat() - level.random.nextFloat()) * 0.8F);
+
+        for (int l = 0; l < 8; ++l) {
+            level.addAlwaysVisibleParticle(ACParticleRegistry.RADGILL_SPLASH.get(), (double) pos.getX() + Math.random(), (double) pos.getY() + Math.random(), (double) pos.getZ() + Math.random(), (Math.random() - 0.5F) * 0.25F, Math.random() * 0.25F, (Math.random() - 0.5F) * 0.25F);
+        }
+        level.setBlockAndUpdate(pos, ACBlockRegistry.UNREFINED_WASTE.get().defaultBlockState());
+    }
 }

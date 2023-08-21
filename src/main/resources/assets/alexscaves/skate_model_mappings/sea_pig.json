@@ -1,0 +1,12 @@
+{
+  "entity_type": "alexscaves:sea_pig",
+  "body": ["body"],
+  "head": [],
+  "right_arm": [],
+  "left_arm": [],
+  "right_leg": ["rleg1", "rleg2", "rleg3", "rleg4"],
+  "left_leg": ["lleg1", "lleg2", "lleg3", "lleg4"],
+  "animation_speed_modifier": 1.0,
+  "animation_strength_modifier": 0.6,
+  "face_forwards": true
+}

@@ -10,7 +10,7 @@ import net.minecraft.world.item.Tiers;
 
 public class DesolateDaggerItem extends SwordItem {
     public DesolateDaggerItem() {
-        super(Tiers.DIAMOND, -1, -2F, (new Item.Properties()).rarity(ACItemRegistry.RARITY_DEMONIC));
+        super(Tiers.DIAMOND, 0, -2F, (new Item.Properties()).rarity(ACItemRegistry.RARITY_DEMONIC));
     }
 
     public int getMaxDamage(ItemStack stack) {

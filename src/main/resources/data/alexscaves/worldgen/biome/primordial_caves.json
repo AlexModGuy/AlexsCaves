@@ -132,13 +132,13 @@
         "type": "alexscaves:vallumraptor",
         "maxCount": 7,
         "minCount": 6,
-        "weight": 8
+        "weight": 6
       },
       {
         "type": "alexscaves:grottoceratops",
         "maxCount": 4,
         "minCount": 2,
-        "weight": 22
+        "weight": 24
       },
       {
         "type": "alexscaves:tremorsaurus",
@@ -150,7 +150,7 @@
         "type": "alexscaves:relicheirus",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 10
+        "weight": 13
       },
       {
         "type": "minecraft:frog",
