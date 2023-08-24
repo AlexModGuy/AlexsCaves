@@ -52,7 +52,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import javax.annotation.Nullable;
@@ -505,11 +504,6 @@ public class ClientProxy extends CommonProxy {
 
     public boolean isFirstPersonPlayer(Entity entity) {
         return entity.equals(Minecraft.getInstance().cameraEntity) && Minecraft.getInstance().options.getCameraType().isFirstPerson();
-    }
-
-    @SubscribeEvent
-    public void onScreenOpen(ScreenEvent.Init event){
-        UserVerification.onGameStart();
     }
 
     @Override

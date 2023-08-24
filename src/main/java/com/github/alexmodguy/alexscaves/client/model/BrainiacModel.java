@@ -8,6 +8,7 @@ import com.github.alexthe666.citadel.client.model.ModelAnimator;
 import com.github.alexthe666.citadel.client.model.basic.BasicModelPart;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
@@ -28,12 +29,13 @@ public class BrainiacModel extends AdvancedEntityModel<BrainiacEntity> {
     private final ModelAnimator animator;
 
     public BrainiacModel() {
-        texWidth = 128;
-        texHeight = 128;
+        texWidth = 256;
+        texHeight = 256;
 
         torso = new AdvancedModelBox(this);
         torso.setRotationPoint(0.0F, 3.0F, 0.0F);
         torso.setTextureOffset(0, 68).addBox(-5.5F, -4.0F, -4.0F, 11.0F, 14.0F, 8.0F, 0.0F, false);
+        torso.setTextureOffset(0, 107).addBox(-5.5F, -3.0F, -4.0F, 11.0F, 13.0F, 8.0F, 0.25F, false);
 
         chest = new AdvancedModelBox(this);
         chest.setRotationPoint(0.0F, 0.0F, 4.0F);
@@ -45,6 +47,8 @@ public class BrainiacModel extends AdvancedEntityModel<BrainiacEntity> {
         chest.addChild(larm);
         larm.setTextureOffset(0, 0).addBox(0.3333F, -1.8333F, -4.1667F, 8.0F, 23.0F, 9.0F, 0.0F, false);
         larm.setTextureOffset(70, 79).addBox(1.3333F, -2.8333F, -6.1667F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+        larm.setTextureOffset(35, 98).addBox(1.3333F, -2.8333F, -6.1667F, 8.0F, 8.0F, 8.0F, -0.25F, false);
+        larm.setTextureOffset(35, 98).addBox(1.3333F, 9.1667F, -2.1667F, 8.0F, 8.0F, 8.0F, -0.25F, false);
         larm.setTextureOffset(38, 79).addBox(1.3333F, 9.1667F, -2.1667F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
         handMaw = new AdvancedModelBox(this);
@@ -53,8 +57,8 @@ public class BrainiacModel extends AdvancedEntityModel<BrainiacEntity> {
         handMaw.setTextureOffset(0, 90).addBox(-4.0F, 0.0F, -4.5F, 4.0F, 8.0F, 9.0F, 0.0F, false);
 
         handMaw3 = new AdvancedModelBox(this);
-        handMaw3.setRotationPoint(0.3333F, 21.1667F, 0.3333F);
-        larm.addChild(handMaw3);
+        handMaw3.setRotationPoint(-8.0F, 0.0F, 0.0F);
+        handMaw.addChild(handMaw3);
         handMaw3.setTextureOffset(92, 0).addBox(0.0F, 0.0F, -4.5F, 4.0F, 8.0F, 9.0F, 0.0F, false);
 
         rarm = new AdvancedModelBox(this);
@@ -62,6 +66,7 @@ public class BrainiacModel extends AdvancedEntityModel<BrainiacEntity> {
         chest.addChild(rarm);
         rarm.setTextureOffset(56, 0).addBox(-8.25F, -3.75F, -3.25F, 9.0F, 37.0F, 9.0F, 0.0F, false);
         rarm.setTextureOffset(84, 38).addBox(-10.25F, 15.25F, -5.25F, 8.0F, 8.0F, 8.0F, 0.0F, false);
+        rarm.setTextureOffset(35, 98).addBox(-10.25F, 15.25F, -5.25F, 8.0F, 8.0F, 8.0F, -0.25F, false);
 
         head = new AdvancedModelBox(this);
         head.setRotationPoint(0.0F, -7.0F, -11.25F);
@@ -76,22 +81,24 @@ public class BrainiacModel extends AdvancedEntityModel<BrainiacEntity> {
         tongue = new AdvancedModelBox(this);
         tongue.setRotationPoint(0.0F, 3.5F, -1.75F);
         head.addChild(tongue);
-        tongue.setTextureOffset(21, 0).addBox(-3.5F, 0.0F, -21.0F, 7.0F, 0.0F, 21.0F, 0.0F, false);
+        tongue.setTextureOffset(73, 106).addBox(-2.5F, -0.5F, -21.0F, 5.0F, 1.0F, 21.0F, 0.0F, false);
 
         tongue2 = new AdvancedModelBox(this);
         tongue2.setRotationPoint(0.0F, 0.0F, -21.0F);
         tongue.addChild(tongue2);
-        tongue2.setTextureOffset(21, 20).addBox(-3.5F, 0.0F, -21.0F, 7.0F, 0.0F, 21.0F, 0.0F, false);
+        tongue2.setTextureOffset(84, 84).addBox(-2.5F, -0.5F, -21.0F, 5.0F, 1.0F, 21.0F, 0.0F, false);
 
         lleg = new AdvancedModelBox(this);
         lleg.setRotationPoint(3.5F, 9.5F, 0.0F);
         torso.addChild(lleg);
         lleg.setTextureOffset(26, 91).addBox(-2.0F, 0.5F, -2.0F, 4.0F, 11.0F, 4.0F, 0.0F, true);
+        lleg.setTextureOffset(67, 95).addBox(-2.0F, 0.5F, -2.0F, 4.0F, 11.0F, 4.0F, 0.25F, true);
 
         rleg = new AdvancedModelBox(this);
         rleg.setRotationPoint(-3.5F, 9.5F, 0.0F);
         torso.addChild(rleg);
         rleg.setTextureOffset(26, 91).addBox(-2.0F, 0.5F, -2.0F, 4.0F, 11.0F, 4.0F, 0.0F, false);
+        rleg.setTextureOffset(67, 95).addBox(-2.0F, 0.5F, -2.0F, 4.0F, 11.0F, 4.0F, 0.25F, false);
         this.updateDefaultPose();
         animator = ModelAnimator.create();
     }
@@ -232,15 +239,16 @@ public class BrainiacModel extends AdvancedEntityModel<BrainiacEntity> {
         float tongueWiggle = (float) Math.sin(tongueLaunch * Math.PI);
         Entity tongueTarget = entity.getTongueTarget();
         if (tongueTarget != null && tongueLaunch > 0) {
-            Vec3 vector3d = tongueTarget.getEyePosition(partialTick);
-            Vec3 vector3d1 = entity.getEyePosition(partialTick);
-            double d0 = Mth.clamp((vector3d.y - vector3d1.y) * 0.1F, -1F, 1F) * Math.PI / 2F;
-            Vec3 vector3d2 = entity.getViewVector(0.0F);
-            vector3d2 = new Vec3(vector3d2.x, 0.0D, vector3d2.z);
-            Vec3 vector3d3 = (new Vec3(vector3d.x - vector3d1.x, 0.0D, vector3d.z - vector3d1.z)).normalize().yRot(((float) Math.PI / 2F));
-            double d1 = vector3d2.dot(vector3d3);
-            this.tongue.rotateAngleX -= d0 * tongueLaunch;
-            this.tongue.rotateAngleY += d1 * tongueLaunch;
+            float yBodyRot = entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTick;
+            Vec3 cameraPosition = tongueTarget.getEyePosition(partialTick);
+            Vec3 eyePosition = entity.getEyePosition(partialTick);
+            double d0 = eyePosition.x - cameraPosition.x;
+            double d1 = eyePosition.y - cameraPosition.y;
+            double d2 = eyePosition.z - cameraPosition.z;
+            double d3 = Mth.sqrt((float) (d0 * d0 + d2 * d2));
+            this.tongue.rotateAngleY -= (Math.toRadians(yBodyRot) + this.head.rotateAngleY + this.chest.rotateAngleY + this.torso.rotateAngleY);
+            this.tongue.rotateAngleY -= (float) Math.toRadians(-(float) (Mth.atan2(d2, d0) * 57.2957763671875D) - 90);
+            this.tongue.rotateAngleX += (float) Math.toRadians(Mth.wrapDegrees((float) ((Mth.atan2(d1, d3) * 180.0F / (float) Math.PI))));
         }
         if (tongueLength <= 0F) {
             this.tongue.showModel = false;

@@ -24,6 +24,93 @@
   "forlorn_hollows_music": {
     "sounds": []
   },
+
+
+  "vesper_idle": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/vesper_idle_0"
+      },
+      {
+        "name": "alexscaves:mob/vesper_idle_1"
+      },
+      {
+        "name": "alexscaves:mob/vesper_idle_2"
+      },
+      {
+        "name": "alexscaves:mob/vesper_idle_3"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.vesper_idle"
+  },
+  "vesper_quiet_idle": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/vesper_quiet_idle_0"
+      },
+      {
+        "name": "alexscaves:mob/vesper_quiet_idle_1"
+      },
+      {
+        "name": "alexscaves:mob/vesper_quiet_idle_2"
+      },
+      {
+        "name": "alexscaves:mob/vesper_quiet_idle_3"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.vesper_quiet_idle"
+  },
+  "vesper_hurt": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/vesper_hurt_0"
+      },
+      {
+        "name": "alexscaves:mob/vesper_hurt_1"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.vesper_hurt"
+  },
+  "vesper_death": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/vesper_death"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.vesper_death"
+  },
+  "vesper_flap": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/vesper_flap_0"
+      },
+      {
+        "name": "alexscaves:mob/vesper_flap_1"
+      },
+      {
+        "name": "alexscaves:mob/vesper_flap_2"
+      },
+      {
+        "name": "alexscaves:mob/vesper_flap_3"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.vesper_flap"
+  },
+  "vesper_scream": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/vesper_scream_0"
+      },
+      {
+        "name": "alexscaves:mob/vesper_scream_1"
+      },
+      {
+        "name": "alexscaves:mob/vesper_scream_2"
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.vesper_scream"
+  },
+
   "disappointment": {
     "sounds": [
       {

@@ -196,7 +196,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void onVillagerTradeSetup(VillagerTradesEvent event) {
-        if (event.getType() == VillagerProfession.CARTOGRAPHER) {
+        if (event.getType() == VillagerProfession.CARTOGRAPHER && AlexsCaves.COMMON_CONFIG.cartographersSellCabinMaps.get()) {
             int level = 2;
             List<VillagerTrades.ItemListing> list = event.getTrades().get(level);
             list.add(new VillagerUndergroundCabinMapTrade(5, 10, 6));
@@ -206,7 +206,9 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void onWanderingTradeSetup(WandererTradesEvent event) {
-        event.getGenericTrades().add(new VillagerUndergroundCabinMapTrade(8, 1, 10));
+        if(AlexsCaves.COMMON_CONFIG.wanderingTradersSellCabinMaps.get()){
+            event.getGenericTrades().add(new VillagerUndergroundCabinMapTrade(8, 1, 10));
+        }
     }
 
     private static void checkAndDestroyExploitItem(Player player, EquipmentSlot slot) {

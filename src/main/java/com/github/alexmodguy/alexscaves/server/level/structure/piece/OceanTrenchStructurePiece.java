@@ -85,7 +85,7 @@ public class OceanTrenchStructurePiece extends AbstractCaveGenerationStructurePi
                         carveCliff.move(direction);
                         BlockState state = level.getBlockState(carveCliff.atY(holeCenter.getY()));
                         int wallPriorHeight = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, carveCliff.getX(), carveCliff.getZ());
-                        if (!shouldDig(level, carveCliff, seaLevel, wallPriorHeight) && (!state.getFluidState().is(Fluids.WATER) && !state.is(Blocks.VOID_AIR))) {
+                        if (!shouldDig(level, carveCliff, seaLevel, wallPriorHeight) && !state.is(ACTagRegistry.TRENCH_GENERATION_IGNORES) && !state.getFluidState().is(Fluids.WATER) && !state.isAir()) {
                             BlockPos.MutableBlockPos wallPos = new BlockPos.MutableBlockPos(carveCliff.getX(), level.getMinBuildHeight() + 1, carveCliff.getZ());
                             boolean seaMountBeneath = false;
                             while (wallPos.getY() < wallPriorHeight - 2) {

@@ -18,6 +18,9 @@ public class ACServerConfig {
     public final ForgeConfigSpec.DoubleValue toxicTabletLootChance;
     public final ForgeConfigSpec.DoubleValue abyssalTabletLootChance;
     public final ForgeConfigSpec.DoubleValue forlornTabletLootChance;
+    public final ForgeConfigSpec.DoubleValue cabinMapLootChance;
+    public final ForgeConfigSpec.BooleanValue cartographersSellCabinMaps;
+    public final ForgeConfigSpec.BooleanValue wanderingTradersSellCabinMaps;
 
     public ACServerConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("generation");
@@ -38,11 +41,14 @@ public class ACServerConfig {
         totemOfPossessionPlayers = builder.comment("Whether the Totem of Possession can be applied to players.").translation("totem_of_possession_works_on_players").define("totem_of_possession_works_on_players", true);
         builder.pop();
         builder.push("vanilla-changes");
-        magneticTabletLootChance = builder.comment("percent chance of bastion having a cave tablet for magnetic caves in it's loot table:").translation("magnetic_tablet_loot_chance").defineInRange("magnetic_tablet_loot_chance", 0.45D, 0.0, 1.0D);
-        primordialTabletLootChance = builder.comment("percent chance of suspicious sand having a cave tablet for primordial caves in it's loot table:").translation("primordial_tablet_loot_chance").defineInRange("primordial_tablet_loot_chance", 0.15D, 0.0, 1.0D);
-        toxicTabletLootChance = builder.comment("percent chance of jungle temple having a cave tablet for toxic caves in it's loot table:").translation("toxic_tablet_loot_chance").defineInRange("toxic_tablet_loot_chance", 0.5D, 0.0, 1.0D);
-        abyssalTabletLootChance = builder.comment("percent chance of underwater ruins having a cave tablet for abyssal chasm in it's loot table:").translation("abyssal_tablet_loot_chance").defineInRange("abyssal_tablet_loot_chance", 0.4D, 0.0, 1.0D);
-        forlornTabletLootChance = builder.comment("percent chance of mansion having a cave tablet for forlorn hollows in it's loot table:").translation("forlorn_tablet_loot_chance").defineInRange("forlorn_tablet_loot_chance", 0.75D, 0.0, 1.0D);
+        magneticTabletLootChance = builder.comment("percent chance of bastion having a cave tablet for magnetic caves in its loot table:").translation("magnetic_tablet_loot_chance").defineInRange("magnetic_tablet_loot_chance", 0.45D, 0.0, 1.0D);
+        primordialTabletLootChance = builder.comment("percent chance of suspicious sand having a cave tablet for primordial caves in its loot table:").translation("primordial_tablet_loot_chance").defineInRange("primordial_tablet_loot_chance", 0.15D, 0.0, 1.0D);
+        toxicTabletLootChance = builder.comment("percent chance of jungle temple having a cave tablet for toxic caves in its loot table:").translation("toxic_tablet_loot_chance").defineInRange("toxic_tablet_loot_chance", 0.5D, 0.0, 1.0D);
+        abyssalTabletLootChance = builder.comment("percent chance of underwater ruins having a cave tablet for abyssal chasm in its loot table:").translation("abyssal_tablet_loot_chance").defineInRange("abyssal_tablet_loot_chance", 0.4D, 0.0, 1.0D);
+        forlornTabletLootChance = builder.comment("percent chance of mansion having a cave tablet for forlorn hollows in its loot table:").translation("forlorn_tablet_loot_chance").defineInRange("forlorn_tablet_loot_chance", 0.75D, 0.0, 1.0D);
+        cabinMapLootChance = builder.comment("percent chance of abandoned mineshaft chests having a map to a nearby underground mineshaft in their loot table:").translation("cabin_map_loot_chance").defineInRange("cabin_map_loot_chance", 0.15D, 0.0, 1.0D);
+        cartographersSellCabinMaps = builder.comment("Whether the Cartographer Villagers can sell maps to Underground Cabins.").translation("cartographers_sell_cabin_maps").define("cartographers_sell_cabin_maps", true);
+        wanderingTradersSellCabinMaps = builder.comment("Whether the Wandering Traders can sell maps to Underground Cabins.").translation("wandering_traders_sell_cabin_maps").define("wandering_traders_sell_cabin_maps", true);
         builder.pop();
     }
 }

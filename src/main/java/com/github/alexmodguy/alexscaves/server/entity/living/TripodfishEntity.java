@@ -307,7 +307,7 @@ public class TripodfishEntity extends WaterAnimal implements Bucketable {
 
     @Override
     public ItemStack getBucketItemStack() {
-        return new ItemStack(ACItemRegistry.LANTERNFISH_BUCKET.get());
+        return new ItemStack(ACItemRegistry.TRIPODFISH_BUCKET.get());
     }
 
     @Override

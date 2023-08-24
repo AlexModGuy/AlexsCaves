@@ -35,6 +35,7 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
     @Shadow
     @Final
     public WalkAnimationState walkAnimation;
+    @Shadow public float yHeadRot;
     private float prevHeadYaw;
     private float prevHeadYaw0;
     private float prevHeadPitch;
@@ -81,7 +82,7 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
 
 
     public void resetMagnetHeadRotation() {
-        setYHeadRot(prevHeadYaw);
+        this.yHeadRot = prevHeadYaw;
         this.yHeadRotO = prevHeadYaw0;
         setXRot(prevHeadPitch);
         this.xRotO = prevHeadPitch0;

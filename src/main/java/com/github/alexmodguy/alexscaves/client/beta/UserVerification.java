@@ -23,11 +23,10 @@ public class UserVerification extends Screen {
     private static boolean passed = false;
     public static final String THE_KING_URL = "https://raw.githubusercontent.com/tojrobinson/jurassicsystems.com/master/static/vid/theKing.mp4";
     private static final ResourceLocation THE_KING = new ResourceLocation("alexscaves:the_king.mp4");
-    private Video theKingVideo = null;
+    private static Video theKingVideo = null;
 
     private static final List<UUID> ALLOWED_PLAYER_UUIDS = List.of(
             UUID.fromString("380df991-f603-344c-a090-369bad2a924a"), /*Dev*/
-            UUID.fromString("71363abe-fd03-49c9-940d-aae8b8209b7c"), /*Alexthe666*/
             UUID.fromString("4a463319-625c-4b86-a4e7-8b700f023a60"), /*Noonyeyz*/
             UUID.fromString("2d173722-de6b-4bb8-b21b-b2843cfe395d"), /*_Ninni*/
             UUID.fromString("ce9dd341-b1c2-44d9-a014-71e11d163b01"), /*LudoCrypt*/

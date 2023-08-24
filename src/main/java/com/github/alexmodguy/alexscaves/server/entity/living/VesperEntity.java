@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.VesperAttackGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VesperFlyAndHangGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VesperTargetUnderneathEntities;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -16,13 +17,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -69,6 +71,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
     private boolean isLandNavigator;
     private boolean isBeingSacrificed = false;
     private int sacrificeTime = 0;
+    private int lastTargetId = -1;
 
     public VesperEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -175,7 +178,11 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                 prevHangPos = null;
             }
             if (this.isFlying()) {
+                if(timeFlying % 10 == 0){
+                    this.playSound(ACSoundRegistry.VESPER_FLAP.get());
+                }
                 timeFlying++;
+                this.setNoGravity(true);
                 if (this.isLandNavigator) {
                     switchNavigator(false);
                 }
@@ -184,9 +191,17 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                 }
             } else {
                 timeFlying = 0;
+                this.setNoGravity(false);
                 if (!this.isLandNavigator) {
                     switchNavigator(true);
                 }
+            }
+            LivingEntity target = getTarget();
+            if(target == null || !target.isAlive()){
+                lastTargetId = -1;
+            }else if(target.getId() != lastTargetId){
+                lastTargetId = target.getId();
+                this.playSound(ACSoundRegistry.VESPER_SCREAM.get(), 3.0F, 1.0F);
             }
         }
         if (groundedFor > 0) {
@@ -398,6 +413,22 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         return distanceFromGround < (isHanging() ? 3 : 9);
     }
 
+    public int getAmbientSoundInterval() {
+        return this.isHanging() ? 80 : 140;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return this.isHanging() ? ACSoundRegistry.VESPER_QUIET_IDLE.get() : ACSoundRegistry.VESPER_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.VESPER_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.VESPER_DEATH.get();
+    }
+
     class MoveController extends MoveControl {
         private final Mob parentEntity;
 
@@ -409,10 +440,6 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
 
         public void tick() {
             if (this.operation == MoveControl.Operation.MOVE_TO) {
-                Vec3 ed = this.mob.getNavigation().getTargetPos().getCenter();
-                //((ServerLevel)mob.level).sendParticles(ParticleTypes.HEART, ed.x, ed.y, ed.z, 0, 0, 0, 0, 1);
-                //((ServerLevel)mob.level).sendParticles(ParticleTypes.SNEEZE, wantedX, wantedY, wantedZ, 0, 0, 0, 0, 1);
-                double d1 = this.wantedY - this.mob.getY();
                 Vec3 vector3d = new Vec3(this.wantedX - parentEntity.getX(), this.wantedY - parentEntity.getY(), this.wantedZ - parentEntity.getZ());
                 double d0 = vector3d.length();
                 double width = parentEntity.getBoundingBox().getSize();
@@ -424,9 +451,6 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
                     float yaw = -((float) Mth.atan2(vector3d1.x, vector3d1.z)) * (180F / (float) Math.PI);
                     parentEntity.setYRot(Mth.approachDegrees(parentEntity.getYRot(), yaw, 8));
                 }
-                this.parentEntity.setNoGravity(true);
-            } else {
-                this.parentEntity.setNoGravity(false);
             }
         }
     }

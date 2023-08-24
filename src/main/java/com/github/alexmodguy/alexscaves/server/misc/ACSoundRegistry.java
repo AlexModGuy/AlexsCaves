@@ -15,6 +15,14 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> TOXIC_CAVES_MUSIC = createSoundEvent("toxic_caves_music");
     public static final RegistryObject<SoundEvent> ABYSSAL_CHASM_MUSIC = createSoundEvent("abyssal_chasm_music");
     public static final RegistryObject<SoundEvent> FORLORN_HOLLOWS_MUSIC = createSoundEvent("forlorn_hollows_music");
+
+    public static final RegistryObject<SoundEvent> VESPER_IDLE = createSoundEvent("vesper_idle");
+    public static final RegistryObject<SoundEvent> VESPER_HURT = createSoundEvent("vesper_hurt");
+    public static final RegistryObject<SoundEvent> VESPER_DEATH = createSoundEvent("vesper_death");
+    public static final RegistryObject<SoundEvent> VESPER_QUIET_IDLE = createSoundEvent("vesper_quiet_idle");
+    public static final RegistryObject<SoundEvent> VESPER_FLAP = createSoundEvent("vesper_flap");
+    public static final RegistryObject<SoundEvent> VESPER_SCREAM = createSoundEvent("vesper_scream");
+
     public static final RegistryObject<SoundEvent> DISAPPOINTMENT = createSoundEvent("disappointment");
     public static final RegistryObject<SoundEvent> NUCLEAR_SIREN = createSoundEvent("nuclear_siren");
 
