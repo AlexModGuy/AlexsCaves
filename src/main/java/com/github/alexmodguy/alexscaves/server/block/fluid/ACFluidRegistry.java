@@ -25,14 +25,12 @@ public class ACFluidRegistry {
 
     public static final RegistryObject<FluidType> ACID_FLUID_TYPE = FLUID_TYPE_DEF_REG.register("acid", () -> new AcidFluidType(FluidType.Properties.create().lightLevel(5).density(1024).viscosity(1024).pathType(BlockPathTypes.LAVA).adjacentPathType(BlockPathTypes.DANGER_OTHER)));
     public static final RegistryObject<FlowingFluid> ACID_FLUID_SOURCE = FLUID_DEF_REG.register("acid", () -> new ForgeFlowingFluid.Source(acidProperties()));
-    public static final RegistryObject<FlowingFluid> ACID_FLUID_FLOWING = FLUID_DEF_REG.register("acid_flowing", () ->
-            new ForgeFlowingFluid.Flowing(acidProperties())
-    );
+    public static final RegistryObject<FlowingFluid> ACID_FLUID_FLOWING = FLUID_DEF_REG.register("acid_flowing", () -> new ForgeFlowingFluid.Flowing(acidProperties()));
 
     public static void postInit() {
         FluidInteractionRegistry.addInteraction(ACID_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
                 ForgeMod.WATER_TYPE.get(),
-                fluidState -> fluidState.isSource() ? Blocks.MUD.defaultBlockState() : Blocks.MUD.defaultBlockState()
+                fluidState -> Blocks.MUD.defaultBlockState()
         ));
         FluidInteractionRegistry.addInteraction(ACID_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
                 ForgeMod.LAVA_TYPE.get(),

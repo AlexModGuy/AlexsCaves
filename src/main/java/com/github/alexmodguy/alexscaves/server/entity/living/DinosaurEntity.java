@@ -223,7 +223,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
     }
 
     public boolean isInSittingPose() {
-        return super.isInSittingPose() && !this.isVehicle();
+        return super.isInSittingPose() && !this.isVehicle() || this.isPassenger();
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {

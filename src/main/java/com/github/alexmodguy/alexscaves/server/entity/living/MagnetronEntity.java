@@ -122,7 +122,7 @@ public class MagnetronEntity extends Monster {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.ARMOR, 6.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 20.0D);
+        return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.ARMOR, 6.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.FOLLOW_RANGE, 32.0D).add(Attributes.MAX_HEALTH, 30.0D);
     }
 
     protected void registerGoals() {
@@ -266,16 +266,16 @@ public class MagnetronEntity extends Monster {
         if (isFormed() && !hasFormedAttributes) {
             hasFormedAttributes = true;
             refreshDimensions();
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(40F);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(80F);
             this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(1F);
-            this.heal(40F);
+            this.heal(80F);
         }
         if (!isFormed() && !isBaby() && hasFormedAttributes) {
             hasFormedAttributes = false;
             refreshDimensions();
-            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(20F);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(30F);
             this.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0F);
-            this.heal(20F);
+            this.heal(30F);
         }
     }
 

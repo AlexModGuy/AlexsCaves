@@ -1,8 +1,7 @@
 {
   "display": {
     "icon": {
-      "item" : "citadel:icon_item",
-      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+      "item" : "alexscaves:dinosaur_train"
     },
     "title": {
       "translate": "advancements.alexscaves.dinosaurs_minecart.title"

@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item" : "citadel:icon_item",
-      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/discover_dinosaur.png\"}"
     },
     "title": {
       "translate": "advancements.alexscaves.discover_dinosaur.title"

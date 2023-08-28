@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -39,6 +40,7 @@ public class ACItemRegistry {
     public static final ACArmorMaterial DIVING_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("diving_suit", 20, new int[]{2, 5, 6, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 1F);
     public static final ACArmorMaterial DARKNESS_ARMOR_MATERIAL = new ACArmorMaterial("darkness", 15, new int[]{4, 5, 1, 1}, 50, SoundEvents.ARMOR_EQUIP_LEATHER, 0.5F);
     public static final DeferredRegister<Item> DEF_REG = DeferredRegister.create(ForgeRegistries.ITEMS, AlexsCaves.MODID);
+    public static final RegistryObject<Item> ADVANCEMENT_TAB_ICON = DEF_REG.register("advancement_tab_icon", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> CAVE_TABLET = DEF_REG.register("cave_tablet", () -> new CaveInfoItem(new Item.Properties(), true));
     public static final RegistryObject<Item> CAVE_CODEX = DEF_REG.register("cave_codex", () -> new CaveInfoItem(new Item.Properties(), false));
     public static final RegistryObject<Item> CAVE_MAP = DEF_REG.register("cave_map", () -> new CaveMapItem(new Item.Properties().stacksTo(1)));
@@ -55,6 +57,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> SEEKING_ARROW = DEF_REG.register("seeking_arrow", () -> new SeekingArrowItem());
     public static final RegistryObject<Item> GALENA_GAUNTLET = DEF_REG.register("galena_gauntlet", () -> new GalenaGauntletItem());
     public static final RegistryObject<Item> RESISTOR_SHIELD = DEF_REG.register("resistor_shield", () -> new ResistorShieldItem());
+    public static final RegistryObject<Item> POLARITY_ARMOR_TRIM_SMITHING_TEMPLATE = DEF_REG.register("polarity_armor_trim_smithing_template", () -> SmithingTemplateItem.createArmorTrimTemplate(new ResourceLocation("alexscaves:polarity")));
     public static final RegistryObject<Item> PEWEN_DOOR = DEF_REG.register("pewen_door", () -> new DoubleHighBlockItem(ACBlockRegistry.PEWEN_DOOR.get(), (new Item.Properties())));
     public static final RegistryObject<Item> PEWEN_SIGN = DEF_REG.register("pewen_sign", () -> new SignItem((new Item.Properties()).stacksTo(16), ACBlockRegistry.PEWEN_SIGN.get(), ACBlockRegistry.PEWEN_WALL_SIGN.get()));
     public static final RegistryObject<Item> PEWEN_HANGING_SIGN = DEF_REG.register("pewen_hanging_sign", () -> new HangingSignItem(ACBlockRegistry.PEWEN_HANGING_SIGN.get(), ACBlockRegistry.PEWEN_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
@@ -80,6 +83,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> LIMESTONE_SPEAR_SPRITE = DEF_REG.register("limestone_spear_inventory", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DINOSAUR_POTTERY_SHERD = DEF_REG.register("dinosaur_pottery_sherd", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> FOOTPRINT_POTTERY_SHERD = DEF_REG.register("footprint_pottery_sherd", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> DINOSAUR_TRAIN = DEF_REG.register("dinosaur_train", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> ACID_BUCKET = DEF_REG.register("acid_bucket", () -> new BucketItem(ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public static final RegistryObject<Item> RADGILL_BUCKET = DEF_REG.register("radgill_bucket", () -> new ModFishBucketItem(ACEntityRegistry.RADGILL, ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public static final RegistryObject<Item> RADGILL = DEF_REG.register("radgill", () -> new Item(new Item.Properties().food(ACFoods.RADGILL)));

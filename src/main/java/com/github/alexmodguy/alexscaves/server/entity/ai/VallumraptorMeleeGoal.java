@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -45,6 +46,7 @@ public class VallumraptorMeleeGoal extends Goal {
                 raptor.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
                 if (raptor.getAnimationTick() > 15 && raptor.onGround()) {
                     raptor.setLeaping(true);
+                    raptor.playSound(ACSoundRegistry.VALLUMRAPTOR_ATTACK.get());
                     Vec3 vector3d = raptor.getDeltaMovement();
                     Vec3 vector3d1 = new Vec3(target.getX() - raptor.getX(), 0.0D, target.getZ() - raptor.getZ());
                     if (vector3d1.lengthSqr() > 1.0E-7D) {
@@ -74,6 +76,7 @@ public class VallumraptorMeleeGoal extends Goal {
 
     private void checkAndDealDamage(LivingEntity target) {
         if (raptor.hasLineOfSight(target) && raptor.distanceTo(target) < raptor.getBbWidth() + target.getBbWidth() + 1) {
+            raptor.playSound(ACSoundRegistry.VALLUMRAPTOR_SCRATCH.get());
             target.hurt(target.damageSources().mobAttack(raptor), (float) raptor.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
         }
     }

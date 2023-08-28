@@ -2,7 +2,7 @@
   "display": {
     "icon": {
       "item" : "citadel:icon_item",
-      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/ac_icon.png\"}"
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/deep_one_0.png\"}"
     },
     "title": {
       "translate": "advancements.alexscaves.stalked_by_deep_one.title"

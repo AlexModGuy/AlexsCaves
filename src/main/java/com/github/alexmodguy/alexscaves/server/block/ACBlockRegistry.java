@@ -112,7 +112,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> CAVE_PAINTING_SUBTERRANODON_RIDE = registerBlockAndItem("cave_painting_subterranodon_ride", () -> new CavePaintingBlock(), 1);
     public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS = registerBlockAndItem("cave_painting_tremorsaurus", () -> new CavePaintingBlock(), 1);
     public static final RegistryObject<Block> CAVE_PAINTING_TREMORSAURUS_FRIEND = registerBlockAndItem("cave_painting_tremorsaurus_friend", () -> new CavePaintingBlock(), 1);
-    public static final RegistryObject<Block> AMBER = registerBlockAndItem("amber", () -> new GlassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().strength(0.3F, 2.0F).sound(SoundType.GLASS)));
+    public static final RegistryObject<Block> AMBER = registerBlockAndItem("amber", () -> new GlassBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).noOcclusion().requiresCorrectToolForDrops().strength(0.3F, 2.0F).sound(ACSoundTypes.AMBER)));
     public static final RegistryObject<Block> AMBERSOL = registerBlockAndItem("ambersol", () -> new AmbersolBlock());
     public static final RegistryObject<Block> AMBERSOL_LIGHT = DEF_REG.register("ambersol_light", () -> new AmbersolLightBlock(BlockBehaviour.Properties.of().noOcclusion().strength(-1.0F, 3600000.8F).noLootTable().noOcclusion().replaceable().lightLevel(((state -> 15)))));
     public static final RegistryObject<Block> AMBER_MONOLITH = registerBlockAndItem("amber_monolith", () -> new AmberMonolithBlock());

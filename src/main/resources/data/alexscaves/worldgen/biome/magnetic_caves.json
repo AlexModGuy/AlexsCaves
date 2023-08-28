@@ -109,7 +109,7 @@
   "spawn_costs": {
     "alexscaves:magnetron": {
       "charge": 1.0,
-      "energy_budget": 0.2
+      "energy_budget": 0.1
     }
   },
   "spawners": {
@@ -135,19 +135,19 @@
         "type": "alexscaves:magnetron",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 70
+        "weight": 80
       },
       {
         "type": "alexscaves:teletor",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 300
+        "weight": 225
       },
       {
         "type": "alexscaves:boundroid",
         "maxCount": 2,
         "minCount": 1,
-        "weight": 300
+        "weight": 350
       },
       {
         "type": "alexscaves:ferrouslime",

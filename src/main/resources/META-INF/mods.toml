@@ -4,10 +4,11 @@ license="GNU LESSER GENERAL PUBLIC LICENSE"
 issueTrackerURL="https://github.com/AlexModGuy/AlexsCavesBetaTest/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="0.1.2" #mandatory
+version="0.1.3" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
-authors="Alexthe668, Noon" #optional
+authors="Alexthe668, Noonyeyz" #optional
+credits="LudoCrypt, _Ninni, Ron0, PrismaticPinky, Kotshi, RenRen" #optional
 description='''alex cave...'''
 [[dependencies.alexscaves]] #optional
 # the modid of the dependency

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public class AmbersolBlock extends BaseEntityBlock {
 
     public AmbersolBlock() {
-        super(Properties.of().mapColor(MapColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(3F, 10.0F).randomTicks().sound(SoundType.GLASS).lightLevel((i) -> 15).emissiveRendering((state, level, pos) -> true));
+        super(Properties.of().mapColor(MapColor.COLOR_YELLOW).requiresCorrectToolForDrops().strength(3F, 10.0F).randomTicks().sound(ACSoundTypes.AMBER).lightLevel((i) -> 15).emissiveRendering((state, level, pos) -> true));
     }
 
     public static BlockPos fillWithLights(BlockPos current, LevelAccessor level) {

@@ -1,0 +1,7 @@
+{
+  "asset_id": "alexscaves:polarity",
+  "description": {
+    "translate": "trim_pattern.alexscaves.polarity"
+  },
+  "template_item": "alexscaves:polarity_armor_trim_smithing_template"
+}

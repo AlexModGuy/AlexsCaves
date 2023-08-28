@@ -202,7 +202,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             if (this.getDeltaMovement().y < 0 && this.isAlive()) {
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1, 0.6D, 1));
             }
-            if (this.isDancing()) {
+            if (this.isDancing() || this.isPassenger()) {
                 this.setHovering(false);
                 this.setFlying(false);
             }

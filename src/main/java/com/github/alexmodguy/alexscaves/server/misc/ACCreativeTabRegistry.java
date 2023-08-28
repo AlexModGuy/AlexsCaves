@@ -44,6 +44,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.SEEKING_ARROW.get());
                 add(output, ACItemRegistry.GALENA_GAUNTLET.get());
                 add(output, ACItemRegistry.RESISTOR_SHIELD.get());
+                add(output, ACItemRegistry.POLARITY_ARMOR_TRIM_SMITHING_TEMPLATE.get());
                 add(output, ACBlockRegistry.GALENA.get());
                 add(output, ACBlockRegistry.GALENA_STAIRS.get());
                 add(output, ACBlockRegistry.GALENA_SLAB.get());

@@ -1,8 +1,7 @@
 {
     "display": {
         "icon": {
-            "item" : "citadel:icon_item",
-            "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/tab_icon.png\"}"
+            "item" : "alexscaves:advancement_tab_icon"
         },
         "title": {
             "translate": "advancements.alexscaves.root.title"

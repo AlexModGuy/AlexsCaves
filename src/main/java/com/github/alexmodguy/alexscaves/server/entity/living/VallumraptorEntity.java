@@ -8,6 +8,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.ChestThief;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.TargetsDroppedItems;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -25,6 +26,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -250,7 +252,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                 this.setDeltaMovement(this.getDeltaMovement().multiply(1.1F, 1, 1.1F));
             }
         }
-        if (this.getAnimation() == ANIMATION_CALL_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_CALL_2 && this.getAnimationTick() == 8) {
+        if (this.getAnimation() == ANIMATION_CALL_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_CALL_2 && this.getAnimationTick() == 4) {
             actuallyPlayAmbientSound();
         }
         if (!level().isClientSide) {
@@ -462,15 +464,22 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     }
 
     public void playAmbientSound() {
-        if (this.getAnimation() == NO_ANIMATION && this.getRelaxedFor() <= 0) {
+        if (this.getRelaxedFor() > 0) {
+            super.playAmbientSound();
+        } else if (this.getAnimation() == NO_ANIMATION && !level().isClientSide) {
             this.setAnimation(random.nextBoolean() && !this.isInSittingPose() ? ANIMATION_CALL_2 : ANIMATION_CALL_1);
         }
     }
 
     public void actuallyPlayAmbientSound() {
+        float volume = this.getSoundVolume();
         SoundEvent soundevent = this.getAmbientSound();
+        if (this.getAnimation() == ANIMATION_CALL_2) {
+            soundevent = ACSoundRegistry.VALLUMRAPTOR_CALL.get();
+            volume += 2.0F;
+        }
         if (soundevent != null) {
-            this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());
+            this.playSound(soundevent, volume, this.getVoicePitch());
         }
     }
 
@@ -606,6 +615,19 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     public void setHideFor(int ticks) {
         this.entityData.set(HIDING_FOR, ticks);
     }
+
+    protected SoundEvent getAmbientSound() {
+        return this.getRelaxedFor() > 0 ? ACSoundRegistry.VALLUMRAPTOR_SLEEP.get() : ACSoundRegistry.VALLUMRAPTOR_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.VALLUMRAPTOR_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.VALLUMRAPTOR_DEATH.get();
+    }
+
 
     @Override
     public boolean onFeedMixture(ItemStack itemStack, Player player) {

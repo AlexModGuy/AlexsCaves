@@ -252,6 +252,11 @@
               }
             }
           ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:polarity_armor_trim_smithing_template",
+          "weight": 5
         }
       ]
     }

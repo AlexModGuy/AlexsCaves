@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#S#",
+    "#C#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:diamond"
+    },
+    "C": {
+      "item": "alexscaves:galena"
+    },
+    "S": {
+      "item": "alexscaves:polarity_armor_trim_smithing_template"
+    }
+  },
+  "result": {
+    "item": "alexscaves:polarity_armor_trim_smithing_template",
+    "count": 2
+  }
+}
