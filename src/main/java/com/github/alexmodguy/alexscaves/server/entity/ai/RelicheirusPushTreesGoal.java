@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.FallingTreeBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.RelicheirusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MovingBlockData;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.core.BlockPos;
@@ -74,6 +75,7 @@ public class RelicheirusPushTreesGoal extends MoveToBlockGoal {
                     } else if (relicheirus.getAnimation() == RelicheirusEntity.ANIMATION_PUSH_TREE) {
                         if (relicheirus.getAnimationTick() >= 35 && !madeTreeEntity) {
                             madeTreeEntity = true;
+                            relicheirus.playSound(ACSoundRegistry.RELICHEIRUS_TOPPLE.get());
                             List<BlockPos> gathered = new ArrayList<>();
                             gatherAttachedBlocks(blockPos, blockPos, gathered);
                             if (!gathered.isEmpty()) {

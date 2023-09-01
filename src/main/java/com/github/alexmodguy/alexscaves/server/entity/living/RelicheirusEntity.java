@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.block.PewenBranchBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -16,10 +17,10 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -91,7 +92,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
 
     protected void playStepSound(BlockPos pos, BlockState state) {
         if (!this.isBaby()) {
-            this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+            this.playSound(ACSoundRegistry.RELICHEIRUS_STEP.get(), 1.0F, 1.0F);
         }
     }
 
@@ -262,7 +263,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     }
 
     public void playAmbientSound() {
-        if (this.getAnimation() == NO_ANIMATION) {
+        if (this.getAnimation() == NO_ANIMATION && !level().isClientSide) {
             this.setAnimation(random.nextBoolean() ? ANIMATION_SPEAK_2 : ANIMATION_SPEAK_1);
         }
     }
@@ -353,5 +354,17 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
 
     public float getStepHeight() {
         return 1.1F;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.RELICHEIRUS_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.RELICHEIRUS_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.RELICHEIRUS_DEATH.get();
     }
 }

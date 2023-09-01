@@ -1,13 +1,12 @@
 package com.github.alexmodguy.alexscaves.server;
 
-import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -88,5 +87,8 @@ public class CommonProxy {
 
     public boolean isFirstPersonPlayer(Entity entity) {
         return false;
+    }
+
+    public void openBookGUI(ItemStack itemStackIn) {
     }
 }

@@ -11,12 +11,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.client.ForgeRenderTypes;
+
 
 public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_FEROUSSLIME_GEL_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeFerrouslimeGelShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_HOLOGRAM_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeHologramShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeIrradiatedShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_BUBBLED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeBubbledShader);
+
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_SEPIA_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeSepiaShader);
 
     protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
         RenderTarget target = ACPostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
@@ -171,6 +175,22 @@ public class ACRenderTypes extends RenderType {
                 .setDepthTestState(LEQUAL_DEPTH_TEST)
                 .setOutputState(HOLOGRAM_OUTPUT)
                 .createCompositeState(false));
+    }
+
+    public static RenderType getBookWidget(ResourceLocation locationIn, boolean sepia) {
+        if(sepia){
+            return create("book_widget", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                    .setShaderState(RENDERTYPE_SEPIA_SHADER)
+                    .setCullState(NO_CULL)
+                    .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                    .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                    .setLightmapState(LIGHTMAP)
+                    .setOverlayState(OVERLAY)
+                    .createCompositeState(false));
+        }else{
+            return ForgeRenderTypes.getUnlitTranslucent(locationIn);
+        }
+
     }
 
     public static RenderType getBubbledCull(ResourceLocation locationIn) {

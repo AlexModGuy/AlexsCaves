@@ -433,13 +433,14 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         int maxLines = 8;
         int wordLines = 0;
         int wordLineWidth = 0;
+        int letterWidth = 6;
         Collections.shuffle(allWords);
         while (wordLines < maxLines && !allWords.isEmpty()) {
             MutableComponent component = Component.literal(allWords.remove(0));
-            int maxWordWidth = component.getString().length() * 6;
-            while (wordLineWidth + maxWordWidth + 22 < maxWidth && !allWords.isEmpty()) {
+            int maxWordWidth = component.getString().length() * letterWidth;
+            while (wordLineWidth + maxWordWidth + 30 < maxWidth && !allWords.isEmpty()) {
                 component = Component.literal(allWords.remove(0).toUpperCase());
-                maxWordWidth = component.getString().length() * 6;
+                maxWordWidth = component.getString().length() * letterWidth;
                 SpelunkeryTableWordButton tableWordButton = new SpelunkeryTableWordButton(this, this.font, 25 + wordLineWidth, 25 + 12 * wordLines, maxWordWidth, 12, component.withStyle(Style.EMPTY));
                 this.addWordWidget(tableWordButton);
                 wordLineWidth += maxWordWidth;

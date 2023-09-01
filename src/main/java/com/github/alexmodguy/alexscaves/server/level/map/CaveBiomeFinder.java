@@ -27,7 +27,7 @@ public final class CaveBiomeFinder {
     }
 
     /**
-     * Ice and Fire specific thread factory.
+     * AC specific thread factory.
      */
     public static class MapThreadFactory implements ThreadFactory {
         /**

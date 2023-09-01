@@ -476,7 +476,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         SoundEvent soundevent = this.getAmbientSound();
         if (this.getAnimation() == ANIMATION_CALL_2) {
             soundevent = ACSoundRegistry.VALLUMRAPTOR_CALL.get();
-            volume += 2.0F;
+            volume += 1.0F;
         }
         if (soundevent != null) {
             this.playSound(soundevent, volume, this.getVoicePitch());

@@ -42,7 +42,7 @@ public class MagneticLightBlock extends Block implements SimpleWaterloggedBlock 
     public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
         Direction direction = state.getValue(FACING);
         BlockPos blockpos = pos.relative(direction.getOpposite());
-        return level.getBlockState(blockpos).isFaceSturdy(level, blockpos, direction) || level.getBlockState(blockpos).is(BlockTags.LEAVES);
+        return level.getBlockState(blockpos).isFaceSturdy(level, blockpos, direction, SupportType.CENTER) || level.getBlockState(blockpos).is(BlockTags.LEAVES);
     }
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos1) {

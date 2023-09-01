@@ -13,7 +13,7 @@ public class ArchaicVinePlantBlock extends GrowingPlantBodyBlock {
     public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
     public ArchaicVinePlantBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).randomTicks().noCollission().instabreak().sound(SoundType.ROOTS), Direction.DOWN, SHAPE, false);
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).randomTicks().noCollission().instabreak().sound(SoundType.VINE), Direction.DOWN, SHAPE, false);
     }
 
     protected GrowingPlantHeadBlock getHeadBlock() {

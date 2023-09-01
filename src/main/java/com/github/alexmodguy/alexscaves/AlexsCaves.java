@@ -139,6 +139,7 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, BeholderRotateMessage.class, BeholderRotateMessage::write, BeholderRotateMessage::read, BeholderRotateMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, ArmorKeyMessage.class, ArmorKeyMessage::write, ArmorKeyMessage::read, ArmorKeyMessage::handle);
         ACSurfaceRules.setup();
+        ACPlayerCapes.setup();
         ACEffectRegistry.setup();
         ACBlockRegistry.setup();
         ACItemRegistry.setup();

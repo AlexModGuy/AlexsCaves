@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.RelicheirusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TrilocarisEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -51,6 +52,7 @@ public class RelicheirusMeleeGoal extends Goal {
 
     private void checkAndDealDamage(LivingEntity target) {
         if (relicheirus.hasLineOfSight(target) && relicheirus.distanceTo(target) < relicheirus.getBbWidth() + target.getBbWidth() + 2.0D) {
+            relicheirus.playSound(ACSoundRegistry.RELICHEIRUS_SCRATCH.get());
             target.hurt(target.damageSources().mobAttack(relicheirus), (float) relicheirus.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
             target.knockback(0.5D, relicheirus.getX() - target.getX(), relicheirus.getZ() - target.getZ());
         }

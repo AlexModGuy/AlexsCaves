@@ -214,22 +214,27 @@ public class CommonEvents {
     private static void checkAndDestroyExploitItem(Player player, EquipmentSlot slot) {
         ItemStack itemInHand = player.getItemBySlot(slot);
         if (itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
-            boolean flag = false;
             CompoundTag tag = itemInHand.getTag();
-            if (tag != null && tag.contains("BiomeKey")) {
-                String biomeKey = tag.getString("BiomeKey");
-                if (biomeKey.contains("alexscaves:")) {
-                    flag = true;
-                }
-            }
-            if (flag) {
-                itemInHand.shrink(1);
-                player.broadcastBreakEvent(slot);
-                player.playSound(ACSoundRegistry.DISAPPOINTMENT.get());
-                if (!player.level().isClientSide) {
-                    player.displayClientMessage(Component.translatable("item.alexscaves.natures_compass_warning"), true);
+            if(tag != null){
+                if (itemTagContainsAC(tag, "BiomeKey", false) || itemTagContainsAC(tag, "Structure", true) || itemTagContainsAC(tag, "structurecompass:structureName", true)) {
+                    itemInHand.shrink(1);
+                    player.broadcastBreakEvent(slot);
+                    player.playSound(ACSoundRegistry.DISAPPOINTMENT.get());
+                    if (!player.level().isClientSide) {
+                        player.displayClientMessage(Component.translatable("item.alexscaves.natures_compass_warning"), true);
+                    }
                 }
             }
         }
+    }
+
+    private static boolean itemTagContainsAC(CompoundTag tag, String tagID, boolean allowUndergroundCabin){
+        if (tag.contains(tagID)) {
+            String resourceLocation = tag.getString(tagID);
+            if (resourceLocation.contains("alexscaves:") && (!allowUndergroundCabin || !resourceLocation.contains("underground_cabin"))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

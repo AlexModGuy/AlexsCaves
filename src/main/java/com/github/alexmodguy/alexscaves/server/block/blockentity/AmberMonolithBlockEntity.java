@@ -3,14 +3,17 @@ package com.github.alexmodguy.alexscaves.server.block.blockentity;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.random.WeightedRandomList;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -75,6 +78,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                     entity.generateSpawnData();
                 } else {
                     if (entity.spawnMobs()) {
+                        level.playSound((Player)null, blockPos, ACSoundRegistry.AMBER_MONOLITH_SUMMON.get(), SoundSource.BLOCKS);
                         entity.generateSpawnData();
                     }
                 }

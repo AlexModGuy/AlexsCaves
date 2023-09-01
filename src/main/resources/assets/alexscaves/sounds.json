@@ -29,261 +29,308 @@
       }
     ]
   },
-
-
-  "amber_step": {
+  "forlorn_hollows_ambience": {
     "sounds": [
       {
-        "name": "alexscaves:block/amber/amber_step_0"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_step_1"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_step_2"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_step_3"
+        "name": "alexscaves:ambient/forlorn_hollows/ambience",
+        "stream": true,
+        "volume": 0.5
       }
+    ]
+  },
+  "forlorn_hollows_ambience_additions": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/forlorn_hollows/loop_additions/bats",
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:ambient/forlorn_hollows/loop_additions/bells_0",
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:ambient/forlorn_hollows/loop_additions/bells_1",
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:ambient/forlorn_hollows/loop_additions/chant_0",
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:ambient/forlorn_hollows/loop_additions/chant_1",
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:ambient/forlorn_hollows/loop_additions/chant_2",
+        "volume": 0.5
+      }
+    ]
+  },
+  "forlorn_hollows_ambience_mood": {
+    "sounds": [
+      "alexscaves:ambient/forlorn_hollows/mood/mood_0",
+      "alexscaves:ambient/forlorn_hollows/mood/mood_1",
+      "alexscaves:ambient/forlorn_hollows/mood/mood_2",
+      "alexscaves:ambient/forlorn_hollows/mood/mood_3",
+      "alexscaves:ambient/forlorn_hollows/mood/mood_4",
+      "alexscaves:ambient/forlorn_hollows/mood/mood_5"
+    ]
+  },
+  "amber_step": {
+    "sounds": [
+      "alexscaves:block/amber/amber_step_0",
+      "alexscaves:block/amber/amber_step_1",
+      "alexscaves:block/amber/amber_step_2",
+      "alexscaves:block/amber/amber_step_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.amber_step"
   },
   "amber_place": {
     "sounds": [
-      {
-        "name": "alexscaves:block/amber/amber_place_0"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_place_1"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_place_2"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_place_3"
-      }
+      "alexscaves:block/amber/amber_place_0",
+      "alexscaves:block/amber/amber_place_1",
+      "alexscaves:block/amber/amber_place_2",
+      "alexscaves:block/amber/amber_place_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.amber_place"
   },
   "amber_break": {
     "sounds": [
-      {
-        "name": "alexscaves:block/amber/amber_break_0"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_break_1"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_break_2"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_break_3"
-      }
+      "alexscaves:block/amber/amber_break_0",
+      "alexscaves:block/amber/amber_break_1",
+      "alexscaves:block/amber/amber_break_2",
+      "alexscaves:block/amber/amber_break_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.amber_break"
   },
   "amber_breaking": {
     "sounds": [
-      {
-        "name": "alexscaves:block/amber/amber_breaking_0"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_breaking_1"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_breaking_2"
-      },
-      {
-        "name": "alexscaves:block/amber/amber_breaking_3"
-      }
+      "alexscaves:block/amber/amber_breaking_0",
+      "alexscaves:block/amber/amber_breaking_1",
+      "alexscaves:block/amber/amber_breaking_2",
+      "alexscaves:block/amber/amber_breaking_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.amber_breaking"
   },
+  "amber_monolith_place": {
+    "sounds": [
+      "alexscaves:block/amber/amber_monolith_place"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.amber_monolith_place"
+  },
+  "amber_monolith_summon": {
+    "sounds": [
+      "alexscaves:block/amber/amber_monolith_summon_0",
+      "alexscaves:block/amber/amber_monolith_summon_1",
+      "alexscaves:block/amber/amber_monolith_summon_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.amber_monolith_summon"
+  },
   "vallumraptor_idle": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_idle_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_idle_1"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_idle_2"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_idle_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_idle_1",
+      "alexscaves:mob/vallumraptor/vallumraptor_idle_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_idle"
   },
   "vallumraptor_hurt": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_hurt_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_hurt_1"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_hurt_2"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_hurt_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_hurt_1",
+      "alexscaves:mob/vallumraptor/vallumraptor_hurt_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_hurt"
   },
   "vallumraptor_death": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_death_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_death_1"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_death_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_death_1"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_death"
   },
   "vallumraptor_call": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_call_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_call_1"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_call_2"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_call_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_call_1",
+      "alexscaves:mob/vallumraptor/vallumraptor_call_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_call"
   },
   "vallumraptor_attack": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_attack_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_attack_1"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_attack_2"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_attack_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_attack_1",
+      "alexscaves:mob/vallumraptor/vallumraptor_attack_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_attack"
   },
   "vallumraptor_scratch": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_scratch_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_scratch_1"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_scratch_2"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_scratch_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_scratch_1",
+      "alexscaves:mob/vallumraptor/vallumraptor_scratch_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_scratch"
   },
   "vallumraptor_sleep": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_sleep_0"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_sleep_1"
-      },
-      {
-        "name": "alexscaves:mob/vallumraptor/vallumraptor_sleep_2"
-      }
+      "alexscaves:mob/vallumraptor/vallumraptor_sleep_0",
+      "alexscaves:mob/vallumraptor/vallumraptor_sleep_1",
+      "alexscaves:mob/vallumraptor/vallumraptor_sleep_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_sleep"
   },
+  "tremorsaurus_idle": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_idle_0",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_idle_1",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_idle"
+  },
+  "tremorsaurus_hurt": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_hurt_0",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_hurt_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_hurt"
+  },
+  "tremorsaurus_death": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_death"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_death"
+  },
+  "tremorsaurus_roar": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_roar_0",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_roar_1",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_roar_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_roar"
+  },
+  "tremorsaurus_bite": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_bite"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_bite"
+  },
+  "tremorsaurus_throw": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_throw"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_throw"
+  },
+  "tremorsaurus_stomp": {
+    "sounds": [
+      "alexscaves:mob/tremorsaurus/tremorsaurus_stomp_0",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_stomp_1",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_stomp_2",
+      "alexscaves:mob/tremorsaurus/tremorsaurus_stomp_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tremorsaurus_death"
+  },
+  "relicheirus_idle": {
+    "sounds": [
+      "alexscaves:mob/relicheirus/relicheirus_idle_0",
+      "alexscaves:mob/relicheirus/relicheirus_idle_1",
+      "alexscaves:mob/relicheirus/relicheirus_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.relicheirus_idle"
+  },
+  "relicheirus_hurt": {
+    "sounds": [
+      "alexscaves:mob/relicheirus/relicheirus_hurt_0",
+      "alexscaves:mob/relicheirus/relicheirus_hurt_1",
+      "alexscaves:mob/relicheirus/relicheirus_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.relicheirus_hurt"
+  },
+  "relicheirus_death": {
+    "sounds": [
+      "alexscaves:mob/relicheirus/relicheirus_death_0",
+      "alexscaves:mob/relicheirus/relicheirus_death_1",
+      "alexscaves:mob/relicheirus/relicheirus_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.relicheirus_death"
+  },
+  "relicheirus_scratch": {
+    "sounds": [
+      "alexscaves:mob/relicheirus/relicheirus_scratch_0",
+      "alexscaves:mob/relicheirus/relicheirus_scratch_1",
+      "alexscaves:mob/relicheirus/relicheirus_scratch_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.relicheirus_scratch"
+  },
+  "relicheirus_step": {
+    "sounds": [
+      "alexscaves:mob/relicheirus/relicheirus_step_0",
+      "alexscaves:mob/relicheirus/relicheirus_step_1",
+      "alexscaves:mob/relicheirus/relicheirus_step_2",
+      "alexscaves:mob/relicheirus/relicheirus_step_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.relicheirus_step"
+  },
+  "relicheirus_topple": {
+    "sounds": [
+      "alexscaves:mob/relicheirus/relicheirus_topple_0",
+      "alexscaves:mob/relicheirus/relicheirus_topple_1",
+      "alexscaves:mob/relicheirus/relicheirus_topple_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.relicheirus_topple"
+  },
   "vesper_idle": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vesper/vesper_idle_0"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_idle_1"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_idle_2"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_idle_3"
-      }
+      "alexscaves:mob/vesper/vesper_idle_0",
+      "alexscaves:mob/vesper/vesper_idle_1",
+      "alexscaves:mob/vesper/vesper_idle_2",
+      "alexscaves:mob/vesper/vesper_idle_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_idle"
   },
   "vesper_quiet_idle": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vesper/vesper_quiet_idle_0"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_quiet_idle_1"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_quiet_idle_2"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_quiet_idle_3"
-      }
+      "alexscaves:mob/vesper/vesper_quiet_idle_0",
+      "alexscaves:mob/vesper/vesper_quiet_idle_1",
+      "alexscaves:mob/vesper/vesper_quiet_idle_2",
+      "alexscaves:mob/vesper/vesper_quiet_idle_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_quiet_idle"
   },
   "vesper_hurt": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vesper/vesper_hurt_0"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_hurt_1"
-      }
+      "alexscaves:mob/vesper/vesper_hurt_0",
+      "alexscaves:mob/vesper/vesper_hurt_1"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_hurt"
   },
   "vesper_death": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vesper/vesper_death"
-      }
+      "alexscaves:mob/vesper/vesper_death"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_death"
   },
   "vesper_flap": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vesper/vesper_flap_0"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_flap_1"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_flap_2"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_flap_3"
-      }
+      "alexscaves:mob/vesper/vesper_flap_0",
+      "alexscaves:mob/vesper/vesper_flap_1",
+      "alexscaves:mob/vesper/vesper_flap_2",
+      "alexscaves:mob/vesper/vesper_flap_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_flap"
   },
   "vesper_scream": {
     "sounds": [
-      {
-        "name": "alexscaves:mob/vesper/vesper_scream_0"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_scream_1"
-      },
-      {
-        "name": "alexscaves:mob/vesper/vesper_scream_2"
-      }
+      "alexscaves:mob/vesper/vesper_scream_0",
+      "alexscaves:mob/vesper/vesper_scream_1",
+      "alexscaves:mob/vesper/vesper_scream_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_scream"
   },
-
   "disappointment": {
     "sounds": [
-      {
-        "name": "alexscaves:disappointment"
-      }
+      "alexscaves:disappointment"
     ],
     "subtitle": "alexscaves.sound.subtitle.disappointment"
   },

@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
@@ -78,6 +79,7 @@ public class DarknessIncarnateEffect extends MobEffect {
             } else {
                 player.getAbilities().setFlyingSpeed(defaultFlightSpeed);
                 player.getAbilities().flying = false;
+                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0, false, false, false));
             }
             if (prevFlying != flight) {
                 player.connection.send(new ClientboundPlayerAbilitiesPacket(player.getAbilities()));

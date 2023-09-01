@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity.layer;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.ForsakenModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.ForsakenRenderer;
 import com.github.alexmodguy.alexscaves.server.entity.living.ForsakenEntity;

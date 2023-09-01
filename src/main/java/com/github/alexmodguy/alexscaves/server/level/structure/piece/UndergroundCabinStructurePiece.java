@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
-import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.processor.UndergroundCabinProcessor;
 import net.minecraft.Util;

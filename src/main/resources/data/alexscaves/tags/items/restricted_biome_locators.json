@@ -4,6 +4,14 @@
     {
       "id": "naturescompass:naturescompass",
       "required": false
+    },
+    {
+      "id": "structures_compass:structures_compass",
+      "required": false
+    },
+    {
+      "id": "structurecompass:structure_compass",
+      "required": false
     }
   ]
 }

@@ -29,6 +29,7 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.MAGNETIC_CAVES));
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.MAGNETIC_CAVES));
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+                add(output, ACItemRegistry.CAVE_BOOK.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.MAGNETIC_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.MAGNETIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.RAW_SCARLET_NEODYMIUM.get());
@@ -98,6 +99,7 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.PRIMORDIAL_CAVES));
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.PRIMORDIAL_CAVES));
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+                add(output, ACItemRegistry.CAVE_BOOK.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.PRIMORDIAL_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.PRIMORDIAL_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.TRILOCARIS_BUCKET.get());
@@ -200,6 +202,7 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.TOXIC_CAVES));
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.TOXIC_CAVES));
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+                add(output, ACItemRegistry.CAVE_BOOK.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.TOXIC_CAVES));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.TOXIC_CAVES).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.ACID_BUCKET.get());
@@ -296,6 +299,7 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.ABYSSAL_CHASM));
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.ABYSSAL_CHASM));
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+                add(output, ACItemRegistry.CAVE_BOOK.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.ABYSSAL_CHASM));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.ABYSSAL_CHASM).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.LANTERNFISH_BUCKET.get());

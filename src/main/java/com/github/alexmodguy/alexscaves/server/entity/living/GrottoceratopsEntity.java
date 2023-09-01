@@ -181,7 +181,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
     }
 
     public void playAmbientSound() {
-        if (this.getAnimation() == NO_ANIMATION) {
+        if (this.getAnimation() == NO_ANIMATION && !level().isClientSide) {
             this.setAnimation(random.nextBoolean() ? ANIMATION_SPEAK_2 : ANIMATION_SPEAK_1);
         }
     }

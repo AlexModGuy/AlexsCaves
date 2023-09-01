@@ -10,6 +10,8 @@ public class ACInternalShaders {
     private static ShaderInstance renderTypeHologramShader;
     private static ShaderInstance renderTypeIrradiatedShader;
     private static ShaderInstance renderTypeBubbledShader;
+    private static ShaderInstance renderTypeSepiaShader;
+    private static ShaderInstance renderTypeSepiaOutlineShader;
 
     @Nullable
     public static ShaderInstance getRenderTypeFerrouslimeGelShader() {
@@ -45,6 +47,15 @@ public class ACInternalShaders {
 
     public static void setRenderTypeBubbledShader(ShaderInstance instance) {
         renderTypeBubbledShader = instance;
+    }
+
+    @Nullable
+    public static ShaderInstance getRenderTypeSepiaShader() {
+        return renderTypeSepiaShader;
+    }
+
+    public static void setRenderTypeSepiaShader(ShaderInstance instance) {
+        renderTypeSepiaShader = instance;
     }
 
 }

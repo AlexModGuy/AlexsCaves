@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A",
+    "A"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:limestone"
+    }
+  },
+  "result": {
+    "item": "alexscaves:limestone_pillar",
+    "count": 2
+  }
+}

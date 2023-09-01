@@ -11,6 +11,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
 import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -25,9 +26,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -138,7 +139,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
             float f = (float) Math.cos(this.walkAnimation.position() * 0.8F - 1.5F);
             if (Math.abs(f) < 0.2) {
                 if (screenShakeAmount <= 0.3) {
-                    this.playSound(SoundEvents.PACKED_MUD_STEP, 8, 0.5F);
+                    this.playSound(ACSoundRegistry.TREMORSAURUS_STOMP.get(), 2, 1.0F);
                     this.shakeWater();
                 }
                 screenShakeAmount = 1F;
@@ -154,6 +155,9 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         if (!isRunning() && hasRunningAttributes) {
             hasRunningAttributes = false;
             this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+        }
+        if(this.getAnimation() == ANIMATION_ROAR && this.getAnimationTick() == 5){
+            this.playRoarSound();
         }
         if (this.getAnimation() == ANIMATION_ROAR && this.getAnimationTick() >= 5 && this.getAnimationTick() <= 40 && !this.isBaby()) {
             screenShakeAmount = 1F;
@@ -203,6 +207,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
             }
             if (!held && getHeldMobId() != -1) {
                 this.setHeldMobId(-1);
+                this.playSound(ACSoundRegistry.TREMORSAURUS_THROW.get());
                 riderHitEntity = null;
             }
         } else {
@@ -228,6 +233,14 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         }
         lastStompX = this.getX();
         lastStompZ = this.getZ();
+    }
+
+    private void playRoarSound() {
+        if(this.isBaby()){
+            this.playSound(ACSoundRegistry.TREMORSAURUS_ROAR.get(), 1.0F, 1.5F);
+        }else{
+            this.playSound(ACSoundRegistry.TREMORSAURUS_ROAR.get(), 4.0F, 1.0F);
+        }
     }
 
     private void scareMobs() {
@@ -374,7 +387,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     }
 
     public void playAmbientSound() {
-        if (this.getAnimation() == NO_ANIMATION) {
+        if (this.getAnimation() == NO_ANIMATION && !level().isClientSide) {
             this.setAnimation(ANIMATION_SPEAK);
         }
     }
@@ -568,6 +581,18 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                 }
             }
         }
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.TREMORSAURUS_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.TREMORSAURUS_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.TREMORSAURUS_DEATH.get();
     }
 
 }

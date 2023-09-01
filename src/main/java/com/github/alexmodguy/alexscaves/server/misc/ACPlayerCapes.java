@@ -1,0 +1,43 @@
+package com.github.alexmodguy.alexscaves.server.misc;
+
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexthe666.citadel.client.rewards.CitadelCapes;
+import net.minecraft.resources.ResourceLocation;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public class ACPlayerCapes {
+
+    private static final ResourceLocation CONTRIBUTOR_CAPE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/cape/contributor.png");
+    private static final List<UUID> DEVS = List.of(
+            UUID.fromString("380df991-f603-344c-a090-369bad2a924a"), /*Dev*/
+            UUID.fromString("4a463319-625c-4b86-a4e7-8b700f023a60"), /*Noonyeyz*/
+            UUID.fromString("71363abe-fd03-49c9-940d-aae8b8209b7c") /*Alexthe666*/
+    );
+
+    private static final List<UUID> CONTRIBUTORS = List.of(
+            UUID.fromString("2d173722-de6b-4bb8-b21b-b2843cfe395d"), /*_Ninni*/
+            UUID.fromString("ce9dd341-b1c2-44d9-a014-71e11d163b01"), /*LudoCrypt*/
+            UUID.fromString("0ca35240-695b-4f24-a37b-f48e7354b6fc"), /*Ron0*/
+            UUID.fromString("24df449f-1f8f-4daf-b5d4-4afeb0491e49"), /*PrismaticPinky*/
+            UUID.fromString("a8bf405c-4cf3-4f0b-a9dd-11708ef41b62") /*Kotshi*/
+    );
+
+    public static void setup() {
+        List<UUID> contributorCapes = new ArrayList<>();
+        contributorCapes.addAll(DEVS);
+        contributorCapes.addAll(CONTRIBUTORS);
+        CitadelCapes.addCapeFor(contributorCapes, "alexscaves_contributor", CONTRIBUTOR_CAPE_TEXTURE);
+
+    }
+
+    @Deprecated
+    public static List<UUID> getBetaWhitelist(){
+        List<UUID> contributorCaves = new ArrayList<>();
+        contributorCaves.addAll(DEVS);
+        contributorCaves.addAll(CONTRIBUTORS);
+        return contributorCaves;
+    }
+}

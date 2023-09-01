@@ -1,0 +1,25 @@
+{
+  "parent": "",
+  "text": "root.txt",
+  "title": "book.alexscaves.root",
+  "widgets": [
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:cave_tablet",
+      "sepia": true,
+      "x": 40,
+      "y": 25,
+      "scale": 3
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:spelunkery_table",
+      "sepia": true,
+      "x": 100,
+      "y": 25,
+      "scale": 3
+    }
+  ]
+}

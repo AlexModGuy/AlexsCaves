@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -17,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 public class AmberMonolithBlock extends BaseEntityBlock {
 
     protected AmberMonolithBlock() {
-        super(Properties.of().mapColor(MapColor.COLOR_ORANGE).requiresCorrectToolForDrops().strength(3F, 12.0F).sound(ACSoundTypes.AMBER).lightLevel(block -> 5).noOcclusion());
+        super(Properties.of().mapColor(MapColor.COLOR_ORANGE).requiresCorrectToolForDrops().strength(3F, 12.0F).sound(ACSoundTypes.AMBER_MONOLITH).lightLevel(block -> 5).noOcclusion());
     }
 
     public RenderShape getRenderShape(BlockState state) {

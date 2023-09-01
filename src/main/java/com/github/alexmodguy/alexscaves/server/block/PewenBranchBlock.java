@@ -50,7 +50,7 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock {
     public static final IntegerProperty ROTATION = IntegerProperty.create("rotation", 0, 7);
 
     public PewenBranchBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.GREEN).strength(1.0F).sound(SoundType.WOOD).randomTicks());
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.GREEN).strength(1.0F).sound(SoundType.CHERRY_WOOD).randomTicks());
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(ROTATION, Integer.valueOf(0)).setValue(PINES, true));
     }
 
