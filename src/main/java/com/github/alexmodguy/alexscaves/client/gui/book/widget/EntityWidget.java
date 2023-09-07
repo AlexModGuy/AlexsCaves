@@ -48,7 +48,11 @@ public class EntityWidget extends BookWidget {
     private Entity actualRenderEntity = null;
 
     public EntityWidget(int displayPage, String entityId, boolean sepia, String entityNBT, int x, int y, float scale) {
-        super(displayPage, Type.ENTITY, x, y, scale);
+        this(displayPage, Type.ENTITY, entityId, sepia, entityNBT, x, y, scale);
+    }
+
+    public EntityWidget(int displayPage, Type type, String entityId, boolean sepia, String entityNBT, int x, int y, float scale) {
+        super(displayPage, type, x, y, scale);
         this.entityId = entityId;
         this.sepia = sepia;
         this.nbt = entityNBT;
@@ -69,7 +73,6 @@ public class EntityWidget extends BookWidget {
                 }
             }
         }
-
         float entityScale = 100.0F * getScale();
         float entityBBSize = Math.max(actualRenderEntity.getBbWidth(), actualRenderEntity.getBbHeight());
         if ((double) entityBBSize > 1.0D) {
@@ -86,6 +89,12 @@ public class EntityWidget extends BookWidget {
         Lighting.setupFor3DItems();
         poseStack.popPose();
     }
+
+
+    protected boolean isSepia(){
+        return sepia;
+    }
+
 
     private void renderEntityInSepia(Entity entityIn, float yaw, float partialTicks, PoseStack matrixStack, MultiBufferSource bufferIn, int packedLight) {
         EntityRenderer render = null;

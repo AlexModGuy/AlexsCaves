@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -68,7 +69,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
 
     protected void playStepSound(BlockPos pos, BlockState state) {
         if (!this.isBaby()) {
-            this.playSound(SoundEvents.COW_STEP, 0.7F, 0.85F);
+            this.playSound(ACSoundRegistry.GROTTOCERATOPS_STEP.get(), 0.7F, 0.85F);
         }
     }
 
@@ -116,6 +117,9 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
                 this.heal(5);
             }
         }
+        if (this.getAnimation() == ANIMATION_CHEW && this.getAnimationTick() == 2 || this.getAnimation() == ANIMATION_CHEW_FROM_GROUND && this.getAnimationTick() == 10) {
+            this.playSound(ACSoundRegistry.GROTTOCERATOPS_GRAZE.get());
+        }
         if (this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()) {
             this.heal(2);
         }
@@ -125,7 +129,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
             this.setTarget(this.getLastHurtByMob());
             resetAttackerCooldown = 30;
         }
-        if (this.getAnimation() == ANIMATION_SPEAK_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_SPEAK_2 && this.getAnimationTick() == 8) {
+        if (this.getAnimation() == ANIMATION_SPEAK_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_SPEAK_2 && this.getAnimationTick() == 2) {
             actuallyPlayAmbientSound();
         }
         this.legSolver.update(this, this.yBodyRot + getTailSwingRot(), this.getScale());
@@ -188,8 +192,13 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
 
     public void actuallyPlayAmbientSound() {
         SoundEvent soundevent = this.getAmbientSound();
+        float volume = this.getSoundVolume();
+        if (this.getAnimation() == ANIMATION_SPEAK_2) {
+            soundevent = ACSoundRegistry.GROTTOCERATOPS_CALL.get();
+            volume += 1.0F;
+        }
         if (soundevent != null) {
-            this.playSound(soundevent, this.getSoundVolume(), this.getVoicePitch());
+            this.playSound(soundevent, volume, this.getVoicePitch());
         }
     }
 
@@ -210,6 +219,18 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
         if (this.getAnimation() == null || this.getAnimation() == NO_ANIMATION) {
             this.setAnimation(ANIMATION_CHEW);
         }
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.GROTTOCERATOPS_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.GROTTOCERATOPS_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.GROTTOCERATOPS_DEATH.get();
     }
 
     public float getStepHeight() {

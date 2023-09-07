@@ -138,7 +138,9 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
                 } else {
                     for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
                         if (!(entity instanceof RaycatEntity) && entity.hasEffect(ACEffectRegistry.IRRADIATED.get()) && (closestIrradiated == null || closestIrradiated.distanceTo(this) > entity.distanceTo(this))) {
-                            closestIrradiated = entity;
+                            if(this.isTame() || !(entity instanceof Player)){
+                                closestIrradiated = entity;
+                            }
                         }
                     }
                 }

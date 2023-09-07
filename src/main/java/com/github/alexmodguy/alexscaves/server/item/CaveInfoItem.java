@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
+import com.github.alexmodguy.alexscaves.client.gui.book.CaveBookScreen;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
@@ -8,6 +10,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -58,6 +62,27 @@ public class CaveInfoItem extends Item {
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
+        ResourceKey<Biome> biomeResourceKey = getCaveBiome(itemstack);
+        if(itemstack.is(ACItemRegistry.CAVE_CODEX.get()) && biomeResourceKey != null){
+            String biomeStr = biomeResourceKey.location().toString();
+            CaveBookProgress progress = CaveBookProgress.getCaveBookProgress(player);
+            if(progress.unlockNextFor(biomeStr)){
+                player.swing(hand);
+                if(!level.isClientSide){
+                    CaveBookProgress.saveCaveBookProgress(progress, player);
+                    CaveBookProgress.Subcategory subcategory = progress.getLastUnlockedCategory(biomeStr);
+                    Component biomeTitle = Component.translatable("biome." + biomeResourceKey.location().toString().replace(":", "."));
+                    player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.add", biomeTitle, Component.translatable("item.alexscaves.cave_book." + subcategory.toString().toLowerCase())), true);
+                }
+                if(!player.isCreative()){
+                    itemstack.shrink(1);
+                }
+                player.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP);
+                return InteractionResultHolder.consume(itemstack);
+            }else{
+                player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.end").withStyle(ChatFormatting.RED), true);
+            }
+        }
         return InteractionResultHolder.pass(itemstack);
     }
 

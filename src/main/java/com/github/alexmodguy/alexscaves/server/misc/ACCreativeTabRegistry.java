@@ -389,6 +389,7 @@ public class ACCreativeTabRegistry {
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.FORLORN_HOLLOWS));
                 output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.FORLORN_HOLLOWS));
                 add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+                add(output, ACItemRegistry.CAVE_BOOK.get());
                 output.accept(CaveMapItem.createMap(ACBiomeRegistry.FORLORN_HOLLOWS));
                 ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.FORLORN_HOLLOWS).forEach((spawnEgg -> add(output, spawnEgg.get())));
                 add(output, ACItemRegistry.GUANO.get());

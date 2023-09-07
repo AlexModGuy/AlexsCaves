@@ -30,6 +30,34 @@
       "v1": 18,
       "width": 18,
       "height": 18
+    },
+    {
+      "display_page" : 3,
+      "type": "entity_box",
+      "entity_id" : "alexscaves:tremorsaurus",
+      "sepia": true,
+      "nbt" : "",
+      "box_width": 60,
+      "box_height": 60,
+      "box_image": "alexscaves:textures/gui/book/primordial_entity_border.png",
+      "box_scale": 2.0,
+      "entity_x_offset": 2,
+      "entity_y_offset": 2,
+      "x": 70,
+      "y": 90,
+      "rot_x": -15,
+      "rot_y": 225,
+      "rot_z": 0,
+      "scale": 1.0
+    },
+    {
+      "display_page" : 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:raygun",
+      "sepia": true,
+      "x": 55,
+      "y": 55,
+      "scale": 1
     }
   ]
 }

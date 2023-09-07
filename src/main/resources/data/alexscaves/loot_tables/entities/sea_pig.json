@@ -2,23 +2,14 @@
   "pools": [
     {
       "name": "sea_pig",
-      "rolls": 1,
+      "bonus_rolls": 0.0,
       "entries": [
         {
-          "type": "item",
-          "name": "alexscaves:sea_pig",
-          "weight": 1,
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
-            }
-          ]
+          "type": "minecraft:item",
+          "name": "alexscaves:sea_pig"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

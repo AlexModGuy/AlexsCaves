@@ -20,6 +20,39 @@
       "x": 100,
       "y": 25,
       "scale": 3
+    },
+    {
+      "display_page" : 6,
+      "type": "image",
+      "image": "alexscaves:textures/gui/book/spelunkery_table.png",
+      "sepia": true,
+      "x": 70,
+      "y": 15,
+      "scale": 2,
+      "u0": 0,
+      "v0": 4,
+      "u1": 44,
+      "v1": 25,
+      "width": 64,
+      "height": 64
+    },
+    {
+      "display_page" : 7,
+      "type": "item",
+      "item": "alexscaves:cave_codex",
+      "sepia": true,
+      "x": 60,
+      "y": 67,
+      "scale": 3
+    },
+    {
+      "display_page" : 8,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:cave_map",
+      "sepia": true,
+      "x": 55,
+      "y": 32,
+      "scale": 1
     }
   ]
 }

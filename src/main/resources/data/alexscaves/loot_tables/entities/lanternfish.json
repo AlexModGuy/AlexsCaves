@@ -2,23 +2,30 @@
   "pools": [
     {
       "name": "lanternfish",
-      "rolls": 1,
+      "bonus_rolls": 0.0,
       "entries": [
         {
-          "type": "item",
-          "name": "alexscaves:lanternfish",
-          "weight": 1,
+          "type": "minecraft:item",
           "functions": [
             {
-              "function": "set_count",
-              "count": {
-                "min": 0,
-                "max": 1
-              }
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "flags": {
+                      "is_on_fire": true
+                    }
+                  }
+                }
+              ],
+              "function": "minecraft:furnace_smelt"
             }
-          ]
+          ],
+          "name": "alexscaves:lanternfish"
         }
-      ]
+      ],
+      "rolls": 1.0
     }
   ]
 }

@@ -38,7 +38,7 @@ repositories{
     }
 }
 
-version = 'alpha-0.1.4'
+version = 'alpha-0.1.5'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 

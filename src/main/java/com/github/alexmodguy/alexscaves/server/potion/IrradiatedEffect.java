@@ -34,7 +34,7 @@ public class IrradiatedEffect extends MobEffect {
         }
         int j = 200 / level;
         if (j > 1) {
-            return tick1 % j == 0;
+            return tick1 % j == j / 2;
         } else {
             return true;
         }

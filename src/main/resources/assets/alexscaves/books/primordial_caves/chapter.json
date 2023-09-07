@@ -2,6 +2,7 @@
   "parent": "root.json",
   "text": "primordial_caves/chapter.txt",
   "title": "book.alexscaves.primordial_caves",
+  "required_progression": "alexscaves:primordial_caves_general",
   "widgets": [
     {
       "display_page" : 1,

@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -63,6 +64,7 @@ public class GrottoceratopsMeleeGoal extends Goal {
 
     private void checkAndDealDamage(LivingEntity target, float multiplier) {
         if (grottoceratops.hasLineOfSight(target) && grottoceratops.distanceTo(target) < grottoceratops.getBbWidth() + target.getBbWidth() + 2.0D) {
+            grottoceratops.playSound(ACSoundRegistry.GROTTOCERATOPS_ATTACK.get());
             target.hurt(target.damageSources().mobAttack(grottoceratops), (float) grottoceratops.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * multiplier);
             target.knockback(0.8D + 0.5D * multiplier, grottoceratops.getX() - target.getX(), grottoceratops.getZ() - target.getZ());
         }

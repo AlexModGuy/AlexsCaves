@@ -29,6 +29,173 @@
       }
     ]
   },
+  "primordial_caves_ambience": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/primordial_caves/ambience",
+        "stream": true,
+        "volume": 0.5
+      }
+    ]
+  },
+  "primordial_caves_ambience_additions": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/birds_0",
+        "volume": 0.5,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/birds_1",
+        "volume": 0.5,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/birds_2",
+        "volume": 0.5,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/birds_3",
+        "volume": 0.5,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/birds_4",
+        "volume": 0.5,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/birds_5",
+        "volume": 0.5,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_0",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_1",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_2",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_3",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_4",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_5",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_6",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_7",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_8",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_9",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_10",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_11",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_12",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_13",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_14",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_15",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_16",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_17",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_18",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_19",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_20",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_21",
+        "volume": 0.75,
+        "weight": 1
+      }
+    ]
+  },
+  "primordial_caves_ambience_mood": {
+    "sounds": [
+      "alexscaves:ambient/primordial_caves/mood/earthquake_0",
+      "alexscaves:ambient/primordial_caves/mood/earthquake_1",
+      "alexscaves:ambient/primordial_caves/mood/earthquake_2",
+      "alexscaves:ambient/primordial_caves/mood/earthquake_3",
+      "alexscaves:ambient/primordial_caves/mood/earthquake_4",
+      "alexscaves:ambient/primordial_caves/mood/earthquake_5",
+      "alexscaves:ambient/primordial_caves/mood/footsteps_0",
+      "alexscaves:ambient/primordial_caves/mood/footsteps_1",
+      "alexscaves:ambient/primordial_caves/mood/footsteps_2",
+      "alexscaves:ambient/primordial_caves/mood/footsteps_3"
+    ]
+  },
   "forlorn_hollows_ambience": {
     "sounds": [
       {
@@ -126,6 +293,60 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.amber_monolith_summon"
   },
+  "pewen_branch_break": {
+    "sounds": [
+      "alexscaves:block/pewen_branch/pewen_branch_break_0",
+      "alexscaves:block/pewen_branch/pewen_branch_break_1",
+      "alexscaves:block/pewen_branch/pewen_branch_break_2",
+      "alexscaves:block/pewen_branch/pewen_branch_break_3",
+      "alexscaves:block/pewen_branch/pewen_branch_break_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.pewen_branch_break"
+  },
+  "subterranodon_idle": {
+    "sounds": [
+      "alexscaves:mob/subterranodon/subterranodon_idle_0",
+      "alexscaves:mob/subterranodon/subterranodon_idle_1",
+      "alexscaves:mob/subterranodon/subterranodon_idle_2",
+      "alexscaves:mob/subterranodon/subterranodon_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.subterranodon_idle"
+  },
+  "subterranodon_hurt": {
+    "sounds": [
+      "alexscaves:mob/subterranodon/subterranodon_hurt_0",
+      "alexscaves:mob/subterranodon/subterranodon_hurt_1",
+      "alexscaves:mob/subterranodon/subterranodon_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.subterranodon_hurt"
+  },
+  "subterranodon_death": {
+    "sounds": [
+      "alexscaves:mob/subterranodon/subterranodon_death_0",
+      "alexscaves:mob/subterranodon/subterranodon_death_1",
+      "alexscaves:mob/subterranodon/subterranodon_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.subterranodon_death"
+  },
+  "subterranodon_flap": {
+    "sounds": [
+      "alexscaves:mob/subterranodon/subterranodon_flap_0",
+      "alexscaves:mob/subterranodon/subterranodon_flap_1",
+      "alexscaves:mob/subterranodon/subterranodon_flap_2",
+      "alexscaves:mob/subterranodon/subterranodon_flap_3",
+      "alexscaves:mob/subterranodon/subterranodon_flap_4",
+      "alexscaves:mob/subterranodon/subterranodon_flap_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.subterranodon_flap"
+  },
+  "subterranodon_attack": {
+    "sounds": [
+      "alexscaves:mob/subterranodon/subterranodon_attack_0",
+      "alexscaves:mob/subterranodon/subterranodon_attack_1",
+      "alexscaves:mob/subterranodon/subterranodon_attack_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.subterranodon_attack"
+  },
   "vallumraptor_idle": {
     "sounds": [
       "alexscaves:mob/vallumraptor/vallumraptor_idle_0",
@@ -180,6 +401,87 @@
       "alexscaves:mob/vallumraptor/vallumraptor_sleep_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vallumraptor_sleep"
+  },
+  "grottoceratops_idle": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_idle_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_idle_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_idle"
+  },
+  "grottoceratops_hurt": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_hurt_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_hurt_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_hurt"
+  },
+  "grottoceratops_death": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_death_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_death_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_death"
+  },
+  "grottoceratops_call": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_call_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_call_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_call_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_call"
+  },
+  "grottoceratops_attack": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_attack_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_attack_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_attack_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_attack"
+  },
+  "grottoceratops_graze": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_graze_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_graze_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_graze_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_graze"
+  },
+  "grottoceratops_step": {
+    "sounds": [
+      "alexscaves:mob/grottoceratops/grottoceratops_step_0",
+      "alexscaves:mob/grottoceratops/grottoceratops_step_1",
+      "alexscaves:mob/grottoceratops/grottoceratops_step_2",
+      "alexscaves:mob/grottoceratops/grottoceratops_step_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.grottoceratops_step"
+  },
+  "trilocaris_hurt": {
+    "sounds": [
+      "alexscaves:mob/trilocaris/trilocaris_hurt_0",
+      "alexscaves:mob/trilocaris/trilocaris_hurt_1",
+      "alexscaves:mob/trilocaris/trilocaris_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.trilocaris_hurt"
+  },
+  "trilocaris_death": {
+    "sounds": [
+      "alexscaves:mob/trilocaris/trilocaris_death_0",
+      "alexscaves:mob/trilocaris/trilocaris_death_1",
+      "alexscaves:mob/trilocaris/trilocaris_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.trilocaris_death"
+  },
+  "trilocaris_step": {
+    "sounds": [
+      "alexscaves:mob/trilocaris/trilocaris_step_0",
+      "alexscaves:mob/trilocaris/trilocaris_step_1",
+      "alexscaves:mob/trilocaris/trilocaris_step_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.trilocaris_step"
   },
   "tremorsaurus_idle": {
     "sounds": [
@@ -327,6 +629,34 @@
       "alexscaves:mob/vesper/vesper_scream_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_scream"
+  },
+  "limestone_spear_throw": {
+    "sounds": [
+      "alexscaves:item/limestone_spear/limestone_spear_throw"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.limestone_spear_throw"
+  },
+  "limestone_spear_hit": {
+    "sounds": [
+      "alexscaves:item/limestone_spear/limestone_spear_hit"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.limestone_spear_hit"
+  },
+  "primitive_club_hit": {
+    "sounds": [
+      "alexscaves:item/primitive_club/primitive_club_hit_0",
+      "alexscaves:item/primitive_club/primitive_club_hit_1",
+      "alexscaves:item/primitive_club/primitive_club_hit_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.primitive_club_hit"
+  },
+  "primitive_club_miss": {
+    "sounds": [
+      "alexscaves:item/primitive_club/primitive_club_miss_0",
+      "alexscaves:item/primitive_club/primitive_club_miss_1",
+      "alexscaves:item/primitive_club/primitive_club_miss_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.primitive_club_miss"
   },
   "disappointment": {
     "sounds": [

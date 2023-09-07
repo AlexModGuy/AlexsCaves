@@ -7,10 +7,15 @@
   "downfall": 0.4,
   "has_precipitation": true,
   "effects": {
+    "ambient_sound": "alexscaves:primordial_caves_ambience",
+    "additions_sound": {
+      "sound": "alexscaves:primordial_caves_ambience_additions",
+      "tick_chance": 0.0111
+    },
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
-      "sound": "minecraft:ambient.cave",
+      "sound": "alexscaves:primordial_caves_ambience_mood",
       "tick_delay": 6000
     },
     "music": {
@@ -126,7 +131,7 @@
         "type": "alexscaves:subterranodon",
         "maxCount": 5,
         "minCount": 3,
-        "weight": 5
+        "weight": 6
       },
       {
         "type": "alexscaves:vallumraptor",
@@ -138,13 +143,13 @@
         "type": "alexscaves:grottoceratops",
         "maxCount": 4,
         "minCount": 2,
-        "weight": 24
+        "weight": 27
       },
       {
         "type": "alexscaves:tremorsaurus",
         "maxCount": 1,
         "minCount": 1,
-        "weight": 7
+        "weight": 5
       },
       {
         "type": "alexscaves:relicheirus",

@@ -30,6 +30,8 @@ public class BookEntry {
     @Expose
     private String textFileToReadFrom;
     @Expose
+    private String requiredProgress;
+    @Expose
     private BookWidget[] widgets;
     private List<String> entryText = new ArrayList<>();
     private List<BookLink> bookLinks = new ArrayList<>();
@@ -37,10 +39,11 @@ public class BookEntry {
     private int pageCount = 0;
 
 
-    public BookEntry(String translatableTitle, String parent, String textFileToReadFrom, BookWidget[] widgets) {
+    public BookEntry(String translatableTitle, String parent, String textFileToReadFrom, String requiredProgress, BookWidget[] widgets) {
         this.translatableTitle = translatableTitle;
         this.parent = parent;
         this.textFileToReadFrom = textFileToReadFrom;
+        this.requiredProgress = requiredProgress;
         this.widgets = widgets;
 
     }
@@ -73,12 +76,12 @@ public class BookEntry {
         return pageCount;
     }
 
-    public void init() {
-        this.entryText = getRawTextFromFile(textFileToReadFrom, 30);
-        this.pageCount = (int) Math.floor(entryText.size() / (float) (CaveBookScreen.PAGE_SIZE_IN_LINES * 2));
+    public void init(CaveBookScreen screen) {
+        this.entryText = getRawTextFromFile(textFileToReadFrom, screen, 30);
+        this.pageCount = (int) Math.ceil(entryText.size() / (float) (CaveBookScreen.PAGE_SIZE_IN_LINES * 2));
     }
 
-    private List<String> getRawTextFromFile(String fileName, int maxLineSize) {
+    private List<String> getRawTextFromFile(String fileName, CaveBookScreen screen, int maxLineSize) {
         String lang = Minecraft.getInstance().getLanguageManager().getSelected().toLowerCase();
         ResourceLocation fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
         try {
@@ -100,9 +103,10 @@ public class BookEntry {
                 while (m.find()) {
                     String[] found = m.group().split("\\|");
                     if (found.length >= 1) {
-                        String display = found[0].substring(1);
                         String linkTo = found[1].substring(0, found[1].length() - 1);
-                        bookLinks.add(new BookLink(currentLineCount, m.start(), display, linkTo));
+                        boolean enabled = screen.isEntryVisible(linkTo);
+                        String display = enabled ? found[0].substring(1) : "???";
+                        bookLinks.add(new BookLink(currentLineCount, m.start(), display, linkTo, enabled));
                         readString = m.replaceFirst(display);
                     }
                 }
@@ -128,6 +132,10 @@ public class BookEntry {
                         readString = readString.substring(1);
                     }
                 }
+                if(!readString.isEmpty()){
+                    strings.add(readString);
+                    currentLineCount++;
+                }
 
             }
         } catch (Exception e) {
@@ -136,10 +144,11 @@ public class BookEntry {
         return strings;
     }
 
-    public void mouseOver(int page, float mouseX, float mouseY){
+    public void mouseOver(CaveBookScreen screen, int page, float mouseX, float mouseY){
         for(BookLink link : bookLinks){
             int minLine = page * CaveBookScreen.PAGE_SIZE_IN_LINES;
             link.setHovered(false);
+            screen.unlockTooltip = false;
             if(link.getLineNumber() >= minLine && link.getLineNumber() <= minLine + CaveBookScreen.PAGE_SIZE_IN_LINES * 2){
                 String line = entryText.get(link.getLineNumber());
                 boolean rightPage = link.getLineNumber() > minLine + CaveBookScreen.PAGE_SIZE_IN_LINES;
@@ -150,7 +159,11 @@ public class BookEntry {
                 float wordTopAt = textsStartsY + (link.getLineNumber() % CaveBookScreen.PAGE_SIZE_IN_LINES) * 0.0425F;
                 float wordBottomAt = wordTopAt + 0.05F;
                 if(mouseX > wordStartAt && mouseX < wordEndAt && mouseY > wordTopAt && mouseY < wordBottomAt){
-                    link.setHovered(true);
+                    if(link.isEnabled()){
+                        link.setHovered(true);
+                    }else{
+                        screen.unlockTooltip = true;
+                    }
                 }
             }
         }
@@ -159,12 +172,21 @@ public class BookEntry {
     public boolean consumeMouseClick(CaveBookScreen screen){
         for(BookLink link : bookLinks) {
             int minLine = screen.getEntryPageNumber() * CaveBookScreen.PAGE_SIZE_IN_LINES;
-            if(link.isHovered() && link.getLineNumber() >= minLine && link.getLineNumber() <= minLine + CaveBookScreen.PAGE_SIZE_IN_LINES * 2) {
+            if(link.isEnabled() && link.isHovered() && link.getLineNumber() >= minLine && link.getLineNumber() <= minLine + CaveBookScreen.PAGE_SIZE_IN_LINES * 2) {
                 return screen.attemptChangePage(new ResourceLocation(CaveBookScreen.getBookFileDirectory() + link.getLinksTo()), true);
             }
         }
         return false;
     }
+
+    public boolean isUnlocked(CaveBookScreen caveBookScreen){
+        if(this.requiredProgress == null){
+            return true;
+        }else{
+            return caveBookScreen.getCaveBookProgress().isUnlockedFor(requiredProgress);
+        }
+    }
+
     public static class Deserializer implements JsonDeserializer<BookEntry> {
 
         public BookEntry deserialize(JsonElement mainElement, Type deserializeType, JsonDeserializationContext context) throws JsonParseException {
@@ -194,7 +216,12 @@ public class BookEntry {
                 title = GsonHelper.getAsString(jsonobject, "title");
             }
 
-            BookEntry bookEntry = new BookEntry(title, parent, text, bookWidgets);
+            String progress = null;
+            if (jsonobject.has("required_progression")) {
+                progress = GsonHelper.getAsString(jsonobject, "required_progression");
+            }
+
+            BookEntry bookEntry = new BookEntry(title, parent, text, progress, bookWidgets);
             return bookEntry;
         }
     }

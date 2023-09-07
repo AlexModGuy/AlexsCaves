@@ -10,6 +10,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -17,11 +18,13 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -195,6 +198,9 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             }
         }
         if (isFlying()) {
+            if(timeFlying % 10 == 0 && (flapAmount > 0 || controlUpTicks > 0)){
+                this.playSound(ACSoundRegistry.SUBTERRANODON_FLAP.get());
+            }
             timeFlying++;
             if (this.isLandNavigator) {
                 switchNavigator(false);
@@ -290,6 +296,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             LivingEntity target = this.getTarget();
             if (attackProgress == 5F && target != null && this.distanceTo(target) < 3D + target.getBbWidth() && this.hasLineOfSight(target)) {
                 target.hurt(this.damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
+                this.playSound(ACSoundRegistry.SUBTERRANODON_ATTACK.get());
             }
             if (attackProgress > 0F) {
                 attackProgress--;
@@ -621,6 +628,19 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     public boolean isFood(ItemStack stack) {
         return stack.is(Items.COD) || stack.is(Items.COOKED_COD);
     }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.SUBTERRANODON_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.SUBTERRANODON_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.SUBTERRANODON_DEATH.get();
+    }
+
 
     class FlightMoveHelper extends MoveControl {
         private final SubterranodonEntity parentEntity;

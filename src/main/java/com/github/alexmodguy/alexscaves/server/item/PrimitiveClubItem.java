@@ -2,10 +2,13 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -35,12 +38,17 @@ public class PrimitiveClubItem extends Item {
         stack.hurtAndBreak(1, player, (entity) -> {
             entity.broadcastBreakEvent(EquipmentSlot.MAINHAND);
         });
-        if (hurtEntity.getRandom().nextFloat() < 0.8F && !hurtEntity.level().isClientSide) {
-            MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.STUNNED.get(), 200 + hurtEntity.getRandom().nextInt(200), 0, false, false);
-            if (hurtEntity.addEffect(instance)) {
-                AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(hurtEntity.getId(), player.getId(), 3, instance.getDuration()));
-
+        if(!hurtEntity.level().isClientSide){
+            SoundEvent soundEvent = ACSoundRegistry.PRIMITIVE_CLUB_MISS.get();
+            if (hurtEntity.getRandom().nextFloat() < 0.8F) {
+                MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.STUNNED.get(), 200 + hurtEntity.getRandom().nextInt(200), 0, false, false);
+                if (hurtEntity.addEffect(instance)) {
+                    AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(hurtEntity.getId(), player.getId(), 3, instance.getDuration()));
+                    soundEvent = ACSoundRegistry.PRIMITIVE_CLUB_HIT.get();
+                }
             }
+            player.level().playSound((Player)null, player.getX(), player.getY(), player.getZ(), soundEvent, player.getSoundSource(), 1.0F, 1.0F);
+
         }
         return true;
     }

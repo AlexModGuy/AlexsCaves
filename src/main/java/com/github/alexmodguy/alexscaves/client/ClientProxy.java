@@ -43,6 +43,7 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -405,21 +406,27 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void setRenderViewEntity(Player player, Entity entity) {
+        boolean flag = entity != Minecraft.getInstance().getCameraEntity();
         if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
             lastPOV = Minecraft.getInstance().options.getCameraType();
             Minecraft.getInstance().setCameraEntity(entity);
             Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
         }
-        Minecraft.getInstance().levelRenderer.allChanged();
+        if(flag){
+            Minecraft.getInstance().levelRenderer.allChanged();
+        }
     }
 
     public void resetRenderViewEntity(Player player) {
+        boolean flag = Minecraft.getInstance().player != Minecraft.getInstance().getCameraEntity();
         if (player == Minecraft.getInstance().player) {
             Minecraft.getInstance().level = (ClientLevel) Minecraft.getInstance().player.level();
             Minecraft.getInstance().setCameraEntity(Minecraft.getInstance().player);
             Minecraft.getInstance().options.setCameraType(lastPOV);
         }
-        Minecraft.getInstance().levelRenderer.allChanged();
+        if(flag){
+            Minecraft.getInstance().levelRenderer.allChanged();
+        }
     }
 
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {

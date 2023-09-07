@@ -203,6 +203,10 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                     }
                     held = true;
                     this.setHeldMobId(target.getId());
+                }else if(this.getAnimation() == ANIMATION_SHAKE_PREY && this.getAnimationTick() <= 36){
+                    if(target.getDeltaMovement().length() > 1F){
+                        target.setDeltaMovement(target.getDeltaMovement().normalize().scale(0.5));
+                    }
                 }
             }
             if (!held && getHeldMobId() != -1) {

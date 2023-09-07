@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvent;
@@ -66,7 +67,7 @@ public class LimestoneSpearEntity extends AbstractArrow {
         Entity entity1 = this.getOwner();
         DamageSource damagesource = this.damageSources().trident(this, (Entity) (entity1 == null ? this : entity1));
         this.dealtDamage = true;
-        SoundEvent soundevent = SoundEvents.TRIDENT_HIT;
+        SoundEvent soundevent = ACSoundRegistry.LIMESTONE_SPEAR_HIT.get();
         if (entity.hurt(damagesource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
@@ -88,7 +89,7 @@ public class LimestoneSpearEntity extends AbstractArrow {
     }
 
     protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.BAMBOO_WOOD_HIT;
+        return ACSoundRegistry.LIMESTONE_SPEAR_HIT.get();
     }
 
     public boolean shouldRender(double x, double y, double z) {

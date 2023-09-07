@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -14,6 +15,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,6 +34,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraft.world.phys.Vec3;
@@ -50,6 +53,8 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
     private float prevBiteProgress;
     private int timeSwimming = 0;
     public boolean crawling;
+
+    private int lastStepSoundTimestamp = -1;
 
     public TrilocarisEntity(EntityType<? extends WaterAnimal> type, Level level) {
         super(type, level);
@@ -147,8 +152,16 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
             }
         }
         if (!level().isClientSide) {
+            float delta = (float) this.getDeltaMovement().horizontalDistance();
             if (crawling || !this.isInWaterOrBubble()) {
                 timeSwimming = 0;
+                if(delta > 0.01F){
+                    if(tickCount - lastStepSoundTimestamp > 10){
+                        lastStepSoundTimestamp = tickCount;
+                        this.playSound(ACSoundRegistry.TRILOCARIS_STEP.get(), 0.2F, 1.0F);
+                    }
+
+                }
             } else {
                 timeSwimming++;
             }
@@ -247,6 +260,18 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
         float f2 = Math.min(f1 * speedMod, 1.0F);
         this.walkAnimation.update(f2, 0.4F);
 
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.TRILOCARIS_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.TRILOCARIS_DEATH.get();
+    }
+
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
     }
 
     private class WanderGoal extends Goal {

@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexthe666.citadel.server.block.LecternBooks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
@@ -223,6 +224,19 @@ public class ACItemRegistry {
                 return new CinderBrickEntity(level, position.x(), position.y(), position.z());
             }
         });
+        DispenserBlock.registerBehavior(INK_BOMB.get(), new AbstractProjectileDispenseBehavior() {
+            protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
+                return new InkBombEntity(level, position.x(), position.y(), position.z());
+            }
+        });
+        DispenserBlock.registerBehavior(GLOW_INK_BOMB.get(), new AbstractProjectileDispenseBehavior() {
+            protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
+                InkBombEntity inkBombEntity = new InkBombEntity(level, position.x(), position.y(), position.z());
+                inkBombEntity.setGlowingBomb(true);
+                inkBombEntity.setItem(itemStack);
+                return inkBombEntity;
+            }
+        });
         DispenserBlock.registerBehavior(GUANO.get(), new AbstractProjectileDispenseBehavior() {
             protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
                 return new GuanoEntity(level, position.x(), position.y(), position.z());
@@ -235,6 +249,7 @@ public class ACItemRegistry {
                 return abstractarrow;
             }
         });
+        LecternBooks.BOOKS.put(CAVE_BOOK.getId(), new LecternBooks.BookData(0X81301C, 0XFDF8EC));
     }
 
     public static List<RegistryObject<Item>> getSpawnEggsForTab(ResourceKey<Biome> tabName) {

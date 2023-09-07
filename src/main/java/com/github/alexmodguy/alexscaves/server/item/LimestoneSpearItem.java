@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.item.LimestoneSpearEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
@@ -96,7 +97,7 @@ public class LimestoneSpearItem extends Item {
                     spearEntity.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
                 }
                 level.addFreshEntity(spearEntity);
-                level.playSound((Player) null, spearEntity, SoundEvents.TRIDENT_THROW, SoundSource.PLAYERS, 1.0F, 1.0F);
+                level.playSound((Player) null, spearEntity, ACSoundRegistry.LIMESTONE_SPEAR_THROW.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 if (!player.getAbilities().instabuild) {
                     itemStack.shrink(1);
                 }

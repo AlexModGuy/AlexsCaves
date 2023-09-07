@@ -6,6 +6,7 @@ import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -69,7 +70,7 @@ public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
 
     @Override
     public boolean canUse() {
-        if (this.mob.isPassenger() || mob.isVehicle() && mob.getControllingPassenger() != null) {
+        if (this.mob.isPassenger() || mob.isVehicle() && mob.getControllingPassenger() != null || this.mob instanceof TamableAnimal tamableAnimal && tamableAnimal.isOrderedToSit()) {
             return false;
         }
         if (!mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {

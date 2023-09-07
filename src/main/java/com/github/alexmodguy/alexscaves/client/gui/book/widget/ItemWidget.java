@@ -75,6 +75,9 @@ public class ItemWidget extends BookWidget {
     }
 
     public static void renderItem(ItemStack itemStack, PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, boolean sepia, float scale){
+        if(itemStack == null){
+            return;
+        }
         BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(itemStack, Minecraft.getInstance().level, null, 0);
         poseStack.pushPose();
         try {

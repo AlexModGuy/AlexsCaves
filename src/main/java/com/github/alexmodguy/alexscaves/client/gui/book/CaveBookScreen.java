@@ -2,9 +2,11 @@ package com.github.alexmodguy.alexscaves.client.gui.book;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.CaveBookModel;
+import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -20,6 +22,8 @@ import javax.annotation.Nullable;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class CaveBookScreen extends Screen {
@@ -32,8 +36,9 @@ public class CaveBookScreen extends Screen {
     public static final int TEXT_COLOR = 0X826A41;
     public static final int TEXT_LINK_COLOR = 0X111111;
     public static final int TEXT_LINK_HOVER_COLOR = 0X0094FF;
-    public static final int TEXT_LINK_LOCKED_COLOR = 0XF1E2B8;
-
+    public static final int TEXT_LINK_LOCKED_COLOR = 0XD3C9AB;
+    private final CaveBookProgress caveBookProgress;
+    public boolean unlockTooltip;
     private boolean incrementingPage;
     private boolean decrementingPage;
     private float prevFlipProgress;
@@ -63,10 +68,15 @@ public class CaveBookScreen extends Screen {
     private PageRenderer nextLeftPageRenderer = new PageRenderer(2);
     private PageRenderer nextRightPageRenderer = new PageRenderer(3);
 
-    public CaveBookScreen() {
+    public CaveBookScreen(String openTo) {
         super(Component.translatable("item.alexscaves.cave_book"));
-        currentEntryJSON = new ResourceLocation(AlexsCaves.MODID, "books/root.json");
+        caveBookProgress = CaveBookProgress.getCaveBookProgress(Minecraft.getInstance().player);
+        currentEntryJSON = new ResourceLocation(AlexsCaves.MODID, openTo);
         resetEntry();
+    }
+
+    public CaveBookScreen(){
+        this("books/root.json");
     }
 
     @Override
@@ -138,19 +148,19 @@ public class CaveBookScreen extends Screen {
         if (currentEntryJSON != null) {
             currentEntry = readBookEntry(currentEntryJSON);
             if(currentEntry != null){
-                currentEntry.init();
+                currentEntry.init(this);
             }
         }
         if (prevEntryJSON != null) {
             prevEntry = readBookEntry(prevEntryJSON);
             if(prevEntry != null){
-                prevEntry.init();
+                prevEntry.init(this);
             }
         }
         if (nextEntryJSON != null) {
             nextEntry = readBookEntry(nextEntryJSON);
             if(nextEntry != null){
-                nextEntry.init();
+                nextEntry.init(this);
             }
         }
         if (currentEntry != null) {
@@ -229,10 +239,16 @@ public class CaveBookScreen extends Screen {
         poseStack.popPose();
         poseStack.popPose();
         if(currentEntry != null){
-            currentEntry.mouseOver(entryPageNumber, mouseLeanX, mouseLeanY);
+            currentEntry.mouseOver(this, entryPageNumber, mouseLeanX, mouseLeanY);
         }
         super.render(guiGraphics, mouseX, mouseY, fakePartialTickThatsZeroForSomeReason);
         this.renderBackground(guiGraphics);
+        if(unlockTooltip){
+            List<Component> list = new ArrayList<>();
+            list.add(Component.translatable("book.alexscaves.page_locked_0").withStyle(ChatFormatting.GRAY));
+            list.add(Component.translatable("book.alexscaves.page_locked_1").withStyle(ChatFormatting.GRAY));
+            guiGraphics.renderTooltip(this.font, list, Optional.empty(), mouseX - 5, mouseY - 5);
+        }
     }
 
     private void renderBookContents(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
@@ -355,16 +371,8 @@ public class CaveBookScreen extends Screen {
         return page;
     }
 
-    public BookEntry getCurrentEntry() {
-        return currentEntry;
-    }
-
-    public BookEntry getPrevEntry() {
-        return prevEntry;
-    }
-
-    public BookEntry getNextEntry() {
-        return nextEntry;
+    public CaveBookProgress getCaveBookProgress() {
+        return caveBookProgress;
     }
 
     public int getEntryPageNumber() {
@@ -393,5 +401,11 @@ public class CaveBookScreen extends Screen {
         Vector3f light0 = new Vector3f(1, 1.0F, -1.0F);
         Vector3f light1 = new Vector3f(1, 1.0F, -1.0F);
         RenderSystem.setShaderLights(light0, light1);
+    }
+
+    public boolean isEntryVisible(String linkTo) {
+        ResourceLocation resourceLocation = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + linkTo);
+        BookEntry dummyEntry = readBookEntry(resourceLocation);
+        return dummyEntry != null && dummyEntry.isUnlocked(this);
     }
 }

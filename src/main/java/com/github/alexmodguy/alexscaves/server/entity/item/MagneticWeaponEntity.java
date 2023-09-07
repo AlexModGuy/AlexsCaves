@@ -62,6 +62,8 @@ public class MagneticWeaponEntity extends Entity {
     private BlockPos lastSelectedBlock;
     private int totalMiningTime = 0;
 
+    private boolean hadPlayerController = false;
+
     public MagneticWeaponEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
     }
@@ -99,7 +101,12 @@ public class MagneticWeaponEntity extends Entity {
                 this.noPhysics = false;
             }
             if (controller == null && this.tickCount > 20) {
-                this.remove(RemovalReason.DISCARDED);
+                if(hadPlayerController){
+                    this.plopItem();
+                    hadPlayerController = false;
+                }else{
+                    this.remove(RemovalReason.DISCARDED);
+                }
             }
         }
         if ((this.getTarget() == null || comingBack || playerUseCooldown > 0) && strikeProgress > 0) {
@@ -141,7 +148,9 @@ public class MagneticWeaponEntity extends Entity {
             this.entityData.set(IDLING, false);
             this.comingBack = !isOwnerWearingGauntlet();
             float speed = 0.1F;
+
             if (isOwnerWearingGauntlet()) {
+                hadPlayerController = true;
                 float maxDist = 30F;
                 BlockPos miningBlock = null;
                 HitResult hitresult = ProjectileUtil.getHitResultOnViewVector(player, Entity::canBeHitByProjectile, maxDist);
@@ -219,12 +228,7 @@ public class MagneticWeaponEntity extends Entity {
                 moveTo = player.position().add(0, 1, 0);
                 if (distanceTo(controller) < 1.4) {
                     if (!this.isRemoved() && !player.addItem(this.getItemStack())) {
-                        ItemEntity itementity = player.drop(this.getItemStack(), false);
-                        if (itementity != null) {
-                            itementity.setNoPickUpDelay();
-                            itementity.setThrower(player.getUUID());
-                        }
-                        this.remove(RemovalReason.DISCARDED);
+                        plopItem();
                     }
                 }
             }
@@ -239,11 +243,23 @@ public class MagneticWeaponEntity extends Entity {
         this.setDeltaMovement(this.getDeltaMovement().scale(0.9F));
     }
 
+    private void plopItem(){
+        ItemEntity itementity = this.spawnAtLocation(this.getItemStack());
+        if (itementity != null) {
+            itementity.setNoPickUpDelay();
+            this.remove(RemovalReason.DISCARDED);
+        }
+    }
+
     public void damageItem(int damageAmount) {
         if (getController() instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())) {
-            getItemStack().hurtAndBreak(damageAmount, living, (player1) -> {
+            ItemStack stack = getItemStack();
+            stack.hurtAndBreak(damageAmount, living, (player1) -> {
                 player1.broadcastBreakEvent(player1.getUsedItemHand());
             });
+            if(stack.getDamageValue() >= stack.getMaxDamage()){
+                this.remove(RemovalReason.DISCARDED);
+            }
         }
     }
 
@@ -301,6 +317,9 @@ public class MagneticWeaponEntity extends Entity {
         }
         holder.doEnchantDamageEffects(holder, target);
         damageItem(1);
+        if(this.isOnFire()){
+            target.setSecondsOnFire(5);
+        }
         if (holder instanceof Player && target instanceof LivingEntity living && living.getHealth() <= 0.0F && living.distanceTo(target) >= 19.5F) {
             ACAdvancementTriggerRegistry.KILL_MOB_WITH_GALENA_GAUNTLET.triggerForEntity(holder);
         }
@@ -324,7 +343,7 @@ public class MagneticWeaponEntity extends Entity {
     }
 
     private boolean isOwnerWearingGauntlet() {
-        return getController() instanceof LivingEntity living && living.getUseItem().is(ACItemRegistry.GALENA_GAUNTLET.get());
+        return getController() instanceof LivingEntity living && living.getUseItem().is(ACItemRegistry.GALENA_GAUNTLET.get()) && living.isAlive();
     }
 
     @Override
