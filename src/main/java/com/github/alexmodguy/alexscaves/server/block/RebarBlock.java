@@ -201,7 +201,7 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
     }
 
     public BlockState rotate(BlockState state, Rotation rotation) {
-        BlockState def = state.setValue(CONNECT_X, false).setValue(CONNECT_Z, false);
+        BlockState def = this.defaultBlockState().setValue(CONNECT_X, false).setValue(CONNECT_Z, false);
         if (rotation == Rotation.CLOCKWISE_90 || rotation == Rotation.COUNTERCLOCKWISE_90) {
             if (state.getValue(CONNECT_X)) {
                 def = def.setValue(CONNECT_Z, true);

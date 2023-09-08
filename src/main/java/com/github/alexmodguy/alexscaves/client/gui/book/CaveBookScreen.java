@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client.gui.book;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.CaveBookModel;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -12,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -59,7 +61,6 @@ public class CaveBookScreen extends Screen {
     private BookEntry nextEntry;
     private int entryPageNumber = 0;
     private int lastEntryPageBeforeLinkClick = -1;
-
     private int closeBookForTicks;
     private PageRenderer prevLeftPageRenderer = new PageRenderer(-2);
     private PageRenderer prevRightPageRenderer = new PageRenderer(-1);
@@ -111,11 +112,11 @@ public class CaveBookScreen extends Screen {
             if (decrementingPage) {
                 entryPageNumber--;
                 if(entryPageNumber < 0 && prevEntry != null){
-                    int i = lastEntryPageBeforeLinkClick == -1 ? prevEntry.getPageCount() - 1 : lastEntryPageBeforeLinkClick;
+                    int i = lastEntryPageBeforeLinkClick == -1 ? 0 : lastEntryPageBeforeLinkClick;
                     lastEntryPageBeforeLinkClick = -1;
                     this.currentEntryJSON = prevEntryJSON;
                     resetEntry();
-                    this.prevEntryJSON = null;
+
                     this.entryPageNumber = i;
                 }
                 decrementingPage = false;
@@ -124,6 +125,9 @@ public class CaveBookScreen extends Screen {
             prevFlipProgress = flipProgress = 0;
         }
         if (isBookOpened()) {
+            if(openBookProgress == 0F){
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.CAVE_BOOK_OPEN.get(), 1.0F));
+            }
             if(openBookProgress < 1F){
                 openBookProgress += 0.1F;
             }
@@ -151,6 +155,11 @@ public class CaveBookScreen extends Screen {
                 currentEntry.init(this);
             }
         }
+        if(this.currentEntry != null && this.currentEntry.getParent() != null && !this.currentEntry.getParent().isEmpty()){
+            this.prevEntryJSON = new ResourceLocation(getBookFileDirectory() + this.currentEntry.getParent());
+        }else{
+            this.prevEntryJSON = null;
+        }
         if (prevEntryJSON != null) {
             prevEntry = readBookEntry(prevEntryJSON);
             if(prevEntry != null){
@@ -170,13 +179,15 @@ public class CaveBookScreen extends Screen {
     }
 
     public void updatePageRenderers() {
+        boolean flag = prevEntryJSON != null && entryPageNumber == 0;
+        int pgOffsetReturningFromLink = lastEntryPageBeforeLinkClick != -1 ? lastEntryPageBeforeLinkClick : 0;
         leftPageRenderer.setEntryPageNumber(entryPageNumber);
         leftPageRenderer.setEntry(currentEntry);
         rightPageRenderer.setEntryPageNumber(entryPageNumber);
         rightPageRenderer.setEntry(currentEntry);
-        prevLeftPageRenderer.setEntryPageNumber(entryPageNumber);
+        prevLeftPageRenderer.setEntryPageNumber(entryPageNumber + pgOffsetReturningFromLink);
         prevLeftPageRenderer.setEntry(entryPageNumber == 0 && prevEntry != null ? prevEntry : currentEntry);
-        prevRightPageRenderer.setEntryPageNumber(entryPageNumber);
+        prevRightPageRenderer.setEntryPageNumber(entryPageNumber + pgOffsetReturningFromLink);
         prevRightPageRenderer.setEntry(entryPageNumber == 0 && prevEntry != null ? prevEntry : currentEntry);
         nextLeftPageRenderer.setEntryPageNumber(entryPageNumber);
         nextLeftPageRenderer.setEntry(nextEntryJSON != null ? nextEntry : currentEntry);
@@ -189,7 +200,7 @@ public class CaveBookScreen extends Screen {
             nextLeftPageRenderer.enteringNewPageFlag = false;
             nextRightPageRenderer.enteringNewPageFlag = false;
         }
-        if(prevEntryJSON != null){
+        if(flag){
             prevLeftPageRenderer.leavingNewPageFlag = true;
             prevRightPageRenderer.leavingNewPageFlag = true;
         }else{
@@ -233,8 +244,8 @@ public class CaveBookScreen extends Screen {
         poseStack.pushPose();
         BOOK_MODEL.setupAnim(null, openBookAmount, pageAngle, pageUp, -20 * (openBookAmount) - 10 * pageFlipBump, 0);
         BOOK_MODEL.mouseOver(mouseLeanX, mouseLeanY, ageInTicks, flip, canGoLeft(), canGoRight());
-        renderBookContents(poseStack, mouseX, mouseY, partialTick);
         BOOK_MODEL.renderToBuffer(poseStack, bufferSource.getBuffer(ForgeRenderTypes.getUnlitTranslucent(BOOK_TEXTURE)), 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        renderBookContents(poseStack, mouseX, mouseY, partialTick);
         guiGraphics.flush();
         poseStack.popPose();
         poseStack.popPose();
@@ -340,9 +351,11 @@ public class CaveBookScreen extends Screen {
                 if (!decrementingPage && !incrementingPage) {
                     if (distFromMiddleX < -MOUSE_LEAN_THRESHOLD && canGoLeft()) {
                         decrementingPage = true;
+                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.CAVE_BOOK_TURN.get(), 1.0F));
                         return true;
                     } else if (distFromMiddleX > MOUSE_LEAN_THRESHOLD && canGoRight()) {
                         incrementingPage = true;
+                        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.CAVE_BOOK_TURN.get(), 1.0F));
                         return true;
                     }
                 }
@@ -384,17 +397,18 @@ public class CaveBookScreen extends Screen {
     }
 
     public boolean attemptChangePage(ResourceLocation changePageTo, boolean goingForwards) {
-        lastEntryPageBeforeLinkClick = this.entryPageNumber;
+        if(!currentEntryJSON.equals(changePageTo)){
+            lastEntryPageBeforeLinkClick = this.entryPageNumber;
+        }
         if(goingForwards){
             prevEntryJSON = currentEntryJSON;
         }
         nextEntryJSON = changePageTo;
         if(goingForwards){
             closeBookForTicks = 10;
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.CAVE_BOOK_CLOSE.get(), 1.0F));
         }
-        resetEntry();
-        updatePageRenderers();
-        return true;
+        return  true;
     }
 
     public static void fixLighting(){
@@ -406,6 +420,6 @@ public class CaveBookScreen extends Screen {
     public boolean isEntryVisible(String linkTo) {
         ResourceLocation resourceLocation = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + linkTo);
         BookEntry dummyEntry = readBookEntry(resourceLocation);
-        return dummyEntry != null && dummyEntry.isUnlocked(this);
+        return dummyEntry != null && dummyEntry.isUnlocked(this) || Minecraft.getInstance().player != null && Minecraft.getInstance().player.isCreative();
     }
 }

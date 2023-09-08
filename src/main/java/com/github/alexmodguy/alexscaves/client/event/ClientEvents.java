@@ -567,8 +567,9 @@ public class ClientEvents {
             if (i == 0) {
                 farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
                 });
                 farness = (float) vec31.x;
             }
@@ -585,8 +586,9 @@ public class ClientEvents {
             if (i == 0) {
                 nearness = ACBiomeRegistry.getBiomeFogNearness(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeFogNearness(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeFogNearness(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
                 });
                 nearness = (float) vec31.x;
             }
@@ -611,23 +613,28 @@ public class ClientEvents {
             if (i == 0) {
                 override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
                 });
                 override = (float) vec31.x;
             }
             if (override != 0.0F) {
                 Vec3 vec3;
                 if (i == 0) {
-                    vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), override);
+                    vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), 1.0F);
                 } else {
-                    vec3 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                        return ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getFogColor()), override);
+                    Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+                    vec3 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                        return ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z).value().getFogColor()), 1.0F);
                     });
                 }
-                event.setRed((float) (vec3.x));
-                event.setGreen((float) (vec3.y));
-                event.setBlue((float) (vec3.z));
+                float prevR = event.getRed();
+                float prevG = event.getGreen();
+                float prevB = event.getBlue();
+                event.setRed((float) (vec3.x - prevR) * override + prevR);
+                event.setGreen((float) (vec3.y - prevG) * override + prevG);
+                event.setBlue((float) (vec3.z - prevB) * override + prevB);
             }
         } else if (event.getCamera().getFluidInCamera() == FogType.WATER) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
@@ -636,8 +643,9 @@ public class ClientEvents {
             if (i == 0) {
                 override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
                 });
                 override = (float) vec31.x;
             }
@@ -645,8 +653,9 @@ public class ClientEvents {
                 if (i == 0) {
                     vec3 = Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
                 } else {
-                    vec3 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                        return Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z).value().getWaterFogColor());
+                    Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+                    vec3 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                        return Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z).value().getWaterFogColor());
                     });
                 }
                 event.setRed((float) (event.getRed() + (vec3.x - event.getRed()) * override));

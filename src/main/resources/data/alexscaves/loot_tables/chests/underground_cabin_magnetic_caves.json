@@ -1,6 +1,19 @@
 {
   "pools": [
     {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "alexscaves:cave_book"
+        }
+      ],
+      "rolls": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    {
       "name": "underground_cabin_magnetic_caves",
       "rolls": {
         "min": 12,

@@ -108,7 +108,7 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.15D).add(Attributes.MAX_HEALTH, 10.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.15D).add(Attributes.ATTACK_DAMAGE, 1).add(Attributes.MAX_HEALTH, 10.0D);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class TrilocarisEntity extends WaterAnimal implements Bucketable {
             }
         } else {
             if (biteProgress > 4 && this.getTarget() != null && this.distanceTo(this.getTarget()) < 1.3D) {
-                this.getTarget().hurt(damageSources().mobAttack(this), 2);
+                this.getTarget().hurt(damageSources().mobAttack(this), (float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
             }
             if (biteProgress > 0F) {
                 biteProgress--;

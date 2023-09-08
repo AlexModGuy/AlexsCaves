@@ -145,10 +145,11 @@ public class BookEntry {
     }
 
     public void mouseOver(CaveBookScreen screen, int page, float mouseX, float mouseY){
+        boolean hoverFlag = false;
+        screen.unlockTooltip = false;
         for(BookLink link : bookLinks){
             int minLine = page * CaveBookScreen.PAGE_SIZE_IN_LINES;
             link.setHovered(false);
-            screen.unlockTooltip = false;
             if(link.getLineNumber() >= minLine && link.getLineNumber() <= minLine + CaveBookScreen.PAGE_SIZE_IN_LINES * 2){
                 String line = entryText.get(link.getLineNumber());
                 boolean rightPage = link.getLineNumber() > minLine + CaveBookScreen.PAGE_SIZE_IN_LINES;
@@ -160,7 +161,8 @@ public class BookEntry {
                 float wordBottomAt = wordTopAt + 0.05F;
                 if(mouseX > wordStartAt && mouseX < wordEndAt && mouseY > wordTopAt && mouseY < wordBottomAt){
                     if(link.isEnabled()){
-                        link.setHovered(true);
+                        link.setHovered(!hoverFlag);
+                        hoverFlag = true;
                     }else{
                         screen.unlockTooltip = true;
                     }

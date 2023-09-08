@@ -1,18 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " S ",
-    "SBS",
-    " S "
-  ],
-  "key": {
-    "S": {
-      "tag": "alexscaves:compendium_crafted_with"
-    },
-    "B": {
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
       "item": "minecraft:book"
+    },
+    {
+      "item": "alexscaves:cave_tablet"
+    },
+    {
+      "tag": "forge:nuggets/gold"
     }
-  },
+  ],
   "result": {
     "item": "alexscaves:cave_book"
   }

@@ -47,7 +47,7 @@ public class ACAdvancementTabs {
             for (int parallaxX = -1; parallaxX <= (windowWidth + 128) / 128; parallaxX++) {
                 for (int parallaxY = -1; parallaxY <= (windowWidth + 128) / 128; parallaxY++) {
                     ColorBlitHelper.blitWithColor(guiGraphics, type.background, parallaxX * 128 + i / 4, parallaxY * 128 + j / 4, 0.0F, 0.0F, 128, 128, 128, 128, 1F, 1F, 1F, alpha);
-                    ColorBlitHelper.blitWithColor(guiGraphics, type.midground, parallaxX * 128 + i / 2, parallaxY * 128 + j / 2, 0.0F, 0.0F, 128, 128, 128, 128, 1F, 1F, 1F, alpha);
+                    ColorBlitHelper.blitWithColor(guiGraphics, type.midground, parallaxX * 128 + i / 2 - 1, parallaxY * 128 + j / 2, 0.0F, 0.0F, 128, 128, 128, 128, 1F, 1F, 1F, alpha);
                 }
             }
         }

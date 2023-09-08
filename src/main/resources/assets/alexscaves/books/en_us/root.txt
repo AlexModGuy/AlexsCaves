@@ -5,11 +5,11 @@
     These cave biomes are sought out not only for their novelty, but also due to the various powerful and legendary contents of each.
     Of these biomes, five are known to exist:
 
-    - Magnetic Caves
-    - {Primordial Caves|primordial_caves/chapter.json}
-    - Toxic Caves
-    - Abyssal Chasm
-    - Forlorn Hollows
+    • {Magnetic Caves|magnetic_caves/chapter.json}
+    • {Primordial Caves|primordial_caves/chapter.json}
+    • {Toxic Caves|toxic_caves/chapter.json}
+    • {Abyssal Chasm|abyssal_chasm/chapter.json}
+    • {Forlorn Hollows|forlorn_hollows/chapter.json}
 
 
 

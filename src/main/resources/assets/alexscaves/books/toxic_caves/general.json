@@ -1,0 +1,6 @@
+{
+  "parent": "toxic_caves/chapter.json",
+  "text": "toxic_caves/general.txt",
+  "title": "book.alexscaves.general",
+  "required_progression": "alexscaves:toxic_caves_general"
+}

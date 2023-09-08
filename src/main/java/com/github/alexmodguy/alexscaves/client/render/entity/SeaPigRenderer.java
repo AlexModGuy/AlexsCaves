@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.SeaPigModel;
+import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.SeaPigEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,10 +18,13 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
-public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> {
+import javax.annotation.Nullable;
+
+public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> implements CustomBookEntityRenderer {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/sea_pig.png");
     private static final ResourceLocation TEXTURE_INNARDS = new ResourceLocation("alexscaves:textures/entity/sea_pig_innards.png");
+    private boolean sepia = false;
 
     public SeaPigRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new SeaPigModel(), 0.4F);
@@ -30,6 +34,16 @@ public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> {
     @Override
     public ResourceLocation getTextureLocation(SeaPigEntity entity) {
         return TEXTURE_INNARDS;
+    }
+
+    @Nullable
+    protected RenderType getRenderType(SeaPigEntity seaPig, boolean normal, boolean translucent, boolean outline) {
+       return sepia ? ACRenderTypes.getBookWidget(TEXTURE_INNARDS, true) : super.getRenderType(seaPig, normal, translucent, outline);
+    }
+
+    @Override
+    public void setSepiaFlag(boolean sepiaFlag) {
+        this.sepia = sepiaFlag;
     }
 
     class LayerOutside extends RenderLayer<SeaPigEntity, SeaPigModel> {
@@ -56,7 +70,7 @@ public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> {
                 matrixStackIn.popPose();
 
             }
-            VertexConsumer ivertexbuilder1 = bufferIn.getBuffer(RenderType.entityTranslucent(TEXTURE));
+            VertexConsumer ivertexbuilder1 = bufferIn.getBuffer(SeaPigRenderer.this.sepia ? ACRenderTypes.getBookWidget(TEXTURE, true) : RenderType.entityTranslucent(TEXTURE));
             this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder1, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }

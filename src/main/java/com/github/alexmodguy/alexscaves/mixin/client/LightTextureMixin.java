@@ -63,8 +63,9 @@ public class LightTextureMixin {
         if (i == 0) {
             return ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiome(player.blockPosition()));
         } else {
-            Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                return new Vec3(ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z)), 0, 0);
+            Vec3 samplePos = Minecraft.getInstance().cameraEntity.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+            Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                return new Vec3(ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
             });
             return (float) vec31.x;
         }
@@ -75,8 +76,9 @@ public class LightTextureMixin {
         if (i == 0) {
             return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiome(player.blockPosition()));
         } else {
-            Vec3 vec31 = CubicSampler.gaussianSampleVec3(player.position(), (x, y, z) -> {
-                return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiomeManager().getNoiseBiomeAtPosition(x, y, z));
+            Vec3 samplePos = Minecraft.getInstance().cameraEntity.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+            Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z));
             });
             return vec31;
         }

@@ -2,10 +2,13 @@ package com.github.alexmodguy.alexscaves.server.level.biome;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexthe666.citadel.server.world.ExpandedBiomes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.CubicSampler;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.phys.Vec3;
@@ -111,5 +114,18 @@ public class ACBiomeRegistry {
             return 0X705632;
         }
         return -1;
+    }
+
+    public static float calculateBiomeSkyOverride(Entity player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        if (i == 0) {
+            return ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
+        } else {
+            Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
+            Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
+                return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
+            });
+            return (float) vec31.x;
+        }
     }
 }

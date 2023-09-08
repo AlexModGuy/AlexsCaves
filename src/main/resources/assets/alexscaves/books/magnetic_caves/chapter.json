@@ -7,7 +7,7 @@
     {
       "display_page" : 1,
       "type": "image",
-      "image": "alexscaves:textures/gui/book/primordial_chapter.png",
+      "image": "alexscaves:textures/gui/book/magnetic_chapter.png",
       "sepia": true,
       "x": 64,
       "y": 83,

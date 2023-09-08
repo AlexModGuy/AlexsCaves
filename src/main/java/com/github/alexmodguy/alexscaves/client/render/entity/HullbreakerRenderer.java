@@ -17,22 +17,28 @@ import net.minecraftforge.entity.PartEntity;
 
 import javax.annotation.Nullable;
 
-public class HullbreakerRenderer extends MobRenderer<HullbreakerEntity, HullbreakerModel> {
+public class HullbreakerRenderer extends MobRenderer<HullbreakerEntity, HullbreakerModel> implements CustomBookEntityRenderer {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/hullbreaker.png");
     private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/hullbreaker_glow.png");
+    private boolean sepia;
 
     public HullbreakerRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new HullbreakerModel(), 2.25F);
         this.addLayer(new LayerGlow());
     }
 
-    @Nullable
+    public void render(HullbreakerEntity entity, float f1, float partialTicks, PoseStack poseStack, MultiBufferSource source, int light) {
+        this.model.straighten = sepia;
+        super.render(entity, f1, partialTicks, poseStack, source, light);
+    }
+
+        @Nullable
     protected RenderType getRenderType(HullbreakerEntity mob, boolean normal, boolean translucent, boolean outline) {
         ResourceLocation resourcelocation = this.getTextureLocation(mob);
         if (translucent) {
             return RenderType.itemEntityTranslucentCull(resourcelocation);
         } else if (normal) {
-            return RenderType.entityTranslucent(resourcelocation);
+            return sepia ? ACRenderTypes.getBookWidget(resourcelocation, true) : RenderType.entityTranslucent(resourcelocation);
         } else {
             return outline ? RenderType.outline(resourcelocation) : null;
         }
@@ -60,6 +66,11 @@ public class HullbreakerRenderer extends MobRenderer<HullbreakerEntity, Hullbrea
 
     protected float getFlipDegrees(HullbreakerEntity hullbreakerEntity) {
         return 0.0F;
+    }
+
+    @Override
+    public void setSepiaFlag(boolean sepiaFlag) {
+        this.sepia = sepiaFlag;
     }
 
     class LayerGlow extends RenderLayer<HullbreakerEntity, HullbreakerModel> {

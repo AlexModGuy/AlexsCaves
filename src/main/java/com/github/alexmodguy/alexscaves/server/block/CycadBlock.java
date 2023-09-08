@@ -34,7 +34,7 @@ public class CycadBlock extends BushBlock {
     );
 
     public CycadBlock() {
-        super(Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).requiresCorrectToolForDrops().dynamicShape().strength(1F, 2.0F).sound(SoundType.WOOD).offsetType(OffsetType.XZ));
+        super(Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).dynamicShape().strength(1F, 2.0F).sound(SoundType.WOOD).offsetType(OffsetType.XZ));
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)));
     }
 

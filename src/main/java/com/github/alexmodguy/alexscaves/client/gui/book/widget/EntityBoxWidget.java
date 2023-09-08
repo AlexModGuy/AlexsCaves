@@ -1,20 +1,13 @@
 package com.github.alexmodguy.alexscaves.client.gui.book.widget;
 
-import com.github.alexmodguy.alexscaves.client.gui.book.CaveBookScreen;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.platform.Window;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -45,8 +38,8 @@ public class EntityBoxWidget extends EntityWidget {
     private ResourceLocation borderTexture;
 
     private static final int BORDER_TEXTURE_SIZE = 64;
-    private static final int PIX_WIDTH_CORNER = 7;
-    private static final int PIX_WIDTH_LINE = 10;
+    private static final int PIX_WIDTH_CORNER = 10;
+    private static final int PIX_WIDTH_LINE = 4;
 
     public EntityBoxWidget(int displayPage, String entityId, boolean sepia, float boxWidth, float boxHeight, float boxScale, float entityXOffset, float entityYOffset, String borderImage, String entityNBT, int x, int y, float scale) {
         super(displayPage, Type.ENTITY_BOX, entityId, sepia, entityNBT, x, y, scale);
@@ -69,6 +62,7 @@ public class EntityBoxWidget extends EntityWidget {
         VertexConsumer vertexconsumer = bufferSource.getBuffer(ACRenderTypes.getBookWidget(this.borderTexture, this.isSepia()));
 
         float endUV = PIX_WIDTH_CORNER + PIX_WIDTH_LINE;
+        float endSub = PIX_WIDTH_CORNER / 2F;
         float endUV1 = endUV + PIX_WIDTH_CORNER;
 
         Lighting.setupForFlatItems();
@@ -83,28 +77,28 @@ public class EntityBoxWidget extends EntityWidget {
         renderCorner(poseStack, vertexconsumer, 0, PIX_WIDTH_CORNER, 0, PIX_WIDTH_CORNER);
         poseStack.popPose();
 
-        renderQuad(poseStack, vertexconsumer, boxWidth, PIX_WIDTH_CORNER / 2F, -PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE, 0, PIX_WIDTH_CORNER);
+        renderQuad(poseStack, vertexconsumer, boxWidth - endSub, PIX_WIDTH_CORNER / 2F, -PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE, 0, PIX_WIDTH_CORNER);
 
         poseStack.pushPose();
         poseStack.translate(boxWidth, 0, 2);
         renderCorner(poseStack, vertexconsumer, endUV, endUV1, 0, PIX_WIDTH_CORNER);
         poseStack.popPose();
 
-        renderQuad(poseStack, vertexconsumer, PIX_WIDTH_CORNER / 2F, -PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER / 2F - 0.1F, boxHeight, 0, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE);
+        renderQuad(poseStack, vertexconsumer, PIX_WIDTH_CORNER / 2F, -PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER / 2F - 0.1F, boxHeight - endSub, 0, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE);
 
         poseStack.pushPose();
         poseStack.translate(0, boxHeight, 2);
         renderCorner(poseStack, vertexconsumer, 0, PIX_WIDTH_CORNER, endUV, endUV1);
         poseStack.popPose();
 
-        renderQuad(poseStack, vertexconsumer, boxWidth, PIX_WIDTH_CORNER / 2F, boxHeight - PIX_WIDTH_CORNER / 2F, boxHeight + PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE, PIX_WIDTH_LINE + PIX_WIDTH_CORNER, PIX_WIDTH_LINE + PIX_WIDTH_CORNER * 2);
+        renderQuad(poseStack, vertexconsumer, boxWidth - endSub, PIX_WIDTH_CORNER / 2F, boxHeight - PIX_WIDTH_CORNER / 2F, boxHeight + PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE, PIX_WIDTH_LINE + PIX_WIDTH_CORNER, PIX_WIDTH_LINE + PIX_WIDTH_CORNER * 2);
 
         poseStack.pushPose();
         poseStack.translate(boxWidth, boxHeight, 2);
         renderCorner(poseStack, vertexconsumer, endUV, endUV1, endUV, endUV1);
         poseStack.popPose();
 
-        renderQuad(poseStack, vertexconsumer, boxWidth + PIX_WIDTH_CORNER / 2F, boxWidth - PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER / 2F - 0.1F, boxHeight, PIX_WIDTH_LINE + PIX_WIDTH_CORNER, PIX_WIDTH_LINE + PIX_WIDTH_CORNER * 2, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE);
+        renderQuad(poseStack, vertexconsumer, boxWidth + PIX_WIDTH_CORNER / 2F, boxWidth - PIX_WIDTH_CORNER / 2F, PIX_WIDTH_CORNER / 2F - 0.1F, boxHeight - endSub, PIX_WIDTH_LINE + PIX_WIDTH_CORNER, PIX_WIDTH_LINE + PIX_WIDTH_CORNER * 2, PIX_WIDTH_CORNER, PIX_WIDTH_CORNER + PIX_WIDTH_LINE);
 
         poseStack.popPose();
         poseStack.popPose();

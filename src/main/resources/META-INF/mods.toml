@@ -4,19 +4,20 @@ license="GNU LESSER GENERAL PUBLIC LICENSE"
 issueTrackerURL="https://github.com/AlexModGuy/AlexsCavesBetaTest/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="0.1.5" #mandatory
+version="0.1.6" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
 authors="Alexthe668, Noonyeyz" #optional
 credits="LudoCrypt, _Ninni, Ron0, PrismaticPinky, Kotshi, RenRen, Gatetoh, arby698" #optional
 description='''alex cave...'''
+logoFile="assets/alexscaves/textures/misc/mod_logo.png" #optional
 [[dependencies.alexscaves]] #optional
 # the modid of the dependency
 modId="citadel" #mandatory
 # Does this dependency have to exist - if not, ordering below must be specified
 mandatory=true #mandatory
 # The version range of the dependency
-versionRange="[2.4.3,)" #mandatory
+versionRange="[2.4.4,)" #mandatory
 # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
 ordering="AFTER"
 # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -24,6 +25,6 @@ side="BOTH"
 [[dependencies.alexscaves]]
 modId="forge"
 mandatory=true
-versionRange="[46.0.12,)"
+versionRange="[47.1.65,)"
 ordering="NONE"
 side="BOTH"

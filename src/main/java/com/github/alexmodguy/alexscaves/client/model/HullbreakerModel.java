@@ -36,6 +36,8 @@ public class HullbreakerModel extends AdvancedEntityModel<HullbreakerEntity> {
     private final AdvancedModelBox teeth5;
     private final ModelAnimator animator;
 
+    public boolean straighten = false;
+
     public HullbreakerModel() {
         texWidth = 512;
         texHeight = 512;
@@ -235,13 +237,13 @@ public class HullbreakerModel extends AdvancedEntityModel<HullbreakerEntity> {
         animator.move(head, 0, -2, 10);
         animator.rotate(head, (float) Math.toRadians(-40), 0, 0);
         animator.rotate(jaw, (float) Math.toRadians(80), 0, 0);
-        animator.rotate(body, 0, 0,  (float) Math.toRadians(5));
+        animator.rotate(body, 0, 0, (float) Math.toRadians(5));
         animator.endKeyframe();
         animator.startKeyframe(35);
         animator.move(head, 0, -2, 10);
-        animator.rotate(head, (float) Math.toRadians(-30), 0,  (float) Math.toRadians(-20));
+        animator.rotate(head, (float) Math.toRadians(-30), 0, (float) Math.toRadians(-20));
         animator.rotate(jaw, (float) Math.toRadians(40), 0, 0);
-        animator.rotate(body, 0, 0,  (float) Math.toRadians(10));
+        animator.rotate(body, 0, 0, (float) Math.toRadians(10));
         animator.endKeyframe();
         animator.resetKeyframe(5);
     }
@@ -308,21 +310,23 @@ public class HullbreakerModel extends AdvancedEntityModel<HullbreakerEntity> {
         this.body.rotateAngleX += fishPitchAmount * 0.75F;
         this.head.rotateAngleX += headPitchAmount;
         this.head.rotateAngleY += clampedYaw;
-        body2.rotateAngleX += Math.toRadians(entity.tail1Part.calculateAnimationAngle(partialTicks, true));
-        body2.rotateAngleY += Math.toRadians(entity.tail1Part.calculateAnimationAngle(partialTicks, false));
-        tail.rotateAngleX += Math.toRadians(entity.tail2Part.calculateAnimationAngle(partialTicks, true));
-        tail.rotateAngleY += Math.toRadians(entity.tail2Part.calculateAnimationAngle(partialTicks, false));
-        float tail2XRot = (float) entity.tail3Part.calculateAnimationAngle(partialTicks, true);
-        float tail3XRot = (float) entity.tail4Part.calculateAnimationAngle(partialTicks, true);
-        tail2.rotateAngleX += Math.toRadians(tail2XRot);
-        tail2.rotationPointZ -= 5 * Math.abs(tail2XRot / 20F);
-        tail2.rotateAngleY += Math.toRadians(entity.tail3Part.calculateAnimationAngle(partialTicks, false));
-        tail3.rotateAngleX += Math.toRadians(tail3XRot);
-        tail3.rotationPointZ -= 5 * Math.abs(tail3XRot / 20F);
-        tail3.rotateAngleY += Math.toRadians(entity.tail4Part.calculateAnimationAngle(partialTicks, false));
-        lbarb.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(2, partialTicks) - bodyYRot);
-        rbarb.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(2, partialTicks) - bodyYRot);
-        lbarb2.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(4, partialTicks) - bodyYRot);
-        rbarb2.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(4, partialTicks) - bodyYRot);
+        if (!straighten) {
+            body2.rotateAngleX += Math.toRadians(entity.tail1Part.calculateAnimationAngle(partialTicks, true));
+            body2.rotateAngleY += Math.toRadians(entity.tail1Part.calculateAnimationAngle(partialTicks, false));
+            tail.rotateAngleX += Math.toRadians(entity.tail2Part.calculateAnimationAngle(partialTicks, true));
+            tail.rotateAngleY += Math.toRadians(entity.tail2Part.calculateAnimationAngle(partialTicks, false));
+            float tail2XRot = (float) entity.tail3Part.calculateAnimationAngle(partialTicks, true);
+            float tail3XRot = (float) entity.tail4Part.calculateAnimationAngle(partialTicks, true);
+            tail2.rotateAngleX += Math.toRadians(tail2XRot);
+            tail2.rotationPointZ -= 5 * Math.abs(tail2XRot / 20F);
+            tail2.rotateAngleY += Math.toRadians(entity.tail3Part.calculateAnimationAngle(partialTicks, false));
+            tail3.rotateAngleX += Math.toRadians(tail3XRot);
+            tail3.rotationPointZ -= 5 * Math.abs(tail3XRot / 20F);
+            tail3.rotateAngleY += Math.toRadians(entity.tail4Part.calculateAnimationAngle(partialTicks, false));
+            lbarb.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(2, partialTicks) - bodyYRot);
+            rbarb.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(2, partialTicks) - bodyYRot);
+            lbarb2.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(4, partialTicks) - bodyYRot);
+            rbarb2.rotateAngleY += Math.toRadians(entity.getYawFromBuffer(4, partialTicks) - bodyYRot);
+        }
     }
 }

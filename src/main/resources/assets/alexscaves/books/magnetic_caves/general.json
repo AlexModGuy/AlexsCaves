@@ -1,0 +1,26 @@
+{
+  "parent": "magnetic_caves/chapter.json",
+  "text": "magnetic_caves/general.txt",
+  "title": "book.alexscaves.general",
+  "required_progression": "alexscaves:magnetic_caves_general",
+  "widgets": [
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:scarlet_neodymium_node",
+      "sepia": true,
+      "x": 40,
+      "y": 20,
+      "scale": 3
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:azure_neodymium_node",
+      "sepia": true,
+      "x": 100,
+      "y": 20,
+      "scale": 3
+    }
+    ]
+}

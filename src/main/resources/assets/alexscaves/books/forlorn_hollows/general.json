@@ -1,0 +1,6 @@
+{
+  "parent": "forlorn_hollows/chapter.json",
+  "text": "forlorn_hollows/general.txt",
+  "title": "book.alexscaves.general",
+  "required_progression": "alexscaves:forlorn_hollows_general"
+}

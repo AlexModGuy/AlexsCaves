@@ -1,0 +1,6 @@
+{
+  "parent": "magnetic_caves/chapter.json",
+  "text": "magnetic_caves/utilities.txt",
+  "title": "book.alexscaves.utilities",
+  "required_progression": "alexscaves:magnetic_caves_utilities"
+}

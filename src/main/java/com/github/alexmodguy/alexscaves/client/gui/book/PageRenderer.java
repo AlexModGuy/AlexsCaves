@@ -45,29 +45,31 @@ public class PageRenderer {
         int pgNumber = getDisplayPageNumber();
         MultiBufferSource.BufferSource bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
 
-        if(pgNumber == 1 && !entry.getTranslatableTitle().isEmpty()){
-            Component title = Component.translatable(entry.getTranslatableTitle());
+        if(entry != null){
+            if(pgNumber == 1 && !entry.getTranslatableTitle().isEmpty()){
+                Component title = Component.translatable(entry.getTranslatableTitle());
+                poseStack.pushPose();
+                int titleLength = Math.max(screen.getMinecraft().font.width(title), 1);
+                float titleScale =  Math.min(135F / (float) titleLength, 2.5F);
+                poseStack.translate(65, 7 - 5 * titleScale, 0);
+                poseStack.scale(titleScale, titleScale, 1F);
+                poseStack.translate(-titleLength / 2F, 0, 0);
+                screen.getMinecraft().font.drawInBatch8xOutline(title.getVisualOrderText(), 0.0F, 0.0F, 0XFFE7BF, 0XAA977F, poseStack.last().pose(), bufferSource, 15728880);
+                poseStack.popPose();
+            }
+            if (!entry.getEntryText().isEmpty()) {
+                int startReadingAt = (pgNumber - 1) * CaveBookScreen.PAGE_SIZE_IN_LINES;
+                printLinesFromEntry(screen.getMinecraft().font, poseStack, bufferSource, entry, startReadingAt);
+            }
+            int numberWidth = screen.getMinecraft().font.width(String.valueOf(pgNumber));
             poseStack.pushPose();
-            int titleLength = Math.max(screen.getMinecraft().font.width(title), 1);
-            float titleScale = Math.min(135F / (float) titleLength, 2.5F);
-            poseStack.translate(0, -titleScale * 5 + 5, 0);
-            poseStack.scale(titleScale, titleScale, 1F);
-            screen.getMinecraft().font.drawInBatch8xOutline(title.getVisualOrderText(), 0.0F, 0.0F, 0XFFE7BF, 0XAA977F, poseStack.last().pose(), bufferSource, 15728880);
+            poseStack.scale(0.75F, 0.75F, 0.75F);
+            screen.getMinecraft().font.drawInBatch(String.valueOf(pgNumber), 86.0F - numberWidth * 0.5F, 210.0F, CaveBookScreen.TEXT_COLOR, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
             poseStack.popPose();
-        }
-
-        if (entry != null && !entry.getEntryText().isEmpty()) {
-            int startReadingAt = (pgNumber - 1) * CaveBookScreen.PAGE_SIZE_IN_LINES;
-            printLinesFromEntry(screen.getMinecraft().font, poseStack, bufferSource, entry, startReadingAt);
-        }
-        int numberWidth = screen.getMinecraft().font.width(String.valueOf(pgNumber));
-        poseStack.pushPose();
-        poseStack.scale(0.75F, 0.75F, 0.75F);
-        screen.getMinecraft().font.drawInBatch(String.valueOf(pgNumber), 86.0F - numberWidth * 0.5F, 210.0F, CaveBookScreen.TEXT_COLOR, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
-        poseStack.popPose();
-        for (BookWidget widget : entry.getWidgets()) {
-            if (widget.getDisplayPage() == pgNumber) {
-                widget.render(poseStack, bufferSource, partialTicks, onFlippingPage);
+            for (BookWidget widget : entry.getWidgets()) {
+                if (widget.getDisplayPage() == pgNumber) {
+                    widget.render(poseStack, bufferSource, partialTicks, onFlippingPage);
+                }
             }
         }
     }

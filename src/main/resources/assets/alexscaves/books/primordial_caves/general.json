@@ -1,0 +1,6 @@
+{
+  "parent": "primordial_caves/chapter.json",
+  "text": "primordial_caves/general.txt",
+  "title": "book.alexscaves.general",
+  "required_progression": "alexscaves:primordial_caves_general"
+}

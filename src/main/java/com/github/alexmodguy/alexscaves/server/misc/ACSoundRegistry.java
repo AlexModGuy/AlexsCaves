@@ -73,6 +73,10 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> VESPER_QUIET_IDLE = createSoundEvent("vesper_quiet_idle");
     public static final RegistryObject<SoundEvent> VESPER_FLAP = createSoundEvent("vesper_flap");
     public static final RegistryObject<SoundEvent> VESPER_SCREAM = createSoundEvent("vesper_scream");
+
+    public static final RegistryObject<SoundEvent> CAVE_BOOK_OPEN = createSoundEvent("cave_book_open");
+    public static final RegistryObject<SoundEvent> CAVE_BOOK_CLOSE = createSoundEvent("cave_book_close");
+    public static final RegistryObject<SoundEvent> CAVE_BOOK_TURN = createSoundEvent("cave_book_turn");
     public static final RegistryObject<SoundEvent> LIMESTONE_SPEAR_THROW = createSoundEvent("limestone_spear_throw");
     public static final RegistryObject<SoundEvent> LIMESTONE_SPEAR_HIT = createSoundEvent("limestone_spear_hit");
     public static final RegistryObject<SoundEvent> PRIMITIVE_CLUB_HIT = createSoundEvent("primitive_club_hit");

@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
-import com.github.alexmodguy.alexscaves.client.gui.book.CaveBookScreen;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import net.minecraft.ChatFormatting;
@@ -10,7 +9,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -42,22 +40,28 @@ public class CaveInfoItem extends Item {
         }
         if (stack.getItem() instanceof CaveInfoItem) {
             ResourceKey<Biome> biomeResourceKey = getCaveBiome(stack);
-            if (biomeResourceKey != null) {
-                int color = ACBiomeRegistry.getBiomeTabletColor(biomeResourceKey);
-                if (color == -1) {
-                    if (level != null) {
-                        Registry<Biome> registry = level.registryAccess().registry(Registries.BIOME).orElse(null);
-                        if (registry != null && registry.getHolder(biomeResourceKey).isPresent()) {
-                            return registry.getHolder(biomeResourceKey).get().value().getFoliageColor();
-                        }
-                    }
-                    return 0;
-                } else {
-                    return color;
-                }
+            if(biomeResourceKey == null){
+                int selectedBiomeIndex = (int)(ACBiomeRegistry.ALEXS_CAVES_BIOMES.size() * (System.currentTimeMillis() % 4000) / 4000f);
+                biomeResourceKey = ACBiomeRegistry.ALEXS_CAVES_BIOMES.get(selectedBiomeIndex);
             }
+            return biomeResourceKey == null ? -1 : getBiomeColor(level, biomeResourceKey);
         }
         return -1;
+    }
+
+    private static int getBiomeColor(Level level, ResourceKey<Biome> biomeResourceKey){
+        int color = ACBiomeRegistry.getBiomeTabletColor(biomeResourceKey);
+        if (color == -1) {
+            if (level != null) {
+                Registry<Biome> registry = level.registryAccess().registry(Registries.BIOME).orElse(null);
+                if (registry != null && registry.getHolder(biomeResourceKey).isPresent()) {
+                    return registry.getHolder(biomeResourceKey).get().value().getFoliageColor();
+                }
+            }
+            return 0;
+        } else {
+            return color;
+        }
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {

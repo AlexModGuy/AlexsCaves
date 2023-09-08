@@ -17,12 +17,13 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
-public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
+public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> implements CustomBookEntityRenderer {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/ferrouslime.png");
     private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/ferrouslime_eyes.png");
     private static final ResourceLocation TEXTURE_GEL = new ResourceLocation("alexscaves:textures/entity/ferrouslime_gel.png");
     private FerrouslimeModel model = new FerrouslimeModel();
+    private boolean sepia = false;
 
     public FerrouslimeRenderer(EntityRendererProvider.Context context) {
         super(context);
@@ -48,8 +49,11 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
         }
         float gelSize = entity.getSlimeSize(partialTicks) - 0.2F;
         poseStack.pushPose();
-        renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGel(TEXTURE_GEL)), gelSize, light);
-        renderGelSpikes(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGelTriangles(TEXTURE_GEL)), gelSize, light);
+        if(sepia){
+            renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getBookWidget(TEXTURE_GEL, true)), gelSize, light);
+        }else{
+            renderGelSpikes(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGelTriangles(TEXTURE_GEL)), gelSize, light);
+        }
         poseStack.popPose();
         poseStack.popPose();
         super.render(entity, f1, partialTicks, poseStack, source, light);
@@ -62,9 +66,9 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
         poseStack.pushPose();
         poseStack.mulPose(Axis.ZP.rotationDegrees(180));
         model.setupAnim(entity, 0, 0, entity.tickCount + partialTicks, headYaw, headPitch);
-        VertexConsumer textureConsumer = source.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+        VertexConsumer textureConsumer = source.getBuffer(sepia ? ACRenderTypes.getBookWidget(TEXTURE, true) : RenderType.entityCutoutNoCull(TEXTURE));
         model.renderToBuffer(poseStack, textureConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
-        VertexConsumer eyesConsumer = source.getBuffer(RenderType.eyes(TEXTURE_EYES));
+        VertexConsumer eyesConsumer = source.getBuffer(sepia ? ACRenderTypes.getBookWidget(TEXTURE_EYES, true) : RenderType.eyes(TEXTURE_EYES));
         model.renderToBuffer(poseStack, eyesConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
     }
@@ -121,6 +125,11 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> {
 
     public ResourceLocation getTextureLocation(FerrouslimeEntity entity) {
         return TEXTURE;
+    }
+
+    @Override
+    public void setSepiaFlag(boolean sepiaFlag) {
+        sepia = sepiaFlag;
     }
 }
 

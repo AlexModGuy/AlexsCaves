@@ -48,6 +48,7 @@ public class GossamerWormModel extends AdvancedEntityModel<GossamerWormEntity> {
     private final AdvancedModelBox lflipperFront7;
     private final AdvancedModelBox segment8;
     private final AdvancedModelBox segment9;
+    public boolean straighten;
 
     public GossamerWormModel() {
         texWidth = 128;
@@ -347,33 +348,35 @@ public class GossamerWormModel extends AdvancedEntityModel<GossamerWormEntity> {
         this.flap(lflipperFront7, swimSpeed, swimDegree * 0.5F, true, 11F, 0F, ageInTicks, swimAmount);
         this.flap(rflipperBack7, swimSpeed, swimDegree * 0.5F, true, 12F, 0F, ageInTicks, swimAmount);
         this.flap(lflipperBack7, swimSpeed, swimDegree * 0.5F, true, 12F, 0F, ageInTicks, swimAmount);
-        double defaultX = Mth.wrapDegrees(fishPitch);
-        double defaultY = Mth.wrapDegrees(entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTicks);
-        double tail1X = (entity.getTrailTransformation(10, 0, partialTicks)) - defaultX;
-        double tail1Y = (entity.getTrailTransformation(10, 1, partialTicks)) - defaultY;
-        double tail2X = (entity.getTrailTransformation(20, 0, partialTicks)) - defaultX - tail1X;
-        double tail2Y = (entity.getTrailTransformation(20, 1, partialTicks)) - defaultY - tail1Y;
-        double tail3X = (entity.getTrailTransformation(30, 0, partialTicks)) - defaultX - tail2X;
-        double tail3Y = (entity.getTrailTransformation(30, 1, partialTicks)) - defaultY - tail2Y;
-        double tail4X = (entity.getTrailTransformation(40, 0, partialTicks)) - defaultX - tail3X;
-        double tail4Y = (entity.getTrailTransformation(40, 1, partialTicks)) - defaultY - tail3Y;
-        double tail5X = (entity.getTrailTransformation(50, 0, partialTicks)) - defaultX - tail4X;
-        double tail5Y = (entity.getTrailTransformation(50, 1, partialTicks)) - defaultY - tail4Y;
+        if (!straighten) {
+            double defaultX = Mth.wrapDegrees(fishPitch);
+            double defaultY = Mth.wrapDegrees(entity.yBodyRotO + (entity.yBodyRot - entity.yBodyRotO) * partialTicks);
+            double tail1X = (entity.getTrailTransformation(10, 0, partialTicks)) - defaultX;
+            double tail1Y = (entity.getTrailTransformation(10, 1, partialTicks)) - defaultY;
+            double tail2X = (entity.getTrailTransformation(20, 0, partialTicks)) - defaultX - tail1X;
+            double tail2Y = (entity.getTrailTransformation(20, 1, partialTicks)) - defaultY - tail1Y;
+            double tail3X = (entity.getTrailTransformation(30, 0, partialTicks)) - defaultX - tail2X;
+            double tail3Y = (entity.getTrailTransformation(30, 1, partialTicks)) - defaultY - tail2Y;
+            double tail4X = (entity.getTrailTransformation(40, 0, partialTicks)) - defaultX - tail3X;
+            double tail4Y = (entity.getTrailTransformation(40, 1, partialTicks)) - defaultY - tail3Y;
+            double tail5X = (entity.getTrailTransformation(50, 0, partialTicks)) - defaultX - tail4X;
+            double tail5Y = (entity.getTrailTransformation(50, 1, partialTicks)) - defaultY - tail4Y;
 
-        head.rotateAngleX += Math.toRadians(fishPitch);
-        segment2.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail1Y) * 1);
-        segment3.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail2Y) * 0.35F);
-        segment4.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail2Y) * 0.35F);
-        segment5.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail3Y) * 0.4F);
-        segment6.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail4Y) * 0.4F);
-        segment7.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail5Y) * 0.4F);
+            head.rotateAngleX += Math.toRadians(fishPitch);
+            segment2.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail1Y) * 1);
+            segment3.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail2Y) * 0.35F);
+            segment4.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail2Y) * 0.35F);
+            segment5.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail3Y) * 0.4F);
+            segment6.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail4Y) * 0.4F);
+            segment7.rotateAngleY += Math.toRadians(Mth.wrapDegrees(tail5Y) * 0.4F);
 
-        segment2.rotateAngleX += Math.toRadians(tail1X * 1);
-        segment3.rotateAngleX += Math.toRadians(tail2X * 0.5F);
-        segment4.rotateAngleX += Math.toRadians(tail2X * 0.5F);
-        segment5.rotateAngleX += Math.toRadians(tail3X * 0.35F);
-        segment6.rotateAngleX += Math.toRadians(tail4X * 0.25F);
-        segment7.rotateAngleX += Math.toRadians(tail5X * 0.25F);
+            segment2.rotateAngleX += Math.toRadians(tail1X * 1);
+            segment3.rotateAngleX += Math.toRadians(tail2X * 0.5F);
+            segment4.rotateAngleX += Math.toRadians(tail2X * 0.5F);
+            segment5.rotateAngleX += Math.toRadians(tail3X * 0.35F);
+            segment6.rotateAngleX += Math.toRadians(tail4X * 0.25F);
+            segment7.rotateAngleX += Math.toRadians(tail5X * 0.25F);
+        }
 
     }
 

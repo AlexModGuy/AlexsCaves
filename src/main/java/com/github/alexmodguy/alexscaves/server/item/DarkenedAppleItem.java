@@ -26,5 +26,4 @@ public class DarkenedAppleItem extends Item {
         }
         return super.finishUsingItem(stack, level, livingEntity);
     }
-
 }

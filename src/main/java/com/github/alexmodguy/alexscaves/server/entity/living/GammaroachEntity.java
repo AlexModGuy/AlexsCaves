@@ -110,7 +110,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.MAX_HEALTH, 14.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.MAX_HEALTH, 14.0D).add(Attributes.ATTACK_DAMAGE, 2);
     }
 
     public boolean canBeAffected(MobEffectInstance effectInstance) {
@@ -302,7 +302,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                         if (GammaroachEntity.this.getAnimation() == NO_ANIMATION) {
                             GammaroachEntity.this.setAnimation(GammaroachEntity.ANIMATION_RAM);
                         } else if (GammaroachEntity.this.getAnimation() == GammaroachEntity.ANIMATION_RAM && GammaroachEntity.this.getAnimationTick() > 8 && GammaroachEntity.this.getAnimationTick() < 15) {
-                            target.hurt(damageSources().mobAttack(GammaroachEntity.this), 2);
+                            target.hurt(damageSources().mobAttack(GammaroachEntity.this), (float) GammaroachEntity.this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                         }
                         if (pickupMonster != null) {
                             pickupMonster.stopRiding();

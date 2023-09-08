@@ -21,6 +21,7 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
@@ -250,6 +251,23 @@ public class ACItemRegistry {
             }
         });
         LecternBooks.BOOKS.put(CAVE_BOOK.getId(), new LecternBooks.BookData(0X81301C, 0XFDF8EC));
+        ComposterBlock.COMPOSTABLES.put(PINE_NUTS.get(), 0.5F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.PEWEN_SAPLING.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.PEWEN_PINES.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.PEWEN_BRANCH.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.ANCIENT_SAPLING.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.ANCIENT_LEAVES.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.FIDDLEHEAD.get().asItem(), 0.4F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.CURLY_FERN.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.FLYTRAP.get().asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.CYCAD.get().asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.TREE_STAR.get().asItem(), 0.65F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.ARCHAIC_VINE.get().asItem(), 0.5F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.FERN_THATCH.get().asItem(), 0.85F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.UNDERWEED.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.THORNWOOD_BRANCH.get().asItem(), 0.3F);
+        ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.THORNWOOD_SAPLING.get().asItem(), 0.3F);
+
     }
 
     public static List<RegistryObject<Item>> getSpawnEggsForTab(ResourceKey<Biome> tabName) {

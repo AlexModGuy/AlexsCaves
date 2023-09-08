@@ -3,8 +3,8 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.RaycatModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
-import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
+import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -25,12 +25,13 @@ import javax.annotation.Nullable;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
-public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
+public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> implements CustomBookEntityRenderer {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/raycat.png");
     private static final ResourceLocation TEXTURE_BODY = new ResourceLocation("alexscaves:textures/entity/raycat_body.png");
     private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/raycat_eyes.png");
 
     private static final float HALF_SQRT_3 = (float) (Math.sqrt(3.0D) / 2.0D);
+    private boolean sepia;
 
     public RaycatRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new RaycatModel(), 0.4F);
@@ -43,7 +44,7 @@ public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
         if (translucent) {
             return RenderType.itemEntityTranslucentCull(resourcelocation);
         } else if (normal) {
-            return ACRenderTypes.getRadiationGlow(resourcelocation);
+            return sepia ? null : ACRenderTypes.getRadiationGlow(resourcelocation);
         } else {
             return outline ? RenderType.outline(resourcelocation) : null;
         }
@@ -62,7 +63,9 @@ public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
     }
 
     public void render(RaycatEntity entityIn, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource bufferIn, int packedLightIn) {
-        ACPostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
+        if(!sepia){
+            PostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
+        }
         float absorbAmount = entityIn.getAbsorbAmount(partialTicks);
         Entity absorbTarget = entityIn.getAbsorbTarget();
         if (absorbAmount > 0F && entityIn.isAlive() && absorbTarget != null) {
@@ -97,6 +100,11 @@ public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
         return TEXTURE_BODY;
     }
 
+    @Override
+    public void setSepiaFlag(boolean sepiaFlag) {
+        this.sepia = sepiaFlag;
+    }
+
     class LayerGlow extends RenderLayer<RaycatEntity, RaycatModel> {
 
         public LayerGlow() {
@@ -104,9 +112,9 @@ public class RaycatRenderer extends MobRenderer<RaycatEntity, RaycatModel> {
         }
 
         public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, RaycatEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-            VertexConsumer ivertexbuilder1 = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE));
+            VertexConsumer ivertexbuilder1 = bufferIn.getBuffer(RaycatRenderer.this.sepia ? ACRenderTypes.getBookWidget(TEXTURE, true) : RenderType.entityCutoutNoCull(TEXTURE));
             this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder1, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
-            VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(ACRenderTypes.getEyesAlphaEnabled(TEXTURE_EYES));
+            VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RaycatRenderer.this.sepia ? ACRenderTypes.getBookWidget(TEXTURE_EYES, true) : ACRenderTypes.getEyesAlphaEnabled(TEXTURE_EYES));
             this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder2, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }

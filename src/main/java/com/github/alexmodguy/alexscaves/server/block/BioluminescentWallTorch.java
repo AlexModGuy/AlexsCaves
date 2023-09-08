@@ -27,7 +27,7 @@ public class BioluminescentWallTorch extends WallTorchBlock implements SimpleWat
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     public BioluminescentWallTorch() {
-        super(Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().lightLevel(state -> 15).noCollission().sound(SoundType.WOOD).instabreak().noOcclusion(), ParticleTypes.SMOKE);
+        super(Properties.of().mapColor(MapColor.SAND).lightLevel(state -> 15).noCollission().sound(SoundType.WOOD).instabreak().noOcclusion(), ParticleTypes.SMOKE);
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 

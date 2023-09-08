@@ -1,0 +1,6 @@
+{
+  "parent": "abyssal_chasm/chapter.json",
+  "text": "abyssal_chasm/general.txt",
+  "title": "book.alexscaves.general",
+  "required_progression": "alexscaves:abyssal_chasm_general"
+}

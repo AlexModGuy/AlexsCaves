@@ -630,6 +630,29 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_scream"
   },
+  "cave_book_open": {
+    "sounds": [
+      "alexscaves:item/cave_book/book_open_0",
+      "alexscaves:item/cave_book/book_open_1",
+      "alexscaves:item/cave_book/book_open_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cave_book_open"
+  },
+  "cave_book_close": {
+    "sounds": [
+      "alexscaves:item/cave_book/book_close_0",
+      "alexscaves:item/cave_book/book_close_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cave_book_close"
+  },
+  "cave_book_turn": {
+    "sounds": [
+      "alexscaves:item/cave_book/book_turn_0",
+      "alexscaves:item/cave_book/book_turn_1",
+      "alexscaves:item/cave_book/book_turn_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cave_book_turn"
+  },
   "limestone_spear_throw": {
     "sounds": [
       "alexscaves:item/limestone_spear/limestone_spear_throw"

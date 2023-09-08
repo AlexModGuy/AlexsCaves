@@ -20,6 +20,7 @@ public class UnderzealotModel extends AdvancedEntityModel<UnderzealotEntity> {
     private final AdvancedModelBox rleg;
     private final AdvancedModelBox lleg;
     private final ModelAnimator animator;
+    public boolean noBurrowing;
 
     public UnderzealotModel() {
         texWidth = 128;
@@ -136,7 +137,7 @@ public class UnderzealotModel extends AdvancedEntityModel<UnderzealotEntity> {
         this.resetToDefaultPose();
         animate(entity);
         float partialTick = ageInTicks - entity.tickCount;
-        float buriedProgress = entity.getBuriedProgress(partialTick);
+        float buriedProgress = noBurrowing ? 0 : entity.getBuriedProgress(partialTick);
         float carryingProgress = entity.getCarryingProgress(partialTick);
         float prayingProgress = entity.getPrayingProgress(partialTick);
         float buriedStrength = (float) Math.sin(buriedProgress * Math.PI);

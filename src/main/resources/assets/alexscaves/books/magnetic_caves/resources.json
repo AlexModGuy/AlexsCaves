@@ -1,0 +1,53 @@
+{
+  "parent": "magnetic_caves/chapter.json",
+  "text": "magnetic_caves/resources.txt",
+  "title": "book.alexscaves.resources",
+  "required_progression": "alexscaves:magnetic_caves_resources",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:packed_galena",
+      "sepia": true,
+      "x": 50,
+      "y": 120,
+      "scale": 1
+    },
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:furnace/iron_nugget_from_packed_galena_smelting",
+      "sepia": true,
+      "x": 60,
+      "y": 70,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:azure_neodymium_ingot",
+      "sepia": true,
+      "x": 55,
+      "y": 50,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:magnetic_levitation_rail",
+      "sepia": true,
+      "x": 50,
+      "y": 60,
+      "scale": 1
+    },
+    {
+      "display_page": 6,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:seeking_arrow",
+      "sepia": true,
+      "x": 55,
+      "y": 30,
+      "scale": 1
+    }
+  ]
+}

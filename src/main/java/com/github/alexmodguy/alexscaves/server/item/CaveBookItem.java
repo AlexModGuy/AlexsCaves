@@ -12,6 +12,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class CaveBookItem extends Item {
     public CaveBookItem() {
-        super(new Item.Properties().stacksTo(1));
+        super(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
     }
 
     public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {

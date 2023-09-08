@@ -16,10 +16,11 @@ import net.minecraft.resources.ResourceLocation;
 
 import javax.annotation.Nullable;
 
-public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneMageModel> {
+public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneMageModel> implements CustomBookEntityRenderer{
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage.png");
     private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage_glow.png");
 
+    private boolean sepia;
     public DeepOneMageRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new DeepOneMageModel(), 0.45F);
         this.addLayer(new LayerGlow());
@@ -43,10 +44,15 @@ public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneM
         if (translucent) {
             return RenderType.itemEntityTranslucentCull(resourcelocation);
         } else if (normal) {
-            return ACRenderTypes.getTeslaBulb(resourcelocation);
+            return sepia ? ACRenderTypes.getBookWidget(resourcelocation, true) : ACRenderTypes.getTeslaBulb(resourcelocation);
         } else {
             return outline ? RenderType.outline(resourcelocation) : null;
         }
+    }
+
+    @Override
+    public void setSepiaFlag(boolean sepiaFlag) {
+        this.sepia = sepiaFlag;
     }
 
     class LayerGlow extends RenderLayer<DeepOneMageEntity, DeepOneMageModel> {
@@ -57,7 +63,7 @@ public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneM
 
         public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, DeepOneMageEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             if (!entitylivingbaseIn.isInvisible()) {
-                VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getGhostly(TEXTURE));
+                VertexConsumer ivertexbuilder = bufferIn.getBuffer(DeepOneMageRenderer.this.sepia ? ACRenderTypes.getBookWidget(TEXTURE, true) : ACRenderTypes.getGhostly(TEXTURE));
                 float alpha = 1.0F;
                 this.getParentModel().renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, alpha);
             }

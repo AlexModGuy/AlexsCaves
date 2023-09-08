@@ -1,9 +1,11 @@
 package com.github.alexmodguy.alexscaves.client.gui.book.widget;
 
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.render.entity.CustomBookEntityRenderer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
@@ -79,7 +81,7 @@ public class EntityWidget extends BookWidget {
             entityScale /= entityBBSize * 1.5F;
         }
         poseStack.pushPose();
-        poseStack.translate(getX(), getY(), 100);
+        poseStack.translate(getX(), getY(), 120);
         poseStack.scale(entityScale, entityScale, entityScale);
         poseStack.mulPose(Axis.XP.rotationDegrees(rotX));
         poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
@@ -91,7 +93,7 @@ public class EntityWidget extends BookWidget {
     }
 
 
-    protected boolean isSepia(){
+    protected boolean isSepia() {
         return sepia;
     }
 
@@ -102,14 +104,26 @@ public class EntityWidget extends BookWidget {
         try {
             render = manager.getRenderer(entityIn);
             if (entityIn instanceof LivingEntity living) {
-                if (render instanceof LivingEntityRenderer<?, ?> renderer) {
+                if(render instanceof CustomBookEntityRenderer customBookEntityRenderer){
+                    if(sepia){
+                        customBookEntityRenderer.setSepiaFlag(true);
+                    }
+                    matrixStack.mulPose(Axis.YP.rotationDegrees(180));
+                    matrixStack.mulPose(Axis.ZP.rotationDegrees(180));
+                    RenderSystem.runAsFancy(() -> {
+                        manager.render(entityIn, 0.0D, 0.0D, 0.0D, 0.0F, 0.0F, matrixStack, bufferIn, packedLight);
+                    });
+                    if(sepia) {
+                        customBookEntityRenderer.setSepiaFlag(false);
+                    }
+                }else if (render instanceof LivingEntityRenderer<?, ?> renderer) {
                     EntityModel model = renderer.getModel();
                     VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getBookWidget(render.getTextureLocation(entityIn), sepia));
                     matrixStack.pushPose();
                     boolean shouldSit = entityIn.isPassenger() && (entityIn.getVehicle() != null && entityIn.getVehicle().shouldRiderSit());
                     model.young = living.isBaby();
                     model.riding = shouldSit;
-                    model.setupAnim(living, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F);
+                    model.setupAnim(living, 0.0F, 0.0F, 1.0F, 0.0F, 0.0F);
                     matrixStack.scale(living.getScale(), living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();

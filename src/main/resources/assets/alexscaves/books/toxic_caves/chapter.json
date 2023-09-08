@@ -1,0 +1,23 @@
+{
+  "parent": "root.json",
+  "text": "toxic_caves/chapter.txt",
+  "title": "book.alexscaves.toxic_caves",
+  "required_progression": "alexscaves:toxic_caves_general",
+  "widgets": [
+    {
+      "display_page" : 1,
+      "type": "image",
+      "image": "alexscaves:textures/gui/book/toxic_chapter.png",
+      "sepia": true,
+      "x": 64,
+      "y": 83,
+      "scale": 2.5,
+      "u0": 0,
+      "v0": 0,
+      "u1": 49,
+      "v1": 64,
+      "width": 64,
+      "height": 64
+    }
+  ]
+}

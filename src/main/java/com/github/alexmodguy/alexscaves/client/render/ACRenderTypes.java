@@ -1,7 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.render;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.client.shader.ACPostEffectRegistry;
+import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.pipeline.RenderTarget;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,7 +23,7 @@ public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_SEPIA_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeSepiaShader);
 
     protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
-        RenderTarget target = ACPostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
+        RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
         if (target != null) {
             target.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             target.bindWrite(false);
@@ -32,7 +32,7 @@ public class ACRenderTypes extends RenderType {
         Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
     });
     protected static final RenderStateShard.OutputStateShard HOLOGRAM_OUTPUT = new RenderStateShard.OutputStateShard("hologram_target", () -> {
-        RenderTarget target = ACPostEffectRegistry.getRenderTargetFor(ClientProxy.HOLOGRAM_SHADER);
+        RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.HOLOGRAM_SHADER);
         if (target != null) {
             target.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             target.bindWrite(false);
@@ -179,14 +179,13 @@ public class ACRenderTypes extends RenderType {
 
     public static RenderType getBookWidget(ResourceLocation locationIn, boolean sepia) {
         if(sepia){
-            return create("book_widget", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+            return create("book_widget", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
                     .setShaderState(RENDERTYPE_SEPIA_SHADER)
                     .setCullState(NO_CULL)
                     .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
                     .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                    .setLightmapState(LIGHTMAP)
                     .setOverlayState(OVERLAY)
-                    .createCompositeState(false));
+                    .createCompositeState(true));
         }else{
             return ForgeRenderTypes.getUnlitTranslucent(locationIn);
         }

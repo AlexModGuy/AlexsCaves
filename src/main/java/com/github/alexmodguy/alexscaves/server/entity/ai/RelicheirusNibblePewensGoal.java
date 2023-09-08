@@ -9,6 +9,8 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.Node;
+import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
@@ -18,6 +20,8 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
     private RelicheirusEntity relicheirus;
     private boolean stopFlag = false;
 
+    private int reachCheckTime = 50;
+
     public RelicheirusNibblePewensGoal(RelicheirusEntity relicheirus, int range) {
         super(relicheirus, 1.0F, range, 6);
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
@@ -26,7 +30,7 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
 
 
     protected int nextStartTick(PathfinderMob mob) {
-        return reducedTickDelay(80 + relicheirus.getRandom().nextInt(200));
+        return reducedTickDelay(220 + relicheirus.getRandom().nextInt(500));
     }
 
     public double acceptedDistance() {
@@ -47,9 +51,17 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
     public void tick() {
         super.tick();
         BlockPos target = getMoveToTarget();
-        //relicheirus.level.setBlock(blockPos.above(), Blocks.GLASS.defaultBlockState(), 3);
-        //relicheirus.level.setBlock(target.below(), Blocks.BLUE_STAINED_GLASS.defaultBlockState(), 3);
         if (target != null) {
+            if(reachCheckTime > 0){
+                reachCheckTime--;
+            }else{
+                reachCheckTime = 50 + relicheirus.getRandom().nextInt(100);
+                if(!canReach(target)){
+                    stopFlag = true;
+                    this.blockPos = BlockPos.ZERO;
+                    return;
+                }
+            }
             if (isReachedTarget()) {
                 if (relicheirus.lockTreePosition(blockPos)) {
                     if (relicheirus.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
@@ -119,4 +131,22 @@ public class RelicheirusNibblePewensGoal extends MoveToBlockGoal {
     protected boolean isValidTarget(LevelReader worldIn, BlockPos pos) {
         return worldIn.getBlockState(pos).is(ACTagRegistry.RELICHEIRUS_NIBBLES) && highEnough(worldIn, pos);
     }
+
+    private boolean canReach(BlockPos target) {
+        Path path = relicheirus.getNavigation().createPath(target, 0);
+        if (path == null) {
+            return false;
+        } else {
+            Node node = path.getEndNode();
+            if (node == null) {
+                return false;
+            } else {
+                int i = node.x - target.getX();
+                int j = node.y - target.getY();
+                int k = node.z - target.getZ();
+                return (double) (i * i + j * j + k * k) <= 3D;
+            }
+        }
+    }
+
 }

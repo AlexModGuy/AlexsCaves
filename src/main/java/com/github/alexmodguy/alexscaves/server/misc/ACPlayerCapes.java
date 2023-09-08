@@ -10,6 +10,7 @@ import java.util.UUID;
 
 public class ACPlayerCapes {
 
+    private static final ResourceLocation DEVELOPER_CAPE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/cape/developer.png");
     private static final ResourceLocation CONTRIBUTOR_CAPE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/cape/contributor.png");
     private static final List<UUID> DEVS = List.of(
             UUID.fromString("380df991-f603-344c-a090-369bad2a924a"), /*Dev*/
@@ -22,10 +23,12 @@ public class ACPlayerCapes {
             UUID.fromString("ce9dd341-b1c2-44d9-a014-71e11d163b01"), /*LudoCrypt*/
             UUID.fromString("0ca35240-695b-4f24-a37b-f48e7354b6fc"), /*Ron0*/
             UUID.fromString("24df449f-1f8f-4daf-b5d4-4afeb0491e49"), /*PrismaticPinky*/
-            UUID.fromString("a8bf405c-4cf3-4f0b-a9dd-11708ef41b62") /*Kotshi*/
+            UUID.fromString("a8bf405c-4cf3-4f0b-a9dd-11708ef41b62"), /*Kotshi*/
+            UUID.fromString("c4fd7b83-0e37-4fca-b920-19d5923999e1") /*Arby698*/
     );
 
     public static void setup() {
+        CitadelCapes.addCapeFor(DEVS, "alexscaves_developer", DEVELOPER_CAPE_TEXTURE);
         List<UUID> contributorCapes = new ArrayList<>();
         contributorCapes.addAll(DEVS);
         contributorCapes.addAll(CONTRIBUTORS);

@@ -7,8 +7,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -96,9 +94,9 @@ public class CaveBookProgress {
     public enum Subcategory {
         EMPTY,
         GENERAL,
-        ITEMS,
-        BLOCKS,
-        MOBS;
+        RESOURCES,
+        MOBS,
+        UTILITIES;
 
         public static Subcategory getByOrdinal(int subCategory) {
             return Subcategory.values()[Mth.clamp(subCategory, 0, Subcategory.values().length - 1)];
