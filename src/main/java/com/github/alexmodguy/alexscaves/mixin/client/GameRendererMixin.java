@@ -33,9 +33,6 @@ public abstract class GameRendererMixin {
     @Final
     private RenderBuffers renderBuffers;
 
-    @Shadow
-    public abstract void resetProjectionMatrix(Matrix4f p_253668_);
-
     @Inject(
             method = {"Lnet/minecraft/client/renderer/GameRenderer;tick()V"},
             remap = true,

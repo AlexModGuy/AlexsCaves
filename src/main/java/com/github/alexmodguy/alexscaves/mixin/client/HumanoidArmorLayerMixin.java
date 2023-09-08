@@ -3,59 +3,91 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.client.render.item.ACArmorRenderProperties;
 import com.github.alexmodguy.alexscaves.server.item.CustomArmorPostRender;
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.ForgeHooksClient;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(HumanoidArmorLayer.class)
-public class HumanoidArmorLayerMixin {
+import javax.annotation.Nullable;
+import java.util.Map;
 
+@Mixin(HumanoidArmorLayer.class)
+public abstract class HumanoidArmorLayerMixin extends RenderLayer {
+
+    private static final Map<String, ResourceLocation> AC_ARMOR_LOCATION_CACHE = Maps.newHashMap();
     private ItemStack lastArmorItemStackRendered = ItemStack.EMPTY;
+
+    @Shadow protected abstract void setPartVisibility(HumanoidModel humanoidModel, EquipmentSlot equipmentSlot);
+
+    public HumanoidArmorLayerMixin(RenderLayerParent renderLayerParent) {
+        super(renderLayerParent);
+    }
 
     @Inject(
             method = {"Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderArmorPiece(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/entity/EquipmentSlot;ILnet/minecraft/client/model/HumanoidModel;)V"},
             at = @At(value = "HEAD"),
-            remap = true
+            remap = true,
+            cancellable = true
     )
-    private void ac_renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, LivingEntity livingEntity, EquipmentSlot equipmentSlot, int i, HumanoidModel model, CallbackInfo ci) {
-        lastArmorItemStackRendered = livingEntity.getItemBySlot(equipmentSlot);
-    }
-        @Inject(
-            method = {"Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;Lnet/minecraft/client/model/Model;ZFFFLnet/minecraft/resources/ResourceLocation;)V"},
-            at = @At(value = "HEAD"),
-            cancellable = true,
-            remap = false //FORGE METHOD
-    )
-    private void ac_renderModel_pre(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ArmorItem armorItem, Model armorModel, boolean legs, float r, float g, float b, ResourceLocation texture, CallbackInfo ci) {
-        if(armorItem instanceof CustomArmorPostRender customArmorPostRender){
-            ACArmorRenderProperties.onPreRenderArmor(poseStack, multiBufferSource, light, lastArmorItemStackRendered, armorItem, armorModel, legs, texture);
-            if(customArmorPostRender.stopDefaultRendering()){
-                ci.cancel();
+    private void ac_renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, LivingEntity livingEntity, EquipmentSlot equipmentSlot, int light, HumanoidModel humanoidModel, CallbackInfo ci) {
+        ItemStack itemstack = livingEntity.getItemBySlot(equipmentSlot);
+        if (itemstack.getItem() instanceof CustomArmorPostRender) {
+
+            ci.cancel();
+            lastArmorItemStackRendered = livingEntity.getItemBySlot(equipmentSlot);
+
+            Item item = itemstack.getItem();
+            if (item instanceof ArmorItem armorItem) {
+                if (armorItem.getEquipmentSlot() == equipmentSlot) {
+                    HumanoidModel model = this.getParentModel() instanceof HumanoidModel humanoidModel1 ? humanoidModel1 : humanoidModel;
+                    boolean legs = equipmentSlot == EquipmentSlot.LEGS;
+                    setPartVisibility(model, equipmentSlot);
+                    Model armorModel = ForgeHooksClient.getArmorModel(livingEntity, itemstack, equipmentSlot, model);
+                    ResourceLocation texture= getACArmorResource(livingEntity, itemstack, equipmentSlot, null);
+                    ACArmorRenderProperties.renderCustomArmor(poseStack, multiBufferSource, light, lastArmorItemStackRendered, armorItem, armorModel, legs, texture);
+                }
             }
         }
     }
 
-    @Inject(
-            method = {"Lnet/minecraft/client/renderer/entity/layers/HumanoidArmorLayer;renderModel(Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;ILnet/minecraft/world/item/ArmorItem;Lnet/minecraft/client/model/Model;ZFFFLnet/minecraft/resources/ResourceLocation;)V"},
-            at = @At(value = "TAIL"),
-            cancellable = true,
-            remap = false //FORGE METHOD
-    )
-    private void ac_renderModel_post(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ArmorItem armorItem, Model armorModel, boolean legs, float r, float g, float b, ResourceLocation texture, CallbackInfo ci) {
-        if(armorItem instanceof CustomArmorPostRender){
-            ACArmorRenderProperties.onPostRenderArmor(poseStack, multiBufferSource, light, lastArmorItemStackRendered, armorItem, armorModel, legs, texture);
 
+    /* copy of forge method */
+    private ResourceLocation getACArmorResource(LivingEntity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
+        ArmorItem item = (ArmorItem)stack.getItem();
+        String texture = item.getMaterial().getName();
+        String domain = "minecraft";
+        int idx = texture.indexOf(':');
+        if (idx != -1) {
+            domain = texture.substring(0, idx);
+            texture = texture.substring(idx + 1);
         }
+        String s1 = String.format(java.util.Locale.ROOT, "%s:textures/models/armor/%s_layer_%d%s.png", domain, texture, (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : String.format(java.util.Locale.ROOT, "_%s", type));
+
+        s1 = net.minecraftforge.client.ForgeHooksClient.getArmorTexture(entity, stack, s1, slot, type);
+        ResourceLocation resourcelocation = AC_ARMOR_LOCATION_CACHE.get(s1);
+
+        if (resourcelocation == null) {
+            resourcelocation = new ResourceLocation(s1);
+            AC_ARMOR_LOCATION_CACHE.put(s1, resourcelocation);
+        }
+
+        return resourcelocation;
     }
 }

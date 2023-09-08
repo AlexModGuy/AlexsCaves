@@ -17,13 +17,18 @@
               }
             },
             {
-              "condition": "minecraft:entity_properties",
-              "entity": "this",
-              "predicate": {
-                "flags": {
-                  "is_on_fire": true
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "flags": {
+                      "is_on_fire": true
+                    }
+                  }
                 }
-              }
+              ],
+              "function": "minecraft:furnace_smelt"
             }
           ]
         }

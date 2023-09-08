@@ -122,9 +122,4 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
     public String getArmorTexture(ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
         return AlexsCaves.MODID + ":textures/armor/darkness_armor.png";
     }
-
-    @Override
-    public boolean stopDefaultRendering() {
-        return true;
-    }
 }
