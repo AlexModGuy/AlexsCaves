@@ -2,5 +2,97 @@
   "parent": "toxic_caves/chapter.json",
   "text": "toxic_caves/utilities.txt",
   "title": "book.alexscaves.utilities",
-  "required_progression": "alexscaves:toxic_caves_utilities"
+  "required_progression": "alexscaves:toxic_caves_utilities",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:polymer_plate",
+      "sepia": true,
+      "x": 50,
+      "y": 100,
+      "scale": 1
+    },
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hazmat_mask",
+      "sepia": true,
+      "x": 55,
+      "y": 68,
+      "scale": 1
+    },
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hazmat_chestplate",
+      "sepia": true,
+      "x": 55,
+      "y": 127,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hazmat_leggings",
+      "sepia": true,
+      "x": 50,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hazmat_boots",
+      "sepia": true,
+      "x": 50,
+      "y": 90,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:remote_detonator",
+      "sepia": true,
+      "x": 50,
+      "y": 70,
+      "scale": 1
+    },
+    {
+      "display_page": 6,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:raygun",
+      "sepia": true,
+      "x": 50,
+      "y": 30,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:nuclear_siren",
+      "sepia": true,
+      "x": 55,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:nuclear_furnace_component",
+      "sepia": true,
+      "x": 55,
+      "y": 128,
+      "scale": 1
+    },
+    {
+      "display_page": 10,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:nuclear_bomb",
+      "sepia": true,
+      "x": 55,
+      "y": 88,
+      "scale": 1
+    }
+  ]
 }

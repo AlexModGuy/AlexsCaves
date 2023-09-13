@@ -221,13 +221,12 @@ public class MineExplosion {
 
             for (BlockPos blockpos : this.toBlow) {
                 BlockState blockstate = this.level.getBlockState(blockpos);
-                Block block = blockstate.getBlock();
-                if (!blockstate.isAir() ) {
+                if (!blockstate.isAir()) {
                     BlockPos blockpos1 = blockpos.immutable();
                     this.level.getProfiler().push("explosion_blocks");
-                    Level $$9 = this.level;
-                    if ($$9 instanceof ServerLevel) {
-                        ServerLevel serverlevel = (ServerLevel) $$9;
+                    Level level1 = this.level;
+                    if (level1 instanceof ServerLevel) {
+                        ServerLevel serverlevel = (ServerLevel) level1;
                         BlockEntity blockentity = blockstate.hasBlockEntity() ? this.level.getBlockEntity(blockpos) : null;
                         LootParams.Builder lootcontext$builder = (new LootParams.Builder(serverlevel)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(blockpos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY).withOptionalParameter(LootContextParams.BLOCK_ENTITY, blockentity).withOptionalParameter(LootContextParams.THIS_ENTITY, this.source);
                         if (this.blockInteraction == Explosion.BlockInteraction.DESTROY_WITH_DECAY) {

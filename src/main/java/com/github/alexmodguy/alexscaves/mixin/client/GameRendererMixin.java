@@ -15,7 +15,6 @@ import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -39,7 +38,7 @@ public abstract class GameRendererMixin {
             at = @At(value = "TAIL")
     )
     public void ac_tick(CallbackInfo ci) {
-        if (((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDark && darkenWorldAmount < 1.0F) {
+        if (((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDarkFor > 0 && darkenWorldAmount < 1.0F) {
             darkenWorldAmount = Math.min(darkenWorldAmount + 0.3F, 1.0F);
         }
     }

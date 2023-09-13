@@ -9,10 +9,8 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -113,9 +111,16 @@ public abstract class AbstractMovingBlockEntity extends Entity {
             return !entity.isPassengerOfSameVehicle(this);
         }))) {
             if (!entity.noPhysics && !(entity instanceof MovingMetalBlockEntity)) {
-                entity.setDeltaMovement(entity.getDeltaMovement().add(0, this.getDeltaMovement().y, 0));
-                entity.move(MoverType.SHULKER_BOX, this.getDeltaMovement());
-                entity.setOnGround(true);
+                double gravity = entity.isNoGravity() ? 0 : 0.08D;
+                if (entity instanceof LivingEntity living) {
+                    AttributeInstance attribute = living.getAttribute(net.minecraftforge.common.ForgeMod.ENTITY_GRAVITY.get());
+                    gravity = attribute.getValue();
+                }
+                float f2 = 1.0F;
+                entity.move(MoverType.SHULKER, new Vec3((double) (f2 * (float) this.getDeltaMovement().x), (double) (f2 * (float) this.getDeltaMovement().y), (double) (f2 * (float) this.getDeltaMovement().z)));
+                if(this.getDeltaMovement().y >= 0){
+                    entity.setDeltaMovement(entity.getDeltaMovement().add(0, gravity, 0));
+                }
             }
         }
     }

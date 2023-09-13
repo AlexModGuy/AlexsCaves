@@ -6,7 +6,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -16,7 +15,7 @@ public class NeodymiumOreBlock extends Block {
     private boolean azure;
 
     public NeodymiumOreBlock(boolean azure) {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE).requiresCorrectToolForDrops().strength(3.5F, 10.0F).sound(SoundType.GLASS).lightLevel((i) -> 3).emissiveRendering((state, level, pos) -> true));
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.WHITE).requiresCorrectToolForDrops().strength(3.5F, 10.0F).sound(ACSoundTypes.NEODYMIUM).lightLevel((i) -> 3).emissiveRendering((state, level, pos) -> true));
         this.azure = azure;
     }
 

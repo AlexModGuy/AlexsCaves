@@ -23,6 +23,19 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> FORLORN_HOLLOWS_AMBIENCE_ADDITIONS = createSoundEvent("forlorn_hollows_ambience_additions");
     public static final RegistryObject<SoundEvent> FORLORN_HOLLOWS_AMBIENCE_MOOD = createSoundEvent("forlorn_hollows_ambience_mood");
 
+    public static final RegistryObject<SoundEvent> NEODYMIUM_STEP = createSoundEvent("neodymium_step");
+    public static final RegistryObject<SoundEvent> NEODYMIUM_PLACE = createSoundEvent("neodymium_place");
+    public static final RegistryObject<SoundEvent> NEODYMIUM_BREAK = createSoundEvent("neodymium_break");
+    public static final RegistryObject<SoundEvent> NEODYMIUM_BREAKING = createSoundEvent("neodymium_breaking");
+    public static final RegistryObject<SoundEvent> SCRAP_METAL_STEP = createSoundEvent("scrap_metal_step");
+    public static final RegistryObject<SoundEvent> SCRAP_METAL_PLACE = createSoundEvent("scrap_metal_place");
+    public static final RegistryObject<SoundEvent> SCRAP_METAL_BREAK = createSoundEvent("scrap_metal_break");
+    public static final RegistryObject<SoundEvent> SCRAP_METAL_BREAKING = createSoundEvent("scrap_metal_breaking");
+    public static final RegistryObject<SoundEvent> METAL_BARREL_LID = createSoundEvent("metal_barrel_lid");
+    public static final RegistryObject<SoundEvent> AZURE_NEODYMIUM_PUSH_LOOP = createSoundEvent("azure_neodymium_push_loop");
+    public static final RegistryObject<SoundEvent> SCARLET_NEODYMIUM_PULL_LOOP = createSoundEvent("scarlet_neodymium_pull_loop");
+    public static final RegistryObject<SoundEvent> HOLOGRAM_STOP = createSoundEvent("hologram_stop");
+    public static final RegistryObject<SoundEvent> HOLOGRAM_LOOP = createSoundEvent("hologram_loop");
     public static final RegistryObject<SoundEvent> AMBER_STEP = createSoundEvent("amber_step");
     public static final RegistryObject<SoundEvent> AMBER_PLACE = createSoundEvent("amber_place");
     public static final RegistryObject<SoundEvent> AMBER_BREAK = createSoundEvent("amber_break");
@@ -31,6 +44,14 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> AMBER_MONOLITH_SUMMON = createSoundEvent("amber_monolith_summon");
     public static final RegistryObject<SoundEvent> PEWEN_BRANCH_BREAK = createSoundEvent("pewen_branch_break");
 
+    public static final RegistryObject<SoundEvent> TELETOR_IDLE = createSoundEvent("teletor_idle");
+    public static final RegistryObject<SoundEvent> TELETOR_HURT = createSoundEvent("teletor_hurt");
+    public static final RegistryObject<SoundEvent> TELETOR_DEATH = createSoundEvent("teletor_death");
+    public static final RegistryObject<SoundEvent> TELETOR_FLOAT = createSoundEvent("teletor_float");
+    public static final RegistryObject<SoundEvent> NOTOR_IDLE = createSoundEvent("notor_idle");
+    public static final RegistryObject<SoundEvent> NOTOR_HURT = createSoundEvent("notor_hurt");
+    public static final RegistryObject<SoundEvent> NOTOR_DEATH = createSoundEvent("notor_death");
+    public static final RegistryObject<SoundEvent> NOTOR_FLYING = createSoundEvent("notor_flying");
     public static final RegistryObject<SoundEvent> SUBTERRANODON_IDLE = createSoundEvent("subterranodon_idle");
     public static final RegistryObject<SoundEvent> SUBTERRANODON_HURT = createSoundEvent("subterranodon_hurt");
     public static final RegistryObject<SoundEvent> SUBTERRANODON_DEATH = createSoundEvent("subterranodon_death");
@@ -66,6 +87,25 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> RELICHEIRUS_SCRATCH = createSoundEvent("relicheirus_scratch");
     public static final RegistryObject<SoundEvent> RELICHEIRUS_STEP = createSoundEvent("relicheirus_step");
     public static final RegistryObject<SoundEvent> RELICHEIRUS_TOPPLE = createSoundEvent("relicheirus_topple");
+
+    public static final RegistryObject<SoundEvent> NUCLEEPER_IDLE = createSoundEvent("nucleeper_idle");
+    public static final RegistryObject<SoundEvent> NUCLEEPER_HURT = createSoundEvent("nucleeper_hurt");
+    public static final RegistryObject<SoundEvent> NUCLEEPER_DEATH = createSoundEvent("nucleeper_death");
+    public static final RegistryObject<SoundEvent> NUCLEEPER_STEP = createSoundEvent("nucleeper_step");
+    public static final RegistryObject<SoundEvent> NUCLEEPER_CHARGE = createSoundEvent("nucleeper_charge");
+
+    public static final RegistryObject<SoundEvent> GAMMAROACH_IDLE = createSoundEvent("gammaroach_idle");
+    public static final RegistryObject<SoundEvent> GAMMAROACH_HURT = createSoundEvent("gammaroach_hurt");
+    public static final RegistryObject<SoundEvent> GAMMAROACH_DEATH = createSoundEvent("gammaroach_death");
+    public static final RegistryObject<SoundEvent> GAMMAROACH_ATTACK = createSoundEvent("gammaroach_attack");
+    public static final RegistryObject<SoundEvent> GAMMAROACH_SPRAY = createSoundEvent("gammaroach_spray");
+    public static final RegistryObject<SoundEvent> GAMMAROACH_STEP = createSoundEvent("gammaroach_step");
+
+    public static final RegistryObject<SoundEvent> RAYCAT_IDLE = createSoundEvent("raycat_idle");
+    public static final RegistryObject<SoundEvent> RAYCAT_TAME_IDLE = createSoundEvent("raycat_tame_idle");
+    public static final RegistryObject<SoundEvent> RAYCAT_HURT = createSoundEvent("raycat_hurt");
+    public static final RegistryObject<SoundEvent> RAYCAT_EAT = createSoundEvent("raycat_eat");
+    public static final RegistryObject<SoundEvent> RAYCAT_ABSORB = createSoundEvent("raycat_absorb");
 
     public static final RegistryObject<SoundEvent> VESPER_IDLE = createSoundEvent("vesper_idle");
     public static final RegistryObject<SoundEvent> VESPER_HURT = createSoundEvent("vesper_hurt");

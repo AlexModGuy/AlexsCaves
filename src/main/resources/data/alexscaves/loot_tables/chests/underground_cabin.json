@@ -10,7 +10,7 @@
         {
           "type": "item",
           "name": "minecraft:paper",
-          "weight": 200,
+          "weight": 180,
           "functions": [
             {
               "function": "set_count",
@@ -24,7 +24,7 @@
         {
           "type": "item",
           "name": "minecraft:book",
-          "weight": 17,
+          "weight": 20,
           "functions": [
             {
               "function": "set_count",
@@ -113,8 +113,8 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 2
+                "min": 4,
+                "max": 8
               }
             }
           ]

@@ -25,7 +25,11 @@ public class UndergroundCabinStructure extends Structure {
     private static final ResourceLocation[] CABIN_NBT = new ResourceLocation[]{
             new ResourceLocation(AlexsCaves.MODID, "underground_cabin_0"),
             new ResourceLocation(AlexsCaves.MODID, "underground_cabin_1"),
-            new ResourceLocation(AlexsCaves.MODID, "underground_cabin_2")
+            new ResourceLocation(AlexsCaves.MODID, "underground_cabin_2"),
+            new ResourceLocation(AlexsCaves.MODID, "underground_cabin_3"),
+            new ResourceLocation(AlexsCaves.MODID, "underground_cabin_4"),
+            new ResourceLocation(AlexsCaves.MODID, "underground_cabin_5"),
+            new ResourceLocation(AlexsCaves.MODID, "underground_cabin_6")
     };
 
     public UndergroundCabinStructure(StructureSettings settings) {

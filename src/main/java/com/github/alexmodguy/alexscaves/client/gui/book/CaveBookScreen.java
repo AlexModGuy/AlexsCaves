@@ -180,7 +180,7 @@ public class CaveBookScreen extends Screen {
 
     public void updatePageRenderers() {
         boolean flag = prevEntryJSON != null && entryPageNumber == 0;
-        int pgOffsetReturningFromLink = lastEntryPageBeforeLinkClick != -1 ? lastEntryPageBeforeLinkClick : 0;
+        int pgOffsetReturningFromLink = lastEntryPageBeforeLinkClick != -1 && entryPageNumber == 0 ? lastEntryPageBeforeLinkClick : 0;
         leftPageRenderer.setEntryPageNumber(entryPageNumber);
         leftPageRenderer.setEntry(currentEntry);
         rightPageRenderer.setEntryPageNumber(entryPageNumber);

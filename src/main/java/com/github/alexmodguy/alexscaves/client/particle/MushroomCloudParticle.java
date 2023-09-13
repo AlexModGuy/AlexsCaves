@@ -45,7 +45,7 @@ public class MushroomCloudParticle extends Particle {
     }
 
     public void tick() {
-        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDark = true;
+        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDarkFor = 50;
         if (age < BALL_FOR) {
             ((ClientProxy) AlexsCaves.PROXY).renderNukeFlashFor = 16;
         } else if (age < lifetime - FADE_SPEED) {
@@ -62,12 +62,6 @@ public class MushroomCloudParticle extends Particle {
             }
         }
         super.tick();
-    }
-
-    public void remove() {
-        super.remove();
-        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDark = false;
-        ((ClientProxy) AlexsCaves.PROXY).renderNukeFlashFor = 0;
     }
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {

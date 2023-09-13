@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.item.NuclearExplosionEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -18,6 +19,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -27,12 +30,12 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.EnumSet;
 import java.util.stream.Stream;
@@ -70,7 +73,6 @@ public class NucleeperEntity extends Monster {
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -153,10 +155,13 @@ public class NucleeperEntity extends Monster {
                 }
             } else if (time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()) {
                 this.setCloseTime(time + 1);
+                if (this.isAlive()) {
+                    AlexsCaves.PROXY.playWorldSound(this, (byte) 1);
+                }
             } else if (this.isAlive()) {
                 this.setExploding(true);
             }
-            if((tickCount + this.getId()) % 10 == 0 && level() instanceof ServerLevel serverLevel){
+            if ((tickCount + this.getId()) % 10 == 0 && level() instanceof ServerLevel serverLevel) {
                 getNearbySirens(serverLevel, 256).forEach(this::activateSiren);
             }
         }
@@ -173,6 +178,10 @@ public class NucleeperEntity extends Monster {
         }
     }
 
+    public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.remove(removalReason);
+    }
 
     private Stream<BlockPos> getNearbySirens(ServerLevel world, int range) {
         PoiManager pointofinterestmanager = world.getPoiManager();
@@ -180,7 +189,7 @@ public class NucleeperEntity extends Monster {
     }
 
     private void activateSiren(BlockPos pos) {
-        if(level().getBlockEntity(pos) instanceof NuclearSirenBlockEntity nuclearSirenBlock){
+        if (level().getBlockEntity(pos) instanceof NuclearSirenBlockEntity nuclearSirenBlock) {
             nuclearSirenBlock.setNearestNuclearBomb(this);
         }
     }
@@ -212,6 +221,24 @@ public class NucleeperEntity extends Monster {
 
     public float getStepHeight() {
         return 1.1F;
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.NUCLEEPER_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.NUCLEEPER_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.NUCLEEPER_DEATH.get();
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (!this.isBaby()) {
+            this.playSound(ACSoundRegistry.NUCLEEPER_STEP.get(), 1.0F, 1.0F);
+        }
     }
 
     private class MeleeGoal extends Goal {

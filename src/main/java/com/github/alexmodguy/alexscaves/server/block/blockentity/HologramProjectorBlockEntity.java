@@ -1,12 +1,16 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -44,16 +48,23 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         if (entity.prevDisplayEntity != entity.displayEntity || entity.isPlayerRender()) {
             if (entity.displayEntity == null && !entity.isPlayerRender()) {
                 if (entity.switchProgress > 0.0F) {
+                    if(entity.switchProgress == 10.0F){
+                        level.playSound((Player)null, blockPos, ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
+                    }
                     entity.switchProgress--;
                 } else {
                     entity.prevDisplayEntity = null;
                 }
             } else {
                 if (entity.switchProgress < 10.0F) {
+                    if(entity.switchProgress == 0){
+                        level.playSound((Player)null, blockPos, ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
+                    }
                     entity.switchProgress++;
                 } else {
                     entity.prevDisplayEntity = entity.displayEntity;
                 }
+                AlexsCaves.PROXY.playWorldSound(entity, (byte)3);
 
             }
         }
@@ -159,5 +170,11 @@ public class HologramProjectorBlockEntity extends BlockEntity {
 
     public float getRotation(float partialTicks) {
         return previousRotation + (rotation - previousRotation) * partialTicks;
+    }
+
+    public void setRemoved() {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        level.playSound((Player)null, this.getBlockPos(), ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
+        super.setRemoved();
     }
 }

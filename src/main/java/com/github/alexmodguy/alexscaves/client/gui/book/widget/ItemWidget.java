@@ -92,11 +92,7 @@ public class ItemWidget extends BookWidget {
                 ACItemstackRenderer.sepiaFlag = true;
             }
             if (sepia && !bakedmodel.isCustomRenderer()) {
-                bakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(poseStack, bakedmodel, ItemDisplayContext.GUI, false);
-                poseStack.translate(-0.5F, -0.5F, -0.5F);
-                for (net.minecraft.client.renderer.RenderType rt : bakedmodel.getRenderTypes(itemStack, false)) {
-                    renderModel(poseStack.last(), bufferSource.getBuffer(SEPIA_ITEM_RENDER_TYPE), 1.0F, null, bakedmodel, 1.0F, 1.0F, 1.0F, 240, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, rt);
-                }
+                renderSepiaItem(poseStack, bakedmodel, itemStack, bufferSource);
             } else {
                 Minecraft.getInstance().getItemRenderer().render(itemStack, ItemDisplayContext.GUI, false, poseStack, bufferSource, 240, OverlayTexture.NO_OVERLAY, bakedmodel);
             }
@@ -109,6 +105,15 @@ public class ItemWidget extends BookWidget {
         poseStack.popPose();
     }
 
+    public static void renderSepiaItem(PoseStack poseStack, BakedModel bakedmodel, ItemStack itemStack, MultiBufferSource.BufferSource bufferSource){
+        poseStack.pushPose();
+        bakedmodel = net.minecraftforge.client.ForgeHooksClient.handleCameraTransforms(poseStack, bakedmodel, ItemDisplayContext.GUI, false);
+        poseStack.translate(-0.5F, -0.5F, -0.5F);
+        for (net.minecraft.client.renderer.RenderType rt : bakedmodel.getRenderTypes(itemStack, false)) {
+            renderModel(poseStack.last(), bufferSource.getBuffer(SEPIA_ITEM_RENDER_TYPE), 1.0F, null, bakedmodel, 1.0F, 1.0F, 1.0F, 240, OverlayTexture.NO_OVERLAY, ModelData.EMPTY, rt);
+        }
+        poseStack.popPose();
+    }
     private static void renderModel(PoseStack.Pose p_111068_, VertexConsumer p_111069_, float alpha, @Nullable BlockState p_111070_, BakedModel p_111071_, float p_111072_, float p_111073_, float p_111074_, int p_111075_, int p_111076_, ModelData modelData, net.minecraft.client.renderer.RenderType renderType) {
         RandomSource randomsource = RandomSource.create();
         long i = 42L;

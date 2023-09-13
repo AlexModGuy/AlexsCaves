@@ -2,5 +2,97 @@
   "parent": "forlorn_hollows/chapter.json",
   "text": "forlorn_hollows/utilities.txt",
   "title": "book.alexscaves.utilities",
-  "required_progression": "alexscaves:forlorn_hollows_utilities"
+  "required_progression": "alexscaves:forlorn_hollows_utilities",
+  "widgets": [
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:moth_ball",
+      "sepia": true,
+      "x": 55,
+      "y": 55,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:totem_of_possession",
+      "sepia": true,
+      "x": 50,
+      "y": 130,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:beholder",
+      "sepia": true,
+      "x": 40,
+      "y": 50,
+      "scale": 1
+    },
+    {
+      "display_page": 6,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:burrowing_arrow",
+      "sepia": true,
+      "x": 55,
+      "y": 107,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:vesper_stew",
+      "sepia": true,
+      "x": 50,
+      "y": 130,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:beholder",
+      "sepia": true,
+      "x": 40,
+      "y": 50,
+      "scale": 1
+    },
+    {
+      "display_page": 8,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:shadow_silk",
+      "sepia": true,
+      "x": 55,
+      "y": 76,
+      "scale": 1
+    },
+    {
+      "display_page": 10,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hood_of_darkness",
+      "sepia": true,
+      "x": 55,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 10,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:cloak_of_darkness",
+      "sepia": true,
+      "x": 55,
+      "y": 87,
+      "scale": 1
+    },
+    {
+      "display_page": 12,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:darkened_apple",
+      "sepia": true,
+      "x": 55,
+      "y": 60,
+      "scale": 1
+    }
+  ]
 }

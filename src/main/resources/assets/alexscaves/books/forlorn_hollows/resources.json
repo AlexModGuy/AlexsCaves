@@ -2,5 +2,25 @@
   "parent": "forlorn_hollows/chapter.json",
   "text": "forlorn_hollows/resources.txt",
   "title": "book.alexscaves.resources",
-  "required_progression": "alexscaves:forlorn_hollows_resources"
+  "required_progression": "alexscaves:forlorn_hollows_resources",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:fertilizer",
+      "sepia": true,
+      "x": 50,
+      "y": 100,
+      "scale": 1
+    },
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:thornwood_sapling",
+      "sepia": true,
+      "x": 55,
+      "y": 70,
+      "scale": 1
+    }
+  ]
 }

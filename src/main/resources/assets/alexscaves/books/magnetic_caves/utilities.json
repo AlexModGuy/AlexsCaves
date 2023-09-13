@@ -2,5 +2,97 @@
   "parent": "magnetic_caves/chapter.json",
   "text": "magnetic_caves/utilities.txt",
   "title": "book.alexscaves.utilities",
-  "required_progression": "alexscaves:magnetic_caves_utilities"
+  "required_progression": "alexscaves:magnetic_caves_utilities",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:azure_magnet",
+      "sepia": true,
+      "x": 60,
+      "y": 90,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:tesla_bulb",
+      "sepia": true,
+      "x": 55,
+      "y": 20,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:galena_gauntlet",
+      "sepia": true,
+      "x": 55,
+      "y": 120,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:metal_swarf",
+      "sepia": true,
+      "x": 55,
+      "y": 70,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:furnace/scrap_metal_smelting",
+      "sepia": true,
+      "x": 68,
+      "y": 135,
+      "scale": 1
+    },
+    {
+      "display_page": 9,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:holocoder",
+      "sepia": true,
+      "x": 55,
+      "y": 20,
+      "scale": 1
+    },
+    {
+      "display_page": 9,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hologram_projector",
+      "sepia": true,
+      "x": 55,
+      "y": 80,
+      "scale": 1
+    },
+    {
+      "display_page": 10,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:quarry_smasher",
+      "sepia": true,
+      "x": 55,
+      "y": 80,
+      "scale": 1
+    },
+    {
+      "display_page": 11,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:magnetic_quarry",
+      "sepia": true,
+      "x": 55,
+      "y": 50,
+      "scale": 1
+    },
+    {
+      "display_page": 14,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:resistor_shield",
+      "sepia": true,
+      "x": 55,
+      "y": 20,
+      "scale": 1
+    }
+  ]
 }

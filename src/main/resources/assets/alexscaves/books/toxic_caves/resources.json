@@ -2,5 +2,61 @@
   "parent": "toxic_caves/chapter.json",
   "text": "toxic_caves/resources.txt",
   "title": "book.alexscaves.resources",
-  "required_progression": "alexscaves:toxic_caves_resources"
+  "required_progression": "alexscaves:toxic_caves_resources",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:uranium_rod",
+      "sepia": true,
+      "x": 50,
+      "y": 128,
+      "scale": 1
+    },
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:spelunkie",
+      "sepia": true,
+      "x": 55,
+      "y": 128,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:slam",
+      "sepia": true,
+      "x": 50,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:radon_lamp_purple",
+      "sepia": true,
+      "x": 50,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:cinder_brick",
+      "sepia": true,
+      "x": 50,
+      "y": 40,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:cinder_block",
+      "sepia": true,
+      "x": 50,
+      "y": 115,
+      "scale": 1
+    }
+  ]
 }

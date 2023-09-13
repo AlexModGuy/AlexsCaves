@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalFollowOwnerGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.RaycatSitOnBlockGoal;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.server.entity.IComandableMob;
 import net.minecraft.core.BlockPos;
@@ -14,9 +15,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -38,11 +41,11 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
     private static final EntityDataAccessor<Integer> ABSORB_TARGET_ID = SynchedEntityData.defineId(RaycatEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(RaycatEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> LAY_TIME = SynchedEntityData.defineId(RaycatEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Float> ABSORB_AMOUNT = SynchedEntityData.defineId(RaycatEntity.class, EntityDataSerializers.FLOAT);
     private float sitProgress;
     private float prevSitProgress;
     private float layProgress;
     private float prevLayProgress;
-    private float absorbAmount;
     private float prevAbsorbAmount;
 
     private int absorbCooldown = 300 + random.nextInt(300);
@@ -92,6 +95,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
         this.entityData.define(ABSORB_TARGET_ID, -1);
         this.entityData.define(LAY_TIME, 0);
         this.entityData.define(COMMAND, 0);
+        this.entityData.define(ABSORB_AMOUNT, 0F);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -110,7 +114,7 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
         super.tick();
         prevSitProgress = sitProgress;
         prevLayProgress = layProgress;
-        prevAbsorbAmount = absorbAmount;
+        prevAbsorbAmount = getAbsorbAmount();
         if (this.isInSittingPose() && sitProgress < 5F) {
             sitProgress++;
         }
@@ -132,29 +136,29 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
         } else {
             LivingEntity owner = getOwner();
             if (absorbTarget == null) {
-                Entity closestIrradiated = null;
-                if (owner != null && owner.distanceTo(this) < 20 && owner.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
-                    closestIrradiated = owner;
-                } else {
-                    for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
-                        if (!(entity instanceof RaycatEntity) && entity.hasEffect(ACEffectRegistry.IRRADIATED.get()) && (closestIrradiated == null || closestIrradiated.distanceTo(this) > entity.distanceTo(this))) {
-                            if(this.isTame() || !(entity instanceof Player)){
-                                closestIrradiated = entity;
+                if (!level().isClientSide) {
+                    Entity closestIrradiated = null;
+                    if (owner != null && owner.distanceTo(this) < 20 && owner.hasEffect(ACEffectRegistry.IRRADIATED.get())) {
+                        closestIrradiated = owner;
+                    } else {
+                        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(9D))) {
+                            if (!(entity instanceof RaycatEntity) && entity.hasEffect(ACEffectRegistry.IRRADIATED.get()) && (closestIrradiated == null || closestIrradiated.distanceTo(this) > entity.distanceTo(this))) {
+                                if (this.isTame() || !(entity instanceof Player)) {
+                                    closestIrradiated = entity;
+                                }
                             }
                         }
                     }
-                }
-                if (closestIrradiated != null) {
-                    setAbsorbTargetId(closestIrradiated.getId());
-                } else if (!level().isClientSide) {
+                    setAbsorbTargetId(closestIrradiated == null ? -1 : closestIrradiated.getId());
                     resetAbsorbCooldown();
                 }
             } else {
-                if (absorbAmount <= 0) {
-                    absorbAmount = 1.0F;
+                if (getAbsorbAmount() <= 0) {
+                    setAbsorbAmount(1.0F);
+                    this.playSound(ACSoundRegistry.RAYCAT_ABSORB.get());
                 } else {
-                    absorbAmount = Math.max(0, absorbAmount - 0.05F);
-                    if (absorbAmount <= 0) {
+                    this.setAbsorbAmount(Math.max(0, getAbsorbAmount() - 0.05F));
+                    if (getAbsorbAmount() <= 0) {
                         int currentRad = this.hasEffect(ACEffectRegistry.IRRADIATED.get()) ? this.getEffect(ACEffectRegistry.IRRADIATED.get()).getAmplifier() + 1 : 0;
                         this.heal(10);
                         this.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 200, currentRad));
@@ -202,7 +206,15 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
     }
 
     public float getAbsorbAmount(float partialTicks) {
-        return (prevAbsorbAmount + (absorbAmount - prevAbsorbAmount) * partialTicks);
+        return (prevAbsorbAmount + (getAbsorbAmount() - prevAbsorbAmount) * partialTicks);
+    }
+
+    public float getAbsorbAmount() {
+        return this.entityData.get(ABSORB_AMOUNT);
+    }
+
+    public void setAbsorbAmount(float absorbAmount) {
+        this.entityData.set(ABSORB_AMOUNT, absorbAmount);
     }
 
     public int getCommand() {
@@ -266,9 +278,30 @@ public class RaycatEntity extends TamableAnimal implements IComandableMob {
         return type;
     }
 
+    protected void usePlayerItem(Player player, InteractionHand hand, ItemStack itemStack) {
+        if (this.isFood(itemStack)) {
+            this.playSound(ACSoundRegistry.RAYCAT_EAT.get(), 1.0F, 1.0F);
+        }
+
+        super.usePlayerItem(player, hand, itemStack);
+    }
+
+
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob mob) {
         return ACEntityRegistry.RAYCAT.get().create(serverLevel);
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return this.isTame() ? ACSoundRegistry.RAYCAT_TAME_IDLE.get() : ACSoundRegistry.RAYCAT_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.RAYCAT_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.RAYCAT_HURT.get();
     }
 }

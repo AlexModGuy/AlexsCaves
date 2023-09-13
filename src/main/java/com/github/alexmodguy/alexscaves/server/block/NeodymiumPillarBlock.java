@@ -12,7 +12,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -28,7 +27,7 @@ public class NeodymiumPillarBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public NeodymiumPillarBlock(boolean azure) {
-        super(Properties.of().mapColor(DyeColor.WHITE).requiresCorrectToolForDrops().strength(2F, 6.0F).sound(SoundType.GLASS).lightLevel((i) -> 2).emissiveRendering((state, level, pos) -> true));
+        super(Properties.of().mapColor(DyeColor.WHITE).requiresCorrectToolForDrops().strength(2F, 6.0F).sound(ACSoundTypes.NEODYMIUM).lightLevel((i) -> 2).emissiveRendering((state, level, pos) -> true));
         this.registerDefaultState(this.defaultBlockState().setValue(TOP, Boolean.valueOf(true)).setValue(FACING, Direction.UP));
         this.azure = azure;
     }

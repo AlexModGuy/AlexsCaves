@@ -3,8 +3,8 @@
     {
       "name": "caveman_house",
       "rolls": {
-        "min": 3,
-        "max": 8
+        "min": 9,
+        "max": 18
       },
       "entries": [
         {

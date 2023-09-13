@@ -2,5 +2,79 @@
   "parent": "abyssal_chasm/chapter.json",
   "text": "abyssal_chasm/utilities.txt",
   "title": "book.alexscaves.utilities",
-  "required_progression": "alexscaves:abyssal_chasm_utilities"
+  "required_progression": "alexscaves:abyssal_chasm_utilities",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:deep_sea_sushi_roll",
+      "sepia": true,
+      "x": 50,
+      "y": 120,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:floater",
+      "sepia": true,
+      "x": 50,
+      "y": 65,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:bioluminescent_torch",
+      "sepia": true,
+      "x": 55,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:diving_helmet",
+      "sepia": true,
+      "x": 25,
+      "y": 142,
+      "scale": 2
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:diving_chestplate",
+      "sepia": true,
+      "x": 55,
+      "y": 142,
+      "scale": 2
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:diving_leggings",
+      "sepia": true,
+      "x": 85,
+      "y": 142,
+      "scale": 2
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:diving_boots",
+      "sepia": true,
+      "x": 115,
+      "y": 142,
+      "scale": 2
+    },
+    {
+      "display_page": 8,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:drain",
+      "sepia": true,
+      "x": 55,
+      "y": 65,
+      "scale": 1
+    }
+  ]
 }

@@ -13,12 +13,16 @@ import com.github.alexmodguy.alexscaves.client.render.entity.*;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ClientLayerRegistry;
 import com.github.alexmodguy.alexscaves.client.render.item.ACArmorRenderProperties;
 import com.github.alexmodguy.alexscaves.client.render.item.ACItemRenderProperties;
-import com.github.alexmodguy.alexscaves.client.sound.NuclearSirenSound;
+import com.github.alexmodguy.alexscaves.client.sound.*;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
@@ -29,6 +33,8 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -41,6 +47,7 @@ import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.client.renderer.entity.FallingBlockRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
@@ -49,6 +56,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
@@ -78,9 +86,11 @@ public class ClientProxy extends CommonProxy {
     public static float nukeFlashAmount = 0;
     public static float prevPossessionStrengthAmount = 0;
     public static float possessionStrengthAmount = 0;
-    public static boolean renderNukeSkyDark = false;
+    public static int renderNukeSkyDarkFor = 0;
 
     public static NuclearSirenSound closestSirenSound = null;
+    public static final Int2ObjectMap<AbstractTickableSoundInstance> ENTITY_SOUND_INSTANCE_MAP = new Int2ObjectOpenHashMap<>();
+    public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
     private final ACItemRenderProperties isterProperties = new ACItemRenderProperties();
     private final ACArmorRenderProperties armorProperties = new ACArmorRenderProperties();
     public static boolean spelunkeryTutorialComplete;
@@ -411,7 +421,7 @@ public class ClientProxy extends CommonProxy {
             Minecraft.getInstance().setCameraEntity(entity);
             Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
         }
-        if(flag){
+        if (flag) {
             Minecraft.getInstance().levelRenderer.allChanged();
         }
     }
@@ -423,20 +433,95 @@ public class ClientProxy extends CommonProxy {
             Minecraft.getInstance().setCameraEntity(Minecraft.getInstance().player);
             Minecraft.getInstance().options.setCameraType(lastPOV);
         }
-        if(flag){
+        if (flag) {
             Minecraft.getInstance().levelRenderer.allChanged();
         }
     }
 
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {
-        if (type == 0 && soundEmitter instanceof NuclearSirenBlockEntity nuclearSiren) {
-            if (closestSirenSound == null || closestSirenSound.isStopped()) {
-                closestSirenSound = new NuclearSirenSound(nuclearSiren);
-            }
-            if (closestSirenSound != null && !Minecraft.getInstance().getSoundManager().isActive(closestSirenSound)) {
-                Minecraft.getInstance().getSoundManager().play(closestSirenSound);
-            }
+        if(soundEmitter instanceof Entity entity && !entity.level().isClientSide){
+            return;
         }
+        switch (type) {
+            case 0:
+                if (soundEmitter instanceof NuclearSirenBlockEntity nuclearSiren) {
+                    if (closestSirenSound == null || closestSirenSound.isStopped()) {
+                        closestSirenSound = new NuclearSirenSound(nuclearSiren);
+                    }
+                    if (closestSirenSound != null && !Minecraft.getInstance().getSoundManager().isActive(closestSirenSound)) {
+                        Minecraft.getInstance().getSoundManager().play(closestSirenSound);
+                    }
+                }
+                break;
+            case 1:
+                if (soundEmitter instanceof NucleeperEntity nucleeper) {
+                    NucleeperSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(nucleeper.getId());
+                    if (old == null || !(old instanceof NucleeperSound nucleeperSound && nucleeperSound.isSameEntity(nucleeper))) {
+                        sound = new NucleeperSound(nucleeper);
+                        ENTITY_SOUND_INSTANCE_MAP.put(nucleeper.getId(), sound);
+                    } else {
+                        sound = (NucleeperSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 2:
+                if (soundEmitter instanceof NotorEntity notor) {
+                    NotorHologramSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(notor.getId());
+                    if (old == null || !(old instanceof NotorHologramSound hologramSound && hologramSound.isSameEntity(notor))) {
+                        sound = new NotorHologramSound(notor);
+                        ENTITY_SOUND_INSTANCE_MAP.put(notor.getId(), sound);
+                    } else {
+                        sound = (NotorHologramSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 3:
+                if (soundEmitter instanceof HologramProjectorBlockEntity hologramProjector) {
+                    HologramProjectorSound sound;
+                    AbstractTickableSoundInstance old = BLOCK_ENTITY_SOUND_INSTANCE_MAP.get(hologramProjector);
+                    if (old == null || !(old instanceof HologramProjectorSound hologramSound && hologramSound.isSameBlockEntity(hologramProjector)) || old.isStopped()) {
+                        sound = new HologramProjectorSound(hologramProjector);
+                        BLOCK_ENTITY_SOUND_INSTANCE_MAP.put(hologramProjector, sound);
+                    } else {
+                        sound = (HologramProjectorSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 4:
+                if (soundEmitter instanceof MagnetBlockEntity magnet) {
+                    MagnetSound sound;
+                    AbstractTickableSoundInstance old = BLOCK_ENTITY_SOUND_INSTANCE_MAP.get(magnet);
+                    if (old == null || !(old instanceof MagnetSound magnetSound && magnetSound.isSameBlockEntity(magnet)) || old.isStopped()) {
+                        sound = new MagnetSound(magnet);
+                        BLOCK_ENTITY_SOUND_INSTANCE_MAP.put(magnet, sound);
+                    } else {
+                        sound = (MagnetSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+        }
+    }
+
+    public void clearSoundCacheFor(Entity entity) {
+        ENTITY_SOUND_INSTANCE_MAP.remove(entity.getId());
+    }
+
+    public void clearSoundCacheFor(BlockEntity entity) {
+        BLOCK_ENTITY_SOUND_INSTANCE_MAP.remove(entity);
     }
 
     public Vec3 getDarknessTrailPosFor(LivingEntity living, int pointer, float partialTick) {
@@ -444,7 +529,7 @@ public class ClientProxy extends CommonProxy {
             partialTick = 1.0F;
         }
         Vec3[] trailPositions = darknessTrailPosMap.get(living);
-        if(trailPositions == null || !darknessTrailPointerMap.containsKey(living)){
+        if (trailPositions == null || !darknessTrailPointerMap.containsKey(living)) {
             return living.position();
         }
         int trailPointer = darknessTrailPointerMap.get(living);

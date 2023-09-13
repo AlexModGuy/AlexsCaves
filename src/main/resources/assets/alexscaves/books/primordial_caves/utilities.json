@@ -2,5 +2,97 @@
   "parent": "primordial_caves/chapter.json",
   "text": "primordial_caves/utilities.txt",
   "title": "book.alexscaves.utilities",
-  "required_progression": "alexscaves:primordial_caves_utilities"
+  "required_progression": "alexscaves:primordial_caves_utilities",
+  "widgets": [
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:amber_monolith",
+      "sepia": true,
+      "x": 55,
+      "y": 128,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:furnace/cooked_trilocaris_tail_smelting",
+      "sepia": true,
+      "x": 50,
+      "y": 85,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:furnace/cooked_dinosaur_chop_smelting",
+      "sepia": true,
+      "x": 50,
+      "y": 135,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:serene_salad",
+      "sepia": true,
+      "x": 55,
+      "y": 79,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:seething_stew",
+      "sepia": true,
+      "x": 55,
+      "y": 79,
+      "scale": 1
+    },
+    {
+      "display_page": 6,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:primordial_soup",
+      "sepia": true,
+      "x": 55,
+      "y": 60,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:primitive_club",
+      "sepia": true,
+      "x": 55,
+      "y": 50,
+      "scale": 1
+    },
+    {
+      "display_page": 8,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:primordial_helmet",
+      "sepia": true,
+      "x": 55,
+      "y": 130,
+      "scale": 1
+    },
+    {
+      "display_page": 9,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:primordial_tunic",
+      "sepia": true,
+      "x": 55,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 9,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:primordial_pants",
+      "sepia": true,
+      "x": 55,
+      "y": 90,
+      "scale": 1
+    }
+  ]
 }

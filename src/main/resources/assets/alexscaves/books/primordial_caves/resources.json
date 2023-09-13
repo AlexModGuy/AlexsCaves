@@ -2,5 +2,61 @@
   "parent": "primordial_caves/chapter.json",
   "text": "primordial_caves/resources.txt",
   "title": "book.alexscaves.resources",
-  "required_progression": "alexscaves:primordial_caves_resources"
+  "required_progression": "alexscaves:primordial_caves_resources",
+  "widgets": [
+    {
+      "display_page": 1,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:limestone_spear",
+      "sepia": true,
+      "x": 50,
+      "y": 120,
+      "scale": 1
+    },
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:furnace/smooth_limestone_smelting",
+      "sepia": true,
+      "x": 65,
+      "y": 90,
+      "scale": 1
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:cave_painting_subterranodon",
+      "sepia": true,
+      "x": 25,
+      "y": 122,
+      "scale": 2
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:cave_painting_tremorsaurus_friend",
+      "sepia": true,
+      "x": 55,
+      "y": 122,
+      "scale": 2
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:cave_painting_tree_stars",
+      "sepia": true,
+      "x": 85,
+      "y": 122,
+      "scale": 2
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:cave_painting_relicheirus",
+      "sepia": true,
+      "x": 115,
+      "y": 122,
+      "scale": 2
+    }
+  ]
 }

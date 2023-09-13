@@ -3,8 +3,8 @@
     {
       "name": "magnetic_ruins",
       "rolls": {
-        "min": 3,
-        "max": 10
+        "min": 6,
+        "max": 12
       },
       "entries": [
         {

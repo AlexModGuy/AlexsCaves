@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-public class NuclearSirenSound extends AbstractTickableSoundInstance {
+public class NuclearSirenSound extends AbstractTickableSoundInstance implements UnlimitedPitch {
     private final NuclearSirenBlockEntity siren;
 
     public NuclearSirenSound(NuclearSirenBlockEntity siren) {

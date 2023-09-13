@@ -12,7 +12,10 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BucketPickup;
+import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -49,7 +52,7 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
     public static final IntegerProperty LIQUID_LOGGED = IntegerProperty.create("liquid_logged", 0, 2);
 
     public RebarBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0F).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(2.0F).sound(ACSoundTypes.SCRAP_METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(CONNECT_X, false).setValue(CONNECT_Y, true).setValue(CONNECT_Z, false).setValue(LIQUID_LOGGED, 0));
     }
 

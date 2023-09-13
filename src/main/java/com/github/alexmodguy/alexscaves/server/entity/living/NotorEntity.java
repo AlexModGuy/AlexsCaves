@@ -1,8 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.NotorFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.NotorHologramGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.NotorScanGoal;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
@@ -11,8 +13,10 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -51,6 +55,7 @@ public class NotorEntity extends PathfinderMob {
     public static final Predicate<LivingEntity> SCAN_TARGET = (mob) -> {
         return mob.isAlive() && !mob.getType().is(ACTagRegistry.NOTOR_IGNORES) && !mob.isInvisible();
     };
+    private int flyingSoundTimer;
 
     public NotorEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -116,9 +121,18 @@ public class NotorEntity extends PathfinderMob {
         boolean hasHologram = hologram != null && this.showingHologram();
         boolean hasBeam = this.getScanningMob() != null || hasHologram;
         if (hasBeam && beamProgress < 5.0F) {
+            if(beamProgress == 0.0F){
+                this.playSound(ACSoundRegistry.HOLOGRAM_STOP.get());
+            }
             beamProgress++;
         }
+        if(hasBeam && this.isAlive()){
+            AlexsCaves.PROXY.playWorldSound(this, (byte) 2);
+        }
         if (!hasBeam && beamProgress > 0.0F) {
+            if(beamProgress == 5.0F){
+                this.playSound(ACSoundRegistry.HOLOGRAM_STOP.get());
+            }
             if (this.hologramProgress > 0.0F) {
                 hologramProgress--;
             } else {
@@ -135,7 +149,14 @@ public class NotorEntity extends PathfinderMob {
         if (!this.onGround()) {
             this.setDeltaMovement(this.getDeltaMovement().multiply(0.9F, 0.9F, 0.9F));
             propellerRot += Math.max(speed * 10, 3) * 20;
+            if(flyingSoundTimer++ >= 10){
+                if(!level().isClientSide && !this.isSilent()){
+                    this.playSound(ACSoundRegistry.NOTOR_FLYING.get(), 0.4F, 1.0F);
+                }
+                flyingSoundTimer = 0;
+            }
         } else if (Mth.wrapDegrees(propellerRot) != 0) {
+            flyingSoundTimer = 0;
             propellerRot = Mth.approachDegrees(propellerRot, 0, 15);
         }
         if (!level().isClientSide) {
@@ -148,6 +169,11 @@ public class NotorEntity extends PathfinderMob {
                 stopScanningFor--;
             }
         }
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.remove(removalReason);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -270,6 +296,19 @@ public class NotorEntity extends PathfinderMob {
     public boolean canBeAffected(MobEffectInstance effectInstance) {
         return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.NOTOR_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.NOTOR_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.NOTOR_DEATH.get();
+    }
+
 
     class FlightMoveHelper extends MoveControl {
         private final NotorEntity parentEntity;

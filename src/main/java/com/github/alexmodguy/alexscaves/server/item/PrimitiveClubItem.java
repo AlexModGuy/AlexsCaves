@@ -40,7 +40,7 @@ public class PrimitiveClubItem extends Item {
         if(!hurtEntity.level().isClientSide){
             SoundEvent soundEvent = ACSoundRegistry.PRIMITIVE_CLUB_MISS.get();
             if (hurtEntity.getRandom().nextFloat() < 0.8F) {
-                MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.STUNNED.get(), 200 + hurtEntity.getRandom().nextInt(200), 0, false, false);
+                MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.STUNNED.get(), 150 + hurtEntity.getRandom().nextInt(150), 0, false, false);
                 if (hurtEntity.addEffect(instance)) {
                     AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(hurtEntity.getId(), player.getId(), 3, instance.getDuration()));
                     soundEvent = ACSoundRegistry.PRIMITIVE_CLUB_HIT.get();

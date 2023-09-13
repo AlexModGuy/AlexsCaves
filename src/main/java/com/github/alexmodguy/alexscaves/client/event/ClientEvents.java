@@ -203,7 +203,7 @@ public class ClientEvents {
     public void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         float partialTick = Minecraft.getInstance().getPartialTick();
-        float tremorAmount = ClientProxy.renderNukeSkyDark ? 1.5F : 0F;
+        float tremorAmount = ClientProxy.renderNukeSkyDarkFor > 0 ? 1.5F : 0F;
         if (player instanceof PossessesCamera watcherEntity) {
             Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
             tremorAmount = watcherEntity.isPossessionBreakable() ? AlexsCaves.PROXY.getPossessionStrengthAmount(partialTick) : 0F;
@@ -714,6 +714,9 @@ public class ClientEvents {
         if (event.phase == TickEvent.Phase.END) {
             float partialTicks = AlexsCaves.PROXY.getPartialTicks();
             ClientProxy.prevNukeFlashAmount = ClientProxy.nukeFlashAmount;
+            if (ClientProxy.renderNukeSkyDarkFor > 0) {
+                ClientProxy.renderNukeSkyDarkFor--;
+            }
             if (ClientProxy.renderNukeFlashFor > 0) {
                 if (ClientProxy.nukeFlashAmount < 1F) {
                     ClientProxy.nukeFlashAmount = Math.min(ClientProxy.nukeFlashAmount + 0.4F, 1F);

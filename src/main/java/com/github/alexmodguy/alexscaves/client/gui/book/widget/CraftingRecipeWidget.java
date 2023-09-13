@@ -12,10 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.*;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
@@ -108,9 +105,16 @@ public class CraftingRecipeWidget extends BookWidget {
 
                 NonNullList<Ingredient> ingredients = recipe instanceof SpecialRecipeInGuideBook ? ((SpecialRecipeInGuideBook)recipe).getDisplayIngredients() : recipe.getIngredients();
                 NonNullList<ItemStack> displayedStacks = NonNullList.create();
-
+                int width = 3;
+                int height = 3;
+                if(recipe instanceof ShapedRecipe shapedRecipe){
+                    width = shapedRecipe.getWidth();
+                    height = shapedRecipe.getHeight();
+                }
+                int renderY = 0;
+                int renderX = 0;
                 for (int i = 0; i < ingredients.size(); i++) {
-                    Ingredient ing = ingredients.get(i);
+                    Ingredient ing =  ingredients.get(i);
                     ItemStack stack = ItemStack.EMPTY;
                     if (!ing.isEmpty()) {
                         if (ing.getItems().length > 1) {
@@ -120,9 +124,17 @@ public class CraftingRecipeWidget extends BookWidget {
                             stack = ing.getItems()[0];
                         }
                     }
+                    if(i % width == 0){
+                        if(i != 0){
+                            renderY++;
+                        }
+                        renderX = 0;
+                    }else{
+                        renderX++;
+                    }
                     if (!stack.isEmpty()) {
                         poseStack.pushPose();
-                        poseStack.translate(-33 + (int) (i % 3) * 18.75F, -18.5F + (int) (i / 3) * 19.5F, 0);
+                        poseStack.translate(-33 + renderX * 18.75F, -18.5F + renderY * 19.5F, 0);
                         ItemWidget.renderItem(stack, poseStack, bufferSource, sepia, itemScale);
                         poseStack.popPose();
                     }

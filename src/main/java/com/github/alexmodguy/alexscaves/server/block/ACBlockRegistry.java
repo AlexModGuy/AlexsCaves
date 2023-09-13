@@ -64,8 +64,8 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GALENA_SPIRE = registerBlockAndItem("galena_spire", () -> new GalenaSpireBlock());
     public static final RegistryObject<Block> TESLA_BULB = registerBlockAndItem("tesla_bulb", () -> new TeslaBulbBlock());
     public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new FallingBlockWithColor(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(0.6F).sound(SoundType.SAND), 0X404253));
-    public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
-    public static final RegistryObject<Block> SCRAP_METAL_PLATE = registerBlockAndItem("scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL)));
+    public static final RegistryObject<Block> SCRAP_METAL_PLATE = registerBlockAndItem("scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL)));
     public static final RegistryObject<Block> METAL_REBAR = registerBlockAndItem("metal_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> METAL_SCAFFOLDING = registerBlockAndItem("metal_scaffolding", () -> new MetalScaffoldingBlock(), 2);
     public static final RegistryObject<Block> MAGNETIC_ACTIVATOR = registerBlockAndItem("magnetic_activator", () -> new MagneticActivatorBlock());
@@ -180,8 +180,8 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> POTTED_UNDERWEED = registerBlockAndItem("potted_underweed", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, UNDERWEED, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock(), 5);
-    public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
-    public static final RegistryObject<Block> RUSTY_SCRAP_METAL_PLATE = registerBlockAndItem("rusty_scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(SoundType.METAL)));
+    public static final RegistryObject<Block> RUSTY_SCRAP_METAL = registerBlockAndItem("rusty_scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL)));
+    public static final RegistryObject<Block> RUSTY_SCRAP_METAL_PLATE = registerBlockAndItem("rusty_scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL)));
     public static final RegistryObject<Block> RUSTY_BARREL = registerBlockAndItem("rusty_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> RUSTY_REBAR = registerBlockAndItem("rusty_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);

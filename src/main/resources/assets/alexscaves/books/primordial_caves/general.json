@@ -2,5 +2,43 @@
   "parent": "primordial_caves/chapter.json",
   "text": "primordial_caves/general.txt",
   "title": "book.alexscaves.general",
-  "required_progression": "alexscaves:primordial_caves_general"
+  "required_progression": "alexscaves:primordial_caves_general",
+  "widgets": [
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:ambersol",
+      "sepia": true,
+      "x": 40,
+      "y": 115,
+      "scale": 3
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:amber",
+      "sepia": true,
+      "x": 100,
+      "y": 115,
+      "scale": 3
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:flytrap",
+      "sepia": true,
+      "x": 40,
+      "y": 45,
+      "scale": 3
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:cycad",
+      "sepia": true,
+      "x": 100,
+      "y": 45,
+      "scale": 3
+    }
+  ]
 }

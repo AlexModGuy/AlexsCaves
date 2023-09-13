@@ -21,7 +21,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -49,7 +48,7 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
     public static final BooleanProperty BOTTOM = BlockStateProperties.BOTTOM;
 
     public MetalScaffoldingBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion().strength(5F, 15.0F).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(DISTANCE, Integer.valueOf(STABILITY_MAX_DISTANCE)).setValue(LIQUID_LOGGED, 0).setValue(BOTTOM, Boolean.valueOf(false)));
     }
 

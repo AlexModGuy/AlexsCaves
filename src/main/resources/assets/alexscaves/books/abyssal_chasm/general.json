@@ -2,5 +2,43 @@
   "parent": "abyssal_chasm/chapter.json",
   "text": "abyssal_chasm/general.txt",
   "title": "book.alexscaves.general",
-  "required_progression": "alexscaves:abyssal_chasm_general"
+  "required_progression": "alexscaves:abyssal_chasm_general",
+  "widgets": [
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:abyssmarine",
+      "sepia": true,
+      "x": 40,
+      "y": 75,
+      "scale": 3
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:muck",
+      "sepia": true,
+      "x": 100,
+      "y": 75,
+      "scale": 3
+    },
+    {
+      "display_page" : 3,
+      "type": "item",
+      "item": "alexscaves:dusk_anemone",
+      "sepia": true,
+      "x": 30,
+      "y": 75,
+      "scale": 3
+    },
+    {
+      "display_page" : 3,
+      "type": "item",
+      "item": "alexscaves:ping_pong_sponge",
+      "sepia": true,
+      "x": 90,
+      "y": 75,
+      "scale": 3
+    }
+  ]
 }

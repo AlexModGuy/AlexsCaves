@@ -32,7 +32,8 @@
     "client.LightTextureMixin",
     "client.LiquidBlockRendererMixin",
     "client.MinecraftMixin",
-    "client.RidingMinecartSoundInstanceMixin"
+    "client.RidingMinecartSoundInstanceMixin",
+    "client.SoundEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1

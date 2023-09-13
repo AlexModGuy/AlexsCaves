@@ -2,5 +2,43 @@
   "parent": "forlorn_hollows/chapter.json",
   "text": "forlorn_hollows/general.txt",
   "title": "book.alexscaves.general",
-  "required_progression": "alexscaves:forlorn_hollows_general"
+  "required_progression": "alexscaves:forlorn_hollows_general",
+  "widgets": [
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:guano_block",
+      "sepia": true,
+      "x": 25,
+      "y": 65,
+      "scale": 2.5
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:guanostone",
+      "sepia": true,
+      "x": 65,
+      "y": 65,
+      "scale": 2.5
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:coprolith",
+      "sepia": true,
+      "x": 105,
+      "y": 65,
+      "scale": 2.5
+    },
+    {
+      "display_page" : 3,
+      "type": "item",
+      "item": "alexscaves:thornwood_sapling",
+      "sepia": true,
+      "x": 65,
+      "y": 85,
+      "scale": 3
+    }
+  ]
 }

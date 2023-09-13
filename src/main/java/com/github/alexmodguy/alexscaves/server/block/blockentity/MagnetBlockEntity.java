@@ -43,6 +43,8 @@ public class MagnetBlockEntity extends BlockEntity {
     private int retracterIngots = 0;
     private static final int MAXIMUM_BLOCKS_PUSHED = 27;
 
+    private boolean locallyActive;
+
     public MagnetBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.MAGNET.get(), pos, state);
     }
@@ -60,10 +62,18 @@ public class MagnetBlockEntity extends BlockEntity {
                     entity.rangeVisuality -= 0.2F;
                 }
             }
+            entity.locallyActive = false;
+            if(state.getValue(MagnetBlock.POWERED)){
+                entity.locallyActive = true;
+            }
+            if(entity.locallyActive){
+                AlexsCaves.PROXY.playWorldSound(entity, (byte)4);
+            }
         } else {
             Direction direction = entity.getDirection();
             if (state.getValue(MagnetBlock.POWERED)) {
-                for (int i = 1; i <= entity.getEffectiveRange(); i++) {
+                int distance = entity.getEffectiveRange();
+                for (int i = 1; i <= distance; i++) {
                     BlockPos checkMetalAt = blockPos.relative(direction, i);
                     BlockState metalState = level.getBlockState(checkMetalAt);
                     if (metalState.is(ACTagRegistry.MAGNETIC_BLOCKS)) {
@@ -126,10 +136,15 @@ public class MagnetBlockEntity extends BlockEntity {
         if (entity instanceof MovingMetalBlockEntity metalBlockEntity) {
             double distance = Math.sqrt(entity.distanceToSqr(blockVec));
             strength = 0.04F;
-            if (distance <= 1 && !this.isAzure()) {
+            if(this.isAzure()){
+                float f = Math.max(getEffectiveRange() - 1F, 1F);
+                float f1 = (float)(f - (distance + 1)) / f;
+                strength *= Math.max(f1, 0F);
+            }else if (distance <= 1) {
                 strength = 0;
             }
             metalBlockEntity.setPlacementCooldown(2);
+
         }
         if (entity instanceof FallingBlockEntityAccessor fallingBlockEntity) {
             fallingBlockEntity.setFallBlockingTime();
@@ -159,11 +174,16 @@ public class MagnetBlockEntity extends BlockEntity {
             list.add(pos);
             for (Direction dir : Direction.values()) {
                 BlockPos offset = pos.relative(dir);
-                if (canMove(pos, offset)) {
+                if (!this.getBlockPos().equals(offset) && canMove(pos, offset)) {
                     gatherAttachedBlocks(offset, list);
                 }
             }
         }
+    }
+
+    public void setRemoved() {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.setRemoved();
     }
 
     public boolean canMove(BlockPos from, BlockPos pos) {
@@ -184,6 +204,10 @@ public class MagnetBlockEntity extends BlockEntity {
             return this.getBlockState().getValue(MagnetBlock.FACING);
         }
         return Direction.UP;
+    }
+
+    public boolean isLocallyActive(){
+        return locallyActive;
     }
 
     public AABB getRangeBB(double effectiveRange, boolean includeMagnet) {
@@ -212,7 +236,8 @@ public class MagnetBlockEntity extends BlockEntity {
 
     public int getEffectiveRange() {
         int rangeModifier = extenderIngots - retracterIngots;
-        return Mth.clamp(5 + rangeModifier, 1, 64);
+        int total = Mth.clamp(5 + rangeModifier, 1, 64);
+        return this.isAzure() ? total : total + 1;
     }
 
 

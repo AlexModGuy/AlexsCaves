@@ -31,7 +31,6 @@ import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -112,7 +111,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         InteractionResult prev = super.mobInteract(player, hand);
         ItemStack itemstack = player.getItemInHand(hand);
-        if (!prev.consumesAction() && itemstack.is(Items.SUSPICIOUS_STEW)) {
+        if (!prev.consumesAction() && itemstack.is(ACItemRegistry.PRIMORDIAL_SOUP.get())) {
             if (!itemstack.getCraftingRemainingItem().isEmpty()) {
                 this.spawnAtLocation(itemstack.getCraftingRemainingItem().copy());
             }

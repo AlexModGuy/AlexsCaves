@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -14,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -35,6 +37,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Comparator;
@@ -185,6 +188,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
 
     public void triggerSpraying() {
         if (this.getSprayCooldown() <= 0 && this.getAnimation() == NO_ANIMATION) {
+            this.playSound(ACSoundRegistry.GAMMAROACH_SPRAY.get());
             this.setAnimation(ANIMATION_SPRAY);
             this.setSprayCooldown(10000 + random.nextInt(24000));
         }
@@ -257,6 +261,24 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
         }
     }
 
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.GAMMAROACH_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.GAMMAROACH_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.GAMMAROACH_DEATH.get();
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (!this.isBaby()) {
+            this.playSound(ACSoundRegistry.GAMMAROACH_STEP.get(), 1.0F, 1.0F);
+        }
+    }
+
     private class MeleeGoal extends Goal {
 
         private int checkForMobsTime = 0;
@@ -302,6 +324,7 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
                         if (GammaroachEntity.this.getAnimation() == NO_ANIMATION) {
                             GammaroachEntity.this.setAnimation(GammaroachEntity.ANIMATION_RAM);
                         } else if (GammaroachEntity.this.getAnimation() == GammaroachEntity.ANIMATION_RAM && GammaroachEntity.this.getAnimationTick() > 8 && GammaroachEntity.this.getAnimationTick() < 15) {
+                            GammaroachEntity.this.playSound(ACSoundRegistry.GAMMAROACH_ATTACK.get());
                             target.hurt(damageSources().mobAttack(GammaroachEntity.this), (float) GammaroachEntity.this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                         }
                         if (pickupMonster != null) {

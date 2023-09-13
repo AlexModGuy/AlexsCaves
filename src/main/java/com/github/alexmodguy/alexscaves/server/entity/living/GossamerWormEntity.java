@@ -118,9 +118,9 @@ public class GossamerWormEntity extends WaterAnimal implements Bucketable {
     public void tick() {
         prevFishPitch = fishPitch;
         prevSquishProgress = squishProgress;
-        fakeYRot = Mth.approachDegrees(fakeYRot, this.yBodyRot, 10);
         super.tick();
-
+        this.yBodyRot = Mth.approachDegrees(this.yBodyRotO, yBodyRot, getHeadRotSpeed());
+        fakeYRot = Mth.approachDegrees(fakeYRot, this.yBodyRot, 10);
         this.tickMultipart();
         float targetPitch = isInWaterOrBubble() ? Mth.clamp((float) this.getDeltaMovement().y * 25, -1.4F, 1.4F) * -(float) (180F / (float) Math.PI) : 0;
         fishPitch = Mth.approachDegrees(fishPitch, targetPitch, 1);
@@ -179,6 +179,10 @@ public class GossamerWormEntity extends WaterAnimal implements Bucketable {
 
     public float getSquishProgress(float partialTicks) {
         return (prevSquishProgress + (squishProgress - prevSquishProgress) * partialTicks) * 0.2F;
+    }
+
+    public int getHeadRotSpeed() {
+        return 4;
     }
 
     protected static float lerpRotation(float p_37274_, float p_37275_) {

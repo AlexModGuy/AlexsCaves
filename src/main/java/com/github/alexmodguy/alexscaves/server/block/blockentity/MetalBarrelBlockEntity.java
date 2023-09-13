@@ -1,12 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -25,12 +25,12 @@ public class MetalBarrelBlockEntity extends RandomizableContainerBlockEntity {
     private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
     private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
         protected void onOpen(Level p_155062_, BlockPos p_155063_, BlockState p_155064_) {
-            MetalBarrelBlockEntity.this.playSound(p_155064_, SoundEvents.BARREL_OPEN);
+            MetalBarrelBlockEntity.this.playSound(p_155064_, ACSoundRegistry.METAL_BARREL_LID.get());
             MetalBarrelBlockEntity.this.updateBlockState(p_155064_, true);
         }
 
         protected void onClose(Level p_155072_, BlockPos p_155073_, BlockState p_155074_) {
-            MetalBarrelBlockEntity.this.playSound(p_155074_, SoundEvents.BARREL_CLOSE);
+            MetalBarrelBlockEntity.this.playSound(p_155074_, ACSoundRegistry.METAL_BARREL_LID.get());
             MetalBarrelBlockEntity.this.updateBlockState(p_155074_, false);
         }
 

@@ -92,6 +92,7 @@ public class CorrodentModel extends AdvancedEntityModel<CorrodentEntity> {
         head.addChild(jaw);
         jaw.setTextureOffset(53, 43).addBox(-3.0F, 0.0F, -8.0F, 6.0F, 3.0F, 9.0F, -0.01F, false);
         jaw.setTextureOffset(32, 51).addBox(-3.0F, -2.99F, -8.0F, 6.0F, 3.0F, 9.0F, -0.01F, false);
+        jaw.setScale(0.99F, 0.99F, 0.99F);
 
         rarmPivot = new AdvancedModelBox(this);
         rarmPivot.setRotationPoint(4.0F, 2.25F, -3.5F);

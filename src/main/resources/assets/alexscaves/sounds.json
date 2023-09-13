@@ -19,7 +19,12 @@
     ]
   },
   "abyssal_chasm_music": {
-    "sounds": []
+    "sounds": [
+      {
+        "name": "alexscaves:music/forgotten_tides",
+        "stream": true
+      }
+    ]
   },
   "forlorn_hollows_music": {
     "sounds": [
@@ -243,6 +248,127 @@
       "alexscaves:ambient/forlorn_hollows/mood/mood_5"
     ]
   },
+  "neodymium_step": {
+    "sounds": [
+      "alexscaves:block/neodymium/neodymium_step_0",
+      "alexscaves:block/neodymium/neodymium_step_1",
+      "alexscaves:block/neodymium/neodymium_step_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.neodymium_step"
+  },
+  "neodymium_place": {
+    "sounds": [
+      "alexscaves:block/neodymium/neodymium_place_0",
+      "alexscaves:block/neodymium/neodymium_place_1",
+      "alexscaves:block/neodymium/neodymium_place_2",
+      "alexscaves:block/neodymium/neodymium_place_3",
+      "alexscaves:block/neodymium/neodymium_place_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.neodymium_place"
+  },
+  "neodymium_break": {
+    "sounds": [
+      "alexscaves:block/neodymium/neodymium_break_0",
+      "alexscaves:block/neodymium/neodymium_break_1",
+      "alexscaves:block/neodymium/neodymium_break_2",
+      "alexscaves:block/neodymium/neodymium_break_3",
+      "alexscaves:block/neodymium/neodymium_break_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.neodymium_break"
+  },
+  "neodymium_breaking": {
+    "sounds": [
+      "alexscaves:block/neodymium/neodymium_breaking_0",
+      "alexscaves:block/neodymium/neodymium_breaking_1",
+      "alexscaves:block/neodymium/neodymium_breaking_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.neodymium_breaking"
+  },
+  "scrap_metal_step": {
+    "sounds": [
+      "alexscaves:block/scrap_metal/scrap_metal_step_0",
+      "alexscaves:block/scrap_metal/scrap_metal_step_1",
+      "alexscaves:block/scrap_metal/scrap_metal_step_2",
+      "alexscaves:block/scrap_metal/scrap_metal_step_3",
+      "alexscaves:block/scrap_metal/scrap_metal_step_4",
+      "alexscaves:block/scrap_metal/scrap_metal_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.scrap_metal_step"
+  },
+  "scrap_metal_place": {
+    "sounds": [
+      "alexscaves:block/scrap_metal/scrap_metal_place_0",
+      "alexscaves:block/scrap_metal/scrap_metal_place_1",
+      "alexscaves:block/scrap_metal/scrap_metal_place_2",
+      "alexscaves:block/scrap_metal/scrap_metal_place_3",
+      "alexscaves:block/scrap_metal/scrap_metal_place_4",
+      "alexscaves:block/scrap_metal/scrap_metal_place_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.scrap_metal_place"
+  },
+  "scrap_metal_break": {
+    "sounds": [
+      "alexscaves:block/scrap_metal/scrap_metal_break_0",
+      "alexscaves:block/scrap_metal/scrap_metal_break_1",
+      "alexscaves:block/scrap_metal/scrap_metal_break_2",
+      "alexscaves:block/scrap_metal/scrap_metal_break_3",
+      "alexscaves:block/scrap_metal/scrap_metal_break_4",
+      "alexscaves:block/scrap_metal/scrap_metal_break_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.scrap_metal_break"
+  },
+  "scrap_metal_breaking": {
+    "sounds": [
+      "alexscaves:block/scrap_metal/scrap_metal_breaking_0",
+      "alexscaves:block/scrap_metal/scrap_metal_breaking_1",
+      "alexscaves:block/scrap_metal/scrap_metal_breaking_2",
+      "alexscaves:block/scrap_metal/scrap_metal_breaking_3",
+      "alexscaves:block/scrap_metal/scrap_metal_breaking_4",
+      "alexscaves:block/scrap_metal/scrap_metal_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.scrap_metal_breaking"
+  },
+  "metal_barrel_lid": {
+    "sounds": [
+      "alexscaves:block/scrap_metal/metal_barrel_lid"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.metal_barrel_lid"
+  },
+  "azure_neodymium_push_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/neodymium/azure_neodymium_push_loop",
+        "attenuation_distance": 10,
+        "stream": true
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.azure_neodymium_push_loop"
+  },
+  "scarlet_neodymium_pull_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/neodymium/scarlet_neodymium_pull_loop",
+        "attenuation_distance": 10,
+        "stream": true
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.scarlet_neodymium_pull_loop"
+  },
+  "hologram_stop": {
+    "sounds": [
+      "alexscaves:block/hologram/hologram_stop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.hologram_stop"
+  },
+  "hologram_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/hologram/hologram_loop",
+        "attenuation_distance": 10
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.hologram_loop"
+  },
   "amber_step": {
     "sounds": [
       "alexscaves:block/amber/amber_step_0",
@@ -302,6 +428,73 @@
       "alexscaves:block/pewen_branch/pewen_branch_break_4"
     ],
     "subtitle": "alexsmobs.sound.subtitle.pewen_branch_break"
+  },
+  "teletor_idle": {
+    "sounds": [
+      "alexscaves:mob/teletor/teletor_idle_0",
+      "alexscaves:mob/teletor/teletor_idle_1",
+      "alexscaves:mob/teletor/teletor_idle_2",
+      "alexscaves:mob/teletor/teletor_idle_3",
+      "alexscaves:mob/teletor/teletor_idle_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.teletor_idle"
+  },
+  "teletor_hurt": {
+    "sounds": [
+      "alexscaves:mob/teletor/teletor_hurt_0",
+      "alexscaves:mob/teletor/teletor_hurt_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.teletor_hurt"
+  },
+  "teletor_death": {
+    "sounds": [
+      "alexscaves:mob/teletor/teletor_death_0",
+      "alexscaves:mob/teletor/teletor_death_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.teletor_death"
+  },
+  "teletor_float": {
+    "sounds": [
+      "alexscaves:mob/teletor/teletor_float_0",
+      "alexscaves:mob/teletor/teletor_float_1",
+      "alexscaves:mob/teletor/teletor_float_2",
+      "alexscaves:mob/teletor/teletor_float_3",
+      "alexscaves:mob/teletor/teletor_float_4",
+      "alexscaves:mob/teletor/teletor_float_5",
+      "alexscaves:mob/teletor/teletor_float_6"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.teletor_float"
+  },
+  "notor_idle": {
+    "sounds": [
+      "alexscaves:mob/notor/notor_idle_0",
+      "alexscaves:mob/notor/notor_idle_1",
+      "alexscaves:mob/notor/notor_idle_2",
+      "alexscaves:mob/notor/notor_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.notor_idle"
+  },
+  "notor_hurt": {
+    "sounds": [
+      "alexscaves:mob/notor/notor_hurt_0",
+      "alexscaves:mob/notor/notor_hurt_1",
+      "alexscaves:mob/notor/notor_hurt_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.notor_hurt"
+  },
+  "notor_death": {
+    "sounds": [
+      "alexscaves:mob/notor/notor_death_0",
+      "alexscaves:mob/notor/notor_death_1",
+      "alexscaves:mob/notor/notor_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.notor_death"
+  },
+  "notor_flying": {
+    "sounds": [
+      "alexscaves:mob/notor/notor_flying"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.notor_flying"
   },
   "subterranodon_idle": {
     "sounds": [
@@ -581,6 +774,141 @@
       "alexscaves:mob/relicheirus/relicheirus_topple_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.relicheirus_topple"
+  },
+  "nucleeper_idle": {
+    "sounds": [
+      "alexscaves:mob/nucleeper/nucleeper_idle_0",
+      "alexscaves:mob/nucleeper/nucleeper_idle_1",
+      "alexscaves:mob/nucleeper/nucleeper_idle_2",
+      "alexscaves:mob/nucleeper/nucleeper_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nucleeper_idle"
+  },
+  "nucleeper_hurt": {
+    "sounds": [
+      "alexscaves:mob/nucleeper/nucleeper_hurt_0",
+      "alexscaves:mob/nucleeper/nucleeper_hurt_1",
+      "alexscaves:mob/nucleeper/nucleeper_hurt_2",
+      "alexscaves:mob/nucleeper/nucleeper_hurt_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nucleeper_hurt"
+  },
+  "nucleeper_death": {
+    "sounds": [
+      "alexscaves:mob/nucleeper/nucleeper_death"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nucleeper_death"
+  },
+  "nucleeper_step": {
+    "sounds": [
+      "alexscaves:mob/nucleeper/nucleeper_step_0",
+      "alexscaves:mob/nucleeper/nucleeper_step_1",
+      "alexscaves:mob/nucleeper/nucleeper_step_2",
+      "alexscaves:mob/nucleeper/nucleeper_step_3",
+      "alexscaves:mob/nucleeper/nucleeper_step_4",
+      "alexscaves:mob/nucleeper/nucleeper_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nucleeper_step"
+  },
+  "nucleeper_charge": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/nucleeper/nucleeper_charge",
+        "attenuation_distance": 64
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nucleeper_charge"
+  },
+  "gammaroach_idle": {
+    "sounds": [
+      "alexscaves:mob/gammaroach/gammaroach_idle_0",
+      "alexscaves:mob/gammaroach/gammaroach_idle_1",
+      "alexscaves:mob/gammaroach/gammaroach_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gammaroach_idle"
+  },
+  "gammaroach_hurt": {
+    "sounds": [
+      "alexscaves:mob/gammaroach/gammaroach_hurt_0",
+      "alexscaves:mob/gammaroach/gammaroach_hurt_1",
+      "alexscaves:mob/gammaroach/gammaroach_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gammaroach_hurt"
+  },
+  "gammaroach_death": {
+    "sounds": [
+      "alexscaves:mob/gammaroach/gammaroach_death_0",
+      "alexscaves:mob/gammaroach/gammaroach_death_1",
+      "alexscaves:mob/gammaroach/gammaroach_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gammaroach_death"
+  },
+  "gammaroach_attack": {
+    "sounds": [
+      "alexscaves:mob/gammaroach/gammaroach_attack_0",
+      "alexscaves:mob/gammaroach/gammaroach_attack_1",
+      "alexscaves:mob/gammaroach/gammaroach_attack_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gammaroach_attack"
+  },
+  "gammaroach_spray": {
+    "sounds": [
+      "alexscaves:mob/gammaroach/gammaroach_spray_0",
+      "alexscaves:mob/gammaroach/gammaroach_spray_1",
+      "alexscaves:mob/gammaroach/gammaroach_spray_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gammaroach_spray"
+  },
+  "gammaroach_step": {
+    "sounds": [
+      "alexscaves:mob/gammaroach/gammaroach_step_0",
+      "alexscaves:mob/gammaroach/gammaroach_step_1",
+      "alexscaves:mob/gammaroach/gammaroach_step_2",
+      "alexscaves:mob/gammaroach/gammaroach_step_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gammaroach_step"
+  },
+  "raycat_idle": {
+    "sounds": [
+      "alexscaves:mob/raycat/raycat_idle_0",
+      "alexscaves:mob/raycat/raycat_idle_1",
+      "alexscaves:mob/raycat/raycat_idle_2",
+      "alexscaves:mob/raycat/raycat_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raycat_idle"
+  },
+  "raycat_tame_idle": {
+    "sounds": [
+      "alexscaves:mob/raycat/raycat_idle_0",
+      "alexscaves:mob/raycat/raycat_idle_1",
+      "alexscaves:mob/raycat/raycat_idle_2",
+      "alexscaves:mob/raycat/raycat_idle_3",
+      "alexscaves:mob/raycat/raycat_tame_idle_0",
+      "alexscaves:mob/raycat/raycat_tame_idle_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raycat_tame_idle"
+  },
+  "raycat_hurt": {
+    "sounds": [
+      "alexscaves:mob/raycat/raycat_hurt_0",
+      "alexscaves:mob/raycat/raycat_hurt_1",
+      "alexscaves:mob/raycat/raycat_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raycat_hurt"
+  },
+  "raycat_eat": {
+    "sounds": [
+      "alexscaves:mob/raycat/raycat_eat_0",
+      "alexscaves:mob/raycat/raycat_eat_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raycat_eat"
+  },
+  "raycat_absorb": {
+    "sounds": [
+      "alexscaves:mob/raycat/raycat_absorb_0",
+      "alexscaves:mob/raycat/raycat_absorb_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raycat_absorb"
   },
   "vesper_idle": {
     "sounds": [

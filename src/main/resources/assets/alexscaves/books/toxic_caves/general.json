@@ -2,5 +2,34 @@
   "parent": "toxic_caves/chapter.json",
   "text": "toxic_caves/general.txt",
   "title": "book.alexscaves.general",
-  "required_progression": "alexscaves:toxic_caves_general"
+  "required_progression": "alexscaves:toxic_caves_general",
+  "widgets": [
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:radrock",
+      "sepia": true,
+      "x": 40,
+      "y": 20,
+      "scale": 3
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:radrock_uranium_ore",
+      "sepia": true,
+      "x": 100,
+      "y": 20,
+      "scale": 3
+    },
+    {
+      "display_page" : 4,
+      "type": "item",
+      "item": "alexscaves:sulfur_cluster",
+      "sepia": true,
+      "x": 65,
+      "y": 115,
+      "scale": 3
+    }
+  ]
 }

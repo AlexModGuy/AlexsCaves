@@ -6,7 +6,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -18,7 +17,7 @@ public class WasteDrumBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
 
     public WasteDrumBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.YELLOW).strength(3.5F).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.YELLOW).strength(3.5F).sound(ACSoundTypes.SCRAP_METAL));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 

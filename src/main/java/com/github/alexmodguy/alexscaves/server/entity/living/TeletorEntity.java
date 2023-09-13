@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.google.common.collect.ImmutableList;
@@ -11,9 +12,11 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -53,6 +56,8 @@ public class TeletorEntity extends Monster {
 
     private Vec3[][] trailPositions = new Vec3[64][2];
     private int trailPointer = -1;
+
+    private int floatingTicks = 0;
 
     public TeletorEntity(EntityType<? extends Monster> teletor, Level level) {
         super(teletor, level);
@@ -159,6 +164,10 @@ public class TeletorEntity extends Monster {
         }
         if (level().isClientSide) {
             tickVisual();
+        }
+        if(floatingTicks-- <= 0){
+            floatingTicks = 30;
+            this.playSound(ACSoundRegistry.TELETOR_FLOAT.get());
         }
         this.setDeltaMovement(this.getDeltaMovement().multiply(0.98F, 0.98F, 0.98F));
     }
@@ -267,6 +276,19 @@ public class TeletorEntity extends Monster {
     public boolean canBeAffected(MobEffectInstance effectInstance) {
         return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.TELETOR_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.TELETOR_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.TELETOR_DEATH.get();
+    }
+
 
     private class MeleeGoal extends Goal {
 

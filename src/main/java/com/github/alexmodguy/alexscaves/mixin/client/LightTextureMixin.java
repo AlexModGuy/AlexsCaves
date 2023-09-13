@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.util.CubicSampler;
+import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -23,10 +24,8 @@ import org.joml.Vector3fc;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -176,6 +175,12 @@ public abstract class LightTextureMixin {
                             }
 
                             float f14 = this.minecraft.options.gamma().get().floatValue();
+                            //INSERTION BY AC
+                            float biomeAmbientLight = calculateBiomeAmbientLight(Minecraft.getInstance().player);
+                            if(biomeAmbientLight > 0.0F){
+                                f14 = Mth.clamp(f14 + biomeAmbientLight, 0.0F, 1.0F);
+                            }
+
                             Vector3f vector3f4 = new Vector3f(this.notGamma(vector3f1.x), this.notGamma(vector3f1.y), this.notGamma(vector3f1.z));
                             vector3f1.lerp(vector3f4, Math.max(0.0F, f14 - f3));
                             vector3f1.lerp(new Vector3f(0.75F, 0.75F, 0.75F), 0.04F);

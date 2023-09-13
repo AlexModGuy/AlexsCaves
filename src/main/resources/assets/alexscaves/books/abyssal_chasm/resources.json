@@ -2,5 +2,34 @@
   "parent": "abyssal_chasm/chapter.json",
   "text": "abyssal_chasm/resources.txt",
   "title": "book.alexscaves.resources",
-  "required_progression": "alexscaves:abyssal_chasm_resources"
+  "required_progression": "alexscaves:abyssal_chasm_resources",
+  "widgets": [
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:furnace/cooked_mussel_smelting",
+      "sepia": true,
+      "x": 55,
+      "y": 30,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:abyssal_altar",
+      "sepia": true,
+      "x": 55,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:depth_glass",
+      "sepia": true,
+      "x": 55,
+      "y": 80,
+      "scale": 1
+    }
+  ]
 }
