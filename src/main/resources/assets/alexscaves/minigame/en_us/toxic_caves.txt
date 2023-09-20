@@ -37,3 +37,9 @@ brainiac
 gammaroach
 raycat
 radgill
+detonate
+leak
+remnant
+furnace
+shard
+fissile

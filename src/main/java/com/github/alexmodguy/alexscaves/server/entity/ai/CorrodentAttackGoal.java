@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.core.BlockPos;
@@ -136,6 +137,7 @@ public class CorrodentAttackGoal extends Goal {
     private boolean tryAnimation(Animation animation) {
         if (entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             entity.setAnimation(animation);
+            entity.playSound(ACSoundRegistry.CORRODENT_ATTACK.get());
             return true;
         }
         return false;

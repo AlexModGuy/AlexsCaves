@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
@@ -39,12 +40,8 @@ public abstract class ClientLevelMixin extends Level {
         if (AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()) {
             float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
             if (override > 0.0F) {
-                Vec3 samplePos = Minecraft.getInstance().cameraEntity.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                BiomeManager biomemanager = this.getBiomeManager();
                 Vec3 prevVec3 = cir.getReturnValue();
-                Vec3 sampledVec3 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                    return Vec3.fromRGB24(biomemanager.getNoiseBiomeAtQuart(x, y, z).value().getSkyColor());
-                });
+                Vec3 sampledVec3 = BiomeSampler.sampleBiomesVec3(Minecraft.getInstance().level, Minecraft.getInstance().cameraEntity.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getSkyColor()));
                 cir.setReturnValue(prevVec3.add(sampledVec3.subtract(prevVec3).scale(override)));
             }
         }

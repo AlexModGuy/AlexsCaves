@@ -37,3 +37,10 @@ temple
 candle
 redstone
 eyes
+dread
+cursed
+beholder
+possessed
+desolate
+abandon
+tatter

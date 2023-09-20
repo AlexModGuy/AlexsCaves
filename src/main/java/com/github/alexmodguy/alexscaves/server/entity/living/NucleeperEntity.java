@@ -155,15 +155,15 @@ public class NucleeperEntity extends Monster {
                 }
             } else if (time < AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get()) {
                 this.setCloseTime(time + 1);
-                if (this.isAlive()) {
-                    AlexsCaves.PROXY.playWorldSound(this, (byte) 1);
-                }
             } else if (this.isAlive()) {
                 this.setExploding(true);
             }
             if ((tickCount + this.getId()) % 10 == 0 && level() instanceof ServerLevel serverLevel) {
                 getNearbySirens(serverLevel, 256).forEach(this::activateSiren);
             }
+        }
+        if (this.isTriggered() && this.isAlive()) {
+            AlexsCaves.PROXY.playWorldSound(this, (byte) 1);
         }
         sirenAngle += (10F + 30F * closeProgress) % 360F;
         closeProgress = (float) time / AlexsCaves.COMMON_CONFIG.nucleeperFuseTime.get();

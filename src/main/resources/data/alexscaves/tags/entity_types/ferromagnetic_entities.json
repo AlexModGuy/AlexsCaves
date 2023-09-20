@@ -2,6 +2,13 @@
   "__comment": "all non-player mobs made out of magnetic materials.",
   "values": [
     "minecraft:iron_golem",
+    "minecraft:chest_minecart",
+    "minecraft:command_block_minecart",
+    "minecraft:furnace_minecart",
+    "minecraft:hopper_minecart",
+    "minecraft:minecart",
+    "minecraft:spawner_minecart",
+    "minecraft:tnt_minecart",
     "alexscaves:nucleeper"
   ]
 }

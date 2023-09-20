@@ -39,3 +39,4 @@ boundroid
 ferrouslime
 magnetron
 teletor
+resistor

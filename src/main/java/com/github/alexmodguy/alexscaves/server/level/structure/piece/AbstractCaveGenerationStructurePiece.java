@@ -103,6 +103,14 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
         }
     }
 
+    public BlockState checkedGetBlockIgnoreY(WorldGenLevel level, BlockPos position) {
+        if (this.getBoundingBox().isInside(position.getX(), this.getBoundingBox().minY(), position.getZ())) {
+            return level.getBlockState(position);
+        } else {
+            return Blocks.VOID_AIR.defaultBlockState();
+        }
+    }
+
     public void addChildren(StructurePiece piece, StructurePieceAccessor accessor, RandomSource random) {
 
     }

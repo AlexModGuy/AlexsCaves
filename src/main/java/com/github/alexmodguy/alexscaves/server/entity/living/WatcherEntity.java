@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.WatcherAttackGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import com.github.alexmodguy.alexscaves.server.message.PossessionKeyMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -16,8 +17,12 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -314,6 +319,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
                     }
                 } else {
                     level().addParticle(ACParticleRegistry.WATCHER_APPEARANCE.get(), player.getX(), player.getEyeY(), player.getZ(), 0, 0, 0);
+                    player.level().playSound(player, player.getX(), player.getY(), player.getZ(), ACSoundRegistry.WATCHER_SCARE.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
                     if(AlexsCaves.COMMON_CONFIG.watcherPossession.get()) {
                         AlexsCaves.PROXY.resetRenderViewEntity(player);
                     }
@@ -392,6 +398,19 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
     public static boolean checkWatcherSpawnRules(EntityType<? extends Monster> entityType, ServerLevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         return checkMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource) && randomSource.nextInt(20) == 0;
     }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.WATCHER_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.WATCHER_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.WATCHER_DEATH.get();
+    }
+
 
     class MoveController extends MoveControl {
         private final Mob parentEntity;

@@ -46,3 +46,9 @@ deep
 one
 knight
 mage
+enigmatic
+bioluminescent
+gazing
+floating
+waves
+depth

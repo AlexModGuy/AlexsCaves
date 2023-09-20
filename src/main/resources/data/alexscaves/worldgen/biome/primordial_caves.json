@@ -1,9 +1,5 @@
 {
-  "carvers": {
-    "air": [
-      "alexscaves:water_bubble_carver"
-    ]
-  },
+  "carvers": {},
   "downfall": 0.4,
   "has_precipitation": true,
   "effects": {

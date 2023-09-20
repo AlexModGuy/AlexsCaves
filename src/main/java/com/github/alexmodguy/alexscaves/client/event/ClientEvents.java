@@ -19,6 +19,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.*;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
@@ -39,7 +40,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.CubicSampler;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -120,7 +120,7 @@ public class ClientEvents {
         if (!Minecraft.getInstance().options.getCameraType().isFirstPerson()) {
             RaygunRenderHelper.renderRaysFor(entity, entity.getPosition(partialTick), event.getPoseStack(), event.getMultiBufferSource(), partialTick, false, 0);
         }
-        if(entity.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get()) && entity.isAlive()){
+        if (entity.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get()) && entity.isAlive()) {
             Vec3 trailOffset = new Vec3(0, entity.getBbHeight() * 0.5F, 0);
             double x = Mth.lerp(partialTick, entity.xOld, entity.getX());
             double y = Mth.lerp(partialTick, entity.yOld, entity.getY());
@@ -248,7 +248,7 @@ public class ClientEvents {
     @SubscribeEvent
     public void clientLivingTick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
-        if(!entity.level().isClientSide){
+        if (!entity.level().isClientSide) {
             return;
         }
         if (entity.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get()) && entity.isAlive()) {
@@ -273,6 +273,7 @@ public class ClientEvents {
             ClientProxy.darknessTrailPointerMap.remove(entity);
         }
     }
+
     @SubscribeEvent
     public void onRenderHand(RenderHandEvent event) {
         if (Minecraft.getInstance().getCameraEntity() instanceof PossessesCamera) {
@@ -561,17 +562,13 @@ public class ClientEvents {
             event.setNearPlaneDistance(0.0F);
             return;
         }
-        if (event.getCamera().getFluidInCamera() == FogType.WATER) {
+        if (event.getCamera().getFluidInCamera() == FogType.WATER && AlexsCaves.CLIENT_CONFIG.biomeWaterFogOverrides.get()) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float farness;
             if (i == 0) {
                 farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
-                });
-                farness = (float) vec31.x;
+                farness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeWaterFogFarness);
             }
             if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())) {
                 farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float) event.getPartialTick());
@@ -580,17 +577,13 @@ public class ClientEvents {
                 event.setCanceled(true);
                 event.setFarPlaneDistance(event.getFarPlaneDistance() * farness);
             }
-        } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN) {
+        } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN && AlexsCaves.CLIENT_CONFIG.biomeSkyFogOverrides.get()) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float nearness;
             if (i == 0) {
                 nearness = ACBiomeRegistry.getBiomeFogNearness(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeFogNearness(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
-                });
-                nearness = (float) vec31.x;
+                nearness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeFogNearness);
             }
 
             if (nearness != 1.0F) {
@@ -601,33 +594,26 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public void fogRender(ViewportEvent.ComputeFogColor event) {
+    public void fogColor(ViewportEvent.ComputeFogColor event) {
         Entity player = Minecraft.getInstance().player;
         if (player.getEyeInFluidType() != null && player.getEyeInFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setRed((float) (0));
             event.setGreen((float) (1));
             event.setBlue((float) (0));
-        } else if (event.getCamera().getFluidInCamera() == FogType.NONE) {
+        } else if (event.getCamera().getFluidInCamera() == FogType.NONE && AlexsCaves.CLIENT_CONFIG.biomeSkyFogOverrides.get()) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
             float override;
             if (i == 0) {
                 override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
-                });
-                override = (float) vec31.x;
+                override = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeSkyOverride);
             }
             if (override != 0.0F) {
                 Vec3 vec3;
                 if (i == 0) {
                     vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), 1.0F);
                 } else {
-                    Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                    vec3 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                        return ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z).value().getFogColor()), 1.0F);
-                    });
+                    vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(BiomeSampler.sampleBiomesVec3(player.level(), player.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getFogColor())), 1.0F);
                 }
                 float prevR = event.getRed();
                 float prevG = event.getGreen();
@@ -636,28 +622,16 @@ public class ClientEvents {
                 event.setGreen((float) (vec3.y - prevG) * override + prevG);
                 event.setBlue((float) (vec3.z - prevB) * override + prevB);
             }
-        } else if (event.getCamera().getFluidInCamera() == FogType.WATER) {
+        } else if (event.getCamera().getFluidInCamera() == FogType.WATER && AlexsCaves.CLIENT_CONFIG.biomeWaterFogOverrides.get()) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-            Vec3 vec3;
             float override;
             if (i == 0) {
                 override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
             } else {
-                Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                    return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
-                });
-                override = (float) vec31.x;
+                override = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeSkyOverride);
             }
             if (override != 0) {
-                if (i == 0) {
-                    vec3 = Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
-                } else {
-                    Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-                    vec3 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                        return Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z).value().getWaterFogColor());
-                    });
-                }
+                Vec3 vec3 = Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
                 event.setRed((float) (event.getRed() + (vec3.x - event.getRed()) * override));
                 event.setGreen((float) (event.getGreen() + (vec3.y - event.getGreen()) * override));
                 event.setBlue((float) (event.getBlue() + (vec3.z - event.getBlue()) * override));
@@ -780,7 +754,7 @@ public class ClientEvents {
         if (event.getPlayer().isUsingItem()) {
             if (itemstack.is(ACItemRegistry.DREADBOW.get())) {
                 int i = event.getPlayer().getTicksUsingItem();
-                float f1 = (float)i / 20.0F;
+                float f1 = (float) i / 20.0F;
                 if (f1 > 1.0F) {
                     f1 = 1.0F;
                 } else {
@@ -802,7 +776,7 @@ public class ClientEvents {
 
 
     @SubscribeEvent
-    public void onScreenOpen(ScreenEvent.Init event){
+    public void onScreenOpen(ScreenEvent.Init event) {
         UserVerification.onGameStart();
     }
 }

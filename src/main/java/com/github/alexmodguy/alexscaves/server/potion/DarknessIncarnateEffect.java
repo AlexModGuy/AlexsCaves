@@ -78,8 +78,10 @@ public class DarknessIncarnateEffect extends MobEffect {
                 player.getAbilities().setFlyingSpeed(defaultFlightSpeed * 4.0F);
             } else {
                 player.getAbilities().setFlyingSpeed(defaultFlightSpeed);
-                player.getAbilities().flying = false;
-                player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0, false, false, false));
+                if(!player.isSpectator()){
+                    player.getAbilities().flying = false;
+                    player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0, false, false, false));
+                }
             }
             if (prevFlying != flight) {
                 player.connection.send(new ClientboundPlayerAbilitiesPacket(player.getAbilities()));

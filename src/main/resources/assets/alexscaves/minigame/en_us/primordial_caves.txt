@@ -38,3 +38,7 @@ grottoceratops
 trilocaris
 relicheirus
 tremorsaurus
+seething
+monolith
+archeology
+egg

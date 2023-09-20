@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -18,7 +19,6 @@ public class UnderzealotSacrificeGoal extends Goal {
     private int executionCooldown = 10;
     private int attemptToFollowTicks = 0;
     private BlockPos center;
-    private int worshippingTicks = 0;
 
     public UnderzealotSacrificeGoal(UnderzealotEntity entity) {
         this.setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -147,6 +147,7 @@ public class UnderzealotSacrificeGoal extends Goal {
             return;
         }
         if (center != null) {
+            int worshippingTicks = this.entity.getWorshipTime();
             if (entity.isPackFollower()) {
                 UnderzealotEntity leader = (UnderzealotEntity) entity.getPackLeader();
                 float f = getPackPosition() / ((float) entity.getPackSize() - 1);
@@ -171,12 +172,13 @@ public class UnderzealotSacrificeGoal extends Goal {
                     this.entity.setDeltaMovement(this.entity.getDeltaMovement().add(slightOffset.scale(0.04F)));
                     entity.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(center));
                     this.entity.setParticlePos(leader.getLastSacrificePos().above(5));
-                    worshippingTicks++;
+                    entity.level().broadcastEntityEvent(entity, (byte) 77);
                     if (worshippingTicks % 10 == 0) {
                         this.entity.level().broadcastEntityEvent(entity, (byte) 61);
                     }
+                    this.entity.setWorshipTime(worshippingTicks + 1);
                 } else {
-                    worshippingTicks = 0;
+                    this.entity.setWorshipTime(0);
                     attemptToFollowTicks++;
                 }
             } else {
@@ -187,9 +189,9 @@ public class UnderzealotSacrificeGoal extends Goal {
                     if (slightOffset.length() > 1F) {
                         slightOffset = slightOffset.normalize();
                     }
-                    worshippingTicks++;
+                    this.entity.setWorshipTime(worshippingTicks + 1);
                     this.entity.setDeltaMovement(this.entity.getDeltaMovement().add(slightOffset.scale(0.04F)));
-                    if (worshippingTicks > 200 && this.entity.cloudCooldown <= 0 && entity.isSurroundedByPrayers()) {
+                    if (worshippingTicks > UnderzealotEntity.MAX_WORSHIP_TIME - 300 && this.entity.cloudCooldown <= 0 && entity.isSurroundedByPrayers()) {
                         if (entity.getFirstPassenger() instanceof UnderzealotSacrifice underzealotSacrifice) {
                             underzealotSacrifice.triggerSacrificeIn(300);
                             entity.cloudCooldown = 400;
@@ -197,7 +199,7 @@ public class UnderzealotSacrificeGoal extends Goal {
                         }
                     }
                 } else {
-                    worshippingTicks = 0;
+                    this.entity.setWorshipTime(0);
                 }
                 entity.getNavigation().moveTo(center.getX(), center.getY(), center.getZ(), 1);
             }
@@ -231,7 +233,7 @@ public class UnderzealotSacrificeGoal extends Goal {
 
     public void stop() {
         attemptToFollowTicks = 0;
-        worshippingTicks = 0;
+        this.entity.setWorshipTime(0);
         this.entity.getNavigation().stop();
         this.entity.ejectPassengers();
         this.entity.setPraying(false);

@@ -21,8 +21,10 @@ import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProject
 import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
@@ -438,6 +440,7 @@ public class ClientProxy extends CommonProxy {
         }
     }
 
+    @Override
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {
         if(soundEmitter instanceof Entity entity && !entity.level().isClientSide){
             return;
@@ -507,6 +510,36 @@ public class ClientProxy extends CommonProxy {
                         BLOCK_ENTITY_SOUND_INSTANCE_MAP.put(magnet, sound);
                     } else {
                         sound = (MagnetSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 5:
+                if (soundEmitter instanceof UnderzealotEntity underzealot) {
+                    UnderzealotSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(underzealot.getId());
+                    if (old == null || !(old instanceof UnderzealotSound underzealotSound && underzealotSound.isSameEntity(underzealot))) {
+                        sound = new UnderzealotSound(underzealot);
+                        ENTITY_SOUND_INSTANCE_MAP.put(underzealot.getId(), sound);
+                    } else {
+                        sound = (UnderzealotSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 6:
+                if (soundEmitter instanceof CorrodentEntity corrodent) {
+                    CorrodentSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(corrodent.getId());
+                    if (old == null || !(old instanceof CorrodentSound corrodentSound && corrodentSound.isSameEntity(corrodent))) {
+                        sound = new CorrodentSound(corrodent);
+                        ENTITY_SOUND_INSTANCE_MAP.put(corrodent.getId(), sound);
+                    } else {
+                        sound = (CorrodentSound) old;
                     }
                     if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);

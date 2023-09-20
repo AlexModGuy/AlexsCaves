@@ -22,19 +22,25 @@ public class FertilizerItem extends Item {
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         BlockPos blockpos1 = blockpos.relative(context.getClickedFace());
-        if (applyFertilizer(context.getItemInHand(), level, blockpos, context.getPlayer())) {
+        ItemStack itemStack = context.getItemInHand();
+        if (applyFertilizer(itemStack, level, blockpos, context.getPlayer())) {
             if (!level.isClientSide) {
                 level.levelEvent(1505, blockpos, 0);
+            }
+            if(!context.getPlayer().isCreative()){
+                itemStack.shrink(1);
             }
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             BlockState blockstate = level.getBlockState(blockpos);
             boolean flag = blockstate.isFaceSturdy(level, blockpos, context.getClickedFace());
-            if (flag && BoneMealItem.growWaterPlant(context.getItemInHand(), level, blockpos1, context.getClickedFace())) {
+            if (flag && BoneMealItem.growWaterPlant(itemStack, level, blockpos1, context.getClickedFace())) {
                 if (!level.isClientSide) {
                     level.levelEvent(1505, blockpos1, 0);
                 }
-
+                if(!context.getPlayer().isCreative()){
+                    itemStack.shrink(1);
+                }
                 return InteractionResult.sidedSuccess(level.isClientSide);
             } else {
                 return InteractionResult.PASS;
@@ -60,7 +66,6 @@ public class FertilizerItem extends Item {
                         }
 
                     }
-                    itemStack.shrink(1);
                 }
                 return true;
             }

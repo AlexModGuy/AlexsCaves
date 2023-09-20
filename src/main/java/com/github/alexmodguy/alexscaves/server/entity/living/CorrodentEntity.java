@@ -1,10 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.CorrodentAttackGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.CorrodentDigRandomlyGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.CorrodentFearLightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -17,6 +19,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -132,6 +135,9 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
             digProgress++;
         }
         if (!this.isDigging() && digProgress > 0F) {
+            if(digProgress == 5.0F){
+                this.playSound(ACSoundRegistry.CORRODENT_DIG_STOP.get());
+            }
             digProgress--;
         }
         if (this.isAfraid() && fearProgress < 5F) {
@@ -171,6 +177,8 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                 }
                 this.setNoGravity(false);
             }
+        }else if(this.isDigging()){
+            AlexsCaves.PROXY.playWorldSound(this, (byte) 6);
         }
         prevSurfacePosition = surfacePosition;
         if (isMoving() || surfacePosition == null) {
@@ -226,6 +234,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
             super.handleEntityEvent(b);
         }
     }
+
 
     public int getCorrosionAmount(BlockPos pos) {
         double distance = this.distanceToSqr(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F);
@@ -319,6 +328,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
     }
 
     public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
         super.remove(removalReason);
         if (allParts != null) {
             for (PartEntity part : allParts) {
@@ -451,6 +461,19 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
         return checkMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
     }
 
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.CORRODENT_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.CORRODENT_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.CORRODENT_DEATH.get();
+    }
+
     static class DiggingNodeEvaluator extends FlyNodeEvaluator {
 
         protected BlockPathTypes evaluateBlockPathType(BlockGetter level, BlockPos pos, BlockPathTypes typeIn) {
@@ -534,12 +557,9 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
         public void tick() {
             if (this.operation == MoveControl.Operation.MOVE_TO) {
                 Vec3 ed = this.mob.getNavigation().getTargetPos().getCenter();
-                //((ServerLevel)mob.level).sendParticles(ParticleTypes.EXPLOSION, ed.x, ed.y, ed.z, 0, 0, 0, 0, 1);
-                //((ServerLevel)mob.level).sendParticles(ParticleTypes.SNEEZE, wantedX, wantedY, wantedZ, 0, 0, 0, 0, 1);
                 Vec3 vector3d = new Vec3(this.wantedX - mob.getX(), this.wantedY - mob.getY(), this.wantedZ - mob.getZ());
                 double d0 = vector3d.length();
                 double width = mob.getBoundingBox().getSize();
-                LivingEntity attackTarget = mob.getTarget();
                 float burySpeed = CorrodentEntity.this.timeDigging < 40 ? 0.25F : 1.0F;
                 Vec3 vector3d1 = vector3d.scale(this.speedModifier * burySpeed * 0.025D / d0);
                 if (isSafeDig(level(), BlockPos.containing(wantedX, wantedY, wantedZ))) {

@@ -121,11 +121,7 @@ public class ACBiomeRegistry {
         if (i == 0) {
             return ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
         } else {
-            Vec3 samplePos = player.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-            Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                return new Vec3(ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
-            });
-            return (float) vec31.x;
+            return BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeSkyOverride);
         }
     }
 }

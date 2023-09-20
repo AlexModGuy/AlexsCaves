@@ -3,13 +3,18 @@
   },
   "downfall": 0.5,
   "effects": {
-    "fog_color": 3884,
+    "ambient_sound": "alexscaves:abyssal_chasm_ambience",
+    "additions_sound": {
+      "sound": "alexscaves:abyssal_chasm_ambience_additions",
+      "tick_chance": 0.0111
+    },
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
-      "sound": "minecraft:ambient.cave",
+      "sound": "alexscaves:abyssal_chasm_ambience_mood",
       "tick_delay": 6000
     },
+    "fog_color": 3884,
     "music": {
       "max_delay": 24000,
       "min_delay": 12000,

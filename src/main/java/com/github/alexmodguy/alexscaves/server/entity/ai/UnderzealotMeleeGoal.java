@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.world.entity.Entity;
@@ -73,6 +74,7 @@ public class UnderzealotMeleeGoal extends Goal {
     private boolean tryAnimation(Animation animation) {
         if (entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             entity.setAnimation(animation);
+            entity.playSound(ACSoundRegistry.UNDERZEALOT_ATTACK.get());
             return true;
         }
         return false;

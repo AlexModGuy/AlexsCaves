@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -58,7 +59,7 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
     );
 
     public NuclearFurnaceComponentBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5, 1001).sound(SoundType.METAL).noOcclusion().randomTicks());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).pushReaction(PushReaction.BLOCK).strength(5, 1001).sound(SoundType.METAL).noOcclusion().randomTicks());
         this.registerDefaultState(this.defaultBlockState().setValue(ACTIVE, Boolean.valueOf(false)));
     }
 
@@ -208,7 +209,7 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
 
     private void checkCriticalityExplosion(LevelReader level, BlockPos pos){
         BlockState state = level.getBlockState(pos);
-        if (state.getValue(ACTIVE)) {
+        if (state.is(this) && state.getValue(ACTIVE)) {
             BlockPos corner = getCornerForFurnace(level, pos, true);
             if (corner != null && level.getBlockEntity(corner) instanceof NuclearFurnaceBlockEntity nuclearFurnaceBlockEntity && nuclearFurnaceBlockEntity.getCriticality() >= 2F) {
                 nuclearFurnaceBlockEntity.destroyWhileCritical(false);

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
@@ -30,6 +31,8 @@ public class BurrowingArrowEntity extends AbstractArrow {
 
     private int miningTime = 0;
     private int lastMineBlockBreakProgress = -1;
+
+    private int soundTime = 0;
     private BlockPos hitPos;
 
     public BurrowingArrowEntity(EntityType entityType, Level level) {
@@ -104,6 +107,12 @@ public class BurrowingArrowEntity extends AbstractArrow {
                 hitPos = null;
             }
             this.setDigging(false);
+        }
+        if(this.isDigging()){
+            if(soundTime-- <= 0){
+                soundTime = 38;
+                this.playSound(ACSoundRegistry.CORRODENT_TEETH.get());
+            }
         }
     }
 

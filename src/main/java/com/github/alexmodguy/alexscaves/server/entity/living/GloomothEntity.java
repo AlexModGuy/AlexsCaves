@@ -9,6 +9,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFindLightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFleeMothBallsGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GloomothFlightGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +17,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -57,6 +59,8 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
 
     private boolean isBeingSacrificed = false;
     private int sacrificeTime = 0;
+
+    private int flapTime = 0;
 
     public GloomothEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -127,6 +131,10 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
         if (isFlying()) {
             if (this.isLandNavigator) {
                 switchNavigator(false);
+            }
+            if(flapAmount > 0 && isAlive() && flapTime-- <= 0){
+                flapTime = 8 + random.nextInt(10);
+                this.playSound(ACSoundRegistry.GLOOMOTH_FLAP.get(), 0.7F, 1.0F);
             }
         } else {
             if (!this.isLandNavigator) {
@@ -330,6 +338,15 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
             doInitialPosing(worldIn);
         }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
+    }
+
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.GLOOMOTH_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.GLOOMOTH_DEATH.get();
     }
 
     class FlightMoveHelper extends MoveControl {

@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.world.entity.LivingEntity;
@@ -68,6 +69,7 @@ public class WatcherAttackGoal extends Goal {
                     if (watcher.hasLineOfSight(target)) {
                         if (watcher.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                             watcher.setAnimation(watcher.getRandom().nextBoolean() ? WatcherEntity.ANIMATION_ATTACK_0 : WatcherEntity.ANIMATION_ATTACK_1);
+                            watcher.playSound(ACSoundRegistry.WATCHER_ATTACK.get());
                         } else if (watcher.getAnimationTick() == 8) {
                             target.hurt(target.damageSources().mobAttack(watcher), (float) watcher.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
                             target.knockback(0.5D, watcher.getX() - target.getX(), watcher.getZ() - target.getZ());

@@ -33,7 +33,9 @@
     "client.LiquidBlockRendererMixin",
     "client.MinecraftMixin",
     "client.RidingMinecartSoundInstanceMixin",
-    "client.SoundEngineMixin"
+    "client.SoundEngineMixin",
+    "client.UnderwaterAmbientSoundHandlerMixin",
+    "client.UnderwaterAmbientSoundInstancesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

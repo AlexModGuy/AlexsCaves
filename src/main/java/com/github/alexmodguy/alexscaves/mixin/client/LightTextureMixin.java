@@ -4,6 +4,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
 import com.mojang.blaze3d.platform.NativeImage;
@@ -12,7 +13,6 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.util.CubicSampler;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -214,11 +214,7 @@ public abstract class LightTextureMixin {
         if (i == 0) {
             return ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiome(player.blockPosition()));
         } else {
-            Vec3 samplePos = Minecraft.getInstance().cameraEntity.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-            Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                return new Vec3(ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z)), 0, 0);
-            });
-            return (float) vec31.x;
+            return BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeAmbientLight);
         }
     }
 
@@ -227,11 +223,7 @@ public abstract class LightTextureMixin {
         if (i == 0) {
             return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiome(player.blockPosition()));
         } else {
-            Vec3 samplePos = Minecraft.getInstance().cameraEntity.position().subtract(2.0D, 2.0D, 2.0D).scale(0.25D);
-            Vec3 vec31 = CubicSampler.gaussianSampleVec3(samplePos, (x, y, z) -> {
-                return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiomeManager().getNoiseBiomeAtQuart(x, y, z));
-            });
-            return vec31;
+            return BiomeSampler.sampleBiomesVec3(player.level(), player.position(), ACBiomeRegistry::getBiomeLightColorOverride);
         }
     }
 }

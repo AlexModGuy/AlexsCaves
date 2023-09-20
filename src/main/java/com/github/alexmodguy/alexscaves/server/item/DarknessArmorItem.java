@@ -31,8 +31,8 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
         super(armorMaterial, slot, new Properties().rarity(ACItemRegistry.RARITY_DEMONIC));
     }
 
-    private static boolean canChargeUp(LivingEntity entity, boolean creative){
-        return (!DarknessIncarnateEffect.isInLight(entity, 11) || creative && entity instanceof Player player && player.isCreative()) && entity.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.HOOD_OF_DARKNESS.get())  && !entity.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get());
+    private static boolean canChargeUp(LivingEntity entity, boolean creative) {
+        return (!DarknessIncarnateEffect.isInLight(entity, 11) || creative && entity instanceof Player player && player.isCreative()) && entity.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.HOOD_OF_DARKNESS.get()) && !entity.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get());
     }
 
     public static boolean canChargeUp(ItemStack itemStack) {
@@ -40,16 +40,16 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
         return tag == null || tag.getBoolean("CanCharge");
     }
 
-    public static boolean hasMeter(Player player){
+    public static boolean hasMeter(Player player) {
         return player.getItemBySlot(EquipmentSlot.CHEST).is(ACItemRegistry.CLOAK_OF_DARKNESS.get()) && player.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.HOOD_OF_DARKNESS.get()) && !player.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get());
     }
 
     public static float getMeterProgress(ItemStack cloak) {
         CompoundTag tag = cloak.getTag();
-        if(tag == null){
+        if (tag == null) {
             return 0.0F;
-        }else{
-            return tag.getInt("CloakCharge") / (float)MAX_CHARGE;
+        } else {
+            return tag.getInt("CloakCharge") / (float) MAX_CHARGE;
         }
     }
 
@@ -66,17 +66,17 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
 
-        if(stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get())){
+        if (stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get())) {
             if (!level.isClientSide) {
                 CompoundTag tag = stack.getOrCreateTag();
                 int charge = tag.getInt("CloakCharge");
                 boolean flag = false;
-                if(charge < MAX_CHARGE && canChargeUp(stack)){
+                if (charge < MAX_CHARGE && canChargeUp(stack)) {
                     charge += 1;
                     tag.putInt("CloakCharge", charge);
                     flag = true;
                 }
-                if(flag){
+                if (flag) {
                     AlexsCaves.sendNonLocal(new UpdateItemTagMessage(player.getId(), stack), (ServerPlayer) player);
                 }
             }
@@ -84,23 +84,23 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
     }
 
 
-        public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
-        if(stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get()) && entity instanceof LivingEntity living) {
-            if(living.getItemBySlot(EquipmentSlot.CHEST) == stack){
+        if (stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get()) && entity instanceof LivingEntity living) {
+            if (living.getItemBySlot(EquipmentSlot.CHEST) == stack) {
                 CompoundTag tag = stack.getOrCreateTag();
-                if(!level.isClientSide) {
+                if (!level.isClientSide) {
                     long lastLightTimestamp = tag.getLong("LastLightTimestamp");
                     long lastEquipMessageTime = tag.getLong("LastEquipMessageTime");
-                    if(lastLightTimestamp <= 0 || level.getGameTime() - lastLightTimestamp > 10) {
+                    if (lastLightTimestamp <= 0 || level.getGameTime() - lastLightTimestamp > 10) {
                         tag.putLong("LastLightTimestamp", level.getGameTime());
                         tag.putBoolean("CanCharge", canChargeUp(living, true));
                     }
-                    if(lastEquipMessageTime <= 0 && entity instanceof Player player && !level.isClientSide) {
+                    if (lastEquipMessageTime <= 0 && entity instanceof Player player && !level.isClientSide) {
                         tag.putLong("LastEquipMessageTime", level.getGameTime());
                         player.displayClientMessage(Component.translatable("item.alexscaves.cloak_of_darkness.equip"), true);
                     }
-                }else if(AlexsCaves.PROXY.getClientSidePlayer() == entity && getMeterProgress(stack) >= 1.0F && AlexsCaves.PROXY.isKeyDown(2)){
+                } else if (AlexsCaves.PROXY.getClientSidePlayer() == entity && getMeterProgress(stack) >= 1.0F && AlexsCaves.PROXY.isKeyDown(2)) {
                     AlexsCaves.sendMSGToServer(new ArmorKeyMessage(EquipmentSlot.CHEST.ordinal(), living.getId(), 2));
                     onKeyPacket(living, stack, 2);
                 }
@@ -108,11 +108,11 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
         }
     }
 
-    public void onKeyPacket(Entity wearer, ItemStack itemStack, int key){
-        if(wearer instanceof LivingEntity living && canChargeUp(living, false)){
+    public void onKeyPacket(Entity wearer, ItemStack itemStack, int key) {
+        if (wearer instanceof LivingEntity living && canChargeUp(living, false)) {
             itemStack.getOrCreateTag().putInt("CloakCharge", 0);
             living.addEffect(new MobEffectInstance(ACEffectRegistry.DARKNESS_INCARNATE.get(), 200, 0, false, false, false));
-        }else if(wearer instanceof Player player && !wearer.level().isClientSide){
+        } else if (wearer instanceof Player player && !wearer.level().isClientSide) {
             player.displayClientMessage(Component.translatable("item.alexscaves.cloak_of_darkness.requires_darkness"), true);
         }
     }

@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.HeartOfIronBlock;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetronJoint;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -79,6 +81,7 @@ public class MagnetronEntity extends Monster {
     private boolean hasFormedAttributes = false;
 
     private boolean droppedHeart = false;
+    private int movingSoundTimer;
 
     public MagnetronEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -180,15 +183,32 @@ public class MagnetronEntity extends Monster {
         prevRollLeanProgress = rollLeanProgress;
         prevFormProgress = formProgress;
         prevAttackPoseProgress = attackPoseProgress;
-        boolean moving = false;
-        if (!this.isFormed()) {
-            double speed = this.getDeltaMovement().horizontalDistance();
-            if (speed > 0.01) {
-                moving = true;
+        boolean wheelSpinning = false;
+        double speed = this.getDeltaMovement().horizontalDistance();
+
+        if (speed > 0.01) {
+            if (this.isFormed()) {
+                float f = (float) Math.cos(this.walkAnimation.position() * 0.4F - 1.5F);
+                if (this.walkAnimation.speed() > 0.2F && Math.abs(f) < 0.2F) {
+                    if (movingSoundTimer == 0) {
+                        movingSoundTimer = 5;
+                        this.playSound(ACSoundRegistry.MAGNETRON_STEP.get());
+                    }
+                }
+                if (movingSoundTimer > 0) {
+                    movingSoundTimer--;
+                }
+            } else {
+                wheelSpinning = true;
                 wheelRot += Math.max(speed * 10, 1) * 15;
-            } else if (Mth.wrapDegrees(wheelRot) != 0) {
-                wheelRot = Mth.approachDegrees(wheelRot, 0, 15);
+                if (movingSoundTimer++ > 20) {
+                    this.playSound(ACSoundRegistry.MAGNETRON_ROLL.get());
+                    movingSoundTimer = 0;
+                }
             }
+        }
+        if (!wheelSpinning && Mth.wrapDegrees(wheelRot) != 0) {
+            wheelRot = Mth.approachDegrees(wheelRot, 0, 15);
         }
         if (!this.level().isClientSide && !isFormed()) {
             LivingEntity target = this.getTarget();
@@ -196,7 +216,7 @@ public class MagnetronEntity extends Monster {
                 this.startForming();
             }
         }
-        if (moving || this.isFormed()) {
+        if (wheelSpinning || this.isFormed()) {
             wheelYaw = Mth.approachDegrees(wheelYaw, yBodyRot, 15);
         }
         AttackPose attackPose = this.getAttackPose();
@@ -213,15 +233,18 @@ public class MagnetronEntity extends Monster {
             this.attackPoseProgress = 10.0F;
         }
         if (isFormed() && formProgress < FORM_TIME) {
+            if (formProgress == 0) {
+                this.playSound(ACSoundRegistry.MAGNETRON_ASSEMBLE.get());
+            }
             formProgress++;
         }
         if (!isFormed() && formProgress > 0F) {
             formProgress = 0;
         }
-        if (moving && rollLeanProgress < 5F) {
+        if (wheelSpinning && rollLeanProgress < 5F) {
             rollLeanProgress++;
         }
-        if (!moving && rollLeanProgress > 0F) {
+        if (!wheelSpinning && rollLeanProgress > 0F) {
             rollLeanProgress--;
         }
         if (!level().isClientSide) {
@@ -371,7 +394,7 @@ public class MagnetronEntity extends Monster {
             double idealDistance = this.position().y - this.allParts[lowestPartIndex].getLowPoint();
             Vec3 bottom = new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
             Vec3 ground = ACMath.getGroundBelowPosition(level(), bottom);
-            Vec3 aboveGround = ground.add(0, idealDistance + 1, 0);
+            Vec3 aboveGround = ground.add(0, idealDistance, 0);
             Vec3 diff = aboveGround.subtract(bottom);
             this.gravityFlag = true;
             if (this.isAlive() && bottom.distanceTo(ground) < 7 && ground.y > level().getMinBuildHeight()) {
@@ -613,6 +636,22 @@ public class MagnetronEntity extends Monster {
         return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
 
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.MAGNETRON_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.MAGNETRON_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.MAGNETRON_DEATH.get();
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, BlockState state) {
+    }
+
     public enum AttackPose {
         NONE,
         RIGHT_PUNCH,
@@ -714,6 +753,7 @@ public class MagnetronEntity extends Monster {
             if (target != null) {
                 double xzDist = MagnetronEntity.this.distanceToSqr(target.getX(), MagnetronEntity.this.getY(), target.getZ());
                 double yDist = Math.abs(MagnetronEntity.this.getY() - target.getY());
+                float trueDist = (float) Math.max(yDist * 0.75F, Math.sqrt((float) xzDist));
                 if (xzDist < 10) {
                     if (!MagnetronEntity.this.isFormed()) {
                         MagnetronEntity.this.startForming();
@@ -723,16 +763,15 @@ public class MagnetronEntity extends Monster {
                     float progress = MagnetronEntity.this.getFormProgress(1.0F);
                     if (progress >= 1.0F) {
                         MagnetronEntity.this.getNavigation().moveTo(target, 1);
-                        if (xzDist < 4F && yDist < 7F) {
-                            if (MagnetronEntity.this.getAttackPose() == AttackPose.NONE && MagnetronEntity.this.getAttackPoseProgress(1.0F) >= 1.0F) {
-                                if (punchCooldown <= 0) {
-                                    AttackPose set = getPoseForHand();
-                                    MagnetronEntity.this.setAttackPose(set);
-                                    punchCooldown = set == AttackPose.SLAM ? 15 : 10;
-                                }
-                            } else if (MagnetronEntity.this.getAttackPoseProgress(1.0F) >= 0.9F) {
-                                dealDamage(target, MagnetronEntity.this.getAttackPose());
+                        if (MagnetronEntity.this.getAttackPose() == AttackPose.NONE && MagnetronEntity.this.getAttackPoseProgress(1.0F) >= 1.0F) {
+                            if (trueDist < 5F && punchCooldown <= 0) {
+                                AttackPose set = getPoseForHand();
+                                MagnetronEntity.this.playSound(ACSoundRegistry.MAGNETRON_ATTACK.get());
+                                MagnetronEntity.this.setAttackPose(set);
+                                punchCooldown = set == AttackPose.SLAM ? 15 : 10;
                             }
+                        } else if (trueDist < 7.5F && MagnetronEntity.this.getAttackPoseProgress(1.0F) >= 0.9F) {
+                            dealDamage(target, MagnetronEntity.this.getAttackPose());
                         }
                     }
                 }

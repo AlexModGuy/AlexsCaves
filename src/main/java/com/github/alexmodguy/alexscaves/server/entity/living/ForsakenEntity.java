@@ -78,6 +78,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
     private float darknessProgress;
     private float prevDarknessProgress;
     private boolean hasRunningAttributes = false;
+    private int destroyBlocksTick = 10;
 
     public static final Predicate<LivingEntity> TARGETING = (mob) -> {
         return !mob.getType().is(ACTagRegistry.FORSAKEN_IGNORES);
@@ -435,6 +436,42 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
     }
 
     @Override
+    protected void customServerAiStep() {
+        super.customServerAiStep();
+        if(this.isInWall()){
+            if (this.destroyBlocksTick > 0) {
+                --this.destroyBlocksTick;
+                if (this.destroyBlocksTick == 0 && net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                    int j1 = Mth.floor(this.getY());
+                    int i2 = Mth.floor(this.getX());
+                    int j2 = Mth.floor(this.getZ());
+                    boolean flag = false;
+
+                    for(int j = -1; j <= 1; ++j) {
+                        for(int k2 = -1; k2 <= 1; ++k2) {
+                            for(int k = 0; k <= 3; ++k) {
+                                int l2 = i2 + j;
+                                int l = j1 + k;
+                                int i1 = j2 + k2;
+                                BlockPos blockpos = new BlockPos(l2, l, i1);
+                                BlockState blockstate = this.level().getBlockState(blockpos);
+                                if (blockstate.canEntityDestroy(this.level(), blockpos, this) && !blockstate.is(ACTagRegistry.UNMOVEABLE) && net.minecraftforge.event.ForgeEventFactory.onEntityDestroyBlock(this, blockpos, blockstate)) {
+                                    flag = this.level().destroyBlock(blockpos, true, this) || flag;
+                                }
+                            }
+                        }
+                    }
+
+                    if (flag) {
+                        this.level().levelEvent((Player)null, 1022, this.blockPosition(), 0);
+                    }
+                    this.destroyBlocksTick = 20;
+                }
+            }
+        }
+    }
+
+        @Override
     public float getScreenShakeAmount(float partialTicks) {
         return prevScreenShakeAmount + (screenShakeAmount - prevScreenShakeAmount) * partialTicks;
     }

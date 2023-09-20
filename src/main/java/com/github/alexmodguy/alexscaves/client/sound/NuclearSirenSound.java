@@ -30,7 +30,7 @@ public class NuclearSirenSound extends AbstractTickableSoundInstance implements 
                 return false;
             }
             BlockState state = Minecraft.getInstance().level.getBlockState(siren.getBlockPos());
-            if(this.siren != null && !siren.isRemoved() && state.is(ACBlockRegistry.NUCLEAR_SIREN.get()) && (this.siren.isActivated(state) || this.volume > 0)){
+            if(!siren.isRemoved() && state.is(ACBlockRegistry.NUCLEAR_SIREN.get()) && (this.siren.isActivated(state) || this.volume > 0)){
                 return true;
             }else{
                 ClientProxy.closestSirenSound = null;

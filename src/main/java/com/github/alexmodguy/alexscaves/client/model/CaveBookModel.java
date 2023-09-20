@@ -87,6 +87,7 @@ public class CaveBookModel extends AdvancedEntityModel {
         progressRotationPrev(root, close, 0F, 0, (float) Math.toRadians(-90F), 1F);
         this.root.rotateAngleX += (float) Math.toRadians(bookRotateX);
         this.root.rotateAngleZ += (float) Math.toRadians(bookRotateY);
+        this.lcover.setScale(1.0F + close * 0.01F, 1.0F + close * 0.01F, 1.0F + close * 0.01F);
         if (openAmount < 1.0F) {
             this.page_flip.showModel = false;
         } else {

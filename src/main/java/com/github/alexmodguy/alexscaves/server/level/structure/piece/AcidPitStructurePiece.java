@@ -52,6 +52,7 @@ public class AcidPitStructurePiece extends AbstractCaveGenerationStructurePiece 
                     double yDist = ACMath.smin(1F - Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * heightSimplexNoise1), 0.7F, 0.3F);
                     double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY(), this.holeCenter.getZ());
                     double targetRadius = yDist * (radius + widthSimplexNoise1 * radius) * radius;
+                    double acidRadius = targetRadius - (targetRadius * 0.25F);
                     if (distToCenter <= targetRadius) {
                         FluidState fluidState = checkedGetBlock(level, carve).getFluidState();
                         flag = true;
@@ -90,10 +91,10 @@ public class AcidPitStructurePiece extends AbstractCaveGenerationStructurePiece 
 
     private void surroundCornerLiquid(WorldGenLevel level, BlockPos.MutableBlockPos center) {
         BlockPos.MutableBlockPos offset = new BlockPos.MutableBlockPos();
-        for (Direction dir : ACMath.HORIZONTAL_DIRECTIONS) {
+        for (Direction dir : ACMath.NOT_UP_DIRECTIONS) {
             offset.set(center);
             offset.move(dir);
-            BlockState state = checkedGetBlock(level, offset);
+            BlockState state = checkedGetBlockIgnoreY(level, offset);
             if (!state.getFluidState().is(ACFluidRegistry.ACID_FLUID_SOURCE.get())) {
                 checkedSetBlock(level, offset, Blocks.MUD.defaultBlockState());
             }

@@ -1,11 +1,13 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -16,6 +18,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -48,9 +51,11 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     private static final EntityDataAccessor<Boolean> PRAYING = SynchedEntityData.defineId(UnderzealotEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Optional<BlockPos>> SACRIFICE_POS = SynchedEntityData.defineId(UnderzealotEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
     private static final EntityDataAccessor<Optional<BlockPos>> PARTICLE_POS = SynchedEntityData.defineId(UnderzealotEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
+    private static final EntityDataAccessor<Integer> WORSHIP_TIME = SynchedEntityData.defineId(UnderzealotEntity.class, EntityDataSerializers.INT);
     public static final Animation ANIMATION_ATTACK_0 = Animation.create(15);
     public static final Animation ANIMATION_ATTACK_1 = Animation.create(15);
     public static final Animation ANIMATION_BREAKTORCH = Animation.create(15);
+    public static final int MAX_WORSHIP_TIME = 500;
     public int sacrificeCooldown;
     public int cloudCooldown;
     private Animation currentAnimation;
@@ -101,6 +106,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.entityData.define(PRAYING, false);
         this.entityData.define(SACRIFICE_POS, Optional.empty());
         this.entityData.define(PARTICLE_POS, Optional.empty());
+        this.entityData.define(WORSHIP_TIME, 0);
     }
 
     public void calculateEntityAnimation(boolean flying) {
@@ -125,6 +131,9 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         prevBuriedProgress = buriedProgress;
         prevCarryingProgress = carryingProgress;
         prevPrayingProgress = prayingProgress;
+        if(buriedProgress == 0.0F && this.isBuried() || buriedProgress == 20.0F && !this.isBuried()){
+            this.playSound(ACSoundRegistry.UNDERZEALOT_DIG.get());
+        }
         if (isBuried() && buriedProgress < 20.0F) {
             buriedProgress++;
         }
@@ -204,9 +213,16 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
                 carryingId = this.getFirstPassenger() == null ? -1 : this.getFirstPassenger().getId();
             }
             this.level().addParticle(ACParticleRegistry.VOID_BEING_CLOUD.get(), particleAt.x, particleAt.y, particleAt.z, 1F, carryingId, 5 + random.nextInt(4));
-        } else {
+        } else if(b == 77){
+            AlexsCaves.PROXY.playWorldSound(this, (byte) 5);
+        }else {
             super.handleEntityEvent(b);
         }
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.remove(removalReason);
     }
 
     public BlockPos findReemergePos(BlockPos origin, int range) {
@@ -284,6 +300,14 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
 
     public void setPraying(boolean bool) {
         this.entityData.set(PRAYING, bool);
+    }
+
+    public int getWorshipTime() {
+        return this.entityData.get(WORSHIP_TIME);
+    }
+
+    public void setWorshipTime(int worship) {
+        this.entityData.set(WORSHIP_TIME, worship);
     }
 
     @Nullable
@@ -458,6 +482,18 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
                 ACAdvancementTriggerRegistry.UNDERZEALOT_SACRIFICE.triggerForEntity(player);
             }
         }
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return this.isCarrying() || this.isPraying() ? super.getAmbientSound() : ACSoundRegistry.UNDERZEALOT_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.UNDERZEALOT_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.UNDERZEALOT_DEATH.get();
     }
 
     public void jumpFromGround() {
