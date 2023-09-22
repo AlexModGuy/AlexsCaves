@@ -100,13 +100,12 @@ public class MagneticWeaponEntity extends Entity {
             } else {
                 this.noPhysics = false;
             }
-            if (controller == null && this.tickCount > 20) {
+            if (controller == null && this.tickCount > 20 || this.getItemStack().isEmpty()) {
                 if(hadPlayerController){
                     this.plopItem();
                     hadPlayerController = false;
-                }else{
-                    this.remove(RemovalReason.DISCARDED);
                 }
+                this.remove(RemovalReason.DISCARDED);
             }
         }
         if ((this.getTarget() == null || comingBack || playerUseCooldown > 0) && strikeProgress > 0) {
@@ -247,8 +246,8 @@ public class MagneticWeaponEntity extends Entity {
         ItemEntity itementity = this.spawnAtLocation(this.getItemStack());
         if (itementity != null) {
             itementity.setNoPickUpDelay();
-            this.remove(RemovalReason.DISCARDED);
         }
+        this.remove(RemovalReason.DISCARDED);
     }
 
     public void damageItem(int damageAmount) {

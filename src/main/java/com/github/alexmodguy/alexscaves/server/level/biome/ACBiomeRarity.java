@@ -4,7 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.misc.VoronoiGenerator;
 import com.google.common.collect.ImmutableList;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.XoroshiroRandomSource;
 import net.minecraft.world.level.levelgen.synth.PerlinSimplexNoise;
 
 import java.util.List;
@@ -22,8 +22,8 @@ public class ACBiomeRarity {
         //start of code to initialize noise for world
         if (lastTestedSeed != worldSeed || voronoiGenerator == null || noiseX == null || noiseZ == null) {
             lastTestedSeed = worldSeed;
-            noiseX = new PerlinSimplexNoise(new LegacyRandomSource(1234L + worldSeed), BIOME_OCTAVES);
-            noiseZ = new PerlinSimplexNoise(new LegacyRandomSource(4321L + worldSeed), BIOME_OCTAVES);
+            noiseX = new PerlinSimplexNoise(new XoroshiroRandomSource(1234L + worldSeed), BIOME_OCTAVES);
+            noiseZ = new PerlinSimplexNoise(new XoroshiroRandomSource(4321L + worldSeed), BIOME_OCTAVES);
             voronoiGenerator = new VoronoiGenerator(worldSeed);
             voronoiGenerator.setOffsetAmount(AlexsCaves.COMMON_CONFIG.caveBiomeSpacingRandomness.get());
         }

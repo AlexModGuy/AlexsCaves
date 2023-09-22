@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.map;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraft.world.entity.player.Player;
@@ -9,21 +10,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.*;
 
 public final class CaveBiomeFinder {
-    private final BlockingQueue<Runnable> runnables = new LinkedBlockingDeque<>();
-    private final ThreadPoolExecutor executor;
+
+    private static final Map<UUID, CompoundTag> RESULTS = new ConcurrentHashMap<>();
+    protected static final ExecutorService EXECUTORS = Executors.newCachedThreadPool();
 
     public CaveBiomeFinder() {
-        executor = new ThreadPoolExecutor(1, 8, 200, TimeUnit.SECONDS, runnables, new MapThreadFactory());
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player) {
-        executor.execute(new FilloutCaveBiomeMap(map, serverLevel, center, player, uuid));
+        EXECUTORS.execute(new FilloutCaveBiomeMap(map, serverLevel, center, player, uuid));
     }
 
     /**

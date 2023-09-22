@@ -234,6 +234,9 @@ public class UnderzealotSacrificeGoal extends Goal {
     public void stop() {
         attemptToFollowTicks = 0;
         this.entity.setWorshipTime(0);
+        if(this.entity.sacrificeCooldown == 0){
+            this.entity.sacrificeCooldown = 100;
+        }
         this.entity.getNavigation().stop();
         this.entity.ejectPassengers();
         this.entity.setPraying(false);
