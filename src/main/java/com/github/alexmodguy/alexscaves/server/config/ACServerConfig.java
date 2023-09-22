@@ -37,7 +37,7 @@ public class ACServerConfig {
         amberMonolithMeanTime = builder.comment("How long (in game ticks) it usually takes for an amber monolith to spawn an animal.").translation("amber_monolith_mean_time").defineInRange("amber_monolith_mean_time", 32000, 1000, Integer.MAX_VALUE);
         builder.pop();
         builder.push("item-behavior");
-        caveMapSearchDistance = builder.comment("How far away for cave biomes the Cave Map will search for.").translation("cave_map_search_distance").defineInRange("cave_map_search_distance", 9200, 6400, Integer.MAX_VALUE);
+        caveMapSearchDistance = builder.comment("How far away for cave biomes the Cave Map will search for.").translation("cave_map_search_distance").defineInRange("cave_map_search_distance", 10000, 6400, Integer.MAX_VALUE);
         totemOfPossessionPlayers = builder.comment("Whether the Totem of Possession can be applied to players.").translation("totem_of_possession_works_on_players").define("totem_of_possession_works_on_players", true);
         builder.pop();
         builder.push("vanilla-changes");

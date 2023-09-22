@@ -40,9 +40,6 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
     private boolean flipped;
 
     @Shadow
-    public abstract IMinecartCollisionHandler getCollisionHandler();
-
-    @Shadow
     public abstract int getHurtTime();
 
     @Shadow
@@ -178,10 +175,7 @@ public abstract class AbstractMinecartMixin extends Entity implements MinecartAc
                     }
 
                     this.setRot(this.getYRot(), this.getXRot());
-                    AABB box;
-                    if (getCollisionHandler() != null)
-                        box = getCollisionHandler().getMinecartCollisionBox((AbstractMinecart) (Entity) this);
-                    else box = this.getBoundingBox().inflate(0.2F, 0.0D, 0.2F);
+                    AABB box = this.getBoundingBox().inflate(0.2F, 0.0D, 0.2F);
                     if (((AbstractMinecart) (Entity) this).canBeRidden() && this.getDeltaMovement().horizontalDistanceSqr() > 0.01D) {
                         List<Entity> list = this.level().getEntities(this, box, EntitySelector.pushableBy(this));
                         if (!list.isEmpty()) {

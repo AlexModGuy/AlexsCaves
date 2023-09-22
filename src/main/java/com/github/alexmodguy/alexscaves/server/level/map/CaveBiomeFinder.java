@@ -20,7 +20,6 @@ public final class CaveBiomeFinder {
 
     public CaveBiomeFinder() {
         executor = new ThreadPoolExecutor(1, 8, 200, TimeUnit.SECONDS, runnables, new MapThreadFactory());
-
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player) {

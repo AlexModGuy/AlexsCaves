@@ -55,11 +55,12 @@ public class FilloutCaveBiomeMap implements Runnable {
             tag.putInt("BiomeZ", centered.getZ());
             tag.putLong("RandomSeed", serverLevel.getRandom().nextLong());
             tag.putBoolean("Filled", true);
-            tag.putBoolean("Loading", false);
             AlexsCaves.LOGGER.info("Found {} at {} {} {}", biomeResourceKey.location(), centered.getX(), centered.getY(), centered.getZ());
         } else {
             player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error").withStyle(ChatFormatting.RED));
         }
+        tag.putBoolean("Loading", false);
+        tag.remove("MapUUID");
         map.setTag(tag);
         AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getId(), getTaskUUID(), tag));
     }
