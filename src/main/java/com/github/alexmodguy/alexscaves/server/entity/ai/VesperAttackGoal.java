@@ -67,7 +67,7 @@ public class VesperAttackGoal extends Goal {
                 orbitTime = 0;
                 startOrbitFrom = null;
             }
-            if (distance < f + 2.0D) {
+            if (distance < f + 0.5D) {
                 if (entity.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     entity.setAnimation(VesperEntity.ANIMATION_BITE);
                 } else if (entity.getAnimationTick() == 8 && entity.hasLineOfSight(target)) {

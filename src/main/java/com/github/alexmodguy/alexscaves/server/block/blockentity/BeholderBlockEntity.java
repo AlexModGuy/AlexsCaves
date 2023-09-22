@@ -3,11 +3,13 @@ package com.github.alexmodguy.alexscaves.server.block.blockentity;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.BeholderEyeEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -27,6 +29,8 @@ public class BeholderBlockEntity extends BlockEntity  {
 
     public int age;
 
+    public int soundCooldown = 40;
+
     public BeholderBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.BEHOLDER.get(), pos, state);
     }
@@ -42,6 +46,11 @@ public class BeholderBlockEntity extends BlockEntity  {
         }else{
             entity.eyeXRot = Mth.approach(entity.eyeXRot, currentlyUsing.getXRot(), 10F);
             entity.eyeYRot = Mth.approach(entity.eyeYRot, currentlyUsing.getYRot(), 10F);
+        }
+        if(entity.soundCooldown-- <= 0){
+            entity.soundCooldown = level.random.nextInt(100) + 100;
+            Vec3 vec3 = entity.getBlockPos().getCenter();
+            level.playSound((Player)null, vec3.x, vec3.y, vec3.z, entity.currentlyUsingEntityId == -1 ? ACSoundRegistry.BEHOLDER_IDLE.get() : ACSoundRegistry.BEHOLDER_VIEW_IDLE.get(), SoundSource.BLOCKS, 1.0F, 1.0F);
         }
         if(!level.isClientSide){
             if(entity.prevUsingEntityId != entity.currentlyUsingEntityId){

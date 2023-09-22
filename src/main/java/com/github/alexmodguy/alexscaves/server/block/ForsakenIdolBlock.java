@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -28,7 +29,7 @@ public class ForsakenIdolBlock extends Block implements SimpleWaterloggedBlock {
     private static final VoxelShape SHAPE_EW = Block.box(2.0D, 0.0D, 3.0D, 14.0D, 16.0D, 13.0D);
 
     public ForsakenIdolBlock() {
-        super(Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.WOOD).noOcclusion());
+        super(Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(ACSoundTypes.BEHOLDER).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FACING, Direction.NORTH));
     }
 

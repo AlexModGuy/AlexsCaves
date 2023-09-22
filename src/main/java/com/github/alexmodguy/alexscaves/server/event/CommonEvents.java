@@ -163,6 +163,15 @@ public class CommonEvents {
     public void livingRemoveEffect(MobEffectEvent.Remove event) {
         if(event.getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect){
             darknessIncarnateEffect.toggleFlight(event.getEntity(), false);
+            event.getEntity().playSound(ACSoundRegistry.DARKNESS_INCARNATE_EXIT.get());
+        }
+    }
+
+
+    @SubscribeEvent
+    public void livingAddEffect(MobEffectEvent.Added event) {
+        if(event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect){
+            event.getEntity().playSound(ACSoundRegistry.DARKNESS_INCARNATE_ENTER.get());
         }
     }
 
@@ -170,6 +179,7 @@ public class CommonEvents {
     public void livingExpireEffect(MobEffectEvent.Expired event) {
         if(event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect){
             darknessIncarnateEffect.toggleFlight(event.getEntity(), false);
+            event.getEntity().playSound(ACSoundRegistry.DARKNESS_INCARNATE_EXIT.get());
         }
     }
 

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.potion;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -29,6 +30,9 @@ public class DarknessIncarnateEffect extends MobEffect {
         toggleFlight(entity, true);
         if(entity.onGround()){
             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.1, 0));
+        }
+        if((entity.tickCount + entity.getId() * 5) % 50 == 0 && entity.getRandom().nextInt(2) == 0){
+            entity.playSound(ACSoundRegistry.DARKNESS_INCARNATE_IDLE.get());
         }
     }
 

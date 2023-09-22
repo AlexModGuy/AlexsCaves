@@ -9,21 +9,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.*;
 
 public final class CaveBiomeFinder {
-    private static final BlockingQueue<Runnable> RUNNABLES = new LinkedBlockingDeque<>();
-    private static ThreadPoolExecutor executor;
+    private final BlockingQueue<Runnable> runnables = new LinkedBlockingDeque<>();
+    private final ThreadPoolExecutor executor;
 
-    public static ThreadPoolExecutor getExecutor() {
-        if (executor == null) {
-            executor = new ThreadPoolExecutor(1, 8, 200, TimeUnit.SECONDS, RUNNABLES, new MapThreadFactory());
-        }
-        return executor;
+    public CaveBiomeFinder() {
+        executor = new ThreadPoolExecutor(1, 8, 200, TimeUnit.SECONDS, runnables, new MapThreadFactory());
+
     }
 
-    public static void fillOutCaveMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player) {
-        getExecutor().execute(new FilloutCaveBiomeMap(map, serverLevel, center, player));
+    public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player) {
+        executor.execute(new FilloutCaveBiomeMap(map, serverLevel, center, player, uuid));
     }
 
     /**

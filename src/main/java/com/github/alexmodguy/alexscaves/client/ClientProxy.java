@@ -16,10 +16,8 @@ import com.github.alexmodguy.alexscaves.client.render.item.ACItemRenderPropertie
 import com.github.alexmodguy.alexscaves.client.sound.*;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
+import com.github.alexmodguy.alexscaves.server.block.AcidBlock;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.*;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
@@ -28,6 +26,7 @@ import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -53,12 +52,15 @@ import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
@@ -83,13 +85,14 @@ public class ClientProxy extends CommonProxy {
     public static Map<ClientLevel, List<BlockPos>> blockedParticleLocations = new HashMap<>();
     public static Map<LivingEntity, Vec3[]> darknessTrailPosMap = new HashMap<>();
     public static Map<LivingEntity, Integer> darknessTrailPointerMap = new HashMap<>();
+    public static int muteNonNukeSoundsFor = 0;
     public static int renderNukeFlashFor = 0;
     public static float prevNukeFlashAmount = 0;
     public static float nukeFlashAmount = 0;
     public static float prevPossessionStrengthAmount = 0;
     public static float possessionStrengthAmount = 0;
     public static int renderNukeSkyDarkFor = 0;
-
+    public static float masterVolumeNukeModifier = 0.0F;
     public static NuclearSirenSound closestSirenSound = null;
     public static final Int2ObjectMap<AbstractTickableSoundInstance> ENTITY_SOUND_INSTANCE_MAP = new Int2ObjectOpenHashMap<>();
     public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
@@ -452,7 +455,7 @@ public class ClientProxy extends CommonProxy {
                         closestSirenSound = new NuclearSirenSound(nuclearSiren);
                     }
                     if (closestSirenSound != null && !Minecraft.getInstance().getSoundManager().isActive(closestSirenSound)) {
-                        Minecraft.getInstance().getSoundManager().play(closestSirenSound);
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(closestSirenSound);
                     }
                 }
                 break;
@@ -546,6 +549,42 @@ public class ClientProxy extends CommonProxy {
                     }
                 }
                 break;
+            case 7:
+                if (soundEmitter instanceof NuclearFurnaceBlockEntity nuclearFurnace) {
+                    NuclearFurnaceSound sound;
+                    AbstractTickableSoundInstance old = BLOCK_ENTITY_SOUND_INSTANCE_MAP.get(nuclearFurnace);
+                    if (old == null || !(old instanceof NuclearFurnaceSound furnaceSound && furnaceSound.isSameBlockEntity(nuclearFurnace)) || old.isStopped()) {
+                        sound = new NuclearFurnaceSound(nuclearFurnace);
+                        BLOCK_ENTITY_SOUND_INSTANCE_MAP.put(nuclearFurnace, sound);
+                    } else {
+                        sound = (NuclearFurnaceSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 8:
+                if (soundEmitter instanceof LivingEntity livingEntity) {
+                    RaygunSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(livingEntity.getId());
+                    if (old == null || !(old instanceof RaygunSound corrodentSound && corrodentSound.isSameEntity(livingEntity))) {
+                        sound = new RaygunSound(livingEntity);
+                        ENTITY_SOUND_INSTANCE_MAP.put(livingEntity.getId(), sound);
+                    } else {
+                        sound = (RaygunSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+        }
+    }
+
+    public void playWorldEvent(int messageId, Level level, BlockPos pos) {
+        if(messageId == 0 && AcidBlock.doesBlockCorrode(level.getBlockState(pos))){
+            level.playLocalSound((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, ACSoundRegistry.ACID_CORROSION.get(), SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
         }
     }
 

@@ -56,7 +56,7 @@ public class AbyssalRuinsStructurePiece extends TemplateStructurePiece {
         this.templatePosition = new BlockPos(this.templatePosition.getX(), i, this.templatePosition.getZ());
         BlockPos blockpos = StructureTemplate.transform(new BlockPos(this.template.getSize().getX() - 1, 0, this.template.getSize().getZ() - 1), Mirror.NONE, this.placeSettings.getRotation(), BlockPos.ZERO).offset(this.templatePosition);
         this.templatePosition = new BlockPos(this.templatePosition.getX(), this.getHeight(this.templatePosition, worldGenLevel, blockpos), this.templatePosition.getZ());
-        if (templatePosition.getY() > chunkGenerator.getSeaLevel() - 20) {
+        if (templatePosition.getY() > chunkGenerator.getSeaLevel() - 40) {
             templatePosition = templatePosition.atY(-128);
         }
         super.postProcess(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, pos);

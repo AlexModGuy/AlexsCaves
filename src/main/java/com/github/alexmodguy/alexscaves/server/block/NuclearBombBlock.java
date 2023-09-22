@@ -31,7 +31,7 @@ import javax.annotation.Nullable;
 
 public class NuclearBombBlock extends Block {
     public NuclearBombBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(8, 1001).sound(SoundType.METAL));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(8, 1001).sound(ACSoundTypes.NUCLEAR_BOMB));
     }
 
     public void onCaughtFire(BlockState state, Level level, BlockPos blockPos, @Nullable net.minecraft.core.Direction face, @Nullable LivingEntity igniter) {

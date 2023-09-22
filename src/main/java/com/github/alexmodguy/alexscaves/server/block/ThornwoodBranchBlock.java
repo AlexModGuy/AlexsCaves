@@ -34,7 +34,7 @@ public class ThornwoodBranchBlock extends Block implements SimpleWaterloggedBloc
     private static final VoxelShape SHAPE_SOUTH = Block.box(7.0D, 1.0D, 0.0D, 9.0D, 15.0D, 16.0D);
 
     public ThornwoodBranchBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().instabreak().sound(SoundType.MANGROVE_ROOTS).noOcclusion().noCollission());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().instabreak().sound(ACSoundTypes.THORNWOOD_BRANCH).noOcclusion().noCollission());
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(FACING, Direction.UP));
     }
 

@@ -32,14 +32,15 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties LIMESTONE_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_YELLOW).requiresCorrectToolForDrops().strength(1.2F, 4.5F).sound(SoundType.DRIPSTONE_BLOCK);
     public static final BlockBehaviour.Properties PEWEN_LOG_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.CHERRY_WOOD);
     public static final BlockBehaviour.Properties PEWEN_PLANKS_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.CHERRY_WOOD);
-    public static final BlockBehaviour.Properties RADROCK_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).requiresCorrectToolForDrops().strength(4F, 11.0F).sound(SoundType.TUFF);
-    public static final BlockBehaviour.Properties CINDER_BLOCK_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops().strength(5F, 20.0F).sound(SoundType.POLISHED_DEEPSLATE);
+    public static final BlockBehaviour.Properties RADROCK_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).requiresCorrectToolForDrops().strength(4F, 11.0F).sound(ACSoundTypes.RADROCK);
+    public static final BlockBehaviour.Properties CINDER_BLOCK_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops().strength(5F, 20.0F).sound(ACSoundTypes.CINDER_BLOCK);
     public static final BlockBehaviour.Properties RADON_LAMP_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).requiresCorrectToolForDrops().lightLevel(state -> 15).strength(2F, 11.0F).sound(SoundType.GLASS);
     public static final BlockBehaviour.Properties SMOOTH_BONE_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.SAND).requiresCorrectToolForDrops().strength(2.0F).sound(SoundType.BONE_BLOCK);
     public static final BlockBehaviour.Properties ABYSSMARINE_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).requiresCorrectToolForDrops().strength(2.5F, 10.0F).sound(SoundType.STONE);
     public static final BlockBehaviour.Properties GUANOSTONE_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_CYAN).requiresCorrectToolForDrops().strength(1.3F, 2.0F).sound(SoundType.BASALT);
     public static final BlockBehaviour.Properties COPROLITH_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(1.75F, 4.0F).sound(SoundType.CALCITE);
     public static final BlockBehaviour.Properties POROUS_COPROLITH_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(1.75F, 4.0F).sound(SoundType.CALCITE).noOcclusion();
+    public static final BlockBehaviour.Properties PEERING_COPROLITH_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(1.75F, 4.0F).sound(ACSoundTypes.PEERING_COPROLITH).noOcclusion();
     public static final BlockBehaviour.Properties THORNWOOD_LOG_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD);
     public static final BlockBehaviour.Properties THORNWOOD_PLANKS_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD);
     public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(new WoodType("alexscaves:pewen", BlockSetType.OAK));
@@ -170,7 +171,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RADROCK_BRICK_SLAB = registerBlockAndItem("radrock_brick_slab", () -> new SlabBlock(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_BRICK_WALL = registerBlockAndItem("radrock_brick_wall", () -> new WallBlock(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_CHISELED = registerBlockAndItem("radrock_chiseled", () -> new Block(RADROCK_PROPERTIES));
-    public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).requiresCorrectToolForDrops().strength(5F, 11.0F).sound(SoundType.TUFF)), 4);
+    public static final RegistryObject<Block> RADROCK_URANIUM_ORE = registerBlockAndItem("radrock_uranium_ore", () -> new RadrockUraniumOreBlock(), 4);
     public static final RegistryObject<Block> ACIDIC_RADROCK = registerBlockAndItem("acidic_radrock", () -> new AcidicRadrockBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT = registerBlockAndItem("geothermal_vent", () -> new GeothermalVentBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
@@ -186,7 +187,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> RUSTY_REBAR = registerBlockAndItem("rusty_rebar", () -> new RebarBlock());
     public static final RegistryObject<Block> RUSTY_SCAFFOLDING = registerBlockAndItem("rusty_scaffolding", () -> new MetalScaffoldingBlock(), 2);
     public static final RegistryObject<Block> URANIUM_ROD = registerBlockAndItem("uranium_rod", () -> new UraniumRodBlock());
-    public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumOreBlock(), 4);
+    public static final RegistryObject<Block> BLOCK_OF_URANIUM = registerBlockAndItem("block_of_uranium", () -> new UraniumFullBlock(), 4);
     public static final RegistryObject<Block> NUCLEAR_BOMB = registerBlockAndItem("nuclear_bomb", () -> new NuclearBombBlock());
     public static final RegistryObject<Block> UNREFINED_WASTE = registerBlockAndItem("unrefined_waste", () -> new UnrefinedWasteBlock(), 4);
     public static final RegistryObject<Block> NUCLEAR_FURNACE_COMPONENT = registerBlockAndItem("nuclear_furnace_component", () -> new NuclearFurnaceComponentBlock());
@@ -277,7 +278,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> SMOOTH_COPROLITH_WALL = registerBlockAndItem("smooth_coprolith_wall", () -> new WallBlock(COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> COPROLITH_COAL_ORE = registerBlockAndItem("coprolith_coal_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.COAL_ORE)));
     public static final RegistryObject<Block> POROUS_COPROLITH = registerBlockAndItem("porous_coprolith", () -> new Block(POROUS_COPROLITH_PROPERTIES));
-    public static final RegistryObject<Block> PEERING_COPROLITH = registerBlockAndItem("peering_coprolith", () -> new Block(POROUS_COPROLITH_PROPERTIES));
+    public static final RegistryObject<Block> PEERING_COPROLITH = registerBlockAndItem("peering_coprolith", () -> new Block(PEERING_COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> FORSAKEN_IDOL = registerBlockAndItem("forsaken_idol", () -> new ForsakenIdolBlock());
     public static final RegistryObject<Block> THORNWOOD_LOG = registerBlockAndItem("thornwood_log", () -> new StrippableLogBlock(THORNWOOD_LOG_PROPERTIES));
     public static final RegistryObject<Block> THORNWOOD_BRANCH = registerBlockAndItem("thornwood_branch", () -> new ThornwoodBranchBlock());

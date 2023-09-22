@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import com.github.alexmodguy.alexscaves.server.message.BeholderSyncMessage;
 import com.github.alexmodguy.alexscaves.server.message.PossessionKeyMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -138,8 +139,10 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
             Entity usingPlayer = getUsingPlayer();
             if (usingPlayer instanceof Player player) {
                 if (b == 77) {
+                    player.playSound(ACSoundRegistry.BEHOLDER_ENTER.get());
                     AlexsCaves.PROXY.setRenderViewEntity(player, this);
                 } else {
+                    player.playSound(ACSoundRegistry.BEHOLDER_EXIT.get());
                     AlexsCaves.PROXY.resetRenderViewEntity(player);
                 }
             }

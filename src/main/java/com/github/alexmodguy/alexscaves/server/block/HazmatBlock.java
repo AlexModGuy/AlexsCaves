@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class HazmatBlock extends RotatedPillarBlock {
 
     public HazmatBlock() {
-        super(Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(3.5F, 12.0F).sound(SoundType.METAL));
+        super(Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(3.5F, 12.0F).sound(ACSoundTypes.HAZMAT_BLOCK));
     }
 
     @Override

@@ -54,7 +54,7 @@ public class ACBiomeRegistry {
             return -0.15F;
         }
         if (value.is(ABYSSAL_CHASM)) {
-            return -0.2F;
+            return -0.3F;
         }
         if (value.is(FORLORN_HOLLOWS)) {
             return -0.2F;

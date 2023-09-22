@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.NuclearFurnaceBlock;
@@ -212,8 +213,14 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
             if (entity.currentWaste >= MAX_WASTE) {
                 entity.destroyWhileCritical(true);
             }
+        }else if(entity.isUndergoingFission()){
+            AlexsCaves.PROXY.playWorldSound(entity, (byte)7);
         }
+    }
 
+    public void setRemoved() {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.setRemoved();
     }
 
     public void destroyWhileCritical(boolean nuke) {
@@ -240,7 +247,7 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
         if (nuke) {
             NuclearExplosionEntity explosion = ACEntityRegistry.NUCLEAR_EXPLOSION.get().create(level);
             explosion.setPos(vec3.add(0, -1.5F, 0));
-            explosion.setSize(0.5F);
+            explosion.setSize(0.75F);
             level.addFreshEntity(explosion);
         } else {
             AreaEffectCloud areaeffectcloud = new AreaEffectCloud(level, vec3.x, vec3.y - 1F, vec3.z);

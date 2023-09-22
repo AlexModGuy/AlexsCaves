@@ -521,6 +521,542 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.pewen_branch_break"
   },
+  "acid_burn": {
+    "sounds": [
+      "alexscaves:block/acid/acid_burn_0",
+      "alexscaves:block/acid/acid_burn_1",
+      "alexscaves:block/acid/acid_burn_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.acid_burn"
+  },
+  "acid_corrosion": {
+    "sounds": [
+      "alexscaves:block/acid/acid_corrosion_0",
+      "alexscaves:block/acid/acid_corrosion_1",
+      "alexscaves:block/acid/acid_corrosion_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.acid_corrosion"
+  },
+  "acid_idle": {
+    "sounds": [
+      "alexscaves:block/acid/acid_idle_0",
+      "alexscaves:block/acid/acid_idle_1",
+      "alexscaves:block/acid/acid_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.acid_idle"
+  },
+  "acid_swim": {
+    "sounds": [
+      "alexscaves:block/acid/acid_swim_0",
+      "alexscaves:block/acid/acid_swim_1",
+      "alexscaves:block/acid/acid_swim_2",
+      "alexscaves:block/acid/acid_swim_3",
+      "alexscaves:block/acid/acid_swim_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.acid_swim"
+  },
+  "acid_submerge": {
+    "sounds": [
+      "alexscaves:block/acid/acid_submerge"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.acid_submerge"
+  },
+  "acid_unsubmerge": {
+    "sounds": [
+      "alexscaves:block/acid/acid_unsubmerge"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.acid_unsubmerge"
+  },
+  "geothermal_vent_bubble": {
+    "sounds": [
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_0",
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_1",
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.geothermal_vent_bubble"
+  },
+  "geothermal_vent_bubble_underwater": {
+    "sounds": [
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_underwater_0",
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_underwater_1",
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_underwater_2",
+      "alexscaves:block/geothermal_vent/geothermal_vent_bubble_underwater_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.geothermal_vent_bubble_underwater"
+  },
+  "radrock_step": {
+    "sounds": [
+      "alexscaves:block/radrock/radrock_step_0",
+      "alexscaves:block/radrock/radrock_step_1",
+      "alexscaves:block/radrock/radrock_step_2",
+      "alexscaves:block/radrock/radrock_step_3",
+      "alexscaves:block/radrock/radrock_step_4",
+      "alexscaves:block/radrock/radrock_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.radrock_step"
+  },
+  "radrock_place": {
+    "sounds": [
+      "alexscaves:block/radrock/radrock_place_0",
+      "alexscaves:block/radrock/radrock_place_1",
+      "alexscaves:block/radrock/radrock_place_2",
+      "alexscaves:block/radrock/radrock_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.radrock_place"
+  },
+  "radrock_break": {
+    "sounds": [
+      "alexscaves:block/radrock/radrock_break_0",
+      "alexscaves:block/radrock/radrock_break_1",
+      "alexscaves:block/radrock/radrock_break_2",
+      "alexscaves:block/radrock/radrock_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.radrock_break"
+  },
+  "radrock_breaking": {
+    "sounds": [
+      "alexscaves:block/radrock/radrock_breaking_0",
+      "alexscaves:block/radrock/radrock_breaking_1",
+      "alexscaves:block/radrock/radrock_breaking_2",
+      "alexscaves:block/radrock/radrock_breaking_3",
+      "alexscaves:block/radrock/radrock_breaking_4",
+      "alexscaves:block/radrock/radrock_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.radrock_breaking"
+  },
+  "sulfur_step": {
+    "sounds": [
+      "alexscaves:block/sulfur/sulfur_step_0",
+      "alexscaves:block/sulfur/sulfur_step_1",
+      "alexscaves:block/sulfur/sulfur_step_2",
+      "alexscaves:block/sulfur/sulfur_step_3",
+      "alexscaves:block/sulfur/sulfur_step_4",
+      "alexscaves:block/sulfur/sulfur_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sulfur_step"
+  },
+  "sulfur_place": {
+    "sounds": [
+      "alexscaves:block/sulfur/sulfur_place_0",
+      "alexscaves:block/sulfur/sulfur_place_1",
+      "alexscaves:block/sulfur/sulfur_place_2",
+      "alexscaves:block/sulfur/sulfur_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sulfur_place"
+  },
+  "sulfur_break": {
+    "sounds": [
+      "alexscaves:block/sulfur/sulfur_break_0",
+      "alexscaves:block/sulfur/sulfur_break_1",
+      "alexscaves:block/sulfur/sulfur_break_2",
+      "alexscaves:block/sulfur/sulfur_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sulfur_break"
+  },
+  "sulfur_breaking": {
+    "sounds": [
+      "alexscaves:block/sulfur/sulfur_breaking_0",
+      "alexscaves:block/sulfur/sulfur_breaking_1",
+      "alexscaves:block/sulfur/sulfur_breaking_2",
+      "alexscaves:block/sulfur/sulfur_breaking_3",
+      "alexscaves:block/sulfur/sulfur_breaking_4",
+      "alexscaves:block/sulfur/sulfur_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sulfur_breaking"
+  },
+  "uranium_step": {
+    "sounds": [
+      "alexscaves:block/uranium/uranium_step_0",
+      "alexscaves:block/uranium/uranium_step_1",
+      "alexscaves:block/uranium/uranium_step_2",
+      "alexscaves:block/uranium/uranium_step_3",
+      "alexscaves:block/uranium/uranium_step_4",
+      "alexscaves:block/uranium/uranium_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.uranium_step"
+  },
+  "uranium_place": {
+    "sounds": [
+      "alexscaves:block/uranium/uranium_place_0",
+      "alexscaves:block/uranium/uranium_place_1",
+      "alexscaves:block/uranium/uranium_place_2",
+      "alexscaves:block/uranium/uranium_place_3",
+      "alexscaves:block/uranium/uranium_place_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.uranium_place"
+  },
+  "uranium_break": {
+    "sounds": [
+      "alexscaves:block/uranium/uranium_break_0",
+      "alexscaves:block/uranium/uranium_break_1",
+      "alexscaves:block/uranium/uranium_break_2",
+      "alexscaves:block/uranium/uranium_break_3",
+      "alexscaves:block/uranium/uranium_break_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.uranium_break"
+  },
+  "uranium_breaking": {
+    "sounds": [
+      "alexscaves:block/uranium/uranium_breaking_0",
+      "alexscaves:block/uranium/uranium_breaking_1",
+      "alexscaves:block/uranium/uranium_breaking_2",
+      "alexscaves:block/uranium/uranium_breaking_3",
+      "alexscaves:block/uranium/uranium_breaking_4",
+      "alexscaves:block/uranium/uranium_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.uranium_breaking"
+  },
+  "uranium_hum": {
+    "sounds": [
+      "alexscaves:block/uranium/uranium_hum_0",
+      "alexscaves:block/uranium/uranium_hum_1",
+      "alexscaves:block/uranium/uranium_hum_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.uranium_hum"
+  },
+  "hazmat_block_step": {
+    "sounds": [
+      "alexscaves:block/hazmat_block/hazmat_block_step_0",
+      "alexscaves:block/hazmat_block/hazmat_block_step_1",
+      "alexscaves:block/hazmat_block/hazmat_block_step_2",
+      "alexscaves:block/hazmat_block/hazmat_block_step_3",
+      "alexscaves:block/hazmat_block/hazmat_block_step_4",
+      "alexscaves:block/hazmat_block/hazmat_block_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.hazmat_block_step"
+  },
+  "hazmat_block_place": {
+    "sounds": [
+      "alexscaves:block/hazmat_block/hazmat_block_place_0",
+      "alexscaves:block/hazmat_block/hazmat_block_place_1",
+      "alexscaves:block/hazmat_block/hazmat_block_place_2",
+      "alexscaves:block/hazmat_block/hazmat_block_place_3",
+      "alexscaves:block/hazmat_block/hazmat_block_place_4",
+      "alexscaves:block/hazmat_block/hazmat_block_place_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.hazmat_block_place"
+  },
+  "hazmat_block_break": {
+    "sounds": [
+      "alexscaves:block/hazmat_block/hazmat_block_break_0",
+      "alexscaves:block/hazmat_block/hazmat_block_break_1",
+      "alexscaves:block/hazmat_block/hazmat_block_break_2",
+      "alexscaves:block/hazmat_block/hazmat_block_break_3",
+      "alexscaves:block/hazmat_block/hazmat_block_break_4",
+      "alexscaves:block/hazmat_block/hazmat_block_break_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.hazmat_block_break"
+  },
+  "hazmat_block_breaking": {
+    "sounds": [
+      "alexscaves:block/hazmat_block/hazmat_block_breaking_0",
+      "alexscaves:block/hazmat_block/hazmat_block_breaking_1",
+      "alexscaves:block/hazmat_block/hazmat_block_breaking_2",
+      "alexscaves:block/hazmat_block/hazmat_block_breaking_3",
+      "alexscaves:block/hazmat_block/hazmat_block_breaking_4",
+      "alexscaves:block/hazmat_block/hazmat_block_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.hazmat_block_breaking"
+  },
+  "cinder_block_step": {
+    "sounds": [
+      "alexscaves:block/cinder_block/cinder_block_step_0",
+      "alexscaves:block/cinder_block/cinder_block_step_1",
+      "alexscaves:block/cinder_block/cinder_block_step_2",
+      "alexscaves:block/cinder_block/cinder_block_step_3",
+      "alexscaves:block/cinder_block/cinder_block_step_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cinder_block_step"
+  },
+  "cinder_block_place": {
+    "sounds": [
+      "alexscaves:block/cinder_block/cinder_block_place_0",
+      "alexscaves:block/cinder_block/cinder_block_place_1",
+      "alexscaves:block/cinder_block/cinder_block_place_2",
+      "alexscaves:block/cinder_block/cinder_block_place_3",
+      "alexscaves:block/cinder_block/cinder_block_place_4",
+      "alexscaves:block/cinder_block/cinder_block_place_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cinder_block_place"
+  },
+  "cinder_block_break": {
+    "sounds": [
+      "alexscaves:block/cinder_block/cinder_block_break_0",
+      "alexscaves:block/cinder_block/cinder_block_break_1",
+      "alexscaves:block/cinder_block/cinder_block_break_2",
+      "alexscaves:block/cinder_block/cinder_block_break_3",
+      "alexscaves:block/cinder_block/cinder_block_break_4",
+      "alexscaves:block/cinder_block/cinder_block_break_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cinder_block_break"
+  },
+  "cinder_block_breaking": {
+    "sounds": [
+      "alexscaves:block/cinder_block/cinder_block_breaking_0",
+      "alexscaves:block/cinder_block/cinder_block_breaking_1",
+      "alexscaves:block/cinder_block/cinder_block_breaking_2",
+      "alexscaves:block/cinder_block/cinder_block_breaking_3",
+      "alexscaves:block/cinder_block/cinder_block_breaking_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.cinder_block_breaking"
+  },
+  "unrefined_waste_step": {
+    "sounds": [
+      "alexscaves:block/unrefined_waste/unrefined_waste_step_0",
+      "alexscaves:block/unrefined_waste/unrefined_waste_step_1",
+      "alexscaves:block/unrefined_waste/unrefined_waste_step_2",
+      "alexscaves:block/unrefined_waste/unrefined_waste_step_3",
+      "alexscaves:block/unrefined_waste/unrefined_waste_step_4",
+      "alexscaves:block/unrefined_waste/unrefined_waste_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.unrefined_waste_step"
+  },
+  "unrefined_waste_place": {
+    "sounds": [
+      "alexscaves:block/unrefined_waste/unrefined_waste_place_0",
+      "alexscaves:block/unrefined_waste/unrefined_waste_place_1",
+      "alexscaves:block/unrefined_waste/unrefined_waste_place_2",
+      "alexscaves:block/unrefined_waste/unrefined_waste_place_3",
+      "alexscaves:block/unrefined_waste/unrefined_waste_place_4",
+      "alexscaves:block/unrefined_waste/unrefined_waste_place_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.unrefined_waste_place"
+  },
+  "unrefined_waste_break": {
+    "sounds": [
+      "alexscaves:block/unrefined_waste/unrefined_waste_break_0",
+      "alexscaves:block/unrefined_waste/unrefined_waste_break_1",
+      "alexscaves:block/unrefined_waste/unrefined_waste_break_2",
+      "alexscaves:block/unrefined_waste/unrefined_waste_break_3",
+      "alexscaves:block/unrefined_waste/unrefined_waste_break_4",
+      "alexscaves:block/unrefined_waste/unrefined_waste_break_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.unrefined_waste_break"
+  },
+  "unrefined_waste_breaking": {
+    "sounds": [
+      "alexscaves:block/unrefined_waste/unrefined_waste_breaking_0",
+      "alexscaves:block/unrefined_waste/unrefined_waste_breaking_1",
+      "alexscaves:block/unrefined_waste/unrefined_waste_breaking_2",
+      "alexscaves:block/unrefined_waste/unrefined_waste_breaking_3",
+      "alexscaves:block/unrefined_waste/unrefined_waste_breaking_4",
+      "alexscaves:block/unrefined_waste/unrefined_waste_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.unrefined_waste_breaking"
+  },
+  "nuclear_bomb_step": {
+    "sounds": [
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_step_0",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_step_1",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_step_2",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_step_3",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_step_4",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_bomb_step"
+  },
+  "nuclear_bomb_place": {
+    "sounds": [
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_place_0",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_place_1",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_place_2",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_bomb_place"
+  },
+  "nuclear_bomb_break": {
+    "sounds": [
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_break_0",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_break_1",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_break_2",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_bomb_break"
+  },
+  "nuclear_bomb_breaking": {
+    "sounds": [
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_breaking_0",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_breaking_1",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_breaking_2",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_breaking_3",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_breaking_4",
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_bomb_breaking"
+  },
+  "nuclear_bomb_defuse": {
+    "sounds": [
+      "alexscaves:block/nuclear_bomb/nuclear_bomb_defuse"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_bomb_defuse"
+  },
+  "nuclear_furnace_active": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/nuclear_furnace/nuclear_furnace_active",
+        "stream": true,
+        "attenuation_distance": 16
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_furnace_active"
+  },
+  "nuclear_furnace_active_subcritical": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/nuclear_furnace/nuclear_furnace_active_subcritical",
+        "stream": true,
+        "attenuation_distance": 16
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_furnace_active_subcritical"
+  },
+  "nuclear_furnace_active_critical": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/nuclear_furnace/nuclear_furnace_active_critical",
+        "stream": true,
+        "attenuation_distance": 16
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_furnace_active_critical"
+  },
+  "nuclear_furnace_active_supercritical": {
+    "sounds": [
+      {
+        "name": "alexscaves:block/nuclear_furnace/nuclear_furnace_active_supercritical",
+        "stream": true,
+        "attenuation_distance": 16
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_furnace_active_supercritcal"
+  },
+  "thornwood_branch_break": {
+    "sounds": [
+      "alexscaves:block/thornwood_branch/thornwood_branch_break_0",
+      "alexscaves:block/thornwood_branch/thornwood_branch_break_1",
+      "alexscaves:block/thornwood_branch/thornwood_branch_break_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.thornwood_branch_break"
+  },
+  "moth_ball_place": {
+    "sounds": [
+      "alexscaves:block/moth_ball/moth_ball_place_0",
+      "alexscaves:block/moth_ball/moth_ball_place_1",
+      "alexscaves:block/moth_ball/moth_ball_place_2",
+      "alexscaves:block/moth_ball/moth_ball_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.moth_ball_place"
+  },
+  "peering_coprolith_step": {
+    "sounds": [
+      "alexscaves:block/peering_coprolith/peering_coprolith_step_0",
+      "alexscaves:block/peering_coprolith/peering_coprolith_step_1",
+      "alexscaves:block/peering_coprolith/peering_coprolith_step_2",
+      "alexscaves:block/peering_coprolith/peering_coprolith_step_3",
+      "alexscaves:block/peering_coprolith/peering_coprolith_step_4",
+      "alexscaves:block/peering_coprolith/peering_coprolith_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.peering_coprolith_step"
+  },
+  "peering_coprolith_place": {
+    "sounds": [
+      "alexscaves:block/peering_coprolith/peering_coprolith_place_0",
+      "alexscaves:block/peering_coprolith/peering_coprolith_place_1",
+      "alexscaves:block/peering_coprolith/peering_coprolith_place_2",
+      "alexscaves:block/peering_coprolith/peering_coprolith_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.peering_coprolith_place"
+  },
+  "peering_coprolith_break": {
+    "sounds": [
+      "alexscaves:block/peering_coprolith/peering_coprolith_break_0",
+      "alexscaves:block/peering_coprolith/peering_coprolith_break_1",
+      "alexscaves:block/peering_coprolith/peering_coprolith_break_2",
+      "alexscaves:block/peering_coprolith/peering_coprolith_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.peering_coprolith_break"
+  },
+  "peering_coprolith_breaking": {
+    "sounds": [
+      "alexscaves:block/peering_coprolith/peering_coprolith_breaking_0",
+      "alexscaves:block/peering_coprolith/peering_coprolith_breaking_1",
+      "alexscaves:block/peering_coprolith/peering_coprolith_breaking_2",
+      "alexscaves:block/peering_coprolith/peering_coprolith_breaking_3",
+      "alexscaves:block/peering_coprolith/peering_coprolith_breaking_4",
+      "alexscaves:block/peering_coprolith/peering_coprolith_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.peering_coprolith_breaking"
+  },
+  "beholder_step": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_step_0",
+      "alexscaves:block/beholder/beholder_step_1",
+      "alexscaves:block/beholder/beholder_step_2",
+      "alexscaves:block/beholder/beholder_step_3",
+      "alexscaves:block/beholder/beholder_step_4",
+      "alexscaves:block/beholder/beholder_step_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_step"
+  },
+  "beholder_place": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_place_0",
+      "alexscaves:block/beholder/beholder_place_1",
+      "alexscaves:block/beholder/beholder_place_2",
+      "alexscaves:block/beholder/beholder_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_place"
+  },
+  "beholder_break": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_break_0",
+      "alexscaves:block/beholder/beholder_break_1",
+      "alexscaves:block/beholder/beholder_break_2",
+      "alexscaves:block/beholder/beholder_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_break"
+  },
+  "beholder_breaking": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_breaking_0",
+      "alexscaves:block/beholder/beholder_breaking_1",
+      "alexscaves:block/beholder/beholder_breaking_2",
+      "alexscaves:block/beholder/beholder_breaking_3",
+      "alexscaves:block/beholder/beholder_breaking_4",
+      "alexscaves:block/beholder/beholder_breaking_5"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_breaking"
+  },
+  "beholder_idle": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_idle_0",
+      "alexscaves:block/beholder/beholder_idle_1",
+      "alexscaves:block/beholder/beholder_idle_2",
+      "alexscaves:block/beholder/beholder_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_idle"
+  },
+  "beholder_view_idle": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_view_idle_0",
+      "alexscaves:block/beholder/beholder_view_idle_1",
+      "alexscaves:block/beholder/beholder_view_idle_2",
+      "alexscaves:block/beholder/beholder_view_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_view_idle"
+  },
+  "beholder_enter": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_enter"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_enter"
+  },
+  "beholder_exit": {
+    "sounds": [
+      "alexscaves:block/beholder/beholder_exit"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.beholder_exit"
+  },
   "teletor_idle": {
     "sounds": [
       "alexscaves:mob/teletor/teletor_idle_0",
@@ -1347,16 +1883,133 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.primitive_club_miss"
   },
+  "raygun_loop": {
+    "sounds": [
+      "alexscaves:item/raygun/raygun_loop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raygun_loop"
+  },
+  "raygun_reload": {
+    "sounds": [
+      "alexscaves:item/raygun/raygun_reload"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raygun_reload"
+  },
+  "raygun_empty": {
+    "sounds": [
+      "alexscaves:item/raygun/raygun_empty"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raygun_empty"
+  },
+
+  "desolate_dagger_summon": {
+    "sounds": [
+      "alexscaves:item/desolate_dagger/desolate_dagger_summon_0",
+      "alexscaves:item/desolate_dagger/desolate_dagger_summon_1",
+      "alexscaves:item/desolate_dagger/desolate_dagger_summon_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.desolate_dagger_summon"
+  },
+  "desolate_dagger_hit": {
+    "sounds": [
+      "alexscaves:item/desolate_dagger/desolate_dagger_hit_0",
+      "alexscaves:item/desolate_dagger/desolate_dagger_hit_1",
+      "alexscaves:item/desolate_dagger/desolate_dagger_hit_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.desolate_dagger_hit"
+  },
+  "totem_of_possession_use": {
+    "sounds": [
+      "alexscaves:item/totem_of_possession/totem_of_possession_use"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.totem_of_possession"
+  },
+  "dreadbow_release": {
+    "sounds": [
+      "alexscaves:item/dreadbow/dreadbow_release"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.dreadbow_release"
+  },
+  "dreadbow_rain": {
+    "sounds": [
+      "alexscaves:item/dreadbow/dreadbow_rain_0",
+      "alexscaves:item/dreadbow/dreadbow_rain_1",
+      "alexscaves:item/dreadbow/dreadbow_rain_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.dreadbow_rain"
+  },
+  "nuclear_explosion": {
+    "sounds": [
+      {
+        "name": "alexscaves:misc/nuclear_explosion/nuclear_explosion",
+        "stream": true,
+        "attenuation_distance": 1024
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_explosion"
+  },
+  "large_nuclear_explosion": {
+    "sounds": [
+      {
+        "name": "alexscaves:misc/nuclear_explosion/large_nuclear_explosion",
+        "stream": true,
+        "attenuation_distance": 1024
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.large_nuclear_explosion"
+  },
+  "nuclear_explosion_rumble": {
+    "sounds": [
+      {
+        "name": "alexscaves:misc/nuclear_explosion/nuclear_explosion_rumble",
+        "stream": true,
+        "attenuation_distance": 1024
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_explosion_rumble"
+  },
+  "nuclear_explosion_ringing": {
+    "sounds": [
+      {
+        "name": "alexscaves:misc/nuclear_explosion/nuclear_explosion_ringing",
+        "stream": true,
+        "attenuation_distance": 256
+      }
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.nuclear_explosion_ringing"
+  },
+  "darkness_incarnate_enter": {
+    "sounds": [
+      "alexscaves:misc/darkness_incarnate/darkness_incarnate_enter"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.darkness_incarnate_enter"
+  },
+  "darkness_incarnate_exit": {
+    "sounds": [
+      "alexscaves:misc/darkness_incarnate/darkness_incarnate_exit"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.darkness_incarnate_exit"
+  },
+  "darkness_incarnate_idle": {
+    "sounds": [
+      "alexscaves:misc/darkness_incarnate/darkness_incarnate_idle_0",
+      "alexscaves:misc/darkness_incarnate/darkness_incarnate_idle_1",
+      "alexscaves:misc/darkness_incarnate/darkness_incarnate_idle_2",
+      "alexscaves:misc/darkness_incarnate/darkness_incarnate_idle_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.darkness_incarnate_idle"
+  },
   "disappointment": {
     "sounds": [
-      "alexscaves:disappointment"
+      "alexscaves:misc/disappointment"
     ],
     "subtitle": "alexscaves.sound.subtitle.disappointment"
   },
   "nuclear_siren": {
     "sounds": [
       {
-        "name": "alexscaves:nuclear_siren",
+        "name": "alexscaves:misc/nuclear_siren",
+        "attenuation_distance": 256,
         "stream": true
       }
     ],

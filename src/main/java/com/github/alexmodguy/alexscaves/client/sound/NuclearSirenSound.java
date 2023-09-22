@@ -24,19 +24,19 @@ public class NuclearSirenSound extends AbstractTickableSoundInstance implements 
     }
 
     public boolean canPlaySound() {
-        if(ClientProxy.closestSirenSound == this){
-            if(Minecraft.getInstance().level == null){
+        if (ClientProxy.closestSirenSound == this) {
+            if (Minecraft.getInstance().level == null) {
                 ClientProxy.closestSirenSound = null;
                 return false;
             }
             BlockState state = Minecraft.getInstance().level.getBlockState(siren.getBlockPos());
-            if(!siren.isRemoved() && state.is(ACBlockRegistry.NUCLEAR_SIREN.get()) && (this.siren.isActivated(state) || this.volume > 0)){
+            if (!siren.isRemoved() && state.is(ACBlockRegistry.NUCLEAR_SIREN.get()) && (this.siren.isActivated(state) || this.volume > 0)) {
                 return true;
-            }else{
+            } else {
                 ClientProxy.closestSirenSound = null;
                 return false;
             }
-        }else{
+        } else {
             return ClientProxy.closestSirenSound == null || ClientProxy.closestSirenSound.isStopped();
         }
     }
@@ -45,9 +45,9 @@ public class NuclearSirenSound extends AbstractTickableSoundInstance implements 
         Vec3 sirenPos = this.siren.getBlockPos().getCenter();
         Vec3 theirPos = siren.getBlockPos().getCenter();
         Entity entity = Minecraft.getInstance().getCameraEntity();
-        if(entity != null && entity.distanceToSqr(sirenPos) > entity.distanceToSqr(theirPos)){
+        if (entity != null && entity.distanceToSqr(sirenPos) > entity.distanceToSqr(theirPos)) {
             return false;
-        }else{
+        } else {
             return this.siren.getVolume(1.0F) >= siren.getVolume(1.0F);
         }
     }
@@ -62,15 +62,6 @@ public class NuclearSirenSound extends AbstractTickableSoundInstance implements 
         this.x = sirenPos.x;
         this.y = sirenPos.y;
         this.z = sirenPos.z;
-        this.volume = this.siren.getVolume(Minecraft.getInstance().getPartialTick());
-        Entity entity = Minecraft.getInstance().getCameraEntity();
-        if(entity != null){
-            double distance = Math.sqrt(entity.distanceToSqr(sirenPos));
-            if(distance < 256){
-                this.volume *= (256 - distance) / 256F;
-            }else{
-                this.volume = 0;
-            }
-        }
+        this.volume = this.siren.getVolume(Minecraft.getInstance().getPartialTick()) * (1F - ClientProxy.masterVolumeNukeModifier);
     }
 }

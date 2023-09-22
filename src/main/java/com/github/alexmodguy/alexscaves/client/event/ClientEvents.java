@@ -691,6 +691,14 @@ public class ClientEvents {
             if (ClientProxy.renderNukeSkyDarkFor > 0) {
                 ClientProxy.renderNukeSkyDarkFor--;
             }
+            if (ClientProxy.muteNonNukeSoundsFor > 0) {
+                ClientProxy.muteNonNukeSoundsFor--;
+                if (ClientProxy.masterVolumeNukeModifier < 1.0F) {
+                    ClientProxy.masterVolumeNukeModifier += 0.1F;
+                }
+            } else if (ClientProxy.masterVolumeNukeModifier > 0.0F) {
+                ClientProxy.masterVolumeNukeModifier -= 0.1F;
+            }
             if (ClientProxy.renderNukeFlashFor > 0) {
                 if (ClientProxy.nukeFlashAmount < 1F) {
                     ClientProxy.nukeFlashAmount = Math.min(ClientProxy.nukeFlashAmount + 0.4F, 1F);

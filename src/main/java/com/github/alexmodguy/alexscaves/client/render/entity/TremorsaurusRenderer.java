@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 public class TremorsaurusRenderer extends MobRenderer<TremorsaurusEntity, TremorsaurusModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/tremorsaurus.png");
     private static final ResourceLocation TEXTURE_PRINCESS = new ResourceLocation("alexscaves:textures/entity/tremorsaurus_princess.png");
+    private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/tremorsaurus_retro.png");
 
     public TremorsaurusRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new TremorsaurusModel(), 1.1F);
@@ -23,7 +24,7 @@ public class TremorsaurusRenderer extends MobRenderer<TremorsaurusEntity, Tremor
     }
 
     public ResourceLocation getTextureLocation(TremorsaurusEntity entity) {
-        return entity.hasCustomName() && "princess".equalsIgnoreCase(entity.getName().getString()) ? TEXTURE_PRINCESS : TEXTURE;
+        return entity.hasCustomName() && "princess".equalsIgnoreCase(entity.getName().getString()) ? TEXTURE_PRINCESS : entity.isRetro() ? TEXTURE_RETRO : TEXTURE;
     }
 
 

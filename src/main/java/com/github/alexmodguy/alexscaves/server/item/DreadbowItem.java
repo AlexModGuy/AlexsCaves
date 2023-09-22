@@ -3,9 +3,11 @@ package com.github.alexmodguy.alexscaves.server.item;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.DarkArrowEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -130,6 +132,7 @@ public class DreadbowItem extends ProjectileWeaponItem {
             int i = this.getUseDuration(itemStack) - i1;
             float f = getPowerForTime(i);
             if (f > 0.1D) {
+                player.playSound(ACSoundRegistry.DREADBOW_RELEASE.get());
                 ItemStack ammoStack = player.getProjectile(itemStack);
                 AbstractArrow abstractArrow = createArrow(player, itemStack, ammoStack);
                 if(abstractArrow != null){
@@ -171,6 +174,10 @@ public class DreadbowItem extends ProjectileWeaponItem {
                         level.addFreshEntity(abstractArrow);
                         abstractArrow = createArrow(player, itemStack, ammoStack);
                         abstractArrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                    }
+                    if(darkArrows){
+                        Vec3 vec3 = realHitResult.getLocation();
+                        level.playSound((Player)null, vec3.x, vec3.y, vec3.z, ACSoundRegistry.DREADBOW_RAIN.get(), SoundSource.PLAYERS, 12.0F, 1.0F);
                     }
                     if(!player.isCreative()){
                         ammoStack.shrink(1);

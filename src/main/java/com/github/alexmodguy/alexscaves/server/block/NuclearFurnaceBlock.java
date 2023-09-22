@@ -32,7 +32,7 @@ public class NuclearFurnaceBlock extends BaseEntityBlock {
 
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public NuclearFurnaceBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5, 1001).sound(SoundType.METAL).noOcclusion());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(5, 1001).sound(ACSoundTypes.NUCLEAR_BOMB).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
     }
 

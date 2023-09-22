@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -51,10 +52,11 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
             updateEntityIdFromServer(serverLevel, player, itemstack);
         }
         Entity controlledEntity = getControlledEntity(level, itemstack);
-        if(isBound(itemstack) && (controlledEntity == null || !controlledEntity.isAlive()) && !level.isClientSide){
+        if (isBound(itemstack) && (controlledEntity == null || !controlledEntity.isAlive()) && !level.isClientSide) {
             resetBound(itemstack);
         }
         if (isBound(itemstack) && controlledEntity != null && isEntityLookingAt(player, controlledEntity, 5F)) {
+            player.playSound(ACSoundRegistry.TOTEM_OF_POSSESSION_USE.get());
             player.startUsingItem(interactionHand);
             return InteractionResultHolder.consume(itemstack);
         } else {
@@ -63,10 +65,10 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
     }
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity user, int i1) {
-        if(level.isClientSide){
+        if (level.isClientSide) {
             AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(user.getId(), stack));
         }
-        if(stack.getDamageValue() >= stack.getMaxDamage()){
+        if (stack.getDamageValue() >= stack.getMaxDamage()) {
             stack.shrink(1);
         }
     }
@@ -74,23 +76,23 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
     public void onUseTick(Level level, LivingEntity user, ItemStack stack, int timeUsing) {
         Entity controlledEntity = getControlledEntity(level, stack);
 
-        if(isBound(stack) && (controlledEntity == null || !controlledEntity.isAlive()) || stack.getDamageValue() >= stack.getMaxDamage()){
+        if (isBound(stack) && (controlledEntity == null || !controlledEntity.isAlive()) || stack.getDamageValue() >= stack.getMaxDamage()) {
             resetBound(stack);
             user.stopUsingItem();
-            if(level.isClientSide){
+            if (level.isClientSide) {
                 AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(user.getId(), stack));
             }
             return;
         }
         if (!isBound(stack) || controlledEntity == null || !isEntityLookingAt(user, controlledEntity, 5F) || controlledEntity instanceof Player && !AlexsCaves.COMMON_CONFIG.totemOfPossessionPlayers.get()) {
             user.stopUsingItem();
-            if(level.isClientSide){
+            if (level.isClientSide) {
                 AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(user.getId(), stack));
             }
             return;
         }
 
-        if(timeUsing % 2 == 0 && level.isClientSide && !(user instanceof Player player && player.isCreative())){
+        if (timeUsing % 2 == 0 && level.isClientSide && !(user instanceof Player player && player.isCreative())) {
             stack.setDamageValue(stack.getDamageValue() + 1);
         }
 
@@ -128,12 +130,12 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
             controlledEntity.setDeltaMovement(controlledEntity.getDeltaMovement().scale(0.8F).add(jumpAdd));
         }
         if (level.isClientSide) {
-            for(int particles = 0; particles < 1 + controlledEntity.getBbWidth() * 2; particles++){
-                level.addParticle(DustParticleOptions.REDSTONE, (double)controlledEntity.getRandomX(0.75F), (double)controlledEntity.getRandomY(), (double)controlledEntity.getRandomZ(0.75F), 0.0D, 0.0D, 0.0D);
+            for (int particles = 0; particles < 1 + controlledEntity.getBbWidth() * 2; particles++) {
+                level.addParticle(DustParticleOptions.REDSTONE, (double) controlledEntity.getRandomX(0.75F), (double) controlledEntity.getRandomY(), (double) controlledEntity.getRandomZ(0.75F), 0.0D, 0.0D, 0.0D);
             }
         } else {
             AABB hitBox = controlledEntity.getBoundingBox().inflate(3F);
-            if(controlledEntity instanceof Player || controlledEntity instanceof Mob){
+            if (controlledEntity instanceof Player || controlledEntity instanceof Mob) {
                 for (Entity entity : level.getEntities(controlledEntity, hitBox, Entity::canBeHitByProjectile)) {
                     if (!controlledEntity.is(entity) && !controlledEntity.isAlliedTo(entity) && !entity.is(user) && !entity.isAlliedTo(controlledEntity) && !entity.isPassengerOfSameVehicle(controlledEntity)) {
                         if (entity instanceof LivingEntity target) {
@@ -242,16 +244,17 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
     }
 
     public boolean hurtEnemy(ItemStack stack, LivingEntity hurtMob, LivingEntity livingEntity1) {
-        if(hurtMob.getType().is(ACTagRegistry.RESISTS_TOTEM_OF_POSSESSION) || hurtMob instanceof Player && !AlexsCaves.COMMON_CONFIG.totemOfPossessionPlayers.get()){
-            if(livingEntity1 instanceof Player player){
+        if (hurtMob.getType().is(ACTagRegistry.RESISTS_TOTEM_OF_POSSESSION) || hurtMob instanceof Player && !AlexsCaves.COMMON_CONFIG.totemOfPossessionPlayers.get()) {
+            if (livingEntity1 instanceof Player player) {
                 player.displayClientMessage(Component.translatable("item.alexscaves.totem_of_possession.invalid"), true);
             }
-        }else{
+        } else {
             CompoundTag tag = stack.getOrCreateTag();
             tag.putUUID("BoundEntityUUID", hurtMob.getUUID());
             CompoundTag entityTag = hurtMob.serializeNBT();
             entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(hurtMob.getType()).toString());
             tag.put("BoundEntityTag", entityTag);
+            livingEntity1.playSound(ACSoundRegistry.TOTEM_OF_POSSESSION_USE.get());
         }
 
         return true;

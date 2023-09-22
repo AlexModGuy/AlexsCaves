@@ -59,7 +59,7 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
     );
 
     public NuclearFurnaceComponentBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).pushReaction(PushReaction.BLOCK).strength(5, 1001).sound(SoundType.METAL).noOcclusion().randomTicks());
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).pushReaction(PushReaction.BLOCK).strength(5, 1001).sound(ACSoundTypes.NUCLEAR_BOMB).noOcclusion().randomTicks());
         this.registerDefaultState(this.defaultBlockState().setValue(ACTIVE, Boolean.valueOf(false)));
     }
 

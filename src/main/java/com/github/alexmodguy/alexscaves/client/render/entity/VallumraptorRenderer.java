@@ -20,6 +20,8 @@ import javax.annotation.Nullable;
 public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, VallumraptorModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/vallumraptor.png");
     private static final ResourceLocation TEXTURE_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_elder.png");
+    private static final ResourceLocation TEXTURE_ALAN = new ResourceLocation("alexscaves:textures/entity/vallumraptor_alan.png");
+    private static final ResourceLocation TEXTURE_ALAN_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_alan_elder.png");
 
     public VallumraptorRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new VallumraptorModel(), 0.3F);
@@ -35,8 +37,14 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
     }
 
     public ResourceLocation getTextureLocation(VallumraptorEntity entity) {
+        if(entity.hasCustomName() && "alan".equalsIgnoreCase(entity.getName().getString())){
+            return entity.isElder() ? TEXTURE_ALAN_ELDER : TEXTURE_ALAN;
+
+        }
         return entity.isElder() ? TEXTURE_ELDER : TEXTURE;
     }
+
+
 
     @Nullable
     protected RenderType getRenderType(VallumraptorEntity entity, boolean defColor, boolean invis, boolean v) {

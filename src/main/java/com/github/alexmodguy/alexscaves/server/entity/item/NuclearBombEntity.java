@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -154,7 +155,7 @@ public class NuclearBombEntity extends Entity {
         ItemStack itemStack = player.getItemInHand(hand);
         if (itemStack.is(Tags.Items.SHEARS)) {
             player.swing(hand);
-            this.playSound(SoundEvents.SNOW_GOLEM_SHEAR);
+            this.playSound(ACSoundRegistry.NUCLEAR_BOMB_DEFUSE.get());
             this.remove(RemovalReason.KILLED);
             this.spawnAtLocation(new ItemStack(ACBlockRegistry.NUCLEAR_BOMB.get()));
             if (!player.getAbilities().instabuild) {

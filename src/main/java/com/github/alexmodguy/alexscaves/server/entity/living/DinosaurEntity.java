@@ -1,9 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
 import net.minecraft.core.BlockPos;
@@ -14,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -37,6 +41,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> RETRO = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     public float prevDanceProgress;
     public float danceProgress;
     private BlockPos jukeboxPosition;
@@ -56,6 +61,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         this.entityData.define(DANCING, false);
         this.entityData.define(HAS_EGG, false);
         this.entityData.define(COMMAND, 0);
+        this.entityData.define(RETRO, false);
     }
 
     public static boolean checkPrehistoricSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
@@ -119,6 +125,14 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         this.entityData.set(COMMAND, command);
     }
 
+    public boolean isRetro() {
+        return this.entityData.get(RETRO);
+    }
+
+    public void setRetro(boolean bool) {
+        this.entityData.set(RETRO, bool);
+    }
+
     public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
         this.onClientPlayMusicDisc(this.getId(), pos, playing);
     }
@@ -155,12 +169,14 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         super.addAdditionalSaveData(compound);
         compound.putInt("Command", this.getCommand());
         compound.putBoolean("Egg", this.hasEgg());
+        compound.putBoolean("Retro", this.isRetro());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setCommand(compound.getInt("Command"));
         this.setHasEgg(compound.getBoolean("Egg"));
+        this.setRetro(compound.getBoolean("Retro"));
     }
 
     public boolean tamesFromHatching() {
@@ -213,6 +229,10 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
             }
         } else if (b == 78) {
             this.buryingEggs = false;
+        } else if (b == 82) {
+            for(int i = 0; i < 15 + level().random.nextInt(5); i++){
+                this.level().addParticle(ACParticleRegistry.AMBER_MONOLITH.get(), this.getX(), this.getY(0.5F), this.getZ(), this.getRandomX(1.5F), this.getRandomY(), this.getRandomZ(1.5F));
+            }
         } else {
             super.handleEntityEvent(b);
         }
@@ -230,28 +250,38 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         ItemStack itemstack = player.getItemInHand(hand);
         InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
         InteractionResult type = super.mobInteract(player, hand);
-        if (!interactionresult.consumesAction() && !type.consumesAction() && isTame() && isOwnedBy(player) && !isFood(itemstack)) {
-            if (canOwnerCommand(player)) {
-                this.setCommand(this.getCommand() + 1);
-                if (this.getCommand() == 3) {
-                    this.setCommand(0);
-                }
-                player.displayClientMessage(Component.translatable("entity.alexscaves.all.command_" + this.getCommand(), this.getName()), true);
-                boolean sit = this.getCommand() == 1;
-                if (sit) {
-                    this.setOrderedToSit(true);
-                } else {
-                    this.setOrderedToSit(false);
+        if (!interactionresult.consumesAction() && !type.consumesAction()) {
+            if(itemstack.is(ACItemRegistry.AMBER_CURIOSITY.get())){
+                this.usePlayerItem(player, hand, itemstack);
+                this.playSound(ACSoundRegistry.AMBER_MONOLITH_SUMMON.get());
+                if(!level().isClientSide){
+                    this.setRetro(!this.isRetro());
+                    this.level().broadcastEntityEvent(this, (byte) 82);
                 }
                 return InteractionResult.SUCCESS;
-            } else if (canOwnerMount(player)) {
-                if (this.getType() == ACEntityRegistry.SUBTERRANODON.get() && this.canAddPassenger(player)) {
-                    this.moveTo(this.getX(), this.getY() + player.getBbHeight() + 0.5F, this.getZ());
+            }else if(isTame() && isOwnedBy(player) && !isFood(itemstack)) {
+                if (canOwnerCommand(player)) {
+                    this.setCommand(this.getCommand() + 1);
+                    if (this.getCommand() == 3) {
+                        this.setCommand(0);
+                    }
+                    player.displayClientMessage(Component.translatable("entity.alexscaves.all.command_" + this.getCommand(), this.getName()), true);
+                    boolean sit = this.getCommand() == 1;
+                    if (sit) {
+                        this.setOrderedToSit(true);
+                    } else {
+                        this.setOrderedToSit(false);
+                    }
+                    return InteractionResult.SUCCESS;
+                } else if (canOwnerMount(player)) {
+                    if (this.getType() == ACEntityRegistry.SUBTERRANODON.get() && this.canAddPassenger(player)) {
+                        this.moveTo(this.getX(), this.getY() + player.getBbHeight() + 0.5F, this.getZ());
+                    }
+                    if (!level().isClientSide && player.startRiding(this)) {
+                        return InteractionResult.CONSUME;
+                    }
+                    return InteractionResult.SUCCESS;
                 }
-                if (!level().isClientSide && player.startRiding(this)) {
-                    return InteractionResult.CONSUME;
-                }
-                return InteractionResult.SUCCESS;
             }
         }
         return type;

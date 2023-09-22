@@ -23,7 +23,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class UnrefinedWasteBlock extends FallingBlockWithColor {
     protected static final VoxelShape SHAPE = Block.box(0.1D, 0.1D, 0.1D, 15.9D, 14.0D, 15.9D);
     public UnrefinedWasteBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.LIME).strength(0.5F).sound(SoundType.FROGSPAWN).lightLevel(state -> 3).emissiveRendering((state, level, pos) -> true), 0X00EE00);
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.LIME).strength(0.5F).sound(ACSoundTypes.UNREFINED_WASTE).lightLevel(state -> 3).emissiveRendering((state, level, pos) -> true), 0X00EE00);
     }
 
     public void entityInside(BlockState state, Level level, BlockPos blockPos, Entity entity) {

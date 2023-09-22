@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.level.map;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.message.UpdateCaveBiomeMapTagMessage;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
@@ -18,6 +19,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 
+import java.util.UUID;
+
 public class FilloutCaveBiomeMap implements Runnable {
 
     private ItemStack map;
@@ -26,13 +29,16 @@ public class FilloutCaveBiomeMap implements Runnable {
     private ServerLevel serverLevel;
     private ResourceKey<Biome> biomeResourceKey;
 
-    public FilloutCaveBiomeMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player) {
+    private UUID taskUUID;
+
+    public FilloutCaveBiomeMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player, UUID taskUUID) {
         this.map = map;
         this.serverLevel = serverLevel;
         this.center = center;
         ResourceKey<Biome> from = CaveMapItem.getBiomeTarget(map);
         this.biomeResourceKey = from == null ? ACBiomeRegistry.MAGNETIC_CAVES : from;
         this.player = player;
+        this.taskUUID = taskUUID;
     }
 
     @Override
@@ -55,7 +61,7 @@ public class FilloutCaveBiomeMap implements Runnable {
             player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error").withStyle(ChatFormatting.RED));
         }
         map.setTag(tag);
-        AlexsCaves.sendMSGToAll(new UpdateItemTagMessage(player.getId(), map));
+        AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getId(), getTaskUUID(), tag));
     }
 
     private BlockPos findBiomeCenter(BlockPos biomeCorner) {
@@ -114,4 +120,7 @@ public class FilloutCaveBiomeMap implements Runnable {
         return arr;
     }
 
+    public UUID getTaskUUID() {
+        return taskUUID;
+    }
 }

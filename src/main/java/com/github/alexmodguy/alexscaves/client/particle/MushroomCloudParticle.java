@@ -4,7 +4,9 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.MushroomCloudModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.sound.NuclearExplosionSound;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
@@ -18,6 +20,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -30,6 +34,10 @@ public class MushroomCloudParticle extends Particle {
     private static final int GLOW_FOR = 20;
     private static final int FADE_SPEED = 10;
     private final float scale;
+
+    private boolean playedRinging;
+    private boolean playedExplosion;
+    private boolean playedRumble;
 
     protected MushroomCloudParticle(ClientLevel level, double x, double y, double z, float scale) {
         super(level, x, y, z);
@@ -45,8 +53,20 @@ public class MushroomCloudParticle extends Particle {
     }
 
     public void tick() {
-        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDarkFor = 50;
+        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDarkFor = 100;
+        ((ClientProxy) AlexsCaves.PROXY).muteNonNukeSoundsFor = 50;
+        boolean large = this.scale > 2.0F;
+        if(age > BALL_FOR / 2 + 5){
+            if(!playedExplosion){
+                playedExplosion = true;
+                playSound(large ? ACSoundRegistry.LARGE_NUCLEAR_EXPLOSION.get() : ACSoundRegistry.NUCLEAR_EXPLOSION.get(), lifetime - 20, lifetime, 0.2F, false);
+            }
+        }
         if (age < BALL_FOR) {
+            if(!playedRinging && AlexsCaves.CLIENT_CONFIG.nuclearBombFlash.get()){
+                playedRinging = true;
+                playSound(ACSoundRegistry.NUCLEAR_EXPLOSION_RINGING.get(), 100, 50, 0.05F, true);
+            }
             ((ClientProxy) AlexsCaves.PROXY).renderNukeFlashFor = 16;
         } else if (age < lifetime - FADE_SPEED) {
             float life = (float) (Math.log(1 + (age - BALL_FOR) / (float) (lifetime - BALL_FOR))) * 2F;
@@ -60,8 +80,18 @@ public class MushroomCloudParticle extends Particle {
                 Vec3 explosionBase = new Vec3((level.random.nextFloat() - 0.5F) * explosionSpread, (-0.6F + level.random.nextFloat() * 0.5F) * explosionSpread * 0.1F, (level.random.nextFloat() - 0.5F) * explosionSpread).add(this.x, this.y, this.z);
                 this.level.addParticle(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), explosionBase.x, explosionBase.y, explosionBase.z, 0, 0, 0);
             }
+            if(age > BALL_FOR){
+                if(!playedRumble){
+                    playedRumble = true;
+                    playSound(ACSoundRegistry.NUCLEAR_EXPLOSION_RUMBLE.get(), lifetime + 100, lifetime, 0.1F, true);
+                }
+            }
         }
         super.tick();
+    }
+
+    private void playSound(SoundEvent soundEvent, int duration, int fadesAt, float fadeInBy, boolean looping){
+        Minecraft.getInstance().getSoundManager().queueTickingSound(new NuclearExplosionSound(soundEvent, this.x, this.y, this.z, duration, fadesAt, fadeInBy, looping));
     }
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {

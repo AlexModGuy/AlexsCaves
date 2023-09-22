@@ -1,16 +1,17 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.item.HazmatArmorItem;
-import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
-import com.github.alexmodguy.alexscaves.server.misc.ACMath;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.message.BeholderSyncMessage;
+import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
+import com.github.alexmodguy.alexscaves.server.misc.*;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -39,6 +40,9 @@ public class AcidBlock extends LiquidBlock {
     }
 
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource randomSource) {
+        if (randomSource.nextInt(400) == 0) {
+            level.playLocalSound((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, ACSoundRegistry.ACID_IDLE.get(), SoundSource.BLOCKS, 0.5F, randomSource.nextFloat() * 0.4F + 0.8F, false);
+        }
         boolean top = level.getFluidState(pos.above()).isEmpty();
         if (randomSource.nextInt(top ? 10 : 40) == 0) {
             float height = top ? state.getFluidState().getHeight(level, pos) : randomSource.nextFloat();
@@ -49,6 +53,7 @@ public class AcidBlock extends LiquidBlock {
     public void entityInside(BlockState blockState, Level level, BlockPos pos, Entity entity) {
         if (!entity.getType().is(ACTagRegistry.RESISTS_ACID) && entity.getFluidTypeHeight(ACFluidRegistry.ACID_FLUID_TYPE.get()) > 0.1) {
             boolean armor = false;
+            boolean hurtSound = false;
             float dmgMultiplier = 1.0F;
             if (entity instanceof LivingEntity living) {
                 for (EquipmentSlot slot : EquipmentSlot.values()) {
@@ -68,8 +73,17 @@ public class AcidBlock extends LiquidBlock {
                 ACAdvancementTriggerRegistry.ENTER_ACID_WITH_ARMOR.triggerForEntity(entity);
             }
             if (level.random.nextFloat() < dmgMultiplier) {
-                entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 3.0D));
+                hurtSound = entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 3.0D));
             }
+            if (hurtSound) {
+                entity.playSound(ACSoundRegistry.ACID_BURN.get());
+            }
+        }
+        if (entity instanceof LivingEntity && entity.moveDist > entity.nextStep) {
+            entity.nextStep = entity.moveDist + 1F;
+            Vec3 vec3 = entity.getDeltaMovement();
+            float f1 = Math.min(1.0F, (float)vec3.length());
+            entity.playSound(ACSoundRegistry.ACID_SWIM.get(), f1, 1.0F + (level.random.nextFloat() - level.random.nextFloat()) * 0.4F);
         }
     }
 
@@ -89,11 +103,11 @@ public class AcidBlock extends LiquidBlock {
             BlockPos offset = pos.relative(direction);
             BlockState state1 = worldIn.getBlockState(offset);
             if (CORRODES_INTERACTIONS.containsKey(state1.getBlock())) {
+                AlexsCaves.sendMSGToAll(new WorldEventMessage(0, offset.getX(), offset.getY(), offset.getZ()));
                 BlockState transform = CORRODES_INTERACTIONS.get(state1.getBlock()).defaultBlockState();
                 for (Property prop : state1.getProperties()) {
                     transform = transform.hasProperty(prop) ? transform.setValue(prop, state1.getValue(prop)) : transform;
                 }
-                worldIn.levelEvent(1501, offset, 0);
                 worldIn.setBlockAndUpdate(offset, transform);
                 Vec3 vec3 = offset.getCenter();
                 Player player = worldIn.getNearestPlayer(vec3.x, vec3.y, vec3.z, 8, false);
@@ -104,7 +118,12 @@ public class AcidBlock extends LiquidBlock {
         }
     }
 
-    private void initCorrosion() {
+    public static boolean doesBlockCorrode(BlockState state) {
+        initCorrosion();
+        return CORRODES_INTERACTIONS.containsKey(state.getBlock());
+    }
+
+    private static void initCorrosion() {
         if (CORRODES_INTERACTIONS != null) {
             return;
         }

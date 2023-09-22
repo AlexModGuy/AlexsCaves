@@ -1,9 +1,14 @@
 package com.github.alexmodguy.alexscaves.server.level.storage;
 
+import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeFinder;
+import com.github.alexmodguy.alexscaves.server.level.map.FilloutCaveBiomeMap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
@@ -17,6 +22,8 @@ public class ACWorldData extends SavedData {
 
     private static final String IDENTIFIER = "alexscaves_world_data";
     private Map<UUID, Integer> deepOneReputations = new HashMap<>();
+
+    private final CaveBiomeFinder caveBiomeFinder = new CaveBiomeFinder();
 
     private ACWorldData() {
         super();
@@ -68,5 +75,9 @@ public class ACWorldData extends SavedData {
 
     public void setDeepOneReputation(UUID uuid, int reputation) {
         deepOneReputations.put(uuid, Mth.clamp(reputation, -100, 100));
+    }
+
+    public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
+        caveBiomeFinder.fillOutCaveMap(uuid, map, serverLevel, center, player );
     }
 }

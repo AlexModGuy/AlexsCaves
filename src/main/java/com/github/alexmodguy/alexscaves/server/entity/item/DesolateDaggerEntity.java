@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -44,6 +45,8 @@ public class DesolateDaggerEntity extends Entity {
     private double lyd;
     private double lzd;
 
+    private boolean playedSummonNoise = false;
+
     public DesolateDaggerEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
         orbitFor = 20 + level.random.nextInt(10);
@@ -60,33 +63,39 @@ public class DesolateDaggerEntity extends Entity {
     }
 
     @Override
-    public void tick(){
+    public void tick() {
         super.tick();
         prevStab = this.getStab();
         Entity entity = getTargetEntity();
-        if(level().isClientSide){
-            level().addParticle(DustParticleOptions.REDSTONE, (double)this.getRandomX(0.75F), (double)this.getRandomY(), (double)this.getRandomZ(0.75F), 0.0D, 0.0D, 0.0D);
+        if (level().isClientSide) {
+            level().addParticle(DustParticleOptions.REDSTONE, (double) this.getRandomX(0.75F), (double) this.getRandomY(), (double) this.getRandomZ(0.75F), 0.0D, 0.0D, 0.0D);
         }
-        if(entity != null){
+        if (!playedSummonNoise) {
+            this.playSound(ACSoundRegistry.DESOLATE_DAGGER_SUMMON.get());
+            playedSummonNoise = true;
+        }
+        if (entity != null) {
             this.noPhysics = true;
             float invStab = 1F - getStab();
             Vec3 orbitAround = entity.position().add(0, entity.getBbHeight() * 0.25F, 0);
             orbitRandom.setSeed(this.getId());
-            if(orbitOffset == 0){
+            if (orbitOffset == 0) {
                 orbitOffset = orbitRandom.nextInt(360);
             }
             Vec3 orbitAdd = new Vec3(0, (orbitRandom.nextFloat() + entity.getBbHeight()) * invStab, (orbitRandom.nextFloat() + entity.getBbWidth()) * invStab).yRot((float) Math.toRadians((orbitOffset)));
-            this.setDeltaMovement(orbitAround.add(orbitAdd).subtract(this.position())) ;
-            if(!level().isClientSide){
-                if(orbitFor > 0 && entity.isAlive()){
+            this.setDeltaMovement(orbitAround.add(orbitAdd).subtract(this.position()));
+            if (!level().isClientSide) {
+                if (orbitFor > 0 && entity.isAlive()) {
                     orbitFor--;
-                }else{
+                } else {
                     this.setStab(Math.min(this.getStab() + 0.2F, 1F));
                 }
-                if(this.getStab() >= 1F){
+                if (this.getStab() >= 1F) {
                     Entity player = getPlayer();
                     Entity damageFrom = player == null ? this : player;
-                    entity.hurt(ACDamageTypes.causeDesolateDaggerDamage(this.level().registryAccess(), damageFrom), 2);
+                    if (entity.hurt(ACDamageTypes.causeDesolateDaggerDamage(this.level().registryAccess(), damageFrom), 2)) {
+                        this.playSound(ACSoundRegistry.DESOLATE_DAGGER_HIT.get());
+                    }
                     this.discard();
                 }
             }
@@ -96,7 +105,7 @@ public class DesolateDaggerEntity extends Entity {
             float f = Mth.sqrt((float) (d2 * d2 + d1 * d1));
             this.setYRot(-((float) Mth.atan2(d2, d1)) * (180F / (float) Math.PI));
             this.setXRot(-(float) (Mth.atan2(d3, f) * (double) (180F / (float) Math.PI)));
-        }else if(tickCount > 3){
+        } else if (tickCount > 3) {
             this.noPhysics = false;
             this.discard();
         }
@@ -182,12 +191,12 @@ public class DesolateDaggerEntity extends Entity {
         this.entityData.set(STAB, stab);
     }
 
-    private Entity getTargetEntity(){
+    private Entity getTargetEntity() {
         int id = getTargetId();
         return id == -1 ? null : level().getEntity(id);
     }
 
-    private Entity getPlayer(){
+    private Entity getPlayer() {
         int id = getPlayerId();
         return id == -1 ? null : level().getEntity(id);
     }

@@ -52,8 +52,8 @@ public class UpdateItemTagMessage {
                 }else if(living.getItemInHand(InteractionHand.OFF_HAND).is(stackFrom.getItem())){
                     to = living.getItemInHand(InteractionHand.OFF_HAND);
                 }
-                if(to != null && to.getItem() instanceof UpdatesStackTags && stackFrom.getTag() != null){
-                    to.setTag(stackFrom.getTag());
+                if(to != null && to.getItem() instanceof UpdatesStackTags updatesStackTags && stackFrom.getTag() != null){
+                    updatesStackTags.updateTagFromServer(holder, to, stackFrom.getTag());
                 }
             }
         }

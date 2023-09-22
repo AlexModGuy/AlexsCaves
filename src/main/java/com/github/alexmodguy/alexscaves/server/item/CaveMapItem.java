@@ -1,6 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeFinder;
+import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
+import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -20,6 +23,7 @@ import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.UUID;
 
 public class CaveMapItem extends Item implements UpdatesStackTags {
 
@@ -33,8 +37,21 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
         ItemStack itemstack = player.getItemInHand(hand);
         if (!isLoading(itemstack) && !isFilled(itemstack)) {
             if (!level.isClientSide) {
-                itemstack.getOrCreateTag().putBoolean("Loading", true);
-                CaveBiomeFinder.fillOutCaveMap(itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition(), player);
+                UUID uuid = null;
+                CompoundTag tag = itemstack.getOrCreateTag();
+                if (!tag.contains("MapUUID")) {
+                    uuid = UUID.randomUUID();
+                    tag.putUUID("MapUUID", uuid);
+                    AlexsCaves.sendMSGToAll(new UpdateItemTagMessage(player.getId(), itemstack));
+                }
+                tag.putBoolean("Loading", true);
+                itemstack.setTag(tag);
+                if (uuid != null) {
+                    ACWorldData acWorldData = ACWorldData.get(level);
+                    if (acWorldData != null) {
+                        acWorldData.fillOutCaveMap(uuid, itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition(), player);
+                    }
+                }
             }
             return InteractionResultHolder.success(itemstack);
         }
