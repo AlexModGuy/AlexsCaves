@@ -3,11 +3,14 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -63,6 +66,7 @@ public class SeekingArrowEntity extends AbstractArrow {
                         }
                     }
                     if (closest != null) {
+                        this.playSound(ACSoundRegistry.SEEKING_ARROW_LOCKON.get(), 5.0F, 1.0F);
                         this.setArcTowardsID(closest.getId());
                     }
                 }
@@ -91,5 +95,10 @@ public class SeekingArrowEntity extends AbstractArrow {
 
     private void setArcTowardsID(int id) {
         this.entityData.set(ARC_TOWARDS_ENTITY_ID, id);
+    }
+
+    @Override
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return ACSoundRegistry.SEEKING_ARROW_HIT.get();
     }
 }

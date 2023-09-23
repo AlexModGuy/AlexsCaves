@@ -568,11 +568,56 @@ public class ClientProxy extends CommonProxy {
                 if (soundEmitter instanceof LivingEntity livingEntity) {
                     RaygunSound sound;
                     AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(livingEntity.getId());
-                    if (old == null || !(old instanceof RaygunSound corrodentSound && corrodentSound.isSameEntity(livingEntity))) {
+                    if (old == null || !(old instanceof RaygunSound raygunSound && raygunSound.isSameEntity(livingEntity))) {
                         sound = new RaygunSound(livingEntity);
                         ENTITY_SOUND_INSTANCE_MAP.put(livingEntity.getId(), sound);
                     } else {
                         sound = (RaygunSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 9:
+                if (soundEmitter instanceof LivingEntity livingEntity) {
+                    ResistorShieldSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(livingEntity.getId());
+                    if (old == null || !(old instanceof ResistorShieldSound resistorShieldSound && resistorShieldSound.isSameEntity(livingEntity) && !resistorShieldSound.isAzure())) {
+                        sound = new ResistorShieldSound(livingEntity, false);
+                        ENTITY_SOUND_INSTANCE_MAP.put(livingEntity.getId(), sound);
+                    } else {
+                        sound = (ResistorShieldSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 10:
+                if (soundEmitter instanceof LivingEntity livingEntity) {
+                    ResistorShieldSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(livingEntity.getId());
+                    if (old == null || !(old instanceof ResistorShieldSound resistorShieldSound && resistorShieldSound.isSameEntity(livingEntity) && resistorShieldSound.isAzure())) {
+                        sound = new ResistorShieldSound(livingEntity, true);
+                        ENTITY_SOUND_INSTANCE_MAP.put(livingEntity.getId(), sound);
+                    } else {
+                        sound = (ResistorShieldSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 11:
+                if (soundEmitter instanceof LivingEntity livingEntity) {
+                    GalenaGauntletSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(livingEntity.getId());
+                    if (old == null || !(old instanceof GalenaGauntletSound gauntletSound && gauntletSound.isSameEntity(livingEntity))) {
+                        sound = new GalenaGauntletSound(livingEntity);
+                        ENTITY_SOUND_INSTANCE_MAP.put(livingEntity.getId(), sound);
+                    } else {
+                        sound = (GalenaGauntletSound) old;
                     }
                     if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);

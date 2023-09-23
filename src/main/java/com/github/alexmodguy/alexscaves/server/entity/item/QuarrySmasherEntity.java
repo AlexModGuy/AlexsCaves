@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.block.blockentity.QuarryBlockEnti
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -206,6 +208,7 @@ public class QuarrySmasherEntity extends Entity {
             if (flag && quarry != null) {
                 if (level().getBlockEntity(quarry) instanceof QuarryBlockEntity quarryBlockEntity) {
                     quarryBlockEntity.spinFor = 13;
+                    level().playSound((Player) null, quarry, ACSoundRegistry.QUARRY_CRUSH.get(), SoundSource.BLOCKS, 1.0F, 0.9F + level().random.nextFloat() * 0.2F);
                 }
             }
             if (i == 0) {

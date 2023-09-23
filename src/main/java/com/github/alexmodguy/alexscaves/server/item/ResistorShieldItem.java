@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -36,6 +37,7 @@ public class ResistorShieldItem extends ShieldItem {
         if (player.isShiftKeyDown()) {
             setPolarity(itemstack, !isScarlet(itemstack));
         }
+        player.playSound(ACSoundRegistry.RESITOR_SHIELD_SPIN.get());
         return InteractionResultHolder.consume(itemstack);
     }
 
@@ -51,7 +53,11 @@ public class ResistorShieldItem extends ShieldItem {
         float range = 5F;
         if (level.isClientSide) {
             setUseTime(stack, i);
+            if(i == 10){
+                living.playSound(ACSoundRegistry.RESITOR_SHIELD_SLAM.get());
+            }
             if (i >= 10 && i % 5 == 0) {
+                AlexsCaves.PROXY.playWorldSound(living, (byte) (scarlet ? 9 : 10));
                 Vec3 particlesFrom = living.position().add(0, 0.2, 0);
                 float particleMax = 5 + living.getRandom().nextInt(5);
                 for (int particles = 0; particles < particleMax; particles++) {
@@ -86,6 +92,11 @@ public class ResistorShieldItem extends ShieldItem {
 
     public boolean isValidRepairItem(ItemStack item, ItemStack repairItem) {
         return repairItem.is(ACItemRegistry.SCARLET_NEODYMIUM_INGOT.get()) || repairItem.is(ACItemRegistry.AZURE_NEODYMIUM_INGOT.get()) || super.isValidRepairItem(item, repairItem);
+    }
+
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
+        super.releaseUsing(stack, level, player, useTimeLeft);
+        AlexsCaves.PROXY.clearSoundCacheFor(player);
     }
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {

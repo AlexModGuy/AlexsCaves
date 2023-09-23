@@ -3,8 +3,8 @@
     {
       "name": "forlorn_ruins",
       "rolls": {
-        "min": 9,
-        "max": 18
+        "min": 8,
+        "max": 10
       },
       "entries": [
         {

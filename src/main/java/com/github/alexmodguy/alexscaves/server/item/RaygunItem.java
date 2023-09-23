@@ -220,7 +220,7 @@ public class RaygunItem extends Item implements UpdatesStackTags {
     }
 
     public static void setCharge(ItemStack stack, int charge) {
-        CompoundTag compoundtag = stack.getTag();
+        CompoundTag compoundtag = stack.getOrCreateTag();
         compoundtag.putInt("ChargeUsed", charge);
     }
 
@@ -258,6 +258,9 @@ public class RaygunItem extends Item implements UpdatesStackTags {
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
         super.releaseUsing(stack, level, player, useTimeLeft);
+        if(level.isClientSide){
+            AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(player.getId(), stack));
+        }
         AlexsCaves.PROXY.clearSoundCacheFor(player);
     }
 

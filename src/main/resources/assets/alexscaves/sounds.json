@@ -215,52 +215,52 @@
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_0",
         "volume": 0.5,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_1",
         "volume": 0.5,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_2",
         "volume": 0.5,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_3",
         "volume": 0.5,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_4",
         "volume": 0.5,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_5",
         "volume": 0.5,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_6",
         "volume": 0.75,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_7",
         "volume": 0.75,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_8",
         "volume": 0.75,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bubbles_9",
         "volume": 0.75,
-        "weight": 2
+        "weight": 3
       },
       {
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/whale_0",
@@ -286,11 +286,95 @@
         "name": "alexscaves:ambient/abyssal_chasm/loop_additions/whale_4",
         "volume": 0.75,
         "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bloop_0",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bloop_1",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bloop_2",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/bloop_3",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_0",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_1",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_2",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_3",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_4",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_5",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_6",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_7",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/dolphin_8",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/sonar_0",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/sonar_1",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/abyssal_chasm/loop_additions/sonar_2",
+        "volume": 0.75,
+        "weight": 1
       }
     ]
   },
   "abyssal_chasm_mood": {
     "sounds": [
+      "alexscaves:ambient/abyssal_chasm/mood/mood_0",
+      "alexscaves:ambient/abyssal_chasm/mood/mood_1",
+      "alexscaves:ambient/abyssal_chasm/mood/mood_2",
+      "alexscaves:ambient/abyssal_chasm/mood/mood_3"
     ]
   },
   "forlorn_hollows_ambience": {
@@ -376,6 +460,42 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.neodymium_breaking"
   },
+  "metal_swarf_step": {
+  "sounds": [
+    "alexscaves:block/metal_swarf/metal_swarf_step_0",
+    "alexscaves:block/metal_swarf/metal_swarf_step_1",
+    "alexscaves:block/metal_swarf/metal_swarf_step_2",
+    "alexscaves:block/metal_swarf/metal_swarf_step_3"
+  ],
+  "subtitle": "alexsmobs.sound.subtitle.metal_swarf_step"
+},
+  "metal_swarf_place": {
+    "sounds": [
+      "alexscaves:block/metal_swarf/metal_swarf_place_0",
+      "alexscaves:block/metal_swarf/metal_swarf_place_1",
+      "alexscaves:block/metal_swarf/metal_swarf_place_2",
+      "alexscaves:block/metal_swarf/metal_swarf_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.metal_swarf_place"
+  },
+  "metal_swarf_break": {
+    "sounds": [
+      "alexscaves:block/metal_swarf/metal_swarf_break_0",
+      "alexscaves:block/metal_swarf/metal_swarf_break_1",
+      "alexscaves:block/metal_swarf/metal_swarf_break_2",
+      "alexscaves:block/metal_swarf/metal_swarf_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.metal_swarf_break"
+  },
+  "metal_swarf_breaking": {
+    "sounds": [
+      "alexscaves:block/metal_swarf/metal_swarf_breaking_0",
+      "alexscaves:block/metal_swarf/metal_swarf_breaking_1",
+      "alexscaves:block/metal_swarf/metal_swarf_breaking_2",
+      "alexscaves:block/metal_swarf/metal_swarf_breaking_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.metal_swarf_breaking"
+  },
   "scrap_metal_step": {
     "sounds": [
       "alexscaves:block/scrap_metal/scrap_metal_step_0",
@@ -426,6 +546,16 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.metal_barrel_lid"
   },
+  "metal_scaffolding_climb": {
+    "sounds": [
+      "alexscaves:block/metal_scaffolding/metal_scaffolding_climb_0",
+      "alexscaves:block/metal_scaffolding/metal_scaffolding_climb_1",
+      "alexscaves:block/metal_scaffolding/metal_scaffolding_climb_2",
+      "alexscaves:block/metal_scaffolding/metal_scaffolding_climb_3",
+      "alexscaves:block/metal_scaffolding/metal_scaffolding_climb_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.metal_scaffolding_climb"
+  },
   "azure_neodymium_push_loop": {
     "sounds": [
       {
@@ -460,6 +590,16 @@
       }
     ],
     "subtitle": "alexsmobs.sound.subtitle.hologram_loop"
+  },
+  "quarry_crush": {
+    "sounds": [
+      "alexscaves:block/quarry/quarry_crush_0",
+      "alexscaves:block/quarry/quarry_crush_1",
+      "alexscaves:block/quarry/quarry_crush_2",
+      "alexscaves:block/quarry/quarry_crush_3",
+      "alexscaves:block/quarry/quarry_crush_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.quarry_crush"
   },
   "amber_step": {
     "sounds": [
@@ -1681,6 +1821,14 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.underzealot_dig"
   },
+  "underzealot_transformation": {
+    "sounds": [
+      "alexscaves:mob/underzealot/underzealot_transformation_0",
+      "alexscaves:mob/underzealot/underzealot_transformation_1",
+      "alexscaves:mob/underzealot/underzealot_transformation_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.underzealot_transformation"
+  },
   "watcher_idle": {
     "sounds": [
       "alexscaves:mob/watcher/watcher_idle_0",
@@ -1724,6 +1872,14 @@
       "alexscaves:mob/watcher/watcher_scare_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.watcher_scare"
+  },
+  "watcher_spawn": {
+    "sounds": [
+      "alexscaves:mob/watcher/watcher_spawn_0",
+      "alexscaves:mob/watcher/watcher_spawn_1",
+      "alexscaves:mob/watcher/watcher_spawn_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.watcher_spawn"
   },
   "corrodent_idle": {
     "sounds": [
@@ -1832,6 +1988,14 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_scream"
   },
+  "forsaken_spawn": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_spawn_0",
+      "alexscaves:mob/forsaken/forsaken_spawn_1",
+      "alexscaves:mob/forsaken/forsaken_spawn_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_spawn"
+  },
   "cave_book_open": {
     "sounds": [
       "alexscaves:item/cave_book/book_open_0",
@@ -1854,6 +2018,63 @@
       "alexscaves:item/cave_book/book_turn_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.cave_book_turn"
+  },
+  "galena_gauntlet_use_loop": {
+    "sounds": [
+      "alexscaves:item/galena_gauntlet/galena_gauntlet_use_loop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.galena_gauntlet_use_loop"
+  },
+  "galena_gauntlet_stop": {
+    "sounds": [
+      "alexscaves:item/galena_gauntlet/galena_gauntlet_stop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.galena_gauntlet_stop"
+  },
+  "seeking_arrow_hit": {
+    "sounds": [
+      "alexscaves:item/seeking_arrow/seeking_arrow_hit_0",
+      "alexscaves:item/seeking_arrow/seeking_arrow_hit_1",
+      "alexscaves:item/seeking_arrow/seeking_arrow_hit_2",
+      "alexscaves:item/seeking_arrow/seeking_arrow_hit_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.seeking_arrow_hit"
+  },
+  "seeking_arrow_lockon": {
+    "sounds": [
+      "alexscaves:item/seeking_arrow/seeking_arrow_lockon"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.seeking_arrow_lockon"
+  },
+  "resistor_shield_azure_loop": {
+    "sounds": [
+      "alexscaves:item/resistor_shield/resistor_shield_azure_loop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.resistor_shield_azure_loop"
+  },
+  "resistor_shield_scarlet_loop": {
+    "sounds": [
+      "alexscaves:item/resistor_shield/resistor_shield_scarlet_loop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.resistor_shield_scarlet_loop"
+  },
+  "resistor_shield_slam": {
+    "sounds": [
+      "alexscaves:item/resistor_shield/resistor_shield_slam_0",
+      "alexscaves:item/resistor_shield/resistor_shield_slam_1",
+      "alexscaves:item/resistor_shield/resistor_shield_slam_2",
+      "alexscaves:item/resistor_shield/resistor_shield_slam_3",
+      "alexscaves:item/resistor_shield/resistor_shield_slam_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.resistor_shield_slam"
+  },
+  "resistor_shield_spin": {
+    "sounds": [
+      "alexscaves:item/resistor_shield/resistor_shield_spin_0",
+      "alexscaves:item/resistor_shield/resistor_shield_spin_1",
+      "alexscaves:item/resistor_shield/resistor_shield_spin_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.resistor_shield_spin"
   },
   "limestone_spear_throw": {
     "sounds": [

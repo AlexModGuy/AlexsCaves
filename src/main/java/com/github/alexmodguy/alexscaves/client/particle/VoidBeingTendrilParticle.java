@@ -75,6 +75,7 @@ public class VoidBeingTendrilParticle extends Particle {
             entityTarget = Minecraft.getInstance().level.getEntity(targetId);
             if (entityTarget == null) {
                 targetId = -1;
+                this.remove();
             } else {
                 tipTarget = entityTarget.position().add(0, 0.25F, 0);
             }

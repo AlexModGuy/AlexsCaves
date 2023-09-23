@@ -135,10 +135,10 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
             this.playSound(ACSoundRegistry.UNDERZEALOT_DIG.get());
         }
         if (isBuried() && buriedProgress < 20.0F) {
-            buriedProgress++;
+            buriedProgress = Math.min(20.0F, buriedProgress + 1.5F);
         }
         if (!isBuried() && buriedProgress > 0.0F) {
-            buriedProgress--;
+            buriedProgress = Math.max(0.0F, buriedProgress - 1.5F);
         }
         if (isCarrying() && carryingProgress < 5.0F) {
             carryingProgress++;
@@ -375,7 +375,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     public boolean isInvulnerableTo(DamageSource damageSource) {
-        return !damageSource.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && this.isBuried() || damageSource.is(DamageTypes.IN_WALL) || super.isInvulnerableTo(damageSource);
+        return damageSource.is(DamageTypes.IN_WALL) || super.isInvulnerableTo(damageSource);
     }
 
     @Override
@@ -475,6 +475,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     public void postSacrifice(UnderzealotSacrifice sacrifice) {
+        this.playSound(ACSoundRegistry.UNDERZEALOT_TRANSFORMATION.get(), 8.0F, 1.0F);
         sacrificeCooldown = 6000 + random.nextInt(6000);
         float advancementRange = 64.0F;
         for (Player player : level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(advancementRange))) {
@@ -485,7 +486,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     protected SoundEvent getAmbientSound() {
-        return this.isCarrying() || this.isPraying() ? super.getAmbientSound() : ACSoundRegistry.UNDERZEALOT_IDLE.get();
+        return this.isCarrying() || this.isPraying() || this.isBuried() ? super.getAmbientSound() : ACSoundRegistry.UNDERZEALOT_IDLE.get();
     }
 
     protected SoundEvent getHurtSound(DamageSource damageSource) {

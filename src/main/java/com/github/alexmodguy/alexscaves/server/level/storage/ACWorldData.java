@@ -78,6 +78,6 @@ public class ACWorldData extends SavedData {
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
-        caveBiomeFinder.fillOutCaveMap(uuid, map, serverLevel, center, player );
+        caveBiomeFinder.fillOutCaveMap(uuid, map, serverLevel, center, player);
     }
 }

@@ -37,20 +37,20 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
         ItemStack itemstack = player.getItemInHand(hand);
         if (!isLoading(itemstack) && !isFilled(itemstack)) {
             if (!level.isClientSide) {
-                UUID uuid = null;
                 CompoundTag tag = itemstack.getOrCreateTag();
+                UUID uuid;
                 if (!tag.contains("MapUUID")) {
                     uuid = UUID.randomUUID();
                     tag.putUUID("MapUUID", uuid);
                     AlexsCaves.sendMSGToAll(new UpdateItemTagMessage(player.getId(), itemstack));
+                }else{
+                    uuid = tag.getUUID("MapUUID");
                 }
                 tag.putBoolean("Loading", true);
                 itemstack.setTag(tag);
-                if (uuid != null) {
-                    ACWorldData acWorldData = ACWorldData.get(level);
-                    if (acWorldData != null) {
-                        acWorldData.fillOutCaveMap(uuid, itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition(), player);
-                    }
+                ACWorldData acWorldData = ACWorldData.get(level);
+                if (acWorldData != null) {
+                    acWorldData.fillOutCaveMap(uuid, itemstack, (ServerLevel) level, player.getRootVehicle().blockPosition(), player);
                 }
             }
             return InteractionResultHolder.success(itemstack);

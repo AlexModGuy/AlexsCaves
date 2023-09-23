@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.InteractionHand;
@@ -48,6 +49,12 @@ public class GalenaGauntletItem extends Item {
         return repairItem.is(ACBlockRegistry.PACKED_GALENA.get().asItem()) || super.isValidRepairItem(item, repairItem);
     }
 
+    public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
+        super.releaseUsing(stack, level, player, useTimeLeft);
+        AlexsCaves.PROXY.clearSoundCacheFor(player);
+        player.playSound(ACSoundRegistry.GALENA_GAUNTLET_STOP.get());
+    }
+
     public UseAnim getUseAnimation(ItemStack stack) {
         return UseAnim.NONE;
     }
@@ -66,6 +73,7 @@ public class GalenaGauntletItem extends Item {
         if (living.getItemInHand(InteractionHand.MAIN_HAND) == stack) {
             otherHand = InteractionHand.OFF_HAND;
         }
+        AlexsCaves.PROXY.playWorldSound(living, (byte) 11);
         ItemStack otherStack = living.getItemInHand(otherHand);
         if (otherStack.is(ACTagRegistry.MAGNETIC_ITEMS) && i <= 0) {
             ItemStack copy = otherStack.copy();

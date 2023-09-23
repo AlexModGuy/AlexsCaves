@@ -1,0 +1,6 @@
+{
+  "__comment": "only play biome ambient loop for these biomes if the player is underwater.",
+  "values": [
+    "alexscaves:abyssal_chasm"
+  ]
+}

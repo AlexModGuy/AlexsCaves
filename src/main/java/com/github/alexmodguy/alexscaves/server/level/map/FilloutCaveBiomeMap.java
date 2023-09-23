@@ -51,8 +51,6 @@ public class FilloutCaveBiomeMap implements Runnable {
 
     @Override
     public void run() {
-        int dist = AlexsCaves.COMMON_CONFIG.caveMapSearchDistance.get();
-        //Pair<BlockPos, Holder<Biome>> pair = serverLevel.findClosestBiome3d((biomeHolder -> biomeHolder.is(biomeResourceKey)), center, dist, 64, 128);
         BlockPos biomeCorner = findBiome();
         CompoundTag tag = map.getOrCreateTag();
         if (biomeCorner != null) {
@@ -81,7 +79,7 @@ public class FilloutCaveBiomeMap implements Runnable {
         for (int i = 0; i < Integer.MAX_VALUE; i++) {
 
             final int height = 64;
-            BlockPos nextPos = nextPos();
+            BlockPos nextPos = calculateNextSpiralPos();
             if (nextPos == null) {
                 return null;
             }
@@ -103,25 +101,20 @@ public class FilloutCaveBiomeMap implements Runnable {
         return null;
     }
 
-    protected BlockPos nextPos() {
+    private BlockPos calculateNextSpiralPos() {
         final int step = 32;
+        BlockPos current = new BlockPos(legX, 0, legZ).relative(ACMath.HORIZONTAL_DIRECTIONS[(leg + 4) % 4]);
 
-        int sourceX = center.getX();
-        int sourceZ = center.getZ();
-
-
-        BlockPos cursor = new BlockPos(legX, 0, legZ).relative(ACMath.HORIZONTAL_DIRECTIONS[(leg + 4) % 4]);
-
-        int newX = cursor.getX();
-        int newZ = cursor.getZ();
+        int newX = current.getX();
+        int newZ = current.getZ();
 
         int legSize = leg / 2 + 1;
         int maxLegs = 4 * Math.floorDiv(AlexsCaves.COMMON_CONFIG.caveMapSearchDistance.get(), step);
 
         if (legIndex >= legSize) {
-            if (leg > maxLegs)
+            if (leg > maxLegs) {
                 return null;
-
+            }
             leg++;
             legIndex = 0;
         }
@@ -130,11 +123,7 @@ public class FilloutCaveBiomeMap implements Runnable {
 
         legX = newX;
         legZ = newZ;
-
-        int retX = sourceX + newX * step;
-        int retZ = sourceZ + newZ * step;
-
-        return new BlockPos(retX, 0, retZ);
+        return new BlockPos(center.getX() + newX * step, 0, center.getZ() + newZ * step);
     }
 
 

@@ -15,8 +15,7 @@ import java.util.concurrent.*;
 
 public final class CaveBiomeFinder {
 
-    private static final Map<UUID, CompoundTag> RESULTS = new ConcurrentHashMap<>();
-    protected static final ExecutorService EXECUTORS = Executors.newCachedThreadPool();
+    private static final ExecutorService EXECUTORS = Executors.newCachedThreadPool();
 
     public CaveBiomeFinder() {
     }

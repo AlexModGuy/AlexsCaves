@@ -100,10 +100,10 @@ public class CorrodentAttackGoal extends Goal {
         for (int i = 0; i < 10; i++) {
             check.move(around);
             check.move(entity.getRandom().nextInt(16) - 8, entity.getRandom().nextInt(16) - 8, entity.getRandom().nextInt(16) - 8);
-            if (check.getY() < entity.level().getMinBuildHeight()) {
+            if (!entity.level().isLoaded(check) || check.getY() < entity.level().getMinBuildHeight()) {
                 break;
             }
-            while (entity.level().isEmptyBlock(check) && check.getY() > entity.level().getMinBuildHeight() - 1) {
+            while (entity.level().isEmptyBlock(check) && entity.level().isLoaded(check) && check.getY() > entity.level().getMinBuildHeight() - 1) {
                 check.move(0, -1, 0);
             }
             if (CorrodentEntity.isSafeDig(entity.level(), check.immutable()) && entity.canReach(check)) {

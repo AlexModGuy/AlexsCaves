@@ -64,7 +64,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> ENERGIZED_GALENA_AZURE = registerBlockAndItem("energized_galena_azure", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_SPIRE = registerBlockAndItem("galena_spire", () -> new GalenaSpireBlock());
     public static final RegistryObject<Block> TESLA_BULB = registerBlockAndItem("tesla_bulb", () -> new TeslaBulbBlock());
-    public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new FallingBlockWithColor(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(0.6F).sound(SoundType.SAND), 0X404253));
+    public static final RegistryObject<Block> METAL_SWARF = registerBlockAndItem("metal_swarf", () -> new FallingBlockWithColor(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).strength(0.6F).sound(ACSoundTypes.METAL_SWARF), 0X404253));
     public static final RegistryObject<Block> SCRAP_METAL = registerBlockAndItem("scrap_metal", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL)));
     public static final RegistryObject<Block> SCRAP_METAL_PLATE = registerBlockAndItem("scrap_metal_plate", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL)));
     public static final RegistryObject<Block> METAL_REBAR = registerBlockAndItem("metal_rebar", () -> new RebarBlock());

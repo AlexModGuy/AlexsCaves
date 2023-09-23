@@ -63,7 +63,7 @@ public class UnderzealotMeleeGoal extends Goal {
                 entity.setDeltaMovement(target.getDeltaMovement());
                 entity.hurt(target.damageSources().mobAttack(this.entity), f * 0.5F);
             }
-            shouldBurrow = true;
+            shouldBurrow = entity.level().random.nextBoolean();
         }
     }
 

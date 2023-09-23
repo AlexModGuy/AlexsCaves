@@ -48,7 +48,7 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
     public static final BooleanProperty BOTTOM = BlockStateProperties.BOTTOM;
 
     public MetalScaffoldingBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion().strength(5F, 15.0F).sound(ACSoundTypes.SCRAP_METAL));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.METAL).requiresCorrectToolForDrops().noOcclusion().strength(5F, 15.0F).sound(ACSoundTypes.METAL_SCAFFOLDING));
         this.registerDefaultState(this.stateDefinition.any().setValue(DISTANCE, Integer.valueOf(STABILITY_MAX_DISTANCE)).setValue(LIQUID_LOGGED, 0).setValue(BOTTOM, Boolean.valueOf(false)));
     }
 

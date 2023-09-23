@@ -66,6 +66,7 @@ public class VoidBeingEyeParticle extends Particle {
         if (age > lifetime - 20) {
             this.cameraOffsetY += -0.25F;
         }
+
     }
 
 

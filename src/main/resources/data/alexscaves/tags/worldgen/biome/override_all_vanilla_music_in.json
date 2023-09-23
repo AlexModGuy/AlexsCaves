@@ -1,6 +1,6 @@
 {
-  "__comment": "override underwater ambience with biome ambience in these biomes.",
+  "__comment": "override creative and underwater music with biome music in these biomes.",
   "values": [
-    "alexscaves:abyssal_chasm"
+    "#alexscaves:alexs_caves_biomes"
   ]
 }

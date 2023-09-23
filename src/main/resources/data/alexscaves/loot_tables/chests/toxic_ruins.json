@@ -3,7 +3,7 @@
     {
       "name": "toxic_ruins",
       "rolls": {
-        "min": 7,
+        "min": 8,
         "max": 10
       },
       "entries": [

@@ -162,6 +162,7 @@ public class GloomothEntity extends PathfinderMob implements UnderzealotSacrific
                 }
                 this.stopRiding();
                 WatcherEntity watcherEntity = this.convertTo(ACEntityRegistry.WATCHER.get(), true);
+                this.playSound(ACSoundRegistry.WATCHER_SPAWN.get(), 8.0F, 1.0F);
                 if (watcherEntity != null) {
                     net.minecraftforge.event.ForgeEventFactory.onLivingConvert(this, watcherEntity);
                     watcherEntity.stopRiding();
