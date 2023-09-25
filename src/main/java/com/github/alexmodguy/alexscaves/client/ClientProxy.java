@@ -17,12 +17,12 @@ import com.github.alexmodguy.alexscaves.client.sound.*;
 import com.github.alexmodguy.alexscaves.server.CommonProxy;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.AcidBlock;
+import com.github.alexmodguy.alexscaves.server.block.ActivatedByAltar;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.*;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
+import com.github.alexmodguy.alexscaves.server.entity.item.QuarrySmasherEntity;
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.*;
 import com.github.alexmodguy.alexscaves.server.inventory.ACMenuRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACKeybindRegistry;
@@ -445,7 +445,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void playWorldSound(@Nullable Object soundEmitter, byte type) {
-        if(soundEmitter instanceof Entity entity && !entity.level().isClientSide){
+        if (soundEmitter instanceof Entity entity && !entity.level().isClientSide) {
             return;
         }
         switch (type) {
@@ -624,12 +624,84 @@ public class ClientProxy extends CommonProxy {
                     }
                 }
                 break;
+            case 12:
+                if (soundEmitter instanceof BoundroidEntity boundroid) {
+                    BoundroidSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(boundroid.getId());
+                    if (old == null || !(old instanceof BoundroidSound boundroidSound && boundroidSound.isSameEntity(boundroid))) {
+                        sound = new BoundroidSound(boundroid);
+                        ENTITY_SOUND_INSTANCE_MAP.put(boundroid.getId(), sound);
+                    } else {
+                        sound = (BoundroidSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 13:
+                if (soundEmitter instanceof FerrouslimeEntity ferrouslime) {
+                    FerrouslimeSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(ferrouslime.getId());
+                    if (old == null || !(old instanceof FerrouslimeSound ferrouslimeSound && ferrouslimeSound.isSameEntity(ferrouslime))) {
+                        sound = new FerrouslimeSound(ferrouslime);
+                        ENTITY_SOUND_INSTANCE_MAP.put(ferrouslime.getId(), sound);
+                    } else {
+                        sound = (FerrouslimeSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 14:
+                if (soundEmitter instanceof QuarrySmasherEntity quarrySmasher) {
+                    QuarrySmasherSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(quarrySmasher.getId());
+                    if (old == null || !(old instanceof QuarrySmasherSound quarrySmasherSound && quarrySmasherSound.isSameEntity(quarrySmasher))) {
+                        sound = new QuarrySmasherSound(quarrySmasher);
+                        ENTITY_SOUND_INSTANCE_MAP.put(quarrySmasher.getId(), sound);
+                    } else {
+                        sound = (QuarrySmasherSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 15:
+                if (soundEmitter instanceof SubmarineEntity submarine) {
+                    SubmarineSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(submarine.getId());
+                    if (old == null || !(old instanceof SubmarineSound submarineSound && submarineSound.isSameEntity(submarine))) {
+                        sound = new SubmarineSound(submarine);
+                        ENTITY_SOUND_INSTANCE_MAP.put(submarine.getId(), sound);
+                    } else {
+                        sound = (SubmarineSound) old;
+                    }
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
         }
     }
 
     public void playWorldEvent(int messageId, Level level, BlockPos pos) {
-        if(messageId == 0 && AcidBlock.doesBlockCorrode(level.getBlockState(pos))){
+        if (messageId == 0 && AcidBlock.doesBlockCorrode(level.getBlockState(pos))) {
             level.playLocalSound((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, ACSoundRegistry.ACID_CORROSION.get(), SoundSource.BLOCKS, 0.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
+        }
+        if(messageId == 1 && level.getBlockState(pos).getBlock() instanceof ActivatedByAltar){
+            level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, ACSoundRegistry.ABYSSMARINE_GLOW_ON.get(), SoundSource.BLOCKS, 1.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
+        }
+        if(messageId == 2 && level.getBlockState(pos).getBlock() instanceof ActivatedByAltar){
+            level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, ACSoundRegistry.ABYSSMARINE_GLOW_OFF.get(), SoundSource.BLOCKS, 1.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
+        }
+        if(messageId == 3 && level.getBlockState(pos).is(ACBlockRegistry.DRAIN.get())){
+            level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, ACSoundRegistry.DRAIN_START.get(), SoundSource.BLOCKS, 1.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
+        }
+        if(messageId == 4 && level.getBlockState(pos).is(ACBlockRegistry.DRAIN.get())){
+            level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, ACSoundRegistry.DRAIN_STOP.get(), SoundSource.BLOCKS, 1.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
         }
     }
 

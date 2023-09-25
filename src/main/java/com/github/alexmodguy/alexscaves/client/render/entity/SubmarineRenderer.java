@@ -99,8 +99,8 @@ public class SubmarineRenderer extends EntityRenderer<SubmarineEntity> {
         VertexConsumer damageBuffer = source.getBuffer(RenderType.entityTranslucent(getSubmarineDamageTexture(entity)));
         MODEL.renderToBuffer(poseStack, damageBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         if (entity.getDamageLevel() <= 3) {
-            VertexConsumer buttonsBuffer = source.getBuffer(RenderType.eyes(TEXTURE_BUTTONS));
-            MODEL.renderToBuffer(poseStack, buttonsBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            VertexConsumer buttonsBuffer = source.getBuffer(ACRenderTypes.getEyesAlphaEnabled(TEXTURE_BUTTONS));
+            MODEL.renderToBuffer(poseStack, buttonsBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, entity.getSonarFlashAmount(partialTicks));
             if (entity.areLightsOn() && entity.isVehicle()) {
                 VertexConsumer glowBuffer = source.getBuffer(RenderType.eyes(TEXTURE_GLOW));
                 MODEL.renderToBuffer(poseStack, glowBuffer, lightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -25,6 +26,9 @@ public class DeepOneAttackGoal extends Goal {
         if (target != null) {
             deepOne.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ(), 20.0F, (float) deepOne.getMaxHeadXRot());
             deepOne.startAttackBehavior(target);
+            if(deepOne.distanceTo(target) <= 16){
+                SubmarineEntity.alertSubmarineMountOf(target);
+            }
         }
     }
 }

@@ -143,6 +143,7 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
 
     }
 
+
     @Override
     public ItemEntity spawnAtLocation(ItemStack stack) {
         ItemEntity itementity = new ItemEntity(this.level(), this.getX(), this.getY() + (double)1, this.getZ(), stack);

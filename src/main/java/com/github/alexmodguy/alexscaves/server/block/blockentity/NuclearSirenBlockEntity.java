@@ -52,7 +52,7 @@ public class NuclearSirenBlockEntity extends BlockEntity {
         } else if (!powered && entity.volumeProgress > 0.0F) {
             entity.volumeProgress -= 0.5F;
         }
-        if(powered){
+        if(powered && !entity.isRemoved()){
             AlexsCaves.PROXY.playWorldSound(entity, (byte)0);
             int j = entity.age % 18;
             if(level.isClientSide && j >= 9 && j  % 3 == 0){

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -52,6 +53,7 @@ public class SubmarineItem extends Item {
                 SubmarineEntity submarine = ACEntityRegistry.SUBMARINE.get().create(level);
                 submarine.setPos(vec31.x, vec31.y, vec31.z);
                 submarine.setYRot(player.getYRot());
+                submarine.playSound(ACSoundRegistry.SUBMARINE_PLACE.get());
                 if (!level.noCollision(submarine, submarine.getBoundingBox())) {
                     return InteractionResultHolder.fail(itemstack);
                 } else {

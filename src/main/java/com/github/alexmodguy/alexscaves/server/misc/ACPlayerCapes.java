@@ -27,6 +27,11 @@ public class ACPlayerCapes {
             UUID.fromString("c4fd7b83-0e37-4fca-b920-19d5923999e1") /*Arby698*/
     );
 
+    private static final List<UUID> COMMUNITY_ORGANIZERS = List.of(
+            UUID.fromString("8c1af44c-d02a-42e8-8ae6-e3f2132acbbf"), /*Plummet_Studios*/
+            UUID.fromString("7058b4a0-c527-4667-9162-d816e42ebf75") /*HolidayTheRaptor*/
+    );
+
     public static void setup() {
         CitadelCapes.addCapeFor(DEVS, "alexscaves_developer", DEVELOPER_CAPE_TEXTURE);
         List<UUID> contributorCapes = new ArrayList<>();
@@ -41,6 +46,7 @@ public class ACPlayerCapes {
         List<UUID> contributorCaves = new ArrayList<>();
         contributorCaves.addAll(DEVS);
         contributorCaves.addAll(CONTRIBUTORS);
+        contributorCaves.addAll(COMMUNITY_ORGANIZERS);
         return contributorCaves;
     }
 }

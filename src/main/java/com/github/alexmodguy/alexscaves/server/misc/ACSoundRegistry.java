@@ -94,6 +94,12 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> NUCLEAR_FURNACE_ACTIVE_SUBCRITICAL = createSoundEvent("nuclear_furnace_active_subcritical");
     public static final RegistryObject<SoundEvent> NUCLEAR_FURNACE_ACTIVE_CRITICAL = createSoundEvent("nuclear_furnace_active_critical");
     public static final RegistryObject<SoundEvent> NUCLEAR_FURNACE_ACTIVE_SUPERCRITICAL = createSoundEvent("nuclear_furnace_active_supercritical");
+    public static final RegistryObject<SoundEvent> ABYSSMARINE_GLOW_ON = createSoundEvent("abyssmarine_glow_on");
+    public static final RegistryObject<SoundEvent> ABYSSMARINE_GLOW_OFF = createSoundEvent("abyssmarine_glow_off");
+    public static final RegistryObject<SoundEvent> DRAIN_START = createSoundEvent("drain_start");
+    public static final RegistryObject<SoundEvent> DRAIN_STOP = createSoundEvent("drain_stop");
+    public static final RegistryObject<SoundEvent> COPPER_VALVE_CREAK_ON = createSoundEvent("copper_valve_creak_on");
+    public static final RegistryObject<SoundEvent> COPPER_VALVE_CREAK_OFF = createSoundEvent("copper_valve_creak_off");
     public static final RegistryObject<SoundEvent> THORNWOOD_BRANCH_BREAK = createSoundEvent("thornwood_branch_break");
     public static final RegistryObject<SoundEvent> PEERING_COPROLITH_STEP = createSoundEvent("peering_coprolith_step");
     public static final RegistryObject<SoundEvent> PEERING_COPROLITH_PLACE = createSoundEvent("peering_coprolith_place");
@@ -120,6 +126,16 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> MAGNETRON_ROLL = createSoundEvent("magnetron_roll");
     public static final RegistryObject<SoundEvent> MAGNETRON_STEP = createSoundEvent("magnetron_step");
     public static final RegistryObject<SoundEvent> MAGNETRON_ASSEMBLE = createSoundEvent("magnetron_assemble");
+    public static final RegistryObject<SoundEvent> BOUNDROID_IDLE = createSoundEvent("boundroid_idle");
+    public static final RegistryObject<SoundEvent> BOUNDROID_HURT = createSoundEvent("boundroid_hurt");
+    public static final RegistryObject<SoundEvent> BOUNDROID_DEATH = createSoundEvent("boundroid_death");
+    public static final RegistryObject<SoundEvent> BOUNDROID_DAZED = createSoundEvent("boundroid_dazed");
+    public static final RegistryObject<SoundEvent> BOUNDROID_SLAM = createSoundEvent("boundroid_slam");
+    public static final RegistryObject<SoundEvent> BOUNDROID_CHAIN_LOOP = createSoundEvent("boundroid_chain_loop");
+    public static final RegistryObject<SoundEvent> FERROUSLIME_HURT = createSoundEvent("ferrouslime_hurt");
+    public static final RegistryObject<SoundEvent> FERROUSLIME_DEATH = createSoundEvent("ferrouslime_death");
+    public static final RegistryObject<SoundEvent> FERROUSLIME_COMBINE = createSoundEvent("ferrouslime_combine");
+    public static final RegistryObject<SoundEvent> FERROUSLIME_MOVE_LOOP = createSoundEvent("ferrouslime_move_loop");
     public static final RegistryObject<SoundEvent> NOTOR_IDLE = createSoundEvent("notor_idle");
     public static final RegistryObject<SoundEvent> NOTOR_HURT = createSoundEvent("notor_hurt");
     public static final RegistryObject<SoundEvent> NOTOR_DEATH = createSoundEvent("notor_death");
@@ -240,6 +256,15 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> DARKNESS_INCARNATE_ENTER = createSoundEvent("darkness_incarnate_enter");
     public static final RegistryObject<SoundEvent> DARKNESS_INCARNATE_EXIT = createSoundEvent("darkness_incarnate_exit");
     public static final RegistryObject<SoundEvent> DARKNESS_INCARNATE_IDLE = createSoundEvent("darkness_incarnate_idle");
+    public static final RegistryObject<SoundEvent> SUBMARINE_PLACE = createSoundEvent("submarine_place");
+    public static final RegistryObject<SoundEvent> SUBMARINE_HIT = createSoundEvent("submarine_hit");
+    public static final RegistryObject<SoundEvent> SUBMARINE_CREAK = createSoundEvent("submarine_creak");
+    public static final RegistryObject<SoundEvent> SUBMARINE_REPAIR = createSoundEvent("submarine_repair");
+    public static final RegistryObject<SoundEvent> SUBMARINE_DESTROY = createSoundEvent("submarine_destroy");
+    public static final RegistryObject<SoundEvent> SUBMARINE_LIGHT_ON = createSoundEvent("submarine_light_on");
+    public static final RegistryObject<SoundEvent> SUBMARINE_LIGHT_OFF = createSoundEvent("submarine_light_off");
+    public static final RegistryObject<SoundEvent> SUBMARINE_MOVE_LOOP = createSoundEvent("submarine_move_loop");
+    public static final RegistryObject<SoundEvent> SUBMARINE_SONAR = createSoundEvent("submarine_sonar");
     public static final RegistryObject<SoundEvent> DISAPPOINTMENT = createSoundEvent("disappointment");
     public static final RegistryObject<SoundEvent> NUCLEAR_SIREN = createSoundEvent("nuclear_siren");
 

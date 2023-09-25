@@ -1,8 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
@@ -12,6 +14,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -123,7 +126,7 @@ public class FerrouslimeEntity extends Monster {
                 attackProgress--;
             }
         }
-        if (level().isClientSide) {
+        if (level().isClientSide && isAlive()) {
             float slimeSize = getSlimeSize(1);
             for (int i = 0; i < Math.ceil(slimeSize); i++) {
                 double particleX = this.getX() + (random.nextDouble() - 0.5F) * (slimeSize + 1.5F);
@@ -131,6 +134,7 @@ public class FerrouslimeEntity extends Monster {
                 double particleZ = this.getZ() + (random.nextDouble() - 0.5F) * (slimeSize + 1.5F);
                 level().addParticle(ACParticleRegistry.FERROUSLIME.get(), particleX, particleY, particleZ, this.getId(), 0, 0);
             }
+            AlexsCaves.PROXY.playWorldSound(this, (byte) 13);
         } else {
             LivingEntity living = this.getTarget();
             if (living != null && living.isAlive()) {
@@ -150,6 +154,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
         if (this.getHeadCount() >= 2 && this.isDeadOrDying()) {
             int ours = this.getHeadCount() / 2;
             int theirs = this.getHeadCount() - ours;
@@ -293,6 +298,14 @@ public class FerrouslimeEntity extends Monster {
         return super.canBeAffected(effectInstance) && effectInstance.getEffect() != ACEffectRegistry.MAGNETIZING.get();
     }
 
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.FERROUSLIME_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.FERROUSLIME_DEATH.get();
+    }
+
     class MoveController extends MoveControl {
         private final Mob parentEntity;
         private Direction lastSlideDirection;
@@ -414,6 +427,7 @@ public class FerrouslimeEntity extends Monster {
             if (FerrouslimeEntity.this.distanceTo(otherslime) <= 0.5F + (FerrouslimeEntity.this.getBbWidth() + otherslime.getBbWidth()) / 2D && otherslime.canForm()) {
                 FerrouslimeEntity.this.setHeadCount(FerrouslimeEntity.this.getHeadCount() + otherslime.getHeadCount());
                 otherslime.remove(RemovalReason.DISCARDED);
+                FerrouslimeEntity.this.playSound(ACSoundRegistry.FERROUSLIME_COMBINE.get());
                 otherslime = null;
                 FerrouslimeEntity.this.mergeCooldown = 600;
             }

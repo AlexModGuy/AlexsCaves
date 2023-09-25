@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -219,6 +220,9 @@ public class BoundroidWinchEntity extends Monster {
                     }
                     if (changeLatchStateTime > 5) {
                         this.setLatched(false);
+                        if(noLatchCooldown > 0){
+                            this.playSound(ACSoundRegistry.BOUNDROID_DAZED.get(), 2.0F, 1.0F);
+                        }
                         changeLatchStateTime = 0;
                     }
                     this.setDeltaMovement(this.getDeltaMovement().add(0, 0.14, 0).scale(0.85F));

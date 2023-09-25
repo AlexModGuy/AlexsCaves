@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.QuarryBlock;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.QuarryBlockEntity;
@@ -131,6 +132,9 @@ public class QuarrySmasherEntity extends Entity {
             } else {
                 this.reapplyPosition();
             }
+            if(isAlive()){
+                AlexsCaves.PROXY.playWorldSound(this, (byte) 14);
+            }
         } else if (triggerAdvancement && tickCount % 20 == 0) {
             boolean flag = false;
             double advancementRange = 20.0D;
@@ -168,6 +172,7 @@ public class QuarrySmasherEntity extends Entity {
                             this.setSlamming(true);
                             if (this.headPart.position().distanceTo(Vec3.atBottomCenterOf(targetPos)) < 1.1) {
                                 this.setSlamming(false);
+                                level().playSound(null, targetPos, ACSoundRegistry.BOUNDROID_SLAM.get(), SoundSource.BLOCKS, 1.5F, 1.0F);
                                 level().destroyBlock(targetPos, true);
                                 this.setTargetPos(null);
                                 blockBreakCooldown = 35;
@@ -395,6 +400,11 @@ public class QuarrySmasherEntity extends Entity {
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
 
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.remove(removalReason);
     }
 
     @Override

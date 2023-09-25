@@ -52,6 +52,7 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> imple
         if(sepia){
             renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getBookWidget(TEXTURE_GEL, true)), gelSize, light);
         }else{
+            renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGel(TEXTURE_GEL)), gelSize, light);
             renderGelSpikes(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGelTriangles(TEXTURE_GEL)), gelSize, light);
         }
         poseStack.popPose();

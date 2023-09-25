@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -44,6 +45,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
     private static final EntityDataAccessor<Integer> OXIDIZATION_LEVEL = SynchedEntityData.defineId(SubmarineEntity.class, EntityDataSerializers.INT);
 
     private static final EntityDataAccessor<Integer> DAMAGE_LEVEL = SynchedEntityData.defineId(SubmarineEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DANGER_ALERT_TICKS = SynchedEntityData.defineId(SubmarineEntity.class, EntityDataSerializers.INT);
 
     private float prevLeftPropellerRot;
     private float prevRightPropellerRot;
@@ -66,6 +68,10 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
     private int oxidizeTime = 24000 * (2 + random.nextInt(2));
     public int submergedTicks = 0;
     public int shakeTime = 0;
+    private float prevSonarFlashAmount;
+    private float sonarFlashAmount;
+    private int creakTime;
+    private boolean wereLightsOn;
 
     public SubmarineEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -90,6 +96,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         this.entityData.define(WAXED, false);
         this.entityData.define(OXIDIZATION_LEVEL, 0);
         this.entityData.define(DAMAGE_LEVEL, 0);
+        this.entityData.define(DANGER_ALERT_TICKS, 0);
 
     }
 
@@ -135,6 +142,22 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         }
         this.xRotO = this.getXRot();
         this.yRotO = Mth.wrapDegrees(this.getYRot());
+        this.prevSonarFlashAmount = sonarFlashAmount;
+        if(this.getDangerAlertTicks() > 0 && sonarFlashAmount < 1.0F){
+            sonarFlashAmount += 0.25F;
+        }
+        if(this.getDangerAlertTicks() <= 0 && sonarFlashAmount > 0.0F){
+            sonarFlashAmount -= 0.25F;
+        }
+        if(this.getDangerAlertTicks() > 0 && this.getDamageLevel() <= 3 && this.isVehicle() && tickCount % 20 == 0){
+            this.playSound(ACSoundRegistry.SUBMARINE_SONAR.get());
+        }
+        if(this.getDamageLevel() > 0 && this.isVehicle()){
+            if(creakTime-- <= 0){
+                creakTime = 500 - (this.getDamageLevel() * 120) + random.nextInt(60);
+                this.playSound(ACSoundRegistry.SUBMARINE_CREAK.get());
+            }
+        }
         float acceleration = this.getAcceleration();
         if (this.level().isClientSide) {
             if (this.lSteps > 0) {
@@ -163,6 +186,9 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                     floodlightToggleCooldown = 5;
                 }
             }
+            if (this.isVehicle() && this.isInWaterOrBubble() && this.isAlive()) {
+                AlexsCaves.PROXY.playWorldSound(this, (byte) 15);
+            }
         } else {
             if (acceleration < 0.0F) {
                 this.setAcceleration(Math.min(0F, acceleration + 0.01F));
@@ -190,7 +216,9 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                     this.setOxidizationLevel(this.getOxidizationLevel() + 1);
                 }
             }
-
+            if(this.getDangerAlertTicks() > 0){
+                this.setDangerAlertTicks(this.getDangerAlertTicks() - 1);
+            }
         }
         float xRotSet = Mth.clamp(-(float) this.getDeltaMovement().y * 2F, -1.0F, 1.0F) * -(float) (180F / (float) Math.PI) * (float) Math.signum(getAcceleration() + 0.01);
         float rot = acceleration * 30 + Math.signum(acceleration) * 15;
@@ -227,11 +255,20 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         if (shakeTime > 0) {
             shakeTime--;
         }
+        if(wereLightsOn != this.areLightsOn()){
+            this.playSound(wereLightsOn ? ACSoundRegistry.SUBMARINE_LIGHT_OFF.get() :  ACSoundRegistry.SUBMARINE_LIGHT_ON.get());
+            wereLightsOn = this.areLightsOn();
+        }
         this.setXRot(ACMath.approachRotation(this.getXRot(), Mth.clamp(getDamageLevel() >= 4 ? 0 : xRotSet, -50, 50), 2));
         prevLeftPropellerRot = leftPropellerRot;
         prevRightPropellerRot = rightPropellerRot;
         prevBackPropellerRot = backPropellerRot;
 
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.remove(removalReason);
     }
 
     @Override
@@ -292,6 +329,14 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
 
     public void setDamageLevel(int level) {
         this.entityData.set(DAMAGE_LEVEL, level);
+    }
+
+    public int getDangerAlertTicks() {
+        return this.entityData.get(DANGER_ALERT_TICKS);
+    }
+
+    public void setDangerAlertTicks(int ticks) {
+        this.entityData.set(DANGER_ALERT_TICKS, ticks);
     }
 
     @Override
@@ -357,7 +402,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             shakeTime = 20;
         } else if (b == 48) {
             shakeTime = 10;
-        } else {
+        } else{
             super.handleEntityEvent(b);
         }
     }
@@ -420,7 +465,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                 if (!player.isCreative()) {
                     itemStack.shrink(1);
                 }
-                this.playSound(SoundEvents.IRON_GOLEM_REPAIR, 1.0F, 1.0F);
+                this.playSound(ACSoundRegistry.SUBMARINE_REPAIR.get(), 1.0F, 1.0F);
                 this.setDamageLevel(Math.max(this.getDamageLevel() - 1, 0));
                 this.damageSustained = 0;
                 return InteractionResult.CONSUME;
@@ -569,10 +614,10 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
             return false;
         } else {
             damageSustained += damageValue;
+            boolean flag = false;
             this.level().broadcastEntityEvent(this, (byte) 48);
             if (damageSustained >= 10) {
                 damageSustained = 0;
-                this.playSound(SoundEvents.ITEM_BREAK);
                 this.level().broadcastEntityEvent(this, (byte) 47);
                 if (this.getDamageLevel() >= 4) {
                     if (!this.isRemoved()) {
@@ -581,11 +626,28 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                         }
                     }
                     this.remove(RemovalReason.KILLED);
+                    flag = true;
+                    this.playSound(ACSoundRegistry.SUBMARINE_DESTROY.get());
                 } else {
                     this.setDamageLevel(this.getDamageLevel() + 1);
                 }
             }
+            if(!flag){
+                this.playSound(ACSoundRegistry.SUBMARINE_HIT.get());
+            }
             return true;
+        }
+    }
+
+    public float getSonarFlashAmount(float partialTicks) {
+        float f = (prevSonarFlashAmount + (sonarFlashAmount - prevSonarFlashAmount) * partialTicks);
+        float f1 = (float) (f * (Math.cos((tickCount + partialTicks) * 0.4F) + 1F) * 0.5F);
+        return 1.0F - f + f1;
+    }
+
+    public static void alertSubmarineMountOf(LivingEntity living){
+        if(living.isAlive() && living.getVehicle() instanceof SubmarineEntity submarine && submarine.getDamageLevel() <= 3){
+            submarine.setDangerAlertTicks(100);
         }
     }
 }

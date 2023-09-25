@@ -1,5 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Lists;
@@ -77,6 +79,9 @@ public class DrainBlock extends AbstractGlassBlock {
             BlockState fluidBlockCopyState = worldIn.getBlockState(highestWater);
             if (!copyState.isEmpty()) {
                 int count = removeWaterBreadthFirstSearch(worldIn, highestWater);
+                if(count > 0){
+                    AlexsCaves.sendMSGToAll(new WorldEventMessage(3, pos.getX(), pos.getY(), pos.getZ()));
+                }
                 BlockPos.MutableBlockPos lowestAir = new BlockPos.MutableBlockPos();
                 lowestAir.set(pos);
                 lowestAir.move(0, -1, 0);
@@ -86,6 +91,7 @@ public class DrainBlock extends AbstractGlassBlock {
                 lowestAir.move(0, 1, 0);
                 BlockPos lowest = lowestAir.immutable();
                 BlockState fullBlock = fluidBlockCopyState.getBlock().defaultBlockState();
+                boolean flag = false;
                 for (int i = 0; i < count; i++) {
                     List<BlockPos> ignoredPoses = Lists.newArrayList();
                     BlockPos setPos = getFirstEmptyNeighborPosition(worldIn, lowest, copyState.getFluidType(), 0, ignoredPoses);
@@ -97,7 +103,11 @@ public class DrainBlock extends AbstractGlassBlock {
                         i--;
                     } else {
                         worldIn.setBlockAndUpdate(setPos, fullBlock);
+                        flag = true;
                     }
+                }
+                if(flag){
+                    AlexsCaves.sendMSGToAll(new WorldEventMessage(4, pos.getX(), pos.getY(), pos.getZ()));
                 }
             }
             worldIn.scheduleTick(pos, this, DRAIN_TIME);

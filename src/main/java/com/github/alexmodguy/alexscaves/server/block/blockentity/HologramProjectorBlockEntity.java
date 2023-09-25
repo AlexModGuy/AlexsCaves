@@ -64,8 +64,9 @@ public class HologramProjectorBlockEntity extends BlockEntity {
                 } else {
                     entity.prevDisplayEntity = entity.displayEntity;
                 }
-                AlexsCaves.PROXY.playWorldSound(entity, (byte)3);
-
+                if(!entity.isRemoved()){
+                    AlexsCaves.PROXY.playWorldSound(entity, (byte)3);
+                }
             }
         }
         if (entity.isPlayerRender() && entity.lastPlayerUUID == null) {

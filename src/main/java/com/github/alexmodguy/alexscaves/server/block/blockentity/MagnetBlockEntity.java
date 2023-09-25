@@ -66,7 +66,7 @@ public class MagnetBlockEntity extends BlockEntity {
             if(state.getValue(MagnetBlock.POWERED)){
                 entity.locallyActive = true;
             }
-            if(entity.locallyActive){
+            if(entity.locallyActive && !entity.isRemoved()){
                 AlexsCaves.PROXY.playWorldSound(entity, (byte)4);
             }
         } else {

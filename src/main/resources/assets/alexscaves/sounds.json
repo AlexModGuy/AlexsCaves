@@ -1070,6 +1070,42 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.nuclear_furnace_active_supercritcal"
   },
+  "abyssmarine_glow_on": {
+    "sounds": [
+      "alexscaves:block/abyssmarine/abyssmarine_glow_on"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.abyssmarine_glow_on"
+  },
+  "abyssmarine_glow_off": {
+    "sounds": [
+      "alexscaves:block/abyssmarine/abyssmarine_glow_off"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.abyssmarine_glow_off"
+  },
+  "drain_start": {
+    "sounds": [
+      "alexscaves:block/drain/drain_start"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.drain_start"
+  },
+  "drain_stop": {
+    "sounds": [
+      "alexscaves:block/drain/drain_stop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.drain_stop"
+  },
+  "copper_valve_creak_on": {
+    "sounds": [
+      "alexscaves:block/copper_valve/copper_valve_creak_on"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.copper_valve_creak_on"
+  },
+  "copper_valve_creak_off": {
+    "sounds": [
+      "alexscaves:block/copper_valve/copper_valve_creak_off"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.copper_valve_creak_off"
+  },
   "thornwood_branch_break": {
     "sounds": [
       "alexscaves:block/thornwood_branch/thornwood_branch_break_0",
@@ -1289,6 +1325,81 @@
       "alexscaves:mob/magnetron/magnetron_assemble"
     ],
     "subtitle": "alexsmobs.sound.subtitle.magnetron_assemble"
+  },
+  "boundroid_idle": {
+    "sounds": [
+      "alexscaves:mob/boundroid/boundroid_idle_0",
+      "alexscaves:mob/boundroid/boundroid_idle_1",
+      "alexscaves:mob/boundroid/boundroid_idle_2",
+      "alexscaves:mob/boundroid/boundroid_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.boundroid_idle"
+  },
+  "boundroid_hurt": {
+    "sounds": [
+      "alexscaves:mob/boundroid/boundroid_hurt_0",
+      "alexscaves:mob/boundroid/boundroid_hurt_1",
+      "alexscaves:mob/boundroid/boundroid_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.boundroid_hurt"
+  },
+  "boundroid_death": {
+    "sounds": [
+      "alexscaves:mob/boundroid/boundroid_death_0",
+      "alexscaves:mob/boundroid/boundroid_death_1",
+      "alexscaves:mob/boundroid/boundroid_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.boundroid_death"
+  },
+  "boundroid_slam": {
+    "sounds": [
+      "alexscaves:mob/boundroid/boundroid_slam_0",
+      "alexscaves:mob/boundroid/boundroid_slam_1",
+      "alexscaves:mob/boundroid/boundroid_slam_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.boundroid_slam"
+  },
+  "boundroid_dazed": {
+    "sounds": [
+      "alexscaves:mob/boundroid/boundroid_dazed"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.boundroid_dazed"
+  },
+  "boundroid_chain_loop": {
+    "sounds": [
+      "alexscaves:mob/boundroid/boundroid_chain_loop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.boundroid_chain_loop"
+  },
+  "ferrouslime_hurt": {
+    "sounds": [
+      "alexscaves:mob/ferrouslime/ferrouslime_hurt_0",
+      "alexscaves:mob/ferrouslime/ferrouslime_hurt_1",
+      "alexscaves:mob/ferrouslime/ferrouslime_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.ferrouslime_hurt"
+  },
+  "ferrouslime_death": {
+    "sounds": [
+      "alexscaves:mob/ferrouslime/ferrouslime_death_0",
+      "alexscaves:mob/ferrouslime/ferrouslime_death_1",
+      "alexscaves:mob/ferrouslime/ferrouslime_death_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.ferrouslime_death"
+  },
+  "ferrouslime_combine": {
+    "sounds": [
+      "alexscaves:mob/ferrouslime/ferrouslime_combine_0",
+      "alexscaves:mob/ferrouslime/ferrouslime_combine_1",
+      "alexscaves:mob/ferrouslime/ferrouslime_combine_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.ferrouslime_combine"
+  },
+  "ferrouslime_move_loop": {
+    "sounds": [
+      "alexscaves:mob/ferrouslime/ferrouslime_move_loop"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.ferrouslime_move_loop"
   },
   "notor_idle": {
     "sounds": [
@@ -2198,6 +2309,76 @@
       }
     ],
     "subtitle": "alexsmobs.sound.subtitle.nuclear_explosion_ringing"
+  },
+  "submarine_place": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_place_0",
+      "alexscaves:misc/submarine/submarine_place_1",
+      "alexscaves:misc/submarine/submarine_place_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_place"
+  },
+  "submarine_hit": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_hit_0",
+      "alexscaves:misc/submarine/submarine_hit_1",
+      "alexscaves:misc/submarine/submarine_hit_2",
+      "alexscaves:misc/submarine/submarine_hit_3",
+      "alexscaves:misc/submarine/submarine_hit_4",
+      "alexscaves:misc/submarine/submarine_hit_5"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_hit"
+  },
+  "submarine_creak": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_creak_0",
+      "alexscaves:misc/submarine/submarine_creak_1",
+      "alexscaves:misc/submarine/submarine_creak_2",
+      "alexscaves:misc/submarine/submarine_creak_3",
+      "alexscaves:misc/submarine/submarine_creak_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_hit"
+  },
+  "submarine_repair": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_repair_0",
+      "alexscaves:misc/submarine/submarine_repair_1",
+      "alexscaves:misc/submarine/submarine_repair_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_repair"
+  },
+  "submarine_destroy": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_destroy"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_light_on"
+  },
+  "submarine_light_on": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_light_on"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_light_on"
+  },
+  "submarine_light_off": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_light_off"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_light_off"
+  },
+  "submarine_move_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:misc/submarine/submarine_move_loop",
+        "stream": true
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_move_loop"
+  },
+  "submarine_sonar": {
+    "sounds": [
+      "alexscaves:misc/submarine/submarine_sonar"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.submarine_sonar"
   },
   "darkness_incarnate_enter": {
     "sounds": [

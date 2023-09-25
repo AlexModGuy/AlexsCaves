@@ -214,7 +214,9 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
             }
             this.level().addParticle(ACParticleRegistry.VOID_BEING_CLOUD.get(), particleAt.x, particleAt.y, particleAt.z, 1F, carryingId, 5 + random.nextInt(4));
         } else if(b == 77){
-            AlexsCaves.PROXY.playWorldSound(this, (byte) 5);
+            if(this.isAlive()){
+                AlexsCaves.PROXY.playWorldSound(this, (byte) 5);
+            }
         }else {
             super.handleEntityEvent(b);
         }

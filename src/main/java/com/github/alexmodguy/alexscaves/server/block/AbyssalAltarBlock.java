@@ -48,7 +48,7 @@ public class AbyssalAltarBlock extends BaseEntityBlock implements SimpleWaterlog
     };
 
     public AbyssalAltarBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).dynamicShape().strength(2.5F, 10.0F).sound(SoundType.STONE).lightLevel(LIGHT_EMISSION));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).dynamicShape().strength(2.5F, 10.0F).sound(SoundType.DEEPSLATE).lightLevel(LIGHT_EMISSION));
         this.registerDefaultState(this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(false)).setValue(ACTIVE, Boolean.valueOf(false)));
     }
 

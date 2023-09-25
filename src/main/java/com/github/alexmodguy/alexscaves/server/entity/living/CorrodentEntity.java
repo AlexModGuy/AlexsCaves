@@ -177,7 +177,7 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
                 }
                 this.setNoGravity(false);
             }
-        }else if(this.isDigging()){
+        }else if(this.isDigging() && isAlive()){
             AlexsCaves.PROXY.playWorldSound(this, (byte) 6);
         }
         prevSurfacePosition = surfacePosition;

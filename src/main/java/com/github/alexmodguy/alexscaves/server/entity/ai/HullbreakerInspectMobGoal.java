@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -107,6 +108,7 @@ public class HullbreakerInspectMobGoal extends Goal {
                 entity.setYHeadRot(entity.yBodyRot + (clockwise ? 30 : -30));
 
             }
+            SubmarineEntity.alertSubmarineMountOf(inspectingTarget);
         }
     }
 

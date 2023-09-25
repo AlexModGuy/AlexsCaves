@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -10,6 +12,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -132,6 +135,7 @@ public class BoundroidEntity extends Monster {
                 this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, -1, this.getDeltaMovement().z));
                 if (this.onGround()) {
                     this.setSlamming(false);
+                    this.playSound(ACSoundRegistry.BOUNDROID_SLAM.get());
                     this.stayOnGroundFor = 10;
                     this.stopSlammingFor = 30 + random.nextInt(20);
                     this.level().broadcastEntityEvent(this, (byte) 45);
@@ -144,6 +148,8 @@ public class BoundroidEntity extends Monster {
                     }
                 }
             }
+        }else if(isAlive()){
+            AlexsCaves.PROXY.playWorldSound(this, (byte) 12);
         }
         if (stopSlammingFor > 0) {
             stopSlammingFor--;
@@ -159,6 +165,11 @@ public class BoundroidEntity extends Monster {
         } else {
             super.handleEntityEvent(b);
         }
+    }
+
+    public void remove(Entity.RemovalReason removalReason) {
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.remove(removalReason);
     }
 
     public void spawnGroundEffects() {
@@ -253,6 +264,18 @@ public class BoundroidEntity extends Monster {
         if (this.getWinchUUID() != null) {
             compound.putUUID("WinchUUID", this.getWinchUUID());
         }
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.BOUNDROID_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.BOUNDROID_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.BOUNDROID_DEATH.get();
     }
 
     private LivingEntity createWinch() {

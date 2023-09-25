@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -50,6 +51,7 @@ public class HullbreakerMeleeGoal extends Goal {
                     checkAndDealDamage(target, 1.5F);
                 }
             }
+            SubmarineEntity.alertSubmarineMountOf(target);
         }
     }
 
