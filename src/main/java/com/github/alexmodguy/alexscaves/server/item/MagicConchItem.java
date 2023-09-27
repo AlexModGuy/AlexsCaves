@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
@@ -32,6 +33,7 @@ public class MagicConchItem extends Item {
     }
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
+        level.playSound(null, player, ACSoundRegistry.MAGIC_CONCH_CAST.get(), SoundSource.RECORDS, 16.0F, 1.0F);
         int i = this.getUseDuration(stack) - useTimeLeft;
         if (i > 25) {
             stack.hurtAndBreak(1, player, (player1) -> {
@@ -78,7 +80,6 @@ public class MagicConchItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack itemstack = player.getItemInHand(hand);
         player.startUsingItem(hand);
-        level.playSound(player, player, SoundEvents.GOAT_HORN_PLAY, SoundSource.RECORDS, 16.0F, 1.0F);
         level.gameEvent(GameEvent.INSTRUMENT_PLAY, player.position(), GameEvent.Context.of(player));
         return InteractionResultHolder.consume(itemstack);
     }

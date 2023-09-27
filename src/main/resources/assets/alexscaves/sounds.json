@@ -179,11 +179,6 @@
         "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_20",
         "volume": 0.75,
         "weight": 1
-      },
-      {
-        "name": "alexscaves:ambient/primordial_caves/loop_additions/dinosaurs_21",
-        "volume": 0.75,
-        "weight": 1
       }
     ]
   },
@@ -199,6 +194,111 @@
       "alexscaves:ambient/primordial_caves/mood/footsteps_1",
       "alexscaves:ambient/primordial_caves/mood/footsteps_2",
       "alexscaves:ambient/primordial_caves/mood/footsteps_3"
+    ]
+  },
+  "toxic_caves_ambience": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/toxic_caves/ambience",
+        "stream": true,
+        "volume": 0.75
+      }
+    ]
+  },
+  "toxic_caves_ambience_additions": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/alarm_0",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/alarm_1",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/alarm_2",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/alarm_3",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/alarm_4",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/alarm_5",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/beep_0",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/beep_1",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/beep_2",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/morse_0",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/morse_1",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/morse_2",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/morse_3",
+        "volume": 0.75,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/radio_0",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/radio_1",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/radio_2",
+        "volume": 0.75,
+        "weight": 2
+      },
+      {
+        "name": "alexscaves:ambient/toxic_caves/loop_additions/radio_3",
+        "volume": 0.75,
+        "weight": 2
+      }
+    ]
+  },
+  "toxic_caves_ambience_mood": {
+    "sounds": [
+      "alexscaves:ambient/toxic_caves/mood/mood_0",
+      "alexscaves:ambient/toxic_caves/mood/mood_1",
+      "alexscaves:ambient/toxic_caves/mood/mood_2"
     ]
   },
   "abyssal_chasm_ambience": {
@@ -730,8 +830,7 @@
       "alexscaves:block/radrock/radrock_step_1",
       "alexscaves:block/radrock/radrock_step_2",
       "alexscaves:block/radrock/radrock_step_3",
-      "alexscaves:block/radrock/radrock_step_4",
-      "alexscaves:block/radrock/radrock_step_5"
+      "alexscaves:block/radrock/radrock_step_4"
     ],
     "subtitle": "alexsmobs.sound.subtitle.radrock_step"
   },
@@ -740,7 +839,8 @@
       "alexscaves:block/radrock/radrock_place_0",
       "alexscaves:block/radrock/radrock_place_1",
       "alexscaves:block/radrock/radrock_place_2",
-      "alexscaves:block/radrock/radrock_place_3"
+      "alexscaves:block/radrock/radrock_place_3",
+      "alexscaves:block/radrock/radrock_place_4"
     ],
     "subtitle": "alexsmobs.sound.subtitle.radrock_place"
   },
@@ -749,7 +849,8 @@
       "alexscaves:block/radrock/radrock_break_0",
       "alexscaves:block/radrock/radrock_break_1",
       "alexscaves:block/radrock/radrock_break_2",
-      "alexscaves:block/radrock/radrock_break_3"
+      "alexscaves:block/radrock/radrock_break_3",
+      "alexscaves:block/radrock/radrock_break_4"
     ],
     "subtitle": "alexsmobs.sound.subtitle.radrock_break"
   },
@@ -759,8 +860,7 @@
       "alexscaves:block/radrock/radrock_breaking_1",
       "alexscaves:block/radrock/radrock_breaking_2",
       "alexscaves:block/radrock/radrock_breaking_3",
-      "alexscaves:block/radrock/radrock_breaking_4",
-      "alexscaves:block/radrock/radrock_breaking_5"
+      "alexscaves:block/radrock/radrock_breaking_4"
     ],
     "subtitle": "alexsmobs.sound.subtitle.radrock_breaking"
   },
@@ -1069,6 +1169,42 @@
       }
     ],
     "subtitle": "alexsmobs.sound.subtitle.nuclear_furnace_active_supercritcal"
+  },
+  "tube_worm_step": {
+    "sounds": [
+      "alexscaves:block/tube_worm/tube_worm_step_0",
+      "alexscaves:block/tube_worm/tube_worm_step_1",
+      "alexscaves:block/tube_worm/tube_worm_step_2",
+      "alexscaves:block/tube_worm/tube_worm_step_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tube_worm_step"
+  },
+  "tube_worm_place": {
+    "sounds": [
+      "alexscaves:block/tube_worm/tube_worm_place_0",
+      "alexscaves:block/tube_worm/tube_worm_place_1",
+      "alexscaves:block/tube_worm/tube_worm_place_2",
+      "alexscaves:block/tube_worm/tube_worm_place_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tube_worm_place"
+  },
+  "tube_worm_break": {
+    "sounds": [
+      "alexscaves:block/tube_worm/tube_worm_break_0",
+      "alexscaves:block/tube_worm/tube_worm_break_1",
+      "alexscaves:block/tube_worm/tube_worm_break_2",
+      "alexscaves:block/tube_worm/tube_worm_break_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tube_worm_break"
+  },
+  "tube_worm_breaking": {
+    "sounds": [
+      "alexscaves:block/tube_worm/tube_worm_breaking_0",
+      "alexscaves:block/tube_worm/tube_worm_breaking_1",
+      "alexscaves:block/tube_worm/tube_worm_breaking_2",
+      "alexscaves:block/tube_worm/tube_worm_breaking_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tube_worm_breaking"
   },
   "abyssmarine_glow_on": {
     "sounds": [
@@ -1414,7 +1550,7 @@
     "sounds": [
       "alexscaves:mob/notor/notor_hurt_0",
       "alexscaves:mob/notor/notor_hurt_1",
-      "alexscaves:mob/notor/notor_hurt_3"
+      "alexscaves:mob/notor/notor_hurt_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.notor_hurt"
   },
@@ -1846,6 +1982,176 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.raycat_absorb"
   },
+  "lanternfish_hurt": {
+    "sounds": [
+      "alexscaves:mob/lanternfish/lanternfish_hurt_0",
+      "alexscaves:mob/lanternfish/lanternfish_hurt_1",
+      "alexscaves:mob/lanternfish/lanternfish_hurt_2",
+      "alexscaves:mob/lanternfish/lanternfish_hurt_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.lanternfish_hurt"
+  },
+  "lanternfish_flop": {
+    "sounds": [
+      "alexscaves:mob/lanternfish/lanternfish_flop_0",
+      "alexscaves:mob/lanternfish/lanternfish_flop_1",
+      "alexscaves:mob/lanternfish/lanternfish_flop_2",
+      "alexscaves:mob/lanternfish/lanternfish_flop_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.lanternfish_flop"
+  },
+  "sea_pig_idle": {
+    "sounds": [
+      "alexscaves:mob/sea_pig/sea_pig_idle_0",
+      "alexscaves:mob/sea_pig/sea_pig_idle_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_pig_idle"
+  },
+  "sea_pig_hurt": {
+    "sounds": [
+      "alexscaves:mob/sea_pig/sea_pig_hurt_0",
+      "alexscaves:mob/sea_pig/sea_pig_hurt_1",
+      "alexscaves:mob/sea_pig/sea_pig_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_pig_hurt"
+  },
+  "sea_pig_death": {
+    "sounds": [
+      "alexscaves:mob/sea_pig/sea_pig_death_0",
+      "alexscaves:mob/sea_pig/sea_pig_death_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_pig_death"
+  },
+  "sea_pig_eat": {
+    "sounds": [
+      "alexscaves:mob/sea_pig/sea_pig_eat_0",
+      "alexscaves:mob/sea_pig/sea_pig_eat_1",
+      "alexscaves:mob/sea_pig/sea_pig_eat_2",
+      "alexscaves:mob/sea_pig/sea_pig_eat_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_pig_eat"
+  },
+  "gossamer_worm_idle": {
+    "sounds": [
+      "alexscaves:mob/gossamer_worm/gossamer_worm_idle_0",
+      "alexscaves:mob/gossamer_worm/gossamer_worm_idle_1",
+      "alexscaves:mob/gossamer_worm/gossamer_worm_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gossamer_worm_idle"
+  },
+  "gossamer_worm_hurt": {
+    "sounds": [
+      "alexscaves:mob/gossamer_worm/gossamer_worm_hurt_0",
+      "alexscaves:mob/gossamer_worm/gossamer_worm_hurt_1",
+      "alexscaves:mob/gossamer_worm/gossamer_worm_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gossamer_worm_hurt"
+  },
+  "gossamer_worm_death": {
+    "sounds": [
+      "alexscaves:mob/gossamer_worm/gossamer_worm_death_0",
+      "alexscaves:mob/gossamer_worm/gossamer_worm_death_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.gossamer_worm_death"
+  },
+  "tripodfish_hurt": {
+    "sounds": [
+      "alexscaves:mob/tripodfish/tripodfish_hurt_0",
+      "alexscaves:mob/tripodfish/tripodfish_hurt_1",
+      "alexscaves:mob/tripodfish/tripodfish_hurt_2",
+      "alexscaves:mob/tripodfish/tripodfish_hurt_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tripodfish_hurt"
+  },
+  "tripodfish_flop": {
+    "sounds": [
+      "alexscaves:mob/tripodfish/tripodfish_flop_0",
+      "alexscaves:mob/tripodfish/tripodfish_flop_1",
+      "alexscaves:mob/tripodfish/tripodfish_flop_2",
+      "alexscaves:mob/tripodfish/tripodfish_flop_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.tripodfish_flop"
+  },
+  "mine_guardian_idle": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_idle_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_idle_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_idle_2",
+      "alexscaves:mob/mine_guardian/mine_guardian_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_idle"
+  },
+  "mine_guardian_hurt": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_hurt_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_hurt_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_hurt_2",
+      "alexscaves:mob/mine_guardian/mine_guardian_hurt_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_hurt"
+  },
+  "mine_guardian_death": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_death"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_death"
+  },
+  "mine_guardian_explode": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_explode_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_explode_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_explode_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_explode"
+  },
+  "mine_guardian_land_idle": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_land_idle_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_idle_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_idle_2",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_idle_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_land_idle"
+  },
+  "mine_guardian_land_hurt": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_land_hurt_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_hurt_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_hurt_2",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_hurt_3"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_land_hurt"
+  },
+  "mine_guardian_land_death": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_land_death"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_land_death"
+  },
+  "mine_guardian_land_explode": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_land_explode_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_explode_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_land_explode_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_land_explode"
+  },
+  "mine_guardian_scan": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_scan_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_scan_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_scan_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_scan"
+  },
+  "mine_guardian_flop": {
+    "sounds": [
+      "alexscaves:mob/mine_guardian/mine_guardian_flop_0",
+      "alexscaves:mob/mine_guardian/mine_guardian_flop_1",
+      "alexscaves:mob/mine_guardian/mine_guardian_flop_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.mine_guardian_flop"
+  },
   "gloomoth_hurt": {
     "sounds": [
       "alexscaves:mob/gloomoth/gloomoth_hurt_0",
@@ -1872,8 +2178,7 @@
       "alexscaves:mob/gloomoth/gloomoth_flap_5",
       "alexscaves:mob/gloomoth/gloomoth_flap_6",
       "alexscaves:mob/gloomoth/gloomoth_flap_7",
-      "alexscaves:mob/gloomoth/gloomoth_flap_8",
-      "alexscaves:mob/gloomoth/gloomoth_flap_9"
+      "alexscaves:mob/gloomoth/gloomoth_flap_8"
     ],
     "subtitle": "alexsmobs.sound.subtitle.gloomoth_flap"
   },
@@ -2233,7 +2538,64 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.raygun_empty"
   },
-
+  "raygun_start": {
+    "sounds": [
+      "alexscaves:item/raygun/raygun_start"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.raygun_start"
+  },
+  "magic_conch_cast": {
+    "sounds": [
+      "alexscaves:item/magic_conch/magic_conch_cast"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.magic_conch"
+  },
+  "magic_conch_summon": {
+    "sounds": [
+      "alexscaves:item/magic_conch/magic_conch_summon"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.magic_conch_summon"
+  },
+  "sea_staff_cast": {
+    "sounds": [
+      "alexscaves:item/sea_staff/sea_staff_cast_0",
+      "alexscaves:item/sea_staff/sea_staff_cast_1",
+      "alexscaves:item/sea_staff/sea_staff_cast_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_staff_cast"
+  },
+  "sea_staff_woosh": {
+    "sounds": [
+      "alexscaves:item/sea_staff/sea_staff_woosh_0",
+      "alexscaves:item/sea_staff/sea_staff_woosh_1",
+      "alexscaves:item/sea_staff/sea_staff_woosh_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_staff"
+  },
+  "sea_staff_hit": {
+    "sounds": [
+      "alexscaves:item/sea_staff/sea_staff_hit_0",
+      "alexscaves:item/sea_staff/sea_staff_hit_1",
+      "alexscaves:item/sea_staff/sea_staff_hit_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_staff_hit"
+  },
+  "sea_staff_bubble": {
+    "sounds": [
+      "alexscaves:item/sea_staff/sea_staff_bubble_0",
+      "alexscaves:item/sea_staff/sea_staff_bubble_1",
+      "alexscaves:item/sea_staff/sea_staff_bubble_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.sea_staff_bubble"
+  },
+  "ortholance_wave": {
+    "sounds": [
+      "alexscaves:item/ortholance/ortholance_wave_0",
+      "alexscaves:item/ortholance/ortholance_wave_1",
+      "alexscaves:item/ortholance/ortholance_wave_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.ortholance_wave"
+  },
   "desolate_dagger_summon": {
     "sounds": [
       "alexscaves:item/desolate_dagger/desolate_dagger_summon_0",

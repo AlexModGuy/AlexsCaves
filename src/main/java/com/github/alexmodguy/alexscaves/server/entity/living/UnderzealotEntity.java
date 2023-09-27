@@ -476,6 +476,10 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         }
     }
 
+    public boolean isAttackable() {
+        return super.isAttackable() && !this.isBuried();
+    }
+
     public void postSacrifice(UnderzealotSacrifice sacrifice) {
         this.playSound(ACSoundRegistry.UNDERZEALOT_TRANSFORMATION.get(), 8.0F, 1.0F);
         sacrificeCooldown = 6000 + random.nextInt(6000);

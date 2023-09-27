@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -51,7 +52,10 @@ public class WaterBoltEntity extends Projectile {
 
     private boolean spawnedSplash = false;
 
+    private int wooshSoundTime = 0;
     private int dieIn = -1;
+
+    private boolean playedSplashSound;
 
     public WaterBoltEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -91,6 +95,10 @@ public class WaterBoltEntity extends Projectile {
             for (int j = 0; j < 3 + random.nextInt(2); ++j) {
                 this.level().addParticle(this.isInWaterOrBubble() || isBubbling() ? ParticleTypes.BUBBLE_COLUMN_UP : ParticleTypes.FALLING_WATER, this.getRandomX(0.5D), this.getRandomY(), this.getRandomZ(0.5D), 0, -0.1F, 0);
             }
+        }
+        if(wooshSoundTime <= 0){
+            wooshSoundTime = 30 + level().random.nextInt(30);
+            this.playSound(ACSoundRegistry.SEA_STAFF_WOOSH.get());
         }
         Vec3 vec3 = this.getDeltaMovement();
         double d0 = this.getX() + vec3.x;
@@ -191,6 +199,10 @@ public class WaterBoltEntity extends Projectile {
 
     protected void onHitEntity(EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
+        if(!playedSplashSound){
+            playedSplashSound = true;
+            this.playSound(ACSoundRegistry.SEA_STAFF_HIT.get());
+        }
         if (!this.level().isClientSide && !ownedBy(hitResult.getEntity())) {
             damageMobs();
             if (dieIn == -1) {
@@ -225,6 +237,10 @@ public class WaterBoltEntity extends Projectile {
 
     protected void onHitBlock(BlockHitResult hitResult) {
         super.onHitBlock(hitResult);
+        if(!playedSplashSound){
+            playedSplashSound = true;
+            this.playSound(ACSoundRegistry.SEA_STAFF_HIT.get());
+        }
         if (!this.level().isClientSide) {
             damageMobs();
             if (dieIn == -1) {

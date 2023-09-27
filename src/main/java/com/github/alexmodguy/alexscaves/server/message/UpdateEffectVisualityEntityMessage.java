@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.message;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.effect.MobEffect;
@@ -64,6 +65,7 @@ public class UpdateEffectVisualityEntityMessage {
                         break;
                     case 1:
                         mobEffect = ACEffectRegistry.BUBBLED.get();
+                        entity.playSound(ACSoundRegistry.SEA_STAFF_BUBBLE.get());
                         break;
                     case 2:
                         mobEffect = ACEffectRegistry.MAGNETIZING.get();

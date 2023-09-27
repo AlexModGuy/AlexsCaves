@@ -58,12 +58,12 @@ public class UnderzealotMeleeGoal extends Goal {
             float f = (float) entity.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * multiplier;
             target.hurt(target.damageSources().mobAttack(entity), f);
             target.knockback(0.2D + 0.3D * multiplier, entity.getX() - target.getX(), entity.getZ() - target.getZ());
-            Entity entity = target.getVehicle();
-            if (entity != null) {
-                entity.setDeltaMovement(target.getDeltaMovement());
-                entity.hurt(target.damageSources().mobAttack(this.entity), f * 0.5F);
-            }
             shouldBurrow = entity.level().random.nextBoolean();
+            Entity vehicle = target.getVehicle();
+            if (vehicle != null) {
+                vehicle.setDeltaMovement(target.getDeltaMovement());
+                vehicle.hurt(target.damageSources().mobAttack(this.entity), f * 0.5F);
+            }
         }
     }
 

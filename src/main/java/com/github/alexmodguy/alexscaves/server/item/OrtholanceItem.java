@@ -2,9 +2,11 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.item.WaveEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -59,6 +61,7 @@ public class OrtholanceItem extends Item implements Vanishable {
             float f = 0.1F * i;
             Vec3 vec3 = livingEntity.getDeltaMovement().add(livingEntity.getViewVector(1.0F).normalize().multiply(f, f * 0.15F, f));
             if (i >= 10 && !level.isClientSide) {
+                level.playSound(null, livingEntity, ACSoundRegistry.ORTHOLANCE_WAVE.get(), SoundSource.NEUTRAL, 4.0F, 1.0F);
                 stack.hurtAndBreak(1, livingEntity, (player1) -> {
                     player1.broadcastBreakEvent(player1.getUsedItemHand());
                 });

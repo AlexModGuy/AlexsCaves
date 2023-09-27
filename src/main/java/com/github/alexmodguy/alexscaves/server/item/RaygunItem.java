@@ -61,6 +61,7 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         ItemStack itemstack = player.getItemInHand(interactionHand);
         if (hasCharge(itemstack)) {
             player.startUsingItem(interactionHand);
+            player.playSound(ACSoundRegistry.RAYGUN_START.get());
             return InteractionResultHolder.consume(itemstack);
         } else {
             ItemStack ammo = findAmmo(player);

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -18,6 +19,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -104,6 +106,9 @@ public class SeaPigEntity extends WaterAnimal implements Bucketable {
         prevDigestProgress = digestProgress;
         prevSquishProgress = squishProgress;
         if (isDigesting() && digestProgress < 1.0F) {
+            if(digestProgress == 0.0F){
+                this.playSound(ACSoundRegistry.SEA_PIG_EAT.get());
+            }
             digestProgress += 0.05F;
             if (digestProgress >= 1.0F) {
                 digestProgress = 0;
@@ -278,6 +283,17 @@ public class SeaPigEntity extends WaterAnimal implements Bucketable {
         return SoundEvents.BUCKET_FILL_FISH;
     }
 
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.SEA_PIG_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.SEA_PIG_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.SEA_PIG_DEATH.get();
+    }
 
 
     private class WanderGoal extends Goal {

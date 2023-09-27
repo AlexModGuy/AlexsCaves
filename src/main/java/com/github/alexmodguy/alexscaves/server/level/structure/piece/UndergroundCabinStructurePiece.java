@@ -86,39 +86,6 @@ public class UndergroundCabinStructurePiece extends TemplateStructurePiece {
         return genPos.size() <= 1 ? genPos.get(0) : genPos.get(randomSource.nextInt(genPos.size() - 1));
     }
 
-    private int getHeight(BlockPos blockPos, BlockGetter level, BlockPos pos) {
-        int i = blockPos.getY();
-        int j = 512;
-        int k = i - 1;
-        int l = 0;
-
-        for (BlockPos blockpos : BlockPos.betweenClosed(blockPos, pos)) {
-            int i1 = blockpos.getX();
-            int j1 = blockpos.getZ();
-            int k1 = blockPos.getY() - 1;
-            BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos(i1, k1, j1);
-            BlockState blockstate = level.getBlockState(blockpos$mutableblockpos);
-
-            for (FluidState fluidstate = level.getFluidState(blockpos$mutableblockpos); (blockstate.isAir() || fluidstate.is(FluidTags.WATER) || blockstate.is(BlockTags.ICE)) && k1 > level.getMinBuildHeight() + 1; fluidstate = level.getFluidState(blockpos$mutableblockpos)) {
-                --k1;
-                blockpos$mutableblockpos.set(i1, k1, j1);
-                blockstate = level.getBlockState(blockpos$mutableblockpos);
-            }
-
-            j = Math.min(j, k1);
-            if (k1 < k - 2) {
-                ++l;
-            }
-        }
-
-        int l1 = Math.abs(blockPos.getX() - pos.getX());
-        if (k - j > 2 && l > l1 - 2) {
-            i = j + 1;
-        }
-
-        return i;
-    }
-
     protected boolean canReplace(BlockState state, int already) {
         return state.isAir() || state.canBeReplaced();
     }

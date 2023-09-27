@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalRandomlySwimGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -138,8 +139,7 @@ public class GossamerWormEntity extends WaterAnimal implements Bucketable {
             squishProgress--;
         }
         if (grounded && this.onGround()) {
-            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
-            this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
+            this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.25D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
 
         }
     }
@@ -331,6 +331,18 @@ public class GossamerWormEntity extends WaterAnimal implements Bucketable {
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         return Bucketable.bucketMobPickup(player, hand, this).orElse(super.mobInteract(player, hand));
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.GOSSAMER_WORM_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.GOSSAMER_WORM_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.GOSSAMER_WORM_DEATH.get();
     }
 
     class AvoidHurtGoal extends Goal {

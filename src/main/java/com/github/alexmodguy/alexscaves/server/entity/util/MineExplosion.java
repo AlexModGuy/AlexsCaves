@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -55,8 +56,9 @@ public class MineExplosion {
     private final ObjectArrayList<BlockPos> toBlow = new ObjectArrayList<>();
     private final Map<Player, Vec3> hitPlayers = Maps.newHashMap();
     private final Vec3 position;
+    private boolean underwaterSound;
 
-    public MineExplosion(Level level, @Nullable Entity entity, double x, double y, double z, float radius, Explosion.BlockInteraction blockInteraction) {
+    public MineExplosion(Level level, @Nullable Entity entity, double x, double y, double z, float radius, boolean underwaterSound, Explosion.BlockInteraction blockInteraction) {
         this.level = level;
         this.source = entity;
         this.radius = radius;
@@ -202,7 +204,7 @@ public class MineExplosion {
     }
 
     public void finalizeExplosion(boolean particles) {
-        this.level.playSound(null, this.x, this.y, this.z, SoundEvents.GENERIC_EXPLODE, SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
+        this.level.playSound(null, this.x, this.y, this.z, underwaterSound ? ACSoundRegistry.MINE_GUARDIAN_EXPLODE.get() :  ACSoundRegistry.MINE_GUARDIAN_LAND_EXPLODE.get(), SoundSource.BLOCKS, 4.0F, (1.0F + (this.level.random.nextFloat() - this.level.random.nextFloat()) * 0.2F) * 0.7F);
 
         boolean flag = this.interactsWithBlocks();
         if (particles && !level.isClientSide && level instanceof ServerLevel serverLevel) {

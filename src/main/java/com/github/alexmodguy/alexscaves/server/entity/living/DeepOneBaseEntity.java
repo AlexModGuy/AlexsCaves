@@ -8,6 +8,7 @@ import com.github.alexmodguy.alexscaves.server.entity.item.InkBombEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.DeepOneReaction;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -156,8 +157,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         if (isSummoned()) {
             if (this.getSummonTime() > 0) {
                 if (summonedProgress < 20.0F) {
-                    if (summonedProgress == 0 && !level().isClientSide) {
-                        this.level().broadcastEntityEvent(this, (byte) 61);
+                    if (summonedProgress == 0) {
+                        if(!level().isClientSide){
+                            this.level().broadcastEntityEvent(this, (byte) 61);
+                        }
+                        this.playSound(ACSoundRegistry.MAGIC_CONCH_SUMMON.get());
                     }
                     summonedProgress++;
                 }
@@ -166,16 +170,19 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
                     summonedProgress--;
                 }
             }
-            if (!level().isClientSide) {
-                if (getSummonTime() > 0) {
+            if (getSummonTime() > 0) {
+                if(!level().isClientSide){
                     setSummonTime(getSummonTime() - 1);
-                    if (getSummonTime() == 0) {
+                }
+                if (getSummonTime() == 0) {
+                    if(!level().isClientSide){
                         this.level().broadcastEntityEvent(this, (byte) 61);
                     }
-                } else {
-                    if (this.summonedProgress <= 0) {
-                        this.remove(RemovalReason.DISCARDED);
-                    }
+                    this.playSound(ACSoundRegistry.MAGIC_CONCH_SUMMON.get());
+                }
+            } else {
+                if (!level().isClientSide && this.summonedProgress <= 0) {
+                    this.remove(RemovalReason.DISCARDED);
                 }
             }
         }
@@ -322,6 +329,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     public void handleEntityEvent(byte b) {
         if (b == 61) {
             this.level().addParticle(ACParticleRegistry.BIG_SPLASH.get(), this.getX(), this.getY() + 0.5F, this.getZ(), this.getBbWidth() + 0.2F, 3, 0);
+
         } else if (b == 68) {
             BlockPos pos = getLastAltarPos();
             if (pos != null && level().getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlockEntity) {

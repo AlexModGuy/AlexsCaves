@@ -6,7 +6,7 @@
     "ambient_sound": "alexscaves:abyssal_chasm_ambience",
     "additions_sound": {
       "sound": "alexscaves:abyssal_chasm_ambience_additions",
-      "tick_chance": 0.0111
+      "tick_chance": 0.01
     },
     "mood_sound": {
       "block_search_extent": 8,

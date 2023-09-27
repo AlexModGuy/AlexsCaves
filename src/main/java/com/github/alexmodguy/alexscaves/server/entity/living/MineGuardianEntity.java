@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveCon
 import com.github.alexmodguy.alexscaves.server.entity.item.MineGuardianAnchorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.MineExplosion;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -123,6 +124,19 @@ public class MineGuardianEntity extends Monster {
         }
     }
 
+    protected SoundEvent getAmbientSound() {
+        return isInWaterOrBubble() ? ACSoundRegistry.MINE_GUARDIAN_IDLE.get() : ACSoundRegistry.MINE_GUARDIAN_LAND_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return isInWaterOrBubble() ? ACSoundRegistry.MINE_GUARDIAN_HURT.get() : ACSoundRegistry.MINE_GUARDIAN_LAND_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return isInWaterOrBubble() ? ACSoundRegistry.MINE_GUARDIAN_DEATH.get() : ACSoundRegistry.MINE_GUARDIAN_LAND_DEATH.get();
+    }
+
+
     public boolean isExploding() {
         return this.entityData.get(EXPLODING);
     }
@@ -187,8 +201,7 @@ public class MineGuardianEntity extends Monster {
             if (explodeProgress >= 10.0F) {
                 this.remove(RemovalReason.KILLED);
                 Explosion.BlockInteraction blockinteraction = net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(level(), this) ? level().getGameRules().getBoolean(GameRules.RULE_MOB_EXPLOSION_DROP_DECAY) ? Explosion.BlockInteraction.DESTROY_WITH_DECAY : Explosion.BlockInteraction.DESTROY : Explosion.BlockInteraction.KEEP;
-
-                MineExplosion explosion = new MineExplosion(level(), this, this.getX(), this.getY(0.5), this.getZ(), 5.0F, blockinteraction);
+                MineExplosion explosion = new MineExplosion(level(), this, this.getX(), this.getY(0.5), this.getZ(), 5.0F, this.isInWaterOrBubble(), blockinteraction);
                 explosion.explode();
                 explosion.finalizeExplosion(true);
             }
@@ -213,6 +226,7 @@ public class MineGuardianEntity extends Monster {
                 this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F), 0.6F, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.6F)));
                 this.setYRot(this.random.nextFloat() * 360.0F);
                 this.setOnGround(false);
+                this.playSound(ACSoundRegistry.MINE_GUARDIAN_FLOP.get());
                 this.hasImpulse = true;
             }
             Entity target = this.getTarget();
@@ -224,6 +238,9 @@ public class MineGuardianEntity extends Monster {
             if (this.isScanning()) {
                 this.setEyeClosed(false);
                 if (scanTime < maxScanTime) {
+                    if(scanTime % 20 == 0){
+                        this.playSound(ACSoundRegistry.MINE_GUARDIAN_SCAN.get());
+                    }
                     if (scanTime % 5 == 0 && scanProgress >= 5.0F) {
                         Entity found = null;
                         HitResult hitresult = level().clip(new ClipContext(this.getEyePosition(), this.getEyePosition().add(this.getLookAngle().scale(8)), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this));

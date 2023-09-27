@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.mojang.datafixers.DataFixUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -149,7 +151,7 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
             if (this.onGround()) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);
-                this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
+                this.playSound(ACSoundRegistry.LANTERNFISH_FLOP.get(), this.getSoundVolume(), this.getVoicePitch());
             }
         }
         if (baitballCooldown > 0) {
@@ -314,6 +316,13 @@ public class LanternfishEntity extends WaterAnimal implements Bucketable {
         return circlePos != null && circleTime < maxCircleTime;
     }
 
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.LANTERNFISH_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.LANTERNFISH_HURT.get();
+    }
     public static class GroupData extends AgeableMob.AgeableMobGroupData {
         public final LanternfishEntity groupLeader;
 
