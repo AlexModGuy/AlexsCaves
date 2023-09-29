@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.inventory;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
@@ -63,6 +64,18 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
             public boolean mayPickup(Player player) {
                 return SpelunkeryTableMenu.this.container.getItem(1).isEmpty();
             }
+
+            public void onTake(Player player, ItemStack stack) {
+                access.execute((level, blockPos) -> level.playSound((Player) null, blockPos, ACSoundRegistry.SPELUNKERY_TABLE_TABLET_REMOVE.get(), SoundSource.BLOCKS, 1.0F, 1.0F));
+                super.onTake(player, stack);
+            }
+
+            public void setByPlayer(ItemStack stack) {
+                super.setByPlayer(stack);
+                if(!stack.isEmpty()){
+                    access.execute((level, blockPos) -> level.playSound((Player) null, blockPos, ACSoundRegistry.SPELUNKERY_TABLE_TABLET_INSERT.get(), SoundSource.BLOCKS, 1.0F, 1.0F));
+                }
+            }
         });
         this.addSlot(new Slot(this.container, 1, 70, 143) {
             public boolean mayPlace(ItemStack stack) {
@@ -76,6 +89,18 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
             public boolean mayPickup(Player player) {
                 return SpelunkeryTableMenu.this.container.getItem(0).isEmpty();
             }
+
+            public void onTake(Player player, ItemStack stack) {
+                access.execute((level, blockPos) -> level.playSound((Player) null, blockPos, ACSoundRegistry.SPELUNKERY_TABLE_PAPER_REMOVE.get(), SoundSource.BLOCKS, 1.0F, 1.0F));
+                super.onTake(player, stack);
+            }
+
+            public void setByPlayer(ItemStack stack) {
+                super.setByPlayer(stack);
+                if(!stack.isEmpty()){
+                    access.execute((level, blockPos) -> level.playSound((Player) null, blockPos, ACSoundRegistry.SPELUNKERY_TABLE_PAPER_INSERT.get(), SoundSource.BLOCKS, 1.0F, 1.0F));
+                }
+            }
         });
         this.addSlot(new Slot(this.resultContainer, 2, 142, 143) {
             public boolean mayPlace(ItemStack stack) {
@@ -83,6 +108,7 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
             }
 
             public void onTake(Player player, ItemStack stack) {
+                access.execute((level, blockPos) -> level.playSound((Player) null, blockPos, ACSoundRegistry.SPELUNKERY_TABLE_CODEX_REMOVE.get(), SoundSource.BLOCKS, 1.0F, 1.0F));
                 stack.getItem().onCraftedBy(stack, player.level(), player);
                 super.onTake(player, stack);
             }
@@ -187,8 +213,9 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
                 this.setupResultSlot(biomeResourceKey, player);
             }
             setTutorialComplete(player, true);
+        }else{
+            this.access.execute(this::makeStoneParticles);
         }
-        this.access.execute(this::makeStoneParticles);
     }
 
     public static void setTutorialComplete(Player player, boolean done) {
@@ -209,7 +236,7 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
     public void makeStoneParticles(Level level, BlockPos blockPos) {
         BlockParticleOption blockparticleoption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState());
 
-        level.playSound(null, blockPos, SoundEvents.STONE_BREAK, SoundSource.BLOCKS);
+        level.playSound(null, blockPos, ACSoundRegistry.SPELUNKERY_TABLE_FAIL.get(), SoundSource.BLOCKS);
         if (level instanceof ServerLevel serverLevel) {
             for (int i = 0; i < 8; i++) {
                 serverLevel.sendParticles(blockparticleoption, blockPos.getX() + level.random.nextFloat(), blockPos.getY() + 1.0F, blockPos.getZ() + level.random.nextFloat(), 0, 0, 0, 0, 0);

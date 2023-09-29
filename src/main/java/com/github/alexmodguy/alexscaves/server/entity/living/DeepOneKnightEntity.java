@@ -3,15 +3,18 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -162,6 +165,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
             if (distance < f + 1.0F) {
                 if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     setAnimation(this.getRandom().nextBoolean() ? ANIMATION_SCRATCH : ANIMATION_BITE);
+                    this.playSound(ACSoundRegistry.DEEP_ONE_KNIGHT_ATTACK.get());
                 }
             } else {
                 this.getNavigation().moveTo(target, 1.2);
@@ -219,6 +223,23 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         spawnGroupData = super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData, compoundTag);
         this.setItemSlot(EquipmentSlot.MAINHAND, random.nextFloat() > 0.7 ? new ItemStack(ACItemRegistry.ORTHOLANCE.get()) : new ItemStack(Items.TRIDENT));
         return spawnGroupData;
+    }
+
+    @Override
+    public SoundEvent getAdmireSound() {
+        return ACSoundRegistry.DEEP_ONE_KNIGHT_ADMIRE.get();
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return soundsAngry() ? ACSoundRegistry.DEEP_ONE_KNIGHT_HOSTILE.get() : ACSoundRegistry.DEEP_ONE_KNIGHT_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.DEEP_ONE_KNIGHT_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.DEEP_ONE_KNIGHT_DEATH.get();
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerInspectMobGo
 import com.github.alexmodguy.alexscaves.server.entity.ai.HullbreakerMeleeGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.VerticalSwimmingMoveControl;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -411,4 +412,19 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity {
         return new Animation[]{ANIMATION_PUZZLE, ANIMATION_BITE, ANIMATION_BASH, ANIMATION_DIE};
     }
 
+    protected SoundEvent getAmbientSound() {
+        return isInWaterOrBubble() ? ACSoundRegistry.HULLBREAKER_IDLE.get() : ACSoundRegistry.HULLBREAKER_LAND_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return isInWaterOrBubble() ? ACSoundRegistry.HULLBREAKER_HURT.get() : ACSoundRegistry.HULLBREAKER_LAND_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return isInWaterOrBubble() ? ACSoundRegistry.HULLBREAKER_DEATH.get() : ACSoundRegistry.HULLBREAKER_LAND_DEATH.get();
+    }
+
+    protected float getSoundVolume() {
+        return super.getSoundVolume() + 2.0F;
+    }
 }

@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.mixin;
 import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.entity.util.WatcherPossessionAccessor;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
@@ -21,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor {
+public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor, WatcherPossessionAccessor {
 
     @Shadow
     public abstract float getYHeadRot();
@@ -40,6 +41,8 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
     private float prevHeadYaw0;
     private float prevHeadPitch;
     private float prevHeadPitch0;
+
+    private boolean watcherPossessionFlag;
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -87,4 +90,13 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
         setXRot(prevHeadPitch);
         this.xRotO = prevHeadPitch0;
     }
+
+    public void setPossessedByWatcher(boolean possessedByWatcher){
+        this.watcherPossessionFlag = possessedByWatcher;
+    }
+
+    public boolean isPossessedByWatcher(){
+        return watcherPossessionFlag;
+    }
+
 }

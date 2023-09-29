@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.client.particle;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -19,6 +20,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -40,6 +42,8 @@ public class VoidBeingCloudParticle extends Particle {
     private int id = 0;
     private int targetId;
     private int totalTendrils;
+
+    private int idleSoundTime = 30;
 
     private boolean spawnedExtras = false;
 
@@ -75,16 +79,25 @@ public class VoidBeingCloudParticle extends Particle {
         this.yd *= 0.97D;
         this.zd *= 0.97D;
         updateTexture();
+        if(idleSoundTime-- <= 0){
+            idleSoundTime = 80 + random.nextInt(60);
+            this.level.playLocalSound(this.x, this.y, this.z, ACSoundRegistry.DARK_CLOUD_IDLE.get(), SoundSource.BLOCKS, 2.0F, 1.0F, false);
+        }
         this.level.addParticle(ParticleTypes.SMOKE, this.x, this.y, this.z, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F);
         Entity entity = level.getEntity(this.targetId);
         if(entity == null || !(entity instanceof UnderzealotSacrifice)){
+            this.level.playLocalSound(this.x, this.y, this.z, ACSoundRegistry.DARK_CLOUD_DISAPPEAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F, false);
             this.remove();
+        }
+        if(age == this.lifetime - 10){
+            this.level.playLocalSound(this.x, this.y, this.z, ACSoundRegistry.DARK_CLOUD_DISAPPEAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F, false);
         }
     }
 
     private void onSpawn() {
         int circleOffset = random.nextInt(360);
         int eyes = 3 + random.nextInt(2);
+        this.level.playLocalSound(this.x, this.y, this.z, ACSoundRegistry.DARK_CLOUD_APPEAR.get(), SoundSource.BLOCKS, 2.0F, 1.0F, false);
         for (int j = 0; j < eyes; j++) {
             Vec3 vec3 = new Vec3((0.5F + random.nextFloat() * 0.7F) * size * 1.1F, 0, 0).yRot((float) (circleOffset + (j / (float) eyes * 180) * (Math.PI / 180F)));
             this.level.addParticle(ACParticleRegistry.VOID_BEING_EYE.get(), this.x, this.y, this.z, vec3.x, vec3.z, 0);

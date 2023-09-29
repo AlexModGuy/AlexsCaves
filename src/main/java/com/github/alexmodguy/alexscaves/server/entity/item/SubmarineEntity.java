@@ -46,7 +46,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
 
     private static final EntityDataAccessor<Integer> DAMAGE_LEVEL = SynchedEntityData.defineId(SubmarineEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DANGER_ALERT_TICKS = SynchedEntityData.defineId(SubmarineEntity.class, EntityDataSerializers.INT);
-
+    private static final float TOP_SPEED = 0.65F;
     private float prevLeftPropellerRot;
     private float prevRightPropellerRot;
     private float prevBackPropellerRot;
@@ -197,7 +197,7 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
                 this.setAcceleration(Math.max(0F, acceleration - 0.01F));
             }
             if (Math.abs(acceleration) > 0) {
-                Vec3 vec3 = new Vec3(0, 0, Mth.clamp(acceleration, -0.25F, 0.8F) * 0.2F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
+                Vec3 vec3 = new Vec3(0, 0, Mth.clamp(acceleration, -0.25F, TOP_SPEED) * 0.2F).xRot(-this.getXRot() * ((float) Math.PI / 180F)).yRot(-this.getYRot() * ((float) Math.PI / 180F));
                 this.setDeltaMovement(this.getDeltaMovement().add(vec3));
             }
             if (this.isInWaterOrBubble()) {

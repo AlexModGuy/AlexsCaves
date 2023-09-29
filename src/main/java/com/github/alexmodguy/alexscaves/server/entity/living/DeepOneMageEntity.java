@@ -5,12 +5,15 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.item.WaterBoltEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.WaveEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -216,6 +219,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
             }
             if (rangedCooldown <= 0 && this.getAnimation() == NO_ANIMATION && hasLineOfSight(target)) {
                 this.setAnimation(ANIMATION_ATTACK);
+                this.playSound(ACSoundRegistry.DEEP_ONE_MAGE_ATTACK.get());
                 rangedCooldown = 30 + random.nextInt(20);
             }
             this.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ(), 30.0F, 10.0F);
@@ -304,6 +308,23 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
         return 1.3F;
     }
 
+    @Override
+    public SoundEvent getAdmireSound() {
+        return ACSoundRegistry.DEEP_ONE_MAGE_ADMIRE.get();
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return soundsAngry() ? ACSoundRegistry.DEEP_ONE_MAGE_HOSTILE.get() : ACSoundRegistry.DEEP_ONE_MAGE_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.DEEP_ONE_MAGE_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.DEEP_ONE_MAGE_DEATH.get();
+    }
+    
     class FlightMoveController extends MoveControl {
         private final Mob parentEntity;
 

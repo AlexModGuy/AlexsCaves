@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
 
 import java.util.EnumSet;
 
@@ -21,11 +22,18 @@ public class DeepOneAttackGoal extends Goal {
         return deepOne.getTarget() != null && deepOne.getTarget().isAlive();
     }
 
+    @Override
+    public void stop(){
+        super.stop();
+        deepOne.setSoundsAngry(false);
+    }
+
     public void tick() {
         LivingEntity target = deepOne.getTarget();
         if (target != null) {
             deepOne.getLookControl().setLookAt(target.getX(), target.getEyeY(), target.getZ(), 20.0F, (float) deepOne.getMaxHeadXRot());
             deepOne.startAttackBehavior(target);
+            deepOne.setSoundsAngry(true);
             if(deepOne.distanceTo(target) <= 16){
                 SubmarineEntity.alertSubmarineMountOf(target);
             }

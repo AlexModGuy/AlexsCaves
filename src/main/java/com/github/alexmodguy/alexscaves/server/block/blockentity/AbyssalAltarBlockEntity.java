@@ -83,6 +83,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
                         deepOne.swapItemsForAnimation(itemEntity.getItem());
                         deepOne.setItemInHand(InteractionHand.MAIN_HAND, itemEntity.getItem());
                         deepOne.setAnimation(deepOne.getTradingAnimation());
+                        deepOne.playSound(deepOne.getAdmireSound());
                         if (entity.placingPlayer != null) {
                             deepOne.addReputation(entity.placingPlayer, 5);
                             entity.placingPlayer = null;

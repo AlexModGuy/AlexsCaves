@@ -22,6 +22,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -69,6 +70,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     private static final EntityDataAccessor<Optional<BlockPos>> ALTAR_POS = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
     private static final EntityDataAccessor<Boolean> SUMMONED = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> SUMMON_TIME = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Boolean> SOUNDS_ANGRY = SynchedEntityData.defineId(DeepOneBaseEntity.class, EntityDataSerializers.BOOLEAN);
 
     private UUID summonerUUID = null;
     private ItemStack swappedItem = ItemStack.EMPTY;
@@ -94,6 +96,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         this.entityData.define(SWIMMING, false);
         this.entityData.define(SUMMONED, false);
         this.entityData.define(SUMMON_TIME, 0);
+        this.entityData.define(SOUNDS_ANGRY, false);
         this.entityData.define(ALTAR_POS, Optional.empty());
     }
 
@@ -542,6 +545,14 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     public abstract Animation getTradingAnimation();
 
+    public boolean soundsAngry(){
+        return this.entityData.get(SOUNDS_ANGRY);
+    }
+
+    public void setSoundsAngry(boolean angrySounding){
+        this.entityData.set(SOUNDS_ANGRY, angrySounding);
+    }
+
     public boolean isAlliedTo(Entity entityIn) {
         if (entityIn instanceof DeepOneBaseEntity) {
             return true;
@@ -633,6 +644,8 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         }
 
     }
+
+    public abstract SoundEvent getAdmireSound();
 
     private class PathNavigator extends SemiAquaticPathNavigator {
         public PathNavigator(Level worldIn) {

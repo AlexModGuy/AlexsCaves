@@ -3,10 +3,13 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,6 +73,7 @@ public class DeepOneEntity extends DeepOneBaseEntity {
         if (dist < f + 1.0D) {
             if (this.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                 setAnimation(this.getRandom().nextBoolean() ? ANIMATION_SCRATCH : ANIMATION_BITE);
+                this.playSound(ACSoundRegistry.DEEP_ONE_ATTACK.get());
             }
         }
         if (dist > f + 4) {
@@ -90,6 +94,23 @@ public class DeepOneEntity extends DeepOneBaseEntity {
     @Override
     public Animation getTradingAnimation() {
         return ANIMATION_TRADE;
+    }
+
+    @Override
+    public SoundEvent getAdmireSound() {
+        return ACSoundRegistry.DEEP_ONE_ADMIRE.get();
+    }
+
+    protected SoundEvent getAmbientSound() {
+        return soundsAngry() ? ACSoundRegistry.DEEP_ONE_HOSTILE.get() : ACSoundRegistry.DEEP_ONE_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.DEEP_ONE_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.DEEP_ONE_DEATH.get();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -79,6 +80,9 @@ public class HullbreakerMeleeGoal extends Goal {
     private boolean tryAnimation(Animation animation) {
         if (hullbreaker.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
             hullbreaker.setAnimation(animation);
+            if(hullbreaker.isInWaterOrBubble()){
+                hullbreaker.playSound(ACSoundRegistry.HULLBREAKER_ATTACK.get());
+            }
             return true;
         }
         return false;

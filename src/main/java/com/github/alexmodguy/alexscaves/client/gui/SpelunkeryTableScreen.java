@@ -5,6 +5,8 @@ import com.github.alexmodguy.alexscaves.server.inventory.SpelunkeryTableMenu;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
 import com.github.alexmodguy.alexscaves.server.message.SpelunkeryTableChangeMessage;
+import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import net.minecraft.ChatFormatting;
@@ -462,16 +464,21 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     }
 
     public void onClickWord(SpelunkeryTableWordButton tableWordButton) {
+        if(finishedLevel){
+            return;
+        }
         if (tableWordButton == targetWordButton) {
             level++;
-            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.PLAYER_LEVELUP, 1.0F));
+            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(level >= 3 ? ACSoundRegistry.SPELUNKERY_TABLE_SUCCESS_COMPLETE.get() : ACSoundRegistry.SPELUNKERY_TABLE_SUCCESS.get(), 1.0F));
             finishedLevel = true;
         } else {
             if (attemptsLeft > 0) {
                 attemptsLeft--;
             }
             if (attemptsLeft <= 1) {
-                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.STONE_BREAK, 1.0F));
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.SPELUNKERY_TABLE_CRACK.get(), 1.0F));
+            }else{
+                Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.SPELUNKERY_TABLE_ATTEMPT_FAIL.get(), 1.0F));
             }
             if (attemptsLeft <= 0) {
                 finishedLevel = true;

@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.AcidSwimNodeEvaluator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -161,7 +163,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable {
             if (this.onGround() && random.nextFloat() < 0.1F) {
                 this.setDeltaMovement(this.getDeltaMovement().add((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F, 0.5D, (this.random.nextFloat() * 2.0F - 1.0F) * 0.2F));
                 this.setYRot(this.random.nextFloat() * 360.0F);
-                this.playSound(SoundEvents.COD_FLOP, this.getSoundVolume(), this.getVoicePitch());
+                this.playSound(ACSoundRegistry.RADGILL_FLOP.get(), this.getSoundVolume(), this.getVoicePitch());
             }
         }
     }
@@ -253,6 +255,14 @@ public class RadgillEntity extends WaterAnimal implements Bucketable {
     @Nonnull
     public SoundEvent getPickupSound() {
         return SoundEvents.BUCKET_FILL_FISH;
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.RADGILL_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.RADGILL_HURT.get();
     }
 
     private class WanderGoal extends Goal {

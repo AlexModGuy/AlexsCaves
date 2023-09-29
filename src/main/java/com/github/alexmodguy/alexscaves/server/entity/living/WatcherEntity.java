@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSp
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.entity.ai.WatcherAttackGoal;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
+import com.github.alexmodguy.alexscaves.server.entity.util.WatcherPossessionAccessor;
 import com.github.alexmodguy.alexscaves.server.message.PossessionKeyMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -242,6 +243,9 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
                     this.setPossessionStrength(Math.max(0, this.getPossessionStrength(1.0F) + 0.1F));
                 }
                 if (dist < 1 || stopPossession(possessedEntity) || !this.isAlive()) {
+                    if(possessedEntity instanceof WatcherPossessionAccessor possessionAccessor){
+                        possessionAccessor.setPossessedByWatcher(false);
+                    }
                     this.level().broadcastEntityEvent(this, (byte) 78);
                     this.setPossessedEntityUUID(null);
                     this.entityData.set(POSSESSED_ENTITY_ID, -1);
@@ -354,8 +358,8 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
                 if (data != null) {
                     data.putLong(LAST_POSSESSED_TIME_IDENTIFIER, level().getGameTime());
                     playerData.put(Player.PERSISTED_NBT_TAG, data);
-
                 }
+                ((WatcherPossessionAccessor)player).setPossessedByWatcher(true);
             }
             return true;
         }

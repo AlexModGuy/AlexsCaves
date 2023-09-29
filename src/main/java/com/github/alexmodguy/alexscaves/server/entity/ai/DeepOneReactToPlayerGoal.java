@@ -82,6 +82,7 @@ public class DeepOneReactToPlayerGoal extends Goal {
         following = false;
         isBeingLookedAt = false;
         moveTarget = null;
+        deepOne.setSoundsAngry(false);
     }
 
     private void refreshReaction() {
@@ -118,6 +119,7 @@ public class DeepOneReactToPlayerGoal extends Goal {
                 tickFollow(0.4F);
                 break;
         }
+        deepOne.setSoundsAngry(reaction == DeepOneReaction.AGGRESSIVE);
         if (!deepOne.getNavigation().isDone() && (moveTarget == null || moveTarget.y < deepOne.getY() + 2)) {
             deepOne.setDeepOneSwimming(!deepOne.onGround() && deepOne.isInWaterOrBubble());
         }

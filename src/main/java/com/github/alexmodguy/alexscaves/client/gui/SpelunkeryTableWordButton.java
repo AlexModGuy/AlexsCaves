@@ -87,9 +87,6 @@ public class SpelunkeryTableWordButton extends AbstractWidget {
     }
 
     public void playDownSound(SoundManager soundManager) {
-        if (parent.hasPaper()) {
-            soundManager.play(SimpleSoundInstance.forUI(SoundEvents.STONE_PLACE, 1.0F));
-        }
     }
 
     public Component getNormalText() {
