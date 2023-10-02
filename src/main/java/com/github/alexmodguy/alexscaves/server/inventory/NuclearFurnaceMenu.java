@@ -29,8 +29,8 @@ public class NuclearFurnaceMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(furnaceContainer, 0, 67, 17));
         this.addSlot(new FuelSlot(this, furnaceContainer, 1, 67, 53, false));
         this.addSlot(new FuelSlot(this, furnaceContainer, 2, 37, 53, true));
-        this.addSlot(new FurnaceResultSlot(inventory.player, furnaceContainer, 3, 127, 35));
-        this.addSlot(new FurnaceResultSlot(inventory.player, furnaceContainer, 4, 37, 17));
+        this.addSlot(new NuclearFurnaceResultSlot(inventory.player, furnaceContainer, 3, 127, 35));
+        this.addSlot(new NuclearFurnaceResultSlot(inventory.player, furnaceContainer, 4, 37, 17));
 
         for(int i = 0; i < 3; ++i) {
             for(int j = 0; j < 9; ++j) {

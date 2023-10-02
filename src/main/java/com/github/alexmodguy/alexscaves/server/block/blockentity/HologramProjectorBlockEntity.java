@@ -8,6 +8,7 @@ import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
@@ -54,6 +55,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
                     entity.switchProgress--;
                 } else {
                     entity.prevDisplayEntity = null;
+                    entity.markUpdated();
                 }
             } else {
                 if (entity.switchProgress < 10.0F) {
@@ -63,6 +65,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
                     entity.switchProgress++;
                 } else {
                     entity.prevDisplayEntity = entity.displayEntity;
+                    entity.markUpdated();
                 }
                 if(!entity.isRemoved()){
                     AlexsCaves.PROXY.playWorldSound(entity, (byte)3);
@@ -71,6 +74,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         }
         if (entity.isPlayerRender() && entity.lastPlayerUUID == null) {
             entity.lastPlayerUUID = entity.entityTag.getUUID("UUID");
+            entity.markUpdated();
         }
         float redstoneSignal = level.getBestNeighborSignal(blockPos) * 1F;
         if (redstoneSignal > 0.0F) {
@@ -84,7 +88,9 @@ public class HologramProjectorBlockEntity extends BlockEntity {
             String str = tag.getString("EntityType");
             this.entityType = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
         }
-        this.entityTag = tag.getCompound("EntityTag");
+        if (tag.contains("EntityTag")) {
+            this.entityTag = tag.getCompound("EntityTag");
+        }
         this.rotation = tag.getFloat("Rotation");
         if (tag.contains("LastPlayerUUID")) {
             this.lastPlayerUUID = tag.getUUID("LastPlayerUUID");
@@ -133,7 +139,18 @@ public class HologramProjectorBlockEntity extends BlockEntity {
     }
 
     public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+        CompoundTag compoundtag = new CompoundTag();
+        if (this.entityType != null) {
+            compoundtag.putString("EntityType", ForgeRegistries.ENTITY_TYPES.getKey(this.entityType).toString());
+        }
+        if (this.entityTag != null) {
+            compoundtag.put("EntityTag", this.entityTag);
+        }
+        compoundtag.putFloat("Rotation", this.rotation);
+        if (lastPlayerUUID != null) {
+            compoundtag.putUUID("LastPlayerUUID", lastPlayerUUID);
+        }
+        return compoundtag;
     }
 
     public void setEntity(EntityType entityType, CompoundTag entityTag, float playerRot) {
@@ -171,6 +188,11 @@ public class HologramProjectorBlockEntity extends BlockEntity {
 
     public float getRotation(float partialTicks) {
         return previousRotation + (rotation - previousRotation) * partialTicks;
+    }
+
+    private void markUpdated() {
+        this.setChanged();
+        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public void setRemoved() {

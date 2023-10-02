@@ -61,7 +61,7 @@ public class AcidBlock extends LiquidBlock {
                         ItemStack item = living.getItemBySlot(slot);
                         if (item != null && item.isDamageableItem() && !(item.getItem() instanceof HazmatArmorItem)) {
                             armor = true;
-                            if (living.getRandom().nextFloat() < 0.1F && !(entity instanceof Player player && player.isCreative())) {
+                            if (living.getRandom().nextFloat() < 0.05F && !(entity instanceof Player player && player.isCreative())) {
                                 item.hurtAndBreak(1, living, e -> e.broadcastBreakEvent(slot));
                             }
                         }
@@ -73,7 +73,7 @@ public class AcidBlock extends LiquidBlock {
                 ACAdvancementTriggerRegistry.ENTER_ACID_WITH_ARMOR.triggerForEntity(entity);
             }
             if (level.random.nextFloat() < dmgMultiplier) {
-                hurtSound = entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 3.0D));
+                hurtSound = entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 1.0D));
             }
             if (hurtSound) {
                 entity.playSound(ACSoundRegistry.ACID_BURN.get());

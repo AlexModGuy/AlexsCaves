@@ -34,6 +34,141 @@
       }
     ]
   },
+  "magnetic_caves_ambience": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/magnetic_caves/ambience",
+        "stream": true,
+        "volume": 0.35
+      }
+    ]
+  },
+  "magnetic_caves_ambience_additions": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_0",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_1",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_2",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_3",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_4",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_5",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_6",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_7",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_8",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/buzz_9",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/hum_0",
+        "volume": 0.5,
+        "weight": 4
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/hum_1",
+        "volume": 0.5,
+        "weight": 4
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/hum_2",
+        "volume": 0.5,
+        "weight": 4
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/hum_3",
+        "volume": 0.5,
+        "weight": 4
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/hum_4",
+        "volume": 0.5,
+        "weight": 4
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/static_0",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/static_1",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/static_2",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/static_3",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/static_4",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/wizz_0",
+        "volume": 0.5,
+        "weight": 6
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/wizz_1",
+        "volume": 0.5,
+        "weight": 6
+      },
+      {
+        "name": "alexscaves:ambient/magnetic_caves/loop_additions/wizz_2",
+        "volume": 0.5,
+        "weight": 6
+      }
+    ]
+  },
+  "magnetic_caves_ambience_mood": {
+    "sounds": [
+      "alexscaves:ambient/magnetic_caves/mood/mood_0",
+      "alexscaves:ambient/magnetic_caves/mood/mood_1",
+      "alexscaves:ambient/magnetic_caves/mood/mood_2"
+    ]
+  },
   "primordial_caves_ambience": {
     "sounds": [
       {
@@ -1970,6 +2105,58 @@
       "alexscaves:mob/radgill/radgill_flop_3"
     ],
     "subtitle": "alexsmobs.sound.subtitle.radgill_flop"
+  },
+  "brainiac_idle": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_idle_0",
+      "alexscaves:mob/brainiac/brainiac_idle_1",
+      "alexscaves:mob/brainiac/brainiac_idle_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_idle"
+  },
+  "brainiac_hurt": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_hurt_0",
+      "alexscaves:mob/brainiac/brainiac_hurt_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_hurt"
+  },
+  "brainiac_death": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_death"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_death"
+  },
+  "brainiac_attack": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_attack_0",
+      "alexscaves:mob/brainiac/brainiac_attack_1",
+      "alexscaves:mob/brainiac/brainiac_attack_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_attack"
+  },
+  "brainiac_lick": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_lick_0",
+      "alexscaves:mob/brainiac/brainiac_lick_1",
+      "alexscaves:mob/brainiac/brainiac_step_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_lick"
+  },
+  "brainiac_throw": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_throw_0",
+      "alexscaves:mob/brainiac/brainiac_throw_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_throw"
+  },
+  "brainiac_step": {
+    "sounds": [
+      "alexscaves:mob/brainiac/brainiac_step_0",
+      "alexscaves:mob/brainiac/brainiac_step_1",
+      "alexscaves:mob/brainiac/brainiac_step_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.brainiac_step"
   },
   "gammaroach_idle": {
     "sounds": [

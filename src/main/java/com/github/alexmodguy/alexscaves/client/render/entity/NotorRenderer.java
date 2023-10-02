@@ -1,7 +1,9 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexmodguy.alexscaves.client.model.HullbreakerModel;
 import com.github.alexmodguy.alexscaves.client.model.NotorModel;
+import com.github.alexmodguy.alexscaves.client.model.UnderzealotModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
@@ -153,7 +155,20 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                         prevCrouching = humanoidModel.crouching;
                         humanoidModel.crouching = false;
                     }
+                    if(model instanceof UnderzealotModel underzealotModel){
+                        underzealotModel.noBurrowing = true;
+                    }
+                    if(model instanceof HullbreakerModel hullbreakerModel){
+                        hullbreakerModel.straighten = true;
+                    }
                     model.setupAnim(living, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F);
+
+                    if(model instanceof UnderzealotModel underzealotModel){
+                        underzealotModel.noBurrowing = false;
+                    }
+                    if(model instanceof HullbreakerModel hullbreakerModel){
+                        hullbreakerModel.straighten = false;
+                    }
                     matrixStack.scale(living.getScale(), -living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();

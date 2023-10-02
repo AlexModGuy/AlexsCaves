@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.render.blockentity;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexmodguy.alexscaves.client.model.HullbreakerModel;
 import com.github.alexmodguy.alexscaves.client.model.UnderzealotModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
@@ -195,13 +196,7 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
                 humanoidModel.jacket.copyFrom(humanoidModel.body);
                 humanoidModel.hat.copyFrom(humanoidModel.head);
             }
-            if(model instanceof UnderzealotModel underzealotModel){
-                underzealotModel.noBurrowing = true;
-            }
             model.renderToBuffer(poseStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-            if(model instanceof UnderzealotModel underzealotModel){
-                underzealotModel.noBurrowing = false;
-            }
             poseStack.popPose();
             if (model instanceof HumanoidModel<?> humanoidModel) {
                 humanoidModel.crouching = prevCrouching;

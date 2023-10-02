@@ -30,6 +30,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -80,7 +81,7 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
                 }
             }
         }
-        return Shapes.block();
+        return super.getShape(state, getter, pos, context);
     }
 
     public void entityInside(BlockState state, Level level, BlockPos blockPos, Entity entity) {
@@ -88,13 +89,15 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
             BlockPos corner = getCornerForFurnace(level, blockPos, true);
             if (corner != null && corner.getY() == blockPos.getY() - 1 && level.getBlockEntity(corner) instanceof NuclearFurnaceBlockEntity furnace && furnace.isUndergoingFission()) { //top
                 if(entity instanceof LivingEntity living && !entity.getType().is(ACTagRegistry.RESISTS_RADIATION)){
-                    entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.9D, 1.0D, 0.9D));
                     living.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 2000, 4));
                 }
             }
         }
     }
 
+    public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos blockPos, PathComputationType pathComputationType) {
+        return false;
+    }
 
     @Nullable
     public static BlockPos getCornerForFurnace(BlockGetter levelAccessor, BlockPos componentPos, boolean postConstruction) {

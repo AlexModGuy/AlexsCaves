@@ -16,6 +16,9 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> ABYSSAL_CHASM_MUSIC = createSoundEvent("abyssal_chasm_music");
     public static final RegistryObject<SoundEvent> FORLORN_HOLLOWS_MUSIC = createSoundEvent("forlorn_hollows_music");
 
+    public static final RegistryObject<SoundEvent> MAGNETIC_CAVES_AMBIENCE = createSoundEvent("magnetic_caves_ambience");
+    public static final RegistryObject<SoundEvent> MAGNETIC_CAVES_AMBIENCE_ADDITIONS = createSoundEvent("magnetic_caves_ambience_additions");
+    public static final RegistryObject<SoundEvent> MAGNETIC_CAVES_AMBIENCE_MOOD = createSoundEvent("magnetic_caves_ambience_mood");
     public static final RegistryObject<SoundEvent> PRIMORDIAL_CAVES_AMBIENCE = createSoundEvent("primordial_caves_ambience");
     public static final RegistryObject<SoundEvent> PRIMORDIAL_CAVES_AMBIENCE_ADDITIONS = createSoundEvent("primordial_caves_ambience_additions");
     public static final RegistryObject<SoundEvent> PRIMORDIAL_CAVES_AMBIENCE_MOOD = createSoundEvent("primordial_caves_ambience_mood");
@@ -200,7 +203,13 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> NUCLEEPER_CHARGE = createSoundEvent("nucleeper_charge");
     public static final RegistryObject<SoundEvent> RADGILL_HURT = createSoundEvent("radgill_hurt");
     public static final RegistryObject<SoundEvent> RADGILL_FLOP = createSoundEvent("radgill_flop");
-
+    public static final RegistryObject<SoundEvent> BRAINIAC_IDLE = createSoundEvent("brainiac_idle");
+    public static final RegistryObject<SoundEvent> BRAINIAC_HURT = createSoundEvent("brainiac_hurt");
+    public static final RegistryObject<SoundEvent> BRAINIAC_DEATH = createSoundEvent("brainiac_death");
+    public static final RegistryObject<SoundEvent> BRAINIAC_ATTACK = createSoundEvent("brainiac_attack");
+    public static final RegistryObject<SoundEvent> BRAINIAC_LICK = createSoundEvent("brainiac_lick");
+    public static final RegistryObject<SoundEvent> BRAINIAC_THROW = createSoundEvent("brainiac_throw");
+    public static final RegistryObject<SoundEvent> BRAINIAC_STEP = createSoundEvent("brainiac_step");
     public static final RegistryObject<SoundEvent> GAMMAROACH_IDLE = createSoundEvent("gammaroach_idle");
     public static final RegistryObject<SoundEvent> GAMMAROACH_HURT = createSoundEvent("gammaroach_hurt");
     public static final RegistryObject<SoundEvent> GAMMAROACH_DEATH = createSoundEvent("gammaroach_death");

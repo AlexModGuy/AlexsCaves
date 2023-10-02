@@ -9,10 +9,15 @@
   "downfall": 0.4,
   "has_precipitation": true,
   "effects": {
+    "ambient_sound": "alexscaves:magnetic_caves_ambience",
+    "additions_sound": {
+      "sound": "alexscaves:magnetic_caves_ambience_additions",
+      "tick_chance": 0.0111
+    },
     "mood_sound": {
       "block_search_extent": 8,
       "offset": 2.0,
-      "sound": "minecraft:ambient.cave",
+      "sound": "alexscaves:magnetic_caves_ambience_mood",
       "tick_delay": 6000
     },
     "music": {

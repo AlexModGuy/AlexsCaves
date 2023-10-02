@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.MusselBlock;
 import com.google.common.collect.Maps;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -32,34 +33,38 @@ public class MarineSnowItem extends Item {
     public InteractionResult useOn(UseOnContext context) {
         initGrowth();
         BlockState clickedState = context.getLevel().getBlockState(context.getClickedPos());
-        if(GROWS_INTERACTIONS.containsKey(clickedState.getBlock()) && scanForWater(clickedState, context.getLevel(), context.getClickedPos())){
-            if (!context.getLevel().isClientSide) {
-                context.getLevel().levelEvent(1505, context.getClickedPos(), 0);
+        if(scanForWater(clickedState, context.getLevel(), context.getClickedPos())){
+            boolean flag = false;
+            if(GROWS_INTERACTIONS.containsKey(clickedState.getBlock())){
+                flag = true;
+                BlockState transform = GROWS_INTERACTIONS.getOrDefault(clickedState.getBlock(), Blocks.AIR).defaultBlockState();
+                for (Property prop : clickedState.getProperties()) {
+                    transform = transform.hasProperty(prop) ? transform.setValue(prop, clickedState.getValue(prop)) : transform;
+                }
+                context.getLevel().setBlockAndUpdate(context.getClickedPos(), transform);
+            }else if(DUPLICATES_INTERACTIONS.containsKey(clickedState.getBlock())){
+                flag = true;
+                if(context.getLevel().getRandom().nextInt(2) == 0){
+                    ItemStack spawn = DUPLICATES_INTERACTIONS.getOrDefault(clickedState.getBlock(), ItemStack.EMPTY);
+                    Vec3 spawnItemAt = context.getClickLocation();
+                    ItemEntity itemEntity = new ItemEntity(context.getLevel(), spawnItemAt.x, spawnItemAt.y, spawnItemAt.z, spawn);
+                    context.getLevel().addFreshEntity(itemEntity);
+                }
+            }else if(clickedState.is(ACBlockRegistry.MUSSEL.get()) && clickedState.getValue(MusselBlock.MUSSELS) < 5){
+                flag = true;
+                context.getLevel().setBlockAndUpdate(context.getClickedPos(), clickedState.setValue(MusselBlock.MUSSELS, clickedState.getValue(MusselBlock.MUSSELS) + 1));
             }
-            BlockState transform = GROWS_INTERACTIONS.getOrDefault(clickedState.getBlock(), Blocks.AIR).defaultBlockState();
-            for (Property prop : clickedState.getProperties()) {
-                transform = transform.hasProperty(prop) ? transform.setValue(prop, clickedState.getValue(prop)) : transform;
+            if(flag){
+                if (!context.getLevel().isClientSide) {
+                    context.getLevel().levelEvent(1505, context.getClickedPos(), 0);
+                }
+                if(!context.getPlayer().isCreative()){
+                    context.getItemInHand().shrink(1);
+                }
+                return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
             }
-            context.getLevel().setBlockAndUpdate(context.getClickedPos(), transform);
-            if(!context.getPlayer().isCreative()){
-                context.getItemInHand().shrink(1);
-            }
-            return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
-        }else if(DUPLICATES_INTERACTIONS.containsKey(clickedState.getBlock()) && scanForWater(clickedState, context.getLevel(), context.getClickedPos())){
-            if (!context.getLevel().isClientSide) {
-                context.getLevel().levelEvent(1505, context.getClickedPos(), 0);
-            }
-            if(context.getLevel().getRandom().nextInt(2) == 0){
-                ItemStack spawn = DUPLICATES_INTERACTIONS.getOrDefault(clickedState.getBlock(), ItemStack.EMPTY);
-                Vec3 spawnItemAt = context.getClickLocation();
-                ItemEntity itemEntity = new ItemEntity(context.getLevel(), spawnItemAt.x, spawnItemAt.y, spawnItemAt.z, spawn);
-                context.getLevel().addFreshEntity(itemEntity);
-            }
-            if(!context.getPlayer().isCreative()){
-                context.getItemInHand().shrink(1);
-            }
-            return InteractionResult.sidedSuccess(context.getLevel().isClientSide);
         }
+
         return InteractionResult.PASS;
     }
 

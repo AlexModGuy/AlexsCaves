@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.item.ThrownWasteDrumEntity;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -14,6 +15,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -31,6 +33,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
@@ -275,6 +278,23 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
         return 1.1F;
     }
 
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.BRAINIAC_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.BRAINIAC_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.BRAINIAC_DEATH.get();
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(ACSoundRegistry.BRAINIAC_STEP.get(), 1.0F, 1.0F);
+
+    }
+
     private class MeleeGoal extends Goal {
 
         private int tongueCooldown = 0;
@@ -305,14 +325,17 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                     if (BrainiacEntity.this.hasLineOfSight(target)) {
                         if (BrainiacEntity.this.getHealth() < BrainiacEntity.this.getMaxHealth() * 0.75F && dist < 20 && BrainiacEntity.this.hasBarrel() && BrainiacEntity.this.random.nextInt(30) == 0) {
                             BrainiacEntity.this.setAnimation(ANIMATION_THROW_BARREL);
+                            BrainiacEntity.this.playSound(ACSoundRegistry.BRAINIAC_THROW.get());
                         }
                         if (dist < BrainiacEntity.this.getBbWidth() + target.getBbWidth() + 2.0D) {
                             BrainiacEntity.this.setAnimation(BrainiacEntity.this.random.nextBoolean() ? ANIMATION_SMASH : ANIMATION_BITE);
+                            BrainiacEntity.this.playSound(ACSoundRegistry.BRAINIAC_ATTACK.get());
                             return;
                         }
                         if (tongueCooldown == 0 && BrainiacEntity.this.random.nextInt(16) == 0 && dist < 25) {
+                            BrainiacEntity.this.playSound(ACSoundRegistry.BRAINIAC_LICK.get());
                             BrainiacEntity.this.setLickTicks(20);
-                            tongueCooldown = 10 + BrainiacEntity.this.random.nextInt(10);
+                            tongueCooldown = 15 + BrainiacEntity.this.random.nextInt(15);
                         }
                     } else {
                         BrainiacEntity.this.setLickTicks(0);

@@ -191,7 +191,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
         if (!stack.isEmpty() && stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());
         }
-        this.saveAdditional(this.getUpdateTag());
+        this.markUpdated();
     }
 
     @Override
@@ -281,11 +281,15 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
         if (packet != null && packet.getTag() != null) {
             this.stacks = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
             ContainerHelper.loadAllItems(packet.getTag(), this.stacks);
+            this.itemAngle = packet.getTag().getFloat("Angle");
         }
     }
 
     public CompoundTag getUpdateTag() {
-        return this.saveWithoutMetadata();
+        CompoundTag compoundtag = new CompoundTag();
+        ContainerHelper.saveAllItems(compoundtag, this.stacks, true);
+        compoundtag.putFloat("Angle", itemAngle);
+        return compoundtag;
     }
 
     @Override
@@ -333,6 +337,11 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
                 return handlers[1].cast();
         }
         return super.getCapability(capability, facing);
+    }
+
+    private void markUpdated() {
+        this.setChanged();
+        this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
     }
 
     public boolean queueItemDrop(ItemStack copy) {

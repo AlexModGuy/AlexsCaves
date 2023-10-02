@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class RelicheirusRenderer extends MobRenderer<RelicheirusEntity, RelicheirusModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/relicheirus.png");
+    private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/relicheirus_retro.png");
 
     public RelicheirusRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new RelicheirusModel(), 1.0F);
@@ -20,7 +21,7 @@ public class RelicheirusRenderer extends MobRenderer<RelicheirusEntity, Relichei
     }
 
     public ResourceLocation getTextureLocation(RelicheirusEntity entity) {
-        return TEXTURE;
+        return entity.isRetro() ? TEXTURE_RETRO : TEXTURE;
     }
 }
 

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
+import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
@@ -71,7 +73,7 @@ public class SeaPigEntity extends WaterAnimal implements Bucketable {
     }
 
     protected PathNavigation createNavigation(Level worldIn) {
-        return new SemiAquaticPathNavigator(this, worldIn);
+        return new WaterBoundPathNavigation(this, worldIn);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -152,7 +154,7 @@ public class SeaPigEntity extends WaterAnimal implements Bucketable {
             Vec3 delta = this.getDeltaMovement();
             this.move(MoverType.SELF, delta);
             delta = delta.scale(0.8D);
-            if (this.jumping || horizontalCollision) {
+            if (this.jumping || horizontalCollision && level().getBlockState(this.blockPosition().above()).getFluidState().is(FluidTags.WATER)) {
                 delta = delta.add(0, 0.03F, 0);
             } else {
                 delta = delta.add(0, -0.03F, 0);
