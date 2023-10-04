@@ -2884,6 +2884,30 @@
     ],
     "subtitle": "alexsmobs.sound.subtitle.vesper_scream"
   },
+  "forsaken_idle": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_idle_0",
+      "alexscaves:mob/forsaken/forsaken_idle_1",
+      "alexscaves:mob/forsaken/forsaken_idle_2",
+      "alexscaves:mob/forsaken/forsaken_idle_3",
+      "alexscaves:mob/forsaken/forsaken_idle_4"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_idle"
+  },
+  "forsaken_hurt": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_hurt_0",
+      "alexscaves:mob/forsaken/forsaken_hurt_1",
+      "alexscaves:mob/forsaken/forsaken_hurt_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_hurt"
+  },
+  "forsaken_death": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_death"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_death"
+  },
   "forsaken_spawn": {
     "sounds": [
       "alexscaves:mob/forsaken/forsaken_spawn_0",
@@ -2891,6 +2915,50 @@
       "alexscaves:mob/forsaken/forsaken_spawn_2"
     ],
     "subtitle": "alexsmobs.sound.subtitle.forsaken_spawn"
+  },
+  "forsaken_screech": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_screech_0",
+      "alexscaves:mob/forsaken/forsaken_screech_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_screech"
+  },
+  "forsaken_aoe": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_aoe_0",
+      "alexscaves:mob/forsaken/forsaken_aoe_1"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_aoe"
+  },
+  "forsaken_leap": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_leap_0",
+      "alexscaves:mob/forsaken/forsaken_leap_1",
+      "alexscaves:mob/forsaken/forsaken_leap_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_leap"
+  },
+  "forsaken_grab": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_grab"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_grab"
+  },
+  "forsaken_bite": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_bite_0",
+      "alexscaves:mob/forsaken/forsaken_bite_1",
+      "alexscaves:mob/forsaken/forsaken_bite_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_bite"
+  },
+  "forsaken_step": {
+    "sounds": [
+      "alexscaves:mob/forsaken/forsaken_step_0",
+      "alexscaves:mob/forsaken/forsaken_step_1",
+      "alexscaves:mob/forsaken/forsaken_step_2"
+    ],
+    "subtitle": "alexsmobs.sound.subtitle.forsaken_step"
   },
   "cave_book_open": {
     "sounds": [

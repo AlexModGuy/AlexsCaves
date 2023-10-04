@@ -297,6 +297,15 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> VESPER_QUIET_IDLE = createSoundEvent("vesper_quiet_idle");
     public static final RegistryObject<SoundEvent> VESPER_FLAP = createSoundEvent("vesper_flap");
     public static final RegistryObject<SoundEvent> VESPER_SCREAM = createSoundEvent("vesper_scream");
+    public static final RegistryObject<SoundEvent> FORSAKEN_IDLE = createSoundEvent("forsaken_idle");
+    public static final RegistryObject<SoundEvent> FORSAKEN_HURT = createSoundEvent("forsaken_hurt");
+    public static final RegistryObject<SoundEvent> FORSAKEN_DEATH = createSoundEvent("forsaken_death");
+    public static final RegistryObject<SoundEvent> FORSAKEN_SCREECH = createSoundEvent("forsaken_screech");
+    public static final RegistryObject<SoundEvent> FORSAKEN_AOE = createSoundEvent("forsaken_aoe");
+    public static final RegistryObject<SoundEvent> FORSAKEN_LEAP = createSoundEvent("forsaken_leap");
+    public static final RegistryObject<SoundEvent> FORSAKEN_GRAB = createSoundEvent("forsaken_grab");
+    public static final RegistryObject<SoundEvent> FORSAKEN_BITE = createSoundEvent("forsaken_bite");
+    public static final RegistryObject<SoundEvent> FORSAKEN_STEP = createSoundEvent("forsaken_step");
     public static final RegistryObject<SoundEvent> FORSAKEN_SPAWN = createSoundEvent("forsaken_spawn");
 
     public static final RegistryObject<SoundEvent> CAVE_BOOK_OPEN = createSoundEvent("cave_book_open");

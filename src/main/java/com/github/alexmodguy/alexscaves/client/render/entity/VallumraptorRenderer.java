@@ -22,6 +22,8 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
     private static final ResourceLocation TEXTURE_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_elder.png");
     private static final ResourceLocation TEXTURE_ALAN = new ResourceLocation("alexscaves:textures/entity/vallumraptor_alan.png");
     private static final ResourceLocation TEXTURE_ALAN_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_alan_elder.png");
+    private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/vallumraptor_retro.png");
+    private static final ResourceLocation TEXTURE_RETRO_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_retro_elder.png");
 
     public VallumraptorRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new VallumraptorModel(), 0.3F);
@@ -39,9 +41,11 @@ public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, Vallum
     public ResourceLocation getTextureLocation(VallumraptorEntity entity) {
         if(entity.hasCustomName() && "alan".equalsIgnoreCase(entity.getName().getString())){
             return entity.isElder() ? TEXTURE_ALAN_ELDER : TEXTURE_ALAN;
-
+        }else if(entity.isRetro()){
+            return entity.isElder() ? TEXTURE_RETRO_ELDER : TEXTURE_RETRO;
+        }else{
+            return entity.isElder() ? TEXTURE_ELDER : TEXTURE;
         }
-        return entity.isElder() ? TEXTURE_ELDER : TEXTURE;
     }
 
 

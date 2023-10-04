@@ -35,7 +35,7 @@ public class GrottoceratopsMeleeGoal extends Goal {
         if (target != null) {
             double dist = grottoceratops.distanceTo(target);
 
-            if (dist < grottoceratops.getBbWidth() + target.getBbWidth() + 4.0D) {
+            if (dist < grottoceratops.getBbWidth() + target.getBbWidth() + 3.0D) {
                 if (grottoceratops.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
                     if (grottoceratops.getRandom().nextBoolean()) {
                         tryAnimation(GrottoceratopsEntity.ANIMATION_MELEE_RAM);
@@ -63,7 +63,7 @@ public class GrottoceratopsMeleeGoal extends Goal {
     }
 
     private void checkAndDealDamage(LivingEntity target, float multiplier) {
-        if (grottoceratops.hasLineOfSight(target) && grottoceratops.distanceTo(target) < grottoceratops.getBbWidth() + target.getBbWidth() + 2.0D) {
+        if (grottoceratops.hasLineOfSight(target) && grottoceratops.distanceTo(target) < grottoceratops.getBbWidth() + target.getBbWidth() + 1.0D) {
             grottoceratops.playSound(ACSoundRegistry.GROTTOCERATOPS_ATTACK.get());
             target.hurt(target.damageSources().mobAttack(grottoceratops), (float) grottoceratops.getAttribute(Attributes.ATTACK_DAMAGE).getValue() * multiplier);
             target.knockback(0.8D + 0.5D * multiplier, grottoceratops.getX() - target.getX(), grottoceratops.getZ() - target.getZ());

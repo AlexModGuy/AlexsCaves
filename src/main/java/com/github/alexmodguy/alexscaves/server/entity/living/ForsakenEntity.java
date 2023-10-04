@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.ForsakenRandomlyJumpGoa
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.util.ShakesScreen;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
@@ -17,6 +18,7 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
@@ -89,7 +91,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 250.0D).add(Attributes.FOLLOW_RANGE, 64.0D).add(Attributes.ATTACK_DAMAGE, 6.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 250.0D).add(Attributes.FOLLOW_RANGE, 64.0D).add(Attributes.ATTACK_DAMAGE, 10.0D);
     }
 
     @Override
@@ -161,6 +163,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
             this.leapPitch = Mth.approachDegrees(leapPitch, 0, 5);
             if (this.getAnimation() == ANIMATION_PREPARE_JUMP && this.onGround() && !level().isClientSide && this.getAnimationTick() >= 8 && this.getAnimationTick() <= 10) {
                 this.setLeaping(true);
+                this.playSound(ACSoundRegistry.FORSAKEN_LEAP.get(), this.getSoundVolume(), this.getVoicePitch());
             }
         }
         if (isRunning() && !hasRunningAttributes) {
@@ -247,6 +250,9 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         } else {
             LivingEntity target = this.getTarget();
             if (target != null && target.isAlive() && target.distanceTo(this) < 10 && this.hasLineOfSight(target) && (this.getAnimation() == ANIMATION_RIGHT_PICKUP || this.getAnimation() == ANIMATION_LEFT_PICKUP)) {
+                if(getHeldMobId() == -1){
+                    this.playSound(ACSoundRegistry.FORSAKEN_GRAB.get(), this.getSoundVolume(), this.getVoicePitch());
+                }
                 this.setHeldMobId(target.getId());
             } else if (getHeldMobId() != -1) {
                 this.setHeldMobId(-1);
@@ -496,10 +502,33 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
     }
 
     public float getSonicDamageAgainst(LivingEntity target) {
-        return target.getType().is(ACTagRegistry.WEAK_TO_FORSAKEN_SONIC_ATTACK) ? 50.0F : 5.0F;
+        return target.getType().is(ACTagRegistry.WEAK_TO_FORSAKEN_SONIC_ATTACK) ? 45.0F : 4.0F;
     }
 
     public float getStepHeight() {
         return hasRunningAttributes ? 1.1F : 0.6F;
     }
+
+    protected SoundEvent getAmbientSound() {
+        return ACSoundRegistry.FORSAKEN_IDLE.get();
+    }
+
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return ACSoundRegistry.FORSAKEN_HURT.get();
+    }
+
+    protected SoundEvent getDeathSound() {
+        return ACSoundRegistry.FORSAKEN_DEATH.get();
+    }
+
+    @Override
+    public float getSoundVolume() {
+        return 2.5F;
+    }
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        if (!this.isBaby()) {
+            this.playSound(ACSoundRegistry.FORSAKEN_STEP.get(), 1F, 1F);
+        }
+    }
+
 }

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.ForsakenEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
@@ -69,13 +70,20 @@ public class ForsakenAttackGoal extends Goal {
                 attemptSonicDamageIn--;
                 if (attemptSonicDamageIn == 0 && this.entity.hasLineOfSight(target)) {
                     target.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level().registryAccess(), entity), entity.getSonicDamageAgainst(target));
+                    knockBackAngle(target, 1.0F, 0F);
                 }
             }
             if (sonicEnqueued && this.entity.hasLineOfSight(target) && distance < 200F) {
                 this.entity.lookAt(EntityAnchorArgument.Anchor.EYES, target.getEyePosition());
                 entity.setSonarId(target.getId());
                 this.entity.getNavigation().stop();
-                tryAnimation(distance > 10 || entity.getRandom().nextFloat() < 0.4 ? ForsakenEntity.ANIMATION_SONIC_ATTACK : ForsakenEntity.ANIMATION_SONIC_BLAST);
+                if(distance > 10 || entity.getRandom().nextFloat() < 0.4){
+                    tryAnimation(ForsakenEntity.ANIMATION_SONIC_ATTACK);
+                    this.entity.playSound(ACSoundRegistry.FORSAKEN_SCREECH.get(), this.entity.getSoundVolume(), this.entity.getVoicePitch());
+                }else{
+                    tryAnimation(ForsakenEntity.ANIMATION_SONIC_BLAST);
+                    this.entity.playSound(ACSoundRegistry.FORSAKEN_AOE.get(), this.entity.getSoundVolume(), this.entity.getVoicePitch());
+                }
                 if (this.entity.getAnimation() == ForsakenEntity.ANIMATION_SONIC_ATTACK) {
                     inPursuit = false;
                     if (this.entity.getAnimationTick() >= 10 && this.entity.getAnimationTick() <= 30 && attemptSonicDamageIn <= 0) {
@@ -89,10 +97,10 @@ public class ForsakenAttackGoal extends Goal {
                     inPursuit = false;
                     if (this.entity.getAnimationTick() >= 10 && this.entity.getAnimationTick() <= 30) {
                         if (this.entity.getAnimationTick() % 5 == 0) {
-                            List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, this.entity.getBoundingBox().inflate(10, 8, 10));
+                            List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, this.entity.getBoundingBox().inflate(16, 8, 16));
                             for (LivingEntity living : list) {
-                                if (living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceTo(entity) <= 10F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)) {
-                                    living.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level().registryAccess(), entity), entity.getSonicDamageAgainst(target) * 0.65F);
+                                if (living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceTo(entity) <= 14F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)) {
+                                    living.hurt(ACDamageTypes.causeForsakenSonicBoomDamage(entity.level().registryAccess(), entity), (float) Math.ceil(entity.getSonicDamageAgainst(target) * 0.65F));
                                 }
                             }
                         }
@@ -134,6 +142,7 @@ public class ForsakenAttackGoal extends Goal {
                         tryAnimation(ForsakenEntity.ANIMATION_GROUND_SMASH);
                     } else {
                         tryAnimation(ForsakenEntity.ANIMATION_BITE);
+                        this.entity.playSound(ACSoundRegistry.FORSAKEN_BITE.get());
                     }
                 }
             } else {
@@ -156,32 +165,39 @@ public class ForsakenAttackGoal extends Goal {
             }
             if (entity.getAnimation() == ForsakenEntity.ANIMATION_RIGHT_SLASH && entity.getAnimationTick() >= 15 && entity.getAnimationTick() <= 18) {
                 float knockbackStrength = 0.5F;
-                if (checkAndDealDamage(target, 1, 2)) {
+                if (checkAndDealDamage(target, 0.8F, 2)) {
                     knockbackStrength = 3F;
+                    entity.playSound(ACSoundRegistry.FORSAKEN_GRAB.get());
                 }
                 knockBackAngle(target, knockbackStrength, -90F);
             }
             if (entity.getAnimation() == ForsakenEntity.ANIMATION_LEFT_SLASH && entity.getAnimationTick() >= 15 && entity.getAnimationTick() <= 18) {
                 float knockbackStrength = 0.5F;
-                if (checkAndDealDamage(target, 1, 2)) {
+                if (checkAndDealDamage(target, 0.8F, 2)) {
                     knockbackStrength = 3F;
+                    entity.playSound(ACSoundRegistry.FORSAKEN_GRAB.get());
                 }
                 knockBackAngle(target, knockbackStrength, 90F);
             }
             if (entity.getAnimation() == ForsakenEntity.ANIMATION_GROUND_SMASH && entity.getAnimationTick() >= 10 && entity.getAnimationTick() <= 15) {
                 Vec3 smashPos = entity.position().add(new Vec3(0, 0, 3.5F).yRot((float) -Math.toRadians(entity.yBodyRot)));
                 List<LivingEntity> list = this.entity.level().getEntitiesOfClass(LivingEntity.class, new AABB(smashPos.x - 4, smashPos.y - 2, smashPos.z - 4, smashPos.x + 4, smashPos.y + 3, smashPos.z + 4));
+                boolean flag = false;
                 for (LivingEntity living : list) {
                     if (living != this.entity && !this.entity.isAlliedTo(living) && !living.isAlliedTo(entity) && living.distanceToSqr(smashPos) <= 16F && !living.getType().is(ACTagRegistry.FORSAKEN_IGNORES)) {
                         if (checkAndDealDamage(living, 0.8F, 3) && living.onGround()) {
                             living.setDeltaMovement(living.getDeltaMovement().add(0, 0.5, 0));
+                            flag = true;
                         }
                     }
+                }
+                if(flag){
+                    entity.playSound(ACSoundRegistry.FORSAKEN_GRAB.get());
                 }
             }
             if (entity.getAnimation() == ForsakenEntity.ANIMATION_BITE && entity.getAnimationTick() >= 5 && entity.getAnimationTick() <= 8) {
                 float knockbackStrength = 0.0F;
-                if (checkAndDealDamage(target, 0.75F, 1)) {
+                if (checkAndDealDamage(target, 1F, 1)) {
                     knockbackStrength = 0.5F;
                 }
                 knockBackAngle(target, knockbackStrength, 0F);

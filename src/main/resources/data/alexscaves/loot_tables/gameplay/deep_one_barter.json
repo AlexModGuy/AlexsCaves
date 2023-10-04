@@ -133,13 +133,13 @@
         {
           "type": "item",
           "name": "minecraft:prismarine_shard",
-          "weight": 70,
+          "weight": 100,
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 2
+                "min": 6,
+                "max": 15
               }
             }
           ]

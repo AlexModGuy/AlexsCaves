@@ -53,7 +53,7 @@ public class MushroomCloudParticle extends Particle {
     }
 
     public void tick() {
-        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDarkFor = 100;
+        ((ClientProxy) AlexsCaves.PROXY).renderNukeSkyDarkFor = 70;
         ((ClientProxy) AlexsCaves.PROXY).muteNonNukeSoundsFor = 50;
         boolean large = this.scale > 2.0F;
         if(age > BALL_FOR / 2 + 5){

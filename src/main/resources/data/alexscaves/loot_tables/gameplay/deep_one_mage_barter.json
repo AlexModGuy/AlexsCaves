@@ -49,14 +49,42 @@
         },
         {
           "type": "item",
-          "name": "minecraft:prismarine",
-          "weight": 20,
+          "name": "minecraft:prismarine_shard",
+          "weight": 60,
           "functions": [
             {
               "function": "set_count",
               "count": {
-                "min": 5,
-                "max": 10
+                "min": 6,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:prismarine_crystals",
+          "weight": 40,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 6,
+                "max": 12
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:prismarine",
+          "weight": 80,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 10,
+                "max": 13
               }
             }
           ]
@@ -64,7 +92,7 @@
         {
           "type": "item",
           "name": "minecraft:dark_prismarine",
-          "weight": 15,
+          "weight": 25,
           "functions": [
             {
               "function": "set_count",
