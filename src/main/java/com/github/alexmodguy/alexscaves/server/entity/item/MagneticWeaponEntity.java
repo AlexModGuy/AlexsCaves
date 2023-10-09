@@ -61,8 +61,9 @@ public class MagneticWeaponEntity extends Entity {
     private float destroyBlockProgress;
     private BlockPos lastSelectedBlock;
     private int totalMiningTime = 0;
-
     private boolean hadPlayerController = false;
+
+    private boolean spawnedItem = false;
 
     public MagneticWeaponEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -226,8 +227,13 @@ public class MagneticWeaponEntity extends Entity {
                 }
                 moveTo = player.position().add(0, 1, 0);
                 if (distanceTo(controller) < 1.4) {
-                    if (!this.isRemoved() && !player.addItem(this.getItemStack())) {
-                        plopItem();
+                    if (!this.isRemoved()) {
+                        if(!spawnedItem && player.addItem(this.getItemStack())){
+                            spawnedItem = true;
+                            this.remove(RemovalReason.DISCARDED);
+                        }else{
+                            plopItem();
+                        }
                     }
                 }
             }
@@ -243,9 +249,12 @@ public class MagneticWeaponEntity extends Entity {
     }
 
     private void plopItem(){
-        ItemEntity itementity = this.spawnAtLocation(this.getItemStack());
-        if (itementity != null) {
-            itementity.setNoPickUpDelay();
+        if(!spawnedItem){
+            spawnedItem = true;
+            ItemEntity itementity = this.spawnAtLocation(this.getItemStack());
+            if (itementity != null) {
+                itementity.setNoPickUpDelay();
+            }
         }
         this.remove(RemovalReason.DISCARDED);
     }

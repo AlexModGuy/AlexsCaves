@@ -50,7 +50,6 @@ public class OrtholanceItem extends Item implements Vanishable {
         return 1;
     }
 
-
     public int getUseDuration(ItemStack itemStack) {
         return 72000;
     }

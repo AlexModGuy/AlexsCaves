@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.level.map;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.thread.BlockableEventLoop;
 import net.minecraft.world.entity.player.Player;
@@ -10,8 +9,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.fml.LogicalSide;
 
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 
 public final class CaveBiomeFinder {
 

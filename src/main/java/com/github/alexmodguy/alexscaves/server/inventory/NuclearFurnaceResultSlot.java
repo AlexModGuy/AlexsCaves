@@ -1,23 +1,11 @@
 package com.github.alexmodguy.alexscaves.server.inventory;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearFurnaceBlockEntity;
-import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
-import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.FurnaceResultSlot;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.phys.Vec3;
-
-import java.util.List;
 
 public class NuclearFurnaceResultSlot extends FurnaceResultSlot {
     private Player player;

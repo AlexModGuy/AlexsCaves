@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.item.HazmatArmorItem;
-import com.github.alexmodguy.alexscaves.server.message.BeholderSyncMessage;
 import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
 import com.github.alexmodguy.alexscaves.server.misc.*;
 import com.google.common.collect.Maps;

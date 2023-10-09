@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.storage;
 
 import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeFinder;
-import com.github.alexmodguy.alexscaves.server.level.map.FilloutCaveBiomeMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;

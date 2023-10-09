@@ -4,12 +4,12 @@ license="GNU LESSER GENERAL PUBLIC LICENSE"
 issueTrackerURL="https://github.com/AlexModGuy/AlexsCavesBetaTest/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="0.1.4" #mandatory
+version="0.1.5" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
 authors="Alexthe668, Noonyeyz" #optional
-credits="LudoCrypt, _Ninni, Ron0, PrismaticPinky, Kotshi, RenRen, Gatetoh, arby698" #optional
-description='''alex cave...'''
+credits="LudoCrypt, _Ninni, PrismaticPinky, RenRen, Gatetoh, arby698, PlummetStudios, HolidayRaptor" #optional
+description='''Explore new rare cave biomes hidden under the surface of the Overworld...'''
 logoFile="assets/alexscaves/textures/misc/mod_logo.png" #optional
 [[dependencies.alexscaves]] #optional
 # the modid of the dependency

@@ -1,7 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
-import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.SemiAquaticPathNavigator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;

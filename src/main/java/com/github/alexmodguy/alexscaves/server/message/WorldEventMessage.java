@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.message;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.network.NetworkEvent;

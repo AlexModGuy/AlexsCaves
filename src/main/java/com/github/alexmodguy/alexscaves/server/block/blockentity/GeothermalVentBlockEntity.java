@@ -2,9 +2,7 @@ package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
-import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.GeothermalVentBlock;
-import com.github.alexmodguy.alexscaves.server.block.ThinGeothermalVentBlock;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;

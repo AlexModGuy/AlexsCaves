@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;

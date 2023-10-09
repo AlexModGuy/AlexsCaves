@@ -1,11 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.sound;
 
-import com.github.alexmodguy.alexscaves.server.block.NuclearFurnaceBlock;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
-import com.github.alexmodguy.alexscaves.server.block.blockentity.MagnetBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearFurnaceBlockEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 

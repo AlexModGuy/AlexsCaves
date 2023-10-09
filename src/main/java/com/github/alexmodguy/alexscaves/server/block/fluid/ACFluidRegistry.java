@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.server.block.fluid;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
-import com.github.alexmodguy.alexscaves.server.block.ACSoundTypes;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.world.level.block.Blocks;

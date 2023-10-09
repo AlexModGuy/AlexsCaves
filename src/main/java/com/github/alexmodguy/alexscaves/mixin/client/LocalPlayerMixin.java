@@ -1,16 +1,12 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 
-import com.github.alexmodguy.alexscaves.server.block.ACSoundTypes;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
-import com.github.alexmodguy.alexscaves.server.block.fluid.AcidFluidType;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

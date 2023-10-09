@@ -129,11 +129,17 @@ public class VesperFlyAndHangGoal extends Goal {
     }
 
     public Vec3 groundPosition(Vec3 airPosition) {
-        BlockPos ground = BlockPos.containing(airPosition);
-        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid()) {
-            ground = ground.below();
+        BlockPos.MutableBlockPos ground = new BlockPos.MutableBlockPos();
+        ground.set(airPosition.x, airPosition.y, airPosition.z);
+        boolean flag = false;
+        while (ground.getY() < entity.level().getMaxBuildHeight() && entity.level().getFluidState(ground).isEmpty()){
+            ground.move(0, 1, 0);
+            flag = true;
         }
-        return Vec3.atCenterOf(ground.below());
+        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid() && entity.level().getFluidState(ground).isEmpty()) {
+            ground.move(0, -1, 0);
+        }
+        return Vec3.atCenterOf(flag ? ground.above() : ground.below());
     }
 
     public Vec3 findHangFromPos() {

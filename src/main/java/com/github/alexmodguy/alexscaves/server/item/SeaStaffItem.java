@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.item;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.item.WaterBoltEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;

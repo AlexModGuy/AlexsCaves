@@ -14,9 +14,9 @@ public class ACClientConfig {
     public final ForgeConfigSpec.BooleanValue biomeWaterFogOverrides;
     public final ForgeConfigSpec.BooleanValue ambersolShines;
     public final ForgeConfigSpec.BooleanValue radiationGlowEffect;
-
     public final ForgeConfigSpec.IntValue subterranodonIndicatorX;
     public final ForgeConfigSpec.IntValue subterranodonIndicatorY;
+    public final ForgeConfigSpec.BooleanValue nuclearBombMufflesSounds;
 
     public ACClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("visuals");
@@ -29,9 +29,12 @@ public class ACClientConfig {
         biomeSkyFogOverrides = builder.comment("true if some biomes, such as toxic caves, have an thicker fog to them. May conflict with shaders.").translation("biome_sky_fog_overrides").define("biome_sky_fog_overrides", true);
         biomeWaterFogOverrides = builder.comment("true if some biomes, such as abyssal chasm, have an thicker water fog to them. May conflict with shaders.").translation("biome_water_fog_overrides").define("biome_sky_fog_overrides", true);
         ambersolShines = builder.comment("true if ambersol block renders with rays of light emerging from it.").translation("ambersol_shines").define("ambersol_shines", true);
-        radiationGlowEffect = builder.comment("true if irradiation makes mobs glow. May conflict with shaders.").translation("radiation_glow_effect").define("radiation_glow_effect", true);
+        radiationGlowEffect = builder.comment("true if irradiated effect makes mobs glow. May conflict with shaders.").translation("radiation_glow_effect").define("radiation_glow_effect", true);
         subterranodonIndicatorX = builder.comment("determines how far to the left the subterranodon flight indicator renders on the screen when mounted. Negative numbers will render it on the right. ").translation("subterranodon_indicator_x").defineInRange("subterranodon_indicator_x", 22, -12000, 12000);
         subterranodonIndicatorY = builder.comment("determines how far from bottom the subterranodon flight indicator renders on the screen when mounted.").translation("subterranodon_indicator_y").defineInRange("subterranodon_indicator_y", 6, -12000, 12000);
+        builder.pop();
+        builder.push("audio");
+        nuclearBombMufflesSounds = builder.comment("whether nuclear explosions briefly muffle other sounds.").translation("nuclear_bomb_muffles_sounds").define("nuclear_bomb_muffles_sounds", true);
         builder.pop();
 
     }

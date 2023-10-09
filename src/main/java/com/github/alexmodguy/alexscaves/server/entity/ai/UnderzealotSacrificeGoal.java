@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.PackAnimal;
 import com.github.alexmodguy.alexscaves.server.entity.util.UnderzealotSacrifice;
-import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;

@@ -1,12 +1,10 @@
 package com.github.alexmodguy.alexscaves.client.sound;
 
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.FerrouslimeEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 
 public class SubmarineSound extends AbstractTickableSoundInstance {
     private final SubmarineEntity submarine;

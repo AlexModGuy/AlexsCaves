@@ -62,7 +62,7 @@ public class NuclearSirenSound extends AbstractTickableSoundInstance implements 
         this.x = sirenPos.x;
         this.y = sirenPos.y;
         this.z = sirenPos.z;
-        this.volume = this.siren.getVolume(Minecraft.getInstance().getPartialTick()) * (1F - ClientProxy.masterVolumeNukeModifier);
+        this.volume = this.siren.getVolume(1.0F) * (1F - ClientProxy.masterVolumeNukeModifier);
         BlockState state = Minecraft.getInstance().level.getBlockState(siren.getBlockPos());
         if(this.siren.isRemoved() || !this.siren.isActivated(state)){
             this.stop();

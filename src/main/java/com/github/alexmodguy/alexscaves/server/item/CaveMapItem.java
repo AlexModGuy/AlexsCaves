@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeFinder;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import net.minecraft.ChatFormatting;

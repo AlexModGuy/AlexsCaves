@@ -71,6 +71,7 @@ public class SubterranodonFlightGoal extends Goal {
                 }
                 entity.resetFlightAIFlag = false;
             }
+            entity.level().setBlockAndUpdate(BlockPos.containing(x, y - 1, z), Blocks.RED_STAINED_GLASS.defaultBlockState());
             entity.getMoveControl().setWantedPosition(this.x, this.y, this.z, 1F);
         } else {
             if (entity.isFlying() || ((SubterranodonEntity) entity.getPackLeader()).landingFlag) {
@@ -122,6 +123,9 @@ public class SubterranodonFlightGoal extends Goal {
             float yRotOffset = (float) Math.toRadians(entity.getRandom().nextFloat() * maxRot - (maxRot / 2));
             Vec3 lookVec = entity.getLookAngle().scale(15 + entity.getRandom().nextInt(15)).xRot(xRotOffset).yRot(yRotOffset);
             targetVec = entity.position().add(lookVec);
+        }
+        if(!entity.level().isLoaded(BlockPos.containing(targetVec))){
+            return entity.position();
         }
         Vec3 heightAdjusted = targetVec;
         if (entity.level().canSeeSky(BlockPos.containing(heightAdjusted))) {
@@ -175,18 +179,24 @@ public class SubterranodonFlightGoal extends Goal {
 
     private boolean isOverWaterOrVoid() {
         BlockPos position = entity.blockPosition();
-        while (position.getY() > entity.level().getMinBuildHeight() && entity.level().isEmptyBlock(position)) {
+        while (position.getY() > entity.level().getMinBuildHeight() && entity.level().isEmptyBlock(position) && entity.level().getFluidState(position).isEmpty()) {
             position = position.below();
         }
         return !entity.level().getFluidState(position).isEmpty() || entity.level().getBlockState(position).is(Blocks.VINE) || position.getY() <= entity.level().getMinBuildHeight();
     }
 
     public Vec3 groundPosition(Vec3 airPosition) {
-        BlockPos ground = BlockPos.containing(airPosition);
-        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid()) {
-            ground = ground.below();
+        BlockPos.MutableBlockPos ground = new BlockPos.MutableBlockPos();
+        ground.set(airPosition.x, airPosition.y, airPosition.z);
+        boolean flag = false;
+        while (ground.getY() < entity.level().getMaxBuildHeight() && entity.level().getFluidState(ground).isEmpty()){
+            ground.move(0, 1, 0);
+            flag = true;
         }
-        return Vec3.atCenterOf(ground.below());
+        while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid() && entity.level().getFluidState(ground).isEmpty()) {
+            ground.move(0, -1, 0);
+        }
+        return Vec3.atCenterOf(flag ? ground.above() : ground.below());
     }
 
     public boolean canContinueToUse() {

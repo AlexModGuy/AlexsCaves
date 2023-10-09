@@ -5,7 +5,6 @@ import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Mth;
 
 public class CorrodentSound extends AbstractTickableSoundInstance {
     private final CorrodentEntity corrodent;

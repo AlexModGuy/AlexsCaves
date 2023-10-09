@@ -1,8 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.sound;
 
 import com.github.alexmodguy.alexscaves.server.entity.item.QuarrySmasherEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.BoundroidEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.BoundroidWinchEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
