@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.client.event;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.client.beta.UserVerification;
 import com.github.alexmodguy.alexscaves.client.gui.ACAdvancementTabs;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.HologramProjectorBlockRenderer;
@@ -780,11 +779,5 @@ public class ClientEvents {
             event.setSplashText("30k downloads max");
             event.setSplashTextColor(0X00B6D5);
         }
-    }
-
-
-    @SubscribeEvent
-    public void onScreenOpen(ScreenEvent.Init event) {
-        UserVerification.onGameStart();
     }
 }

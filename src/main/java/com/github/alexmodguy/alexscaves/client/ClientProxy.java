@@ -229,7 +229,7 @@ public class ClientProxy extends CommonProxy {
         PostEffectRegistry.registerEffect(HOLOGRAM_SHADER);
         MenuScreens.register(ACMenuRegistry.SPELUNKERY_TABLE_MENU.get(), SpelunkeryTableScreen::new);
         MenuScreens.register(ACMenuRegistry.NUCLEAR_FURNACE_MENU.get(), NuclearFurnaceScreen::new);
-        hasACSplashText = random.nextInt(30) == 0;
+        hasACSplashText = random.nextInt(300) == 0;
     }
 
     public void setupParticles(RegisterParticleProvidersEvent registry) {
