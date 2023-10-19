@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
@@ -78,7 +79,7 @@ public abstract class LightTextureMixin {
     )
     private static void ac_getBrightness(DimensionType dimensionType, int lightTextureIndex, CallbackInfoReturnable<Float> cir) {
         if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()) {
-            float f = calculateBiomeAmbientLight(Minecraft.getInstance().player);
+            float f = ClientProxy.lastBiomeAmbientLightAmountPrev + (ClientProxy.lastBiomeAmbientLightAmount - ClientProxy.lastBiomeAmbientLightAmountPrev) * Minecraft.getInstance().getFrameTime();
             if (Minecraft.getInstance().getCameraEntity() instanceof PossessesCamera || Minecraft.getInstance().getCameraEntity() instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get())) {
                 f = Math.max(f, 0.35F);
             }
@@ -176,7 +177,7 @@ public abstract class LightTextureMixin {
 
                             float f14 = this.minecraft.options.gamma().get().floatValue();
                             //INSERTION BY AC
-                            float biomeAmbientLight = calculateBiomeAmbientLight(Minecraft.getInstance().player);
+                            float biomeAmbientLight = ClientProxy.lastBiomeAmbientLightAmountPrev + (ClientProxy.lastBiomeAmbientLightAmount - ClientProxy.lastBiomeAmbientLightAmountPrev) * Minecraft.getInstance().getFrameTime();
                             if(biomeAmbientLight > 0.0F){
                                 f14 = Mth.clamp(f14 + biomeAmbientLight, 0.0F, 1.0F);
                             }
@@ -204,26 +205,10 @@ public abstract class LightTextureMixin {
     private void applyACLightingColors(ClientLevel clientLevel, Vector3f vector3f) {
         if (!clientLevel.effects().forceBrightLightmap()) {
             Vec3 in = new Vec3(vector3f);
-            Vec3 to = calculateBiomeLightColor(Minecraft.getInstance().player);
+            Vec3 to = ClientProxy.lastBiomeLightColorPrev.add(ClientProxy.lastBiomeLightColor.subtract(ClientProxy.lastBiomeLightColorPrev).scale(Minecraft.getInstance().getFrameTime()));
             vector3f.set(to.x * in.x, to.y * in.y, to.z * in.z);
         }
     }
 
-    private static float calculateBiomeAmbientLight(Player player) {
-        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-        if (i == 0) {
-            return ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiome(player.blockPosition()));
-        } else {
-            return BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeAmbientLight);
-        }
-    }
 
-    private static Vec3 calculateBiomeLightColor(Player player) {
-        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-        if (i == 0) {
-            return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiome(player.blockPosition()));
-        } else {
-            return BiomeSampler.sampleBiomesVec3(player.level(), player.position(), ACBiomeRegistry::getBiomeLightColorOverride);
-        }
-    }
 }

@@ -1,6 +1,5 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "render_type": "cutout",
+  "parent": "minecraft:block/leaves",
   "textures": {
     "all": "alexscaves:block/ancient_leaves"
   }

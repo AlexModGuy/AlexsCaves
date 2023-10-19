@@ -692,14 +692,39 @@ public class ClientEvents {
         }
     }
 
+    private static float calculateBiomeAmbientLight(Player player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        if (i == 0) {
+            return ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiome(player.blockPosition()));
+        } else {
+            return BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeAmbientLight);
+        }
+    }
+
+    private static Vec3 calculateBiomeLightColor(Player player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        if (i == 0) {
+            return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiome(player.blockPosition()));
+        } else {
+            return BiomeSampler.sampleBiomesVec3(player.level(), player.position(), ACBiomeRegistry::getBiomeLightColorOverride);
+        }
+    }
+
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
+            Player player = Minecraft.getInstance().player;
             float partialTicks = AlexsCaves.PROXY.getPartialTicks();
             if (ClientProxy.shaderLoadAttemptCooldown > 0) {
                 ClientProxy.shaderLoadAttemptCooldown--;
             }
             ClientProxy.prevNukeFlashAmount = ClientProxy.nukeFlashAmount;
+            if(player != null){
+                ClientProxy.lastBiomeLightColorPrev = ClientProxy.lastBiomeLightColor;
+                ClientProxy.lastBiomeLightColor = calculateBiomeLightColor(player);
+                ClientProxy.lastBiomeAmbientLightAmountPrev = ClientProxy.lastBiomeAmbientLightAmount;
+                ClientProxy.lastBiomeAmbientLightAmount = calculateBiomeAmbientLight(player);
+            }
             if (ClientProxy.renderNukeSkyDarkFor > 0) {
                 ClientProxy.renderNukeSkyDarkFor--;
             }

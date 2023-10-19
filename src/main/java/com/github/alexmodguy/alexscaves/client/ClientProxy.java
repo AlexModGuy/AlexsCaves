@@ -102,6 +102,10 @@ public class ClientProxy extends CommonProxy {
     public static CameraType lastPOV = CameraType.FIRST_PERSON;
     public static int shaderLoadAttemptCooldown = 0;
 
+    public static Vec3 lastBiomeLightColor = Vec3.ZERO;
+    public static float lastBiomeAmbientLightAmount = 0;
+    public static Vec3 lastBiomeLightColorPrev = Vec3.ZERO;
+    public static float lastBiomeAmbientLightAmountPrev = 0;
 
     public void commonInit() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
