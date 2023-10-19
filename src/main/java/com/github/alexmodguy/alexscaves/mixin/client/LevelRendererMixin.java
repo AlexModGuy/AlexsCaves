@@ -17,7 +17,6 @@ import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FogType;
@@ -28,7 +27,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -90,7 +88,7 @@ public abstract class LevelRendererMixin {
             at = @At(
                     value = "HEAD"
             ),
-            allow = 1)
+            cancellable = true)
     //have to completely override this method for compatibility reasons
     private void ac_renderSky(PoseStack poseStack, Matrix4f matrix4f2, float partialTick, Camera camera, boolean foggy, Runnable runnable, CallbackInfo ci) {
         ci.cancel();

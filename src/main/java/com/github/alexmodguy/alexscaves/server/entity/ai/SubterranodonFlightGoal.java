@@ -188,10 +188,11 @@ public class SubterranodonFlightGoal extends Goal {
         BlockPos.MutableBlockPos ground = new BlockPos.MutableBlockPos();
         ground.set(airPosition.x, airPosition.y, airPosition.z);
         boolean flag = false;
-        while (ground.getY() < entity.level().getMaxBuildHeight() && entity.level().getFluidState(ground).isEmpty()){
+        while (ground.getY() < entity.level().getMaxBuildHeight() && !entity.level().getBlockState(ground).isSolid() && entity.level().getFluidState(ground).isEmpty()){
             ground.move(0, 1, 0);
             flag = true;
         }
+        ground.move(0, -1, 0);
         while (ground.getY() > entity.level().getMinBuildHeight() && !entity.level().getBlockState(ground).isSolid() && entity.level().getFluidState(ground).isEmpty()) {
             ground.move(0, -1, 0);
         }
