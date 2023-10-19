@@ -71,7 +71,6 @@ public class SubterranodonFlightGoal extends Goal {
                 }
                 entity.resetFlightAIFlag = false;
             }
-            entity.level().setBlockAndUpdate(BlockPos.containing(x, y - 1, z), Blocks.RED_STAINED_GLASS.defaultBlockState());
             entity.getMoveControl().setWantedPosition(this.x, this.y, this.z, 1F);
         } else {
             if (entity.isFlying() || ((SubterranodonEntity) entity.getPackLeader()).landingFlag) {

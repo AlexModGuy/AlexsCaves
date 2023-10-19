@@ -25,6 +25,6 @@ side="BOTH"
 [[dependencies.alexscaves]]
 modId="forge"
 mandatory=true
-versionRange="[47.1.65,)"
+versionRange="[47.1.3,)"
 ordering="NONE"
 side="BOTH"
