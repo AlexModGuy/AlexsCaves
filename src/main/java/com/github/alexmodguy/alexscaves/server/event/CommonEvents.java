@@ -57,8 +57,7 @@ public class CommonEvents {
         if (event.getEntity() instanceof MagneticEntityAccessor magnet && event.getEntity().getEntityData().isDirty()) {
             Direction dir = magnet.getMagneticAttachmentFace();
             float defaultHeight = event.getOriginalSize().height;
-            float defaultWidth = event.getOriginalSize().width;
-            float defaultEyeHeight = defaultHeight * 0.85F;
+            float defaultEyeHeight = event.getEntity() instanceof Player living  ? living.getStandingEyeHeight(event.getPose(), event.getOriginalSize()) : defaultHeight * 0.85F;
             if (dir == Direction.DOWN && event.getEntity() instanceof Player && event.getEntity().getPose() == Pose.STANDING) {
                 event.setNewEyeHeight(defaultEyeHeight);
             } else if (dir == Direction.UP) {
@@ -98,7 +97,7 @@ public class CommonEvents {
         if (event.getEntity().isPassenger() && event.getEntity() instanceof FlyingMount && (event.getSource().is(DamageTypes.IN_WALL) || event.getSource().is(DamageTypes.FALL) || event.getSource().is(DamageTypes.FLY_INTO_WALL))) {
             event.setCanceled(true);
         }
-        if(event.getEntity() instanceof WatcherPossessionAccessor possessed && possessed.isPossessedByWatcher() && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !(event.getSource().getEntity() instanceof WatcherEntity)){
+        if (event.getEntity() instanceof WatcherPossessionAccessor possessed && possessed.isPossessedByWatcher() && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !(event.getSource().getEntity() instanceof WatcherEntity)) {
             event.setCanceled(true);
         }
     }
@@ -167,7 +166,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void livingRemoveEffect(MobEffectEvent.Remove event) {
-        if(event.getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect){
+        if (event.getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect) {
             darknessIncarnateEffect.toggleFlight(event.getEntity(), false);
             event.getEntity().playSound(ACSoundRegistry.DARKNESS_INCARNATE_EXIT.get());
         }
@@ -176,14 +175,14 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void livingAddEffect(MobEffectEvent.Added event) {
-        if(event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect){
+        if (event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect) {
             event.getEntity().playSound(ACSoundRegistry.DARKNESS_INCARNATE_ENTER.get());
         }
     }
 
     @SubscribeEvent
     public void livingExpireEffect(MobEffectEvent.Expired event) {
-        if(event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect){
+        if (event.getEffectInstance().getEffect() instanceof DarknessIncarnateEffect darknessIncarnateEffect) {
             darknessIncarnateEffect.toggleFlight(event.getEntity(), false);
             event.getEntity().playSound(ACSoundRegistry.DARKNESS_INCARNATE_EXIT.get());
         }
@@ -222,7 +221,7 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void onWanderingTradeSetup(WandererTradesEvent event) {
-        if(AlexsCaves.COMMON_CONFIG.wanderingTradersSellCabinMaps.get()){
+        if (AlexsCaves.COMMON_CONFIG.wanderingTradersSellCabinMaps.get()) {
             event.getGenericTrades().add(new VillagerUndergroundCabinMapTrade(8, 1, 10));
         }
     }
@@ -231,7 +230,7 @@ public class CommonEvents {
         ItemStack itemInHand = player.getItemBySlot(slot);
         if (itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
             CompoundTag tag = itemInHand.getTag();
-            if(tag != null){
+            if (tag != null) {
                 if (itemTagContainsAC(tag, "BiomeKey", false) || itemTagContainsAC(tag, "Structure", true) || itemTagContainsAC(tag, "structurecompass:structureName", true)) {
                     itemInHand.shrink(1);
                     player.broadcastBreakEvent(slot);
@@ -244,7 +243,7 @@ public class CommonEvents {
         }
     }
 
-    private static boolean itemTagContainsAC(CompoundTag tag, String tagID, boolean allowUndergroundCabin){
+    private static boolean itemTagContainsAC(CompoundTag tag, String tagID, boolean allowUndergroundCabin) {
         if (tag.contains(tagID)) {
             String resourceLocation = tag.getString(tagID);
             if (resourceLocation.contains("alexscaves:") && (!allowUndergroundCabin || !resourceLocation.contains("underground_cabin"))) {
