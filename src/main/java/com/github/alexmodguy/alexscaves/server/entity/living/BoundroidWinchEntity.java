@@ -240,9 +240,12 @@ public class BoundroidWinchEntity extends Monster {
                         this.setLatched(true);
                         changeLatchStateTime = 0;
                     }
+                    if(goingUp && !hasBlockAbove()){
+                        goingUp = false;
+                    }
                     if (goingUp) {
                         this.setDeltaMovement(new Vec3(this.getDeltaMovement().x, 1.5F, this.getDeltaMovement().z));
-                    } else if (this.onGround() && noLatchCooldown == 0 && this.isAlive() && random.nextInt(30) == 0 && distanceToCeiling > MAX_DIST_TO_CEILING && !this.level().canSeeSky(this.blockPosition())) {
+                    } else if (this.onGround() && noLatchCooldown == 0 && this.isAlive() && random.nextInt(30) == 0 && distanceToCeiling > MAX_DIST_TO_CEILING && hasBlockAbove()) {
                         goingUp = true;
                     }
                 }
@@ -255,6 +258,19 @@ public class BoundroidWinchEntity extends Monster {
         } else if (!level().isClientSide) {
             this.remove(RemovalReason.KILLED);
         }
+    }
+
+    private boolean hasBlockAbove() {
+        if(!this.level().canSeeSky(this.blockPosition())){
+            BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(this.getX(), this.getEyeY(), this.getZ());
+            while (mutableBlockPos.getY() < this.level().getMaxBuildHeight()){
+                if(this.level().getBlockState(mutableBlockPos).isSolid()){
+                    return true;
+                }
+                mutableBlockPos.move(0, 1, 0);
+            }
+        }
+        return false;
     }
 
     public float getLatchProgress(float partialTicks) {
