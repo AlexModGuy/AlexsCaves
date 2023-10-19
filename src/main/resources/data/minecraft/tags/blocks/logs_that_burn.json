@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:pewen_log",
+    "alexscaves:pewen_wood",
+    "alexscaves:stripped_pewen_log",
+    "alexscaves:stripped_pewen_wood",
+    "alexscaves:thornwood_log",
+    "alexscaves:thornwood_wood",
+    "alexscaves:stripped_thornwood_log",
+    "alexscaves:stripped_thornwood_wood"
+  ]
+}
