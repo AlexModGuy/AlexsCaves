@@ -56,9 +56,9 @@ public class CommonEvents {
     public void resizeEntity(EntityEvent.Size event) {
         if (event.getEntity() instanceof MagneticEntityAccessor magnet && event.getEntity().getEntityData().isDirty()) {
             Direction dir = magnet.getMagneticAttachmentFace();
-            float defaultHeight = event.getOldSize().height;
-            float defaultWidth = event.getOldSize().width;
-            float defaultEyeHeight = event.getOldEyeHeight();
+            float defaultHeight = event.getOriginalSize().height;
+            float defaultWidth = event.getOriginalSize().width;
+            float defaultEyeHeight = defaultHeight * 0.85F;
             if (dir == Direction.DOWN && event.getEntity() instanceof Player && event.getEntity().getPose() == Pose.STANDING) {
                 event.setNewEyeHeight(defaultEyeHeight);
             } else if (dir == Direction.UP) {
