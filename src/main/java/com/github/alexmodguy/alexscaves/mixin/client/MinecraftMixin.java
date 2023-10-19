@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
 
-@Mixin(Minecraft.class)
+@Mixin(value = Minecraft.class, priority = -100)
 public abstract class MinecraftMixin {
 
     @Shadow
