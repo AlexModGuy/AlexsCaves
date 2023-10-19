@@ -20,6 +20,7 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -192,8 +193,11 @@ public class CommonEvents {
     public void onReplaceBiome(EventReplaceBiome event) {
         ResourceKey<Biome> biome = BiomeGenerationConfig.getBiomeForEvent(event);
         if (biome != null) {
-            event.setResult(Event.Result.ALLOW);
-            event.setBiomeToGenerate(event.getBiomeSource().getResourceKeyMap().get(biome));
+            Holder<Biome> biomeHolder = event.getBiomeSource().getResourceKeyMap().get(biome);
+            if(biomeHolder != null){
+                event.setResult(Event.Result.ALLOW);
+                event.setBiomeToGenerate(biomeHolder);
+            }
         }
     }
 
