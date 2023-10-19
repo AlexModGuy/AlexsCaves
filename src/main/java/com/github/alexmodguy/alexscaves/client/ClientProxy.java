@@ -100,6 +100,7 @@ public class ClientProxy extends CommonProxy {
     public static boolean spelunkeryTutorialComplete;
     public static boolean hasACSplashText = false;
     public static CameraType lastPOV = CameraType.FIRST_PERSON;
+    public static int shaderLoadAttemptCooldown = 0;
 
 
     public void commonInit() {

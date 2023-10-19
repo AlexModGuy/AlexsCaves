@@ -155,6 +155,16 @@ public class ClientEvents {
         }
     }
 
+    private static void attemptLoadShader(ResourceLocation resourceLocation){
+        GameRenderer renderer = Minecraft.getInstance().gameRenderer;
+        if(ClientProxy.shaderLoadAttemptCooldown <= 0){
+            renderer.loadEffect(resourceLocation);
+            if(!renderer.effectActive){
+                ClientProxy.shaderLoadAttemptCooldown = 12000;
+                AlexsCaves.LOGGER.warn("Alex's Caves could not load the shader {}, will attempt to load shader in 30 seconds", resourceLocation);
+            }
+        }
+    }
 
     @SubscribeEvent
     public void postRenderStage(RenderLevelStageEvent event) {
@@ -169,14 +179,14 @@ public class ClientEvents {
             GameRenderer renderer = Minecraft.getInstance().gameRenderer;
             if (firstPerson && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity submarine && SubmarineRenderer.isFirstPersonFloodlightsMode(submarine)) {
                 if (renderer.currentEffect() == null || !SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
-                    renderer.loadEffect(SUBMARINE_SHADER);
+                    attemptLoadShader(SUBMARINE_SHADER);
                 }
             } else if (renderer.currentEffect() != null && SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
             }
             if (firstPerson && player instanceof PossessesCamera || player instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get())) {
                 if (renderer.currentEffect() == null || !WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
-                    renderer.loadEffect(WATCHER_SHADER);
+                    attemptLoadShader(WATCHER_SHADER);
                 }
             } else if (renderer.currentEffect() != null && WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
@@ -686,6 +696,9 @@ public class ClientEvents {
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             float partialTicks = AlexsCaves.PROXY.getPartialTicks();
+            if (ClientProxy.shaderLoadAttemptCooldown > 0) {
+                ClientProxy.shaderLoadAttemptCooldown--;
+            }
             ClientProxy.prevNukeFlashAmount = ClientProxy.nukeFlashAmount;
             if (ClientProxy.renderNukeSkyDarkFor > 0) {
                 ClientProxy.renderNukeSkyDarkFor--;
