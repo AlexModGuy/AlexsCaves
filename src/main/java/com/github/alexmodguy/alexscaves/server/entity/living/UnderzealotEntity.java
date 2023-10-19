@@ -130,7 +130,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         prevBuriedProgress = buriedProgress;
         prevCarryingProgress = carryingProgress;
         prevPrayingProgress = prayingProgress;
-        if(buriedProgress == 0.0F && this.isBuried() || buriedProgress == 20.0F && !this.isBuried()){
+        if(!this.isNoAi() && (buriedProgress == 0.0F && this.isBuried() || buriedProgress == 20.0F && !this.isBuried())){
             this.playSound(ACSoundRegistry.UNDERZEALOT_DIG.get());
         }
         if (isBuried() && buriedProgress < 20.0F) {
@@ -317,7 +317,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     public float getBuriedProgress(float partialTick) {
-        return (prevBuriedProgress + (buriedProgress - prevBuriedProgress) * partialTick) * 0.05F;
+        return this.isNoAi() ? 0.0F : (prevBuriedProgress + (buriedProgress - prevBuriedProgress) * partialTick) * 0.05F;
     }
 
     public float getCarryingProgress(float partialTick) {

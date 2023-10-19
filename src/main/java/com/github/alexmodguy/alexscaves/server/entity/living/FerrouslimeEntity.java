@@ -52,6 +52,7 @@ public class FerrouslimeEntity extends Monster {
     private static final EntityDataAccessor<Integer> ATTACK_TICK = SynchedEntityData.defineId(FerrouslimeEntity.class, EntityDataSerializers.INT);
     private int mergeCooldown = 0;
     private int noMoveTime = 0;
+    private boolean fakeEntity = true;
 
     public FerrouslimeEntity(EntityType<? extends Monster> type, Level level) {
         super(type, level);
@@ -97,8 +98,15 @@ public class FerrouslimeEntity extends Monster {
         }
     }
 
+    public boolean isFakeEntity() {
+        return this.fakeEntity;
+    }
+
     public void tick() {
         super.tick();
+        if (this.fakeEntity) {
+            this.fakeEntity = false;
+        }
         this.setYHeadRot(this.getYRot());
         prevMergeProgress = mergeProgress;
         prevAttackProgress = attackProgress;
