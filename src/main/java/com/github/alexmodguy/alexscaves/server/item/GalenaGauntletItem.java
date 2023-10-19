@@ -81,7 +81,7 @@ public class GalenaGauntletItem extends Item {
         ItemStack otherStack = living.getItemInHand(otherHand);
         if (otherStack.is(ACTagRegistry.MAGNETIC_ITEMS) && i <= 0) {
             ItemStack copy = otherStack.copy();
-            otherStack.shrink(1);
+            otherStack.setCount(0);
             MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(level);
             magneticWeapon.setItemStack(copy);
             magneticWeapon.setPos(living.position().add(0, 1, 0));
