@@ -229,22 +229,22 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
     @Override
     public float getMagneticDeltaX() {
-        return entityData.get(MAGNET_DELTA_X);
+        return entityData.hasItem(MAGNET_DELTA_X) ? entityData.get(MAGNET_DELTA_X) : 0.0F;
     }
 
     @Override
     public float getMagneticDeltaY() {
-        return entityData.get(MAGNET_DELTA_Y);
+        return entityData.hasItem(MAGNET_DELTA_Y) ? entityData.get(MAGNET_DELTA_Y) : 0.0F;
     }
 
     @Override
     public float getMagneticDeltaZ() {
-        return entityData.get(MAGNET_DELTA_Z);
+        return entityData.hasItem(MAGNET_DELTA_Z) ? entityData.get(MAGNET_DELTA_Z) : 0.0F;
     }
 
     @Override
     public Direction getMagneticAttachmentFace() {
-        return entityData.get(MAGNET_ATTACHMENT_DIRECTION);
+        return entityData.hasItem(MAGNET_ATTACHMENT_DIRECTION) ? entityData.get(MAGNET_ATTACHMENT_DIRECTION) : Direction.DOWN;
     }
 
     @Override
@@ -259,22 +259,30 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
     @Override
     public void setMagneticDeltaX(float f) {
-        entityData.set(MAGNET_DELTA_X, f);
+        if(entityData.hasItem(MAGNET_DELTA_X)) {
+            entityData.set(MAGNET_DELTA_X, f);
+        }
     }
 
     @Override
     public void setMagneticDeltaY(float f) {
-        entityData.set(MAGNET_DELTA_Y, f);
+        if(entityData.hasItem(MAGNET_DELTA_Y)) {
+            entityData.set(MAGNET_DELTA_Y, f);
+        }
     }
 
     @Override
     public void setMagneticDeltaZ(float f) {
-        entityData.set(MAGNET_DELTA_Z, f);
+        if(entityData.hasItem(MAGNET_DELTA_Z)) {
+            entityData.set(MAGNET_DELTA_Z, f);
+        }
     }
 
     @Override
     public void setMagneticAttachmentFace(Direction dir) {
-        entityData.set(MAGNET_ATTACHMENT_DIRECTION, dir);
+        if(entityData.hasItem(MAGNET_ATTACHMENT_DIRECTION)){
+            entityData.set(MAGNET_ATTACHMENT_DIRECTION, dir);
+        }
     }
 
 
