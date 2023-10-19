@@ -23,7 +23,7 @@ public class UnderzealotRenderer extends MobRenderer<UnderzealotEntity, Underzea
 
     public void render(UnderzealotEntity entity, float f1, float partialTicks, PoseStack poseStack, MultiBufferSource source, int light) {
         this.model.noBurrowing = sepia;
-        if(entity.getBuriedProgress(partialTicks) == 1.0F){
+        if(entity.getBuriedProgress(partialTicks) == 1.0F && !sepia){
             return;
         }
         super.render(entity, f1, partialTicks, poseStack, source, light);

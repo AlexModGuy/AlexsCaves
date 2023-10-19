@@ -51,6 +51,10 @@ public class GalenaGauntletItem extends Item {
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
         super.releaseUsing(stack, level, player, useTimeLeft);
+        if(player instanceof Player realPlayer){
+            realPlayer.getCooldowns().addCooldown(this, 5);
+
+        }
         AlexsCaves.PROXY.clearSoundCacheFor(player);
         player.playSound(ACSoundRegistry.GALENA_GAUNTLET_STOP.get());
     }
