@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.config;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.Citadel;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import com.google.common.reflect.TypeToken;
@@ -8,7 +9,9 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.io.FileUtils;
 

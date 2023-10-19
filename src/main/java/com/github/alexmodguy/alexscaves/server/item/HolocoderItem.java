@@ -66,7 +66,7 @@ public class HolocoderItem extends Item {
     }
 
     public static UUID getBoundEntityUUID(ItemStack stack) {
-        if (stack.getTag() != null) {
+        if (stack.getTag() != null && stack.getTag().contains("BoundEntityUUID")) {
             return stack.getTag().getUUID("BoundEntityUUID");
         } else {
             return null;
