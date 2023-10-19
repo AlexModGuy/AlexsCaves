@@ -98,7 +98,9 @@ public class VesperFlyAndHangGoal extends Goal {
     }
 
     private Vec3 findFlightPos() {
-        Vec3 heightAdjusted = entity.position().add(entity.getRandom().nextInt(32) - 16, 0, entity.getRandom().nextInt(32) - 16);
+        int range = 13;
+
+        Vec3 heightAdjusted = entity.position().add(entity.getRandom().nextInt(range * 2) - range, 0, entity.getRandom().nextInt(range * 2) - range);
         if (entity.level().canSeeSky(BlockPos.containing(heightAdjusted))) {
             Vec3 ground = groundPosition(heightAdjusted);
             heightAdjusted = new Vec3(heightAdjusted.x, ground.y + 4 + entity.getRandom().nextInt(3), heightAdjusted.z);
@@ -149,7 +151,7 @@ public class VesperFlyAndHangGoal extends Goal {
         int range = 14;
         for (int i = 0; i < 15; i++) {
             BlockPos blockpos1 = this.entity.blockPosition().offset(random.nextInt(range) - range / 2, 0, random.nextInt(range) - range / 2);
-            if (!this.entity.level().isEmptyBlock(blockpos1)) {
+            if (!this.entity.level().isEmptyBlock(blockpos1) ||!this.entity.level().isLoaded(blockpos1)) {
                 continue;
             }
             while (this.entity.level().isEmptyBlock(blockpos1) && blockpos1.getY() < this.entity.level().getMaxBuildHeight()) {

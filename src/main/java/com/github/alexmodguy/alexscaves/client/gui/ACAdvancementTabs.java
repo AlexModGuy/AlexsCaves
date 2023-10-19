@@ -58,8 +58,9 @@ public class ACAdvancementTabs {
         int blockCoordOffsetX = i / 16;
         int blockCoordOffsetY = j / 16;
         int screenWidthInBlocks = windowWidth / 16 + 6;
+        int screenHeightInBlocks = windowHeight / 16 + 6;
         for (int relativeBlockX = -2; relativeBlockX <= screenWidthInBlocks; relativeBlockX++) {
-            for (int relativeBlockY = -2; relativeBlockY <= windowHeight / 16; relativeBlockY++) {
+            for (int relativeBlockY = -2; relativeBlockY <= screenHeightInBlocks; relativeBlockY++) {
                 int blockX = (relativeBlockX - blockCoordOffsetX);
                 int blockY = (relativeBlockY - blockCoordOffsetY);
                 if (type != Type.DEFAULT && isBlockCarvedOut(blockX, blockY, type)) {
