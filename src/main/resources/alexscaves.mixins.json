@@ -36,8 +36,6 @@
     "client.MinecraftMixin",
     "client.RidingMinecartSoundInstanceMixin",
     "client.SoundEngineMixin",
-    "client.SpriteResourceLoaderMixin",
-    "client.SpriteResourceLoaderMixin$PalettedPermutationsAccessor",
     "client.UnderwaterAmbientSoundHandlerMixin",
     "client.UnderwaterAmbientSoundInstancesMixin"
   ],
