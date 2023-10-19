@@ -221,6 +221,7 @@ public class ACItemRegistry {
                 return abstractarrow;
             }
         });
+        DispenserBlock.registerBehavior(GALENA_GAUNTLET.get(), ArmorItem.DISPENSE_ITEM_BEHAVIOR);
         DispenserBlock.registerBehavior(CINDER_BRICK.get(), new AbstractProjectileDispenseBehavior() {
             protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
                 return new CinderBrickEntity(level, position.x(), position.y(), position.z());

@@ -140,14 +140,16 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, ArmorKeyMessage.class, ArmorKeyMessage::write, ArmorKeyMessage::read, ArmorKeyMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, WorldEventMessage.class, WorldEventMessage::write, WorldEventMessage::read, WorldEventMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateCaveBiomeMapTagMessage.class, UpdateCaveBiomeMapTagMessage::write, UpdateCaveBiomeMapTagMessage::read, UpdateCaveBiomeMapTagMessage::handle);
-        ACSurfaceRules.setup();
-        ACPlayerCapes.setup();
-        ACEffectRegistry.setup();
-        ACBlockRegistry.setup();
-        ACItemRegistry.setup();
-        ACAdvancementTriggerRegistry.setup();
-        ACPotPatternRegistry.expandVanillaDefinitions();
-        ACBlockEntityRegistry.expandVanillaDefinitions();
+        event.enqueueWork(() -> {
+            ACSurfaceRules.setup();
+            ACPlayerCapes.setup();
+            ACEffectRegistry.setup();
+            ACBlockRegistry.setup();
+            ACItemRegistry.setup();
+            ACAdvancementTriggerRegistry.setup();
+            ACPotPatternRegistry.expandVanillaDefinitions();
+            ACBlockEntityRegistry.expandVanillaDefinitions();
+        });
     }
 
     private void clientSetup(final FMLClientSetupEvent event) {
