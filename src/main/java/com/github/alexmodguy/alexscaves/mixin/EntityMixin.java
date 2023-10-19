@@ -57,6 +57,13 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
     @Shadow
     protected boolean wasTouchingWater;
+
+    @Shadow public abstract AABB getBoundingBox();
+
+    @Shadow public abstract Level level();
+
+    @Shadow public abstract boolean onGround();
+
     private static final EntityDataAccessor<Float> MAGNET_DELTA_X = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Y = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Z = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
@@ -144,11 +151,43 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
         }
     }
 
-    @Redirect(method = "Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getEntityCollisions(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;)Ljava/util/List;"))
-    public List<VoxelShape> ac_getEntityCollisions(Level instance, Entity entity, AABB aabb) {
-        List<VoxelShape> list1 = instance.getEntityCollisions(entity, aabb);
-        List<VoxelShape> list2 = MagnetUtil.getMovingBlockCollisions(entity, aabb);
-        return ImmutableList.<VoxelShape>builder().addAll(list1).addAll(list2).build();
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;collide(Lnet/minecraft/world/phys/Vec3;)Lnet/minecraft/world/phys/Vec3;"},
+            remap = true,
+            cancellable = true,
+            at = @At(value = "HEAD")
+    )
+    //must override entire method for compatibility with Radium mod
+    public void ac_collide(Vec3 p_20273_, CallbackInfoReturnable<Vec3> cir) {
+        AABB aabb = this.getBoundingBox();
+        Entity thisEntity = (Entity)(Object)this;
+        List<VoxelShape> list = this.level().getEntityCollisions(thisEntity, aabb.expandTowards(p_20273_));
+        //AC CODE START
+        List<VoxelShape> list2 = MagnetUtil.getMovingBlockCollisions(thisEntity, aabb);
+        list = ImmutableList.<VoxelShape>builder().addAll(list).addAll(list2).build();;
+        //AC CODE END
+        Vec3 vec3 = p_20273_.lengthSqr() == 0.0D ? p_20273_ : Entity.collideBoundingBox(thisEntity, p_20273_, aabb, this.level(), list);
+        boolean flag = p_20273_.x != vec3.x;
+        boolean flag1 = p_20273_.y != vec3.y;
+        boolean flag2 = p_20273_.z != vec3.z;
+        boolean flag3 = this.onGround() || flag1 && p_20273_.y < 0.0D;
+        float stepHeight = thisEntity.getStepHeight();
+        if (stepHeight > 0.0F && flag3 && (flag || flag2)) {
+            Vec3 vec31 = Entity.collideBoundingBox(thisEntity, new Vec3(p_20273_.x, (double)stepHeight, p_20273_.z), aabb, this.level, list);
+            Vec3 vec32 = Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, (double)stepHeight, 0.0D), aabb.expandTowards(p_20273_.x, 0.0D, p_20273_.z), this.level, list);
+            if (vec32.y < (double)stepHeight) {
+                Vec3 vec33 = Entity.collideBoundingBox(thisEntity, new Vec3(p_20273_.x, 0.0D, p_20273_.z), aabb.move(vec32), this.level(), list).add(vec32);
+                if (vec33.horizontalDistanceSqr() > vec31.horizontalDistanceSqr()) {
+                    vec31 = vec33;
+                }
+            }
+
+            if (vec31.horizontalDistanceSqr() > vec3.horizontalDistanceSqr()) {
+                cir.setReturnValue( vec31.add(Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, -vec31.y + p_20273_.y, 0.0D), aabb.move(vec31), this.level(), list)));
+            }
+        }
+
+        cir.setReturnValue(vec3);
     }
 
     @Inject(
