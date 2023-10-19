@@ -36,7 +36,7 @@ public class VesperAttackGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = entity.getTarget();
-        return target != null && target.isAlive();
+        return target != null && target.isAlive() && !entity.isPassenger();
     }
 
     public void tick() {

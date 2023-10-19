@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
@@ -117,6 +118,9 @@ public class NuclearExplosionEntity extends Entity {
         carve.set(chunkCorner);
         carveBelow.set(chunkCorner);
         float itemDropModifier = 0.025F / Math.min(1, this.getSize());
+        if(AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get() <= 0){
+            return;
+        }
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 for (int y = 15; y >= 0; y--) {
@@ -145,7 +149,7 @@ public class NuclearExplosionEntity extends Entity {
     }
 
     private boolean isDestroyable(BlockState state) {
-        return !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() < 1000;
+        return !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() < AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get();
     }
 
     @Override

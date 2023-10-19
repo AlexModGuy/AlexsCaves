@@ -207,7 +207,7 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         }
         AnimationHandler.INSTANCE.updateAnimations(this);
         tickRotation((float) this.getDeltaMovement().y * 2 * -(float) (180F / (float) Math.PI));
-        if (isBeingSacrificed && !level().isClientSide) {
+        if (isBeingSacrificed && this.isPassenger() && !level().isClientSide) {
             sacrificeTime--;
             if (sacrificeTime < 10) {
                 this.level().broadcastEntityEvent(this, (byte) 61);

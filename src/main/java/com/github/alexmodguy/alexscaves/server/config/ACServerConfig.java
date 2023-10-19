@@ -12,6 +12,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.BooleanValue watcherPossession;
     public final ForgeConfigSpec.IntValue amberMonolithMeanTime;
     public final ForgeConfigSpec.IntValue caveMapSearchDistance;
+    public final ForgeConfigSpec.IntValue nukeMaxBlockExplosionResistance;
     public final ForgeConfigSpec.BooleanValue totemOfPossessionPlayers;
     public final ForgeConfigSpec.DoubleValue magneticTabletLootChance;
     public final ForgeConfigSpec.DoubleValue primordialTabletLootChance;
@@ -38,6 +39,7 @@ public class ACServerConfig {
         builder.pop();
         builder.push("item-behavior");
         caveMapSearchDistance = builder.comment("How far away for cave biomes the Cave Map will search for.").translation("cave_map_search_distance").defineInRange("cave_map_search_distance", 10000, 6400, Integer.MAX_VALUE);
+        nukeMaxBlockExplosionResistance = builder.comment("The maximum explosion resistance that a block can have to be destroyed by a nuclear explosion. Set to zero to disable all nuclear explosion block breaking.").translation("nuke_max_block_explosion_resistance").defineInRange("nuke_max_block_explosion_resistance", 1000, 0, Integer.MAX_VALUE);
         totemOfPossessionPlayers = builder.comment("Whether the Totem of Possession can be applied to players.").translation("totem_of_possession_works_on_players").define("totem_of_possession_works_on_players", true);
         builder.pop();
         builder.push("vanilla-changes");
