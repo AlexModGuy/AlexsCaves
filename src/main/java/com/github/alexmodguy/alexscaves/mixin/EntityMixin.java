@@ -184,6 +184,7 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
             if (vec31.horizontalDistanceSqr() > vec3.horizontalDistanceSqr()) {
                 cir.setReturnValue( vec31.add(Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, -vec31.y + p_20273_.y, 0.0D), aabb.move(vec31), this.level(), list)));
+                return;
             }
         }
 
