@@ -434,7 +434,8 @@ public class MagneticWeaponEntity extends Entity {
 
     public Vec3 getControllerHandPos(Player controller, float partialTicks) {
         float yBodyRot = Mth.lerp(partialTicks, controller.yBodyRotO, controller.yBodyRot);
-        Vec3 offset = new Vec3(controller.getBbWidth() * 0.75F, controller.getBbHeight() * 0.68F, controller.getBbWidth() * -0.1F).yRot((float) Math.toRadians(-yBodyRot));
+        boolean mainHand = controller.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.GALENA_GAUNTLET.get());
+        Vec3 offset = new Vec3(controller.getBbWidth()  * (mainHand ? -0.75F : 0.75F), controller.getBbHeight() * 0.68F, controller.getBbWidth() * -0.1F).yRot((float) Math.toRadians(-yBodyRot));
         Vec3 armViewExtra = controller.getViewVector(partialTicks).normalize().scale(0.75F);
         return controller.getPosition(partialTicks).add(offset).add(armViewExtra);
     }
