@@ -277,7 +277,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
             }
         }
         LivingEntity target = this.getTarget();
-        if (target != null && target.isAlive()) {
+        if (target != null && target.isAlive() && !(target instanceof Player player && player.isCreative())) {
             if (this.isElder()) {
                 PackAnimal leader = this;
                 while (leader.getAfterPackMember() != null) {

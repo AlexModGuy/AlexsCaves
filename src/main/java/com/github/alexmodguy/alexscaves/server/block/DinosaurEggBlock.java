@@ -81,7 +81,7 @@ public class DinosaurEggBlock extends Block {
         if (this.canTrample(worldIn, trampler)) {
             if (!worldIn.isClientSide && worldIn.random.nextInt(chances) == 0) {
                 AABB bb = new AABB(pos.getX(), pos.getY(), pos.getZ(), pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1).inflate(25, 25, 25);
-                if (trampler instanceof LivingEntity) {
+                if (trampler instanceof LivingEntity && !(trampler instanceof Player player && player.isCreative())) {
                     List<Mob> list = worldIn.getEntitiesOfClass(Mob.class, bb, living -> living.isAlive() && living.getType() == births.get());
                     for (Mob living : list) {
                         if (!(living instanceof TamableAnimal) || !((TamableAnimal) living).isTame() || !((TamableAnimal) living).isOwnedBy((LivingEntity) trampler)) {
