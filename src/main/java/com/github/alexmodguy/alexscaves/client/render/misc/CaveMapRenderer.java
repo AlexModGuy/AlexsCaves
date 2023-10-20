@@ -281,15 +281,15 @@ public class CaveMapRenderer {
             Component component = Component.translatable(getBiomeString(label.biome.location().toString()));
             int textWidth = font.width(component.getVisualOrderText());
             float distFromCenter = (float) Math.sqrt((label.x() - 64) * (label.x() - 64) + (label.y() - 64) * (label.y() - 64));
-            float f7 = (float) Mth.clamp((128 - distFromCenter) / 128, 0.5F, 1F);
+            float textScale = (float) Mth.clamp((128 - distFromCenter) / 128, 0.5F, 1F) * Math.min(100F / (float) textWidth, 1F);
             if (label.x() - textWidth * 0.5F < 0) {
                 poseStack.translate(textWidth * 0.25F, 0, 0);
             }
-            poseStack.translate(0.0F + (float) label.x() - (textWidth * f7) / 2.0F, (float) label.y(), -0.025F);
-            poseStack.scale(f7, f7, -1.0F);
+            poseStack.translate(0.0F + (float) label.x() - (textWidth * textScale) / 2.0F, (float) label.y(), -0.025F);
+            poseStack.scale(textScale, textScale, -1.0F);
             poseStack.mulPose(Axis.ZP.rotationDegrees(label.rotation()));
             poseStack.pushPose();
-            poseStack.scale(1.2F, 1.2F, 1.2F);
+            poseStack.scale(1.1F, 1.1F, 1.1F);
             float f1 = (float) (-textWidth / 4);
             int color1 = 0X87695B;
             int color2 = 0XEBDCC2;
@@ -316,8 +316,8 @@ public class CaveMapRenderer {
             double dimensionScale = Minecraft.getInstance().player.level().dimensionType().coordinateScale();
             double playerX = (Minecraft.getInstance().player.getX() * dimensionScale - (double) this.target.getX()) / (double) CaveMapItem.MAP_SCALE;
             double playerZ = (Minecraft.getInstance().player.getZ() * dimensionScale - (double) this.target.getZ()) / (double) CaveMapItem.MAP_SCALE;
-            float renderPlayerX =Mth.clamp( (float) playerX + 64.0F, 0, 128);
-            float renderPlayerZ = Mth.clamp( (float) playerZ + 64.0F, 0, 128);
+            float renderPlayerX = Mth.clamp((float) playerX + 64.0F, 0, 128);
+            float renderPlayerZ = Mth.clamp((float) playerZ + 64.0F, 0, 128);
             poseStack.translate(renderPlayerX, renderPlayerZ, -0.05F);
             poseStack.pushPose();
             poseStack.mulPose(Axis.ZP.rotationDegrees((float) Minecraft.getInstance().player.getYRot() + 180));
