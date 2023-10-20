@@ -49,8 +49,8 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> imple
         }
         float gelSize = entity.getSlimeSize(partialTicks) - 0.2F;
         poseStack.pushPose();
-        if(sepia){
-            renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getBookWidget(TEXTURE_GEL, true)), gelSize, light);
+        if(sepia || entity.isFakeEntity()){
+            renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getBookWidget(TEXTURE_GEL, sepia)), gelSize, light);
         }else{
             renderGel(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGel(TEXTURE_GEL)), gelSize, light);
             renderGelSpikes(entity, partialTicks, poseStack, source.getBuffer(ACRenderTypes.getGelTriangles(TEXTURE_GEL)), gelSize, light);

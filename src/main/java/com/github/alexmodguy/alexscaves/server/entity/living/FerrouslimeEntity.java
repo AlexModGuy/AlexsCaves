@@ -97,6 +97,10 @@ public class FerrouslimeEntity extends Monster {
         }
     }
 
+    public boolean isFakeEntity() {
+        return this.firstTick;
+    }
+
     public void tick() {
         super.tick();
         this.setYHeadRot(this.getYRot());
