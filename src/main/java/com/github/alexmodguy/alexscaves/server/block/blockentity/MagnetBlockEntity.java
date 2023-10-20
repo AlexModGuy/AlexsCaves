@@ -13,6 +13,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -31,6 +32,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MagnetBlockEntity extends BlockEntity {
@@ -89,6 +91,8 @@ public class MagnetBlockEntity extends BlockEntity {
                                 level.removeBlockEntity(pos);
                                 allData.add(data);
                             }
+                            //sort to break the top blocks first
+                            gathered.sort(Comparator.comparingInt(blockPos1 -> -blockPos1.getY()));
                             for (BlockPos pos : gathered) {
                                 level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                             }
