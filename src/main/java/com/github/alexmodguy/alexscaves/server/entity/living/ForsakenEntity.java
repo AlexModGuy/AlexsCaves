@@ -33,6 +33,7 @@ import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -91,7 +92,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 250.0D).add(Attributes.FOLLOW_RANGE, 64.0D).add(Attributes.ATTACK_DAMAGE, 10.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 250.0D).add(Attributes.FOLLOW_RANGE, 64.0D).add(Attributes.ATTACK_DAMAGE, 10.0D).add(Attributes.KNOCKBACK_RESISTANCE, 0.6D);
     }
 
     @Override
@@ -491,7 +492,10 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         if (damageSource.is(DamageTypes.SONIC_BOOM)) {
             this.setSonicCharge(true);
             return false;
-        } else {
+        } else{
+            if(damageSource.getEntity() instanceof AbstractGolem) {
+                f *= 0.5F;
+            }
             return super.hurt(damageSource, f);
         }
     }
