@@ -212,13 +212,13 @@ public class DrainBlock extends AbstractGlassBlock {
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }
-                } else if (blockstate.getBlock() instanceof BucketPickup && !((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos1, blockstate).isEmpty()) {
+                } else if (blockstate.getBlock() instanceof BucketPickup) {
                     if (!fluidstate.isEmpty()) {
                         lastFluidState = fluidstate;
                     }
                     ++i;
                     fullBlocks++;
-                    level.setBlockAndUpdate(blockpos1, Blocks.AIR.defaultBlockState());
+                    ((BucketPickup) blockstate.getBlock()).pickupBlock(level, blockpos1, blockstate);
                     if (j < MAX_FLUID_SPREAD) {
                         queue.add(new Tuple<>(blockpos1, j + 1));
                     }

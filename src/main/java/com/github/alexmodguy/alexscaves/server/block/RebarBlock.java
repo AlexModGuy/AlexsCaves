@@ -146,11 +146,8 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
 
     public ItemStack pickupBlock(LevelAccessor levelAccessor, BlockPos blockPos, BlockState state) {
         int liquidType = state.getValue(LIQUID_LOGGED);
+        levelAccessor.setBlock(blockPos, state.setValue(LIQUID_LOGGED, 0), 3);
         if (liquidType > 0) {
-            levelAccessor.setBlock(blockPos, state.setValue(LIQUID_LOGGED, 0), 3);
-            if (!state.canSurvive(levelAccessor, blockPos)) {
-                levelAccessor.destroyBlock(blockPos, true);
-            }
             return new ItemStack(liquidType == 1 ? Items.WATER_BUCKET : ACItemRegistry.ACID_BUCKET.get());
         } else {
             return ItemStack.EMPTY;

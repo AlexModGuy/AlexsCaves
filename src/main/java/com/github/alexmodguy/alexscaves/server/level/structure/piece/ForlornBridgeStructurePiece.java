@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.SlabType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSerializationContext;
@@ -139,7 +140,7 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
     private void buildChain(WorldGenLevel level, BlockPos above) {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         pos.set(above);
-        if (level.canSeeSky(pos)) {
+        if (level.canSeeSky(pos) || level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, above.getX(), above.getZ()) >= level.getMaxBuildHeight()) {
             return;
         }
         while (!checkedGetBlock(level, pos).isSolid() && pos.getY() < level.getMaxBuildHeight()) {
