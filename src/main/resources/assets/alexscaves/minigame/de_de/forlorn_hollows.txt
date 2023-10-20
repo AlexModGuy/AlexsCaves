@@ -1,5 +1,5 @@
 verlassen
-mulden
+höhlen
 begraben
 guano
 schläger
@@ -15,9 +15,9 @@ dämon
 düster
 beobachter
 untereiferer
-korrodierend
+korrodent
 vesper
-verlassene
+verlassener
 staub
 opfern
 dunkelheit
@@ -35,9 +35,9 @@ gestalkt
 bau
 tempel
 kerze
-roter stein
+redstone
 augen
-furcht
+angst
 verflucht
 betrachter
 besessen
