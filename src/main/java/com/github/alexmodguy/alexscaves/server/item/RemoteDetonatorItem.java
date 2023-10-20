@@ -144,10 +144,7 @@ public class RemoteDetonatorItem extends Item {
                 ItemStack itemstack1 = new ItemStack(ACItemRegistry.REMOTE_DETONATOR.get(), 1);
                 CompoundTag compoundtag = itemstack.hasTag() ? itemstack.getTag().copy() : new CompoundTag();
                 itemstack1.setTag(compoundtag);
-                if (!player.getAbilities().instabuild) {
-                    itemstack.shrink(1);
-                }
-
+                itemstack.shrink(1);
                 this.addBombTags(level.dimension(), blockpos, compoundtag);
                 if (!player.getInventory().add(itemstack1)) {
                     player.drop(itemstack1, false);
