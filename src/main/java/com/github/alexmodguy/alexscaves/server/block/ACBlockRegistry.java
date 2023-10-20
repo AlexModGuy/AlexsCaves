@@ -58,7 +58,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GALENA_BRICK_SLAB = registerBlockAndItem("galena_brick_slab", () -> new SlabBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_BRICK_WALL = registerBlockAndItem("galena_brick_wall", () -> new WallBlock(GALENA_PROPERTIES));
     public static final RegistryObject<Block> GALENA_PILLAR = registerBlockAndItem("galena_pillar", () -> new GalenaPillarBlock());
-    public static final RegistryObject<Block> GALENA_IRON_ORE = registerBlockAndItem("galena_iron_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE)));
+    public static final RegistryObject<Block> GALENA_IRON_ORE = registerBlockAndItem("galena_iron_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE).sound(SoundType.DEEPSLATE)));
     public static final RegistryObject<Block> ENERGIZED_GALENA_NEUTRAL = registerBlockAndItem("energized_galena_neutral", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
     public static final RegistryObject<Block> ENERGIZED_GALENA_SCARLET = registerBlockAndItem("energized_galena_scarlet", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
     public static final RegistryObject<Block> ENERGIZED_GALENA_AZURE = registerBlockAndItem("energized_galena_azure", () -> new EnergizedGalenaBlock(ENERGIZED_GALENA_PROPERTIES));
@@ -267,7 +267,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GUANOSTONE_BRICK_WALL = registerBlockAndItem("guanostone_brick_wall", () -> new WallBlock(GUANOSTONE_PROPERTIES));
     public static final RegistryObject<Block> GUANOSTONE_CHISELED = registerBlockAndItem("guanostone_chiseled", () -> new Block(GUANOSTONE_PROPERTIES));
     public static final RegistryObject<Block> GUANOSTONE_TILES = registerBlockAndItem("guanostone_tiles", () -> new Block(GUANOSTONE_PROPERTIES));
-    public static final RegistryObject<Block> GUANOSTONE_REDSTONE_ORE = registerBlockAndItem("guanostone_redstone_ore", () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.REDSTONE_ORE)));
+    public static final RegistryObject<Block> GUANOSTONE_REDSTONE_ORE = registerBlockAndItem("guanostone_redstone_ore", () -> new RedStoneOreBlock(BlockBehaviour.Properties.copy(Blocks.REDSTONE_ORE).sound(SoundType.BASALT)));
     public static final RegistryObject<Block> COPROLITH = registerBlockAndItem("coprolith", () -> new Block(COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> COPROLITH_STAIRS = registerBlockAndItem("coprolith_stairs", () -> new StairBlock(COPROLITH.get().defaultBlockState(), COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> COPROLITH_SLAB = registerBlockAndItem("coprolith_slab", () -> new SlabBlock(COPROLITH_PROPERTIES));
@@ -276,7 +276,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> SMOOTH_COPROLITH_STAIRS = registerBlockAndItem("smooth_coprolith_stairs", () -> new StairBlock(SMOOTH_COPROLITH.get().defaultBlockState(), COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_COPROLITH_SLAB = registerBlockAndItem("smooth_coprolith_slab", () -> new SlabBlock(COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_COPROLITH_WALL = registerBlockAndItem("smooth_coprolith_wall", () -> new WallBlock(COPROLITH_PROPERTIES));
-    public static final RegistryObject<Block> COPROLITH_COAL_ORE = registerBlockAndItem("coprolith_coal_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.COAL_ORE)));
+    public static final RegistryObject<Block> COPROLITH_COAL_ORE = registerBlockAndItem("coprolith_coal_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.COAL_ORE).sound(SoundType.CALCITE)));
     public static final RegistryObject<Block> POROUS_COPROLITH = registerBlockAndItem("porous_coprolith", () -> new Block(POROUS_COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> PEERING_COPROLITH = registerBlockAndItem("peering_coprolith", () -> new Block(PEERING_COPROLITH_PROPERTIES));
     public static final RegistryObject<Block> FORSAKEN_IDOL = registerBlockAndItem("forsaken_idol", () -> new ForsakenIdolBlock());
