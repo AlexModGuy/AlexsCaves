@@ -15,7 +15,7 @@ knochen
 kalkstein
 darunter
 farn
-ambersol
+bernsol
 säule
 fliegenfalle
 palmfarn
