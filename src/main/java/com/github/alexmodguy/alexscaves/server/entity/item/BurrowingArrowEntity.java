@@ -13,6 +13,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -138,6 +139,10 @@ public class BurrowingArrowEntity extends AbstractArrow {
     }
 
     private boolean canMine(BlockPos hitPos) {
+        Entity owner = this.getOwner();
+        if(owner != null && !(owner instanceof Player)){
+            return false;
+        }
         BlockState state = level().getBlockState(hitPos);
         return !state.is(ACTagRegistry.UNMOVEABLE) && state.getFluidState().isEmpty() && state.getDestroySpeed(level(), hitPos) != -1.0F && this.getDugBlockCount() < 5;
     }
