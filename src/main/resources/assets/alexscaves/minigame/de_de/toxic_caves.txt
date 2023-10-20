@@ -23,7 +23,7 @@ unterkraut
 abfall
 stange
 düster
-gefahrenstoff
+gefahrstoff
 polymer
 sirene
 apokalypse
