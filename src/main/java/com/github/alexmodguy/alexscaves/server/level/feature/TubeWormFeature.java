@@ -49,7 +49,7 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
                     }
                     wormAttachedToPos = wormAt.below();
                 }
-                if (level.getBlockState(wormAt).is(ACTagRegistry.TUBE_WORM_AVOIDS)) {
+                if (level.getBlockState(wormAt).is(ACTagRegistry.TUBE_WORM_AVOIDS) || level.getBlockState(wormAt).is(ACBlockRegistry.TUBE_WORM.get())) {
                     continue;
                 }
                 int maxSegments = 4 + randomsource.nextInt(12);
@@ -82,6 +82,9 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
                     Direction randomDirection = Direction.from2DDataValue(2 + randomsource.nextInt(3));
                     worm.move(randomDirection.getStepX(), randomDirection.getStepY(), randomDirection.getStepZ());
                     if (!level.getFluidState(worm).isEmpty()) {
+                        if(!level.getBlockState(worm).is(Blocks.WATER)){
+                            return;
+                        }
                         level.setBlock(prevWorm, wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.TURN).setValue(TubeWormBlock.FACING, randomDirection), 4);
                         wormState = wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, randomDirection.getOpposite());
                     } else {
