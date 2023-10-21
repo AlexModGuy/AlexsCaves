@@ -1,0 +1,6 @@
+{
+  "__comment": "all damage types that do not harm deep one reputation.",
+  "values": [
+    "minecraft:thorns"
+  ]
+}

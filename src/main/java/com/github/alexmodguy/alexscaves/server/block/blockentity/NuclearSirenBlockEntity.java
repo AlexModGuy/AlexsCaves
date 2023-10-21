@@ -32,6 +32,7 @@ public class NuclearSirenBlockEntity extends BlockEntity {
     private BlockPos nearestMeltdownFurnace = null;
     private int bombId = -1;
     private boolean wasPowered;
+
     public NuclearSirenBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.NUCLEAR_SIREN.get(), pos, state);
         if (state.getValue(NuclearSirenBlock.POWERED)) {
@@ -43,7 +44,7 @@ public class NuclearSirenBlockEntity extends BlockEntity {
         entity.prevVolumeProgress = entity.volumeProgress;
         boolean powered = entity.isActivated(state);
         entity.age++;
-        if(entity.wasPowered != powered){
+        if (entity.wasPowered != powered) {
             entity.wasPowered = powered;
             entity.setChanged();
         }
@@ -52,67 +53,71 @@ public class NuclearSirenBlockEntity extends BlockEntity {
         } else if (!powered && entity.volumeProgress > 0.0F) {
             entity.volumeProgress -= 0.5F;
         }
-        if(powered && !entity.isRemoved()){
-            AlexsCaves.PROXY.playWorldSound(entity, (byte)0);
+        if (powered && !entity.isRemoved()) {
             int j = entity.age % 18;
-            if(level.isClientSide && j >= 9 && j  % 3 == 0){
+            if (level.isClientSide && j >= 9 && j % 3 == 0) {
                 level.gameEvent(GameEvent.SHRIEK, blockPos, GameEvent.Context.of(state));
                 Vec3 particlesFrom = blockPos.getCenter().add(0, 0.2, 0);
-                for(Direction direction : ACMath.HORIZONTAL_DIRECTIONS){
+                for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
                     Vec3 vec3 = particlesFrom.add(direction.getStepX() * 0.5F, 0, direction.getStepZ() * 0.5F);
                     float yRot = direction.toYRot();
                     level.addAlwaysVisibleParticle(ACParticleRegistry.NUCLEAR_SIREN_SONAR.get(), true, vec3.x, vec3.y, vec3.z, 0, yRot, 0);
                 }
             }
         }
-        if(!level.isClientSide){
-            if(entity.nearestMeltdownFurnace == null || !entity.isTrackedFurnaceCritical()){
+        if (!level.isClientSide) {
+            if (powered) {
+                AlexsCaves.PROXY.playWorldSound(entity, (byte) 0);
+            }
+            if (entity.nearestMeltdownFurnace == null || !entity.isTrackedFurnaceCritical()) {
                 entity.nearestMeltdownFurnace = null;
                 boolean flag = false;
-                if(entity.age % 20 == 0 && level instanceof  ServerLevel){
-                    BlockPos pos = entity.getNearbyCriticalFurnaces((ServerLevel)level, 128).findAny().orElse(null);
-                    if(pos != null && entity.nearestMeltdownFurnace == null){
+                if (entity.age % 20 == 0 && level instanceof ServerLevel) {
+                    BlockPos pos = entity.getNearbyCriticalFurnaces((ServerLevel) level, 128).findAny().orElse(null);
+                    if (pos != null && entity.nearestMeltdownFurnace == null) {
                         entity.nearestMeltdownFurnace = pos;
                         flag = true;
                     }
                 }
-                if(flag){
+                if (flag) {
                     level.sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), 2);
                 }
             }
-            if(entity.nearestNuclearBomb == null || entity.nearestNuclearBomb.isRemoved()){
+            if (entity.nearestNuclearBomb == null || entity.nearestNuclearBomb.isRemoved()) {
                 entity.nearestNuclearBomb = null;
                 int prevBombId = entity.bombId;
                 entity.bombId = -1;
-                if(prevBombId != entity.bombId){
+                if (prevBombId != entity.bombId) {
                     level.sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), 2);
                 }
-            }else{
+            } else {
                 int prevBombId = entity.bombId;
                 entity.bombId = entity.nearestNuclearBomb != null ? entity.nearestNuclearBomb.getId() : -1;
-                if(prevBombId != entity.bombId){
+                if (prevBombId != entity.bombId) {
                     level.sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), 2);
                 }
             }
         }
     }
 
-    public boolean isTrackedFurnaceCritical(){
-        if(nearestMeltdownFurnace != null && level.getBlockEntity(nearestMeltdownFurnace) instanceof NuclearFurnaceBlockEntity nuclearFurnaceBlockEntity){
+    public boolean isTrackedFurnaceCritical() {
+        if (nearestMeltdownFurnace != null && level.getBlockEntity(nearestMeltdownFurnace) instanceof NuclearFurnaceBlockEntity nuclearFurnaceBlockEntity) {
             return nuclearFurnaceBlockEntity.getCriticality() >= 2;
         }
         return false;
     }
-    public void setNearestNuclearBomb(Entity bomb){
+
+    public void setNearestNuclearBomb(Entity bomb) {
         Vec3 center = getBlockPos().getCenter();
-        if(nearestNuclearBomb == null || nearestNuclearBomb.distanceToSqr(center) > bomb.distanceToSqr(center)){
+        if (nearestNuclearBomb == null || nearestNuclearBomb.distanceToSqr(center) > bomb.distanceToSqr(center)) {
             nearestNuclearBomb = bomb;
         }
     }
 
-    public boolean isActivated(BlockState state){
+    public boolean isActivated(BlockState state) {
         return state.is(ACBlockRegistry.NUCLEAR_SIREN.get()) && state.getValue(NuclearSirenBlock.POWERED) || this.bombId != -1 || this.isTrackedFurnaceCritical();
     }
+
     public float getVolume(float partialTicks) {
         return (prevVolumeProgress + (volumeProgress - prevVolumeProgress) * partialTicks) * 0.1F;
     }
@@ -133,7 +138,7 @@ public class NuclearSirenBlockEntity extends BlockEntity {
     public void load(CompoundTag tag) {
         super.load(tag);
         this.bombId = tag.getInt("BombID");
-        if(tag.contains("NearestFurnaceX")){
+        if (tag.contains("NearestFurnaceX")) {
             this.nearestMeltdownFurnace = new BlockPos(tag.getInt("NearestFurnaceX"), tag.getInt("NearestFurnaceY"), tag.getInt("NearestFurnaceZ"));
 
         }
@@ -142,12 +147,19 @@ public class NuclearSirenBlockEntity extends BlockEntity {
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putInt("BombID", this.bombId);
-        if(nearestMeltdownFurnace != null){
+        if (nearestMeltdownFurnace != null) {
             tag.putInt("NearestFurnaceX", nearestMeltdownFurnace.getX());
             tag.putInt("NearestFurnaceY", nearestMeltdownFurnace.getY());
             tag.putInt("NearestFurnaceZ", nearestMeltdownFurnace.getZ());
         }
     }
+
+    public void setRemoved() {
+        AlexsCaves.PROXY.playWorldSound(this, (byte) 16);
+        AlexsCaves.PROXY.clearSoundCacheFor(this);
+        super.setRemoved();
+    }
+
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
@@ -158,7 +170,7 @@ public class NuclearSirenBlockEntity extends BlockEntity {
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket packet) {
         if (packet != null && packet.getTag() != null) {
             this.bombId = packet.getTag().getInt("BombID");
-            if(packet.getTag().contains("NearestFurnaceX")){
+            if (packet.getTag().contains("NearestFurnaceX")) {
                 this.nearestMeltdownFurnace = new BlockPos(packet.getTag().getInt("NearestFurnaceX"), packet.getTag().getInt("NearestFurnaceY"), packet.getTag().getInt("NearestFurnaceZ"));
             }
         }

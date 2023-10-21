@@ -92,7 +92,6 @@ public class ClientProxy extends CommonProxy {
     public static float possessionStrengthAmount = 0;
     public static int renderNukeSkyDarkFor = 0;
     public static float masterVolumeNukeModifier = 0.0F;
-    public static NuclearSirenSound closestSirenSound = null;
     public static final Int2ObjectMap<AbstractTickableSoundInstance> ENTITY_SOUND_INSTANCE_MAP = new Int2ObjectOpenHashMap<>();
     public static final Map<BlockEntity, AbstractTickableSoundInstance> BLOCK_ENTITY_SOUND_INSTANCE_MAP = new HashMap<>();
     private final ACItemRenderProperties isterProperties = new ACItemRenderProperties();
@@ -455,11 +454,16 @@ public class ClientProxy extends CommonProxy {
         switch (type) {
             case 0:
                 if (soundEmitter instanceof NuclearSirenBlockEntity nuclearSiren) {
-                    if (closestSirenSound == null || closestSirenSound.isStopped()) {
-                        closestSirenSound = new NuclearSirenSound(nuclearSiren);
+                    NuclearSirenSound sound;
+                    AbstractTickableSoundInstance old = BLOCK_ENTITY_SOUND_INSTANCE_MAP.get(nuclearSiren);
+                    if (old == null || !(old instanceof NuclearSirenSound nuclearSirenSound && nuclearSirenSound.isSameBlockEntity(nuclearSiren)) || old.isStopped()) {
+                        sound = new NuclearSirenSound(nuclearSiren);
+                        BLOCK_ENTITY_SOUND_INSTANCE_MAP.put(nuclearSiren, sound);
+                    } else {
+                        sound = (NuclearSirenSound) old;
                     }
-                    if (closestSirenSound != null && !Minecraft.getInstance().getSoundManager().isActive(closestSirenSound)) {
-                        Minecraft.getInstance().getSoundManager().queueTickingSound(closestSirenSound);
+                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
                 break;

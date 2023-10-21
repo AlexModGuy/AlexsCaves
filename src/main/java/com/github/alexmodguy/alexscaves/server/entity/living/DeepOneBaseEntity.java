@@ -474,7 +474,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     @Override
     public boolean hurt(DamageSource damageSource, float damageValue) {
         boolean sup = super.hurt(damageSource, damageValue);
-        if (sup && damageSource.getEntity() instanceof Player player && !level().isClientSide) {
+        if (sup && damageSource.getEntity() instanceof Player player && !level().isClientSide && !damageSource.is(ACTagRegistry.DEEP_ONE_IGNORES)) {
             int decrease = -5;
             if (!this.isAlive()) {
                 decrease = -15;
