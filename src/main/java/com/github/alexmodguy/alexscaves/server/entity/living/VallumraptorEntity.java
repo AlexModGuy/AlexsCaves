@@ -452,7 +452,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                 this.setElder(true);
             }
         } else {
-            this.setElder(this.getRandom().nextBoolean());
+            this.setElder(this.getRandom().nextInt(2) == 0);
         }
         return super.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, dataTag);
     }
