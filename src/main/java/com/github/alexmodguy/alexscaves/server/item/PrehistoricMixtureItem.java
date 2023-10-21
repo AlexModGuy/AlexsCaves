@@ -45,9 +45,9 @@ public class PrehistoricMixtureItem extends BowlFoodItem {
             }
             if (!player.isCreative()) {
                 itemStack.shrink(1);
-            }
-            if (!player.addItem(new ItemStack(Items.BOWL))) {
-                player.drop(new ItemStack(Items.BOWL), true);
+                if (!player.addItem(new ItemStack(Items.BOWL))) {
+                    player.drop(new ItemStack(Items.BOWL), true);
+                }
             }
             return InteractionResult.SUCCESS;
         }

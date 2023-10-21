@@ -35,6 +35,7 @@ public class NuclearExplosionEntity extends Entity {
     private boolean spawnedParticle = false;
     private Stack<BlockPos> destroyingChunks = new Stack<>();
     private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(NuclearExplosionEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> NO_GRIEFING = SynchedEntityData.defineId(NuclearExplosionEntity.class, EntityDataSerializers.BOOLEAN);
 
     public NuclearExplosionEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -65,7 +66,7 @@ public class NuclearExplosionEntity extends Entity {
         if (tickCount > 40 && destroyingChunks.isEmpty()) {
             this.remove(RemovalReason.DISCARDED);
         } else {
-            if (!level().isClientSide) {
+            if (!level().isClientSide && !isNoGriefing()) {
                 if (destroyingChunks.isEmpty()) {
                     BlockPos center = this.blockPosition();
                     int chunks = chunksAffected;
@@ -155,6 +156,7 @@ public class NuclearExplosionEntity extends Entity {
     @Override
     protected void defineSynchedData() {
         this.entityData.define(SIZE, 1.0F);
+        this.entityData.define(NO_GRIEFING, false);
     }
 
     public float getSize() {
@@ -163,6 +165,14 @@ public class NuclearExplosionEntity extends Entity {
 
     public void setSize(float f) {
         this.entityData.set(SIZE, f);
+    }
+
+    public boolean isNoGriefing() {
+        return this.entityData.get(NO_GRIEFING);
+    }
+
+    public void setNoGriefing(boolean noGriefing) {
+        this.entityData.set(NO_GRIEFING, noGriefing);
     }
 
     @Override
