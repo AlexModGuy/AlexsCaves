@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.potion;
 
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -107,8 +108,9 @@ public class DarknessIncarnateEffect extends MobEffect {
     }
 
     public static boolean isInLight(LivingEntity living, int threshold){
-        int lightLevel = living.level().getBrightness(LightLayer.BLOCK, living.blockPosition());
-        if (living.level().canSeeSky(living.blockPosition()) && living.getLightLevelDependentMagicValue() >= 0.5F) {
+        BlockPos samplePos = living.getRootVehicle().blockPosition();
+        int lightLevel = living.level().getBrightness(LightLayer.BLOCK, samplePos);
+        if (living.level().canSeeSky(samplePos) && living.getLightLevelDependentMagicValue() >= 0.5F) {
             lightLevel = 15;
         }
         return lightLevel >= threshold;
