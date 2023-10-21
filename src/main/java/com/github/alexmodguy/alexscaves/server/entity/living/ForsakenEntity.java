@@ -535,4 +535,7 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         }
     }
 
+    protected float getWaterSlowDown() {
+        return 0.98F;
+    }
 }

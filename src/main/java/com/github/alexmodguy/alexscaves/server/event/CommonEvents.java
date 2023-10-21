@@ -14,6 +14,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.VillagerUndergroundCa
 import com.github.alexmodguy.alexscaves.server.entity.util.WatcherPossessionAccessor;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACPlayerCapes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -75,6 +76,9 @@ public class CommonEvents {
             if (frog.getVariant() == ACFrogRegistry.PRIMORDIAL.get()) {
                 event.getEntity().spawnAtLocation(new ItemStack(ACBlockRegistry.CARMINE_FROGLIGHT.get()));
             }
+        }
+        if(event.getEntity() instanceof Player && event.getEntity().getUUID().toString().equals("71363abe-fd03-49c9-940d-aae8b8209b7c")){
+            event.getEntity().spawnAtLocation(new ItemStack(ACItemRegistry.GREEN_SOYLENT.get(), 1 + event.getEntity().getRandom().nextInt(9)));
         }
     }
 

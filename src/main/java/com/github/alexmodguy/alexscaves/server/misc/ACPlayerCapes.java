@@ -38,15 +38,5 @@ public class ACPlayerCapes {
         contributorCapes.addAll(DEVS);
         contributorCapes.addAll(CONTRIBUTORS);
         CitadelCapes.addCapeFor(contributorCapes, "alexscaves_contributor", CONTRIBUTOR_CAPE_TEXTURE);
-
-    }
-
-    @Deprecated
-    public static List<UUID> getBetaWhitelist(){
-        List<UUID> contributorCaves = new ArrayList<>();
-        contributorCaves.addAll(DEVS);
-        contributorCaves.addAll(CONTRIBUTORS);
-        contributorCaves.addAll(COMMUNITY_ORGANIZERS);
-        return contributorCaves;
     }
 }
