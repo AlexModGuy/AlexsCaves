@@ -34,9 +34,7 @@ public class HolocoderItem extends Item {
             entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()).toString());
             tag.put("BoundEntityTag", entityTag);
             ItemStack stackReplacement = new ItemStack(this);
-            if (!player.isCreative()) {
-                stack.shrink(1);
-            }
+            stack.shrink(1);
             stackReplacement.setTag(tag);
             player.swing(hand);
             if (!player.addItem(stackReplacement)) {
