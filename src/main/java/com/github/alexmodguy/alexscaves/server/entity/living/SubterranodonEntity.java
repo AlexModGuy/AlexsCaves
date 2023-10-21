@@ -262,13 +262,13 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
             }
             Player player = AlexsCaves.PROXY.getClientSidePlayer();
             if (player != null && player.isPassengerOfSameVehicle(this)) {
-                if (AlexsCaves.PROXY.isKeyDown(0) && controlUpTicks < 2 && getMeterAmount() > 0.1F) {
+                if (AlexsCaves.PROXY.isKeyDown(0) && !AlexsCaves.PROXY.isKeyDown(1) && controlUpTicks < 2 && getMeterAmount() > 0.1F) {
                     if (getMeterAmount() > 0.1F) {
                         AlexsCaves.sendMSGToServer(new MountedEntityKeyMessage(this.getId(), player.getId(), 0));
                         controlUpTicks = 5;
                     }
                 }
-                if (AlexsCaves.PROXY.isKeyDown(1) && controlDownTicks < 2) {
+                if (AlexsCaves.PROXY.isKeyDown(1) && !AlexsCaves.PROXY.isKeyDown(0) && controlDownTicks < 2) {
                     AlexsCaves.sendMSGToServer(new MountedEntityKeyMessage(this.getId(), player.getId(), 1));
                     controlDownTicks = 5;
                 }
