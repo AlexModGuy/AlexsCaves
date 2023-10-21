@@ -19,8 +19,8 @@ public class RadioactiveOnDestroyedBlockItem extends RadioactiveBlockItem{
     @Override
     public void onDestroyed(ItemEntity itemEntity, DamageSource damageSource){
         super.onDestroyed(itemEntity, damageSource);
-        if(!damageSource.isCreativePlayer()){
-            itemEntity.level().explode(itemEntity, itemEntity.getX(), itemEntity.getY() + 0.5F, itemEntity.getZ(), 1.8F, Level.ExplosionInteraction.BLOCK);
+        if(!damageSource.isCreativePlayer() && !itemEntity.isRemoved()){
+            itemEntity.discard();
             AreaEffectCloud cloud = new AreaEffectCloud(itemEntity.level(), itemEntity.getX(), itemEntity.getY(), itemEntity.getZ());
             cloud.setParticle(ACParticleRegistry.GAMMAROACH.get());
             cloud.setFixedColor(0X77D60E);
@@ -30,6 +30,7 @@ public class RadioactiveOnDestroyedBlockItem extends RadioactiveBlockItem{
             cloud.setWaitTime(0);
             cloud.setRadiusPerTick(-cloud.getRadius() / (float) cloud.getDuration());
             itemEntity.level().addFreshEntity(cloud);
+            itemEntity.level().explode(null, itemEntity.getX(), itemEntity.getY() + 0.5F, itemEntity.getZ(), 1.8F, Level.ExplosionInteraction.BLOCK);
         }
     }
 }
