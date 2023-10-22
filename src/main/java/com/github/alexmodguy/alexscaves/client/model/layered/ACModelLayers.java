@@ -15,7 +15,7 @@ public class ACModelLayers {
 
     public static void register(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(PRIMORDIAL_ARMOR, () -> PrimordialArmorModel.createArmorLayer(new CubeDeformation(0.5F)));
-        event.registerLayerDefinition(HAZMAT_ARMOR, () -> HazmatArmorModel.createArmorLayer(new CubeDeformation(0.25F)));
+        event.registerLayerDefinition(HAZMAT_ARMOR, () -> HazmatArmorModel.createArmorLayer(new CubeDeformation(0.35F)));
         event.registerLayerDefinition(DIVING_ARMOR, () -> DivingArmorModel.createArmorLayer(new CubeDeformation(0.5F)));
         event.registerLayerDefinition(DARKNESS_ARMOR, () -> DarknessArmorModel.createArmorLayer(new CubeDeformation(0.5F)));
     }

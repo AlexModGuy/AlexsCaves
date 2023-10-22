@@ -90,7 +90,7 @@ public class DrainBlock extends AbstractGlassBlock {
                 }
                 lowestAir.move(0, 1, 0);
                 BlockPos lowest = lowestAir.immutable();
-                BlockState fullBlock = fluidBlockCopyState.getBlock().defaultBlockState();
+                BlockState fullBlock = fluidBlockCopyState.getFluidState().isEmpty() ? Blocks.AIR.defaultBlockState() : fluidBlockCopyState.getFluidState().createLegacyBlock();
                 boolean flag = false;
                 for (int i = 0; i < count; i++) {
                     List<BlockPos> ignoredPoses = Lists.newArrayList();
@@ -193,7 +193,11 @@ public class DrainBlock extends AbstractGlassBlock {
             int j = tuple.getB();
             if (!state.getFluidState().isEmpty()) {
                 fullBlocks++;
-                level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                if (state.getBlock() instanceof BucketPickup) {
+                    ((BucketPickup) state.getBlock()).pickupBlock(level, blockpos, state);
+                }else{
+                    level.setBlockAndUpdate(blockpos, Blocks.AIR.defaultBlockState());
+                }
             }
             for (Direction direction : DRAIN_DIRECTIONS) {
                 BlockPos blockpos1 = blockpos.relative(direction);
