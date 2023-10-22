@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 public class CycadBlock extends BushBlock {
     public static final BooleanProperty TOP = BooleanProperty.create("top");
 
-    public static final VoxelShape SHAPE = Block.box(4, 0, 4, 12, 21, 12);
+    public static final VoxelShape SHAPE = Block.box(4, 0, 4, 12, 16, 12);
     public static final VoxelShape SHAPE_TOP = buildShape(
             Block.box(4, 0, 4, 12, 8, 12),
             Block.box(5, 8, 5, 11, 16, 11),

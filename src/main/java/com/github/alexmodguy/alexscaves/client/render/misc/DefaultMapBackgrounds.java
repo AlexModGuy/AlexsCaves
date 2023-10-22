@@ -9,6 +9,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 public enum DefaultMapBackgrounds {
 
@@ -42,10 +43,10 @@ public enum DefaultMapBackgrounds {
     ABYSSAL_CHASM,
     FORLORN_HOLLOWS;
 
-    private ResourceLocation texture;
+    private final ResourceLocation texture;
 
     private DefaultMapBackgrounds() {
-        texture = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/" + this.name().toLowerCase() + "_background.png");
+        texture = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/" + this.name().toLowerCase(Locale.ROOT) + "_background.png");
     }
 
     private static final HashMap<Integer, MapBackgroundTexture> TEXTURE_HASH_MAP = new HashMap<>();

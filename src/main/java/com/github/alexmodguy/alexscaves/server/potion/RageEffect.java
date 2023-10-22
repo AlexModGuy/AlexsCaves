@@ -35,13 +35,13 @@ public class RageEffect extends MobEffect {
             AABB aabb = mob.getBoundingBox().inflate(80);
             LivingEntity randomTarget = null;
             for (LivingEntity living : mob.level().getEntitiesOfClass(LivingEntity.class, aabb, EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
-                if (randomTarget == null || randomTarget.distanceTo(mob) > living.distanceTo(mob) && mob.getRandom().nextInt(2) == 0 && !mob.is(living)) {
+                if ((randomTarget == null || randomTarget.distanceTo(mob) > living.distanceTo(mob) && mob.getRandom().nextInt(2) == 0) && !mob.is(living)) {
                     if (!mob.isAlliedTo(living) && !living.isAlliedTo(mob) && mob.canAttack(living)) {
                         randomTarget = living;
                     }
                 }
             }
-            if (randomTarget != null) {
+            if (randomTarget != null && !randomTarget.is(mob)) {
                 mob.setLastHurtByMob(randomTarget);
                 mob.setTarget(randomTarget);
                 for (int i = 0; i < 3 + mob.getRandom().nextInt(3); i++) {
