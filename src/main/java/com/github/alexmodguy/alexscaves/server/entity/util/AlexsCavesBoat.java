@@ -13,17 +13,19 @@ public interface AlexsCavesBoat {
     AlexsCavesBoat.Type getACBoatType();
 
     enum Type {
-        PEWEN("pewen", ACBlockRegistry.PEWEN_PLANKS, ACItemRegistry.PEWEN_BOAT),
-        THORNWOOD("thornwood", ACBlockRegistry.PEWEN_PLANKS, ACItemRegistry.THORNWOOD_BOAT);
+        PEWEN("pewen", ACBlockRegistry.PEWEN_PLANKS, ACItemRegistry.PEWEN_BOAT, ACItemRegistry.PEWEN_CHEST_BOAT),
+        THORNWOOD("thornwood", ACBlockRegistry.PEWEN_PLANKS, ACItemRegistry.THORNWOOD_BOAT, ACItemRegistry.THORNWOOD_CHEST_BOAT);
 
         private final String name;
         private final Supplier<Block> plankSupplier;
         private final Supplier<Item> dropSupplier;
+        private final Supplier<Item> chestDropSupplier;
 
-        Type(String name, Supplier<Block> plankSupplier, Supplier<Item> dropSupplier) {
+        Type(String name, Supplier<Block> plankSupplier, Supplier<Item> dropSupplier, Supplier<Item> chestDropSupplier) {
             this.name = name;
             this.plankSupplier = plankSupplier;
             this.dropSupplier = dropSupplier;
+            this.chestDropSupplier = chestDropSupplier;
         }
 
         public String getName() {
@@ -37,6 +39,10 @@ public interface AlexsCavesBoat {
 
         public Supplier<Item> getDropSupplier() {
             return this.dropSupplier;
+        }
+
+        public Supplier<Item> getChestDropSupplier() {
+            return this.chestDropSupplier;
         }
 
         public String toString() {

@@ -11,6 +11,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.entity.vehicle.ChestBoat;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -103,6 +104,11 @@ public class AlexsCavesChestBoatEntity extends ChestBoat implements AlexsCavesBo
 
     @Override
     public void setVariant(Boat.Type vanillaType) {
+    }
+
+    @Override
+    public Item getDropItem() {
+        return getACBoatType().getChestDropSupplier().get();
     }
 
     @Override
