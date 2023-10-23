@@ -4,6 +4,9 @@ import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import net.minecraft.core.QuartPos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BiomeGenerationNoiseCondition {
 
     private boolean disabledCompletely;
@@ -15,8 +18,9 @@ public class BiomeGenerationNoiseCondition {
     private final float[] temperature;
     private final float[] weirdness;
     private final float[] depth;
+    private final List<String> dimensions;
 
-    private BiomeGenerationNoiseCondition(boolean disabledCompletely, int distanceFromSpawn, int alexscavesRarityOffset, float[] continentalness, float[] erosion, float[] humidity, float[] temperature, float[] weirdness, float[] depth) {
+    private BiomeGenerationNoiseCondition(boolean disabledCompletely, int distanceFromSpawn, int alexscavesRarityOffset, float[] continentalness, float[] erosion, float[] humidity, float[] temperature, float[] weirdness, float[] depth, String[] dimensions) {
         this.disabledCompletely = disabledCompletely;
         this.distanceFromSpawn = distanceFromSpawn;
         this.continentalness = continentalness;
@@ -26,6 +30,7 @@ public class BiomeGenerationNoiseCondition {
         this.weirdness = weirdness;
         this.depth = depth;
         this.alexscavesRarityOffset = alexscavesRarityOffset;
+        this.dimensions = List.of(dimensions);
     }
 
     public boolean test(EventReplaceBiome event) {
@@ -56,6 +61,9 @@ public class BiomeGenerationNoiseCondition {
         if (depth != null && depth.length >= 2 && !event.testDepth(depth[0], depth[1])) {
             return false;
         }
+        if(event.getWorldDimension() != null && !dimensions.contains(event.getWorldDimension().location().toString())){
+            return false;
+        }
         return true;
     }
 
@@ -69,6 +77,10 @@ public class BiomeGenerationNoiseCondition {
         return disabledCompletely;
     }
 
+    public boolean isInvalid() {
+        return dimensions == null && !disabledCompletely;
+    }
+
     public static final class Builder {
         private boolean disabledCompletely;
         private int distanceFromSpawn;
@@ -79,6 +91,7 @@ public class BiomeGenerationNoiseCondition {
         private float[] temperature;
         private float[] weirdness;
         private float[] depth;
+        private String[] dimensions;
         private int rarityOffset;
 
         public Builder() {
@@ -129,8 +142,13 @@ public class BiomeGenerationNoiseCondition {
             return this;
         }
 
+        public Builder dimensions(String... dimensions) {
+            this.dimensions = dimensions;
+            return this;
+        }
+
         public BiomeGenerationNoiseCondition build() {
-            return new BiomeGenerationNoiseCondition(disabledCompletely, distanceFromSpawn, rarityOffset, continentalness, erosion, humidity, temperature, weirdness, depth);
+            return new BiomeGenerationNoiseCondition(disabledCompletely, distanceFromSpawn, rarityOffset, continentalness, erosion, humidity, temperature, weirdness, depth, dimensions);
         }
     }
 }

@@ -23,19 +23,24 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class BiomeGenerationConfig {
     public static final Gson GSON = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).setPrettyPrinting().create();
+
+    private static final String OVERWORLD = "minecraft:overworld";
+
     private static final BiomeGenerationNoiseCondition MAGNETIC_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(400).alexscavesRarityOffset(0).continentalness(0.2F, 1F).depth(0.2F, 1F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(0).continentalness(0.2F, 1F).depth(0.2F, 1F).build();
     private static final BiomeGenerationNoiseCondition PRIMORDIAL_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(450).alexscavesRarityOffset(1).continentalness(0.0F, 1F).depth(0.15F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(450).alexscavesRarityOffset(1).continentalness(0.0F, 1F).depth(0.15F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition TOXIC_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(650).alexscavesRarityOffset(2).continentalness(0.1F, 1F).depth(0.3F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(2).continentalness(0.1F, 1F).depth(0.3F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition ABYSSAL_CHASM_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-1.0F, -0.2F).temperature(-1.0F, 0.55F).depth(0.2F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-1.0F, -0.2F).temperature(-1.0F, 0.55F).depth(0.2F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition FORLORN_HOLLOWS_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .distanceFromSpawn(650).alexscavesRarityOffset(4).continentalness(0.1F, 1F).depth(0.3F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(4).continentalness(0.1F, 1F).depth(0.3F, 1.5F).build();
     private static Map<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new HashMap<>();
 
     public static void reloadConfig() {
@@ -60,7 +65,7 @@ public class BiomeGenerationConfig {
         return biomes.size();
     }
 
-    private static <T> T getOrCreateConfigFile(File configDir, String configName, T defaults, Type type) {
+    private static <T> T getOrCreateConfigFile(File configDir, String configName, T defaults, Type type, Predicate<T> isInvalid) {
         File configFile = new File(configDir, configName + ".json");
         if (!configFile.exists()) {
             try {
@@ -70,7 +75,17 @@ public class BiomeGenerationConfig {
             }
         }
         try {
-            return GSON.fromJson(FileUtils.readFileToString(configFile), type);
+            T found = GSON.fromJson(FileUtils.readFileToString(configFile), type);
+            if(isInvalid.test(found)){
+                Citadel.LOGGER.warn("Old Biome Generation Config format found for " + configName + ", replacing with new one.");
+                try {
+                    FileUtils.write(configFile, GSON.toJson(defaults));
+                } catch (IOException e) {
+                    Citadel.LOGGER.error("Biome Generation Config: Could not write " + configFile, e);
+                }
+            }else{
+                return found;
+            }
         } catch (Exception e) {
             Citadel.LOGGER.error("Biome Generation Config: Could not load " + configFile, e);
         }
@@ -85,8 +100,7 @@ public class BiomeGenerationConfig {
     }
 
     private static BiomeGenerationNoiseCondition getConfigData(String fileName, BiomeGenerationNoiseCondition defaultConfigData) {
-        BiomeGenerationNoiseCondition configData = getOrCreateConfigFile(getConfigDirectory(), fileName, defaultConfigData, new TypeToken<BiomeGenerationNoiseCondition>() {
-        }.getType());
+        BiomeGenerationNoiseCondition configData = getOrCreateConfigFile(getConfigDirectory(), fileName, defaultConfigData, new TypeToken<BiomeGenerationNoiseCondition>(){}.getType(), BiomeGenerationNoiseCondition::isInvalid);
         return configData;
     }
 }
