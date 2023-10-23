@@ -36,7 +36,7 @@ public class BoneWormsBlock extends Block implements SimpleWaterloggedBlock {
 
 
     public BoneWormsBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.PINK).instabreak().sound(SoundType.WET_GRASS).noOcclusion().noCollission().dynamicShape());
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.PINK).instabreak().sound(SoundType.WET_GRASS).noOcclusion().noCollission().dynamicShape().replaceable());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.UP).setValue(WATERLOGGED, Boolean.valueOf(true)));
     }
 

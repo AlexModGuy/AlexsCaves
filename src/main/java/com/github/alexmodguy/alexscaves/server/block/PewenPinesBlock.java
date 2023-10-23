@@ -19,7 +19,7 @@ public class PewenPinesBlock extends BushBlock {
     public static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 13, 14);
 
     public PewenPinesBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.GREEN).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().noCollission());
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.GREEN).instabreak().sound(SoundType.ROOTS).randomTicks().offsetType(BlockBehaviour.OffsetType.XZ).noOcclusion().replaceable().noCollission());
     }
 
     public boolean canSurvive(BlockState state, LevelReader levelReader, BlockPos pos) {
