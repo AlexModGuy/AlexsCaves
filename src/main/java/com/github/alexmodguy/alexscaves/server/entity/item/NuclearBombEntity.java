@@ -32,6 +32,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
+import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 public class NuclearBombEntity extends Entity {
@@ -46,6 +47,16 @@ public class NuclearBombEntity extends Entity {
     public NuclearBombEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
         this(ACEntityRegistry.NUCLEAR_BOMB.get(), level);
         this.setBoundingBox(this.makeBoundingBox());
+    }
+
+    public NuclearBombEntity(Level level, double x, double y, double z) {
+        this(ACEntityRegistry.NUCLEAR_BOMB.get(), level);
+        this.setPos(x, y, z);
+        double d0 = level.random.nextDouble() * (double)((float)Math.PI * 2F);
+        this.setDeltaMovement(-Math.sin(d0) * 0.02D, (double)0.2F, -Math.cos(d0) * 0.02D);
+        this.xo = x;
+        this.yo = y;
+        this.zo = z;
     }
 
     @Override
