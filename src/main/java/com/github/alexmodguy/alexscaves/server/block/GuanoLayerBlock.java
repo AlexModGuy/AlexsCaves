@@ -10,14 +10,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Fallable;
-import net.minecraft.world.level.block.FallingBlock;
-import net.minecraft.world.level.block.SnowLayerBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -43,6 +41,14 @@ public class GuanoLayerBlock extends SnowLayerBlock implements Fallable {
     }
 
     @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        if(!context.getItemInHand().isEmpty()  && context.getItemInHand().is(this.asItem())){
+            return (state.getBlock() instanceof SnowLayerBlock && state.getValue(LAYERS) < 8);
+        }
+        return false;
+    }
+
+    @Override
     public void tick(BlockState state, ServerLevel blockState, BlockPos blockPos, RandomSource randomSource) {
         if (isFree(blockState.getBlockState(blockPos.below())) && blockPos.getY() >= blockState.getMinBuildHeight()) {
             FallingGuanoEntity.fall(blockState, blockPos, state);
@@ -55,7 +61,7 @@ public class GuanoLayerBlock extends SnowLayerBlock implements Fallable {
 
 
     public static boolean isFree(BlockState belowState) {
-        if (belowState.is(ACBlockRegistry.GUANO_LAYER.get()) && belowState.getValue(LAYERS) < 8) {
+        if (belowState.getBlock() instanceof SnowLayerBlock && belowState.getValue(LAYERS) < 8) {
             return true;
         }
         return FallingBlock.isFree(belowState);
