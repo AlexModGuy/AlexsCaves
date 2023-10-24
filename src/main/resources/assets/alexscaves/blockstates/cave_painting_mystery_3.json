@@ -1,0 +1,33 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "alexscaves:block/cave_painting_mystery_3",
+      "uvlock": true,
+      "x": 90
+    },
+    "facing=east": {
+      "model": "alexscaves:block/cave_painting_mystery_3",
+      "uvlock": true,
+      "y": 90
+    },
+    "facing=north": {
+      "uvlock": true,
+      "model": "alexscaves:block/cave_painting_mystery_3"
+    },
+    "facing=south": {
+      "model": "alexscaves:block/cave_painting_mystery_3",
+      "uvlock": true,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "alexscaves:block/cave_painting_mystery_3",
+      "uvlock": true,
+      "x": 270
+    },
+    "facing=west": {
+      "model": "alexscaves:block/cave_painting_mystery_3",
+      "uvlock": true,
+      "y": 270
+    }
+  }
+}

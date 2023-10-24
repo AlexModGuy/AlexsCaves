@@ -1,0 +1,6 @@
+{
+  "parent": "alexscaves:block/cave_painting_base",
+  "textures": {
+    "painting": "alexscaves:block/cave_painting/mystery_9"
+  }
+}

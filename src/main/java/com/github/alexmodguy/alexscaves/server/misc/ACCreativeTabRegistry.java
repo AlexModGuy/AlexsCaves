@@ -153,6 +153,15 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.CAVE_PAINTING_SUBTERRANODON_RIDE.get());
                 add(output, ACBlockRegistry.CAVE_PAINTING_TREMORSAURUS.get());
                 add(output, ACBlockRegistry.CAVE_PAINTING_TREMORSAURUS_FRIEND.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_1.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_2.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_3.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_4.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_5.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_6.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_7.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_8.get());
+                add(output, ACBlockRegistry.CAVE_PAINTING_MYSTERY_9.get());
                 add(output, ACBlockRegistry.SUBTERRANODON_EGG.get());
                 add(output, ACBlockRegistry.VALLUMRAPTOR_EGG.get());
                 add(output, ACBlockRegistry.GROTTOCERATOPS_EGG.get());

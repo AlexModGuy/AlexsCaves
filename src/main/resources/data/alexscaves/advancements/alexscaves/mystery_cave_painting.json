@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:limestone_chiseled"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.mystery_cave_painting.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.mystery_cave_painting.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/cave_painting",
+  "criteria": {
+    "mystery_cave_painting": {
+      "trigger": "alexscaves:mystery_cave_painting"
+    }
+  }
+}
