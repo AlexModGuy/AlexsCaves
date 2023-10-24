@@ -91,7 +91,13 @@ public abstract class LevelRendererMixin {
             cancellable = true)
     //have to completely override this method for compatibility reasons
     private void ac_renderSky(PoseStack poseStack, Matrix4f matrix4f2, float partialTick, Camera camera, boolean foggy, Runnable runnable, CallbackInfo ci) {
+        //AC CODE START
+        float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
+        if(!AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get() || override <= 0.0F){
+           return;
+        }
         ci.cancel();
+        // AC CODE END
         if (level.effects().renderSky(level, ticks, partialTick, poseStack, camera, matrix4f2, foggy, runnable))
             return;
         runnable.run();
@@ -119,7 +125,6 @@ public abstract class LevelRendererMixin {
                     // AC CODE START
                     //remove sunrises inside cave biomes.
                     if (afloat != null && afloat.length >= 4 && AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()) {
-                        float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
                         afloat[3] = afloat[3] * (1F - override);
                     }
                     // AC CODE END
@@ -157,9 +162,8 @@ public abstract class LevelRendererMixin {
                     //use the "rain level" to hide the sun and moon in the cave biomes.
                     float rainLevel = this.level.getRainLevel(partialTick);
 
-                    if (AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()) {
-                        rainLevel = Math.max(ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity), rainLevel);
-                    }
+                    rainLevel = Math.max(override, rainLevel);
+
                     float f11 = 1.0F - rainLevel;
                     // AC CODE END
                     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, f11);
@@ -208,9 +212,8 @@ public abstract class LevelRendererMixin {
                     double horizonHeight = this.level.getLevelData().getHorizonHeight(this.level);
                     // AC CODE START
                     //use the "horizon height" to hide the ugly black line in the distance of cave biomes.
-                    if (AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()) {
-                        horizonHeight = -this.level.getMaxBuildHeight();
-                    }
+                    horizonHeight = -this.level.getMaxBuildHeight();
+
                     double d0 = this.minecraft.player.getEyePosition(partialTick).y - horizonHeight;
                     // AC CODE END
                     if (d0 < 0.0D) {
