@@ -250,14 +250,17 @@ public class MagnetUtil {
         return false;
     }
 
+    private static boolean isSpectatorPlayer(Entity entity){
+        return entity instanceof Player player && player.isSpectator();
+    }
+
     public static boolean isPulledByMagnets(Entity entity) {
         if (entity instanceof ItemEntity item) {
             return item.getItem() != null && item.getItem().is(ACTagRegistry.MAGNETIC_ITEMS);
-        } else if (entity instanceof LivingEntity living && isDynamicallyMagnetic(living, false)) {
+        } else if (entity instanceof LivingEntity living && isDynamicallyMagnetic(living, false) && !isSpectatorPlayer(entity)) {
             return true;
         } else if (entity instanceof FallingBlockEntity block) {
             return block.getBlockState() != null && block.getBlockState().is(ACTagRegistry.MAGNETIC_BLOCKS);
-
         }
         return entity.getType().is(ACTagRegistry.MAGNETIC_ENTITIES);
     }
