@@ -36,6 +36,7 @@
     "minecraft:stonecutter",
     "#minecraft:rails",
     "minecraft:heavy_weighted_pressure_plate",
-    "#minecraft:anvil"
+    "#minecraft:anvil",
+    "minecraft:tripwire_hook"
   ]
 }

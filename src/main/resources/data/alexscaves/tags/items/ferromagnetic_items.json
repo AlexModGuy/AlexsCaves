@@ -55,6 +55,15 @@
     "minecraft:minecart",
     "minecraft:shears",
     "minecraft:shield",
-    "minecraft:smithing_table"
+    "minecraft:smithing_table",
+    "minecraft:tripwire_hook",
+    "minecraft:crossbow",
+    "minecraft:chest_minecart",
+    "minecraft:command_block_minecart",
+    "minecraft:furnace_minecart",
+    "minecraft:hopper_minecart",
+    "minecraft:minecart",
+    "minecraft:tnt_minecart",
+    "minecraft:recovery_compass"
   ]
 }
