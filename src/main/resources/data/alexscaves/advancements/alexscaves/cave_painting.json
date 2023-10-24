@@ -16,21 +16,19 @@
       "conditions": {
         "location": [
           {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "tag": "alexscaves:turns_into_cave_paintings"
+              }
+            }
+          },
+          {
             "condition": "minecraft:match_tool",
             "predicate": {
               "items": [
                 "minecraft:charcoal"
               ]
-            }
-          },
-          {
-            "condition": "minecraft:location_check",
-            "predicate": {
-              "block": {
-                "blocks": [
-                  "alexscaves:smooth_limestone"
-                ]
-              }
             }
           }
         ]

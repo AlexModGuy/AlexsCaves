@@ -2,7 +2,9 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import com.google.common.collect.Lists;
 import net.minecraft.Util;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -53,6 +55,9 @@ public class SmoothLimestoneBlock extends Block {
                 itemstack.shrink(1);
             }
             if (!level.isClientSide) {
+                if(player instanceof ServerPlayer serverPlayer){
+                    CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, itemstack);
+                }
                 BlockState cavePainting = Util.getRandom(CAVE_PAINTINGS, player.getRandom()).get().defaultBlockState();
                 level.setBlockAndUpdate(blockPos, cavePainting.setValue(CavePaintingBlock.FACING, blockHitResult.getDirection()));
                 level.gameEvent(player, GameEvent.BLOCK_CHANGE, blockPos);

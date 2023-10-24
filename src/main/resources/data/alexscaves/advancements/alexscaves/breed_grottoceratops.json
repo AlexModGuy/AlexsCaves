@@ -15,7 +15,7 @@
         "breed": {
             "trigger": "minecraft:bred_animals",
             "conditions": {
-                "child": {
+                "parent": {
                     "type": "alexscaves:grottoceratops"
                 }
             }
