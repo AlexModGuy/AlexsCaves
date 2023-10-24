@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.sound.NuclearExplosionSound;
 import com.github.alexmodguy.alexscaves.client.sound.UnlimitedPitch;
-import net.minecraft.client.Camera;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
 import net.minecraft.client.sounds.SoundEngine;
@@ -16,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Iterator;
 import java.util.Map;
 
 @Mixin(SoundEngine.class)
@@ -41,30 +41,30 @@ public abstract class SoundEngineMixin {
             cancellable = true)
     private void ac_calculateVolume(SoundInstance soundInstance, CallbackInfoReturnable<Float> cir) {
         if(!(soundInstance instanceof NuclearExplosionSound) && ClientProxy.masterVolumeNukeModifier > 0 && AlexsCaves.CLIENT_CONFIG.nuclearBombMufflesSounds.get()){
-            float f = Math.max(1.0F - ClientProxy.masterVolumeNukeModifier, 0.001F);
+            float f = Math.max(1.0F - ClientProxy.masterVolumeNukeModifier, 0.01F);
             cir.setReturnValue(cir.getReturnValue() * f);
         }
     }
 
-    @Inject(method = "Lnet/minecraft/client/sounds/SoundEngine;updateSource(Lnet/minecraft/client/Camera;)V",
+    @Inject(method = "Lnet/minecraft/client/sounds/SoundEngine;tickNonPaused()V",
             at = @At("TAIL"))
-    private void ac_updateSource(Camera camera, CallbackInfo ci) {
+    private void ac_tickNonPaused(CallbackInfo ci) {
         if((lastNukeSoundDampenBy != ClientProxy.masterVolumeNukeModifier || ClientProxy.masterVolumeNukeModifier > 0) && AlexsCaves.CLIENT_CONFIG.nuclearBombMufflesSounds.get()){
-            updateAllSoundVolumes();
+            dampenSoundsFromNuke();
         }
     }
 
-    public void updateAllSoundVolumes(){
-        this.instanceToChannel.forEach((soundInstance, channelHandle) -> {
-            float f = this.calculateVolume(soundInstance);
+    public void dampenSoundsFromNuke(){
+        Iterator<Map.Entry<SoundInstance, ChannelAccess.ChannelHandle>> iterator = this.instanceToChannel.entrySet().iterator();
+        while(iterator.hasNext()) {
+            Map.Entry<SoundInstance, ChannelAccess.ChannelHandle> entry = iterator.next();
+            ChannelAccess.ChannelHandle channelHandle = entry.getValue();
+            SoundInstance soundinstance = entry.getKey();
+            float f = this.calculateVolume(soundinstance);
             channelHandle.execute((sound) -> {
-                if (f <= 0.0F) {
-                    sound.stop();
-                } else {
-                    sound.setVolume(f);
-                }
+                sound.setVolume(f);
             });
-        });
+        }
         lastNukeSoundDampenBy = ClientProxy.masterVolumeNukeModifier;
     }
 }
