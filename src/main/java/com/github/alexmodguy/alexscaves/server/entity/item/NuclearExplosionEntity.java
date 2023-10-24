@@ -12,22 +12,29 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
+import java.util.BitSet;
 import java.util.Stack;
 
 public class NuclearExplosionEntity extends Entity {
@@ -36,6 +43,7 @@ public class NuclearExplosionEntity extends Entity {
     private Stack<BlockPos> destroyingChunks = new Stack<>();
     private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(NuclearExplosionEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> NO_GRIEFING = SynchedEntityData.defineId(NuclearExplosionEntity.class, EntityDataSerializers.BOOLEAN);
+    private boolean loadingChunks = false;
 
     public NuclearExplosionEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -53,7 +61,7 @@ public class NuclearExplosionEntity extends Entity {
 
     public void tick() {
         super.tick();
-        int chunksAffected = (int) Math.ceil(this.getSize());
+        int chunksAffected = getChunksAffected();
         int radius = chunksAffected * 15;
         if (!spawnedParticle) {
             spawnedParticle = true;
@@ -67,6 +75,10 @@ public class NuclearExplosionEntity extends Entity {
             this.remove(RemovalReason.DISCARDED);
         } else {
             if (!level().isClientSide && !isNoGriefing()) {
+                if (!loadingChunks) {
+                    loadingChunks = true;
+                    loadChunksAround(true);
+                }
                 if (destroyingChunks.isEmpty()) {
                     BlockPos center = this.blockPosition();
                     int chunks = chunksAffected;
@@ -92,7 +104,8 @@ public class NuclearExplosionEntity extends Entity {
                 float dist = entity.distanceTo(this);
                 float damage = calculateDamage(dist, maximumDistance);
                 Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
-                entity.setDeltaMovement(vec3.scale(damage * 0.1F * flingStrength));
+                float playerFling = entity instanceof Player ? 0.5F * flingStrength : flingStrength;
+                entity.setDeltaMovement(vec3.scale(damage * 0.1F * playerFling));
                 if (damage > 0) {
                     if (entity instanceof RaycatEntity) {
                         damage = 0;
@@ -102,6 +115,32 @@ public class NuclearExplosionEntity extends Entity {
                     entity.hurt(ACDamageTypes.causeNukeDamage(level().registryAccess()), damage);
                 }
                 entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));
+            }
+        }
+    }
+
+    @Override
+    public void remove(Entity.RemovalReason removalReason) {
+        if (!level().isClientSide && loadingChunks) {
+            loadingChunks = false;
+            loadChunksAround(false);
+        }
+        super.remove(removalReason);
+    }
+
+
+    private int getChunksAffected() {
+        return (int) Math.ceil(this.getSize());
+    }
+
+    private void loadChunksAround(boolean load) {
+        if (this.level() instanceof ServerLevel serverLevel) {
+            ChunkPos chunkPos = new ChunkPos(this.blockPosition());
+            int dist = Math.max(getChunksAffected(), serverLevel.getServer().getPlayerList().getViewDistance() / 2);
+            for (int i = -dist; i <= dist; i++) {
+                for (int j = -dist; j <= dist; j++) {
+                    ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, chunkPos.x + i, chunkPos.z + j, load, true);
+                }
             }
         }
     }

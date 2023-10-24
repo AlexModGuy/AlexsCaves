@@ -43,11 +43,7 @@ public enum DefaultMapBackgrounds {
     ABYSSAL_CHASM,
     FORLORN_HOLLOWS;
 
-    private final ResourceLocation texture;
-
-    private DefaultMapBackgrounds() {
-        texture = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/" + this.name().toLowerCase(Locale.ROOT) + "_background.png");
-    }
+    private ResourceLocation texture;
 
     private static final HashMap<Integer, MapBackgroundTexture> TEXTURE_HASH_MAP = new HashMap<>();
 
@@ -63,6 +59,9 @@ public enum DefaultMapBackgrounds {
     }
 
     public int getMapColor(int u, int v) {
+        if(texture == null){
+            texture = new ResourceLocation(AlexsCaves.MODID, "textures/misc/map/" + this.name().toLowerCase(Locale.ROOT) + "_background.png");
+        }
         MapBackgroundTexture backgroundTexture = getBackgroundTexture(this.ordinal(), texture);
         return backgroundTexture.getNativeImage() == null ? 0 : clampNativeImg(backgroundTexture.getNativeImage(), u, v);
     }
