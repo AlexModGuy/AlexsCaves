@@ -210,12 +210,7 @@ public abstract class LevelRendererMixin {
                     poseStack.popPose();
                     RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 1.0F);
                     double horizonHeight = this.level.getLevelData().getHorizonHeight(this.level);
-                    // AC CODE START
-                    //use the "horizon height" to hide the ugly black line in the distance of cave biomes.
-                    horizonHeight = -this.level.getMaxBuildHeight();
-
                     double d0 = this.minecraft.player.getEyePosition(partialTick).y - horizonHeight;
-                    // AC CODE END
                     if (d0 < 0.0D) {
                         poseStack.pushPose();
                         poseStack.translate(0.0F, 12.0F, 0.0F);

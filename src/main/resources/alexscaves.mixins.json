@@ -23,6 +23,7 @@
     "client.BiomeAmbientSoundsHandlerMixin",
     "client.CameraMixin",
     "client.ClientChunkCacheStorageMixin",
+    "client.ClientLevelDataMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
     "client.GameRendererMixin",
