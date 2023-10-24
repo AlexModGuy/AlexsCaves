@@ -182,7 +182,7 @@ public class RaygunItem extends Item implements UpdatesStackTags {
             AABB hitBox = new AABB(vec31.add(-1, -1, -1), vec31.add(1, 1, 1));
             for (Entity entity : level.getEntities(living, hitBox, Entity::canBeHitByProjectile)) {
                 if (!entity.is(living) && !entity.isAlliedTo(living) && !living.isAlliedTo(entity) && !living.isPassengerOfSameVehicle(entity)) {
-                    boolean flag = entity.hurt(ACDamageTypes.causeRaygunDamage(level.registryAccess(), living), 1);
+                    boolean flag = entity.hurt(ACDamageTypes.causeRaygunDamage(level.registryAccess(), living), 1.5F);
                     if (flag && entity instanceof LivingEntity livingEntity && !livingEntity.getType().is(ACTagRegistry.RESISTS_RADIATION)) {
                         if (livingEntity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 800))) {
                             AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(entity.getId(), living.getId(), 0, 800));
