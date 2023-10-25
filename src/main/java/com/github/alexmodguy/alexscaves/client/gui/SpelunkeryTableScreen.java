@@ -15,6 +15,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -74,6 +75,8 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private int tutorialStep = 0;
     private boolean hasClickedLens = false;
     private boolean doneWithTutorial = false;
+    private boolean invalidTablet = false;
+    private ItemStack lastTablet;
 
     public SpelunkeryTableScreen(SpelunkeryTableMenu menu, Inventory inventory, Component name) {
         super(menu, inventory, name);
@@ -107,7 +110,19 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private void renderDescText(GuiGraphics guiGraphics) {
         int i = this.leftPos - 58;
         int j = this.topPos;
-        if (targetWordButton != null && hasTablet() && hasPaper()) {
+        if (invalidTablet) {
+            Component badTablet = Component.translatable("alexscaves.container.spelunkery_table.bad_tablet");
+            guiGraphics.drawString(font, badTablet, leftPos + 105 - (font.width(badTablet) / 2), j + 60, 0X000000, false);
+            CompoundTag badTag = menu.getSlot(0).getItem().getTag();
+            if (badTag != null && !badTag.isEmpty()) {
+                int nbtLine = 0;
+                for (String key : badTag.getAllKeys()) {
+                    Component badData = Component.literal(key + ": " + badTag.get(key).getAsString());
+                    guiGraphics.drawString(font, badData, leftPos + 105 - (font.width(badData) / 2), j + 75 + nbtLine, 0X000000, false);
+                    nbtLine = nbtLine + 9;
+                }
+            }
+        } else if (targetWordButton != null && hasTablet() && hasPaper()) {
             Component find = Component.translatable("alexscaves.container.spelunkery_table.find");
             Component attempts = Component.translatable("alexscaves.container.spelunkery_table.attempts");
             guiGraphics.drawString(font, find, i + 20 - (font.width(find) / 2), j + 20, 0X99876C, false);
@@ -255,7 +270,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     }
 
     public boolean hasTablet() {
-        return menu.getSlot(0).hasItem() && menu.getSlot(0).getItem().is(ACItemRegistry.CAVE_TABLET.get()) && targetWordButton != null;
+        return menu.getSlot(0).hasItem() && menu.getSlot(0).getItem().is(ACItemRegistry.CAVE_TABLET.get());
     }
 
     public boolean hasPaper() {
@@ -268,6 +283,13 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
 
     protected void containerTick() {
         tickCount++;
+        if (lastTablet == null && hasTablet()) {
+            lastTablet = menu.getSlot(0).getItem();
+        } else if (lastTablet != null && hasTablet() && lastTablet != menu.getSlot(0).getItem()) {
+            lastTablet = menu.getSlot(0).getItem();
+            invalidTablet = false;
+            fullResetWords();
+        }
         this.prevMagnifyPosX = magnifyPosX;
         this.prevMagnifyPosY = magnifyPosY;
         this.prevPassLevelProgress = passLevelProgress;
@@ -299,6 +321,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         boolean resetTabletFromWin = finishedLevel && passLevelProgress >= 10.0F && attemptsLeft > 0;
         if (!menu.getSlot(0).hasItem()) {
             prevWordsFile = null;
+            invalidTablet = false;
         } else if (prevWordsFile == null || resetTabletFromWin) {
             prevWordsFile = getWordsForItem(menu.getSlot(0).getItem());
             if (prevWordsFile == null) {
@@ -426,7 +449,8 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             BufferedReader bufferedreader = Minecraft.getInstance().getResourceManager().openAsReader(file);
             allWords = IOUtils.readLines(bufferedreader);
         } catch (IOException e) {
-            allWords = List.of("MISSINGNO");
+            allWords = new ArrayList<>();
+            this.invalidTablet = true;
             AlexsCaves.LOGGER.error("Could not load in spelunkery minigame file {}", file);
         }
         int maxWidth = 160;
