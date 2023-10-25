@@ -318,13 +318,25 @@ public class MagneticWeaponEntity extends Entity {
     }
 
     private void hurtEntity(LivingEntity holder, Entity target) {
-        target.hurt(damageSources().mobAttack(holder), (float) getDamageForItem(this.getItemStack()));
-        for (Map.Entry<Enchantment, Integer> entry : EnchantmentHelper.getEnchantments(this.getItemStack()).entrySet()) {
-            entry.getKey().doPostHurt(holder, target, entry.getValue());
-            entry.getKey().doPostAttack(holder, target, entry.getValue());
+        ItemStack itemStack = this.getItemStack();
+        float f = (float)holder.getAttributeValue(Attributes.ATTACK_DAMAGE) + (float) getDamageForItem(itemStack);
+        float f1 = (float)holder.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
+        if (target instanceof LivingEntity) {
+            f += EnchantmentHelper.getDamageBonus(itemStack, ((LivingEntity)target).getMobType());
+            f1 += (float)EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, holder);
         }
-        holder.doEnchantDamageEffects(holder, target);
-        damageItem(1);
+        int i = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FIRE_ASPECT, itemStack);
+        if (i > 0) {
+            target.setSecondsOnFire(i * 4);
+        }
+        if(target.hurt(damageSources().mobAttack(holder), f)){
+            holder.doEnchantDamageEffects(holder, target);
+            damageItem(1);
+            if (f1 > 0.0F && target instanceof LivingEntity) {
+                ((LivingEntity)target).knockback((double)(f1 * 0.5F), (double)Mth.sin(this.getYRot() * ((float)Math.PI / 180F)), (double)(-Mth.cos(this.getYRot() * ((float)Math.PI / 180F))));
+                this.setDeltaMovement(this.getDeltaMovement().multiply(0.6D, 1.0D, 0.6D));
+            }
+        }
         if(this.isOnFire()){
             target.setSecondsOnFire(5);
         }
