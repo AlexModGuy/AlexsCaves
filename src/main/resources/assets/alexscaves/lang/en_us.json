@@ -546,6 +546,7 @@
   "death.attack.dark_arrow_1.entity": "%s was swarmed by dark magic arrows by %s",
   "alexscaves.container.spelunkery_table": "Spelunkery Table",
   "alexscaves.container.spelunkery_table_translation": "Spelunkery Table Translation",
+  "alexscaves.container.spelunkery_table.bad_tablet": "Cave Tablet has invalid NBT data",
   "alexscaves.container.spelunkery_table.find": "Find:",
   "alexscaves.container.spelunkery_table.attempts": "Attempts Left:",
   "alexscaves.container.spelunkery_table.slot_info_tablet_0": "Place a %s in this slot to begin research...",
