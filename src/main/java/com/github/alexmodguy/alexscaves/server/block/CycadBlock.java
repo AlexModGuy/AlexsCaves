@@ -2,11 +2,17 @@ package com.github.alexmodguy.alexscaves.server.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,7 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-public class CycadBlock extends BushBlock {
+public class CycadBlock extends BushBlock implements BonemealableBlock {
     public static final BooleanProperty TOP = BooleanProperty.create("top");
 
     public static final VoxelShape SHAPE = Block.box(4, 0, 4, 12, 16, 12);
@@ -99,5 +105,30 @@ public class CycadBlock extends BushBlock {
 
     public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos pos, PathComputationType type) {
         return false;
+    }
+
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos blockPos, BlockState blockState, boolean idk) {
+        if(blockState.getValue(TOP)){
+            int size = 0;
+            BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
+            mutable.set(blockPos);
+            while(level.getBlockState(mutable).is(this) && mutable.getY() > level.getMinBuildHeight()){
+                mutable.move(0, -1, 0);
+                size++;
+            }
+            return size < 4;
+        }
+        return true;
+    }
+
+    public boolean isBonemealSuccess(Level level, RandomSource randomSource, BlockPos blockPos, BlockState state) {
+        return randomSource.nextBoolean();
+    }
+
+    public void performBonemeal(ServerLevel level, RandomSource randomSource, BlockPos blockPos, BlockState state) {
+        if(level.getBlockState(blockPos.above()).canBeReplaced()){
+            level.setBlockAndUpdate(blockPos, state.setValue(TOP, false));
+            level.setBlockAndUpdate(blockPos.above(), state.setValue(TOP, true));
+        }
     }
 }

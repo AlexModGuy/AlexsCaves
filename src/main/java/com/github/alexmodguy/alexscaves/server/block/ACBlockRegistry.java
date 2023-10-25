@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.block.grower.ThornwoodGrower;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
+import com.github.alexmodguy.alexscaves.server.level.feature.ACFeatureRegistry;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.DyeColor;
