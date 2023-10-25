@@ -26,29 +26,6 @@ public class HolocoderItem extends Item {
         super(properties);
     }
 
-    public InteractionResult interactLivingEntity(ItemStack stack, Player player, LivingEntity entity, InteractionHand hand) {
-        if (entity.isAlive()) {
-            CompoundTag tag = stack.getOrCreateTag();
-            tag.putUUID("BoundEntityUUID", entity.getUUID());
-            CompoundTag entityTag = entity.serializeNBT();
-            entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(entity.getType()).toString());
-            tag.put("BoundEntityTag", entityTag);
-            ItemStack stackReplacement = new ItemStack(this);
-            stack.shrink(1);
-            stackReplacement.setTag(tag);
-            player.swing(hand);
-            if (!player.addItem(stackReplacement)) {
-                ItemEntity itementity = player.drop(stackReplacement, false);
-                if (itementity != null) {
-                    itementity.setNoPickUpDelay();
-                    itementity.setThrower(player.getUUID());
-                }
-            }
-            return InteractionResult.sidedSuccess(player.level().isClientSide);
-        }
-        return InteractionResult.PASS;
-    }
-
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if (stack.getTag() != null) {
             Tag entity = stack.getTag().get("BoundEntityTag");

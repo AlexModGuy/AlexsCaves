@@ -168,31 +168,31 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
                 humanoidModel.crouching = false;
             }
             poseStack.scale(1F, -1F, 1F);
-            if (model instanceof PlayerModel humanoidModel) {
-                humanoidModel.leftArm.xRot = 0;
-                humanoidModel.leftArm.yRot = 0;
-                humanoidModel.leftArm.zRot = 0;
-                humanoidModel.rightArm.xRot = 0;
-                humanoidModel.rightArm.yRot = 0;
-                humanoidModel.rightArm.zRot = 0;
-                humanoidModel.leftLeg.xRot = 0;
-                humanoidModel.leftLeg.yRot = 0;
-                humanoidModel.leftLeg.zRot = 0;
-                humanoidModel.rightLeg.xRot = 0;
-                humanoidModel.rightLeg.yRot = 0;
-                humanoidModel.rightLeg.zRot = 0;
-                humanoidModel.head.xRot = 0;
-                humanoidModel.head.yRot = 0;
-                humanoidModel.head.zRot = 0;
-                humanoidModel.body.xRot = 0;
-                humanoidModel.body.yRot = 0;
-                humanoidModel.body.zRot = 0;
-                humanoidModel.leftPants.copyFrom(humanoidModel.leftLeg);
-                humanoidModel.rightPants.copyFrom(humanoidModel.rightLeg);
-                humanoidModel.leftSleeve.copyFrom(humanoidModel.leftArm);
-                humanoidModel.rightSleeve.copyFrom(humanoidModel.rightArm);
-                humanoidModel.jacket.copyFrom(humanoidModel.body);
-                humanoidModel.hat.copyFrom(humanoidModel.head);
+            if (model instanceof PlayerModel playerModel) {
+                playerModel.leftArm.xRot = 0;
+                playerModel.leftArm.yRot = 0;
+                playerModel.leftArm.zRot = 0;
+                playerModel.rightArm.xRot = 0;
+                playerModel.rightArm.yRot = 0;
+                playerModel.rightArm.zRot = 0;
+                playerModel.leftLeg.xRot = 0;
+                playerModel.leftLeg.yRot = 0;
+                playerModel.leftLeg.zRot = 0;
+                playerModel.rightLeg.xRot = 0;
+                playerModel.rightLeg.yRot = 0;
+                playerModel.rightLeg.zRot = 0;
+                playerModel.head.xRot = 0;
+                playerModel.head.yRot = 0;
+                playerModel.head.zRot = 0;
+                playerModel.body.xRot = 0;
+                playerModel.body.yRot = 0;
+                playerModel.body.zRot = 0;
+                playerModel.leftPants.copyFrom(playerModel.leftLeg);
+                playerModel.rightPants.copyFrom(playerModel.rightLeg);
+                playerModel.leftSleeve.copyFrom(playerModel.leftArm);
+                playerModel.rightSleeve.copyFrom(playerModel.rightArm);
+                playerModel.jacket.copyFrom(playerModel.body);
+                playerModel.hat.copyFrom(playerModel.head);
             }
             model.renderToBuffer(poseStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             poseStack.popPose();

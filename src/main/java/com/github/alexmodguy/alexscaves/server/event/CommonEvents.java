@@ -28,12 +28,14 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.frog.Frog;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -45,10 +47,12 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.List;
 
@@ -77,7 +81,7 @@ public class CommonEvents {
                 event.getEntity().spawnAtLocation(new ItemStack(ACBlockRegistry.CARMINE_FROGLIGHT.get()));
             }
         }
-        if(event.getEntity() instanceof Player && event.getEntity().getUUID().toString().equals("71363abe-fd03-49c9-940d-aae8b8209b7c")){
+        if (event.getEntity() instanceof Player && event.getEntity().getUUID().toString().equals("71363abe-fd03-49c9-940d-aae8b8209b7c")) {
             event.getEntity().spawnAtLocation(new ItemStack(ACItemRegistry.GREEN_SOYLENT.get(), 1 + event.getEntity().getRandom().nextInt(9)));
         }
     }
@@ -86,6 +90,31 @@ public class CommonEvents {
     public void livingHeal(LivingHealEvent event) {
         if (event.getEntity().hasEffect(ACEffectRegistry.IRRADIATED.get()) && !event.getEntity().getType().is(ACTagRegistry.RESISTS_RADIATION)) {
             event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void playerEntityInteract(PlayerInteractEvent.EntityInteract event) {
+        ItemStack stack = event.getItemStack();
+        if (stack.is(ACItemRegistry.HOLOCODER.get()) && event.getTarget().isAlive()) {
+            CompoundTag tag = stack.getOrCreateTag();
+            tag.putUUID("BoundEntityUUID", event.getTarget().getUUID());
+            CompoundTag entityTag = event.getTarget().serializeNBT();
+            entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(event.getTarget().getType()).toString());
+            tag.put("BoundEntityTag", entityTag);
+            ItemStack stackReplacement = new ItemStack(ACItemRegistry.HOLOCODER.get());
+            stack.shrink(1);
+            stackReplacement.setTag(tag);
+            event.getEntity().swing(event.getHand());
+            if (!event.getEntity().addItem(stackReplacement)) {
+                ItemEntity itementity = event.getEntity().drop(stackReplacement, false);
+                if (itementity != null) {
+                    itementity.setNoPickUpDelay();
+                    itementity.setThrower(event.getEntity().getUUID());
+                }
+            }
+            event.setCanceled(true);
+            event.setCancellationResult(InteractionResult.SUCCESS);
         }
     }
 
@@ -198,7 +227,7 @@ public class CommonEvents {
         ResourceKey<Biome> biome = BiomeGenerationConfig.getBiomeForEvent(event);
         if (biome != null) {
             Holder<Biome> biomeHolder = event.getBiomeSource().getResourceKeyMap().get(biome);
-            if(biomeHolder != null){
+            if (biomeHolder != null) {
                 event.setResult(Event.Result.ALLOW);
                 event.setBiomeToGenerate(biomeHolder);
             }
