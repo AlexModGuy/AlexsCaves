@@ -19,6 +19,7 @@
     "minecraft:netherite_helmet",
     "minecraft:chainmail_helmet",
     "minecraft:stonecutter",
+    "minecraft:spawner",
     "#forge:ingots/iron",
     "#forge:ingots/netherite",
     "#forge:nuggets/iron",
@@ -64,6 +65,8 @@
     "minecraft:hopper_minecart",
     "minecraft:minecart",
     "minecraft:tnt_minecart",
-    "minecraft:recovery_compass"
+    "minecraft:recovery_compass",
+    "minecraft:lantern",
+    "minecraft:soul_lantern"
   ]
 }

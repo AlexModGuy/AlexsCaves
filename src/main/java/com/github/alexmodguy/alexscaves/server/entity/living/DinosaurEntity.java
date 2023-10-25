@@ -308,6 +308,23 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         return flag;
     }
 
+    @Override
+    public boolean isAlliedTo(Entity entityIn) {
+        if (this.isTame()) {
+            LivingEntity livingentity = this.getOwner();
+            if (entityIn == livingentity) {
+                return true;
+            }
+            if (entityIn instanceof TamableAnimal) {
+                return ((TamableAnimal) entityIn).isOwnedBy(livingentity);
+            }
+            if (livingentity != null) {
+                return livingentity.isAlliedTo(entityIn);
+            }
+        }
+        return super.isAlliedTo(entityIn);
+    }
+
     public boolean canOwnerMount(Player player) {
         return false;
     }

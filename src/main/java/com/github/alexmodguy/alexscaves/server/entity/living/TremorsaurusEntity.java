@@ -367,6 +367,14 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         return ACEntityRegistry.TREMORSAURUS.get().create(level);
     }
 
+    @Override
+    public boolean wantsToAttack(LivingEntity living, LivingEntity owner) {
+        if(living instanceof TremorsaurusEntity tremorsaurus && (tremorsaurus.getTameAttempts() > 0 || tremorsaurus.hasEffect(ACEffectRegistry.STUNNED.get()))){
+            return false;
+        }
+        return super.wantsToAttack(living, owner);
+    }
+
     public void travel(Vec3 vec3d) {
         if (this.getAnimation() == ANIMATION_ROAR || this.getAnimation() == ANIMATION_SHAKE_PREY) {
             vec3d = Vec3.ZERO;

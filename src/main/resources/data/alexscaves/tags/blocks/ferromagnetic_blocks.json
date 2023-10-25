@@ -37,6 +37,8 @@
     "#minecraft:rails",
     "minecraft:heavy_weighted_pressure_plate",
     "#minecraft:anvil",
-    "minecraft:tripwire_hook"
+    "minecraft:tripwire_hook",
+    "minecraft:lantern",
+    "minecraft:soul_lantern"
   ]
 }
