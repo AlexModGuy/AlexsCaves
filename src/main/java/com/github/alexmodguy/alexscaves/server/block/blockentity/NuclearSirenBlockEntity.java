@@ -66,9 +66,6 @@ public class NuclearSirenBlockEntity extends BlockEntity {
             }
         }
         if (!level.isClientSide) {
-            if (powered) {
-                AlexsCaves.PROXY.playWorldSound(entity, (byte) 0);
-            }
             if (entity.nearestMeltdownFurnace == null || !entity.isTrackedFurnaceCritical()) {
                 entity.nearestMeltdownFurnace = null;
                 boolean flag = false;
@@ -96,6 +93,10 @@ public class NuclearSirenBlockEntity extends BlockEntity {
                 if (prevBombId != entity.bombId) {
                     level.sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), 2);
                 }
+            }
+        }else{
+            if (powered) {
+                AlexsCaves.PROXY.playWorldSound(entity, (byte) 0);
             }
         }
     }
@@ -155,7 +156,6 @@ public class NuclearSirenBlockEntity extends BlockEntity {
     }
 
     public void setRemoved() {
-        AlexsCaves.PROXY.playWorldSound(this, (byte) 16);
         AlexsCaves.PROXY.clearSoundCacheFor(this);
         super.setRemoved();
     }

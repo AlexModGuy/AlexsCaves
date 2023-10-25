@@ -66,7 +66,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
                     entity.prevDisplayEntity = entity.displayEntity;
                     entity.markUpdated();
                 }
-                if(!entity.isRemoved()){
+                if(!entity.isRemoved() && level.isClientSide){
                     AlexsCaves.PROXY.playWorldSound(entity, (byte)3);
                 }
             }

@@ -18,6 +18,7 @@ public class NuclearSirenSound extends BlockEntityTickableSound<NuclearSirenBloc
 
     public NuclearSirenSound(NuclearSirenBlockEntity siren) {
         super(ACSoundRegistry.NUCLEAR_SIREN.get(), siren);
+        this.volume = 0.1f;
     }
 
     public boolean canPlaySound() {
@@ -29,7 +30,7 @@ public class NuclearSirenSound extends BlockEntityTickableSound<NuclearSirenBloc
             this.x = this.blockEntity.getBlockPos().getX() + 0.5D;
             this.y = this.blockEntity.getBlockPos().getY() + 0.5D;
             this.z = this.blockEntity.getBlockPos().getZ() + 0.5D;
-            this.volume = this.blockEntity.getVolume(1.0F) * (1F - ClientProxy.masterVolumeNukeModifier);
+            this.volume = this.blockEntity.getVolume(1.0F);
         } else {
             this.stop();
         }
