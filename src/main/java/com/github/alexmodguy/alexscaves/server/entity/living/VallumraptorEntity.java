@@ -282,7 +282,9 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                 PackAnimal leader = this;
                 while (leader.getAfterPackMember() != null) {
                     leader = leader.getAfterPackMember();
-                    ((VallumraptorEntity) leader).setTarget(target);
+                    if(!((VallumraptorEntity) leader).isAlliedTo(target)){
+                        ((VallumraptorEntity) leader).setTarget(target);
+                    }
                 }
             }
             if (this.getHealth() < this.getMaxHealth() * 0.45F && this.isTame() && this.getHideFor() <= 0) {

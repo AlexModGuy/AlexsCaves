@@ -49,9 +49,11 @@ public class DeepsightEffect extends MobEffect {
         MobEffectInstance instance = player.getEffect(ACEffectRegistry.DEEPSIGHT.get());
         if (instance == null) {
             return 0.0F;
+        } else if(instance.isInfiniteDuration()) {
+            return 1.0F;
         } else {
             DeepsightEffect deepsightEffect = (DeepsightEffect) instance.getEffect();
-            float j = instance.isInfiniteDuration() ? 20 : deepsightEffect.getActiveTime() + partialTicks;
+            float j = deepsightEffect.getActiveTime() + partialTicks;
             int duration = instance.getDuration();
             return Math.min(20, (Math.min(j, duration + partialTicks))) * 0.05F;
         }

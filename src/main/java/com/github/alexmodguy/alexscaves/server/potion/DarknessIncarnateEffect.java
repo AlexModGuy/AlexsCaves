@@ -29,10 +29,10 @@ public class DarknessIncarnateEffect extends MobEffect {
     public void applyEffectTick(LivingEntity entity, int amplifier) {
         super.applyEffectTick(entity, amplifier);
         toggleFlight(entity, true);
-        if(entity.onGround()){
+        if (entity.onGround()) {
             entity.setDeltaMovement(entity.getDeltaMovement().add(0, 0.1, 0));
         }
-        if((entity.tickCount + entity.getId() * 5) % 50 == 0 && entity.getRandom().nextInt(2) == 0){
+        if ((entity.tickCount + entity.getId() * 5) % 50 == 0 && entity.getRandom().nextInt(2) == 0) {
             entity.playSound(ACSoundRegistry.DARKNESS_INCARNATE_IDLE.get());
         }
     }
@@ -83,7 +83,7 @@ public class DarknessIncarnateEffect extends MobEffect {
                 player.getAbilities().setFlyingSpeed(defaultFlightSpeed * 4.0F);
             } else {
                 player.getAbilities().setFlyingSpeed(defaultFlightSpeed);
-                if(!player.isSpectator()){
+                if (!player.isSpectator()) {
                     player.getAbilities().flying = false;
                     player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0, false, false, false));
                 }
@@ -99,15 +99,17 @@ public class DarknessIncarnateEffect extends MobEffect {
         MobEffectInstance instance = player.getEffect(ACEffectRegistry.DARKNESS_INCARNATE.get());
         if (instance == null) {
             return 0.0F;
+        } else if (instance.isInfiniteDuration()) {
+            return scaleBy;
         } else {
             DarknessIncarnateEffect effect = (DarknessIncarnateEffect) instance.getEffect();
-            float j = instance.isInfiniteDuration() ? scaleBy : effect.getActiveTime() + partialTicks;
+            float j = effect.getActiveTime() + partialTicks;
             int duration = instance.getDuration();
             return Math.min(scaleBy, (Math.min(j, duration + partialTicks))) / scaleBy;
         }
     }
 
-    public static boolean isInLight(LivingEntity living, int threshold){
+    public static boolean isInLight(LivingEntity living, int threshold) {
         BlockPos samplePos = living.getRootVehicle().blockPosition();
         int lightLevel = living.level().getBrightness(LightLayer.BLOCK, samplePos);
         if (living.level().canSeeSky(samplePos) && living.getLightLevelDependentMagicValue() >= 0.5F) {
