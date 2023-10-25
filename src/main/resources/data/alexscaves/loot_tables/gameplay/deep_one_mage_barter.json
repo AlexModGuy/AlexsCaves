@@ -21,7 +21,7 @@
         {
           "type": "item",
           "name": "minecraft:diamond",
-          "weight": 1
+          "weight": 6
         },
         {
           "type": "item",
@@ -31,7 +31,7 @@
         {
           "type": "item",
           "name": "alexscaves:sea_staff",
-          "weight": 2
+          "weight": 12
         },
         {
           "type": "item",
@@ -50,7 +50,7 @@
         {
           "type": "item",
           "name": "minecraft:prismarine_shard",
-          "weight": 60,
+          "weight": 50,
           "functions": [
             {
               "function": "set_count",
@@ -64,7 +64,7 @@
         {
           "type": "item",
           "name": "minecraft:prismarine_crystals",
-          "weight": 40,
+          "weight": 30,
           "functions": [
             {
               "function": "set_count",
@@ -78,7 +78,7 @@
         {
           "type": "item",
           "name": "minecraft:prismarine",
-          "weight": 80,
+          "weight": 60,
           "functions": [
             {
               "function": "set_count",
@@ -128,7 +128,7 @@
             }
           ],
           "name": "minecraft:book",
-          "weight": 1
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -141,7 +141,7 @@
             }
           ],
           "name": "minecraft:book",
-          "weight": 1
+          "weight": 3
         },
         {
           "type": "minecraft:item",
@@ -152,7 +152,7 @@
             }
           ],
           "name": "minecraft:potion",
-          "weight": 15
+          "weight": 20
         },
         {
           "type": "minecraft:item",
@@ -163,12 +163,12 @@
             }
           ],
           "name": "minecraft:potion",
-          "weight": 10
+          "weight": 15
         },
         {
           "type": "item",
           "name": "alexscaves:glow_ink_bomb",
-          "weight": 13,
+          "weight": 24,
           "functions": [
             {
               "function": "set_count",
