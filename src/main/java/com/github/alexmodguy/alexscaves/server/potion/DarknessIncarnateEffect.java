@@ -112,7 +112,8 @@ public class DarknessIncarnateEffect extends MobEffect {
     public static boolean isInLight(LivingEntity living, int threshold) {
         BlockPos samplePos = living.getRootVehicle().blockPosition();
         int lightLevel = living.level().getBrightness(LightLayer.BLOCK, samplePos);
-        if (living.level().canSeeSky(samplePos) && living.getLightLevelDependentMagicValue() >= 0.5F) {
+        float timeOfDay = living.level().getTimeOfDay(1.0F); //night starts at 0.259 and ends at 0.74
+        if (living.level().canSeeSky(samplePos) && (timeOfDay < 0.259 || timeOfDay > 0.74)) {
             lightLevel = 15;
         }
         return lightLevel >= threshold;
