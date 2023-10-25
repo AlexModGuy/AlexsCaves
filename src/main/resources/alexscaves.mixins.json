@@ -16,7 +16,8 @@
     "MultifaceGrowthFeatureMixin",
     "NaturalSpawnerMixin",
     "OceanMonumentStructureMixin",
-    "SeagrassFeatureMixin"
+    "SeagrassFeatureMixin",
+    "ShipwreckStructureMixin"
   ],
   "client": [
     "client.AdvancementTabMixin",

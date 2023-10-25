@@ -253,7 +253,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         }
         List<LivingEntity> list = this.level().getEntitiesOfClass(LivingEntity.class, this.getBoundingBox().inflate(30, 10, 30));
         for (LivingEntity e : list) {
-            if (!e.getType().is(ACTagRegistry.RESISTS_TREMORSAURUS_ROAR)) {
+            if (!e.getType().is(ACTagRegistry.RESISTS_TREMORSAURUS_ROAR) && !isAlliedTo(e)) {
                 if (e instanceof PathfinderMob mob && (!(mob instanceof TamableAnimal) || !((TamableAnimal) mob).isInSittingPose())) {
                     mob.setTarget(null);
                     mob.setLastHurtByMob(null);
@@ -271,7 +271,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
                         }
                     }
                 }
-                if (this.isTame() && !isAlliedTo(e)) {
+                if (this.isTame()) {
                     e.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 0, true, true));
                 }
             }
