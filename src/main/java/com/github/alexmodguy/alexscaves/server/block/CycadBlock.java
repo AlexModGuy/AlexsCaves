@@ -118,7 +118,7 @@ public class CycadBlock extends BushBlock implements BonemealableBlock {
             }
             return size < 4;
         }
-        return true;
+        return false;
     }
 
     public boolean isBonemealSuccess(Level level, RandomSource randomSource, BlockPos blockPos, BlockState state) {
