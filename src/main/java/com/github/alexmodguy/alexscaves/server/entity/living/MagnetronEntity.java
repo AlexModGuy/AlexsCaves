@@ -305,7 +305,7 @@ public class MagnetronEntity extends Monster {
     private boolean shouldDropBlocks() {
         DamageSource lastDamageSource = getLastDamageSource();
         if (lastDamageSource != null) {
-            return lastDamageSource.getEntity() != null || lastDamageSource.getDirectEntity() != null;
+            return lastDamageSource.getEntity() != null || lastDamageSource.getDirectEntity() != null || this.lastHurtByPlayer != null;
         }
         return false;
     }

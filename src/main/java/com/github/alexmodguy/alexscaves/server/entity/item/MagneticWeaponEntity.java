@@ -340,8 +340,11 @@ public class MagneticWeaponEntity extends Entity {
         if(this.isOnFire()){
             target.setSecondsOnFire(5);
         }
-        if (holder instanceof Player && target instanceof LivingEntity living && living.getHealth() <= 0.0F && holder.distanceTo(target) >= 19.5F) {
-            ACAdvancementTriggerRegistry.KILL_MOB_WITH_GALENA_GAUNTLET.triggerForEntity(holder);
+        if (holder instanceof Player && target instanceof LivingEntity living) {
+            living.setLastHurtByPlayer((Player) holder);
+            if(living.getHealth() <= 0.0F && holder.distanceTo(target) >= 19.5F){
+                ACAdvancementTriggerRegistry.KILL_MOB_WITH_GALENA_GAUNTLET.triggerForEntity(holder);
+            }
         }
     }
 
