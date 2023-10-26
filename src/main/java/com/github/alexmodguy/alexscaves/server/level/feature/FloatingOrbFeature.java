@@ -43,7 +43,7 @@ public class FloatingOrbFeature extends Feature<FloatingOrbFeatureConfig> {
                     BlockPos fill = center.offset(x, y, z);
                     if (fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius + random.nextFloat() * 2) {
                         if (canReplace(level.getBlockState(fill))) {
-                            level.setBlock(fill, blockState.getState(random, fill), 4);
+                            level.setBlock(fill, blockState.getState(random, fill), 3);
                         }
                     }
                 }

@@ -30,7 +30,7 @@ public class AbyssalFloraFeature extends Feature<AbyssalFloraFeatureConfiguratio
         }
         BlockPos above = trenchBottom.above();
         if (canReplace(level.getBlockState(above))) {
-            level.setBlock(above, context.config().floraBlock.getState(randomsource, above), 4);
+            level.setBlock(above, context.config().floraBlock.getState(randomsource, above), 2);
         }
         return true;
     }

@@ -78,9 +78,9 @@ public class WhalefallFeature extends Feature<WhalefallFeatureConfiguration> {
             if ((replaceAt.is(Blocks.WATER) || replaceAt.isAir()) && worldgenlevel.getBlockState(blockpos2).isFaceSturdy(worldgenlevel, blockpos2, dir.getOpposite())) {
                 boolean waterlog = worldgenlevel.getFluidState(pos).is(FluidTags.WATER);
                 if (randomsource.nextBoolean()) {
-                    worldgenlevel.setBlock(pos, ACBlockRegistry.BONE_WORMS.get().defaultBlockState().setValue(MusselBlock.FACING, dir.getOpposite()).setValue(MusselBlock.WATERLOGGED, waterlog), 4);
+                    worldgenlevel.setBlock(pos, ACBlockRegistry.BONE_WORMS.get().defaultBlockState().setValue(MusselBlock.FACING, dir.getOpposite()).setValue(MusselBlock.WATERLOGGED, waterlog), 3);
                 } else {
-                    worldgenlevel.setBlock(pos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, dir.getOpposite()).setValue(MusselBlock.WATERLOGGED, waterlog).setValue(MusselBlock.MUSSELS, 1 + randomsource.nextInt(4)), 4);
+                    worldgenlevel.setBlock(pos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, dir.getOpposite()).setValue(MusselBlock.WATERLOGGED, waterlog).setValue(MusselBlock.MUSSELS, 1 + randomsource.nextInt(4)), 3);
                 }
             }
         }

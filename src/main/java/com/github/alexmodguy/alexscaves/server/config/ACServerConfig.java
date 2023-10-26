@@ -8,6 +8,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.IntValue caveBiomeMeanSeparation;
     public final ForgeConfigSpec.DoubleValue caveBiomeWidthRandomness;
     public final ForgeConfigSpec.DoubleValue caveBiomeSpacingRandomness;
+    public final ForgeConfigSpec.BooleanValue warnGenerationIncompatibility;
     public final ForgeConfigSpec.IntValue nucleeperFuseTime;
     public final ForgeConfigSpec.BooleanValue watcherPossession;
     public final ForgeConfigSpec.IntValue amberMonolithMeanTime;
@@ -30,6 +31,7 @@ public class ACServerConfig {
         caveBiomeMeanSeparation = builder.comment("Average separation (in blocks) between each Alex's Caves cave biome.").translation("cave_biome_mean_separation").defineInRange("cave_biome_mean_separation", 4000, 50, Integer.MAX_VALUE);
         caveBiomeWidthRandomness = builder.comment("How irregularly shaped Alex's Caves cave biomes can generate. 0 = all biomes nearly circular. 1 = biomes completely squiggly in shape.").translation("cave_biome_width_randomness").defineInRange("cave_biome_width_randomness", 0.15D, 0, 1D);
         caveBiomeSpacingRandomness = builder.comment("Average spacing in between Alex's Caves cave biomes. 0 = all biomes nearly perfectly equidistant. 1 = biomes completely randomly spread out, sometimes next to eachother.").translation("cave_biome_spacing_randomness").defineInRange("cave_biome_spacing_randomness", 0.2D, 0, 1D);
+        warnGenerationIncompatibility = builder.comment("Whether to warn users when a server starts if an incompatible generation mod is detected.").translation("warn_generation_incompatibility").define("warn_generation_incompatibility", true);
         builder.pop();
         builder.push("mob-behavior");
         nucleeperFuseTime = builder.comment("How long (in game ticks) it takes for a nucleeper to explode.").translation("nucleeper_fuse_time").defineInRange("nucleeper_fuse_time", 300, 20, Integer.MAX_VALUE);

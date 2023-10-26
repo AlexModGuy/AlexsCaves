@@ -31,7 +31,7 @@ public class ThornwoodTreeWithBranchesFeature extends ThornwoodTreeFeature {
                 if (level.getBlockState(branchPos).isCollisionShapeFullBlock(level, branchPos)) {
                     branchPos.move(0, 1, 0);
                     if (level.getBlockState(branchPos).canBeReplaced()) {
-                        level.setBlock(branchPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState(), 4);
+                        level.setBlock(branchPos, ACBlockRegistry.THORNWOOD_BRANCH.get().defaultBlockState(), 3);
                     }
                 }
             }

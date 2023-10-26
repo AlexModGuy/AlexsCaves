@@ -41,10 +41,10 @@ public class CoveredBlockBlobFeature extends Feature<CoveredBlockBlobConfigurati
                 double radius = (double) (f * f);
                 for (BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
                     if (blockpos1.distSqr(blockpos) <= radius) {
-                        worldgenlevel.setBlock(blockpos1, blockstateconfiguration.block.getState(randomsource, blockpos1), 4);
+                        worldgenlevel.setBlock(blockpos1, blockstateconfiguration.block.getState(randomsource, blockpos1), 3);
                         BlockPos blockpos2 = blockpos1.above();
                         if (blockpos2.distSqr(blockpos) > radius && worldgenlevel.getBlockState(blockpos2).isAir()) {
-                            worldgenlevel.setBlock(blockpos2, blockstateconfiguration.coverBlock.getState(randomsource, blockpos2), 4);
+                            worldgenlevel.setBlock(blockpos2, blockstateconfiguration.coverBlock.getState(randomsource, blockpos2), 3);
                         }
                     }
                 }

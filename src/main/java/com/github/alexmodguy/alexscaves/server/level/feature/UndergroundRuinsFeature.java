@@ -80,7 +80,7 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
             for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate.processBlockInfos(level, blockpos2, blockpos2, structureplacesettings, getDataMarkers(structuretemplate, blockpos2, rotation, false))) {
                 String marker = structuretemplate$structureblockinfo.nbt().getString("metadata");
                 if (marker.equals("loot_chest")) {
-                    level.setBlock(structuretemplate$structureblockinfo.pos(), Blocks.CAVE_AIR.defaultBlockState(), 4);
+                    level.setBlock(structuretemplate$structureblockinfo.pos(), Blocks.CAVE_AIR.defaultBlockState(), 3);
                     RandomizableContainerBlockEntity.setLootTable(level, randomsource, structuretemplate$structureblockinfo.pos().below(), context.config().chestLoot);
                 } else {
                     processMarker(marker, level, structuretemplate$structureblockinfo.pos(), randomsource);

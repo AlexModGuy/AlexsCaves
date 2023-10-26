@@ -51,6 +51,11 @@ import net.minecraftforge.server.ServerLifecycleHooks;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 @Mod(AlexsCaves.MODID)
 public class AlexsCaves {
     public static final String MODID = "alexscaves";
@@ -68,6 +73,7 @@ public class AlexsCaves {
     private static final ForgeConfigSpec COMMON_CONFIG_SPEC;
     public static final ACClientConfig CLIENT_CONFIG;
     private static final ForgeConfigSpec CLIENT_CONFIG_SPEC;
+    public static final List<String> MOD_GENERATION_CONFLICTS = new ArrayList<>();
 
     static {
         final Pair<ACServerConfig, ForgeConfigSpec> serverPair = new ForgeConfigSpec.Builder().configure(ACServerConfig::new);
@@ -150,8 +156,8 @@ public class AlexsCaves {
             ACPotPatternRegistry.expandVanillaDefinitions();
             ACBlockEntityRegistry.expandVanillaDefinitions();
         });
+        readModIncompatibilities();
     }
-
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> PROXY.clientInit());
     }
@@ -176,5 +182,21 @@ public class AlexsCaves {
 
     private void registerLayerDefinitions(final EntityRenderersEvent.RegisterLayerDefinitions event) {
         ACModelLayers.register(event);
+    }
+
+    private void readModIncompatibilities() {
+        BufferedReader urlContents = WebHelper.getURLContents("https://raw.githubusercontent.com/AlexModGuy/AlexsCaves/main/src/main/resources/assets/alexscaves/warning/mod_generation_conflicts.txt", "assets/alexscaves/warning/mod_generation_conflicts.txt");
+        if (urlContents != null) {
+            try {
+                String line;
+                while ((line = urlContents.readLine()) != null) {
+                    MOD_GENERATION_CONFLICTS.add(line);
+                }
+            } catch (IOException e) {
+                LOGGER.warn("Failed to load mod conflicts");
+            }
+        } else{
+            LOGGER.warn("Failed to load mod conflicts");
+        }
     }
 }

@@ -35,7 +35,7 @@ public class ThornwoodRootsFeature extends Feature<NoneFeatureConfiguration> {
             return false;
         }
         BlockPos rootsFrom = generateAt.immutable();
-        level.setBlock(rootsFrom, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 4);
+        level.setBlock(rootsFrom, ACBlockRegistry.THORNWOOD_WOOD.get().defaultBlockState(), 3);
         ThornwoodTreeFeature.generateRoot(level, rootsFrom, 0F, randomsource, Direction.DOWN, 1 + randomsource.nextInt(2));
         for (Direction direction : ACMath.HORIZONTAL_DIRECTIONS) {
             ThornwoodTreeFeature.generateRoot(level, rootsFrom, 0.4F, randomsource, direction, 2 + randomsource.nextInt(5));

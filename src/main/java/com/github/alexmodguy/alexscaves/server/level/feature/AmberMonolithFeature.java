@@ -29,13 +29,13 @@ public class AmberMonolithFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos.MutableBlockPos pillar = new BlockPos.MutableBlockPos();
         pillar.set(below);
         for (int i = 0; i < 4 + randomsource.nextInt(2); i++) {
-            level.setBlock(pillar, ACBlockRegistry.LIMESTONE_PILLAR.get().defaultBlockState(), 4);
+            level.setBlock(pillar, ACBlockRegistry.LIMESTONE_PILLAR.get().defaultBlockState(), 3);
             pillar.move(0, 1, 0);
         }
-        level.setBlock(pillar, ACBlockRegistry.AMBER_MONOLITH.get().defaultBlockState(), 4);
+        level.setBlock(pillar, ACBlockRegistry.AMBER_MONOLITH.get().defaultBlockState(), 3);
         if (randomsource.nextBoolean()) {
             pillar.move(0, 1, 0);
-            level.setBlock(pillar, ACBlockRegistry.LIMESTONE_SLAB.get().defaultBlockState(), 4);
+            level.setBlock(pillar, ACBlockRegistry.LIMESTONE_SLAB.get().defaultBlockState(), 3);
         }
         BlockPos pillarTop = pillar.immutable();
         for (int i = 0; i < 4 + randomsource.nextInt(6); i++) {
@@ -55,7 +55,7 @@ public class AmberMonolithFeature extends Feature<NoneFeatureConfiguration> {
                 } else {
                     randomState = ACBlockRegistry.AMBER.get().defaultBlockState();
                 }
-                level.setBlock(offset.above(), randomState, 4);
+                level.setBlock(offset.above(), randomState, 3);
 
             }
         }

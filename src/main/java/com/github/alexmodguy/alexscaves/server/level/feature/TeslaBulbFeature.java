@@ -92,10 +92,10 @@ public class TeslaBulbFeature extends Feature<NoneFeatureConfiguration> {
             }
             if (canReplace(prevState)) {
                 if (shape == 3 && tesla) {
-                    level.setBlock(begin, ACBlockRegistry.TESLA_BULB.get().defaultBlockState().setValue(TeslaBulbBlock.DOWN, ceiling).setValue(TeslaBulbBlock.WATERLOGGED, level.getFluidState(begin).is(Fluids.WATER)), 4);
+                    level.setBlock(begin, ACBlockRegistry.TESLA_BULB.get().defaultBlockState().setValue(TeslaBulbBlock.DOWN, ceiling).setValue(TeslaBulbBlock.WATERLOGGED, level.getFluidState(begin).is(Fluids.WATER)), 3);
                     break;
                 } else {
-                    level.setBlock(begin, spireState.setValue(GalenaSpireBlock.SHAPE, shape).setValue(GalenaSpireBlock.WATERLOGGED, level.getFluidState(begin).is(Fluids.WATER)), 4);
+                    level.setBlock(begin, spireState.setValue(GalenaSpireBlock.SHAPE, shape).setValue(GalenaSpireBlock.WATERLOGGED, level.getFluidState(begin).is(Fluids.WATER)), 3);
                 }
                 spireCount++;
             }
