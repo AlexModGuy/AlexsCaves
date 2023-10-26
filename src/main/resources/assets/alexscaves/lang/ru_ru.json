@@ -1,12 +1,12 @@
 {
   "itemGroup.alexscaves": "Alex's Caves",
-  "itemGroup.alexscaves.magnetic_caves": "Magnetic Caves",
-  "itemGroup.alexscaves.primordial_caves": "Primordial Caves",
-  "itemGroup.alexscaves.toxic_caves": "Toxic Caves",
+  "itemGroup.alexscaves.magnetic_caves": "Магнетические пещеры", // Magnetic Caves
+  "itemGroup.alexscaves.primordial_caves": "Пещеры Мезазоя", // Primordial Caves
+  "itemGroup.alexscaves.toxic_caves": "Кислотные пещеры", // Toxic Caves
   "itemGroup.alexscaves.abyssal_chasm": "Abyssal Chasm",
   "itemGroup.alexscaves.forlorn_hollows": "Forlorn Hollows",
   "block.alexscaves.spelunkery_table": "Spelunkery Table",
-  "block.alexscaves.galena": "Galena",
+  "block.alexscaves.galena": "Галенит", // Galena
   "block.alexscaves.galena_stairs": "Galena Stairs",
   "block.alexscaves.galena_slab": "Galena Slab",
   "block.alexscaves.galena_wall": "Galena Wall",
@@ -270,7 +270,7 @@
   "block.alexscaves.beholder": "Beholder",
   "item.alexscaves.advancement_tab_icon": "Alex's Caves Icon",
   "item.alexscaves.cave_tablet": "Cave Tablet",
-  "item.alexscaves.cave_codex": "Cave Codex",
+  "item.alexscaves.cave_codex": "Пещерный Кодекс",
   "item.alexscaves.cave_codex.add": "Added %s: %s to the Cave Compendium",
   "item.alexscaves.cave_codex.end": "There is nothing more to learn about this biome.",
   "item.alexscaves.cave_book": "Cave Compendium",
@@ -357,7 +357,7 @@
   "item.alexscaves.cooked_mussel": "Cooked Mussel",
   "item.alexscaves.deep_sea_sushi_roll": "Deep Sea Sushi Roll",
   "item.alexscaves.sea_glass_shards": "Sea Glass Shards",
-  "item.alexscaves.submarine": "Submarine",
+  "item.alexscaves.submarine": "Батискаф",
   "item.alexscaves.diving_helmet": "Diving Helmet",
   "item.alexscaves.diving_chestplate": "Diving Chestplate",
   "item.alexscaves.diving_leggings": "Diving Leggings",
@@ -472,7 +472,7 @@
   "entity.alexscaves.cinder_brick": "Cinder Brick",
   "entity.alexscaves.lanternfish": "Lanternfish",
   "entity.alexscaves.sea_pig": "Sea Pig",
-  "entity.alexscaves.submarine": "Submarine",
+  "entity.alexscaves.submarine": "Батискаф",
   "entity.alexscaves.submarine.mount_message": "%s: Ascend, %s: Descend, %s: Floodlights, %s: Dismount",
   "entity.alexscaves.hullbreaker": "Hullbreaker",
   "entity.alexscaves.gossamer_worm": "Gossamer Worm",
@@ -602,7 +602,7 @@
   "item.minecraft.lingering_potion.effect.long_haste": "Lingering Potion of Haste",
   "item.minecraft.lingering_potion.effect.strong_haste": "Lingering Potion of Haste",
   "trim_pattern.alexscaves.polarity": "Polarity Armor Trim",
-  "biome.alexscaves.magnetic_caves": "Magnetic Caves",
+  "biome.alexscaves.magnetic_caves": "",
   "biome.alexscaves.primordial_caves": "Primordial Caves",
   "biome.alexscaves.toxic_caves": "Toxic Caves",
   "biome.alexscaves.abyssal_chasm": "Abyssal Chasm",
@@ -621,7 +621,7 @@
   "advancements.alexscaves.cave_map.title": "The Journey Begins",
   "advancements.alexscaves.cave_map.desc": "Craft a Cave Biome Map and set out on a journey...",
   "advancements.alexscaves.discover_magnetic_caves.title": "Opposites Attract",
-  "advancements.alexscaves.discover_magnetic_caves.desc": "Enter the Magnetic Caves",
+  "advancements.alexscaves.discover_magnetic_caves.desc": "Enter the ",
   "advancements.alexscaves.neodymium.title": "Push and Pull",
   "advancements.alexscaves.neodymium.desc": "Gather both kinds of Neodymium",
   "advancements.alexscaves.neodymium_ingot.title": "An Alloy To Remember",
@@ -745,9 +745,9 @@
   "advancements.alexscaves.diving_armor.title": "The Cyclops",
   "advancements.alexscaves.diving_armor.desc": "Obtain the entire set of Diving Armor from the Drowned in the deep",
   "advancements.alexscaves.ride_submarine.title": "Captain Nemo",
-  "advancements.alexscaves.ride_submarine.desc": "Take a ride in a Submarine",
+  "advancements.alexscaves.ride_submarine.desc": "Прокатитесь на батискафе",
   "advancements.alexscaves.repair_submarine.title": "Buff Out Those Scratches",
-  "advancements.alexscaves.repair_submarine.desc": "Repair a Submarine using Copper Ingots",
+  "advancements.alexscaves.repair_submarine.desc": "Отремантируйте батискаф Медным слитком",
   "advancements.alexscaves.mussel.title": "Bring Forth The Mollusk",
   "advancements.alexscaves.mussel.desc": "Break a Mussel",
   "advancements.alexscaves.cooked_mussel.title": "Slurp Up",
@@ -814,20 +814,23 @@
   "advancements.alexscaves.dreadbow.desc": "Craft a Dreadbow, capable of turning a single arrow into an entire volley of dark, magical arrows",
   "advancements.alexscaves.eat_darkened_apple.title": "Find a Meaningless Animal",
   "advancements.alexscaves.eat_darkened_apple.desc": "Eat a Darkened Apple while the Darkness Incarnate effect is active to extend its duration",
+  
   "cape.alexscaves_developer": "Alex's Caves Developer",
   "cape.alexscaves_contributor": "Alex's Caves Contributor",
-  "book.alexscaves.page_locked_0": "This entry cannot be translated",
-  "book.alexscaves.page_locked_1": "without the use of a Cave Codex...",
+  "book.alexscaves.page_locked_0": "Эта запись не может быть переведена", // This entry cannot be translated
+  "book.alexscaves.page_locked_1": "без использования Кодекса Пещер...", // without the use of a Cave Codex...
   "book.alexscaves.root": "Cave Compendium",
-  "book.alexscaves.primordial_caves": "Primordial Caves",
-  "book.alexscaves.magnetic_caves": "Magnetic Caves",
-  "book.alexscaves.toxic_caves": "Toxic Caves",
+  "book.alexscaves.primordial_caves": "Пещеры Мезозоя",// Primordial Caves
+  "book.alexscaves.magnetic_caves": "Магнетические пещеры", // Magnetic Caves
+  "book.alexscaves.toxic_caves": "Кислотные пещеры", // Toxic Caves 
   "book.alexscaves.abyssal_chasm": "Abyssal Chasm",
   "book.alexscaves.forlorn_hollows": "Forlorn Hollows",
-  "book.alexscaves.general": "Introduction",
-  "book.alexscaves.resources": "Resources",
-  "book.alexscaves.utilities": "Utilities",
-  "fluid_type.alexscaves.acid": "Acid",
+  "book.alexscaves.general": "Введение", // Introduction 
+  "book.alexscaves.resources": "Ресурсы", // Resources
+  "book.alexscaves.utilities": "Утилиты", // Utilities
+  
+  "fluid_type.alexscaves.acid": "Кислота", // Acid
+  
   "alexscaves.sound.subtitle.spelunkery_table_tablet_insert": "Cave Tablet inserted",
   "alexscaves.sound.subtitle.spelunkery_table_tablet_remove": "Cave Tablet removed",
   "alexscaves.sound.subtitle.spelunkery_table_paper_insert": "Paper inserted",
@@ -1135,13 +1138,13 @@
   "alexscaves.sound.subtitle.large_nuclear_explosion": "Massive Nuclear Explosion",
   "alexscaves.sound.subtitle.nuclear_explosion_rumble": "Ground shaking",
   "alexscaves.sound.subtitle.nuclear_explosion_ringing": "Ringing",
-  "alexscaves.sound.subtitle.submarine_place": "Submarine placed",
-  "alexscaves.sound.subtitle.submarine_hit": "Submarine damaged",
-  "alexscaves.sound.subtitle.submarine_creak": "Submarine creaking",
-  "alexscaves.sound.subtitle.submarine_repair": "Submarine repaired",
-  "alexscaves.sound.subtitle.submarine_destroy": "Submarine destroyed",
-  "alexscaves.sound.subtitle.submarine_light_on": "Submarine lights activated",
-  "alexscaves.sound.subtitle.submarine_light_off": "Submarine lights deactivated",
+  "alexscaves.sound.subtitle.submarine_place": "Батискаф размешен",
+  "alexscaves.sound.subtitle.submarine_hit": "Батискаф поврежден", // Submarine damaged
+  "alexscaves.sound.subtitle.submarine_creak": "Submarine creaking", // Submarine creaking
+  "alexscaves.sound.subtitle.submarine_repair": "Батискаф отремонтирован", // Submarine repaired
+  "alexscaves.sound.subtitle.submarine_destroy": "Батискаф разрушен", // Submarine destroyed
+  "alexscaves.sound.subtitle.submarine_light_on": "Подсветка батискафа включена", // Submarine lights activated
+  "alexscaves.sound.subtitle.submarine_light_off": "Подстветка батискафа выключена", // Submarine lights deactivated
   "alexscaves.sound.subtitle.submarine_move_loop": "Submarine turbine",
   "alexscaves.sound.subtitle.submarine_sonar": "Hostile lifeform detected",
   "alexscaves.sound.subtitle.dark_cloud_appear": "Dark Entity emerges",
