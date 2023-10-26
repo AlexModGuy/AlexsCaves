@@ -25,6 +25,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,6 +36,7 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
 import java.util.BitSet;
+import java.util.List;
 import java.util.Stack;
 
 public class NuclearExplosionEntity extends Entity {
@@ -44,6 +46,8 @@ public class NuclearExplosionEntity extends Entity {
     private static final EntityDataAccessor<Float> SIZE = SynchedEntityData.defineId(NuclearExplosionEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Boolean> NO_GRIEFING = SynchedEntityData.defineId(NuclearExplosionEntity.class, EntityDataSerializers.BOOLEAN);
     private boolean loadingChunks = false;
+
+    private Explosion dummyExplosion;
 
     public NuclearExplosionEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -158,8 +162,11 @@ public class NuclearExplosionEntity extends Entity {
         carve.set(chunkCorner);
         carveBelow.set(chunkCorner);
         float itemDropModifier = 0.025F / Math.min(1, this.getSize());
-        if(AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get() <= 0){
+        if (AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get() <= 0) {
             return;
+        }
+        if (dummyExplosion == null) {
+            dummyExplosion = new Explosion(level(), null, this.getX(), this.getY(), this.getZ(), 10.0F, List.of());
         }
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
@@ -176,7 +183,7 @@ public class NuclearExplosionEntity extends Entity {
                             if (random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
                                 level().destroyBlock(carve, true);
                             } else {
-                                level().setBlockAndUpdate(carve, Blocks.AIR.defaultBlockState());
+                                state.onBlockExploded(level(), carve, dummyExplosion);
                             }
                         }
                     }
@@ -189,7 +196,7 @@ public class NuclearExplosionEntity extends Entity {
     }
 
     private boolean isDestroyable(BlockState state) {
-        return !state.is(ACTagRegistry.UNMOVEABLE) && state.getBlock().getExplosionResistance() < AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get();
+        return !state.is(ACTagRegistry.NUKE_PROOF) && state.getBlock().getExplosionResistance() < AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get();
     }
 
     @Override
