@@ -1,0 +1,6 @@
+{
+  "__comment": "all blocks that cannot be destroyed by a nuke.",
+  "values": [
+    "#alexscaves:unmovable"
+  ]
+}
