@@ -1,0 +1,6 @@
+{
+  "__comment": "all blocks that are removed last when a magnetic block is activated.",
+  "values": [
+    "#minecraft:doors"
+  ]
+}

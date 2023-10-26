@@ -17,10 +17,12 @@ public class ACTagRegistry {
     public static final TagKey<Block> MAGNETIC_BLOCKS = registerBlockTag("ferromagnetic_blocks");
     public static final TagKey<Block> UNMOVEABLE = registerBlockTag("unmovable");
     public static final TagKey<Block> MAGNETIC_CAVES_BASE_BLOCKS = registerBlockTag("magnetic_caves_base_blocks");
+    public static final TagKey<Block> MAGNET_REMOVES_LAST = registerBlockTag("magnet_removes_last");
     public static final TagKey<Block> TESLA_BULB_BASE_BLOCKS = registerBlockTag("tesla_bulb_base_blocks");
     public static final TagKey<Block> MAGNETRON_WEAPONS = registerBlockTag("magnetron_weapons");
     public static final TagKey<Block> SCAFFOLDING = registerBlockTag("scaffolding");
     public static final TagKey<Block> DINOSAURS_SPAWNABLE_ON = registerBlockTag("dinosaurs_spawnable_on");
+    public static final TagKey<Block> TURNS_INTO_CAVE_PAINTINGS = registerBlockTag("turns_into_cave_paintings");
     public static final TagKey<Block> STOPS_DINOSAUR_EGGS = registerBlockTag("stops_dinosaur_eggs");
     public static final TagKey<Block> GROTTOCERATOPS_FOOD_BLOCKS = registerBlockTag("grottoceratops_food_blocks");
     public static final TagKey<Block> RELICHEIRUS_NIBBLES = registerBlockTag("relicheirus_nibbles");

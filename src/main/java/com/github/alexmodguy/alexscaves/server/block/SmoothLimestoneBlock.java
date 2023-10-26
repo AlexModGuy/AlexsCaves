@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.google.common.collect.Lists;
 import net.minecraft.Util;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -53,7 +54,7 @@ public class SmoothLimestoneBlock extends Block {
 
     public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         ItemStack itemstack = player.getItemInHand(interactionHand);
-        if (itemstack.is(Items.CHARCOAL)) {
+        if (itemstack.is(Items.CHARCOAL) && state.is(ACTagRegistry.TURNS_INTO_CAVE_PAINTINGS)) {
             if (!player.isCreative()) {
                 itemstack.shrink(1);
             }

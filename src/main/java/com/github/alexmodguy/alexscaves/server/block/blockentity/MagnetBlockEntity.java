@@ -13,7 +13,6 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Vec3i;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -92,7 +91,7 @@ public class MagnetBlockEntity extends BlockEntity {
                                 allData.add(data);
                             }
                             //sort to break the top blocks first
-                            gathered.sort(Comparator.comparingInt(blockPos1 -> -blockPos1.getY()));
+                            gathered.sort(((blockPos1, blockPos2) -> sortGatheredBlocks(level, blockPos1, blockPos2)));
                             for (BlockPos pos : gathered) {
                                 level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
                             }
@@ -127,6 +126,13 @@ public class MagnetBlockEntity extends BlockEntity {
                 }
             }
         }
+    }
+
+    private static int sortGatheredBlocks(Level level, BlockPos blockPos1, BlockPos blockPos2) {
+        BlockState blockState1 = level.getBlockState(blockPos1);
+        BlockState blockState2 = level.getBlockState(blockPos2);
+        int order = blockState1.is(ACTagRegistry.MAGNET_REMOVES_LAST) || blockState2.is(ACTagRegistry.MAGNET_REMOVES_LAST) ?  1 : -1;
+        return order * Integer.compare(blockPos1.getY(), blockPos2.getY());
     }
 
     private void pushEntity(Entity entity) {
