@@ -35,7 +35,7 @@ public class AmbersolFeature extends Feature<NoneFeatureConfiguration> {
                 drawOrb(worldgenlevel, blockpos.offset(randomsource.nextInt(4) - 2, randomsource.nextInt(4) - 2, randomsource.nextInt(4) - 2), randomsource, ACBlockRegistry.AMBER.get().defaultBlockState(), 2 + randomsource.nextInt(2), 2 + randomsource.nextInt(2), 2 + randomsource.nextInt(2));
             }
             drawOrb(worldgenlevel, blockpos, randomsource, ACBlockRegistry.AMBER.get().defaultBlockState(), 2, 2, 2);
-            worldgenlevel.setBlock(blockpos, ACBlockRegistry.AMBERSOL.get().defaultBlockState(), 4);
+            worldgenlevel.setBlock(blockpos, ACBlockRegistry.AMBERSOL.get().defaultBlockState(), 3);
             AmbersolBlock.fillWithLights(blockpos, worldgenlevel);
             return true;
         }
@@ -53,7 +53,7 @@ public class AmbersolFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos fill = center.offset(x, y, z);
                     if (fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius - random.nextFloat() * 4) {
                         if (canReplace(level.getBlockState(fill))) {
-                            level.setBlock(fill, blockState, 4);
+                            level.setBlock(fill, blockState, 2);
                         }
                     }
                 }

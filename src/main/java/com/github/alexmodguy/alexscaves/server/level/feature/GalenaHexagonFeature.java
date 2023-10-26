@@ -64,7 +64,7 @@ public class GalenaHexagonFeature extends Feature<GalenaHexagonFeatureConfigurat
                     BlockPos fill = center.offset(x, setY, z);
                     if (fill.distToLowCornerSqr(center.getX(), fill.getY(), center.getZ()) <= radius * radius) {
                         if (canReplace(level.getBlockState(fill))) {
-                            level.setBlock(fill, blockState.getState(random, fill), 4);
+                            level.setBlock(fill, blockState.getState(random, fill), 3);
                         }
                     }
                 }

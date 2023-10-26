@@ -46,12 +46,12 @@ public class AbyssalBoulderFeature extends Feature<NoneFeatureConfiguration> {
                 double radius = (double) (f * f);
                 for (BlockPos blockpos1 : BlockPos.betweenClosed(blockpos.offset(-i, -j, -k), blockpos.offset(i, j, k))) {
                     if (blockpos1.distSqr(blockpos) <= radius && !worldgenlevel.getBlockState(blockpos1).is(ACTagRegistry.UNMOVEABLE)) {
-                        worldgenlevel.setBlock(blockpos1, Blocks.DEEPSLATE.defaultBlockState(), 4);
+                        worldgenlevel.setBlock(blockpos1, Blocks.DEEPSLATE.defaultBlockState(), 2);
                         if (randomsource.nextInt(2) == 0) {
                             Direction dir = Direction.getRandom(randomsource);
                             BlockPos blockpos2 = blockpos1.relative(dir);
                             if (worldgenlevel.getBlockState(blockpos2).is(Blocks.WATER)) {
-                                worldgenlevel.setBlock(blockpos2, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, dir).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, 1 + randomsource.nextInt(4)), 4);
+                                worldgenlevel.setBlock(blockpos2, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, dir).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, 1 + randomsource.nextInt(4)), 3);
                             }
                         }
                     }

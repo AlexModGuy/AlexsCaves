@@ -58,7 +58,7 @@ public class SulfurStackFeature extends Feature<NoneFeatureConfiguration> {
         while (!begin.equals(stopPillarAt)) {
             begin = begin.relative(Direction.UP);
             if (canReplace(level.getBlockState(begin))) {
-                level.setBlock(begin, ACBlockRegistry.SULFUR.get().defaultBlockState(), 4);
+                level.setBlock(begin, ACBlockRegistry.SULFUR.get().defaultBlockState(), 3);
             }
         }
         if (canReplace(level.getBlockState(stopPillarAt.above())) && !(level.getBlockState(stopPillarAt).getBlock() instanceof SulfurBudBlock)) {
@@ -86,13 +86,13 @@ public class SulfurStackFeature extends Feature<NoneFeatureConfiguration> {
                 crystal = crystal.setValue(SulfurBudBlock.LIQUID_LOGGED, 2);
             }
         }
-        level.setBlock(placeAt, crystal, 4);
+        level.setBlock(placeAt, crystal, 3);
         BlockPos drip = placeAt.above();
         while (level.isEmptyBlock(drip) && drip.getY() < level.getMaxBuildHeight()) {
             drip = drip.above();
         }
         if (level.getFluidState(drip).isEmpty()) {
-            level.setBlock(drip, ACBlockRegistry.ACIDIC_RADROCK.get().defaultBlockState(), 4);
+            level.setBlock(drip, ACBlockRegistry.ACIDIC_RADROCK.get().defaultBlockState(), 3);
         }
     }
 }

@@ -38,12 +38,12 @@ public class BlackVentFeature extends Feature<NoneFeatureConfiguration> {
     private static void drawVent(WorldGenLevel level, BlockPos ventBottom, RandomSource randomsource) {
         int height = randomsource.nextInt(6) + 2;
         ventBottom = ventBottom.below();
-        level.setBlock(ventBottom.north(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.south(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.east(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.west(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.below(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom, Blocks.LAVA.defaultBlockState(), 4);
+        level.setBlock(ventBottom.north(), Blocks.TUFF.defaultBlockState(), 3);
+        level.setBlock(ventBottom.south(), Blocks.TUFF.defaultBlockState(), 3);
+        level.setBlock(ventBottom.east(), Blocks.TUFF.defaultBlockState(), 3);
+        level.setBlock(ventBottom.west(), Blocks.TUFF.defaultBlockState(), 3);
+        level.setBlock(ventBottom.below(), Blocks.TUFF.defaultBlockState(), 3);
+        level.setBlock(ventBottom, Blocks.LAVA.defaultBlockState(), 3);
         int middleStart = Math.max(1, height / 3);
         int middleTop = middleStart * 2;
         for (int i = 1; i <= height; i++) {
@@ -55,7 +55,7 @@ public class BlackVentFeature extends Feature<NoneFeatureConfiguration> {
             } else {
                 vent = ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get().defaultBlockState().setValue(GeothermalVentBlock.SMOKE_TYPE, 2).setValue(GeothermalVentBlock.SPAWNING_PARTICLES, i == height).setValue(ThinGeothermalVentBlock.WATERLOGGED, true);
             }
-            level.setBlock(ventBottom.above(i), vent, 4);
+            level.setBlock(ventBottom.above(i), vent, 3);
         }
     }
 }

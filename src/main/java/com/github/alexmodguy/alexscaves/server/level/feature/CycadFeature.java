@@ -31,7 +31,7 @@ public class CycadFeature extends Feature<NoneFeatureConfiguration> {
         for (int i = 0; i <= height; i++) {
             BlockPos trunk = treeBottom.above(i);
             if (canReplace(level.getBlockState(trunk))) {
-                level.setBlock(trunk, ACBlockRegistry.CYCAD.get().defaultBlockState().setValue(CycadBlock.TOP, i == height), 4);
+                level.setBlock(trunk, ACBlockRegistry.CYCAD.get().defaultBlockState().setValue(CycadBlock.TOP, i == height), 2);
             }
         }
         return true;

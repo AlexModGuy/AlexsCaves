@@ -87,7 +87,7 @@ public class AncientTreeFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos fill = center.offset(x, y, z);
                     if (fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius - random.nextFloat() * 7) {
                         if (canReplace(level.getBlockState(fill))) {
-                            level.setBlock(fill, blockState, 4);
+                            level.setBlock(fill, blockState, 3);
                             if (random.nextInt(5) == 0) {
                                 Direction dir = Direction.getRandom(random);
                                 BlockPos starPos = fill.relative(dir);

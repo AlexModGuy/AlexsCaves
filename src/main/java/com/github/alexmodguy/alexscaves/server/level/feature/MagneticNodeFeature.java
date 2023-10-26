@@ -99,7 +99,7 @@ public class MagneticNodeFeature extends Feature<MagneticNodeFeatureConfiguratio
         } else if (state.getBlock() instanceof NeodymiumPillarBlock) {
             state = state.setValue(NeodymiumPillarBlock.FACING, facing).setValue(NeodymiumPillarBlock.TOP, flag);
         }
-        level.setBlock(pos, state, 4);
+        level.setBlock(pos, state, 3);
 
     }
 

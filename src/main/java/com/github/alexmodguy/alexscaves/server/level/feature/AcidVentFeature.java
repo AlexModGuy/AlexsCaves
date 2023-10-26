@@ -48,12 +48,12 @@ public class AcidVentFeature extends Feature<NoneFeatureConfiguration> {
         }
         ventBottom = ventBottom.below();
         drawOrb(level, ventBottom, randomsource, 1 + randomsource.nextInt(1), 2 + randomsource.nextInt(3), 1 + randomsource.nextInt(1));
-        level.setBlock(ventBottom.north(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.south(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.east(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.west(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom.below(), Blocks.TUFF.defaultBlockState(), 4);
-        level.setBlock(ventBottom, ACBlockRegistry.ACID.get().defaultBlockState(), 4);
+        level.setBlock(ventBottom.north(), Blocks.TUFF.defaultBlockState(), 2);
+        level.setBlock(ventBottom.south(), Blocks.TUFF.defaultBlockState(), 2);
+        level.setBlock(ventBottom.east(), Blocks.TUFF.defaultBlockState(), 2);
+        level.setBlock(ventBottom.west(), Blocks.TUFF.defaultBlockState(), 2);
+        level.setBlock(ventBottom.below(), Blocks.TUFF.defaultBlockState(), 2);
+        level.setBlock(ventBottom, ACBlockRegistry.ACID.get().defaultBlockState(), 2);
         int middleStart = Math.max(1, height / 3);
         int middleTop = middleStart * 2;
         for (int i = 1; i <= height; i++) {
@@ -65,9 +65,9 @@ public class AcidVentFeature extends Feature<NoneFeatureConfiguration> {
             } else {
                 vent = ACBlockRegistry.GEOTHERMAL_VENT_MEDIUM.get().defaultBlockState().setValue(GeothermalVentBlock.SMOKE_TYPE, 3).setValue(GeothermalVentBlock.SPAWNING_PARTICLES, i == height);
             }
-            level.setBlock(ventBottom.above(i), vent, 4);
+            level.setBlock(ventBottom.above(i), vent, 2);
         }
-        level.setBlock(ventBottom.above(height + 1), Blocks.CAVE_AIR.defaultBlockState(), 4);
+        level.setBlock(ventBottom.above(height + 1), Blocks.CAVE_AIR.defaultBlockState(), 2);
     }
 
     private static boolean hasClearance(WorldGenLevel level, BlockPos ventBottom, int height) {
@@ -89,7 +89,7 @@ public class AcidVentFeature extends Feature<NoneFeatureConfiguration> {
                     BlockPos fill = center.offset(x, y, z);
                     if (fill.distToLowCornerSqr(center.getX(), center.getY(), center.getZ()) <= equalRadius * equalRadius + random.nextFloat() * 2) {
                         if (canReplace(level.getBlockState(fill)) && fill.getY() <= center.getY()) {
-                            level.setBlock(fill, Blocks.TUFF.defaultBlockState(), 4);
+                            level.setBlock(fill, Blocks.TUFF.defaultBlockState(), 2);
                         }
                     }
                 }

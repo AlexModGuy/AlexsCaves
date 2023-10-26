@@ -47,7 +47,7 @@ public class MusselFeature extends Feature<NoneFeatureConfiguration> {
             }
             Direction direction = selectDirection(possiblities, randomSource);
             if (direction != null) {
-                level.setBlock(pos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, direction).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, 1 + randomSource.nextInt(4)), 4);
+                level.setBlock(pos, ACBlockRegistry.MUSSEL.get().defaultBlockState().setValue(MusselBlock.FACING, direction).setValue(MusselBlock.WATERLOGGED, true).setValue(MusselBlock.MUSSELS, 1 + randomSource.nextInt(4)), 3);
                 return true;
             }
         }

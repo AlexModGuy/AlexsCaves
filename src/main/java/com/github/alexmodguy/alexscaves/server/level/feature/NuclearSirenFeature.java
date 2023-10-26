@@ -29,16 +29,16 @@ public class NuclearSirenFeature extends Feature<NoneFeatureConfiguration> {
         int concrete = 0;
         while(concrete < 1 || !level.getFluidState(pillar).isEmpty()){
             concrete++;
-            level.setBlock(pillar, ACBlockRegistry.CINDER_BLOCK.get().defaultBlockState(), 4);
+            level.setBlock(pillar, ACBlockRegistry.CINDER_BLOCK.get().defaultBlockState(), 3);
             pillar.move(0, 1, 0);
         }
-        level.setBlock(pillar, ACBlockRegistry.CINDER_BLOCK_WALL.get().defaultBlockState(), 4);
+        level.setBlock(pillar, ACBlockRegistry.CINDER_BLOCK_WALL.get().defaultBlockState(), 3);
         pillar.move(0, 1, 0);
         for (int i = 0; i < 1 + randomsource.nextInt(2); i++) {
-            level.setBlock(pillar, Blocks.DARK_OAK_FENCE.defaultBlockState(), 4);
+            level.setBlock(pillar, Blocks.DARK_OAK_FENCE.defaultBlockState(), 3);
             pillar.move(0, 1, 0);
         }
-        level.setBlock(pillar, ACBlockRegistry.NUCLEAR_SIREN.get().defaultBlockState(), 4);
+        level.setBlock(pillar, ACBlockRegistry.NUCLEAR_SIREN.get().defaultBlockState(), 3);
         return true;
     }
 }

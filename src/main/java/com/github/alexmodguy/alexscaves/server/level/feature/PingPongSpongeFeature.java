@@ -36,7 +36,7 @@ public class PingPongSpongeFeature extends Feature<NoneFeatureConfiguration> {
         for (int i = 0; i <= height; i++) {
             BlockPos trunk = genAt.above(i);
             if (canReplace(level.getBlockState(trunk))) {
-                level.setBlock(trunk, ACBlockRegistry.PING_PONG_SPONGE.get().defaultBlockState().setValue(PingPongSpongeBlock.TOP, i == height), 4);
+                level.setBlock(trunk, ACBlockRegistry.PING_PONG_SPONGE.get().defaultBlockState().setValue(PingPongSpongeBlock.TOP, i == height), 2);
             }
         }
         return true;

@@ -27,10 +27,10 @@ public class DeepOnesRuinsFeature extends UndergroundRuinsFeature {
     @Override
     public void processMarker(String marker, WorldGenLevel level, BlockPos pos, RandomSource randomsource) {
         if (marker.equals("submarine")) {
-            level.setBlock(pos, Blocks.CAVE_AIR.defaultBlockState(), 4);
+            level.setBlock(pos, Blocks.CAVE_AIR.defaultBlockState(), 3);
         }
         if (marker.equals("submarine_damaged")) {
-            level.setBlock(pos, Blocks.WATER.defaultBlockState(), 4);
+            level.setBlock(pos, Blocks.WATER.defaultBlockState(), 3);
         }
     }
 
@@ -48,7 +48,7 @@ public class DeepOnesRuinsFeature extends UndergroundRuinsFeature {
         for (BlockPos pos : supportsNeededBelow) {
             grounded.set(pos.getX(), pos.getY() - 1, pos.getZ());
             while ((level.getBlockState(grounded).is(Blocks.WATER) || !level.getBlockState(grounded).isCollisionShapeFullBlock(level, grounded)) && grounded.getY() > level.getMinBuildHeight()) {
-                level.setBlock(grounded, ACBlockRegistry.ABYSSMARINE_BRICKS.get().defaultBlockState(), 4);
+                level.setBlock(grounded, ACBlockRegistry.ABYSSMARINE_BRICKS.get().defaultBlockState(), 3);
                 grounded.move(0, -1, 0);
             }
         }
