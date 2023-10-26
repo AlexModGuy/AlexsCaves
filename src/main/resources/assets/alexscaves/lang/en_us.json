@@ -1152,5 +1152,5 @@
   "alexscaves.sound.subtitle.darkness_incarnate_idle": "Darkness Incarnate shudders",
   "alexscaves.sound.subtitle.disappointment": "Womp womp",
   "alexscaves.sound.subtitle.nuclear_siren": "Nuclear Siren cries",
-  "alexscaves.startup_warning.generation_incompatible": "Alex's Caves world generation is incompatible with the mod %s. Cave biomes may not spawn in the world at all. This courtesy warning message can be disabled in the Alex's Caves config."
+  "alexscaves.startup_warning.generation_incompatible": "Alex's Caves world generation is incompatible with the mod (ID:%s). Cave biomes may not spawn in the world at all. This courtesy warning message can be disabled in the Alex's Caves config."
 }

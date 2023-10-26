@@ -1,5 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.BufferedReader;
@@ -26,7 +28,7 @@ public class WebHelper {
             try {
                 return new BufferedReader(new InputStreamReader(WebHelper.class.getClass().getClassLoader().getResourceAsStream(backupFileLoc), StandardCharsets.UTF_8));
             } catch (NullPointerException var6) {
-                var6.printStackTrace();
+                AlexsCaves.LOGGER.warn("Could not download list of mod incompatibilities");
                 return null;
             }
         }
