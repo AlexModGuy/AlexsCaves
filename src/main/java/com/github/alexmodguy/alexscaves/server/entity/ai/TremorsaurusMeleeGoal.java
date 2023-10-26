@@ -45,7 +45,7 @@ public class TremorsaurusMeleeGoal extends Goal {
 
             if (dist < tremorsaurus.getBbWidth() + target.getBbWidth() + 1.0D) {
                 if (tremorsaurus.getAnimation() == IAnimatedEntity.NO_ANIMATION) {
-                    if ((tremorsaurus.getRandom().nextBoolean() || target.getBbWidth() >= 2.0F) && !grab || tremorsaurus.isBaby()) {
+                    if ((tremorsaurus.getRandom().nextBoolean() || Math.max(target.getBbHeight(), target.getBbWidth()) >= 2.0F) && !grab || tremorsaurus.isBaby()) {
                         tryAnimation(TremorsaurusEntity.ANIMATION_BITE);
                     } else {
                         tryAnimation(TremorsaurusEntity.ANIMATION_SHAKE_PREY);
