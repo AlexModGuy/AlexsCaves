@@ -54,7 +54,7 @@ public class SmoothLimestoneBlock extends Block {
 
     public InteractionResult use(BlockState state, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
         ItemStack itemstack = player.getItemInHand(interactionHand);
-        if (itemstack.is(Items.CHARCOAL) && state.is(ACTagRegistry.TURNS_INTO_CAVE_PAINTINGS)) {
+        if (itemstack.is(Items.CHARCOAL) && level.getBlockState(blockPos).is(ACTagRegistry.TURNS_INTO_CAVE_PAINTINGS)) {
             if (!player.isCreative()) {
                 itemstack.shrink(1);
             }

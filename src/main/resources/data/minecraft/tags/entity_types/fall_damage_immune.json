@@ -1,0 +1,15 @@
+{
+  "__comment": "all mobs that dont take fall damage.",
+  "values": [
+    "alexscaves:teletor",
+    "alexscaves:boundroid",
+    "alexscaves:boundroid_winch",
+    "alexscaves:ferrouslime",
+    "alexscaves:notor",
+    "alexscaves:subterranodon",
+    "alexscaves:notor",
+    "alexscaves:raycat",
+    "alexscaves:gloomoth",
+    "alexscaves:vesper"
+  ]
+}
