@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Добро пожаловать в первобытые пещеры...
+
+    • {Вступление|primordial_caves/general.json}
+    • {Ресурсы|primordial_caves/resources.json}
+    • Обитатели
+        • {Подтерранодон|primordial_caves/subterranodon.json}
+        • {Велоцараптор|primordial_caves/vallumraptor.json}
+        • {Гротоцератопс|primordial_caves/grottoceratops.json}
+        • {Трилокарис|primordial_caves/trilocaris.json}
+        • {Сотрясозавр|primordial_caves/tremorsaurus.json}
+        • {Реликвейрус|primordial_caves/relicheirus.json}
+    • {Применения|primordial_caves/utilities.json}
