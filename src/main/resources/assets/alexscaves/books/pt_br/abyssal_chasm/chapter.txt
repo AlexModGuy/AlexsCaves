@@ -21,7 +21,7 @@
         • {Peixe-Lanterna|abyssal_chasm/lanternfish.json}
         • {Porco-do-Mar|abyssal_chasm/sea_pig.json}
         • {Quebra-Casco|abyssal_chasm/hullbreaker.json}
-        • {Tomóptero|abyssal_chasm/gossamer_worm.json}
+        • {Verme Gossamer|abyssal_chasm/gossamer_worm.json}
         • {Peixe-Tripé|abyssal_chasm/tripodfish.json}
         • {Profundo|abyssal_chasm/deep_one.json}
         • {Cavaleiro Profundo|abyssal_chasm/deep_one_knight.json}
