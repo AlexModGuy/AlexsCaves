@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Dipsiz Körfez'e Hoş Geldin...
+    • {Giriş|abyssal_chasm/general.json}
+    • {Kaynaklar|abyssal_chasm/resources.json}
+    • Yerliler
+        • {Fener Balığı|abyssal_chasm/lanternfish.json}
+        • {Deniz Domuzu|abyssal_chasm/sea_pig.json}
+        • {Gemiboğan|abyssal_chasm/hullbreaker.json}
+        • {İpince Solucan|abyssal_chasm/gossamer_worm.json}
+        • {Tripod Balığı|abyssal_chasm/tripodfish.json}
+        • {Derin Olan|abyssal_chasm/deep_one.json}
+        • {Şövalye D.O.|abyssal_chasm/deep_one_knight.json}
+        • {Büyücü D.O.|abyssal_chasm/deep_one_mage.json}
+        • {Gardiyan Mayın|abyssal_chasm/mine_guardian.json}
+    • {Araçlar|abyssal_chasm/utilities.json}
