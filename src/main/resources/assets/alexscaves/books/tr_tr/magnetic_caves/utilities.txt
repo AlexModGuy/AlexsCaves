@@ -1,0 +1,91 @@
+
+
+    Neodimyum Külçelerden hem Mavi hem de Kırmızı Mıknatıslar üretilebilir.
+
+
+
+
+
+
+
+
+
+
+    Bu mıknatıslar çok güçlüdür, çünkü mavi olanlar manyetik blokları kendilerinden uzaklaştırabilir ve kırmızı olanlar manyetik blokları kendilerine çekebilir.
+    Bir mıknatıs, yeterli boşluğa sahip olmaları ve hepsinin metalik olması veya metalik bloklara bir balçık bloğu ile bağlı olması koşuluyla, bir seferde 27 adede kadar bitişik bloğu hareket ettirebilir.
+    Bu mıknatısların menzili genellikle sadece birkaç blokla sınırlıdır. Bu, blok üzerinde ilgili neodimyum külçesi kullanılarak artırılabilir ve zıt külçe kullanılarak azaltılabilir.
+
+    Bir Teletor'dan elde edilen Teleçekirdek, Enerjili Galen ile birleştiri
+lip yeni Tesla Ampulleri oluşturmak için kullanılabilir.
+
+
+
+
+
+    Ayrıca §lGalen §lEldiven§r olarak bilinen çok güçlü bir alet yaratmak için de kullanılabilir.
+
+
+
+
+
+
+    Galen Eldiven, demir ya da netheritten yapılmış manyetik bir alet ana elde tutulurken diğer elde kullanılabilir. Kullanıl
+dığında, aleti yaklaşık 20 blok mesafeye kadar ileri doğru fırlatır. Buradan itibaren alet, çarptığı herhangi bir varlığa zarar verir veya aletle eşleşen türdeyse herhangi bir bloğu kırmaya başlar. Eldiven kullanım sırasında yavaş yavaş dayanıklılığını kaybeder, ancak bir Teleçekirdek ile onarılabilir.
+   
+    Galen Eldiven yapımında kullanılmasının yanı sıra, Demirli Balçık Topları Metal Talaşı yapımında kullanılabilir ve bu talaş da eritilerek Hurda Metal haline getirilebilir. Ayrıca bir Mıknatıslanma iksiri yapmak için de kullanılabilir - bu iksir, etkisinde kalan kişiyi metal zırh giymeden manyetik güçler tarafından itilebilme veya çekilebilme yeteneğine kavuşturur.
+
+
+
+
+
+
+
+
+
+
+
+    Notor Zımbırtıları bir Teleçekirdek ve bir Mavi Neodimyum Külçe ile birleştirilerek bir §lHolokodlayıcı§r yapılabilir. Bu Holokodlayıcı herhangi bir varlık üzerinde kullanılarak ona bağlanabilir. Bir §lHologram §lProjektörü§r içine yerleştirildiğinde, bağlı varlığın bir Hologramı görüntülenecektir. Eğer Holokodlayıcı bağlanmamışsa, onun yerine Holokoder kullanıcısı gösterilecektir.
+
+
+
+
+
+
+
+
+
+
+
+    Notor Zımbırtıları ayrıca dört Manyetik Işık oluşturmak için bir Demir Külçesi ile birleştirilebilir.
+    Sınıroid'lerden elde edilen Ağırlık, bir §lManyetik §lTaş §lOcağı §lParçalayıcısı§r oluşturmak için kullanılabilir.
+
+
+
+
+
+     Bu cihaz yalnızca dört Manyetik Işık ve §lManyetik §lTaş Ocağı§r ile birlikte kullanıldığında çalışır.
+
+
+
+
+
+
+
+
+     Bir Manyetik Taş Ocağı yerleştirildiğinde, Manyetik Taş Ocağı Bloğu'nun arkasında dört Manyetik Işıkla bir dikdörtgen oluşturularak otomatik olarak çıkarılacak alanın sınırları işaretlenebilir. Dört ışık arasında şimşeklerin çakmaya başladığı görül
+düğünde, Taş Ocağı Parçalayıcısı bu sınırların içine yerleştir
+ilerek taş ocağı etkinleştirilebilir.
+     Taş ocağı, belirlenen alanın altındaki kırılabilir blokları çıkarmaya devam edecek ve parçalandıktan sonra bu bloklar ana Manyetik Taş Ocağı Bloğunun tepesinden fırlayacaktır. Çıkarılacak blok kalmadığında, taş ocağı hareketsiz hale gelecektir.
+
+     Mıknatron'un Demir Kalbi'nin bir kullanımı daha vardır - bir §lDirenç §lKalkanı§r haline getirilebilir.
+
+
+
+
+
+
+
+
+
+
+     Direnç Kalkanı sıradan bir kalkan olarak kullanılabilir, ancak kullanılırken yakındaki düşmanlara zarar veren manyetik bir darbe yaratır. Bu darbenin kutupları, kalkanı eğilerek kullanarak değiştirilebilir. Mavi taraf kullanılırsa, darbe etkilenen varlıkları iter ve kırmızı taraf kullanılırsa onları daha yakına çeker.

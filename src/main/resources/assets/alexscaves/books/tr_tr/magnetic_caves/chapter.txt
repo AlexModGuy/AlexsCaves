@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Manyetik Mağaralar'a Hoş Geldin...
+
+    • {Giriş|magnetic_caves/general.json}
+    • {Kaynaklar|magnetic_caves/resources.json}
+    • Yerliler
+        • {Teletor|magnetic_caves/teletor.json}
+        • {Mıknatron|magnetic_caves/magnetron.json}
+        • {Sınıroid|magnetic_caves/boundroid.json}
+        • {Demirli Balçık|magnetic_caves/ferrouslime.json}
+        • {Notor|magnetic_caves/notor.json}
+    • {Araçlar|magnetic_caves/utilities.json}

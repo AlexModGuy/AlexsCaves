@@ -19,7 +19,7 @@ kül
 radon
 tehdit
 tehlike
-otaltı
+otalti
 atik
 çubuk
 loş
@@ -36,7 +36,7 @@ nükleeper
 çatlak
 gamaböceği
 işinkedi
-radgil
+radgaç
 patlatmak
 sizinti
 kalinti

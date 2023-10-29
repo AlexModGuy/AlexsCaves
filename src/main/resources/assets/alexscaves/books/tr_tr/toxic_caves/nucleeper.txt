@@ -1,0 +1,22 @@
+
+
+
+
+
+
+
+
+
+
+
+
+    • 30.0 ♥
+    • 100.0 🗡
+
+     Nükleeper, mekanik ve atomik geliştirmelerle modifiye edilmiş bir creeper türüdür. Bu zavallı yaratık, tıpkı normal creeper ataları gibi sürekli bir ızdırap içinde görünüyor.
+Nükleeperler yavaştır ve patlayıcı yeteneklerini şarj etmek normal creeper
+lardan çok daha uzun sürer. Bu, creeperin çekirdeğinin kapanmaya başlamasıyla başlar, parlayan yeşil kafasından bir uyarı sireni sesi ve parlak yanıp sönen ışıklar yayar. Creeperin çekirdeği tamamen kapandık
+tan sonra, bir atom patlaması ortaya çıkacak ve yakındaki bölgeyi yok edecektir.
+     Bu nedenle Nükleeper
+ler tamamen kapanmadan ve atomik bir ateş topu oluşturmadan önce yok edilmelidir. Kritikliğe ulaşmadan öldürülürse, bir miktar barut ve bazen de bir §lParçalana
+§lbilir §lÇekirdek§r düşürebilir...

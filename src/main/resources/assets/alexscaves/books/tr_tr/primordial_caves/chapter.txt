@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    İlkel Mağaralar'a Hoş Geldin...
+
+    • {Giriş|primordial_caves/general.json}
+    • {Kaynaklar|primordial_caves/resources.json}
+    • Yerliler
+        • {Yeraltronodon|primordial_caves/subterranodon.json}
+        • {Hırsiraptor|primordial_caves/vallumraptor.json}
+        • {Mağaraseratops|primordial_caves/grottoceratops.json}
+        • {Trilokaris|primordial_caves/trilocaris.json}
+        • {Titremezor|primordial_caves/tremorsaurus.json}
+        • {Yadikaryus|primordial_caves/relicheirus.json}
+    • {Araçlar|primordial_caves/utilities.json}
