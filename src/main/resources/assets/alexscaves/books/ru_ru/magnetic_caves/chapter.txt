@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Добро пожаловать в магнитные пещеры...
+
+    • {Вступление|magnetic_caves/general.json}
+    • {Ресурсы|magnetic_caves/resources.json}
+    • Обитатели
+        • {Телетор|magnetic_caves/teletor.json}
+        • {Магнитрон|magnetic_caves/magnetron.json}
+        • {Связиборг|magnetic_caves/boundroid.json}
+        • {Железень|magnetic_caves/ferrouslime.json}
+        • {Маячок|magnetic_caves/notor.json}
+    • {Применения|magnetic_caves/utilities.json}
