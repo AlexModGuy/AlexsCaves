@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Bem-vindo as Cavernas Magnéticas...
+
+    • {Introdução|magnetic_caves/general.json}
+    • {Recursos|magnetic_caves/resources.json}
+    • Habitantes
+        • {Teletor|magnetic_caves/teletor.json}
+        • {Magnetron|magnetic_caves/magnetron.json}
+        • {Boundóide|magnetic_caves/boundroid.json}
+        • {Ferroslime|magnetic_caves/ferrouslime.json}
+        • {Notador|magnetic_caves/notor.json}
+    • {Utilidades|magnetic_caves/utilities.json}

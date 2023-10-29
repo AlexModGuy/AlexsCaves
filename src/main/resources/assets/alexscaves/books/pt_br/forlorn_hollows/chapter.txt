@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Bem-vindo as Cavernas Desoladas...
+
+    • {Introdução|forlorn_hollows/general.json}
+    • {Recursos|forlorn_hollows/resources.json}
+    • Habitantes
+        • {Mariposa Sombria|forlorn_hollows/gloomoth.json}
+        • {Subzealote|forlorn_hollows/underzealot.json}
+        • {Observador|forlorn_hollows/watcher.json}
+        • {Corrodente|forlorn_hollows/corrodent.json}
+        • {Véspora|forlorn_hollows/vesper.json}
+        • {Renegado|forlorn_hollows/forsaken.json}
+    • {Utilidades|forlorn_hollows/utilities.json}
