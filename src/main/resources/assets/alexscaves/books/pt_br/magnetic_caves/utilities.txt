@@ -1,0 +1,83 @@
+
+
+    De Barras de Neodímio, podem ser criados tanto os Ímãs Azuis quanto os Ímãs Escarlates.
+
+
+
+
+
+
+
+    Esses ímãs são muito poderosos, já que os azuis podem mover blocos magnéticos longe deles, e os escarlates podem atrair blocos magnéticos para eles. Um ímã pode mover até 27 blocos adjacentes de cada vez, desde que tenham espaço livre e sejam todos de metal ou estejam conectados a blocos metálicos por um bloco de slime.
+    Esses ímãs têm um alcance limitado, geralmente apenas alguns blocos. Isso pode ser aumentado em um bloco usando a barra de neodímio correspondente no bloco, e diminuído usando a barra oposto.
+
+    O Telenúcleo, obtido de um Teletor, pode ser usado para criar novas Lâmpadas Tesla combinando-o com Galena Energizada.
+
+
+
+
+
+
+
+
+    Ele também pode ser usado para criar uma ferramenta muito poderosa conhecida como o §lManopla §lde §lGalena§r.
+
+
+
+
+
+
+    A Manopla de Galena pode ser usada na mão secundária enquanto uma ferramenta magnética, como uma feita de ferro ou netherite, é segurada na mão principal. Quando usada, ela lançará a ferramenta para a frente, a uma distância de cerca de 20 blocos. A partir daí, a ferramenta causará dano a qualquer entidade que atingir ou começará a minerar qualquer bloco se for do tipo correspondente à ferramenta. A manopla perderá durabilidade lentamente durante o uso, mas pode ser reparada com um Telenúcleo.
+    Além de ser usada para criar a Manopla de Galena, as Bolas de Ferroslime podem ser usadas para criar Limalha de Metal, que por sua vez pode ser derretida em Sucata de Metal. Também pode ser usada para criar uma Poção de Magnetização - que torna a pessoa afetada capaz de ser empurrada ou atraída por forças magnéticas sem usar armadura de metal.
+
+
+
+
+
+
+
+
+
+
+
+    Os Dispositivos Notadores podem ser combinados com um Telenúcleo e uma Barra de Neodímio Azul para criar um §lHolocodificador§r. Este Holocodificador pode ser vinculado a qualquer entidade usando-o nelas. Quando colocado em um §lProjetor §lde §lHolograma§r, um holograma da entidade vinculada será exibido. Se o Holocodificador for desvinculado, o usuário do Holocodificador será mostrado em vez disso.
+
+
+
+
+
+
+
+
+
+
+
+    Os Dispositivos Notadores também podem ser combinados com uma Barra de Ferro para criar quatro Luzes Magnéticas.
+	O Peso-Pesado, obtido dos Boundóides, pode ser usado para criar um §lEsmagador §lde §lPedreira §lMagnéticoa§r.
+
+
+
+
+
+
+
+     Este dispositivo é útil apenas quando combinado com quatro Luzes Magnéticas e a própria §lPedreira §lMagnética§r.
+
+
+
+
+
+
+     Quando uma Pedreira Magnética é colocada, os limites da área a ser automaticamente minerada por ela podem ser marcados criando um retângulo com quatro Luzes Magnéticas atrás do Bloco de Pedreira Magnética. Uma vez que o raio é visto saltando entre todas as quatro luzes, o Esmagador de Pedreira pode ser colocado dentro desses limites para ativar a pedreira.
+     A pedreira continuará a minerar todos os blocos quebráveis sob sua área designada, e uma vez esmagados, os drops desses blocos serão lançados para fora do topo do Bloco Principal da Pedreira Magnética. Quando não houver mais blocos a serem minerados, a pedreira entrará em modo dormente.
+
+
+
+     O Coração de Ferro do Magnetron tem um uso adicional restante, que é a criação de um §lEscudo §lde §lResistor§r.
+
+
+
+
+
+
+     O Escudo de Resistor pode ser usado como um escudo comum, exceto pelo fato de criar um pulso magnético durante o uso que causa danos aos inimigos próximos. A polaridade desse pulso pode ser alternada usando o escudo e esgueirar-se ao mesmo tempo. Se o lado azul for usado, o pulso repelirá as entidades afetadas, e se o lado escarlate for usado, ele as atrairá para mais perto.
