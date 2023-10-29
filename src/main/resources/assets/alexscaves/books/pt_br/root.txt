@@ -1,0 +1,58 @@
+
+
+    §lESCONDIDAS §lSOB §lA §lSUPERFÍCIE §lDO §lMUNDO §lSUPERIOR §restão muitos biomas de cavernas únicos, todos raros na natureza.
+
+    Esses biomas de caverna são procurados não apenas por sua singularidade, mas também devido ao seu conteúdo poderoso e lendário.
+    Cinco desses biomas são conhecidos por existir:
+
+    • {Cavernas Magnéticas|magnetic_caves/chapter.json}
+    • {Cavernas Primordiais|primordial_caves/chapter.json}
+    • {Cavernas Tóxicas|toxic_caves/chapter.json}
+    • {Abismo Abissal|abyssal_chasm/chapter.json}
+    • {Cavernas Desoladas|forlorn_hollows/chapter.json}
+
+
+
+    Para descobrir mais sobre cada uma dessas cavernas, procure uma §lCabine §lSubterrânea§r...
+    Cabines Subterrâneas podem ser encontradas ocasionalmente em cavernas em todo o Overworld.
+
+    Cartógrafos ocasionalmente vendem mapas para elas, que também podem ser encontrados em Baús das Minas.
+
+    Além do saque comum, as Cabines Subterrâneas contêm §lTabuletas §ldas §lCaverna§r.
+
+
+
+
+
+
+
+    Tabuletas das Cavernas podem ser colocadas junto com um pedaço de papel em uma §lMesa §lde §lEspeleologia§r, outra descoberta única em uma cabine.
+
+    Em seguida, é possível começar a traduzir o Tabuleta da Caverna...
+    Quando ambos a tabuleta e o papel estão na mesa, várias runas na tabuleta ficarão visíveis.
+
+    Interagir com qualquer runa a revelará. A tradução de uma palavra revelada pode ser vista movendo a lente sobre a palavra. Apenas cinco tentativas podem ser feitas antes que a tabuleta seja destruído.
+
+
+
+
+	Usar o conhecimento de quais runas representam quais letras pode ajudar a encontrar a palavra-alvo. Se esse processo for concluído três vezes, o tablet e o papel se tornarão um §lCódice §lda §lCaverna§r.
+
+	Esses códices têm múltiplos usos. Eles podem ser usados para obter mais conhecimento sobre o bioma de caverna específico ao qual estão relacionados.
+
+
+
+
+
+
+	Além disso, códices extras podem ser produzidos com papel para criar um §lMapa §lda §lCaverna§r.
+
+
+
+
+
+
+
+
+	Cave Maps can point to the nearest cave biome detailed by the codex. The process of creating a Cave Codex seems to imdue this map with an uncanny range and responsiveness.
+	Mapas des Cavernas podem apontar para o bioma de caverna mais próximo detalhado no códice. O processo de criação de um Códice da Caverna parece imbuir este mapa com uma amplitude e capacidade de resposta surpreendente.
