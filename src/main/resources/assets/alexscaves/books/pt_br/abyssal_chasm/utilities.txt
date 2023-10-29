@@ -1,0 +1,48 @@
+
+
+    Embora individualmente a maioria dos peixes que nadam nesses mares profundos não sejam muito apetitosos, eles podem ser combinados em um Sushi Roll das Profundezas.
+
+
+
+
+
+
+    A Neve Marinha produzido pelos Porcos-do-Mar pode ser usado em corais mortos para trazê-los de volta à vida. Também pode fazer crescer esponjas e outros tipos de vida marinha.
+    A Bioluminescência, deixada pelos Vermes Gossamer, pode ser usada para fazer uma poção de brilho. Ela também pode ser transformada em um Flutuador, um dispositivo que permite alcançar a superfície do mar em questão de segundos.
+
+
+
+
+
+
+
+
+
+    Ou pode ser transformado em algumas §lTochas §lBioluminescentes§r que brilham mesmo debaixo d'água.
+
+
+
+
+
+
+    Quaisquer Afogados que apareçam no Abismo Abissal podem estar vestindo partes da Armadura do §lTraje §lde §lMergulho§r. Elas também podem aparecer em baús nas Ruínas Abissais.
+
+
+    O Capacete de Mergulho concede quarenta segundos de Respiração Aquática quando usado fora d'água, estendendo significativamente o período no qual os exploradores podem permanecer no Abismo Abissal. O Colete tem resistência adicional, as Calças concedem uma maior velocidade de natação e as Botas permitem uma maior velocidade sobre blocos de Lamo.
+    As Ruínas Abissais também podem ocasionalmente conter um Submarino. Submarinos danificados podem ser consertados usando barras de cobre, e qualquer oxidação pode ser removida com um machado. Uma vez reparado, um submarino pode ser pilotado e até possui holofotes para melhorar a visibilidade das profundezas. Quando pilotados, os submarinos fornecem uma quantidade constante de ar, tornando-os uma das maneiras mais seguras de se locomover no Abismo Abissal.
+    Para criar um submarino totalmente novo, será necessário vários blocos de cobre, um Motor Enigmático e alguns blocos de Vidro de Profundidade. Basta cercar o Motor Enigmático com um cubo de cobre e certificar-se de usar seis blocos de Vidro de Profundidade para marcar a frente do veículo.
+
+    As ruínas abissais também fazem uso de blocos de §lDreno§r, que podem ser criados com Cargas de Profundidade.
+
+
+
+
+
+
+    Provided there is liquid above and empty space below when activated with redstone, this block will move all the fluids above it below it, making it 	Desde que haja líquido acima e espaço vazio abaixo quando ativado com redstone, este bloco moverá todos os fluidos acima para baixo, tornando-o conveniente para construção aquática.
+	Os Profundos podem trocar uma grande variedade de itens - alguns exclusivos para eles. Um comum é a §lBomba §lde §lTinta§r e a §lBomba §lde §lTinta §lLuminosa§r, que criam uma poça de tinta quando lançadas, que pode causar cegueira e brilho, respectivamente. A variante de brilho pode ser útil para chamar a atenção de um Quebra-Casco nas proximidades.
+	A Pérola de Observação pode ser uma novidade útil para acompanhar a opinião dos Profundos. Ela muda de cor dependendo do humor deles em relação ao estranho que a observa.
+	A Ortolança é uma arma corpo a corpo que pode ser mantida pressionada para realizar um ataque de carga poderoso. Essa carga deixará um rastro de ondas atrás de si, que causam dano adicional.
+	A Concha Mágica pode ser soprada para convocar vários Profundos para ajudar na batalha, em qualquer lugar do mundo. Eles só permanecerão por um curto período de tempo, então é melhor guardá-los para grandes batalhas.
+	O Cetro Marinho é uma arma que dispara rapidamente raios mágicos de água, que podem se curvar em direção a monstros próximos.
+
