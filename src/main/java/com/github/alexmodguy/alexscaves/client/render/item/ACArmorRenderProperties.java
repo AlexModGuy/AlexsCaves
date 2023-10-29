@@ -44,16 +44,16 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
             initializeModels();
         }
         if (itemStack.getItem() instanceof PrimordialArmorItem) {
-            return PRIMORDIAL_ARMOR_MODEL.withAnimations(entityLiving);
+            return entityLiving == null ? PRIMORDIAL_ARMOR_MODEL : PRIMORDIAL_ARMOR_MODEL.withAnimations(entityLiving);
         }
         if (itemStack.getItem() instanceof HazmatArmorItem) {
-            return HAZMAT_ARMOR_MODEL.withAnimations(entityLiving);
+            return entityLiving == null ? HAZMAT_ARMOR_MODEL : HAZMAT_ARMOR_MODEL.withAnimations(entityLiving);
         }
         if (itemStack.getItem() instanceof DivingArmorItem) {
             return DIVING_ARMOR_MODEL;
         }
         if (itemStack.getItem() instanceof DarknessArmorItem) {
-            return DARKNESS_ARMOR_MODEL.withAnimations(entityLiving);
+            return entityLiving == null ? DARKNESS_ARMOR_MODEL : DARKNESS_ARMOR_MODEL.withAnimations(entityLiving);
         }
         return _default;
     }
