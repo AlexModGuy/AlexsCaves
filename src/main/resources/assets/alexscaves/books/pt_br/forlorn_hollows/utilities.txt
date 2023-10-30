@@ -1,0 +1,62 @@
+
+
+	O Pó de Mariposa deixado pelas Mariposas Sombrias pode ser segurado para lançar a uma curta distância. Qualquer criatura atingida por ele será marcada como uma mariposa e será atacada pela maioria das criaturas das Cavernas Desoladas próximas. Também pode ser transformado em Bolas de Naftalina, que podem afastar as Mariposas Sombrias de fontes de luz quando colocadas.
+
+
+
+
+
+
+
+    A Adaga Desolada dropada pelos Subzealotes pode parecer fraca com base em seu baixo dano de ataque, mas após cada golpe, uma versão fantasmagórica vermelha da adaga pairará sobre o alvo. Esta lâmina vermelha inflige um ataque adicional, com atraso.
+	A Gema Oculta tem múltiplos usos. Pode ser transformada em um §lTotem §lda §lPossessão§r, que pode ser vinculado a qualquer criatura ao atingi-la.
+
+
+
+
+    Uma vez vinculada, a criatura pode ser controlada segurando o totem e olhando para onde deve se mover. Note que a criatura deve ser visível para que essa magia sombria funcione. O totem possui uma durabilidade limitada, mas qualquer outra criatura com a qual a possuída colidir a fará atacar.
+	A Gema Oculta também pode ser transformada em um §lEspectador§r.
+
+
+
+
+
+
+	Outra Gema Oculta pode ser vinculada a este bloco, e usá-lo em qualquer outro lugar do mundo permitirá ver através dos olhos do Espectador. Note que não pode ser usado entre dimensões.
+	Os dentes do Corrodente podem ser usados para fazer uma Poção de Pressa, que permite cavar mais rapidamente. Mas também podem ser transformados em §lFlechas §lEscavadoras§r.
+
+
+
+
+
+
+	As Flechas Escavadoras perfuram até 5 blocos quando atingem o alvo e também atravessam os alvos.
+	As Asa de Véspora podem ser transformadas em Ensopado de Véspora, uma das poucas fontes de alimento nas profundezas das Cavernas Desoladas.
+
+
+
+
+
+    A Escuridão Pura dropada pelos Renegados pode ser transformada em Seda Sombria, um novo ingrediente de criação.
+
+
+
+
+
+
+    Esta seda pode ser usada para criar o §lArco §ldo §lTerror§r. Os Arcos do Terror carregam flechas mais lentamente do que os arcos normais, mas quando disparados, uma saraivada de múltiplas flechas cairá de cima do alvo. Se flechas normais forem carregadas, elas serão transformadas em flechas sombrias que causam vários ataques e aparecem em um número muito maior.
+    A Seda das Sombras também pode ser usada para criar o §lCapuz §la §lEscuridão§r e o §lManto §lda §lEscuridão§r.
+
+
+
+
+
+
+
+
+
+
+
+
+	Quando ambas as peças de armadura são usadas juntas, um medidor aparece mostrando o poder das trevas atual, que é aumentado ao permanecer em áreas sem luz. Uma vez que este medidor esteja cheio, o usuário pode entrar no modo sombra, que lhes concederá um voo extremamente rápido por dez segundos - mas essa habilidade só funciona se permanecerem na escuridão.
+	Para aumentar o tempo desse efeito de forma não natural, pode-se comer uma §lMaçã §lObscura§r enquanto estiver no modo sombra.

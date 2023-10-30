@@ -1,0 +1,20 @@
+
+
+
+
+
+
+
+
+
+
+
+
+    • 20.0 ♥
+    • 5.0 🗡
+    • 20.0 ⛨
+	O que parece ser uma única criatura é na verdade um ser mecânico composto por duas partes separadas - uma cabeça e um guincho ambulante, unidos por uma corrente. Esse ser compósito é conhecido como Boundóide.
+	De todos os habitantes das Cavernas Magnéticas, o Boundóide é o mais provável de se aproximar sorrateiramente de sua presa desavisada. Normalmente, essa criatura é encontrada agarrada ao teto do bioma subterrâneo, com sua cabeça arrastando-se abaixo por uma corrente.
+	Se um alvo for avistado, o Boundóide tentará escalar acima da posição do alvo e rapidamente se lançar no chão para causar dano. Esse ataque é forte, mas deixa o Boundóide aberto a ataques.
+	Se o guincho do Boundóide for atingido enquanto estiver no teto, a criatura compósita inteira cairá no chão, tremendo de medo. No entanto, ela rapidamente tentará pular de volta para o teto.
+	Quando morto, o Boundóide deixa cair algumas de suas correntes e um §lPeso-Pesado§r...

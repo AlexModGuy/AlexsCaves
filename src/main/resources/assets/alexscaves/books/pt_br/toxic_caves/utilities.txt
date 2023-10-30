@@ -1,0 +1,77 @@
+
+
+    Os vários recursos das Cavernas Tóxicas podem ser combinados para criar uma Placa de Polímero, um material altamente resistente.
+
+
+
+
+
+
+    Essas Placas de Polímero podem ser montadas em uma §lArmadura §lde §lHazmat§r, que reduz os danos e os efeitos de Irradiado e Ácido.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    As Placas de Polímero também podem ser transformadas em um §lDetonador §lRemoto§r, que pode ativar explosivos marcados de outras partes do mundo.
+
+
+
+
+
+
+    Juntamente com um Núcleo Físsil e algumas Hastes de Urânio, elas também podem ser usadas para criar um §lRaio §lLaser§r. Esta arma de longo alcance dispara um feixe de energia radioativa que causa danos a todas as entidades em seu caminho extremamente rápido. Embora cada ataque possa causar apenas um ponto de dano, ele ataca quatro vezes mais rápido do que uma arma comum.
+    Os Raios também causarão Irradiado aos alvos. Eles requerem Hastes de Urânio como combustível.
+
+
+
+
+
+
+
+
+    Os Resquícios Carbonizados deixados pelos Brainiacs podem ser usados para criar Sirenes Nucleares, que produzem um som alto quando uma explosão nuclear está iminente na área.
+
+
+
+
+
+
+
+    Esses resquícios também podem ser usados para criar um §lComponente §lde §lForno §lNuclear§r.
+
+
+
+
+
+    Para montar um Forno Nuclear, coloque oito componentes em um cubo. Fornos Nucleares podem derreter qualquer item que um alto-forno pode, 5 vezes mais rápido. Em vez de queimar carvão, eles usam Hastes de Urânio como combustível. Uma Haste de Urânio pode fundir um conjunto inteiro de itens - no entanto, ela produz algum Resíduos Não Refinados como subproduto.
+    Para evitar que o Forno Nuclear entre em criticidade e exploda violentamente, esse resíduo deve ser removido colocando Barris de Metal no Forno Nuclear, que produzirão Barris de Resíduos.
+    Destruir esses Barris de Resíduos pode ser difícil, pois eles podem explodir e deixar radiação persistente. Talvez seja melhor apenas armazená-los por um período indefinido...
+
+    O uso mais perigoso dos recursos das Cavernas Tóxicas é a §lBomba §lNuclear§r.
+
+
+
+
+
+
+    Essa arma poderosa criará uma explosão verdadeiramente massiva que destruirá quase todos os blocos em uma área próxima e causará milhares de pontos de dano, além de infligir Irradiado III. Esse tipo de destruição pode ser a própria causa das Cavernas Tóxicas...

@@ -20,7 +20,7 @@
     • Habitantes
         • {Mariposa Sombria|forlorn_hollows/gloomoth.json}
         • {Subzealote|forlorn_hollows/underzealot.json}
-        • {Observador|forlorn_hollows/watcher.json}
+        • {Vigilante|forlorn_hollows/watcher.json}
         • {Corrodente|forlorn_hollows/corrodent.json}
         • {Véspora|forlorn_hollows/vesper.json}
         • {Renegado|forlorn_hollows/forsaken.json}
