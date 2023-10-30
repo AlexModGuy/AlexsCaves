@@ -1,0 +1,19 @@
+
+
+
+
+
+
+
+
+
+
+
+
+    • 30.0 to 100.0 ♥
+    • 2.0 🗡 (Base)
+    • 6.0 ⛨
+    O Magnetron é uma criatura rara e poderosa encontrada nas Cavernas Magnéticas. Esse monstro costumava ser uma máquina criada para ajudar a extrair recursos deste local, embora o destino de seus criadores seja desconhecido.
+    Os Magnetrons mantêm um perfil enganosamente discreto antes de iniciar o combate, rolando lentamente em torno de seu coração central. No entanto, se um intruso for detectado, o Magnetron começará a formar um corpo gigante ao seu redor usando blocos próximos. As propriedades eletromagnéticas desse monstro são completamente visíveis durante esse processo, com raios elétricos surgindo entre cada bloco que compõe seu corpo.
+    Os blocos que compõem seu novo corpo são importantes - os Magnetrons darão preferência a blocos magnéticos em vez de inertes. Se um Cortador de Pedras ou Bigorna estiver próxima, elas serão incorporadas ao corpo como armas, aumentando o dano causado pelo monstro.
+    Uma vez derrotado, o Magnetron se despedaçará e seus muitos blocos se dispersarão. Mas o que também cairá como um bloco é o seu §lCoração §lde §lFerro§r...
