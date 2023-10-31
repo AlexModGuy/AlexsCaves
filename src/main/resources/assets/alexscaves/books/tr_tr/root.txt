@@ -1,0 +1,59 @@
+
+
+    §lDÜNYANIN §lYÜZEYİNİN §lALTINDA,§r doğada nadir bulunan ve gizlenmiş birçok benzersiz mağara biyomu yatıyor.
+
+    Bu mağara biyomları sadece yenilikleri nedeniyle değil, aynı zamanda her birinin çeşitli güçleri ve efsanevi içerikleri nedeniyle de aranmaktadır.
+    
+    Bu mağaraların beşinin var olduğu bilinmektedir:
+
+    • {Manyetik Mağaralar|magnetic_caves/chapter.json}
+    • {İlkel Mağaralar|primordial_caves/chapter.json}
+    • {Zehirli Mağaralar|toxic_caves/chapter.json}
+    • {Dipsiz Körfez|abyssal_chasm/chapter.json}
+    • {Kimsesiz Oyuklar|forlorn_hollows/chapter.json}
+
+
+    Bu mağaraların herhangi biri hakkında daha fazla bilgi edinmek için bir §lYeraltı §lKulübesi§r bulun..
+    Yeraltı Kulübeleri zaman zaman Dünyadaki mağaralarda bulunabilir.
+
+    Haritacılar zaman zaman size, Maden Kuyusu sandıklarında da bulunabilecek haritalarını satabilirler.
+
+    Basit ganimetlerin yanı sıra, Yeraltı Kulü
+belerinde §lMağara §lTabletleri§r bulunur.
+
+
+
+
+
+
+
+    Mağara Tabletleri, kulübelerdeki başka bir benzersiz buluntu olan bir §lMağaracılık §lMasasına§r bir kağıtla birlikte yerleştirilebilir.
+
+Ardından Mağara Tabletini çevirmeye başlayabilirsiniz...
+    Hem tablet hem de kağıt masanın üzerindeyken, tabletteki çeşitli rünler görünür olacaktır.
+
+    Herhangi bir rün ile etkileşim onu ortaya çıkaracaktır. Ortaya çıkan kelimenin çevirisi, merceği kelimenin üzerine getirerek görülebilir. Tablet kırılmadan önce sadece beş deneme yapılabilir.
+
+
+
+
+    
+    Hangi rünlerin hangi harfleri temsil ettiğini öğrenerek hedeflenen kelimeyi bulabilirsiniz. Bu işlem üç kez tamamlanırsa, tablet ve kağıt bir §lMağara §lEl §lYazması§r'na dönüşecektir.
+
+    Bu yazmaların birden çok kullanımı vardır. İlgili oldukları belirli mağara biyomu hakkında daha fazla bilgi edinmek için kullanılabilirler.
+
+
+
+
+
+
+    Ek olarak, kağıtla beraber birleştirilerek bir §lMağara §lHaritası§r oluşturulabilir.
+
+
+
+
+
+
+
+
+    Mağara Haritaları, yazmalar tarafından detaylandırılmış en yakın mağara biyomunu size gösterebilir. Bir Mağara El Yazmasını oluşturma süreci, bu haritaya esrarengizlik ve enterasanlık katıyor gibi görünüyor.
