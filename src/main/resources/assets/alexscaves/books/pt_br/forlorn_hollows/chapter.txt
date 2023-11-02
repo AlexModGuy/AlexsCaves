@@ -19,8 +19,8 @@
     • {Recursos|forlorn_hollows/resources.json}
     • Habitantes
         • {Mariposa Sombria|forlorn_hollows/gloomoth.json}
-        • {Subzealote|forlorn_hollows/underzealot.json}
-        • {Vigilante|forlorn_hollows/watcher.json}
+        • {Fanático Toupeira|forlorn_hollows/underzealot.json}
+        • {Observador|forlorn_hollows/watcher.json}
         • {Corrodente|forlorn_hollows/corrodent.json}
         • {Véspora|forlorn_hollows/vesper.json}
         • {Renegado|forlorn_hollows/forsaken.json}

@@ -18,10 +18,10 @@
     • {Introdução|primordial_caves/general.json}
     • {Recursos|primordial_caves/resources.json}
     • Habitantes
-        • {Subterranodonte|primordial_caves/subterranodon.json}
+        • {Subterranodon|primordial_caves/subterranodon.json}
         • {Vallumraptor|primordial_caves/vallumraptor.json}
-        • {Grottocerátopo|primordial_caves/grottoceratops.json}
+        • {Grottocerátops|primordial_caves/grottoceratops.json}
         • {Trilocaris|primordial_caves/trilocaris.json}
-        • {Tremorsauro|primordial_caves/tremorsaurus.json}
+        • {Tremorsaurus|primordial_caves/tremorsaurus.json}
         • {Relicheirus|primordial_caves/relicheirus.json}
     • {Utilidades|primordial_caves/utilities.json}

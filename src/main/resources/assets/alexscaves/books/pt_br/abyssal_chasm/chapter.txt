@@ -13,7 +13,7 @@
 
 
 
-    Bem-vindo ao Abismo Abissal...
+    Bem-vindo as Fendas Abissais...
 
     • {Introdução|abyssal_chasm/general.json}
     • {Recursos|abyssal_chasm/resources.json}
@@ -26,5 +26,5 @@
         • {Profundo|abyssal_chasm/deep_one.json}
         • {Cavaleiro Profundo|abyssal_chasm/deep_one_knight.json}
         • {Mago Profundo|abyssal_chasm/deep_one_mage.json}
-        • {Guardião Explosivo|abyssal_chasm/mine_guardian.json}
+        • {Guardião-Mina|abyssal_chasm/mine_guardian.json}
     • {Utilidades|abyssal_chasm/utilities.json}

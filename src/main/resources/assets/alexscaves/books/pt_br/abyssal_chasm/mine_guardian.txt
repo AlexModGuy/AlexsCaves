@@ -13,6 +13,6 @@
     • 20.0 ♥
     • 15.0 🗡
 
-    Os Guardiões Explosivos são frequentemente difíceis de ver no Abismo Abissal, pois estão sempre acorrentados a uma âncora no fundo do mar, ao redor das Ruínas Abissais. Esses seres mecânicos foram deixados lá há muito tempo, provavelmente para afastar os Profundos.
-	De vez em quando, os Guardiões Explosivos abrirão seu único olho para escanear em busca de alvos, incluindo quaisquer aventureiros próximos. Se um alvo for detectado em curto alcance, o Guardião Explosivo começará a flutuar em direção ao alvo detectado e, em seguida, explodirá repentinamente uma vez dentro do alcance.
+    Os Guardiões-Mina são frequentemente difíceis de ver nas Fendas Abissais, pois estão sempre acorrentados a uma âncora no fundo do mar, ao redor das Ruínas Abissais. Esses seres mecânicos foram deixados lá há muito tempo, provavelmente para afastar os Profundos.
+	De vez em quando, os Guardiões Explosivos abrirão seu único olho para escanear em busca de alvos, incluindo quaisquer aventureiros próximos. Se um alvo for detectado em curto alcance, o Guardião-Mina começará a flutuar em direção ao alvo detectado e, em seguida, explodirá repentinamente uma vez dentro do alcance.
 	Se for derrotado antes que isso aconteça, os Guardiões Explosivos podem deixar cair uma §lCarga §lde §lProfundidade§r, que pode ser lançada para criar uma pequena explosão capaz de destruir blocos, mesmo debaixo d'água.

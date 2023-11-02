@@ -13,6 +13,6 @@
     • 4.0 ♥
 
 
-    Gloomoths are large, passive insects found fluttering through the darkness of the Forlorn Hollows. These bugs are prey to many of the large mammals here, and like their predators they have also been twisted by the darkness - though nowhere near as much.
-    Gloomoths naturally seek out light sources, as it is part of how they navigate. This leads them to cluster around light-emitting blocks such as torches. Naturally, this brings them both close to the ground and brings in plenty of nearby predators that would usually stay lurking in the dark.
-    Although they are no threat in themselves, Gloomoths represent far greater danger because of the predators they can bring. If slain, they can drop §lMoth §lDust§r.
+    Mariposa Sombria são insetos grandes e passivos encontrados pairando na escuridão das Cavernas Desoladas. Esses insetos são presas de muitos dos grandes mamíferos daqui, e assim como seus predadores, eles também foram distorcidos pela escuridão - embora não tanto.
+    As Mariposas Sombrias naturalmente buscam fontes de luz, pois faz parte de como eles se orientam. Isso os leva a se agrupar ao redor de blocos emissores de luz, como tochas. Naturalmente, isso os aproxima do chão e atrai muitos predadores próximos que normalmente ficariam à espreita na escuridão. 
+    Embora eles não representem ameaça em si mesmos, as Mariposas Sombrias representam um perigo muito maior devido aos predadores que podem atrair. Se mortos, eles podem soltar o §lPó §lde §lMariposa§r.
