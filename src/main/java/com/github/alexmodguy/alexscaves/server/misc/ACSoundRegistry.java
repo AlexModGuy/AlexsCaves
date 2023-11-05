@@ -68,6 +68,10 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> AMBER_MONOLITH_PLACE = createSoundEvent("amber_monolith_place");
     public static final RegistryObject<SoundEvent> AMBER_MONOLITH_SUMMON = createSoundEvent("amber_monolith_summon");
     public static final RegistryObject<SoundEvent> PEWEN_BRANCH_BREAK = createSoundEvent("pewen_branch_break");
+    public static final RegistryObject<SoundEvent> FLOOD_BASALT_STEP = createSoundEvent("flood_basalt_step");
+    public static final RegistryObject<SoundEvent> FLOOD_BASALT_PLACE = createSoundEvent("flood_basalt_place");
+    public static final RegistryObject<SoundEvent> FLOOD_BASALT_BREAK = createSoundEvent("flood_basalt_break");
+    public static final RegistryObject<SoundEvent> FLOOD_BASALT_BREAKING = createSoundEvent("flood_basalt_breaking");
     public static final RegistryObject<SoundEvent> ACID_BURN = createSoundEvent("acid_burn");
     public static final RegistryObject<SoundEvent> ACID_CORROSION = createSoundEvent("acid_corrosion");
     public static final RegistryObject<SoundEvent> ACID_IDLE = createSoundEvent("acid_idle");

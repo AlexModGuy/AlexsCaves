@@ -172,6 +172,9 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> POTTED_ANCIENT_SAPLING = DEF_REG.register("potted_ancient_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, ANCIENT_SAPLING, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> TREE_STAR = registerBlockAndItem("tree_star", () -> new TreeStarBlock());
     public static final RegistryObject<Block> FERN_THATCH = registerBlockAndItem("fern_thatch", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GREEN).strength(0.5F).sound(SoundType.GRASS).noOcclusion()));
+    public static final RegistryObject<Block> PRIMAL_MAGMA = registerBlockAndItem("primal_magma", () -> new PrimalMagmaBlock());
+    public static final RegistryObject<Block> FLOOD_BASALT = registerBlockAndItem("flood_basalt", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED).strength(3.0F, 100.0F).sound(ACSoundTypes.FLOOD_BASALT)));
+    public static final RegistryObject<Block> VOLCANIC_CORE = registerBlockAndItem("volcanic_core", () -> new VolcanicCoreBlock(), 7);
     public static final RegistryObject<Block> RADROCK = registerBlockAndItem("radrock", () -> new Block(RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_STAIRS = registerBlockAndItem("radrock_stairs", () -> new StairBlock(RADROCK.get().defaultBlockState(), RADROCK_PROPERTIES));
     public static final RegistryObject<Block> RADROCK_SLAB = registerBlockAndItem("radrock_slab", () -> new SlabBlock(RADROCK_PROPERTIES));
@@ -340,6 +343,8 @@ public class ACBlockRegistry {
                 return () -> new RadioactiveOnDestroyedBlockItem(blockObj, new Item.Properties(), 0.01F);
             case 6:
                 return () -> new BlockItemWithSupplier(blockObj, new Item.Properties().rarity(Rarity.UNCOMMON));
+            case 7:
+                return () -> new BlockItemWithSupplier(blockObj, new Item.Properties().fireResistant());
         }
     }
 

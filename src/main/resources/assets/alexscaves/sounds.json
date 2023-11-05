@@ -963,6 +963,46 @@
     ],
     "subtitle": "alexscaves.sound.subtitle.pewen_branch_break"
   },
+  "flood_basalt_step": {
+    "sounds": [
+      "alexscaves:block/flood_basalt/flood_basalt_step_0",
+      "alexscaves:block/flood_basalt/flood_basalt_step_1",
+      "alexscaves:block/flood_basalt/flood_basalt_step_2",
+      "alexscaves:block/flood_basalt/flood_basalt_step_3",
+      "alexscaves:block/flood_basalt/flood_basalt_step_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.flood_basalt_step"
+  },
+  "flood_basalt_place": {
+    "sounds": [
+      "alexscaves:block/flood_basalt/flood_basalt_place_0",
+      "alexscaves:block/flood_basalt/flood_basalt_place_1",
+      "alexscaves:block/flood_basalt/flood_basalt_place_2",
+      "alexscaves:block/flood_basalt/flood_basalt_place_3",
+      "alexscaves:block/flood_basalt/flood_basalt_place_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.flood_basalt_place"
+  },
+  "flood_basalt_break": {
+    "sounds": [
+      "alexscaves:block/flood_basalt/flood_basalt_break_0",
+      "alexscaves:block/flood_basalt/flood_basalt_break_1",
+      "alexscaves:block/flood_basalt/flood_basalt_break_2",
+      "alexscaves:block/flood_basalt/flood_basalt_break_3",
+      "alexscaves:block/flood_basalt/flood_basalt_break_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.flood_basalt_break"
+  },
+  "flood_basalt_breaking": {
+    "sounds": [
+      "alexscaves:block/flood_basalt/flood_basalt_breaking_0",
+      "alexscaves:block/flood_basalt/flood_basalt_breaking_1",
+      "alexscaves:block/flood_basalt/flood_basalt_breaking_2",
+      "alexscaves:block/flood_basalt/flood_basalt_breaking_3",
+      "alexscaves:block/flood_basalt/flood_basalt_breaking_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.flood_basalt_breaking"
+  },
   "acid_burn": {
     "sounds": [
       "alexscaves:block/acid/acid_burn_0",

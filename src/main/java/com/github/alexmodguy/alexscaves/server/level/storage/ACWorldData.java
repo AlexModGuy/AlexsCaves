@@ -21,8 +21,8 @@ public class ACWorldData extends SavedData {
 
     private static final String IDENTIFIER = "alexscaves_world_data";
     private Map<UUID, Integer> deepOneReputations = new HashMap<>();
-
     private final CaveBiomeFinder caveBiomeFinder = new CaveBiomeFinder();
+    private boolean primordialBossActive = false;
 
     private ACWorldData() {
         super();
@@ -50,6 +50,7 @@ public class ACWorldData extends SavedData {
                 data.deepOneReputations.put(innerTag.getUUID("UUID"), innerTag.getInt("Reputation"));
             }
         }
+        data.primordialBossActive = nbt.getBoolean("PrimordialBossActive");
         return data;
     }
 
@@ -65,6 +66,7 @@ public class ACWorldData extends SavedData {
             }
             compound.put("DeepOneReputations", listTag);
         }
+        compound.putBoolean("PrimordialBossActive", primordialBossActive);
         return compound;
     }
 
@@ -74,6 +76,14 @@ public class ACWorldData extends SavedData {
 
     public void setDeepOneReputation(UUID uuid, int reputation) {
         deepOneReputations.put(uuid, Mth.clamp(reputation, -100, 100));
+    }
+
+    public boolean isPrimordialBossActive(){
+        return false;// primordialBossActive;
+    }
+
+    public void setPrimordialBossActive(boolean active){
+        this.primordialBossActive = active;
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){

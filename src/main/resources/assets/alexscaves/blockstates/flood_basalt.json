@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/flood_basalt",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/flood_basalt"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/flood_basalt",
+      "x": 90
+    }
+  }
+}

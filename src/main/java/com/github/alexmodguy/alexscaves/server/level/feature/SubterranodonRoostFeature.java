@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.block.MultipleDinosaurEggsBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -70,6 +71,7 @@ public class SubterranodonRoostFeature extends Feature<NoneFeatureConfiguration>
             cliff.move(direction.getOpposite());
         }
         BlockState behind = level.getBlockState(cliff);
+
         BlockState set = behind.is(Blocks.SANDSTONE) ? Blocks.SANDSTONE.defaultBlockState() : ACBlockRegistry.LIMESTONE.get().defaultBlockState();
         cliff.move(direction);
         for (int i = 0; i < Math.ceil(length); i++) {
@@ -113,8 +115,11 @@ public class SubterranodonRoostFeature extends Feature<NoneFeatureConfiguration>
         List<Direction> possiblities = new ArrayList<>();
         for (Direction possible : ACMath.HORIZONTAL_DIRECTIONS) {
             BlockPos check = pos.relative(possible);
-            if (isSameChunk(pos, check) && level.getBlockState(check).isFaceSturdy(level, check, possible.getOpposite())) {
-                possiblities.add(possible.getOpposite());
+            if (isSameChunk(pos, check)) {
+                BlockState cliffState = level.getBlockState(check);
+                if(cliffState.isFaceSturdy(level, check, possible.getOpposite()) && !cliffState.is(ACTagRegistry.VOLCANO_BLOCKS)){
+                    possiblities.add(possible.getOpposite());
+                }
             }
         }
         return selectDirection(possiblities, randomSource);

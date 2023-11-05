@@ -29,6 +29,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LEAVES = registerBlockTag("relicheirus_knockable_leaves");
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LOGS = registerBlockTag("relicheirus_knockable_logs");
     public static final TagKey<Block> COOKS_MEAT_BLOCKS = registerBlockTag("cooks_meat_blocks");
+    public static final TagKey<Block> VOLCANO_BLOCKS = registerBlockTag("volcano_blocks");
     public static final TagKey<Block> NUKE_PROOF = registerBlockTag("nuke_proof");
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
     public static final TagKey<Block> REMOTE_DETONATOR_ACTIVATES = registerBlockTag("remote_detonator_activates");

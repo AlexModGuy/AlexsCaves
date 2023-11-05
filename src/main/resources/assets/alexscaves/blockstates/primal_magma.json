@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "active=false": {
+      "model": "alexscaves:block/primal_magma"
+    },
+    "active=true": {
+      "model": "alexscaves:block/primal_magma_active"
+    }
+  }
+}

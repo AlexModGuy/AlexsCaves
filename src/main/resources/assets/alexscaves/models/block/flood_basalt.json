@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "alexscaves:block/flood_basalt",
+        "bottom": "alexscaves:block/flood_basalt_top",
+        "top": "alexscaves:block/flood_basalt_top"
+    }
+}
