@@ -25,11 +25,11 @@
 
 
 
-    Quaisquer Afogados que apareçam no Abismo Abissal podem estar vestindo partes da Armadura do §lTraje §lde §lMergulho§r. Elas também podem aparecer em baús nas Ruínas Abissais.
+    Quaisquer Afogados que apareçam nas Fendas Abissais podem estar vestindo partes da Armadura do §lTraje §lde §lMergulho§r. Elas também podem aparecer em baús nas Ruínas Abissais.
 
 
-    O Capacete de Mergulho concede quarenta segundos de Respiração Aquática quando usado fora d'água, estendendo significativamente o período no qual os exploradores podem permanecer no Abismo Abissal. O Colete tem resistência adicional, as Calças concedem uma maior velocidade de natação e as Botas permitem uma maior velocidade sobre blocos de Lamo.
-    As Ruínas Abissais também podem ocasionalmente conter um Submarino. Submarinos danificados podem ser consertados usando barras de cobre, e qualquer oxidação pode ser removida com um machado. Uma vez reparado, um submarino pode ser pilotado e até possui holofotes para melhorar a visibilidade das profundezas. Quando pilotados, os submarinos fornecem uma quantidade constante de ar, tornando-os uma das maneiras mais seguras de se locomover no Abismo Abissal.
+    O Capacete de Mergulho concede quarenta segundos de Respiração Aquática quando usado fora d'água, estendendo significativamente o período no qual os exploradores podem permanecer nas Fendas Abissais. O Colete tem resistência adicional, as Calças concedem uma maior velocidade de natação e as Botas permitem uma maior velocidade sobre blocos de Lamo.
+    As Ruínas Abissais também podem ocasionalmente conter um Submarino. Submarinos danificados podem ser consertados usando barras de cobre, e qualquer oxidação pode ser removida com um machado. Uma vez reparado, um submarino pode ser pilotado e até possui holofotes para melhorar a visibilidade das profundezas. Quando pilotados, os submarinos fornecem uma quantidade constante de ar, tornando-os uma das maneiras mais seguras de se locomover nas Fendas Abissais.
     Para criar um submarino totalmente novo, será necessário vários blocos de cobre, um Motor Enigmático e alguns blocos de Vidro de Profundidade. Basta cercar o Motor Enigmático com um cubo de cobre e certificar-se de usar seis blocos de Vidro de Profundidade para marcar a frente do veículo.
 
     As ruínas abissais também fazem uso de blocos de §lDreno§r, que podem ser criados com Cargas de Profundidade.

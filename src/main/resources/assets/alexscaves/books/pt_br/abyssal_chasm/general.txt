@@ -1,6 +1,6 @@
 
 
-    O §lAbismo §lAbissal§r é um bioma encontrado nas profundezas do mundo, mas, ao contrário de outros biomas de caverna, ele é coberto por centenas de blocos de água, não de pedra.
+    As §lFendas §lAbissais§r é um bioma encontrado nas profundezas do mundo, mas, ao contrário de outros biomas de caverna, ele é coberto por centenas de blocos de água, não de pedra.
 	É encontrado exclusivamente sob biomas oceânicos e se assemelha a uma trincheira massiva onde a luz mal penetra. As paredes da trincheira são revestidas de Abissmarine, um bloco semelhante a pedra, e o fundo abissal é coberto por uma espessa camada de Lodo.
 
 

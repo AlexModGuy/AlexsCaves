@@ -8,7 +8,7 @@
 
 
 
-    A Adaga Desolada dropada pelos Subzealotes pode parecer fraca com base em seu baixo dano de ataque, mas após cada golpe, uma versão fantasmagórica vermelha da adaga pairará sobre o alvo. Esta lâmina vermelha inflige um ataque adicional, com atraso.
+    A Adaga Desolada dropada pelos Fanáticos Toupeira pode parecer fraca com base em seu baixo dano de ataque, mas após cada golpe, uma versão fantasmagórica vermelha da adaga pairará sobre o alvo. Esta lâmina vermelha inflige um ataque adicional, com atraso.
 	A Gema Oculta tem múltiplos usos. Pode ser transformada em um §lTotem §lda §lPossessão§r, que pode ser vinculado a qualquer criatura ao atingi-la.
 
 

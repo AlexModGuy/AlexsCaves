@@ -19,8 +19,8 @@
     • {Recursos|toxic_caves/resources.json}
     • Habitantes
         • {Nucleeper|toxic_caves/nucleeper.json}
-        • {Radipeixe|toxic_caves/radgill.json}
-        • {Brainiac|toxic_caves/brainiac.json}
+        • {Radiguelra|toxic_caves/radgill.json}
+        • {Cerebroico|toxic_caves/brainiac.json}
         • {Gamarata|toxic_caves/gammaroach.json}
         • {Radigato|toxic_caves/raycat.json}
     • {Utilidades|toxic_caves/utilities.json}
