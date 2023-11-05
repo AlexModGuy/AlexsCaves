@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
+import com.github.alexmodguy.alexscaves.server.item.dispenser.FluidContainerDispenseItemBehavior;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexthe666.citadel.server.block.LecternBooks;
 import net.minecraft.ChatFormatting;
@@ -232,6 +233,7 @@ public class ACItemRegistry {
             }
         });
         DispenserBlock.registerBehavior(GALENA_GAUNTLET.get(), ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+        DispenserBlock.registerBehavior(ACID_BUCKET.get(), new FluidContainerDispenseItemBehavior());
         DispenserBlock.registerBehavior(CINDER_BRICK.get(), new AbstractProjectileDispenseBehavior() {
             protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
                 return new CinderBrickEntity(level, position.x(), position.y(), position.z());

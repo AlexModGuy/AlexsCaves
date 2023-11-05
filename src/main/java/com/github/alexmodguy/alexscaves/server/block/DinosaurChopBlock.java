@@ -11,6 +11,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -23,10 +24,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.MapColor;
-import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.level.material.*;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -111,7 +109,7 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         LevelAccessor levelaccessor = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
-        return this.defaultBlockState().setValue(WATERLOGGED, Boolean.valueOf(levelaccessor.getFluidState(blockpos).getType() == Fluids.WATER)).setValue(FACING, context.getNearestLookingDirection().getOpposite());
+        return this.defaultBlockState().setValue(WATERLOGGED, false).setValue(FACING, context.getNearestLookingDirection().getOpposite());
 
     }
 
@@ -197,6 +195,23 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
 
     public static int getOutputSignal(int i) {
         return (7 - i) * 2;
+    }
+
+    public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos pos, BlockState blockState, Fluid fluid) {
+        return blockState.getValue(BITES) != 0 && fluid == Fluids.WATER;
+    }
+
+    public ItemStack pickupBlock(LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState) {
+        if (blockState.getValue(BITES) != 0 && blockState.getValue(BlockStateProperties.WATERLOGGED)) {
+            levelAccessor.setBlock(blockPos, blockState.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)), 3);
+            if (!blockState.canSurvive(levelAccessor, blockPos)) {
+                levelAccessor.destroyBlock(blockPos, true);
+            }
+
+            return new ItemStack(Items.WATER_BUCKET);
+        } else {
+            return ItemStack.EMPTY;
+        }
     }
 
 }

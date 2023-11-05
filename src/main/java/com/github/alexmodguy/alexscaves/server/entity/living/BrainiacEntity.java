@@ -327,7 +327,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                             BrainiacEntity.this.setAnimation(ANIMATION_THROW_BARREL);
                             BrainiacEntity.this.playSound(ACSoundRegistry.BRAINIAC_THROW.get());
                         }
-                        if (dist < BrainiacEntity.this.getBbWidth() + target.getBbWidth() + 2.0D) {
+                        if (dist < BrainiacEntity.this.getBbWidth() + target.getBbWidth() + 3.5D) {
                             BrainiacEntity.this.setAnimation(BrainiacEntity.this.random.nextBoolean() ? ANIMATION_SMASH : ANIMATION_BITE);
                             BrainiacEntity.this.playSound(ACSoundRegistry.BRAINIAC_ATTACK.get());
                             return;
