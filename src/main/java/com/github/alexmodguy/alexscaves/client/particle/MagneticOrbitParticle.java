@@ -80,8 +80,8 @@ public class MagneticOrbitParticle extends AbstractTrailParticle {
     }
 
     @Override
-    public RenderType getTrailRenderType() {
-        return ACRenderTypes.getParticleTrail(TRAIL_TEXTURE);
+    public ResourceLocation getTrailTexture() {
+        return TRAIL_TEXTURE;
     }
 
     @OnlyIn(Dist.CLIENT)

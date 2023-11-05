@@ -3,8 +3,8 @@ package com.github.alexmodguy.alexscaves.client.particle;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -73,11 +73,15 @@ public class StunStarParticle extends AbstractTrailParticle {
             float f3 = Mth.lerp(partialTick, this.oRoll, this.roll);
             quaternion.mul(Axis.ZP.rotation(f3));
         }
-        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer portalStatic = multibuffersource$buffersource.getBuffer(ForgeRenderTypes.getUnlitTranslucent(CENTER_TEXTURE));
-        PoseStack posestack = new PoseStack();
-        PoseStack.Pose posestack$pose = posestack.last();
-        Matrix3f matrix3f = posestack$pose.normal();
+        
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tesselator.getBuilder();
+        RenderSystem.setShaderTexture(0, CENTER_TEXTURE);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+
+
 
         Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
         vector3f1.rotate(quaternion);
@@ -96,12 +100,12 @@ public class StunStarParticle extends AbstractTrailParticle {
         float f6 = 1;
         float alpha = 1;
         int j = 240;
-        portalStatic.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f8, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        portalStatic.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f8, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        portalStatic.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        portalStatic.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
+        bufferbuilder.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).uv(f8, f6).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        bufferbuilder.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).uv(f8, f5).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        bufferbuilder.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        bufferbuilder.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).uv(f7, f6).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
 
-        multibuffersource$buffersource.endBatch();
+        tesselator.end();
         super.render(vertexConsumer, camera, partialTick);
     }
 
@@ -140,8 +144,8 @@ public class StunStarParticle extends AbstractTrailParticle {
     }
 
     @Override
-    public RenderType getTrailRenderType() {
-        return ACRenderTypes.getParticleTrail(TRAIL_TEXTURE);
+    public ResourceLocation getTrailTexture() {
+        return TRAIL_TEXTURE;
     }
 
 

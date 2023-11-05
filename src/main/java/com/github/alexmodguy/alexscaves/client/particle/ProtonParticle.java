@@ -4,8 +4,8 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -47,7 +47,7 @@ public class ProtonParticle extends MagneticOrbitParticle {
     }
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {
-        PostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
+        super.render(vertexConsumer, camera, partialTick);
         Vec3 vec3 = camera.getPosition();
         float f = (float) (Mth.lerp((double) partialTick, this.xo, this.x) - vec3.x());
         float f1 = (float) (Mth.lerp((double) partialTick, this.yo, this.y) - vec3.y());
@@ -60,11 +60,14 @@ public class ProtonParticle extends MagneticOrbitParticle {
             float f3 = Mth.lerp(partialTick, this.oRoll, this.roll);
             quaternion.mul(Axis.ZP.rotation(f3));
         }
-        MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer portalStatic = multibuffersource$buffersource.getBuffer(ACRenderTypes.getRadiationGlow(CENTER_TEXTURE));
-        PoseStack posestack = new PoseStack();
-        PoseStack.Pose posestack$pose = posestack.last();
-        Matrix3f matrix3f = posestack$pose.normal();
+
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tesselator.getBuilder();
+        RenderSystem.setShaderTexture(0, CENTER_TEXTURE);
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+
 
         Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
         vector3f1.rotate(quaternion);
@@ -81,15 +84,13 @@ public class ProtonParticle extends MagneticOrbitParticle {
         float f8 = 1;
         float f5 = 0;
         float f6 = 1;
-        float alpha = 1;
+        float alpha = Mth.clamp( 1F - age / (float) this.lifetime, 0.0F, 1.0F);
         int j = 240;
-        portalStatic.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f8, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        portalStatic.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f8, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        portalStatic.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f5).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-        portalStatic.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f6).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, -1.0F, 0.0F).endVertex();
-
-        multibuffersource$buffersource.endBatch();
-        super.render(vertexConsumer, camera, partialTick);
+        bufferbuilder.vertex((double) avector3f[0].x(), (double) avector3f[0].y(), (double) avector3f[0].z()).uv(f8, f6).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        bufferbuilder.vertex((double) avector3f[1].x(), (double) avector3f[1].y(), (double) avector3f[1].z()).uv(f8, f5).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        bufferbuilder.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).uv(f7, f5).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        bufferbuilder.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).uv(f7, f6).color(this.rCol, this.gCol, this.bCol, alpha).uv2(j).endVertex();
+        tesselator.end();
     }
 
     public void tick() {
@@ -97,7 +98,9 @@ public class ProtonParticle extends MagneticOrbitParticle {
         this.yd *= 0.9;
         this.zd *= 0.9;
         super.tick();
-        this.trailA = 0.8F * Mth.clamp(age / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
+        float fadeIn = 0.8F * Mth.clamp(age / (float) this.lifetime * 32.0F, 0.0F, 1.0F);
+        float fadeOut = Mth.clamp( 1F - age / (float) this.lifetime, 0.0F, 1.0F);
+        this.trailA = fadeIn * fadeOut;
     }
 
     @Override
@@ -126,10 +129,9 @@ public class ProtonParticle extends MagneticOrbitParticle {
     }
 
     @Override
-    public RenderType getTrailRenderType() {
-        return ACRenderTypes.getParticleTrail(PROTON_TRAIL_TEXTURE);
+    public ResourceLocation getTrailTexture() {
+        return PROTON_TRAIL_TEXTURE;
     }
-
 
     @Override
     public int sampleCount() {
