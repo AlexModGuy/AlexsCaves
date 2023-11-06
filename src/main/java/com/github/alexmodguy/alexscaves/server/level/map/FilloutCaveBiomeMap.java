@@ -12,6 +12,7 @@ import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerChunkCache;
@@ -23,6 +24,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Climate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class FilloutCaveBiomeMap implements Runnable {
@@ -55,7 +58,7 @@ public class FilloutCaveBiomeMap implements Runnable {
         CompoundTag tag = map.getOrCreateTag();
         if (biomeCorner != null) {
             BlockPos centered = getCenterOfBiome(biomeCorner);
-            tag.putIntArray("MapBiomes", fillOutMapColors(centered));
+            fillOutMapColors(centered, tag);
             tag.putInt("BiomeX", centered.getX());
             tag.putInt("BiomeY", centered.getY());
             tag.putInt("BiomeZ", centered.getZ());
@@ -157,9 +160,10 @@ public class FilloutCaveBiomeMap implements Runnable {
     }
 
 
-    private int[] fillOutMapColors(BlockPos first) {
+    private void fillOutMapColors(BlockPos first, CompoundTag tag) {
         Registry<Biome> registry = serverLevel.registryAccess().registry(Registries.BIOME).orElse(null);
-        int[] arr = new int[128 * 128];
+        byte[] arr = new byte[128 * 128];
+        Map<Integer, Byte> biomeMap = new HashMap<>();
         if (registry != null) {
             BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
             int scale = CaveMapItem.MAP_SCALE;
@@ -176,11 +180,27 @@ public class FilloutCaveBiomeMap implements Runnable {
                             break;
                         }
                     }
-                    arr[j1 * 128 + k1] = registry.getId(holder1.value());
+                    int id = registry.getId(holder1.value());
+                    byte biomeHash;
+                    if(biomeMap.containsKey(id)){
+                        biomeHash = biomeMap.get(id);
+                    }else{
+                        biomeHash = (byte) biomeMap.size();
+                        biomeMap.put(id, biomeHash);
+                    }
+                    arr[j1 * 128 + k1] = biomeHash;
                 }
             }
         }
-        return arr;
+        ListTag listTag = new ListTag();
+        for(Map.Entry<Integer, Byte> entry : biomeMap.entrySet()){
+            CompoundTag biomeEntryTag = new CompoundTag();
+            biomeEntryTag.putInt("BiomeID", entry.getKey());
+            biomeEntryTag.putInt("BiomeHash", entry.getValue());
+            listTag.add(biomeEntryTag);
+        }
+        tag.put("MapBiomeList", listTag);
+        tag.putByteArray("MapBiomes", arr);
     }
 
     public UUID getTaskUUID() {

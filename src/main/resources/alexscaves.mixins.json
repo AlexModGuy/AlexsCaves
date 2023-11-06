@@ -21,6 +21,7 @@
   ],
   "client": [
     "client.AdvancementTabMixin",
+    "client.BiomeAmbientSoundsHandlerInstanceMixin",
     "client.BiomeAmbientSoundsHandlerMixin",
     "client.CameraMixin",
     "client.ClientChunkCacheStorageMixin",

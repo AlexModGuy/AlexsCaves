@@ -7,6 +7,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +22,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
 import javax.annotation.Nullable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class CaveMapItem extends Item implements UpdatesStackTags {
@@ -80,9 +83,20 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
         return BlockPos.ZERO;
     }
 
-    public static int[] getBiomes(ItemStack stack) {
+    public static int[] createBiomeArray(ItemStack stack) {
         if (stack.getTag() != null) {
-            return stack.getTag().getIntArray("MapBiomes");
+            ListTag listTag = stack.getTag().getList("MapBiomeList", 10);
+            Map<Byte, Integer> integerByteMap = new HashMap<>();
+            for (int i = 0; i < listTag.size(); ++i) {
+                CompoundTag innerTag = listTag.getCompound(i);
+                integerByteMap.put(innerTag.getByte("BiomeHash"), innerTag.getInt("BiomeID"));
+            }
+            byte[] byteArray = stack.getTag().getByteArray("MapBiomes");
+            int[] intArray = new int[128 * 128];
+            for(int i = 0; i < intArray.length; i++){
+                intArray[i] = integerByteMap.get(byteArray[i]);
+            }
+            return intArray;
         }
         return new int[0];
     }

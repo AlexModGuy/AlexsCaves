@@ -1,37 +1,41 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.client.resources.sounds.BiomeAmbientSoundsHandler;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeManager;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BiomeAmbientSoundsHandler.LoopSoundInstance.class)
-public abstract class BiomeAmbientSoundsHandlerMixin extends AbstractTickableSoundInstance {
+@Mixin(BiomeAmbientSoundsHandler.class)
+public abstract class BiomeAmbientSoundsHandlerMixin  {
 
-    protected BiomeAmbientSoundsHandlerMixin(SoundEvent soundEvent, SoundSource soundSource, RandomSource randomSource) {
-        super(soundEvent, soundSource, randomSource);
-    }
 
-    @Shadow private int fade;
+    @Shadow @Final private BiomeManager biomeManager;
 
-    @Shadow private int fadeDirection;
+    @Shadow @Final private LocalPlayer player;
 
-    @Inject(method = "Lnet/minecraft/client/resources/sounds/BiomeAmbientSoundsHandler$LoopSoundInstance;tick()V",
-            at = @At("HEAD"), cancellable = true)
+    @Shadow @Final private Object2ObjectArrayMap<Biome, BiomeAmbientSoundsHandler.LoopSoundInstance> loopSounds;
+
+    @Inject(method = "Lnet/minecraft/client/resources/sounds/BiomeAmbientSoundsHandler;tick()V",
+            at = @At("TAIL"))
     private void ac_tick(CallbackInfo ci) {
-        Player player = Minecraft.getInstance().player;
-        if(player != null && !player.isUnderWater() && player.level().getBiome(player.blockPosition()).is(ACTagRegistry.ONLY_AMBIENT_LOOP_UNDERWATER)){
-            volume = 0;
-            ci.cancel();
+        Biome biome = this.biomeManager.getNoiseBiomeAtPosition(this.player.getX(), this.player.getY(), this.player.getZ()).value();
+        if(biome.getAmbientLoop().isPresent() && !player.isAlive()){
+            //fixes biome loop sounds playing after death and respawn
+            this.loopSounds.values().forEach(BiomeAmbientSoundsHandler.LoopSoundInstance::fadeOut);
         }
     }
 }

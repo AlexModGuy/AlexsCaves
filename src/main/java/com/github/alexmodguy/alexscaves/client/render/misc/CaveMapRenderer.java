@@ -68,7 +68,7 @@ public class CaveMapRenderer {
             if (CAVE_MAPS_HAND.containsKey(item)) {
                 return CAVE_MAPS_HAND.get(item);
             } else {
-                CaveMapRenderer mapRenderer = new CaveMapRenderer(CaveMapItem.getBiomeBlockPos(item), CaveMapItem.getBiomes(item), CaveMapItem.getSeed(item), transparent, CAVE_MAPS_HAND.size());
+                CaveMapRenderer mapRenderer = new CaveMapRenderer(CaveMapItem.getBiomeBlockPos(item), CaveMapItem.createBiomeArray(item), CaveMapItem.getSeed(item), transparent, CAVE_MAPS_HAND.size());
                 CAVE_MAPS_HAND.put(item, mapRenderer);
                 return mapRenderer;
             }
@@ -76,7 +76,7 @@ public class CaveMapRenderer {
             if (CAVE_MAPS_ITEM_FRAME.containsKey(item)) {
                 return CAVE_MAPS_ITEM_FRAME.get(item);
             } else {
-                CaveMapRenderer mapRenderer = new CaveMapRenderer(CaveMapItem.getBiomeBlockPos(item), CaveMapItem.getBiomes(item), CaveMapItem.getSeed(item), transparent, CAVE_MAPS_ITEM_FRAME.size());
+                CaveMapRenderer mapRenderer = new CaveMapRenderer(CaveMapItem.getBiomeBlockPos(item), CaveMapItem.createBiomeArray(item), CaveMapItem.getSeed(item), transparent, CAVE_MAPS_ITEM_FRAME.size());
                 CAVE_MAPS_ITEM_FRAME.put(item, mapRenderer);
                 return mapRenderer;
             }
