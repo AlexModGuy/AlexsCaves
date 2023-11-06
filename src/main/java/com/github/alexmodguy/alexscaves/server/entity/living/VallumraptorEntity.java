@@ -152,7 +152,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         this.targetSelector.addGoal(5, new AnimalPackTargetGoal(this, GrottoceratopsEntity.class, 30, false, 5));
         this.targetSelector.addGoal(6, new MobTargetUntamedGoal<>(this, Frog.class, 100, true, false, null));
         this.targetSelector.addGoal(7, new MobTargetUntamedGoal<>(this, Pig.class, 50, true, false, null));
-        this.targetSelector.addGoal(8, new MobTargetClosePlayers(this, 4));
+        this.targetSelector.addGoal(8, new MobTargetClosePlayers(this, 12));
     }
 
     @Nullable

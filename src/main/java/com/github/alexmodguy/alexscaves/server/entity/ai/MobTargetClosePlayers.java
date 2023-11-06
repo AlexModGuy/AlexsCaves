@@ -4,6 +4,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 public class MobTargetClosePlayers extends NearestAttackableTargetGoal<Player> {
 
@@ -26,5 +27,9 @@ public class MobTargetClosePlayers extends NearestAttackableTargetGoal<Player> {
 
     protected double getFollowDistance() {
         return this.range;
+    }
+
+    protected AABB getTargetSearchArea(double rangeIn) {
+        return this.mob.getBoundingBox().inflate(this.range, this.range, this.range);
     }
 }

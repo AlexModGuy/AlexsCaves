@@ -77,14 +77,24 @@ public class GalenaGauntletItem extends Item {
         }
         AlexsCaves.PROXY.playWorldSound(living, (byte) 11);
         ItemStack otherStack = living.getItemInHand(otherHand);
-        if (otherStack.is(ACTagRegistry.MAGNETIC_ITEMS) && i <= 0) {
-            ItemStack copy = otherStack.copy();
-            otherStack.setCount(0);
-            MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(level);
-            magneticWeapon.setItemStack(copy);
-            magneticWeapon.setPos(living.position().add(0, 1, 0));
-            magneticWeapon.setControllerUUID(living.getUUID());
-            level.addFreshEntity(magneticWeapon);
+        boolean otherMagneticWeaponsInUse = false;
+        if (otherStack.is(ACTagRegistry.MAGNETIC_ITEMS)) {
+            for(MagneticWeaponEntity magneticWeapon : level.getEntitiesOfClass(MagneticWeaponEntity.class, living.getBoundingBox().inflate(64, 64, 64))){
+                Entity controller = magneticWeapon.getController();
+                if(controller != null && controller.is(living)){
+                    otherMagneticWeaponsInUse = true;
+                    break;
+                }
+            }
+            if(!otherMagneticWeaponsInUse) {
+                ItemStack copy = otherStack.copy();
+                otherStack.setCount(0);
+                MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(level);
+                magneticWeapon.setItemStack(copy);
+                magneticWeapon.setPos(living.position().add(0, 1, 0));
+                magneticWeapon.setControllerUUID(living.getUUID());
+                level.addFreshEntity(magneticWeapon);
+            }
         } else if (!otherStack.isEmpty()) {
             living.stopUsingItem();
         }

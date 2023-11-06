@@ -64,6 +64,7 @@ public class MagneticWeaponEntity extends Entity {
     private boolean hadPlayerController = false;
 
     private boolean spawnedItem = false;
+    public boolean returnFlag = false;
 
     public MagneticWeaponEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -366,7 +367,7 @@ public class MagneticWeaponEntity extends Entity {
     }
 
     private boolean isOwnerWearingGauntlet() {
-        return getController() instanceof LivingEntity living && living.getUseItem().is(ACItemRegistry.GALENA_GAUNTLET.get()) && living.isAlive();
+        return getController() instanceof LivingEntity living && living.getUseItem().is(ACItemRegistry.GALENA_GAUNTLET.get()) && living.isAlive() && !returnFlag;
     }
 
     @Override
