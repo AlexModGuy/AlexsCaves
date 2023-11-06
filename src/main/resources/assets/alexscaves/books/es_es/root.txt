@@ -1,51 +1,24 @@
 
 
-    §lHIDDEN §lBENEATH §lTHE §lSURFACE §lOF §lTHE §lOVERWORLD §rlies many unique cave biomes, all rare in nature.
+    §lESCONDIDO §lBAJO §lEL §lSUBSUELO §lDE §lLA §lTIERRA §rhay muchos biomas únicos, todos raros en la naturaleza.
 
-    These cave biomes are sought out not only for their novelty, but also due to the various powerful and legendary contents of each.
-    Of these biomes, five are known to exist:
+    estos biomas de cuuevas son buscados no solo por ser raros, sino tambien por los contenidos legendarios que hay en cada una de ellas.
+    de estos biomas, solo se conocen cinco:
 
-    • {Magnetic Caves|magnetic_caves/chapter.json}
-    • {Primordial Caves|primordial_caves/chapter.json}
-    • {Toxic Caves|toxic_caves/chapter.json}
-    • {Abyssal Chasm|abyssal_chasm/chapter.json}
-    • {Forlorn Hollows|forlorn_hollows/chapter.json}
-
-
-
-    To uncover more about each of these caves, seek out an §lUnderground §lCabin§r...
-    Underground Cabins can be occasionally found in caves throughout the Overworld.
-
-    Cartographers can occasionally sell maps to them, which can also be found in Mineshaft Chests.
-
-    Asides from ordinary loot, Underground Cabins contain §lCave §lTablets§r.
+    • {Cuevas Mangnéticas|magnetic_caves/chapter.json}
+    • {Cuevas Primordiales|primordial_caves/chapter.json}
+    • {Cuevas Tóxicas|toxic_caves/chapter.json}
+    • {Fosas Abisales|abyssal_chasm/chapter.json}
+    • {Criptas Desamparadas|forlorn_hollows/chapter.json}
 
 
 
+    para descubrir más de estas cuevas, busca una §lCabina §lSubterránea§r...
+    las Cabina subterránea pueden ser comunmente encontradas en las cuevas del mundo superior.
 
+    los cartografos pueden vender mapas a estas estructuras, que tambien pueden ser encontrados en cofres de minas abandonadas.
 
-
-
-    Cave Tablets can be placed along with a paper in a §lSpelunkery §lTable§r, another unique find in a cabin.
-
-    Then, one can begin translating the Cave Tablet...
-    When both the tablet and paper are on the table, various runes on the tablet will be visible.
-
-    Interacting with any rune will reveal it. A revealed word's translation can be seen by moving the lens over the word. Only five attempts can be made before the tablet is destroyed.
-
-
-
-
-    Using the knowledge of which runes represent which letters can help find the targeted word. If this process is completed three times, the tablet and paper will become a §lCave §lCodex§r.
-
-    These codices have multiple uses. They can be used to gain more knowledge about the specific cave biome which they relate to.
-
-
-
-
-
-
-    Additionally, extra codices can be crafted with paper to craft a  §lCave §lMap§r.
+    Aparte de botín normal, las Cabinas  Subterráneas contienen §lTabletas §lde §lEspeología§r.
 
 
 
@@ -53,5 +26,32 @@
 
 
 
+    Las Tabletas de Espeología pueden ser colocadas con papel en una §lMesa §lde §lEspeologíar, otro objeto que solo se encuentra en las Cabinas Subterráneas.
 
-    Cave Maps can point to the nearest cave biome detailed by the codex. The process of creating a Cave Codex seems to imdue this map with an uncanny range and responsiveness.
+    Entonces, ya podras traducir las Tabletas de Espeología...
+    Cuando el papel y la tableta estan en la mesa, las runas de la tableta seran visibles.
+
+    Interactuando con una runa la revelara. la traducción de una runa se puede ver colocando la lente sobre la palabra. Solo tienes cinco intentos si fallas la tableta se rompera.
+
+
+
+
+    Usar el conocimiento de las runas que representan letras puedenla palabra que buscas. Si este proceso ha sido realizado tres veces, la tableta y el papel se convertiran en un §lCódice §lde §llas §lCuevas §r.
+
+    Estos códices tienen muchos usos. pueden ser usados para ganar conocimiento sobre las cuevas que corresponde con el códice.
+
+
+
+
+
+
+    Adicionalmente, se pueden fabricar códices extras para fabricas  §lMapas §lde §Exploración §lde §lCuevas§r.
+
+
+
+
+
+
+
+
+    Los Mapas de Exploración de Cuevas pueden llevarte al bioma mas cercano detallado por el códice. El proceso de crear un Códice de las Cuevas parece dotar a este mapa de un alcance y una capacidad de respuesta asombrosas.
