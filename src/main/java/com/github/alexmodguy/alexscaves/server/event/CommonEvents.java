@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
@@ -164,7 +165,7 @@ public class CommonEvents {
         if (event.getEntity().hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get()) && event.getEntity().tickCount % 5 == 0 && DarknessIncarnateEffect.isInLight(event.getEntity(), 11)) {
             event.getEntity().removeEffect(ACEffectRegistry.DARKNESS_INCARNATE.get());
         }
-        if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get()) && !event.getEntity().isEyeInFluid(FluidTags.WATER)) {
+        if (event.getEntity().getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.DIVING_HELMET.get()) && (!event.getEntity().isEyeInFluid(FluidTags.WATER) || event.getEntity().getVehicle() instanceof SubmarineEntity)) {
             event.getEntity().addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 810, 0, false, false, true));
         }
         if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Mob mob && mob.getTarget() instanceof VallumraptorEntity vallumraptor && vallumraptor.getHideFor() > 0) {
