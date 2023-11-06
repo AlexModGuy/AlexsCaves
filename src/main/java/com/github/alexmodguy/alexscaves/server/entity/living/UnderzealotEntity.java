@@ -85,8 +85,8 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new AnimalJoinPackGoal(this, 60, 11));
         this.goalSelector.addGoal(2, new UnderzealotOpenDoorGoal(this));
-        this.goalSelector.addGoal(3, new UnderzealotMeleeGoal(this));
-        this.goalSelector.addGoal(4, new UnderzealotSacrificeGoal(this));
+        this.goalSelector.addGoal(3, new UnderzealotSacrificeGoal(this));
+        this.goalSelector.addGoal(4, new UnderzealotMeleeGoal(this));
         this.goalSelector.addGoal(5, new UnderzealotCaptureSacrificeGoal(this));
         this.goalSelector.addGoal(6, new UnderzealotProcessionGoal(this, 1.0F));
         this.goalSelector.addGoal(7, new UnderzealotBreakLightGoal(this, 32));
@@ -94,7 +94,12 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, UnderzealotEntity.class, WatcherEntity.class, ForsakenEntity.class).setAlertOthers()));
-        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 12));
+        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 12){
+            @Override
+            public boolean canUse() {
+                return !UnderzealotEntity.this.isPraying() && !UnderzealotEntity.this.isCarrying() && super.canUse();
+            }
+        });
     }
 
     @Override

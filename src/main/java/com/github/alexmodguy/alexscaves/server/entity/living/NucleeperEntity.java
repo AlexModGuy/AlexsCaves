@@ -77,7 +77,7 @@ public class NucleeperEntity extends Monster {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.MAX_HEALTH, 30.0D);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.MAX_HEALTH, 40.0D).add(Attributes.ARMOR, 4.0D);
     }
 
     protected PathNavigation createNavigation(Level level) {
