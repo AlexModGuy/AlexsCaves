@@ -557,7 +557,7 @@
   "alexscaves.container.spelunkery_table.guess_name": "Usando as letras de seus palpites incorretos, encontre esta palavra!",
   "alexscaves.container.spelunkery_table.level": "Complete mais %s tradução para ganhar um(a) %s",
   "alexscaves.container.spelunkery_table.levels": "Complete mais %s traduções para ganhar um(a) %s",
-  "alexscaves.container.nuclear_furnace_blasting": "Fornalha Nuclear de Detonação"
+  "alexscaves.container.nuclear_furnace_blasting": "Fornalha Nuclear de Detonação",
   "effect.alexscaves.magnetizing": "Magnetização",
   "effect.alexscaves.stunned": "Atordoado",
   "effect.alexscaves.rage": "Fúria",
@@ -661,7 +661,7 @@
   "advancements.alexscaves.discover_dinosaur.title": "A Vida Encontra um Caminho",
   "advancements.alexscaves.discover_dinosaur.desc": "Encontre um réptil que há muito desapareceu da superfície da Terra... mas não de debaixo dela",
   "advancements.alexscaves.dinosaurs_minecart.title": "Dinotrem",
-  "advancements.alexscaves.dinosaurs_minecart.desc": "Coloque cinco tipos diferentes de dinossauros em minicarros próximos uns dos outros"
+  "advancements.alexscaves.dinosaurs_minecart.desc": "Coloque cinco tipos diferentes de dinossauros em minicarros próximos uns dos outros",
   "advancements.alexscaves.tree_star.title": "Árvore Estrela!!!",
   "advancements.alexscaves.tree_star.desc": "Reúna uma Árvore Estrela, a comida favorita de muitos dinossauros",
   "advancements.alexscaves.breed_grottoceratops.title": "Não Conseguiu Entrar na Arca",
