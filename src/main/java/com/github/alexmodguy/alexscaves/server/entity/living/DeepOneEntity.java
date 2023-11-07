@@ -50,7 +50,7 @@ public class DeepOneEntity extends DeepOneBaseEntity {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByHostileTargetGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 20, false, true, playerTargetPredicate));
+        this.targetSelector.addGoal(2, new DeepOneTargetHostilePlayersGoal(this));
     }
 
     public EntityDimensions getSwimmingSize() {

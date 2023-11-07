@@ -69,8 +69,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByHostileTargetGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 20, false, true, playerTargetPredicate));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, 12, true, false, null));
+        this.targetSelector.addGoal(2, new DeepOneTargetHostilePlayersGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {

@@ -85,8 +85,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
         this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 16.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByHostileTargetGoal());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Player>(this, Player.class, 20, false, true, playerTargetPredicate));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Husk.class, 12, true, false, null));
+        this.targetSelector.addGoal(2, new DeepOneTargetHostilePlayersGoal(this));
     }
 
     @Override
