@@ -104,7 +104,7 @@ public class NuclearFurnaceMenu extends AbstractContainerMenu {
     }
 
     private boolean canSmelt(ItemStack stack) {
-        return this.level.getRecipeManager().getRecipeFor(RecipeType.BLASTING, new SimpleContainer(stack), this.level).isPresent();
+        return this.level.getRecipeManager().getRecipeFor(NuclearFurnaceBlockEntity.getRecipeType(), new SimpleContainer(stack), this.level).isPresent();
     }
 
     private boolean isFuel(ItemStack stack) {

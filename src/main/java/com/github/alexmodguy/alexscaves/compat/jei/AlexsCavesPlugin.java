@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.compat.jei;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.gui.SpelunkeryTableScreen;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearFurnaceBlockEntity;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -14,13 +15,17 @@ import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.BlastingRecipe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @JeiPlugin
 public class AlexsCavesPlugin implements IModPlugin {
     public static final ResourceLocation MOD = new ResourceLocation(AlexsCaves.MODID, AlexsCaves.MODID);
     public static final RecipeType<SpelunkeryTableRecipe> SPELUNKERY_TABLE_RECIPE_TYPE = RecipeType.create(AlexsCaves.MODID, "spelunkery_table", SpelunkeryTableRecipe.class);
-    public static final RecipeType<BlastingRecipe> NUCLEAR_FURNACE_RECIPE_TYPE = RecipeType.create(AlexsCaves.MODID, "nuclear_furnace", BlastingRecipe.class);
+    public static final RecipeType<AbstractCookingRecipe> NUCLEAR_FURNACE_RECIPE_TYPE = RecipeType.create(AlexsCaves.MODID, "nuclear_furnace", AbstractCookingRecipe.class);
 
     @Override
     public ResourceLocation getPluginUid() {
@@ -40,7 +45,9 @@ public class AlexsCavesPlugin implements IModPlugin {
         registration.addRecipes(SPELUNKERY_TABLE_RECIPE_TYPE, ACRecipeMaker.createSpelunkeryTableRecipes());
         registration.addRecipes(RecipeTypes.CRAFTING, ACRecipeMaker.createCaveMapRecipes());
         if(Minecraft.getInstance().level != null){
-            registration.addRecipes(NUCLEAR_FURNACE_RECIPE_TYPE, Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(net.minecraft.world.item.crafting.RecipeType.BLASTING));
+            List<AbstractCookingRecipe> abstractCookingRecipeList = new ArrayList<>();
+            abstractCookingRecipeList.addAll(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(NuclearFurnaceBlockEntity.getRecipeType()));
+            registration.addRecipes(NUCLEAR_FURNACE_RECIPE_TYPE, abstractCookingRecipeList);
         }
     }
 

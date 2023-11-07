@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.potion;
 
+import com.github.alexmodguy.alexscaves.server.entity.util.DarknessIncarnateUserAccessor;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
@@ -88,7 +89,9 @@ public class DarknessIncarnateEffect extends MobEffect {
                     if(!player.isCreative()){
                         player.getAbilities().mayfly = false;
                     }
-                    player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0, false, false, false));
+                    if(player instanceof DarknessIncarnateUserAccessor darknessIncarnateUserAccessor){
+                        darknessIncarnateUserAccessor.setSlowFallingFlag(true);
+                    }
                 }
             }
             if (prevFlying != flight) {

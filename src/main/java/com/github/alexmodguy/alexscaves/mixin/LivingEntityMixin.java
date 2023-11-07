@@ -1,13 +1,12 @@
 package com.github.alexmodguy.alexscaves.mixin;
 
-import com.github.alexmodguy.alexscaves.server.entity.util.HeadRotationEntityAccessor;
-import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
-import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
-import com.github.alexmodguy.alexscaves.server.entity.util.WatcherPossessionAccessor;
+import com.github.alexmodguy.alexscaves.server.entity.util.*;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor, WatcherPossessionAccessor {
+public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor, WatcherPossessionAccessor, DarknessIncarnateUserAccessor {
 
     @Shadow
     public abstract float getYHeadRot();
@@ -37,12 +36,16 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
     @Final
     public WalkAnimationState walkAnimation;
     @Shadow public float yHeadRot;
+
+    @Shadow public abstract boolean addEffect(MobEffectInstance p_21165_);
+
     private float prevHeadYaw;
     private float prevHeadYaw0;
     private float prevHeadPitch;
     private float prevHeadPitch0;
 
     private boolean watcherPossessionFlag;
+    private boolean slowFallingFlag;
 
     public LivingEntityMixin(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -60,6 +63,18 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
             float f1 = (float) Mth.length(this.getX() - this.xo, this.getY() - this.yo, this.getZ() - this.zo);
             float f2 = Math.min(f1 * 6, 1.0F);
             this.walkAnimation.update(f2, 0.4F);
+        }
+    }
+
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/LivingEntity;tick()V"},
+            remap = true,
+            at = @At(value = "TAIL")
+    )
+    public void ac_livingTick(CallbackInfo ci) {
+        if(hasSlowFallingFlag()){
+            setSlowFallingFlag(false);
+            addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 80, 0, false, false, false));
         }
     }
 
@@ -97,6 +112,14 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
 
     public boolean isPossessedByWatcher(){
         return watcherPossessionFlag;
+    }
+
+    public void setSlowFallingFlag(boolean slowFallingFlag){
+        this.slowFallingFlag = slowFallingFlag;
+    }
+
+    public boolean hasSlowFallingFlag(){
+        return slowFallingFlag;
     }
 
 }

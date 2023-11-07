@@ -25,8 +25,6 @@ import javax.annotation.Nullable;
 
 public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRender, KeybindUsingArmor, UpdatesStackTags {
 
-    private static final int MAX_CHARGE = 1000;
-
     public DarknessArmorItem(ArmorMaterial armorMaterial, Type slot) {
         super(armorMaterial, slot, new Properties().rarity(ACItemRegistry.RARITY_DEMONIC));
     }
@@ -49,7 +47,7 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
         if (tag == null) {
             return 0.0F;
         } else {
-            return tag.getInt("CloakCharge") / (float) MAX_CHARGE;
+            return tag.getInt("CloakCharge") / (float) AlexsCaves.COMMON_CONFIG.darknessCloakChargeTime.get();
         }
     }
 
@@ -65,13 +63,12 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
 
     @Override
     public void onArmorTick(ItemStack stack, Level level, Player player) {
-
         if (stack.is(ACItemRegistry.CLOAK_OF_DARKNESS.get())) {
             if (!level.isClientSide) {
                 CompoundTag tag = stack.getOrCreateTag();
                 int charge = tag.getInt("CloakCharge");
                 boolean flag = false;
-                if (charge < MAX_CHARGE && canChargeUp(stack)) {
+                if (charge < AlexsCaves.COMMON_CONFIG.darknessCloakChargeTime.get() && canChargeUp(stack)) {
                     charge += 1;
                     tag.putInt("CloakCharge", charge);
                     flag = true;
@@ -82,7 +79,6 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
             }
         }
     }
-
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
@@ -111,7 +107,7 @@ public class DarknessArmorItem extends ArmorItem implements CustomArmorPostRende
     public void onKeyPacket(Entity wearer, ItemStack itemStack, int key) {
         if (wearer instanceof LivingEntity living && canChargeUp(living, false)) {
             itemStack.getOrCreateTag().putInt("CloakCharge", 0);
-            living.addEffect(new MobEffectInstance(ACEffectRegistry.DARKNESS_INCARNATE.get(), 200, 0, false, false, false));
+            living.addEffect(new MobEffectInstance(ACEffectRegistry.DARKNESS_INCARNATE.get(), AlexsCaves.COMMON_CONFIG.darknessCloakFlightTime.get(), 0, false, false, false));
         } else if (wearer instanceof Player player && !wearer.level().isClientSide) {
             player.displayClientMessage(Component.translatable("item.alexscaves.cloak_of_darkness.requires_darkness"), true);
         }

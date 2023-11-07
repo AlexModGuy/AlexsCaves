@@ -18,11 +18,11 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.BlastingRecipe;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 
-public class NuclearFurnaceRecipeCategory implements IRecipeCategory<BlastingRecipe> {
+public class NuclearFurnaceRecipeCategory implements IRecipeCategory<AbstractCookingRecipe> {
     private final IDrawable background;
     private final IDrawable icon;
 
@@ -33,7 +33,7 @@ public class NuclearFurnaceRecipeCategory implements IRecipeCategory<BlastingRec
     }
 
     @Override
-    public RecipeType<BlastingRecipe> getRecipeType() {
+    public RecipeType<AbstractCookingRecipe> getRecipeType() {
         return AlexsCavesPlugin.NUCLEAR_FURNACE_RECIPE_TYPE;
     }
 
@@ -53,7 +53,7 @@ public class NuclearFurnaceRecipeCategory implements IRecipeCategory<BlastingRec
     }
 
     @Override
-    public void setRecipe(IRecipeLayoutBuilder builder, BlastingRecipe recipe, IFocusGroup focuses) {
+    public void setRecipe(IRecipeLayoutBuilder builder, AbstractCookingRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, 62, 38).addIngredients(Ingredient.of(ACTagRegistry.NUCLEAR_FURNACE_RODS));
         builder.addSlot(RecipeIngredientRole.INPUT, 32, 38).addIngredients(Ingredient.of(ACTagRegistry.NUCLEAR_FURNACE_BARRELS));
         builder.addSlot(RecipeIngredientRole.INPUT, 62, 2).addIngredients(recipe.getIngredients().get(0));
@@ -62,12 +62,12 @@ public class NuclearFurnaceRecipeCategory implements IRecipeCategory<BlastingRec
     }
 
     @Override
-    public void draw(BlastingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(AbstractCookingRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
         drawExperience(recipe, guiGraphics, 0);
         drawCookTime(recipe, guiGraphics, 50);
     }
 
-    protected void drawExperience(BlastingRecipe recipe, GuiGraphics guiGraphics, int y) {
+    protected void drawExperience(AbstractCookingRecipe recipe, GuiGraphics guiGraphics, int y) {
         float experience = recipe.getExperience();
         if (experience > 0) {
             Component experienceString = Component.translatable("gui.jei.category.smelting.experience", experience);
@@ -78,7 +78,7 @@ public class NuclearFurnaceRecipeCategory implements IRecipeCategory<BlastingRec
         }
     }
 
-    protected void drawCookTime(BlastingRecipe recipe, GuiGraphics guiGraphics, int y) {
+    protected void drawCookTime(AbstractCookingRecipe recipe, GuiGraphics guiGraphics, int y) {
         int cookTime = (int) Math.ceil(recipe.getCookingTime() * NuclearFurnaceBlockEntity.SPEED_REDUCTION);
         if (cookTime > 0) {
             int cookTimeSeconds = cookTime / 20;
@@ -93,7 +93,7 @@ public class NuclearFurnaceRecipeCategory implements IRecipeCategory<BlastingRec
 
 
     @Override
-    public boolean isHandled(BlastingRecipe recipe) {
+    public boolean isHandled(AbstractCookingRecipe recipe) {
         return true;
     }
 

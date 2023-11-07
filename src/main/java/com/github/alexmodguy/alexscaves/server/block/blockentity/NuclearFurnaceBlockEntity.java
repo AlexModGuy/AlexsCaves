@@ -79,10 +79,10 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
 
 
     protected NonNullList<ItemStack> items = NonNullList.withSize(5, ItemStack.EMPTY);
-    private final RecipeManager.CachedCheck<Container, BlastingRecipe> quickCheck = RecipeManager.createCheck(RecipeType.BLASTING);
+    private final RecipeManager.CachedCheck<Container, ? extends AbstractCookingRecipe> quickCheck = RecipeManager.createCheck(getRecipeType());
     private final Object2IntOpenHashMap<ResourceLocation> recipesUsed = new Object2IntOpenHashMap<>();
 
-    private BlastingRecipe currentRecipe;
+    private AbstractCookingRecipe currentRecipe;
 
     protected final ContainerData dataAccess = new ContainerData() {
         public int get(int type) {
@@ -448,7 +448,7 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
         return (slot != 0 || getRecipeFor(stack).isPresent()) && slot != 3 && slot != 4;
     }
 
-    private Optional<BlastingRecipe> getRecipeFor(ItemStack itemStack) {
+    private Optional<? extends AbstractCookingRecipe> getRecipeFor(ItemStack itemStack) {
         return this.quickCheck.getRecipeFor(new SimpleContainer(itemStack), this.level);
     }
 
@@ -543,4 +543,7 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
         ExperienceOrb.award(serverLevel, vec3, i);
     }
 
+    public static RecipeType<? extends AbstractCookingRecipe> getRecipeType(){
+        return AlexsCaves.COMMON_CONFIG.nuclearFurnaceBlastingOnly.get() ? RecipeType.BLASTING : RecipeType.SMELTING;
+    }
 }
