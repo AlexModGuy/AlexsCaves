@@ -2,7 +2,13 @@ package com.github.alexmodguy.alexscaves.server.config;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
+import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.biome.MultiNoiseBiomeSource;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,24 +46,33 @@ public class BiomeGenerationNoiseCondition {
         if (!isFarEnoughFromSpawn(event, distanceFromSpawn)) {
             return false;
         }
-        if (!ACBiomeRarity.testBiomeRarity(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ())) {
+        Vec3 rareBiomeCenter = ACBiomeRarity.getRareBiomeCenterQuad(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ());
+        if (rareBiomeCenter == null) {
             return false;
         }
-        if (continentalness != null && continentalness.length >= 2 && !event.testContinentalness(continentalness[0], continentalness[1])) {
+        Climate.TargetPoint centerTargetPoint = event.getClimateSampler().sample((int)Math.floor(rareBiomeCenter.x), event.getY(), (int)Math.floor(rareBiomeCenter.z));
+        float f = Climate.unquantizeCoord(centerTargetPoint.continentalness());
+        float f1 = Climate.unquantizeCoord(centerTargetPoint.erosion());
+        float f2 = Climate.unquantizeCoord(centerTargetPoint.temperature());
+        float f3 = Climate.unquantizeCoord(centerTargetPoint.humidity());
+        float f4 = Climate.unquantizeCoord(centerTargetPoint.weirdness());
+        //for these values, sample the center of the possible biome instead of every quad
+        if (continentalness != null && continentalness.length >= 2 && (f < continentalness[0] || f > continentalness[1])) {
             return false;
         }
-        if (erosion != null && erosion.length >= 2 && !event.testErosion(erosion[0], erosion[1])) {
+        if (erosion != null && erosion.length >= 2 && (f1 < erosion[0] || f1 > erosion[1])) {
             return false;
         }
-        if (humidity != null && humidity.length >= 2 && !event.testHumidity(humidity[0], humidity[1])) {
+        if (humidity != null && humidity.length >= 2 && (f2 < humidity[0] || f2 > humidity[1])) {
             return false;
         }
-        if (temperature != null && temperature.length >= 2 && !event.testTemperature(temperature[0], temperature[1])) {
+        if (temperature != null && temperature.length >= 2 && (f3 < temperature[0] || f3 > temperature[1])) {
             return false;
         }
-        if (weirdness != null && weirdness.length >= 2 && !event.testWeirdness(weirdness[0], weirdness[1])) {
+        if (weirdness != null && weirdness.length >= 2 && (f4 < weirdness[0] || f4 > weirdness[1])) {
             return false;
         }
+        // sample depth per coord - we don't want biomes bleeding onto the surface
         if (depth != null && depth.length >= 2 && !event.testDepth(depth[0], depth[1])) {
             return false;
         }

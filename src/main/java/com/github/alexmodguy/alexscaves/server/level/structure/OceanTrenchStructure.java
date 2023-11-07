@@ -30,11 +30,8 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
 
     @Override
     public void generatePieces(StructurePiecesBuilder builder, Structure.GenerationContext context) {
-        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
-        worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
         int i = context.chunkPos().getMinBlockX();
         int j = context.chunkPos().getMinBlockZ();
-        int k = context.chunkGenerator().getSeaLevel();
         BlockPos center = new BlockPos(i, getGenerateYHeight(context.random(), i, j), j);
         int heightRad = getHeightRadius(context.random(), context.chunkGenerator().getSeaLevel());
         int widthRad = getWidthRadius(context.random());

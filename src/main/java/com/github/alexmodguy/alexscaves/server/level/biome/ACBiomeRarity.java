@@ -6,7 +6,9 @@ import com.github.alexmodguy.alexscaves.server.misc.VoronoiGenerator;
 import com.google.common.collect.ImmutableList;
 import net.minecraft.world.level.levelgen.XoroshiroRandomSource;
 import net.minecraft.world.level.levelgen.synth.PerlinSimplexNoise;
+import net.minecraft.world.phys.Vec3;
 
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class ACBiomeRarity {
@@ -18,7 +20,9 @@ public class ACBiomeRarity {
     private static final List<Integer> BIOME_OCTAVES = ImmutableList.of(0);
 
     // ran for every chunk x z
-    public static boolean testBiomeRarity(long worldSeed, int rarityOffset, int x, int z) {
+    // gets the center of the nearest biome pertaining to the rarityOffset. Result is in quad coordinates.
+    @Nullable
+    public static Vec3 getRareBiomeCenterQuad(long worldSeed, int rarityOffset, int x, int z) {
         //start of code to initialize noise for world
         if (lastTestedSeed != worldSeed || voronoiGenerator == null || noiseX == null || noiseZ == null) {
             lastTestedSeed = worldSeed;
@@ -32,15 +36,16 @@ public class ACBiomeRarity {
         double seperationDistance = biomeSize + AlexsCaves.COMMON_CONFIG.caveBiomeMeanSeparation.get() * 0.25D;
         double sampleX = x / seperationDistance;
         double sampleZ = z / seperationDistance;
-        double positionOffsetX = AlexsCaves.COMMON_CONFIG.caveBiomeWidthRandomness.get() * 0.45D * noiseX.getValue(sampleX, sampleZ, false);
-        double positionOffsetZ = AlexsCaves.COMMON_CONFIG.caveBiomeWidthRandomness.get() * 0.45D * noiseZ.getValue(sampleX, sampleZ, false);
+        double positionOffsetX = AlexsCaves.COMMON_CONFIG.caveBiomeWidthRandomness.get() * noiseX.getValue(sampleX, sampleZ, false);
+        double positionOffsetZ = AlexsCaves.COMMON_CONFIG.caveBiomeWidthRandomness.get() * noiseZ.getValue(sampleX, sampleZ, false);
         VoronoiGenerator.VoronoiInfo info = voronoiGenerator.get2(sampleX + positionOffsetX, sampleZ + positionOffsetZ);
-
         if (info.distance() < (biomeSize / seperationDistance)) {
             double scaledHash = ((info.hash() + 1D) * 0.5D) * (double) BiomeGenerationConfig.getBiomeCount();
-            return (int) scaledHash == rarityOffset;
+            if((int) scaledHash == rarityOffset){
+                return info.cellPos().scale(seperationDistance);
+            }
         }
-        return false;
+        return null;
     }
 
 }

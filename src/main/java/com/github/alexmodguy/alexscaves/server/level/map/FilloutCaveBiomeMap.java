@@ -35,7 +35,6 @@ public class FilloutCaveBiomeMap implements Runnable {
     private Player player;
     private ServerLevel serverLevel;
     private ResourceKey<Biome> biomeResourceKey;
-
     private UUID taskUUID;
     private int legIndex;
     private int leg;
@@ -135,15 +134,26 @@ public class FilloutCaveBiomeMap implements Runnable {
         int biomeSouth = 0;
         int biomeEast = 0;
         int biomeWest = 0;
-        int biomeUp = 0;
-        int biomeDown = 0;
-        while (biomeUp < 32 && serverLevel.getBiome(biomeCorner.above(biomeUp)).is(biomeResourceKey)) {
-            biomeUp += 8;
+        BlockPos yCentered;
+        if(mapBiomeBeneathSurfaceOnly()){
+            int iterations = 0;
+            yCentered = biomeCorner;
+            while (iterations < 256 && serverLevel.getBiome(yCentered).is(biomeResourceKey)) {
+                iterations++;
+                yCentered = yCentered.above();
+            }
+            yCentered = yCentered.below(10);
+        }else{
+            int biomeUp = 0;
+            int biomeDown = 0;
+            while (biomeUp < 32 && serverLevel.getBiome(biomeCorner.above(biomeUp)).is(biomeResourceKey)) {
+                biomeUp += 8;
+            }
+            while (biomeDown < 64 && serverLevel.getBiome(biomeCorner.below(biomeDown)).is(biomeResourceKey)) {
+                biomeDown += 8;
+            }
+            yCentered = biomeCorner.atY((int) (Math.floor(biomeUp * 0.25F)) - biomeDown);
         }
-        while (biomeDown < 64 && serverLevel.getBiome(biomeCorner.below(biomeDown)).is(biomeResourceKey)) {
-            biomeDown += 8;
-        }
-        BlockPos yCentered = biomeCorner.atY((int) (Math.floor(biomeUp * 0.25F)) - biomeDown);
         while (biomeNorth < 800 && serverLevel.getBiome(yCentered.north(biomeNorth)).is(biomeResourceKey)) {
             biomeNorth += 8;
         }
@@ -174,11 +184,16 @@ public class FilloutCaveBiomeMap implements Runnable {
             for (int j1 = 0; j1 < 128; ++j1) {
                 for (int k1 = 0; k1 < 128; ++k1) {
                     Holder<Biome> holder1 = serverLevel.getBiome(mutableBlockPos.set((l + k1) * scale, first.getY(), (i1 + j1) * scale));
-                    for (int yUpFromBottom = serverLevel.getMinBuildHeight() + 1; yUpFromBottom < serverLevel.getMaxBuildHeight(); yUpFromBottom += 32) {
-                        holder1 = serverLevel.getBiome(mutableBlockPos.setY(yUpFromBottom));
-                        if (holder1.is(biomeResourceKey)) {
-                            break;
+                    if(mapBiomeBeneathSurfaceOnly()){
+                        holder1 = serverLevel.getBiome(mutableBlockPos.setY(first.getY() - 5));
+                    }else{
+                        for (int yUpFromBottom = serverLevel.getMinBuildHeight() + 1; yUpFromBottom < serverLevel.getMaxBuildHeight(); yUpFromBottom += 32) {
+                            holder1 = serverLevel.getBiome(mutableBlockPos.setY(yUpFromBottom));
+                            if (holder1.is(biomeResourceKey)) {
+                                break;
+                            }
                         }
+
                     }
                     int id = registry.getId(holder1.value());
                     byte biomeHash;
@@ -201,6 +216,10 @@ public class FilloutCaveBiomeMap implements Runnable {
         }
         tag.put("MapBiomeList", listTag);
         tag.putByteArray("MapBiomes", arr);
+    }
+
+    private boolean mapBiomeBeneathSurfaceOnly() {
+        return biomeResourceKey.equals(ACBiomeRegistry.ABYSSAL_CHASM);
     }
 
     public UUID getTaskUUID() {

@@ -32,15 +32,15 @@ public class BiomeGenerationConfig {
     private static final String OVERWORLD = "minecraft:overworld";
 
     private static final BiomeGenerationNoiseCondition MAGNETIC_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(0).continentalness(0.2F, 1F).depth(0.2F, 1F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(0).continentalness(0.6F, 1F).depth(0.2F, 1F).build();
     private static final BiomeGenerationNoiseCondition PRIMORDIAL_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .dimensions(OVERWORLD).distanceFromSpawn(450).alexscavesRarityOffset(1).continentalness(0.0F, 1F).depth(0.15F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(450).alexscavesRarityOffset(1).continentalness(0.4F, 1F).depth(0.15F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition TOXIC_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(2).continentalness(0.1F, 1F).depth(0.3F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(2).continentalness(0.5F, 1F).depth(0.3F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition ABYSSAL_CHASM_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-1.0F, -0.2F).temperature(-1.0F, 0.55F).depth(0.2F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-1.0F, -0.8F).temperature(-1.0F, 0.5F).depth(0.2F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition FORLORN_HOLLOWS_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(4).continentalness(0.1F, 1F).depth(0.3F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(4).continentalness(0.6F, 1F).depth(0.3F, 1.5F).build();
     private static Map<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new HashMap<>();
 
     public static void reloadConfig() {
@@ -53,7 +53,7 @@ public class BiomeGenerationConfig {
 
     @Nullable
     public static ResourceKey<Biome> getBiomeForEvent(EventReplaceBiome event) {
-        for (Map.Entry<ResourceKey<Biome>, BiomeGenerationNoiseCondition> condition : biomes.entrySet()) {
+         for (Map.Entry<ResourceKey<Biome>, BiomeGenerationNoiseCondition> condition : biomes.entrySet()) {
             if (condition.getValue().test(event)) {
                 return condition.getKey();
             }
