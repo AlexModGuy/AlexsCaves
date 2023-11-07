@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.block;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.RadgillEntity;
 import com.github.alexmodguy.alexscaves.server.item.HazmatArmorItem;
 import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
 import com.github.alexmodguy.alexscaves.server.misc.*;
@@ -78,7 +79,7 @@ public class AcidBlock extends LiquidBlock {
                 entity.playSound(ACSoundRegistry.ACID_BURN.get());
             }
         }
-        if (entity instanceof LivingEntity && entity.moveDist > entity.nextStep) {
+        if (entity instanceof LivingEntity && entity.moveDist > entity.nextStep && !(entity instanceof RadgillEntity)) {
             entity.nextStep = entity.moveDist + 1F;
             Vec3 vec3 = entity.getDeltaMovement();
             float f1 = Math.min(1.0F, (float)vec3.length());

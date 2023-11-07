@@ -38,7 +38,7 @@ public class BiomeGenerationConfig {
     private static final BiomeGenerationNoiseCondition TOXIC_CAVES_CONDITION = new BiomeGenerationNoiseCondition.Builder()
             .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(2).continentalness(0.5F, 1F).depth(0.3F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition ABYSSAL_CHASM_CONDITION = new BiomeGenerationNoiseCondition.Builder()
-            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-1.0F, -0.8F).temperature(-1.0F, 0.5F).depth(0.2F, 1.5F).build();
+            .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-0.95F, -0.65F).temperature(-1.0F, 0.5F).depth(0.2F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition FORLORN_HOLLOWS_CONDITION = new BiomeGenerationNoiseCondition.Builder()
             .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(4).continentalness(0.6F, 1F).depth(0.3F, 1.5F).build();
     private static Map<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new HashMap<>();
