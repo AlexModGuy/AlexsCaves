@@ -525,7 +525,6 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     protected void checkAndDealMeleeDamage(LivingEntity target, float multiplier) {
         checkAndDealMeleeDamage(target, multiplier, 0.25F);
-        System.out.println(getReactionTo((Player) target));
     }
 
     protected void checkAndDealMeleeDamage(LivingEntity target, float multiplier, float knockback) {
