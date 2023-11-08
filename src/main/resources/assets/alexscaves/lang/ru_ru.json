@@ -1155,6 +1155,6 @@
   "alexscaves.sound.subtitle.darkness_incarnate_exit": "Воплощение тьмы деактивируется",
   "alexscaves.sound.subtitle.darkness_incarnate_idle": "Воплощение тьмы трепещет",
   "alexscaves.sound.subtitle.disappointment": "Увы и ах",
-  "alexscaves.sound.subtitle.nuclear_siren": "Ядерная сирена гудит"
-  "alexscaves.startup_warning.generation_incompatible": "Генерация Alex's Caves несовместима с модом (ID:%s). Пещерные биомы могут вообще не появляться. Это предупреждение можно отключить в конфиге Alex's Caves.",
+  "alexscaves.sound.subtitle.nuclear_siren": "Ядерная сирена гудит",
+  "alexscaves.startup_warning.generation_incompatible": "Генерация Alex's Caves несовместима с модом (ID:%s). Пещерные биомы могут вообще не появляться. Это предупреждение можно отключить в конфиге Alex's Caves."
 }
