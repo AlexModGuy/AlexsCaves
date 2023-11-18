@@ -65,6 +65,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private List<SpelunkeryTableWordButton> wordButtons = new ArrayList<>();
     private SpelunkeryTableWordButton targetWordButton = null;
 
+    private final RandomSource random = RandomSource.create();
     private int highlightColor = 0XFFFFFF;
     private int level = 0;
     private boolean finishedLevel;
@@ -473,7 +474,6 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             wordLines++;
         }
         if (!wordButtons.isEmpty()) {
-            RandomSource random = Minecraft.getInstance().player.getRandom();
             targetWordButton = wordButtons.size() <= 1 ? wordButtons.get(0) : wordButtons.get(random.nextInt(wordButtons.size()));
             attemptsLeft = 5;
         } else {
