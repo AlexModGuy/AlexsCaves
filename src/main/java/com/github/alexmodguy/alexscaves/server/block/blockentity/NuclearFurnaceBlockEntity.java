@@ -60,10 +60,9 @@ import java.util.Optional;
 
 public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
-    public static final float SPEED_REDUCTION = 0.2F;
+    private static final float SPEED_REDUCTION = 0.2F;
     public static int MAX_BARRELING_TIME = 100;
     public static int MAX_WASTE = 1000;
-    public static int MAX_FISSION_TIME = (int) Math.ceil(100 * 64 * SPEED_REDUCTION); //cooks 64 stacks on one uranium rod
 
     public int age;
     private int barrelTime = 0;
@@ -158,11 +157,11 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
                     entity.currentRecipe = entity.getRecipeFor(cookStack).orElse(null);
                 } else {
                     ItemStack cookResult = entity.currentRecipe.getResultItem(level.registryAccess());
-                    entity.maxCookTime = Math.max((int) Math.ceil(entity.currentRecipe.getCookingTime() * SPEED_REDUCTION), 5);
+                    entity.maxCookTime = Math.max((int) Math.ceil(entity.currentRecipe.getCookingTime() * getSpeedReduction()), 5);
                     if (entity.canFitInResultSlot(cookResult, 3)) {
                         if (entity.fissionTime <= 0) {
                             if (!rodStack.isEmpty() && rodStack.is(ACTagRegistry.NUCLEAR_FURNACE_RODS)) {
-                                entity.fissionTime = MAX_FISSION_TIME;
+                                entity.fissionTime = getMaxFissionTime();
                                 rodStack.shrink(1);
                                 entity.currentWaste += getWastePerBarrel();
                             }
@@ -546,4 +545,13 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
     public static RecipeType<? extends AbstractCookingRecipe> getRecipeType(){
         return AlexsCaves.COMMON_CONFIG.nuclearFurnaceBlastingOnly.get() ? RecipeType.BLASTING : RecipeType.SMELTING;
     }
+
+    public static float getSpeedReduction(){
+        return AlexsCaves.COMMON_CONFIG.nuclearFurnaceBlastingOnly.get() ? SPEED_REDUCTION : SPEED_REDUCTION * 0.5F;
+    }
+
+    public static int getMaxFissionTime() {
+        return (int) Math.ceil(100 * 64 * getSpeedReduction());
+    }
+
 }

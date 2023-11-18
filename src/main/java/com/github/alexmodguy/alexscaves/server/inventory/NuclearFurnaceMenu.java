@@ -127,7 +127,7 @@ public class NuclearFurnaceMenu extends AbstractContainerMenu {
 
     public float getFissionScale() {
         int i = this.data.get(2);
-        return i / (float)NuclearFurnaceBlockEntity.MAX_FISSION_TIME;
+        return i / (float)NuclearFurnaceBlockEntity.getMaxFissionTime();
     }
 
     public float getCookScale() {
