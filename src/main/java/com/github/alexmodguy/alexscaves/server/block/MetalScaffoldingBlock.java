@@ -21,6 +21,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.LiquidBlockContainer;
+import net.minecraft.world.level.block.ScaffoldingBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -167,7 +168,11 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             BlockState blockstate1 = getter.getBlockState(blockpos$mutableblockpos.setWithOffset(pos, direction));
             if (blockstate1.is(ACTagRegistry.SCAFFOLDING)) {
-                i = Math.min(i, blockstate1.getValue(DISTANCE) + 1);
+                if(blockstate1.getBlock() instanceof MetalScaffoldingBlock){
+                    i = Math.min(i, blockstate1.getValue(DISTANCE) + 1);
+                }else if(blockstate1.getBlock() instanceof ScaffoldingBlock){
+                    i = Math.min(i, blockstate1.getValue(ScaffoldingBlock.DISTANCE) + 1);
+                }
                 if (i == 1) {
                     break;
                 }
