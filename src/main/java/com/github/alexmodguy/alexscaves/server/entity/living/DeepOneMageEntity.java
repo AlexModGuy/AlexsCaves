@@ -51,6 +51,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     private int rangedCooldown = 0;
     private Vec3 strafeTarget = null;
     public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_mage_barter");
+    private boolean isMageInWater = true;
 
     public DeepOneMageEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -117,6 +118,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
         if (this.isInWaterOrBubble() && this.hasEffect(ACEffectRegistry.BUBBLED.get())) {
             this.removeEffect(ACEffectRegistry.BUBBLED.get());
         }
+        isMageInWater = this.isInWaterOrBubble();
         if (this.getAnimation() == ANIMATION_SPIN) {
             this.setDeltaMovement(this.getDeltaMovement().scale(0.6F));
             LivingEntity target = this.getTarget();
@@ -241,7 +243,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     }
 
     public boolean isDeepOneSwimming() {
-        return this.isInWaterOrBubble() && !this.onGround();
+        return isMageInWater && !this.onGround();
     }
 
     @Override
