@@ -1,24 +1,12 @@
 
 
-    The Uranium ore frequent in this biome can be made into either nuggets or blocks, like other ores. It can also be turned into Uranium Rods, a new light source.
+    Bu biyomda sıkça bulunan Uranyum cevheri, diğer cevherler gibi külçe veya blok haline getirilebilir. Ayrıca yeni bir ışık kaynağı olan Uranyum Çubuklara da dönüştürülebilir.
 
 
 
 
 
-    Another common resource in the Toxic Caves is Sulfur Dust, which can be harvested by breaking large Sulfur Clusters. It can be used to create food that can heal the consumer even with the Irradiated effect active.
-
-
-
-
-
-
-
-
-
-
-
-    The green gas bubbling out of Hydrothermal Vents above Acid can also be bottled into Radon Gas. This can be used to create large glowing Radon Lamps, in any color.
+    Zehirli Mağaralardaki bir diğer yaygın kaynak da büyük Kükürt Demetlerini kırarak elde edilebilen Kükürt Tozudur. Radyasonlu etkisi aktifken bile tüketiciyi iyileştirebilen yiyecekler yaratmak için kullanılabilir.
 
 
 
@@ -26,5 +14,16 @@
 
 
 
-    Cinder Bricks can be made out of concrete blocks, and can be found in remains littering the Toxic Caves. They can be made into a variety of decorative industrial blocks, or thrown to break any weak block.
 
+
+
+
+    Asit üzerindeki Jeotermal Bacalardan çıkan yeşil gaz da Radon Gazı olarak şişelenebilir. Bu, herhangi bir renkte parlayan büyük Radon Lambaları oluşturmak için kullanılabilir.
+
+
+
+
+
+
+
+    Cürüf Tuğlalarından beton bloklardan yapılabilir ve Zehirli Mağaralardaki kalıntılarda bulunabilir. Çeşitli dekoratif endüstriyel bloklar haline getirilebilir veya herhangi bir zayıf bloğu kırmak için fırlatılabilirler.
