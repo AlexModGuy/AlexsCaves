@@ -12,9 +12,9 @@
       "spawns": [
         {
           "type": "alexscaves:mine_guardian",
-          "maxCount": 4,
-          "minCount": 2,
-          "weight": 30
+          "maxCount": 2,
+          "minCount": 1,
+          "weight": 20
         }
       ]
     }
