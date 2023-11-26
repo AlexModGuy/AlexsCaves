@@ -61,6 +61,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -559,7 +560,7 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void fogRender(ViewportEvent.RenderFog event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         FluidState fluidstate = player.level().getFluidState(event.getCamera().getBlockPosition());

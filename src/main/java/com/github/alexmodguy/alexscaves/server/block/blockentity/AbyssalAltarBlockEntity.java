@@ -65,19 +65,19 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
                 entity.slideProgress = 0.0F;
             }
         }
-        if (entity.popStack != null) {
+        if (entity.popStack != null && !level.isClientSide) {
             if (entity.popDelay++ > 5) {
+                ItemStack drop = entity.popStack.copy();
                 Vec3 angleAdd = new Vec3(0, 0, 1).yRot(entity.itemAngle * ((float) Math.PI / 180F));
                 Vec3 vec3 = Vec3.atCenterOf(entity.worldPosition).add(0, 0.5F, 0).add(angleAdd);
-                ItemEntity itemEntity = new ItemEntity(level, vec3.x, vec3.y, vec3.z, entity.popStack.copy());
-                level.addFreshEntity(itemEntity);
+                ItemEntity itemEntity = new ItemEntity(level, vec3.x, vec3.y, vec3.z, drop);
                 if (entity.lastInteracter != null) {
-                    entity.lastInteracter.onItemPickup(itemEntity);
-                    entity.lastInteracter.take(itemEntity, entity.popStack.getCount());
-                    boolean kill = false;
+                    itemEntity.setThrower(entity.lastInteracter.getUUID());
+                    boolean kill = true;
                     if (entity.lastInteracter instanceof Player player) {
-                        if (player.addItem(itemEntity.getItem())) {
-                            kill = true;
+                        boolean fullInv = !hasInventorySpaceFor(player.getInventory(), drop);
+                        if (!player.addItem(drop.copy()) || player.getAbilities().instabuild && fullInv) {
+                            kill = false;
                         }
                     } else if (entity.lastInteracter instanceof DeepOneBaseEntity deepOne) {
                         deepOne.swapItemsForAnimation(itemEntity.getItem());
@@ -90,15 +90,25 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
                         }
                         kill = true;
                     }
+                    itemEntity.setItem(drop);
                     if (kill) {
+                        entity.lastInteracter.onItemPickup(itemEntity);
+                        entity.lastInteracter.take(itemEntity, drop.getCount());
                         itemEntity.discard();
+                    }else{
+                        level.addFreshEntity(itemEntity);
+                        itemEntity.setDefaultPickUpDelay();
                     }
                 }
-                entity.popDelay = 0;
                 entity.popStack = null;
+                entity.popDelay = 0;
                 entity.lastInteracter = null;
             }
         }
+    }
+
+    private static boolean hasInventorySpaceFor(Inventory inventory, ItemStack drop) {
+        return inventory.getSlotWithRemainingSpace(drop) != -1 || inventory.getFreeSlot() != -1;
     }
 
     public void onEntityInteract(LivingEntity entity, boolean flip) {
