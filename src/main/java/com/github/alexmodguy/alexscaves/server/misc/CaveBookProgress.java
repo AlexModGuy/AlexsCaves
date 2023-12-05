@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexthe666.citadel.Citadel;
 import com.github.alexthe666.citadel.server.entity.CitadelEntityData;
 import com.github.alexthe666.citadel.server.message.PropertiesMessage;
@@ -65,7 +66,8 @@ public class CaveBookProgress {
         if(prev >= Subcategory.values().length - 1){
             return false;
         }else{
-            unlockedPages.put(biomeCategory, Subcategory.getByOrdinal(prev + 1));
+            Subcategory unlocked = AlexsCaves.COMMON_CONFIG.onlyOneResearchNeeded.get() ? Subcategory.UTILITIES : Subcategory.getByOrdinal(prev + 1);
+            unlockedPages.put(biomeCategory, unlocked);
             return true;
         }
     }

@@ -13,6 +13,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.BooleanValue watcherPossession;
     public final ForgeConfigSpec.IntValue amberMonolithMeanTime;
     public final ForgeConfigSpec.BooleanValue nuclearFurnaceBlastingOnly;
+    public final ForgeConfigSpec.BooleanValue onlyOneResearchNeeded;
     public final ForgeConfigSpec.IntValue caveMapSearchDistance;
     public final ForgeConfigSpec.IntValue nukeMaxBlockExplosionResistance;
     public final ForgeConfigSpec.DoubleValue nukeExplosionSizeModifier;
@@ -45,6 +46,7 @@ public class ACServerConfig {
         nuclearFurnaceBlastingOnly = builder.comment("True if the Nuclear Furnace only uses 'Blasting' recipes, false to use all smelting recipes.").translation("nuclear_furnace_blasting_only").define("nuclear_furnace_blasting_only", true);
         builder.pop();
         builder.push("item-behavior");
+        onlyOneResearchNeeded = builder.comment("True if one Cave Codex is all that is needed to unlock every Cave Compendium entry.").translation("only_one_research_needed").define("only_one_research_needed", false);
         caveMapSearchDistance = builder.comment("How far away for cave biomes the Cave Map will search for.").translation("cave_map_search_distance").defineInRange("cave_map_search_distance", 10000, 6400, Integer.MAX_VALUE);
         nukeMaxBlockExplosionResistance = builder.comment("The maximum explosion resistance that a block can have to be destroyed by a nuclear explosion. Set to zero to disable all nuclear explosion block breaking.").translation("nuke_max_block_explosion_resistance").defineInRange("nuke_max_block_explosion_resistance", 1000, 0, Integer.MAX_VALUE);
         nukeExplosionSizeModifier = builder.comment("The scale of nuclear bomb destruction. multiply this by 16 to get the radius of a nuclear bomb explosion.").translation("nuclear_explosion_size_modifier").defineInRange("nuclear_explosion_size_modifier", 3.0D, 0.0, Double.MAX_VALUE);

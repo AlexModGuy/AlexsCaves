@@ -275,6 +275,7 @@
   "item.alexscaves.cave_tablet": "Cave Tablet",
   "item.alexscaves.cave_codex": "Cave Codex",
   "item.alexscaves.cave_codex.add": "Added %s: %s to the Cave Compendium",
+  "item.alexscaves.cave_codex.add_all": "Added %s to the Cave Compendium",
   "item.alexscaves.cave_codex.end": "There is nothing more to learn about this biome.",
   "item.alexscaves.cave_book": "Cave Compendium",
   "item.alexscaves.cave_book.desc": "By Dr. Prof. Alexander Caverns, PhD.",
