@@ -290,7 +290,7 @@ public class CommonEvents {
         if (itemInHand.is(ACTagRegistry.RESTRICTED_BIOME_LOCATORS)) {
             CompoundTag tag = itemInHand.getTag();
             if (tag != null) {
-                if (itemTagContainsAC(tag, "BiomeKey", false) || itemTagContainsAC(tag, "Structure", true) || itemTagContainsAC(tag, "structurecompass:structureName", true)) {
+                if (itemTagContainsAC(tag, "BiomeKey", false) || itemTagContainsAC(tag, "Structure", true) || itemTagContainsAC(tag, "structurecompass:structureName", true) || itemTagContainsAC(tag, "StructureKey", true)) {
                     itemInHand.shrink(1);
                     player.broadcastBreakEvent(slot);
                     player.playSound(ACSoundRegistry.DISAPPOINTMENT.get());

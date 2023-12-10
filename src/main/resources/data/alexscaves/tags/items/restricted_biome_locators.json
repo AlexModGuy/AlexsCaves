@@ -12,6 +12,10 @@
     {
       "id": "structurecompass:structure_compass",
       "required": false
+    },
+    {
+      "id": "explorerscompass:explorerscompass",
+      "required": false
     }
   ]
 }
