@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.config;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.Citadel;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import com.google.common.reflect.TypeToken;
@@ -9,9 +8,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraftforge.fml.loading.FMLPaths;
 import org.apache.commons.io.FileUtils;
 
@@ -23,7 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class BiomeGenerationConfig {
@@ -53,7 +49,7 @@ public class BiomeGenerationConfig {
 
     @Nullable
     public static ResourceKey<Biome> getBiomeForEvent(EventReplaceBiome event) {
-         for (Map.Entry<ResourceKey<Biome>, BiomeGenerationNoiseCondition> condition : biomes.entrySet()) {
+        for (Map.Entry<ResourceKey<Biome>, BiomeGenerationNoiseCondition> condition : biomes.entrySet()) {
             if (condition.getValue().test(event)) {
                 return condition.getKey();
             }
@@ -76,14 +72,14 @@ public class BiomeGenerationConfig {
         }
         try {
             T found = GSON.fromJson(FileUtils.readFileToString(configFile), type);
-            if(isInvalid.test(found)){
+            if (isInvalid.test(found)) {
                 Citadel.LOGGER.warn("Old Biome Generation Config format found for " + configName + ", replacing with new one.");
                 try {
                     FileUtils.write(configFile, GSON.toJson(defaults));
                 } catch (IOException e) {
                     Citadel.LOGGER.error("Biome Generation Config: Could not write " + configFile, e);
                 }
-            }else{
+            } else {
                 return found;
             }
         } catch (Exception e) {
@@ -100,7 +96,8 @@ public class BiomeGenerationConfig {
     }
 
     private static BiomeGenerationNoiseCondition getConfigData(String fileName, BiomeGenerationNoiseCondition defaultConfigData) {
-        BiomeGenerationNoiseCondition configData = getOrCreateConfigFile(getConfigDirectory(), fileName, defaultConfigData, new TypeToken<BiomeGenerationNoiseCondition>(){}.getType(), BiomeGenerationNoiseCondition::isInvalid);
+        BiomeGenerationNoiseCondition configData = getOrCreateConfigFile(getConfigDirectory(), fileName, defaultConfigData, new TypeToken<BiomeGenerationNoiseCondition>() {
+        }.getType(), BiomeGenerationNoiseCondition::isInvalid);
         return configData;
     }
 }
