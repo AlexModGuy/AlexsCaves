@@ -16,6 +16,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.BooleanValue onlyOneResearchNeeded;
     public final ForgeConfigSpec.IntValue caveMapSearchDistance;
     public final ForgeConfigSpec.IntValue nukeMaxBlockExplosionResistance;
+    public final ForgeConfigSpec.BooleanValue nukesSpawnItemDrops;
     public final ForgeConfigSpec.DoubleValue nukeExplosionSizeModifier;
     public final ForgeConfigSpec.BooleanValue totemOfPossessionPlayers;
     public final ForgeConfigSpec.IntValue darknessCloakChargeTime;
@@ -49,6 +50,7 @@ public class ACServerConfig {
         onlyOneResearchNeeded = builder.comment("True if one Cave Codex is all that is needed to unlock every Cave Compendium entry.").translation("only_one_research_needed").define("only_one_research_needed", false);
         caveMapSearchDistance = builder.comment("How far away for cave biomes the Cave Map will search for.").translation("cave_map_search_distance").defineInRange("cave_map_search_distance", 10000, 6400, Integer.MAX_VALUE);
         nukeMaxBlockExplosionResistance = builder.comment("The maximum explosion resistance that a block can have to be destroyed by a nuclear explosion. Set to zero to disable all nuclear explosion block breaking.").translation("nuke_max_block_explosion_resistance").defineInRange("nuke_max_block_explosion_resistance", 1000, 0, Integer.MAX_VALUE);
+        nukesSpawnItemDrops = builder.comment("Whether some block items are dropped by nuclear explosions. False if all destroyed blocks do not drop items.").translation("nuke_spawn_item_drops").define("nuke_spawn_item_drops", true);
         nukeExplosionSizeModifier = builder.comment("The scale of nuclear bomb destruction. multiply this by 16 to get the radius of a nuclear bomb explosion.").translation("nuclear_explosion_size_modifier").defineInRange("nuclear_explosion_size_modifier", 3.0D, 0.0, Double.MAX_VALUE);
         totemOfPossessionPlayers = builder.comment("Whether the Totem of Possession can be applied to players.").translation("totem_of_possession_works_on_players").define("totem_of_possession_works_on_players", true);
         darknessCloakChargeTime = builder.comment("The amount of time (in ticks) it takes to charge up the Cloak of Darkness ability.").translation("darkness_cloak_charge_time").defineInRange("darkness_cloak_charge_time", 1000, 20, Integer.MAX_VALUE);

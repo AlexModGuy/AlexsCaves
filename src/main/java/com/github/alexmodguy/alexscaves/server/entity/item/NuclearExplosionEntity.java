@@ -180,7 +180,7 @@ public class NuclearExplosionEntity extends Entity {
                         BlockState state = level().getBlockState(carve);
                         if ((!state.isAir() || !state.getFluidState().isEmpty()) && isDestroyable(state)) {
                             carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
-                            if (random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
+                            if (AlexsCaves.COMMON_CONFIG.nukesSpawnItemDrops.get() && random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
                                 level().destroyBlock(carve, true);
                             } else {
                                 state.onBlockExploded(level(), carve, dummyExplosion);
