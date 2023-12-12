@@ -104,9 +104,9 @@ public class VoidBeingTendrilParticle extends Particle {
 
     public void render(VertexConsumer vertexConsumer, Camera camera, float partialTick) {
         Vec3 cameraPos = camera.getPosition();
-        float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
-        float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
-        float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
+        double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
+        double y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
+        double z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
         Vector3f cameraOffset = new Vector3f(cameraOffsetX, cameraOffsetY, -0.1F);
         Quaternionf quaternion = new Quaternionf(camera.rotation());
         cameraOffset.rotate(quaternion);
