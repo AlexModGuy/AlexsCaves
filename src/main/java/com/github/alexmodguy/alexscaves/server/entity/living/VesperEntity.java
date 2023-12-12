@@ -112,8 +112,8 @@ public class VesperEntity extends Monster implements IAnimatedEntity, Underzealo
         this.goalSelector.addGoal(4, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(2, new VesperTargetUnderneathEntities(this, Player.class));
-        this.targetSelector.addGoal(3, new VesperTargetUnderneathEntities(this, GloomothEntity.class));
+        this.targetSelector.addGoal(2, new VesperTargetUnderneathEntities(this, 20, Player.class));
+        this.targetSelector.addGoal(3, new VesperTargetUnderneathEntities(this, 32, GloomothEntity.class));
 
     }
 
