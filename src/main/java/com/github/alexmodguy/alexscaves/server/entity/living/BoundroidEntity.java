@@ -70,7 +70,6 @@ public class BoundroidEntity extends Monster {
         this.goalSelector.addGoal(1, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, true));
-        this.targetSelector.addGoal(3, new MobTarget3DGoal(this, Husk.class, true));
     }
 
 

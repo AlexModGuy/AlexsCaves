@@ -58,17 +58,19 @@ public class SmoothLimestoneBlock extends Block {
                 itemstack.shrink(1);
             }
             if (!level.isClientSide) {
-                boolean flag = false;
+                boolean isMystery = false;
                 if(level.random.nextFloat() < 0.3F && attemptPlaceMysteryCavePainting(level, blockPos, blockHitResult.getDirection(), true)){
-                    flag = attemptPlaceMysteryCavePainting(level, blockPos, blockHitResult.getDirection(), false);
+                    isMystery = attemptPlaceMysteryCavePainting(level, blockPos, blockHitResult.getDirection(), false);
                 }
-                if(!flag){
+                if(!isMystery){
                     BlockState cavePainting = Util.getRandom(RANDOM_CAVE_PAINTINGS, player.getRandom()).get().defaultBlockState();
                     level.setBlockAndUpdate(blockPos, cavePainting.setValue(CavePaintingBlock.FACING, blockHitResult.getDirection()));
                 }
                 if(player instanceof ServerPlayer serverPlayer){
-                    if(flag){
+                    if(isMystery){
                         ACAdvancementTriggerRegistry.MYSTERY_CAVE_PAINTING.triggerForEntity(serverPlayer);
+                    }else{
+                        ACAdvancementTriggerRegistry.CAVE_PAINTING.triggerForEntity(serverPlayer);
                     }
                     CriteriaTriggers.ITEM_USED_ON_BLOCK.trigger(serverPlayer, blockPos, itemstack);
                 }

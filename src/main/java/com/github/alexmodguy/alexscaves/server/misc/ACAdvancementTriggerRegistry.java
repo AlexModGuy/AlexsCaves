@@ -9,6 +9,7 @@ public class ACAdvancementTriggerRegistry {
     public static final ACAdvancementTrigger KILL_MOB_WITH_GALENA_GAUNTLET = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "kill_mob_with_galena_gauntlet"));
     public static final ACAdvancementTrigger FINISHED_QUARRY = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "finished_quarry"));
     public static final ACAdvancementTrigger DINOSAURS_MINECART = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "dinosaurs_minecart"));
+    public static final ACAdvancementTrigger CAVE_PAINTING = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "cave_painting"));
     public static final ACAdvancementTrigger MYSTERY_CAVE_PAINTING = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "mystery_cave_painting"));
     public static final ACAdvancementTrigger ENTER_ACID_WITH_ARMOR = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "enter_acid_with_armor"));
     public static final ACAdvancementTrigger ACID_CREATE_RUST = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "acid_create_rust"));
@@ -25,6 +26,7 @@ public class ACAdvancementTriggerRegistry {
     public static void setup() {
         CriteriaTriggers.register(KILL_MOB_WITH_GALENA_GAUNTLET);
         CriteriaTriggers.register(DINOSAURS_MINECART);
+        CriteriaTriggers.register(CAVE_PAINTING);
         CriteriaTriggers.register(MYSTERY_CAVE_PAINTING);
         CriteriaTriggers.register(FINISHED_QUARRY);
         CriteriaTriggers.register(ENTER_ACID_WITH_ARMOR);
