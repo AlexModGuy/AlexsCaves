@@ -316,8 +316,8 @@ public class CaveMapRenderer {
             double dimensionScale = Minecraft.getInstance().player.level().dimensionType().coordinateScale();
             double playerX = (Minecraft.getInstance().player.getX() * dimensionScale - (double) this.target.getX()) / (double) CaveMapItem.MAP_SCALE;
             double playerZ = (Minecraft.getInstance().player.getZ() * dimensionScale - (double) this.target.getZ()) / (double) CaveMapItem.MAP_SCALE;
-            float renderPlayerX = Mth.clamp((float) playerX + 64.0F, 0, 128);
-            float renderPlayerZ = Mth.clamp((float) playerZ + 64.0F, 0, 128);
+            double renderPlayerX = Mth.clamp(playerX + 64.0F, 0, 128);
+            double renderPlayerZ = Mth.clamp( playerZ + 64.0F, 0, 128);
             poseStack.translate(renderPlayerX, renderPlayerZ, -0.05F);
             poseStack.pushPose();
             poseStack.mulPose(Axis.ZP.rotationDegrees((float) Minecraft.getInstance().player.getYRot() + 180));

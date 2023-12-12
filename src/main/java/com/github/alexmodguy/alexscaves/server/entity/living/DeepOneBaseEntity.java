@@ -55,7 +55,6 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Predicate;
 
 public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEntity {
     protected boolean isLandNavigator;

@@ -2,13 +2,8 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.DeepOneReaction;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
-
-import java.util.function.Predicate;
 
 public class DeepOneTargetHostilePlayersGoal extends NearestAttackableTargetGoal {
 

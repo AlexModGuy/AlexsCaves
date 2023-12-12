@@ -4,7 +4,6 @@ import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.structures.OceanMonumentStructure;
 import net.minecraft.world.level.levelgen.structure.structures.ShipwreckStructure;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
