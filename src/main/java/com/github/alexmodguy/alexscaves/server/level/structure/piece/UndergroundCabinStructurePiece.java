@@ -1,5 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
+import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
+import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationNoiseCondition;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.processor.UndergroundCabinProcessor;
 import net.minecraft.Util;
@@ -10,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.Rotation;
@@ -22,13 +25,14 @@ import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceSeriali
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UndergroundCabinStructurePiece extends TemplateStructurePiece {
 
-    private ResourceKey<Biome> pickedBiome = ACBiomeRegistry.MAGNETIC_CAVES;
+    private ResourceKey<Biome> pickedBiome = null;
 
     public UndergroundCabinStructurePiece(StructureTemplateManager manager, ResourceLocation resourceLocation, BlockPos pos, Rotation rotation) {
         super(ACStructurePieceRegistry.UNDERGROUND_CABIN.get(), 0, manager, resourceLocation, resourceLocation.toString(), makeSettings(rotation), pos);
@@ -54,13 +58,20 @@ public class UndergroundCabinStructurePiece extends TemplateStructurePiece {
     }
 
     public void postProcess(WorldGenLevel worldGenLevel, StructureManager structureManager, ChunkGenerator chunkGenerator, RandomSource randomSource, BoundingBox boundingBox, ChunkPos chunkPos, BlockPos pos) {
-        pickedBiome = Util.getRandom(ACBiomeRegistry.ALEXS_CAVES_BIOMES, randomSource);
+        pickedBiome = pickBiome(randomSource);
         this.placeSettings.clearProcessors().addProcessor(new UndergroundCabinProcessor());
         BlockPos structureCenter = StructureTemplate.transform(new BlockPos(this.template.getSize().getX() / 2, 0, this.template.getSize().getZ() / 2), Mirror.NONE, this.placeSettings.getRotation(), BlockPos.ZERO).offset(this.templatePosition);
         BlockPos cavePos = getCaveHeight(structureCenter, worldGenLevel, randomSource);
         this.templatePosition = new BlockPos(this.templatePosition.getX(), cavePos.getY(), this.templatePosition.getZ());
         BlockPos genPos = new BlockPos(pos.getX(), cavePos.getY(), pos.getZ());
         super.postProcess(worldGenLevel, structureManager, chunkGenerator, randomSource, boundingBox, chunkPos, genPos);
+    }
+
+    private ResourceKey<Biome> pickBiome(RandomSource randomSource) {
+        int attempts = 0;
+        List<ResourceKey<Biome>> biomeList = new ArrayList<>(ACBiomeRegistry.ALEXS_CAVES_BIOMES);
+        biomeList.removeIf(BiomeGenerationConfig::isBiomeDisabledCompletely);
+        return biomeList.isEmpty() ? null : Util.getRandom(biomeList, randomSource);
     }
 
     private BlockPos getCaveHeight(BlockPos currentStructureCenter, BlockGetter level, RandomSource randomSource) {
@@ -91,7 +102,8 @@ public class UndergroundCabinStructurePiece extends TemplateStructurePiece {
         accessor.setBlock(pos, Blocks.CAVE_AIR.defaultBlockState(), 0);
         switch (string) {
             case "loot_chest":
-                RandomizableContainerBlockEntity.setLootTable(accessor, random, pos.below(), new ResourceLocation("alexscaves:chests/underground_cabin_" + pickedBiome.location().getPath()));
+                ResourceLocation chestLoot = pickedBiome == null ? BuiltInLootTables.SIMPLE_DUNGEON : new ResourceLocation("alexscaves:chests/underground_cabin_" + pickedBiome.location().getPath());
+                RandomizableContainerBlockEntity.setLootTable(accessor, random, pos.below(), chestLoot);
                 break;
         }
     }

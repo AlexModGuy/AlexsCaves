@@ -61,6 +61,11 @@ public class BiomeGenerationConfig {
         return biomes.size();
     }
 
+    public static boolean isBiomeDisabledCompletely(ResourceKey<Biome> biome){
+        BiomeGenerationNoiseCondition noiseCondition = biomes.get(biome);
+        return noiseCondition != null && noiseCondition.isDisabledCompletely();
+    }
+
     private static <T> T getOrCreateConfigFile(File configDir, String configName, T defaults, Type type, Predicate<T> isInvalid) {
         File configFile = new File(configDir, configName + ".json");
         if (!configFile.exists()) {
