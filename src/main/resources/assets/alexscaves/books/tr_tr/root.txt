@@ -16,11 +16,11 @@
     Bu mağaraların herhangi biri hakkında daha fazla bilgi edinmek için bir §lYeraltı §lKulübesi§r bulun..
     Yeraltı Kulübeleri zaman zaman Dünyadaki mağaralarda bulunabilir.
 
-    Haritacılar zaman zaman size, Maden Kuyusu sandıklarında da bulunabilecek haritalarını satabilirler.
+    Haritacılar zaman zaman size, Maden Kuyusu sandıklarında da buluna
+bilecek haritalarını satabilirler.
 
     Basit ganimetlerin yanı sıra, Yeraltı Kulü
 belerinde §lMağara §lTabletleri§r bulunur.
-
 
 
 
@@ -33,6 +33,7 @@ Ardından Mağara Tabletini çevirmeye başlayabilirsiniz...
     Hem tablet hem de kağıt masanın üzerindeyken, tabletteki çeşitli rünler görünür olacaktır.
 
     Herhangi bir rün ile etkileşim onu ortaya çıkaracaktır. Ortaya çıkan kelimenin çevirisi, merceği kelimenin üzerine getirerek görülebilir. Tablet kırılmadan önce sadece beş deneme yapılabilir.
+
 
 
 

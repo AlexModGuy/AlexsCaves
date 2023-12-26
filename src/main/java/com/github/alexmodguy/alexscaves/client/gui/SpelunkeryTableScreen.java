@@ -65,6 +65,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private List<SpelunkeryTableWordButton> wordButtons = new ArrayList<>();
     private SpelunkeryTableWordButton targetWordButton = null;
 
+    private final RandomSource random = RandomSource.create();
     private int highlightColor = 0XFFFFFF;
     private int level = 0;
     private boolean finishedLevel;
@@ -473,7 +474,6 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             wordLines++;
         }
         if (!wordButtons.isEmpty()) {
-            RandomSource random = Minecraft.getInstance().player.getRandom();
             targetWordButton = wordButtons.size() <= 1 ? wordButtons.get(0) : wordButtons.get(random.nextInt(wordButtons.size()));
             attemptsLeft = 5;
         } else {
@@ -486,7 +486,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     }
 
     public void onClickWord(SpelunkeryTableWordButton tableWordButton) {
-        if(finishedLevel){
+        if (finishedLevel) {
             return;
         }
         if (tableWordButton == targetWordButton) {
@@ -499,7 +499,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             }
             if (attemptsLeft <= 1) {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.SPELUNKERY_TABLE_CRACK.get(), 1.0F));
-            }else{
+            } else {
                 Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(ACSoundRegistry.SPELUNKERY_TABLE_ATTEMPT_FAIL.get(), 1.0F));
             }
             if (attemptsLeft <= 0) {
@@ -520,7 +520,20 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         return targetWordButton == tableWordButton;
     }
 
+    private boolean hasClickedAnyWord() {
+        boolean flag = false;
+        for (SpelunkeryTableWordButton button : wordButtons) {
+            if (!button.active) {
+                flag = true;
+            }
+        }
+        return flag;
+    }
+
     public void onClose() {
+        if (hasPaper() && hasTablet() && hasClickedAnyWord() && level < 3) {
+            AlexsCaves.NETWORK_WRAPPER.sendToServer(new SpelunkeryTableChangeMessage(false));
+        }
         super.onClose();
     }
 }

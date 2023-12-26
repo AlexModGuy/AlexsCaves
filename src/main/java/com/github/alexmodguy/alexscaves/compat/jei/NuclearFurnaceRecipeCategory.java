@@ -79,7 +79,7 @@ public class NuclearFurnaceRecipeCategory implements IRecipeCategory<AbstractCoo
     }
 
     protected void drawCookTime(AbstractCookingRecipe recipe, GuiGraphics guiGraphics, int y) {
-        int cookTime = (int) Math.ceil(recipe.getCookingTime() * NuclearFurnaceBlockEntity.SPEED_REDUCTION);
+        int cookTime = (int) Math.ceil(recipe.getCookingTime() * NuclearFurnaceBlockEntity.getSpeedReduction());
         if (cookTime > 0) {
             int cookTimeSeconds = cookTime / 20;
             Component timeString = Component.translatable("gui.jei.category.smelting.time.seconds", cookTimeSeconds);

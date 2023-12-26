@@ -498,7 +498,6 @@ public class SubmarineEntity extends Entity implements KeybindUsingMount {
         livingEntity.yBodyRotO += f1 - f;
         livingEntity.setYRot(livingEntity.getYRot() + f1 - f);
         livingEntity.setYHeadRot(livingEntity.getYRot());
-
     }
 
     public float getLeftPropellerRot() {

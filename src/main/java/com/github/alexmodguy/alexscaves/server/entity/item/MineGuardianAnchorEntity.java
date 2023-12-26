@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
@@ -75,15 +76,17 @@ public class MineGuardianAnchorEntity extends Entity {
                 double distance = this.distanceTo(mineGuardian);
                 int i = mineGuardian.getMaxChainLength();
                 double distanceGoal = (mineGuardian.isInWaterOrBubble() ? i + Math.sin(tickCount * 0.1F + i * 0.5F) * 0.25F : 5) + (hasTarget ? 5 : 0);
+                double waterHeight = mineGuardian.getFluidTypeHeight(ForgeMod.WATER_TYPE.get());
+                double waterUp = Math.min(waterHeight, 1F) * 0.005F;
                 if (mineGuardian.isInWaterOrBubble() && !hasTarget) {
                     double f = this.getX() + (float) -Math.sin(tickCount * 0.025F + i) * 0.5F;
                     double f1 = this.getZ() + (float) Math.cos(tickCount * 0.025F + i) * 0.5F;
                     double f2 = this.getY() + distanceGoal;
                     Vec3 vec3 = new Vec3(f, f2, f1).subtract(guardian.position());
-                    mineGuardian.setDeltaMovement(mineGuardian.getDeltaMovement().add(vec3.scale(0.1F)));
+                    mineGuardian.setDeltaMovement(mineGuardian.getDeltaMovement().add(vec3.scale(waterUp)));
                 }
                 if (distance > distanceGoal) {
-                    double disRem = Math.min(distance - distanceGoal, 1F) * (hasTarget ? 0.1F : 1F);
+                    double disRem = Math.min(distance - distanceGoal, 1F) * 0.1F;
                     Vec3 moveTo = getChainFrom(1.0F).subtract(mineGuardian.position());
                     if (moveTo.length() > 1.0D) {
                         moveTo = moveTo.normalize();

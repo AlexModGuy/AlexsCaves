@@ -31,7 +31,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class MagnetBlockEntity extends BlockEntity {

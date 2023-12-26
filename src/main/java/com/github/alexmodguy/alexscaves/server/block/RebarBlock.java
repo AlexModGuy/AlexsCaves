@@ -12,10 +12,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BucketPickup;
-import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -190,14 +187,18 @@ public class RebarBlock extends Block implements BucketPickup, LiquidBlockContai
     public void playerDestroy(Level level, Player player, BlockPos blockPos, BlockState blockState, @Nullable BlockEntity blockEntity, ItemStack stack) {
         super.playerDestroy(level, player, blockPos, blockState, blockEntity, stack);
         Vec3 findDirOf = player.getEyePosition().subtract(Vec3.atCenterOf(blockPos));
-        Direction.Axis axis = Direction.getNearest(findDirOf.x, findDirOf.y, findDirOf.z).getAxis();
-        if (axis == Direction.Axis.X && blockState.getValue(CONNECT_X)) {
-            level.setBlock(blockPos, blockState.setValue(CONNECT_X, false), 2);
-        } else if (axis == Direction.Axis.Y && blockState.getValue(CONNECT_Y)) {
-            level.setBlock(blockPos, blockState.setValue(CONNECT_Y, false), 2);
-        } else if (axis == Direction.Axis.Z && blockState.getValue(CONNECT_Z)) {
-            level.setBlock(blockPos, blockState.setValue(CONNECT_Z, false), 2);
+        BlockState set = blockState;
+        if (blockState.getValue(CONNECT_X)) {
+            set = set.setValue(CONNECT_X, false);
+        } else if (blockState.getValue(CONNECT_Y)) {
+            set = set.setValue(CONNECT_Y, false);
+        } else if (blockState.getValue(CONNECT_Z)) {
+            set = set.setValue(CONNECT_Z, false);
         }
+        if(!set.getValue(CONNECT_X) && !set.getValue(CONNECT_Y) && !set.getValue(CONNECT_Z)){
+            set = Blocks.AIR.defaultBlockState();
+        }
+        level.setBlock(blockPos, set, 2);
     }
 
     public BlockState rotate(BlockState state, Rotation rotation) {

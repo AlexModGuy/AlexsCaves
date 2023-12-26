@@ -1,17 +1,21 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleRenderType;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+
+import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public abstract class AbstractTrailParticle extends Particle {
 
@@ -63,17 +67,13 @@ public abstract class AbstractTrailParticle extends Particle {
 
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         if (trailPointer > -1) {
-            Tesselator tesselator = Tesselator.getInstance();
-            BufferBuilder bufferbuilder = tesselator.getBuilder();
-            RenderSystem.setShaderTexture(0, getTrailTexture());
-            RenderSystem.enableBlend();
-            RenderSystem.defaultBlendFunc();
-            bufferbuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
+            MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
+            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(getTrailTexture()));
 
             Vec3 cameraPos = camera.getPosition();
-            float x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
-            float y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
-            float z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
+            double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
+            double y = (float) (Mth.lerp((double) partialTick, this.yo, this.y));
+            double z = (float) (Mth.lerp((double) partialTick, this.zo, this.z));
 
             PoseStack posestack = new PoseStack();
             posestack.pushPose();
@@ -95,14 +95,14 @@ public abstract class AbstractTrailParticle extends Particle {
                 PoseStack.Pose posestack$pose = posestack.last();
                 Matrix4f matrix4f = posestack$pose.pose();
                 Matrix3f matrix3f = posestack$pose.normal();
-                consumer.vertex(matrix4f, (float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).uv(u1, 1F).color(trailR, trailG, trailB, trailA).uv2(j).endVertex();
-                consumer.vertex(matrix4f, (float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).uv(u2, 1F).color(trailR, trailG, trailB, trailA).uv2(j).endVertex();
-                consumer.vertex(matrix4f, (float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).uv(u2, 0).color(trailR, trailG, trailB, trailA).uv2(j).endVertex();
-                consumer.vertex(matrix4f, (float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).uv(u1, 0).color(trailR, trailG, trailB, trailA).uv2(j).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) bottomAngleVec.x, (float) draw1.y + (float) bottomAngleVec.y, (float) draw1.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) bottomAngleVec.x, (float) draw2.y + (float) bottomAngleVec.y, (float) draw2.z + (float) bottomAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 1F).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw2.x + (float) topAngleVec.x, (float) draw2.y + (float) topAngleVec.y, (float) draw2.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u2, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+                vertexconsumer.vertex(matrix4f, (float) draw1.x + (float) topAngleVec.x, (float) draw1.y + (float) topAngleVec.y, (float) draw1.z + (float) topAngleVec.z).color(trailR, trailG, trailB, trailA).uv(u1, 0).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
                 samples++;
                 drawFrom = sample;
             }
-            tesselator.end();
+            multibuffersource$buffersource.endBatch();
             posestack.popPose();
         }
     }

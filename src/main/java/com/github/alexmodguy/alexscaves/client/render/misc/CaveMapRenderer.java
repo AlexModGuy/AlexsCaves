@@ -91,8 +91,7 @@ public class CaveMapRenderer {
                     int k = j + i * 128;
                     int biomeId = mapBiomes[k];
                     Holder<Biome> biome = registry.asHolderIdMap().byId(biomeId);
-
-                    int biomeColor = biome.is(ACTagRegistry.CAVE_MAP_BORDER_ON) && isBorderBiome(registry, biome, i, j) ? DefaultMapBackgrounds.BORDER.getMapColor(i, j) : getBiomeColor(biome, j, i);
+                    int biomeColor = biome == null ? DefaultMapBackgrounds.DEFAULT.getMapColor(i, j) : biome.is(ACTagRegistry.CAVE_MAP_BORDER_ON) && isBorderBiome(registry, biome, i, j) ? DefaultMapBackgrounds.BORDER.getMapColor(i, j) : getBiomeColor(biome, j, i);
                     int r = FastColor.ABGR32.red(biomeColor);
                     int g = FastColor.ABGR32.green(biomeColor);
                     int b = FastColor.ABGR32.blue(biomeColor);
@@ -152,7 +151,8 @@ public class CaveMapRenderer {
     private BiomeLabel buildLabelFrom(Pair<Integer, Integer> targetBiomeLoc, Registry<Biome> registry, int rotation, boolean center) {
         int k = targetBiomeLoc.getFirst() + targetBiomeLoc.getSecond() * 128;
         int biomeId = mapBiomes[k];
-        ResourceKey<Biome> biomeResourceKey = registry.asHolderIdMap().byId(biomeId).unwrapKey().get();
+        Holder<Biome> holder = registry.asHolderIdMap().byId(biomeId);
+        ResourceKey<Biome> biomeResourceKey = holder == null ? Biomes.PLAINS : holder.unwrapKey().orElse(Biomes.PLAINS);
         return new BiomeLabel(biomeResourceKey, targetBiomeLoc.getFirst(), targetBiomeLoc.getSecond(), rotation);
     }
 
@@ -316,8 +316,8 @@ public class CaveMapRenderer {
             double dimensionScale = Minecraft.getInstance().player.level().dimensionType().coordinateScale();
             double playerX = (Minecraft.getInstance().player.getX() * dimensionScale - (double) this.target.getX()) / (double) CaveMapItem.MAP_SCALE;
             double playerZ = (Minecraft.getInstance().player.getZ() * dimensionScale - (double) this.target.getZ()) / (double) CaveMapItem.MAP_SCALE;
-            float renderPlayerX = Mth.clamp((float) playerX + 64.0F, 0, 128);
-            float renderPlayerZ = Mth.clamp((float) playerZ + 64.0F, 0, 128);
+            double renderPlayerX = Mth.clamp(playerX + 64.0F, 0, 128);
+            double renderPlayerZ = Mth.clamp( playerZ + 64.0F, 0, 128);
             poseStack.translate(renderPlayerX, renderPlayerZ, -0.05F);
             poseStack.pushPose();
             poseStack.mulPose(Axis.ZP.rotationDegrees((float) Minecraft.getInstance().player.getYRot() + 180));

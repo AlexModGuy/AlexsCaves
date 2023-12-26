@@ -38,7 +38,7 @@ public class VallumraptorMeleeGoal extends Goal {
             double dist = raptor.distanceTo(target);
             if (raptor.isLeaping()) {
                 checkAndDealDamage(target);
-                if (raptor.onGround()) {
+                if (raptor.onGround() || raptor.isInWaterOrBubble()) {
                     raptor.setLeaping(false);
                 }
             } else if (raptor.getAnimation() == VallumraptorEntity.ANIMATION_STARTLEAP) {

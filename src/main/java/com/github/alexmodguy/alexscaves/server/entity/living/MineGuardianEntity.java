@@ -373,6 +373,11 @@ public class MineGuardianEntity extends Monster {
         }
     }
 
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return 2;
+    }
+
     private class MeleeGoal extends Goal {
 
         private int timer = 0;

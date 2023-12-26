@@ -12,12 +12,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundLevelChunkWithLightPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -35,7 +33,6 @@ import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
-import java.util.BitSet;
 import java.util.List;
 import java.util.Stack;
 
@@ -180,7 +177,7 @@ public class NuclearExplosionEntity extends Entity {
                         BlockState state = level().getBlockState(carve);
                         if ((!state.isAir() || !state.getFluidState().isEmpty()) && isDestroyable(state)) {
                             carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
-                            if (random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
+                            if (AlexsCaves.COMMON_CONFIG.nukesSpawnItemDrops.get() && random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
                                 level().destroyBlock(carve, true);
                             } else {
                                 state.onBlockExploded(level(), carve, dummyExplosion);
@@ -223,11 +220,12 @@ public class NuclearExplosionEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag compoundTag) {
-
+        loadingChunks = compoundTag.getBoolean("WasLoadingChunks");
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag compoundTag) {
+        compoundTag.putBoolean("WasLoadingChunks", loadingChunks);
 
     }
 }

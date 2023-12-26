@@ -118,10 +118,11 @@ public class NotorEntity extends PathfinderMob {
         if (!this.onGround() && groundProgress > 0.0F) {
             groundProgress--;
         }
+        Entity scanningMob = this.getScanningMob();
         boolean hasHologram = hologram != null && this.showingHologram();
-        boolean hasBeam = this.getScanningMob() != null || hasHologram;
+        boolean hasBeam = scanningMob != null || hasHologram;
         if (hasBeam && beamProgress < 5.0F) {
-            if(beamProgress == 0.0F){
+            if(beamProgress == 0.0F && (hasHologram || scanningMob != null && this.hasLineOfSight(scanningMob))){
                 this.playSound(ACSoundRegistry.HOLOGRAM_STOP.get());
             }
             beamProgress++;
@@ -131,7 +132,7 @@ public class NotorEntity extends PathfinderMob {
         }
         if (!hasBeam && beamProgress > 0.0F) {
             if(beamProgress == 5.0F){
-                this.playSound(ACSoundRegistry.HOLOGRAM_STOP.get());
+              this.playSound(ACSoundRegistry.HOLOGRAM_STOP.get());
             }
             if (this.hologramProgress > 0.0F) {
                 hologramProgress--;

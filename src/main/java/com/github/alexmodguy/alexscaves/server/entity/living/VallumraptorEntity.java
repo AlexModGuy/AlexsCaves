@@ -91,6 +91,8 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     private VallumraptorEntity priorPackMember;
     private VallumraptorEntity afterPackMember;
 
+    private boolean justLootedChest;
+
     private int fleeTicks = 0;
     private Vec3 fleeFromPosition;
     private float tailYaw;
@@ -152,7 +154,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         this.targetSelector.addGoal(5, new AnimalPackTargetGoal(this, GrottoceratopsEntity.class, 30, false, 5));
         this.targetSelector.addGoal(6, new MobTargetUntamedGoal<>(this, Frog.class, 100, true, false, null));
         this.targetSelector.addGoal(7, new MobTargetUntamedGoal<>(this, Pig.class, 50, true, false, null));
-        this.targetSelector.addGoal(8, new MobTargetClosePlayers(this, 12));
+        this.targetSelector.addGoal(8, new MobTargetClosePlayers(this,  120,12));
     }
 
     @Nullable
@@ -262,12 +264,13 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
                 ItemStack stack = this.getMainHandItem();
                 this.level().broadcastEntityEvent(this, (byte) 45);
                 this.heal(5);
-                if (stack.is(ACItemRegistry.DINOSAUR_NUGGET.get())) {
+                if (stack.is(ACItemRegistry.DINOSAUR_NUGGET.get()) && justLootedChest) {
                     this.setRelaxedForTime(200 + random.nextInt(200));
                 }
                 if (!this.level().isClientSide) {
                     stack.shrink(1);
                 }
+                justLootedChest = false;
             }
             if (getRelaxedFor() > 0) {
                 this.setRelaxedForTime(this.getRelaxedFor() - 1);
@@ -438,12 +441,14 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         super.readAdditionalSaveData(compound);
         this.setElder(compound.getBoolean("Elder"));
         this.setRelaxedForTime(compound.getInt("RelaxedTime"));
+        this.justLootedChest = compound.getBoolean("JustLootedChest");
     }
 
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putBoolean("Elder", this.isElder());
         compound.putInt("RelaxedTime", this.getRelaxedFor());
+        compound.putBoolean("JustLootedChest", this.justLootedChest);
     }
 
     @javax.annotation.Nullable
@@ -516,6 +521,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     public void afterSteal(BlockPos stealPos) {
         fleeFromPosition = Vec3.atCenterOf(stealPos);
         fleeTicks = 300 + random.nextInt(80);
+        justLootedChest = true;
         if (this.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.DINOSAUR_NUGGET.get())) {
             eatHeldItemIn = 40 + random.nextInt(20);
         } else {

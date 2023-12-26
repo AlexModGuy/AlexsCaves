@@ -33,14 +33,14 @@ public class HazmatArmorModel extends HumanoidModel {
         PartDefinition rightArm = partdefinition.getChild("right_arm");
 
 
-        CubeDeformation deformationHelmet = deformation.extend(-0.1F);
+        CubeDeformation deformationMask = deformation.extend(-0.1F);
         CubeDeformation deformationShoulder = deformation.extend(0.1F);
         CubeDeformation deformationMain = deformation.extend(0.25F);
         CubeDeformation deformationPants = deformation.extend(0.1F);
 
-        PartDefinition mask = head.addOrReplaceChild("mask", CubeListBuilder.create().texOffs(116, 100).addBox(-2.0F, -1.5F, -2.0F, 4.0F, 5.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.5F, -4.0F));
-        mask.addOrReplaceChild("breather1", CubeListBuilder.create().texOffs(78, 99).mirror().addBox(-1.5F, -1.0F, -4.0F, 3.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(2.5F, 1.0F, 1.0F, 0.3927F, -0.7854F, 0.0F));
-        mask.addOrReplaceChild("breather2", CubeListBuilder.create().texOffs(78, 99).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 3.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.5F, 1.0F, 1.0F, 0.3927F, 0.7854F, 0.0F));
+        PartDefinition mask = head.addOrReplaceChild("mask", CubeListBuilder.create().texOffs(116, 100).addBox(-2.0F, -1.5F, -2.0F, 4.0F, 5.0F, 2.0F, deformationMask), PartPose.offset(0.0F, -1.5F, -4.0F));
+        mask.addOrReplaceChild("breather1", CubeListBuilder.create().texOffs(78, 99).mirror().addBox(-1.5F, -1.0F, -4.0F, 3.0F, 3.0F, 5.0F, deformationMask).mirror(false), PartPose.offsetAndRotation(2.5F, 1.0F, 1.0F, 0.3927F, -0.7854F, 0.0F));
+        mask.addOrReplaceChild("breather2", CubeListBuilder.create().texOffs(78, 99).addBox(-1.5F, -1.0F, -4.0F, 3.0F, 3.0F, 5.0F, deformationMask), PartPose.offsetAndRotation(-2.5F, 1.0F, 1.0F, 0.3927F, 0.7854F, 0.0F));
 
         body.addOrReplaceChild("jacket", CubeListBuilder.create().texOffs(16, 32).addBox(-4.0F, -24.0F, -2.0F, 8.0F, 12.0F, 4.0F, deformationMain), PartPose.offset(0.0F, 24.0F, 0.0F));
 

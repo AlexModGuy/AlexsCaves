@@ -105,7 +105,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
         this.goalSelector.addGoal(9, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, TremorsaurusEntity.class)));
-        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 8));
+        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 50, 8));
         this.targetSelector.addGoal(3, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(4, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(3, new MobTargetUntamedGoal<>(this, GrottoceratopsEntity.class, 100, true, false, null));

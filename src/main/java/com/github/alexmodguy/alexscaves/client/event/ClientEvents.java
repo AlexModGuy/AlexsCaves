@@ -61,6 +61,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
@@ -455,9 +456,8 @@ public class ClientEvents {
     @SubscribeEvent
     public void onPostRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
         Player player = AlexsCaves.PROXY.getClientSidePlayer();
-        boolean flag = false;
+        int hudY = 0;
         if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter()) {
-            flag = true;
             int screenWidth = event.getWindow().getGuiScaledWidth();
             int screenHeight = event.getWindow().getGuiScaledHeight();
             int forgeGuiY = Minecraft.getInstance().gui instanceof ForgeGui forgeGui ? Math.max(forgeGui.leftHeight, forgeGui.rightHeight) : 0;
@@ -475,6 +475,9 @@ public class ClientEvents {
             if (dinosaur instanceof TremorsaurusEntity) {
                 uvOffset = 63;
                 k += 5;
+                hudY = 20;
+            }else{
+                hudY = 40;
             }
             event.getGuiGraphics().pose().pushPose();
             event.getGuiGraphics().blit(DINOSAUR_HUD_OVERLAYS, j, k, 50, 0, uvOffset + 31, 43, 31, 128, 128);
@@ -490,7 +493,7 @@ public class ClientEvents {
                 forgeGuiY = 53;
             }
             int j = screenWidth / 2 - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorX.get() + 13;
-            int k = screenHeight - forgeGuiY - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get() + 9 - (flag ? 21 : 0);
+            int k = screenHeight - forgeGuiY - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get() + 9 - hudY;
             float f = DarknessArmorItem.getMeterProgress(stack);
             float invProgress = 1 - f;
             int uvOffset = DarknessArmorItem.canChargeUp(stack) && f >= 1.0F ? 0 : 18;
@@ -557,7 +560,7 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void fogRender(ViewportEvent.RenderFog event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
         FluidState fluidstate = player.level().getFluidState(event.getCamera().getBlockPosition());

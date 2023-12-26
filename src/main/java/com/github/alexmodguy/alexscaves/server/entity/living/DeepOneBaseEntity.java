@@ -55,7 +55,6 @@ import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.*;
-import java.util.function.Predicate;
 
 public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEntity {
     protected boolean isLandNavigator;
@@ -525,7 +524,6 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     protected void checkAndDealMeleeDamage(LivingEntity target, float multiplier) {
         checkAndDealMeleeDamage(target, multiplier, 0.25F);
-        System.out.println(getReactionTo((Player) target));
     }
 
     protected void checkAndDealMeleeDamage(LivingEntity target, float multiplier, float knockback) {
