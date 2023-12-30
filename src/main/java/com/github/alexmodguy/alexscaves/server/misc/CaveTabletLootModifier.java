@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.mojang.serialization.Codec;
@@ -67,7 +68,7 @@ public class CaveTabletLootModifier implements IGlobalLootModifier {
     }
 
     private float getChance() {
-        if (biome == null) {
+        if (biome == null || BiomeGenerationConfig.isBiomeDisabledCompletely(biome)) {
             return 0F;
         }
         if (biome.equals(ACBiomeRegistry.MAGNETIC_CAVES)) {

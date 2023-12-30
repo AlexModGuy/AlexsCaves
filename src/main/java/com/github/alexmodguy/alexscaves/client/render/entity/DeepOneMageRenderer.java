@@ -17,7 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class DeepOneMageRenderer extends MobRenderer<DeepOneMageEntity, DeepOneMageModel> implements CustomBookEntityRenderer{
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage.png");
+    public static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage.png");
     private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_mage_glow.png");
 
     private boolean sepia;

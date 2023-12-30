@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import net.minecraft.ChatFormatting;
@@ -76,7 +77,11 @@ public class CaveInfoItem extends Item {
                     CaveBookProgress.saveCaveBookProgress(progress, player);
                     CaveBookProgress.Subcategory subcategory = progress.getLastUnlockedCategory(biomeStr);
                     Component biomeTitle = Component.translatable("biome." + biomeResourceKey.location().toString().replace(":", "."));
-                    player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.add", biomeTitle, Component.translatable("item.alexscaves.cave_book." + subcategory.toString().toLowerCase())), true);
+                    if(AlexsCaves.COMMON_CONFIG.onlyOneResearchNeeded.get()){
+                        player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.add_all", biomeTitle), true);
+                    }else{
+                        player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.add", biomeTitle, Component.translatable("item.alexscaves.cave_book." + subcategory.toString().toLowerCase())), true);
+                    }
                 }
                 if(!player.isCreative()){
                     itemstack.shrink(1);

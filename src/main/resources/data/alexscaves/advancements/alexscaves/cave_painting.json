@@ -12,33 +12,8 @@
   },
   "parent": "alexscaves:alexscaves/limestone",
   "criteria": {
-    "use_charcoal": {
-      "conditions": {
-        "location": [
-          {
-            "condition": "minecraft:location_check",
-            "predicate": {
-              "block": {
-                "tag": "alexscaves:turns_into_cave_paintings"
-              }
-            }
-          },
-          {
-            "condition": "minecraft:match_tool",
-            "predicate": {
-              "items": [
-                "minecraft:charcoal"
-              ]
-            }
-          }
-        ]
-      },
-      "trigger": "minecraft:item_used_on_block"
+    "cave_painting": {
+      "trigger": "alexscaves:cave_painting"
     }
-  },
-  "requirements": [
-    [
-      "use_charcoal"
-    ]
-  ]
+  }
 }

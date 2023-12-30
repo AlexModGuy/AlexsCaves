@@ -32,7 +32,6 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 
-import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 public class NuclearBombEntity extends Entity {

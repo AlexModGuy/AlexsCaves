@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
-import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

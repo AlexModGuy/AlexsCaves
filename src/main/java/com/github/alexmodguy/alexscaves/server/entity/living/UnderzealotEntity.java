@@ -94,7 +94,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, UnderzealotEntity.class, WatcherEntity.class, ForsakenEntity.class).setAlertOthers()));
-        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 12){
+        this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 40, 12){
             @Override
             public boolean canUse() {
                 return !UnderzealotEntity.this.isPraying() && !UnderzealotEntity.this.isCarrying() && super.canUse();

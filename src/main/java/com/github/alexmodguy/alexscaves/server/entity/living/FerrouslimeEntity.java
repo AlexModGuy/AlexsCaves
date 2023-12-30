@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ai.FlightPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -25,9 +26,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -70,7 +69,6 @@ public class FerrouslimeEntity extends Monster {
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, true));
-        this.targetSelector.addGoal(3, new MobTarget3DGoal(this, Husk.class, true));
     }
 
     @Override
@@ -177,8 +175,8 @@ public class FerrouslimeEntity extends Monster {
         this.setPos(d0, d1, d2);
     }
 
-    protected float getStandingEyeHeight(Pose p_33614_, EntityDimensions p_33615_) {
-        return 0.625F * p_33615_.height;
+    protected float getStandingEyeHeight(Pose p_33614_, EntityDimensions dimensions) {
+        return 0.625F * dimensions.height;
     }
 
     public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {
@@ -204,15 +202,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     protected PathNavigation createNavigation(Level level) {
-        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level) {
-            public boolean isStableDestination(BlockPos pos) {
-                return !this.level.getBlockState(pos.below(2)).isAir() && this.level.getBlockState(pos.below()).isAir();
-            }
-        };
-        flyingpathnavigation.setCanOpenDoors(false);
-        flyingpathnavigation.setCanFloat(false);
-        flyingpathnavigation.setCanPassDoors(true);
-        return flyingpathnavigation;
+        return new FlightPathNavigatorNoSpin(this, level(), 1.0F);
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {

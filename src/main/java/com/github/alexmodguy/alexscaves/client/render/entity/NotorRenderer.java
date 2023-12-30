@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.model.HullbreakerModel;
 import com.github.alexmodguy.alexscaves.client.model.NotorModel;
 import com.github.alexmodguy.alexscaves.client.model.UnderzealotModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
@@ -144,7 +145,7 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                 entityIn.yRotO = 0;
                 if (render instanceof LivingEntityRenderer<?, ?> renderer) {
                     EntityModel model = renderer.getModel();
-                    VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(render.getTextureLocation(entityIn)));
+                    VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(entityIn instanceof DeepOneMageEntity ? DeepOneMageRenderer.TEXTURE : render.getTextureLocation(entityIn)));
                     matrixStack.pushPose();
                     boolean shouldSit = entityIn.isPassenger() && (entityIn.getVehicle() != null && entityIn.getVehicle().shouldRiderSit());
                     model.young = living.isBaby();
