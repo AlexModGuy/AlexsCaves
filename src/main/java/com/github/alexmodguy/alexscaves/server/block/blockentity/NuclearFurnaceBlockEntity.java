@@ -11,6 +11,7 @@ import com.github.alexmodguy.alexscaves.server.inventory.NuclearFurnaceMenu;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.recipe.ACRecipeRegistry;
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -546,10 +547,16 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
     }
 
     public static RecipeType<? extends AbstractCookingRecipe> getRecipeType(){
+        if (AlexsCaves.COMMON_CONFIG.nuclearFurnaceCustomType.get()) {
+            return ACRecipeRegistry.NUCLEAR_FURNACE_TYPE.get();
+        }
         return AlexsCaves.COMMON_CONFIG.nuclearFurnaceBlastingOnly.get() ? RecipeType.BLASTING : RecipeType.SMELTING;
     }
 
     public static float getSpeedReduction(){
+        if (AlexsCaves.COMMON_CONFIG.nuclearFurnaceCustomType.get()) {
+            return SPEED_REDUCTION;
+        }
         return AlexsCaves.COMMON_CONFIG.nuclearFurnaceBlastingOnly.get() ? SPEED_REDUCTION : SPEED_REDUCTION * 0.5F;
     }
 
