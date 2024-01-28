@@ -13,7 +13,7 @@
 
 
 
-    o kama pona tawa ma anpa majuna...
+    o kama pona tawa ma anpa majuna a!
 
     • {open|primordial_caves/general.json}
     • {mani|primordial_caves/resources.json}
