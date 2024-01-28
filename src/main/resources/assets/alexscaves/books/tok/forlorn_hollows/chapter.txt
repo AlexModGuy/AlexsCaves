@@ -13,7 +13,7 @@
 
 
 
-    o kama pona tawa ma anpa pimeja...
+    o kama pona tawa ma anpa pimeja a!
 
     • {open|forlorn_hollows/general.json}
     • {mani|forlorn_hollows/resources.json}
