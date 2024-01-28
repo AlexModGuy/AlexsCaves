@@ -13,7 +13,7 @@
 
 
 
-    o kama pona tawa ma anpa pakala...
+    o kama pona tawa ma anpa pakala a!
 
     • {open|toxic_caves/general.json}
     • {mani|toxic_caves/resources.json}
