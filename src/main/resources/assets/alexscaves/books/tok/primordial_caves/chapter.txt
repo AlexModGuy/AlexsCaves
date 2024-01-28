@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    o kama pona tawa ma anpa majuna...
+
+    • {open|primordial_caves/general.json}
+    • {mani|primordial_caves/resources.json}
+    • soweli
+        • {waso suli|primordial_caves/subterranodon.json}
+        • {akesi alasa|primordial_caves/vallumraptor.json}
+        • {akesi awen|primordial_caves/grottoceratops.json}
+        • {pipi kala|primordial_caves/trilocaris.json}
+        • {akesi wawa|primordial_caves/tremorsaurus.json}
+        • {akesi suli|primordial_caves/relicheirus.json}
+    • {kepeken|primordial_caves/utilities.json}
