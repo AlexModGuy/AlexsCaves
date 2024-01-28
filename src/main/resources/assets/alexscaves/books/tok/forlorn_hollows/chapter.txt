@@ -22,6 +22,6 @@
         • {jan sewi monsuta|forlorn_hollows/underzealot.json}
         • {monsuta lukin|forlorn_hollows/watcher.json}
         • {pipi pakala|forlorn_hollows/corrodent.json}
-        • {monsuta waso pimeja|forlorn_hollows/vesper.json}
+        • {waso monsuta anpa|forlorn_hollows/vesper.json}
         • {monsuta kalama|forlorn_hollows/forsaken.json}
     • {kepeken|forlorn_hollows/utilities.json}
