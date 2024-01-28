@@ -13,7 +13,7 @@
 
 
 
-    o kama pona tawa telo pi anpa suli...
+    o kama pona tawa telo pi anpa suli a!
 
     • {open|abyssal_chasm/general.json}
     • {mani|abyssal_chasm/resources.json}
