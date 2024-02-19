@@ -25,7 +25,7 @@ public class SemiAquaticPathNavigatorNoSpin extends SemiAquaticPathNavigator {
         double d0 = Math.abs(this.mob.getX() - ((double) vector3i.getX() + 0.5D));
         double d1 = Math.abs(this.mob.getY() - (double) vector3i.getY());
         double d2 = Math.abs(this.mob.getZ() - ((double) vector3i.getZ() + 0.5D));
-        boolean flag = d0 < (double) this.maxDistanceToWaypoint && d2 < (double) this.maxDistanceToWaypoint && d1 <= 1;
+        boolean flag = d0 < (double) this.maxDistanceToWaypoint && d2 < (double) this.maxDistanceToWaypoint && d1 <= (this.mob.isSwimming() ? maxDistanceToWaypoint : 1);
         if (flag || this.canCutCorner(this.path.getNextNode().type) && this.shouldTargetNextNodeInDirection(vector3d)) {
             this.path.advance();
         }

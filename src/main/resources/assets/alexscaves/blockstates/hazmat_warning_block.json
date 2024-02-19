@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/hazmat_warning_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/hazmat_warning_block"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/hazmat_warning_block",
+      "x": 90
+    }
+  }
+}

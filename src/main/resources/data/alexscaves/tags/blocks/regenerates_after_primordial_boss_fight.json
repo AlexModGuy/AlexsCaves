@@ -1,0 +1,13 @@
+{
+  "__comment": "all blocks destroyed by the fissure attack of the luxtructosaurus that will regenerate after the boss fight is over.",
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "#minecraft:dirt",
+    "#minecraft:sand",
+    "minecraft:sandstone",
+    "minecraft:packed_mud",
+    "alexscaves:limestone",
+    "alexscaves:primal_magma",
+    "alexscaves:flood_basalt"
+  ]
+}

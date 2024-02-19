@@ -3,7 +3,10 @@
   "values": [
     "#forge:bosses",
     "minecraft:warden",
+    "minecraft:armor_stand",
     "alexscaves:hullbreaker",
-    "alexscaves:forsaken"
+    "alexscaves:forsaken",
+    "alexscaves:atlatitan",
+    "alexscaves:tremorzilla"
   ]
 }

@@ -9,4 +9,9 @@ public interface ShakesScreen {
     }
 
     float getScreenShakeAmount(float partialTicks);
+
+    default double getShakeDistance() {
+        return 20F;
+    }
+
 }

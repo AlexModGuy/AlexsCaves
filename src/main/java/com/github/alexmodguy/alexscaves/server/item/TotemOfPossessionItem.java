@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.util.TotemExplosion;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -24,6 +26,7 @@ import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
@@ -46,6 +49,16 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         this.defaultModifiers = builder.build();
     }
 
+    @Override
+    public int getEnchantmentValue() {
+        return 1;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return stack.getCount() == 1;
+    }
+
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemstack = player.getItemInHand(interactionHand);
         if (!level.isClientSide && level instanceof ServerLevel serverLevel) {
@@ -55,7 +68,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         if (isBound(itemstack) && (controlledEntity == null || !controlledEntity.isAlive()) && !level.isClientSide) {
             resetBound(itemstack);
         }
-        if (isBound(itemstack) && controlledEntity != null && isEntityLookingAt(player, controlledEntity, 5F)) {
+        if (isBound(itemstack) && controlledEntity != null && (isEntityLookingAt(player, controlledEntity, 5F) || itemstack.getEnchantmentLevel(ACEnchantmentRegistry.SIGHTLESS.get()) > 0)) {
             player.playSound(ACSoundRegistry.TOTEM_OF_POSSESSION_USE.get());
             player.startUsingItem(interactionHand);
             return InteractionResultHolder.consume(itemstack);
@@ -65,6 +78,11 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
     }
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity user, int i1) {
+        Entity controlledEntity = getControlledEntity(level, stack);
+        if (controlledEntity != null) {
+            controlledEntity.setGlowingTag(false);
+        }
+
         if (level.isClientSide) {
             AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(user.getId(), stack));
         }
@@ -77,6 +95,11 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         Entity controlledEntity = getControlledEntity(level, stack);
 
         if (isBound(stack) && (controlledEntity == null || !controlledEntity.isAlive()) || stack.getDamageValue() >= stack.getMaxDamage()) {
+            if (controlledEntity != null && stack.getEnchantmentLevel(ACEnchantmentRegistry.DETONATING_DEATH.get()) > 0) {
+                TotemExplosion explosion = new TotemExplosion(level, user, controlledEntity.getX(), controlledEntity.getY(), controlledEntity.getZ(), 2F + (float) Math.floor(controlledEntity.getBbWidth()), Explosion.BlockInteraction.KEEP);
+                explosion.explode();
+                explosion.finalizeExplosion(true);
+            }
             resetBound(stack);
             user.stopUsingItem();
             if (level.isClientSide) {
@@ -84,7 +107,8 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
             }
             return;
         }
-        if (!isBound(stack) || controlledEntity == null || !isEntityLookingAt(user, controlledEntity, 5F) || controlledEntity instanceof Player && !AlexsCaves.COMMON_CONFIG.totemOfPossessionPlayers.get()) {
+        if (!isBound(stack) || controlledEntity == null || !isEntityLookingAt(user, controlledEntity, 5F) && stack.getEnchantmentLevel(ACEnchantmentRegistry.SIGHTLESS.get()) == 0 || controlledEntity instanceof Player && !AlexsCaves.COMMON_CONFIG.totemOfPossessionPlayers.get()) {
+
             user.stopUsingItem();
             if (level.isClientSide) {
                 AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(user.getId(), stack));
@@ -100,12 +124,15 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         int realStart = 15;
         float time = i < realStart ? i / (float) realStart : 1F;
         float maxDist = 32.0F * time;
-
+        float speed = 1.25F + 0.35F * stack.getEnchantmentLevel(ACEnchantmentRegistry.RAPID_POSSESSION.get());
         HitResult hitResult = ProjectileUtil.getHitResultOnViewVector(user, entity -> entity.canBeHitByProjectile() && !entity.equals(controlledEntity), maxDist);
         Vec3 vec3 = hitResult.getLocation();
         if (controlledEntity instanceof Mob mob) {
             PathNavigation pathNavigation = mob.getNavigation();
-            pathNavigation.moveTo(vec3.x, vec3.y, vec3.z, time * 2D);
+            pathNavigation.moveTo(vec3.x, vec3.y, vec3.z, time * speed);
+            if (stack.getEnchantmentLevel(ACEnchantmentRegistry.SIGHTLESS.get()) > 0) {
+                controlledEntity.setGlowingTag(true);
+            }
         } else {
             boolean flying = controlledEntity instanceof FlyingAnimal || controlledEntity instanceof FlyingMob;
             Vec3 vec31 = vec3.subtract(controlledEntity.position());
@@ -123,7 +150,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
                     controlledEntity.setYBodyRot(controlledEntity.getYRot());
                 }
             }
-            Vec3 jumpAdd = vec31.scale(0.25F);
+            Vec3 jumpAdd = vec31.scale(0.15F * speed);
             if (jumpFlag) {
                 jumpAdd = jumpAdd.add(0, 0.6, 0);
             }
@@ -142,6 +169,17 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
                             if (controlledEntity instanceof Mob mob) {
                                 mob.setTarget(target);
                                 mob.setLastHurtByMob(target);
+                                if (i % 4 == 0 && target.getHealth() > mob.getHealth() && !target.getType().is(ACTagRegistry.RESISTS_TOTEM_OF_POSSESSION) && stack.getEnchantmentLevel(ACEnchantmentRegistry.ASTRAL_TRANSFERRING.get()) > 0) {
+                                    CompoundTag tag = stack.getOrCreateTag();
+                                    tag.putUUID("BoundEntityUUID", target.getUUID());
+                                    CompoundTag entityTag = target.serializeNBT();
+                                    entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(target.getType()).toString());
+                                    tag.put("BoundEntityTag", entityTag);
+                                    user.playSound(ACSoundRegistry.TOTEM_OF_POSSESSION_USE.get());
+                                    if (level instanceof ServerLevel serverLevel && user instanceof Player player) {
+                                        updateEntityIdFromServer(serverLevel, player, stack);
+                                    }
+                                }
                             } else if (controlledEntity instanceof Player player) {
                                 player.attack(target);
                                 player.resetAttackStrengthTicker();
@@ -166,10 +204,6 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         return equipmentSlot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getDefaultAttributeModifiers(equipmentSlot);
     }
 
-    public int getEnchantmentValue() {
-        return 1;
-    }
-
     private static void resetBound(ItemStack itemStack) {
         CompoundTag tag = itemStack.getOrCreateTag();
         tag.remove("BoundEntityTag");
@@ -192,7 +226,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         super.appendHoverText(stack, worldIn, tooltip, flagIn);
     }
 
-    private static UUID getBoundEntityUUID(ItemStack stack) {
+    public static UUID getBoundEntityUUID(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         if (tag != null) {
             return tag.contains("BoundEntityUUID") ? tag.getUUID("BoundEntityUUID") : null;

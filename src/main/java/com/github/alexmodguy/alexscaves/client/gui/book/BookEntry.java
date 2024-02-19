@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client.gui.book;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.gui.book.widget.BookWidget;
+import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import com.google.gson.*;
 import com.google.gson.annotations.Expose;
 import net.minecraft.client.Minecraft;
@@ -100,17 +101,24 @@ public class BookEntry {
             int currentLineCount = 0;
             for (String readString : readIn) {
                 Matcher m = pattern.matcher(readString);
+                boolean skipLineEntirely = false;
                 while (m.find()) {
                     String[] found = m.group().split("\\|");
                     if (found.length >= 1) {
                         String linkTo = found[1].substring(0, found[1].length() - 1);
-                        boolean enabled = screen.isEntryVisible(linkTo);
-                        String display = enabled ? found[0].substring(1) : "???";
-                        bookLinks.add(new BookLink(currentLineCount, m.start(), display, linkTo, enabled));
-                        readString = m.replaceFirst(display);
+                        int visiblity = screen.getEntryVisiblity(linkTo);
+                        String display = "";
+                        if(visiblity != 2){
+                            display = visiblity == 0 ? found[0].substring(1) : "???";
+                            bookLinks.add(new BookLink(currentLineCount, m.start(), display, linkTo, visiblity == 0));
+                            readString = m.replaceFirst(display);
+                        }else{
+                            readString = display;
+                            skipLineEntirely = true;
+                        }
                     }
                 }
-                if(readString.isEmpty()){
+                if(readString.isEmpty() && !skipLineEntirely){
                     strings.add(readString);
                     currentLineCount++;
                 }
@@ -181,11 +189,21 @@ public class BookEntry {
         return false;
     }
 
-    public boolean isUnlocked(CaveBookScreen caveBookScreen){
+    /*
+        0 = always visible
+        1 = ??? (no link)
+        2 = super secret, no ???
+     */
+    public int getVisibility(CaveBookScreen caveBookScreen){
         if(this.requiredProgress == null){
-            return true;
+            return 0;
         }else{
-            return caveBookScreen.getCaveBookProgress().isUnlockedFor(requiredProgress);
+            if(caveBookScreen.getCaveBookProgress().isUnlockedFor(requiredProgress)){
+                return 0;
+            }else {
+                CaveBookProgress.Subcategory subcategory = caveBookScreen.getCaveBookProgress().getSubcategoryFromPage(requiredProgress);
+                return subcategory == CaveBookProgress.Subcategory.SECRETS ? 2 : 1;
+            }
         }
     }
 

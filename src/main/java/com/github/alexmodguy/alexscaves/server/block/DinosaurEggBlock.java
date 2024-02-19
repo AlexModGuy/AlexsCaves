@@ -55,9 +55,13 @@ public class DinosaurEggBlock extends Block {
         this.voxelShape = Block.box(px, 0, px, 16 - px, heightPx, 16 - px);
     }
 
-    public static boolean isProperHabitat(BlockGetter reader, BlockPos pos) {
+    public boolean isProperHabitat(BlockGetter reader, BlockPos pos) {
         BlockState state = reader.getBlockState(pos.below());
         return state.isSolid() && !state.is(ACTagRegistry.STOPS_DINOSAUR_EGGS);
+    }
+
+    public boolean canHatchAt(BlockGetter reader, BlockPos pos){
+        return isProperHabitat(reader, pos);
     }
 
     public void stepOn(Level worldIn, BlockPos pos, BlockState state, Entity entityIn) {
@@ -102,38 +106,42 @@ public class DinosaurEggBlock extends Block {
     }
 
     public void randomTick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource random) {
-        if (this.canGrow(worldIn, worldIn.getBlockState(pos.below())) && isProperHabitat(worldIn, pos) && (!state.getValue(NEEDS_PLAYER) || worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 15, EntitySelector.NO_SPECTATORS) != null)) {
+        if (this.canGrow(worldIn, worldIn.getBlockState(pos.below())) && canHatchAt(worldIn, pos) && (!state.getValue(NEEDS_PLAYER) || worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 15, EntitySelector.NO_SPECTATORS) != null)) {
             int i = state.getValue(HATCH);
             if (i < 2) {
                 worldIn.playSound(null, pos, SoundEvents.TURTLE_EGG_CRACK, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
                 worldIn.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
                 worldIn.setBlock(pos, state.setValue(HATCH, Integer.valueOf(i + 1)), 2);
             } else {
-                worldIn.playSound(null, pos, SoundEvents.TURTLE_EGG_HATCH, SoundSource.BLOCKS, 0.7F, 0.9F + random.nextFloat() * 0.2F);
-                worldIn.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
-                worldIn.removeBlock(pos, false);
-                for (int j = 0; j < getDinosaursBornFrom(state); ++j) {
-                    worldIn.levelEvent(2001, pos, Block.getId(state));
-                    Entity fromType = births.get().create(worldIn);
-                    if (fromType instanceof Animal animal) {
-                        animal.setAge(-24000);
-                    }
-                    fromType.moveTo((double) pos.getX() + 0.3D + (double) j * 0.2D, pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
-                    if (!worldIn.isClientSide) {
-                        Player closest = worldIn.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 10, EntitySelector.NO_SPECTATORS);
-                        if (closest != null) {
-                            if (fromType instanceof DinosaurEntity dinosaur && dinosaur.tamesFromHatching()) {
-                                dinosaur.setTame(true);
-                                dinosaur.setOrderedToSit(true);
-                                dinosaur.tame(closest);
-                            }
-                        }
-                        worldIn.addFreshEntity(fromType);
-                    }
-                }
+                spawnDinosaurs(worldIn, pos, state);
             }
         }
 
+    }
+
+    public void spawnDinosaurs(Level level, BlockPos pos, BlockState state){
+        level.playSound(null, pos, SoundEvents.TURTLE_EGG_HATCH, SoundSource.BLOCKS, 0.7F, 0.9F + level.random.nextFloat() * 0.2F);
+        level.gameEvent(GameEvent.BLOCK_DESTROY, pos, GameEvent.Context.of(state));
+        level.removeBlock(pos, false);
+        for (int j = 0; j < getDinosaursBornFrom(state); ++j) {
+            level.levelEvent(2001, pos, Block.getId(state));
+            Entity fromType = births.get().create(level);
+            if (fromType instanceof Animal animal) {
+                animal.setAge(-24000);
+            }
+            fromType.moveTo((double) pos.getX() + 0.3D + (double) j * 0.2D, pos.getY(), (double) pos.getZ() + 0.3D, 0.0F, 0.0F);
+            if (!level.isClientSide) {
+                Player closest = level.getNearestPlayer(pos.getX() + 0.5F, pos.getY() + 0.5F, pos.getZ() + 0.5F, 10, EntitySelector.NO_SPECTATORS);
+                if (closest != null) {
+                    if (fromType instanceof DinosaurEntity dinosaur && dinosaur.tamesFromHatching()) {
+                        dinosaur.setTame(true);
+                        dinosaur.setOrderedToSit(true);
+                        dinosaur.tame(closest);
+                    }
+                }
+                level.addFreshEntity(fromType);
+            }
+        }
     }
 
     protected boolean canGrow(Level worldIn, BlockState stateBelow) {
@@ -162,7 +170,7 @@ public class DinosaurEggBlock extends Block {
     }
 
     public void onPlace(BlockState state, Level worldIn, BlockPos pos, BlockState oldState, boolean isMoving) {
-        if (isProperHabitat(worldIn, pos) && !worldIn.isClientSide) {
+        if (canHatchAt(worldIn, pos) && !worldIn.isClientSide) {
             worldIn.levelEvent(2005, pos, 0);
         }
     }

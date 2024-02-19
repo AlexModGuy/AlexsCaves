@@ -21,6 +21,8 @@ public class ACDamageTypes {
     public static final ResourceKey<DamageType> FORSAKEN_SONIC_BOOM = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "forsaken_sonic_boom"));
     public static final ResourceKey<DamageType> DESOLATE_DAGGER = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "desolate_dagger"));
     public static final ResourceKey<DamageType> DARK_ARROW = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "dark_arrow"));
+    public static final ResourceKey<DamageType> SPIRIT_DINOSAUR = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "spirit_dinosaur"));
+    public static final ResourceKey<DamageType> TREMORZILLA_BEAM = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "tremorzilla_beam"));
 
     public static DamageSource causeAcidDamage(RegistryAccess registryAccess) {
         return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(ACID), 1);
@@ -48,6 +50,14 @@ public class ACDamageTypes {
 
     public static DamageSource causeDarkArrowDamage(RegistryAccess registryAccess, Entity source) {
         return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(DARK_ARROW), source, 1);
+    }
+
+    public static DamageSource causeSpiritDinosaurDamage(RegistryAccess registryAccess, Entity source) {
+        return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(SPIRIT_DINOSAUR), source, 1);
+    }
+
+    public static DamageSource causeTremorzillaBeamDamage(RegistryAccess registryAccess, Entity source) {
+        return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(TREMORZILLA_BEAM), source, 1);
     }
 
 

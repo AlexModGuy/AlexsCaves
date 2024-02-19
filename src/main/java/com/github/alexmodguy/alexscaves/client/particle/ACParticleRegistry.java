@@ -26,11 +26,20 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> WATER_TREMOR = DEF_REG.register("water_tremor", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> AMBER_MONOLITH = DEF_REG.register("amber_monolith", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> AMBER_EXPLOSION = DEF_REG.register("amber_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> DINOSAUR_TRANSFORMATION_AMBER = DEF_REG.register("dinosaur_transformation_amber", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> DINOSAUR_TRANSFORMATION_TECTONIC = DEF_REG.register("dinosaur_transformation_tectonic", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> STUN_STAR = DEF_REG.register("stun_star", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TEPHRA = DEF_REG.register("tephra", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TEPHRA_SMALL = DEF_REG.register("tephra_small", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TEPHRA_FLAME = DEF_REG.register("tephra_flame", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> LUXTRUCTOSAURUS_SPIT = DEF_REG.register("luxtructosaurus_spit", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> LUXTRUCTOSAURUS_ASH = DEF_REG.register("luxtructosaurus_ash", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> HAPPINESS = DEF_REG.register("happiness", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ACID_BUBBLE = DEF_REG.register("acid_bubble", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> BLACK_VENT_SMOKE = DEF_REG.register("black_vent_smoke", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WHITE_VENT_SMOKE = DEF_REG.register("white_vent_smoke", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> GREEN_VENT_SMOKE = DEF_REG.register("green_vent_smoke", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> RED_VENT_SMOKE = DEF_REG.register("red_vent_smoke", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD = DEF_REG.register("mushroom_cloud", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD_SMOKE = DEF_REG.register("mushroom_cloud_smoke", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> MUSHROOM_CLOUD_EXPLOSION = DEF_REG.register("mushroom_cloud_explosion", () -> new SimpleParticleType(false));
@@ -38,11 +47,24 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> FALLOUT = DEF_REG.register("fallout", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> GAMMAROACH = DEF_REG.register("gammaroach", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> HAZMAT_BREATHE = DEF_REG.register("hazmat_breathe", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> BLUE_HAZMAT_BREATHE = DEF_REG.register("blue_hazmat_breathe", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> RADGILL_SPLASH = DEF_REG.register("radgill_splash", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> ACID_DROP = DEF_REG.register("acid_drop", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> NUCLEAR_SIREN_SONAR = DEF_REG.register("nuclear_siren_sonar", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> RAYGUN_EXPLOSION = DEF_REG.register("raygun_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> BLUE_RAYGUN_EXPLOSION = DEF_REG.register("blue_raygun_explosion", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> RAYGUN_BLAST = DEF_REG.register("raygun_blast", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_EXPLOSION = DEF_REG.register("tremorzilla_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_RETRO_EXPLOSION = DEF_REG.register("tremorzilla_retro_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_TECTONIC_EXPLOSION = DEF_REG.register("tremorzilla_tectonic_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_PROTON = DEF_REG.register("tremorzilla_proton", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_RETRO_PROTON = DEF_REG.register("tremorzilla_retro_proton", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_TECTONIC_PROTON = DEF_REG.register("tremorzilla_tectonic_proton", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_LIGHTNING = DEF_REG.register("tremorzilla_lightning", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_RETRO_LIGHTNING = DEF_REG.register("tremorzilla_retro_lightning", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_TECTONIC_LIGHTNING = DEF_REG.register("tremorzilla_tectonic_lightning", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_BLAST = DEF_REG.register("tremorzilla_blast", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TREMORZILLA_STEAM = DEF_REG.register("tremorzilla_steam", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> TUBE_WORM = DEF_REG.register("tube_worm", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> DEEP_ONE_MAGIC = DEF_REG.register("deep_one_magic", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> WATER_FOAM = DEF_REG.register("water_foam", () -> new SimpleParticleType(false));
@@ -61,5 +83,6 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SPIT = DEF_REG.register("forsaken_spit", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR = DEF_REG.register("forsaken_sonar", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR_LARGE = DEF_REG.register("forsaken_sonar_large", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> TOTEM_EXPLOSION = DEF_REG.register("totem_explosion", () -> new SimpleParticleType(false));
 
 }

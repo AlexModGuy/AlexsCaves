@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    深淵峡谷にようこそ...
+
+    • {基本情報|abyssal_chasm/general.json}
+    • {資源|abyssal_chasm/resources.json}
+    • 生態系
+        • {ハダカイワシ|abyssal_chasm/lanternfish.json}
+        • {センジュナマコ|abyssal_chasm/sea_pig.json}
+        • {ハルブレイカー|abyssal_chasm/hullbreaker.json}
+        • {オヨギゴカイ|abyssal_chasm/gossamer_worm.json}
+        • {イトヒキイワシ|abyssal_chasm/tripodfish.json}
+        • {深きもの|abyssal_chasm/deep_one.json}
+        • {深き騎士|abyssal_chasm/deep_one_knight.json}
+        • {深き魔術師|abyssal_chasm/deep_one_mage.json}
+        • {マインガーディアン|abyssal_chasm/mine_guardian.json}
+    • {ユーティリティ|abyssal_chasm/utilities.json}

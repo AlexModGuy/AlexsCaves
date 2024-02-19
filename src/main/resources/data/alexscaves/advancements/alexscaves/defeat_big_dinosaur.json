@@ -35,13 +35,31 @@
           "type": "alexscaves:relicheirus"
         }
       }
+    },
+    "killed_luxtructosaurus": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:luxtructosaurus"
+        }
+      }
+    },
+    "killed_atlatitan": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:atlatitan"
+        }
+      }
     }
   },
   "requirements": [
     [
       "killed_grottoceratops",
       "killed_tremorsaurus",
-      "killed_relicheirus"
+      "killed_relicheirus",
+      "killed_luxtructosaurus",
+      "killed_atlatitan"
     ]
   ]
 }

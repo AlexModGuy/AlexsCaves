@@ -12,6 +12,8 @@ public class GrottoceratopsRenderer extends MobRenderer<GrottoceratopsEntity, Gr
     private static final ResourceLocation TEXTURE_BABY = new ResourceLocation("alexscaves:textures/entity/grottoceratops_baby.png");
     private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/grottoceratops_retro.png");
     private static final ResourceLocation TEXTURE_RETRO_BABY = new ResourceLocation("alexscaves:textures/entity/grottoceratops_retro_baby.png");
+    private static final ResourceLocation TEXTURE_TECTONIC = new ResourceLocation("alexscaves:textures/entity/grottoceratops_tectonic.png");
+    private static final ResourceLocation TEXTURE_TECTONIC_BABY = new ResourceLocation("alexscaves:textures/entity/grottoceratops_tectonic_baby.png");
 
     public GrottoceratopsRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new GrottoceratopsModel(), 1.1F);
@@ -21,7 +23,7 @@ public class GrottoceratopsRenderer extends MobRenderer<GrottoceratopsEntity, Gr
     }
 
     public ResourceLocation getTextureLocation(GrottoceratopsEntity entity) {
-        return entity.isRetro() ? entity.isBaby() ? TEXTURE_RETRO_BABY : TEXTURE_RETRO : entity.isBaby() ? TEXTURE_BABY : TEXTURE;
+        return entity.getAltSkin() == 1 ? entity.isBaby() ? TEXTURE_RETRO_BABY : TEXTURE_RETRO : entity.getAltSkin() == 2 ? entity.isBaby() ? TEXTURE_TECTONIC_BABY : TEXTURE_TECTONIC : entity.isBaby() ? TEXTURE_BABY : TEXTURE;
     }
 }
 

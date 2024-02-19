@@ -40,7 +40,7 @@ public class DesolateDaggerRenderer extends EntityRenderer<DesolateDaggerEntity>
         poseStack.mulPose(Axis.ZN.rotationDegrees((float) (Mth.lerp(partialTicks, entity.xRotO, entity.getXRot()) + 5F * Math.sin(ageInTicks * 0.2F))));
         poseStack.mulPose(Axis.ZN.rotationDegrees(45));
         poseStack.translate(-0.5D, -0.5D, -0.5D);
-        BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(entity.daggerStack, entity.level(), null, 0);
+        BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(entity.daggerRenderStack, entity.level(), null, 0);
         float f = 1.0F;
         float f1 = 0;
         float f2 = 0;
@@ -48,7 +48,7 @@ public class DesolateDaggerRenderer extends EntityRenderer<DesolateDaggerEntity>
         float alpha = (float) Math.min(0.6F + stab, Math.min(1F, startAlpha));
         int redOverlay = OverlayTexture.pack(OverlayTexture.u(0), OverlayTexture.v(true));
         poseStack.translate(stab, stab + Math.cos(ageInTicks * 0.1F) * 0.2F, 0);
-        for (net.minecraft.client.renderer.RenderType rt : bakedmodel.getRenderTypes(entity.daggerStack, false)) {
+        for (net.minecraft.client.renderer.RenderType rt : bakedmodel.getRenderTypes(entity.daggerRenderStack, false)) {
             renderModel(poseStack.last(), source.getBuffer(Sheets.translucentItemSheet()), alpha, null, bakedmodel, f, f1, f2, 240, redOverlay, ModelData.EMPTY, rt);
         }
         poseStack.popPose();

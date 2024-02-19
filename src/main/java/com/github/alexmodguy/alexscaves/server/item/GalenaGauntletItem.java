@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.MagneticWeaponEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
@@ -33,7 +34,8 @@ public class GalenaGauntletItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
         ItemStack itemstack = player.getItemInHand(interactionHand);
         ItemStack otherHand = interactionHand == InteractionHand.MAIN_HAND ? player.getItemInHand(InteractionHand.OFF_HAND) : player.getItemInHand(InteractionHand.MAIN_HAND);
-        if (otherHand.is(ACTagRegistry.MAGNETIC_ITEMS)) {
+        boolean crystallization = itemstack.getEnchantmentLevel(ACEnchantmentRegistry.CRYSTALLIZATION.get()) > 0;
+        if (otherHand.is(crystallization ? ACTagRegistry.GALENA_GAUNTLET_CRYSTALLIZATION_ITEMS : ACTagRegistry.MAGNETIC_ITEMS)) {
             if (!player.isCreative()) {
                 itemstack.hurtAndBreak(1, player, (player1) -> {
                     player1.broadcastBreakEvent(player1.getUsedItemHand());
@@ -68,9 +70,18 @@ public class GalenaGauntletItem extends Item {
         return 72000;
     }
 
+    @Override
+    public int getEnchantmentValue() {
+        return 1;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return stack.getCount() == 1;
+    }
+
     public void onUseTick(Level level, LivingEntity living, ItemStack stack, int timeUsing) {
         super.onUseTick(level, living, stack, timeUsing);
-        int i = getUseDuration(stack) - timeUsing;
         InteractionHand otherHand = InteractionHand.MAIN_HAND;
         if (living.getItemInHand(InteractionHand.OFF_HAND) == stack) {
             otherHand = InteractionHand.MAIN_HAND;
@@ -81,7 +92,8 @@ public class GalenaGauntletItem extends Item {
         AlexsCaves.PROXY.playWorldSound(living, (byte) 11);
         ItemStack otherStack = living.getItemInHand(otherHand);
         boolean otherMagneticWeaponsInUse = false;
-        if (otherStack.is(ACTagRegistry.MAGNETIC_ITEMS)) {
+        boolean crystallization = stack.getEnchantmentLevel(ACEnchantmentRegistry.CRYSTALLIZATION.get()) > 0;
+        if (otherStack.is(crystallization ? ACTagRegistry.GALENA_GAUNTLET_CRYSTALLIZATION_ITEMS : ACTagRegistry.MAGNETIC_ITEMS)) {
             for(MagneticWeaponEntity magneticWeapon : level.getEntitiesOfClass(MagneticWeaponEntity.class, living.getBoundingBox().inflate(64, 64, 64))){
                 Entity controller = magneticWeapon.getController();
                 if(controller != null && controller.is(living)){

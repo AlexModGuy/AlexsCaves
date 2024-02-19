@@ -1,22 +1,27 @@
 package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.server.entity.IDancesToJukebox;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.IAdvancedPathingMob;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -35,12 +40,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJukebox, LaysEggs {
+public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJukebox, LaysEggs, IAdvancedPathingMob {
 
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> COMMAND = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> RETRO = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> ALT_SKIN = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.INT);
     public float prevDanceProgress;
     public float danceProgress;
     private BlockPos jukeboxPosition;
@@ -60,11 +65,19 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         this.entityData.define(DANCING, false);
         this.entityData.define(HAS_EGG, false);
         this.entityData.define(COMMAND, 0);
-        this.entityData.define(RETRO, false);
+        this.entityData.define(ALT_SKIN, 0);
     }
 
     public static boolean checkPrehistoricSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
         return levelAccessor.getBlockState(pos.below()).is(ACTagRegistry.DINOSAURS_SPAWNABLE_ON) && levelAccessor.getFluidState(pos).isEmpty() && levelAccessor.getFluidState(pos.below()).isEmpty();
+    }
+
+    public static boolean checkPrehistoricPostBossSpawnRules(EntityType<? extends Animal> type, LevelAccessor levelAccessor, MobSpawnType mobType, BlockPos pos, RandomSource randomSource) {
+        if (checkPrehistoricSpawnRules(type, levelAccessor, mobType, pos, randomSource) && levelAccessor instanceof ServerLevel serverLevel) {
+            ACWorldData data = ACWorldData.get(serverLevel);
+            return data != null && data.isPrimordialBossDefeatedOnce();
+        }
+        return false;
     }
 
     public void tick() {
@@ -124,12 +137,12 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         this.entityData.set(COMMAND, command);
     }
 
-    public boolean isRetro() {
-        return this.entityData.get(RETRO);
+    public int getAltSkin() {
+        return this.entityData.get(ALT_SKIN);
     }
 
-    public void setRetro(boolean bool) {
-        this.entityData.set(RETRO, bool);
+    public void setAltSkin(int skinIndex) {
+        this.entityData.set(ALT_SKIN, skinIndex);
     }
 
     public void setRecordPlayingNearby(BlockPos pos, boolean playing) {
@@ -155,7 +168,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
 
     @Override
     public void travel(Vec3 vec3d) {
-        if (this.isDancing()) {
+        if (this.isDancing() || this.isInSittingPose()) {
             if (this.getNavigation().getPath() != null) {
                 this.getNavigation().stop();
             }
@@ -168,14 +181,19 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         super.addAdditionalSaveData(compound);
         compound.putInt("Command", this.getCommand());
         compound.putBoolean("Egg", this.hasEgg());
-        compound.putBoolean("Retro", this.isRetro());
+        compound.putInt("AltSkin", this.getAltSkin());
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         this.setCommand(compound.getInt("Command"));
         this.setHasEgg(compound.getBoolean("Egg"));
-        this.setRetro(compound.getBoolean("Retro"));
+        int altSkin = compound.getInt("AltSkin");
+        //compatibility with pre 1.1.0 saves
+        if (compound.contains("Retro") && compound.getBoolean("Retro")) {
+            altSkin = 1;
+        }
+        this.setAltSkin(altSkin);
     }
 
     public boolean tamesFromHatching() {
@@ -228,9 +246,15 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
             }
         } else if (b == 78) {
             this.buryingEggs = false;
-        } else if (b == 82) {
-            for(int i = 0; i < 15 + level().random.nextInt(5); i++){
-                this.level().addParticle(ACParticleRegistry.AMBER_MONOLITH.get(), this.getX(), this.getY(0.5F), this.getZ(), this.getRandomX(1.5F), this.getRandomY(), this.getRandomZ(1.5F));
+        } else if (b == 82 || b == 83) {
+            ParticleOptions options;
+            if(b == 82){
+                options = ACParticleRegistry.DINOSAUR_TRANSFORMATION_AMBER.get();
+            }else {
+                options = ACParticleRegistry.DINOSAUR_TRANSFORMATION_TECTONIC.get();
+            }
+            for (int i = 0; i < 15 + level().random.nextInt(5); i++) {
+                this.level().addParticle(options, this.getX(), this.getY(0.5F), this.getZ(), this.getId(), 0, 0);
             }
         } else {
             super.handleEntityEvent(b);
@@ -242,7 +266,21 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
     }
 
     public boolean isInSittingPose() {
-        return super.isInSittingPose() && !this.isVehicle() || this.isPassenger();
+        return super.isInSittingPose() && !(this.isVehicle() || this.isPassenger());
+    }
+
+    public int getAltSkinForItem(ItemStack stack) {
+        if (stack.is(ACItemRegistry.AMBER_CURIOSITY.get())) {
+            return 1;
+        } else if (stack.is(ACItemRegistry.TECTONIC_SHARD.get())) {
+            return 2;
+        } else {
+            return 0;
+        }
+    }
+
+    public BlockState createEggBeddingBlockState() {
+        return ACBlockRegistry.FERN_THATCH.get().defaultBlockState();
     }
 
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -250,15 +288,20 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
         InteractionResult interactionresult = itemstack.interactLivingEntity(player, this, hand);
         InteractionResult type = super.mobInteract(player, hand);
         if (!interactionresult.consumesAction() && !type.consumesAction()) {
-            if(itemstack.is(ACItemRegistry.AMBER_CURIOSITY.get())){
+            int altSkinFromItem = getAltSkinForItem(itemstack);
+            if (altSkinFromItem > 0) {
                 this.usePlayerItem(player, hand, itemstack);
-                this.playSound(ACSoundRegistry.AMBER_MONOLITH_SUMMON.get());
-                if(!level().isClientSide){
-                    this.setRetro(!this.isRetro());
-                    this.level().broadcastEntityEvent(this, (byte) 82);
+                this.playSound(altSkinFromItem == 2 ? ACSoundRegistry.TECTONIC_SHARD_TRANSFORM.get() : ACSoundRegistry.AMBER_MONOLITH_SUMMON.get());
+                if (!level().isClientSide) {
+                    if(altSkinFromItem == this.getAltSkin()){
+                        this.setAltSkin(0);
+                    }else{
+                        this.setAltSkin(altSkinFromItem);
+                    }
+                    this.level().broadcastEntityEvent(this, (byte) (altSkinFromItem > 1 ? 83 : 82));
                 }
                 return InteractionResult.SUCCESS;
-            }else if(isTame() && isOwnedBy(player) && !isFood(itemstack)) {
+            } else if (isTame() && isOwnedBy(player) && !isFood(itemstack)) {
                 if (canOwnerCommand(player)) {
                     this.setCommand(this.getCommand() + 1);
                     if (this.getCommand() == 3) {
@@ -332,4 +375,9 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
     public boolean canOwnerCommand(Player ownerPlayer) {
         return false;
     }
+
+    public boolean stopTickingPathing() {
+        return this.isInSittingPose() || this.isVehicle() || this.isDancing();
+    }
+
 }

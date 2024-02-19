@@ -163,6 +163,10 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         return ACEntityRegistry.VALLUMRAPTOR.get().create(level);
     }
 
+    public int getMaxFallDistance() {
+        return super.getMaxFallDistance() + 10;
+    }
+
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();

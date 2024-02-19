@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    磁気洞窟にようこそ...
+
+    • {基本情報|magnetic_caves/general.json}
+    • {資源|magnetic_caves/resources.json}
+    • 生態系
+        • {テレター|magnetic_caves/teletor.json}
+        • {マグネトロン|magnetic_caves/magnetron.json}
+        • {バウンドロイド|magnetic_caves/boundroid.json}
+        • {磁性スライム|magnetic_caves/ferrouslime.json}
+        • {ノーター|magnetic_caves/notor.json}
+    • {ユーティリティ|magnetic_caves/utilities.json}

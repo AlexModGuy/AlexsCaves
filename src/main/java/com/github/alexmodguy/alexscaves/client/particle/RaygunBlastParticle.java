@@ -127,4 +127,22 @@ public class RaygunBlastParticle extends TextureSheetParticle {
             return particle;
         }
     }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class TremorzillaFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public TremorzillaFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Direction direction = Direction.from3DDataValue((int)xSpeed);
+            RaygunBlastParticle particle = new RaygunBlastParticle(worldIn, x, y, z, direction);
+            particle.pickSprite(spriteSet);
+            particle.quadSize = 1.0F + worldIn.random.nextFloat() * 0.5F;
+            particle.lifetime = 60 + worldIn.random.nextInt(20);
+            return particle;
+        }
+    }
 }

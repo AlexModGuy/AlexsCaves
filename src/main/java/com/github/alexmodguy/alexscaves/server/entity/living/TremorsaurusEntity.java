@@ -18,6 +18,8 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolver;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.ITallWalker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -38,6 +40,7 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
@@ -58,7 +61,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMount, IAnimatedEntity, ShakesScreen {
+public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMount, IAnimatedEntity, ShakesScreen, ITallWalker {
 
     private static final EntityDataAccessor<Boolean> RUNNING = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(TremorsaurusEntity.class, EntityDataSerializers.INT);
@@ -79,9 +82,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     public static final Animation ANIMATION_SHAKE_PREY = Animation.create(40);
     private double lastStompX = 0;
     private double lastStompZ = 0;
-
     private int roarScatterTime = 0;
-
     private Entity riderHitEntity = null;
 
     public TremorsaurusEntity(EntityType<? extends Animal> type, Level level) {
@@ -111,6 +112,10 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         this.targetSelector.addGoal(3, new MobTargetUntamedGoal<>(this, GrottoceratopsEntity.class, 100, true, false, null));
         this.targetSelector.addGoal(4, new MobTargetUntamedGoal<>(this, SubterranodonEntity.class, 50, true, false, null));
         this.targetSelector.addGoal(5, new MobTargetUntamedGoal<>(this, RelicheirusEntity.class, 250, true, false, null));
+    }
+
+    protected PathNavigation createNavigation(Level level) {
+        return new AdvancedPathNavigate(this, level, AdvancedPathNavigate.MovementType.WALKING);
     }
 
     @Override
@@ -607,4 +612,8 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
         return ACSoundRegistry.TREMORSAURUS_DEATH.get();
     }
 
+    @Override
+    public int getMaxNavigableDistanceToGround() {
+        return 2;
+    }
 }

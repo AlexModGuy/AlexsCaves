@@ -3,7 +3,6 @@ package com.github.alexmodguy.alexscaves.server.entity.ai;
 import com.github.alexmodguy.alexscaves.server.entity.living.VesperEntity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 
 public class VesperTargetUnderneathEntities<T extends LivingEntity> extends NearestAttackableTargetGoal<T> {

@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraftforge.client.ForgeRenderTypes;
 
 public class DarkArrowRenderer extends EntityRenderer<DarkArrowEntity> {
 
@@ -36,9 +37,10 @@ public class DarkArrowRenderer extends EntityRenderer<DarkArrowEntity> {
         float ageInTicks = entity.tickCount + partialTicks;
         float invFade = 1.0F - entity.getFadeOut(ageInTicks - entity.tickCount);
         float alpha = Math.min(ageInTicks / 4F, 1F) * invFade;
-        VertexConsumer vertexconsumer = bufferSource.getBuffer(RenderType.entityTranslucent(this.getTextureLocation(entity)));
+        RenderType renderType = ForgeRenderTypes.getUnlitTranslucent(this.getTextureLocation(entity));
+        VertexConsumer vertexconsumer = bufferSource.getBuffer(renderType);
         MODEL.setupAnim(entity, 0.0F, 0.0F, ageInTicks, 0.0F, 0.0F);
-        MODEL.renderToBuffer(poseStack, vertexconsumer, lighting, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
+        MODEL.renderToBuffer(poseStack, vertexconsumer, 240, OverlayTexture.NO_OVERLAY, entity.getArrowRed(partialTicks), 0.0F, 0.0F, alpha);
         poseStack.popPose();
         super.render(entity, entityYaw, partialTicks, poseStack, bufferSource, lighting);
     }

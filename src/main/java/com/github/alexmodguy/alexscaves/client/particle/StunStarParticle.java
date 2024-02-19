@@ -2,8 +2,10 @@ package com.github.alexmodguy.alexscaves.client.particle;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.server.entity.living.SauropodBaseEntity;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -127,8 +129,15 @@ public class StunStarParticle extends AbstractTrailParticle {
         Entity entity = level.getEntity(entityId);
         if (entity != null) {
             float angle = this.age * 10 + offset;
-            Vec3 eyes = entity.getEyePosition().add(entity.getViewVector(0.0F).scale(entity.getBbWidth() * 0.85F)).add(0, 0.5 + 0.12 * entity.getBbHeight(), 0);
-            Vec3 orbitOffset = new Vec3(0, 0, entity.getBbWidth() * 0.5F + 0.2F).yRot(angle * (reverseOrbit ? -1 : 1) * (float) (Math.PI / 180F));
+            Vec3 eyes;
+            Vec3 orbitOffset;
+            if(entity instanceof SauropodBaseEntity sauropod){
+                eyes = sauropod.headPart.position().add(0, 1, 0);
+                orbitOffset = new Vec3(0, 0, 1.9F).yRot(angle * (reverseOrbit ? -1 : 1) * (float) (Math.PI / 180F));
+            }else{
+                eyes = entity.getEyePosition().add(entity.getViewVector(0.0F).scale(entity.getBbWidth() * 0.85F)).add(0, 0.5 + 0.12 * entity.getBbHeight(), 0);
+                orbitOffset = new Vec3(0, 0, entity.getBbWidth() * 0.5F + 0.2F).yRot(angle * (reverseOrbit ? -1 : 1) * (float) (Math.PI / 180F));
+            }
             return eyes.add(orbitOffset);
         }
         return Vec3.ZERO;

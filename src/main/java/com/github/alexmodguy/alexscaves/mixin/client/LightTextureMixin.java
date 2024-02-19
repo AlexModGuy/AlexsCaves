@@ -77,14 +77,18 @@ public abstract class LightTextureMixin {
     private static void ac_getBrightness(DimensionType dimensionType, int lightTextureIndex, CallbackInfoReturnable<Float> cir) {
         if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLight.get()) {
             float f = ClientProxy.lastBiomeAmbientLightAmountPrev + (ClientProxy.lastBiomeAmbientLightAmount - ClientProxy.lastBiomeAmbientLightAmountPrev) * Minecraft.getInstance().getFrameTime();
+            float primordialBossAmount = AlexsCaves.PROXY.getPrimordialBossActiveAmount(Minecraft.getInstance().getFrameTime());
             if (Minecraft.getInstance().getCameraEntity() instanceof PossessesCamera || Minecraft.getInstance().getCameraEntity() instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get())) {
                 f = Math.max(f, 0.35F);
             }
             if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get()) && Minecraft.getInstance().player.isUnderWater()) {
                 f = Math.min(1.0F, f + 0.05F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, Minecraft.getInstance().getFrameTime()));
             }
-            if (f != 0) {
-                cir.setReturnValue(f + cir.getReturnValue());
+            float light = f + cir.getReturnValue();
+            if(primordialBossAmount > 0.0F){
+                cir.setReturnValue(Math.max(0.0F, light - primordialBossAmount * 0.06F));
+            }else if (f != 0) {
+                cir.setReturnValue(light);
             }
         }
     }

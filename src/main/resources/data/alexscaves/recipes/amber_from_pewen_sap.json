@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NNN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "item": "alexscaves:pewen_sap"
+    }
+  },
+  "result": {
+    "item": "alexscaves:amber",
+    "count": 1
+  }
+}

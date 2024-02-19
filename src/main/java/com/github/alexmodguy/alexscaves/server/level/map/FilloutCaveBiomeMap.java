@@ -5,11 +5,10 @@ import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.message.UpdateCaveBiomeMapTagMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.google.common.base.Stopwatch;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
+import net.minecraft.Util;
+import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -20,26 +19,27 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.Climate;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class FilloutCaveBiomeMap implements Runnable {
-
     private ItemStack map;
     private BlockPos center;
     private Player player;
     private ServerLevel serverLevel;
     private ResourceKey<Biome> biomeResourceKey;
     private UUID taskUUID;
-    private int legIndex;
-    private int leg;
-    private int legX;
-    private int legZ;
+    private Direction sampleDirection = Direction.UP;
+    private BlockPos lastSampledPos = null;
 
     public FilloutCaveBiomeMap(ItemStack map, ServerLevel serverLevel, BlockPos center, Player player, UUID taskUUID) {
         this.map = map;
@@ -53,6 +53,7 @@ public class FilloutCaveBiomeMap implements Runnable {
 
     @Override
     public void run() {
+        Stopwatch stopwatch = Stopwatch.createStarted(Util.TICKER);
         BlockPos biomeCorner = findBiome();
         CompoundTag tag = map.getOrCreateTag();
         if (biomeCorner != null) {
@@ -63,9 +64,14 @@ public class FilloutCaveBiomeMap implements Runnable {
             tag.putInt("BiomeZ", centered.getZ());
             tag.putLong("RandomSeed", serverLevel.getRandom().nextLong());
             tag.putBoolean("Filled", true);
-            AlexsCaves.LOGGER.info("Found {} at {} {} {}", biomeResourceKey.location(), centered.getX(), centered.getY(), centered.getZ());
+            AlexsCaves.LOGGER.info("Found {} at {} {} {} in {}s", biomeResourceKey.location(), centered.getX(), centered.getY(), centered.getZ(), stopwatch.elapsed().toSeconds());
         } else {
-            player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error").withStyle(ChatFormatting.RED));
+            int distance = 0;
+            if(lastSampledPos != null){
+                distance = (int) Math.sqrt(center.distSqr(lastSampledPos));
+            }
+            player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error", distance).withStyle(ChatFormatting.RED));
+            AlexsCaves.LOGGER.info("Could not find {} after {}s", biomeResourceKey.location(), stopwatch.elapsed().toSeconds());
         }
         tag.putBoolean("Loading", false);
         tag.remove("MapUUID");
@@ -78,13 +84,18 @@ public class FilloutCaveBiomeMap implements Runnable {
         ServerChunkCache cache = serverLevel.getChunkSource();
         BiomeSource source = cache.getGenerator().getBiomeSource();
         Climate.Sampler sampler = cache.randomState().sampler();
-        for (int i = 0; i < Integer.MAX_VALUE; i++) {
-
+        int sampleIncrement = AlexsCaves.COMMON_CONFIG.caveMapSearchWidth.get();
+        BlockPos.MutableBlockPos nextPos = new BlockPos.MutableBlockPos();
+        nextPos.set(center);
+        int width = 0;
+        int nextWidth = sampleIncrement;
+        for (int i = 0; i < AlexsCaves.COMMON_CONFIG.caveMapSearchAttempts.get(); i++) {
             final int height = 64;
-            BlockPos nextPos = calculateNextSpiralPos();
-            if (nextPos == null) {
-                return null;
+
+            if (sampleDirection != Direction.UP) {
+                nextPos.move(sampleDirection, sampleIncrement);
             }
+
             int[] searchedHeights = Mth.outFromOrigin(y, serverLevel.getMinBuildHeight() + 1, serverLevel.getMaxBuildHeight(), height).toArray();
 
             int nextBlockX = nextPos.getX();
@@ -94,40 +105,36 @@ public class FilloutCaveBiomeMap implements Runnable {
 
             for (int blockY : searchedHeights) {
                 int quartY = QuartPos.fromBlock(blockY);
-                Holder<Biome> holder = source.getNoiseBiome(quartX, quartY, quartZ, sampler);
-                if (holder.is(biomeResourceKey)) {
+                Biome biome = source.getNoiseBiome(quartX, quartY, quartZ, sampler).get();
+                if (verifyBiomeRespectRegistry(serverLevel, biome, biomeResourceKey)) {
                     return new BlockPos(nextBlockX, blockY, nextBlockZ);
                 }
             }
+
+            width += sampleIncrement;
+            if (width >= nextWidth) {
+                if(sampleDirection == Direction.UP){
+                    sampleDirection = Direction.NORTH;
+                }else{
+                    nextWidth += sampleIncrement;
+                    sampleDirection = sampleDirection.getClockWise();
+                }
+                width = 0;
+            }
         }
+        lastSampledPos = nextPos.immutable();
         return null;
     }
 
-    private BlockPos calculateNextSpiralPos() {
-        final int step = 32;
-        BlockPos current = new BlockPos(legX, 0, legZ).relative(ACMath.HORIZONTAL_DIRECTIONS[(leg + 4) % 4]);
-
-        int newX = current.getX();
-        int newZ = current.getZ();
-
-        int legSize = leg / 2 + 1;
-        int maxLegs = 4 * Math.floorDiv(AlexsCaves.COMMON_CONFIG.caveMapSearchDistance.get(), step);
-
-        if (legIndex >= legSize) {
-            if (leg > maxLegs) {
-                return null;
-            }
-            leg++;
-            legIndex = 0;
+    private static boolean verifyBiomeRespectRegistry(Level level, Biome biome, ResourceKey<Biome> matches){
+        Optional<Registry<Biome>> biomeRegistry = level.registryAccess().registry(ForgeRegistries.Keys.BIOMES);
+        if(biomeRegistry.isPresent()){
+            Optional<ResourceKey<Biome>> resourceKey = biomeRegistry.get().getResourceKey(biome);
+            return resourceKey.isPresent() && resourceKey.get().equals(matches);
+        }else{
+            return false;
         }
-
-        legIndex++;
-
-        legX = newX;
-        legZ = newZ;
-        return new BlockPos(center.getX() + newX * step, 0, center.getZ() + newZ * step);
     }
-
 
     private BlockPos getCenterOfBiome(BlockPos biomeCorner) {
         int biomeNorth = 0;

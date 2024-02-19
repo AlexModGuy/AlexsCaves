@@ -12,6 +12,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,8 +32,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Monster;
@@ -153,13 +153,17 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     private void switchNavigator(boolean onLand) {
         if (onLand) {
             this.moveControl = new MoveControl(this);
-            this.navigation = new GroundPathNavigation(this, level());
+            this.navigation = createMultithreadedPathFinder(false);
             this.isLandNavigator = true;
         } else {
             this.moveControl = new FlightMoveHelper(this);
-            this.navigation = new FlyingPathNavigation(this, level());
+            this.navigation = createMultithreadedPathFinder(true);
             this.isLandNavigator = false;
         }
+    }
+
+    private PathNavigation createMultithreadedPathFinder(boolean flying){
+        return new AdvancedPathNavigate(this, level(), flying ? AdvancedPathNavigate.MovementType.FLYING : AdvancedPathNavigate.MovementType.WALKING);
     }
 
     @Override

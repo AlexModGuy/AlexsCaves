@@ -1,0 +1,8 @@
+{
+	"parent": "alexscaves:block/atlatitan_egg_template",
+	"textures": {
+		"side": "alexscaves:block/egg/atlatitan_egg_side_very_cracked",
+		"bottom" : "alexscaves:block/egg/atlatitan_egg_bottom_very_cracked",
+		"top" : "alexscaves:block/egg/atlatitan_egg_top_very_cracked"
+	}
+}

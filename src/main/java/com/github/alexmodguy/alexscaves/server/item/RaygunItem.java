@@ -3,12 +3,15 @@ package com.github.alexmodguy.alexscaves.server.item;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.living.TremorzillaEntity;
 import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.IrradiatedEffect;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -51,6 +54,16 @@ public class RaygunItem extends Item implements UpdatesStackTags {
     @Override
     public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
         consumer.accept((IClientItemExtensions) AlexsCaves.PROXY.getISTERProperties());
+    }
+
+    @Override
+    public int getEnchantmentValue() {
+        return 1;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return stack.getCount() == 1;
     }
 
     public static boolean hasCharge(ItemStack stack) {
@@ -105,7 +118,19 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         super.inventoryTick(stack, level, entity, i, held);
         boolean using = entity instanceof LivingEntity living && living.getUseItem().equals(stack);
         int useTime = getUseTime(stack);
-        if (level.isClientSide) {
+        if(!level.isClientSide){
+            if (stack.getEnchantmentLevel(ACEnchantmentRegistry.SOLAR.get()) > 0 && !using) {
+                int charge = getCharge(stack);
+                if (charge > 0 && level.random.nextFloat() < 0.02F) {
+                    BlockPos playerPos = entity.blockPosition().above();
+                    float timeOfDay = level.getTimeOfDay(1.0F); //night starts at 0.259 and ends at 0.74
+                    if (level.canSeeSky(playerPos) && level.isDay() && !level.dimensionType().hasFixedTime() && (timeOfDay < 0.259 || timeOfDay > 0.74)) {
+                        setCharge(stack, charge - 1);
+                        setUseTime(stack, 0);
+                    }
+                }
+            }
+        }else{
             CompoundTag tag = stack.getOrCreateTag();
             if (tag.getInt("PrevUseTime") != tag.getInt("UseTime")) {
                 tag.putInt("PrevUseTime", getUseTime(stack));
@@ -124,10 +149,12 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         int realStart = 15;
         float time = i < realStart ? i / (float) realStart : 1F;
         float maxDist = 25.0F * time;
+        boolean xRay = stack.getEnchantmentLevel(ACEnchantmentRegistry.X_RAY.get()) > 0;
         HitResult realHitResult = ProjectileUtil.getHitResultOnViewVector(living, Entity::canBeHitByProjectile, maxDist);
         HitResult blockOnlyHitResult = living.pick(maxDist, 0.0F, false);
-        Vec3 vec3 = blockOnlyHitResult.getLocation();
-        Vec3 vec31 = blockOnlyHitResult.getLocation();
+        Vec3 xRayVec = living.getViewVector(0.0F).scale(maxDist).add(living.getEyePosition());
+        Vec3 vec3 = xRay ? xRayVec : blockOnlyHitResult.getLocation();
+        Vec3 vec31 = xRay ? xRayVec : blockOnlyHitResult.getLocation();
         if (!hasCharge(stack)) {
             if (level.isClientSide) {
                 AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(living.getId(), stack));
@@ -139,7 +166,9 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         if (level.isClientSide) {
             setRayPosition(stack, vec3.x, vec3.y, vec3.z);
             AlexsCaves.PROXY.playWorldSound(living, (byte) 8);
-            if (time >= 1F && i % 2 == 0 && (!(living instanceof Player) || !((Player) living).isCreative())) {
+            int efficency = stack.getEnchantmentLevel(ACEnchantmentRegistry.ENERGY_EFFICIENCY.get());
+            int divis = 2 + (int) Math.floor(efficency * 1.5F);
+            if (time >= 1F && i % divis == 0 && (!(living instanceof Player) || !((Player) living).isCreative())) {
                 int charge = getCharge(stack);
                 setCharge(stack, Math.min(charge + 1, MAX_CHARGE));
             }
@@ -148,11 +177,12 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         float deltaX = 0;
         float deltaY = 0;
         float deltaZ = 0;
+        boolean gamma = stack.getEnchantmentLevel(ACEnchantmentRegistry.GAMMA_RAY.get()) > 0;
         ParticleOptions particleOptions;
         if (level.random.nextBoolean() && time >= 1F) {
-            particleOptions = ACParticleRegistry.RAYGUN_EXPLOSION.get();
+            particleOptions = gamma ? ACParticleRegistry.BLUE_RAYGUN_EXPLOSION.get() : ACParticleRegistry.RAYGUN_EXPLOSION.get();
         } else {
-            particleOptions = ACParticleRegistry.HAZMAT_BREATHE.get();
+            particleOptions = gamma ? ACParticleRegistry.BLUE_HAZMAT_BREATHE.get() : ACParticleRegistry.HAZMAT_BREATHE.get();
             deltaX = (level.random.nextFloat() - 0.5F) * 0.2F;
             deltaY = (level.random.nextFloat() - 0.5F) * 0.2F;
             deltaZ = (level.random.nextFloat() - 0.5F) * 0.2F;
@@ -160,12 +190,28 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         level.addParticle(particleOptions, vec3.x + (level.random.nextFloat() - 0.5F) * 0.45F, vec3.y + 0.2F, vec3.z + (level.random.nextFloat() - 0.5F) * 0.45F, deltaX, deltaY, deltaZ);
         Direction blastHitDirection = null;
         Vec3 blastHitPos = null;
-        if (realHitResult instanceof BlockHitResult blockHitResult) {
-            BlockPos pos = blockHitResult.getBlockPos();
-            BlockState state = level.getBlockState(pos);
-            blastHitDirection = blockHitResult.getDirection();
-            if (!state.isAir() && state.isFaceSturdy(level, pos, blastHitDirection)) {
-                blastHitPos = realHitResult.getLocation();
+        if(xRay){
+            AABB maxAABB = living.getBoundingBox().inflate(maxDist);
+            float fakeRayTraceProgress = 1.0F;
+            Vec3 startClip = living.getEyePosition();
+            while(fakeRayTraceProgress < maxDist){
+                startClip = startClip.add(living.getViewVector(1.0F));
+                Vec3 endClip = startClip.add(living.getViewVector(1.0F));
+                HitResult attemptedHitResult = ProjectileUtil.getEntityHitResult(level, living, startClip, endClip, maxAABB, Entity::canBeHitByProjectile);
+                if(attemptedHitResult != null){
+                    realHitResult = attemptedHitResult;
+                    break;
+                }
+                fakeRayTraceProgress++;
+            }
+        }else{
+            if (realHitResult instanceof BlockHitResult blockHitResult) {
+                BlockPos pos = blockHitResult.getBlockPos();
+                BlockState state = level.getBlockState(pos);
+                blastHitDirection = blockHitResult.getDirection();
+                if (!state.isAir() && state.isFaceSturdy(level, pos, blastHitDirection)) {
+                    blastHitPos = realHitResult.getLocation();
+                }
             }
         }
         if (realHitResult instanceof EntityHitResult entityHitResult) {
@@ -180,12 +226,13 @@ public class RaygunItem extends Item implements UpdatesStackTags {
         }
         if (!level.isClientSide && (i - realStart) % 3 == 0) {
             AABB hitBox = new AABB(vec31.add(-1, -1, -1), vec31.add(1, 1, 1));
+            int radiationLevel = gamma ? IrradiatedEffect.BLUE_LEVEL : 0;
             for (Entity entity : level.getEntities(living, hitBox, Entity::canBeHitByProjectile)) {
                 if (!entity.is(living) && !entity.isAlliedTo(living) && !living.isAlliedTo(entity) && !living.isPassengerOfSameVehicle(entity)) {
-                    boolean flag = entity.hurt(ACDamageTypes.causeRaygunDamage(level.registryAccess(), living), 1.5F);
+                    boolean flag = entity instanceof TremorzillaEntity || entity.hurt(ACDamageTypes.causeRaygunDamage(level.registryAccess(), living), gamma ? 2F : 1.5F);
                     if (flag && entity instanceof LivingEntity livingEntity && !livingEntity.getType().is(ACTagRegistry.RESISTS_RADIATION)) {
-                        if (livingEntity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 800))) {
-                            AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(entity.getId(), living.getId(), 0, 800));
+                        if (livingEntity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 800, radiationLevel))) {
+                            AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(entity.getId(), living.getId(), gamma ? 4 : 0, 800));
                         }
                     }
                 }
@@ -259,7 +306,7 @@ public class RaygunItem extends Item implements UpdatesStackTags {
 
     public void releaseUsing(ItemStack stack, Level level, LivingEntity player, int useTimeLeft) {
         super.releaseUsing(stack, level, player, useTimeLeft);
-        if(level.isClientSide){
+        if (level.isClientSide) {
             AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(player.getId(), stack));
         }
         AlexsCaves.PROXY.clearSoundCacheFor(player);

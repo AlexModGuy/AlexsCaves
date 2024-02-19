@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "TIT",
+    "TET"
+  ],
+  "key": {
+    "T": {
+      "item": "alexscaves:tectonic_shard"
+    },
+    "I": {
+      "item": "alexscaves:immortal_embryo"
+    },
+    "E": {
+      "item": "alexscaves:tremorsaurus_egg"
+    }
+  },
+  "result": {
+    "item": "alexscaves:tremorzilla_egg"
+  }
+}
