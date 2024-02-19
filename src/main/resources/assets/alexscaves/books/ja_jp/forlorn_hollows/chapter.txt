@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    荒れ果てた空洞にようこそ...
+
+    • {基本情報|forlorn_hollows/general.json}
+    • {資源|forlorn_hollows/resources.json}
+    • 生態系
+        • {グルーモス|forlorn_hollows/gloomoth.json}
+        • {地底の狂信者|forlorn_hollows/underzealot.json}
+        • {ウォッチャー|forlorn_hollows/watcher.json}
+        • {ムシバミネズミ|forlorn_hollows/corrodent.json}
+        • {ヴェスパー|forlorn_hollows/vesper.json}
+        • {フォーセイクン|forlorn_hollows/forsaken.json}
+    • {ユーティリティ|forlorn_hollows/utilities.json}
