@@ -2,8 +2,11 @@ package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.block.TremorzillaEggBlock;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.TremorzillaEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -76,7 +79,7 @@ public class NuclearExplosionEntity extends Entity {
             this.remove(RemovalReason.DISCARDED);
         } else {
             if (!level().isClientSide && !isNoGriefing()) {
-                if (!loadingChunks) {
+                if (!loadingChunks && !this.isRemoved()) {
                     loadingChunks = true;
                     loadChunksAround(true);
                 }
@@ -106,15 +109,22 @@ public class NuclearExplosionEntity extends Entity {
                 float damage = calculateDamage(dist, maximumDistance);
                 Vec3 vec3 = entity.position().subtract(this.position()).add(0, 0.3, 0).normalize();
                 float playerFling = entity instanceof Player ? 0.5F * flingStrength : flingStrength;
-                entity.setDeltaMovement(vec3.scale(damage * 0.1F * playerFling));
                 if (damage > 0) {
                     if (entity instanceof RaycatEntity) {
                         damage = 0;
                     } else if (entity.getType().is(ACTagRegistry.RESISTS_RADIATION)) {
                         damage *= 0.25F;
+                        playerFling *= 0.1F;
+                        if(entity instanceof TremorzillaEntity){
+                            playerFling = 0;
+                            damage = 0;
+                        }
                     }
-                    entity.hurt(ACDamageTypes.causeNukeDamage(level().registryAccess()), damage);
+                    if(damage > 0){
+                        entity.hurt(ACDamageTypes.causeNukeDamage(level().registryAccess()), damage);
+                    }
                 }
+                entity.setDeltaMovement(vec3.scale(damage * 0.1F * playerFling));
                 entity.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 48000, getSize() <= 1.5F ? 1 : 2, false, false, true));
             }
         }
@@ -140,7 +150,7 @@ public class NuclearExplosionEntity extends Entity {
             int dist = Math.max(getChunksAffected(), serverLevel.getServer().getPlayerList().getViewDistance() / 2);
             for (int i = -dist; i <= dist; i++) {
                 for (int j = -dist; j <= dist; j++) {
-                    ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, chunkPos.x + i, chunkPos.z + j, load, true);
+                    ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, chunkPos.x + i, chunkPos.z + j, load, load);
                 }
             }
         }
@@ -177,7 +187,9 @@ public class NuclearExplosionEntity extends Entity {
                         BlockState state = level().getBlockState(carve);
                         if ((!state.isAir() || !state.getFluidState().isEmpty()) && isDestroyable(state)) {
                             carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
-                            if (AlexsCaves.COMMON_CONFIG.nukesSpawnItemDrops.get() && random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
+                            if(state.is(ACBlockRegistry.TREMORZILLA_EGG.get()) && state.getBlock() instanceof TremorzillaEggBlock tremorzillaEggBlock){
+                                tremorzillaEggBlock.spawnDinosaurs(level(), carve, state);
+                            }else if (AlexsCaves.COMMON_CONFIG.nukesSpawnItemDrops.get() && random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
                                 level().destroyBlock(carve, true);
                             } else {
                                 state.onBlockExploded(level(), carve, dummyExplosion);
@@ -193,7 +205,7 @@ public class NuclearExplosionEntity extends Entity {
     }
 
     private boolean isDestroyable(BlockState state) {
-        return !state.is(ACTagRegistry.NUKE_PROOF) && state.getBlock().getExplosionResistance() < AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get();
+        return (!state.is(ACTagRegistry.NUKE_PROOF) && state.getBlock().getExplosionResistance() < AlexsCaves.COMMON_CONFIG.nukeMaxBlockExplosionResistance.get()) || state.is(ACBlockRegistry.TREMORZILLA_EGG.get());
     }
 
     @Override

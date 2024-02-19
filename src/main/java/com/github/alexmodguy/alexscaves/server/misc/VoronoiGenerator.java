@@ -68,9 +68,12 @@ public class VoronoiGenerator {
 
                 double newDistance = distanceType.getComparisonLength(vecX, 0, vecZ);
 
-                distance1 = Math.min(Math.min(distance1, newDistance), distance0);
+                // distance1 = Math.min(Math.min(distance1, newDistance), distance0);
+
                 if (newDistance < distance0)
                 {
+                    // fix this value always being the same
+                    distance1 = distance0;
                     distance0 = newDistance;
                     closestHash = hash;
                     localPos = new Vec3(vecX, 0.0, vecZ);

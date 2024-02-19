@@ -227,13 +227,13 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
         if (this.level() instanceof ServerLevel serverLevel) {
             if(this.getUsingPlayer() instanceof ServerPlayer serverPlayer){
                 ChunkPos playerChunkPos = new ChunkPos(serverPlayer.blockPosition());
-                ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, playerChunkPos.x, playerChunkPos.z, load, true);
+                ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, playerChunkPos.x, playerChunkPos.z, load, load);
             }
             ChunkPos chunkPos = new ChunkPos(this.blockPosition());
             int dist = Math.max(LOAD_CHUNK_DISTANCE, serverLevel.getServer().getPlayerList().getViewDistance() / 2);
             for (int i = -dist; i <= dist; i++) {
                 for (int j = -dist; j <= dist; j++) {
-                    ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, chunkPos.x + i, chunkPos.z + j, load, true);
+                    ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, chunkPos.x + i, chunkPos.z + j, load, load);
                     if (load && this.getUsingPlayer() instanceof ServerPlayer serverPlayer) {
                         serverPlayer.connection.send(new ClientboundLevelChunkWithLightPacket(level().getChunk(chunkPos.x + i, chunkPos.z + j), level().getLightEngine(), (BitSet)null, (BitSet)null));
                     }

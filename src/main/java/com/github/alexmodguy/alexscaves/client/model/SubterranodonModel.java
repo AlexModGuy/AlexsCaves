@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.client.model;// Made with Blockbench 4.
 // Paste this class into your mod and generate all required imports
 
 
+import com.github.alexmodguy.alexscaves.server.entity.item.DinosaurSpiritEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.SubterranodonEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
@@ -171,17 +172,7 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
         progressRotationPrev(tailTip, groundProgress, (float) Math.toRadians(10), 0, 0, 1F);
         progressRotationPrev(tail, groundStill, (float) Math.toRadians(-20), 0, 0, 1F);
         progressRotationPrev(tailTip, groundStill, (float) Math.toRadians(20), 0, 0, 1F);
-        progressPositionPrev(head, glide, 0, 3, 0, 1F);
-        progressPositionPrev(neck, glide, 0, 1, 0, 1F);
-        progressRotationPrev(body, hoverProgress, (float) Math.toRadians(-50), 0, 0, 1F);
-        progressRotationPrev(neck, hoverProgress, (float) Math.toRadians(30), 0, 0, 1F);
-        progressRotationPrev(head, hoverProgress, (float) Math.toRadians(30), 0, 0, 1F);
-        progressRotationPrev(lleg, hoverProgress, (float) Math.toRadians(-40), 0, 0, 1F);
-        progressRotationPrev(rleg, hoverProgress, (float) Math.toRadians(-40), 0, 0, 1F);
-        progressRotationPrev(ltalon, hoverProgress, (float) Math.toRadians(-20), 0, 0, 1F);
-        progressRotationPrev(rtalon, hoverProgress, (float) Math.toRadians(-20), 0, 0, 1F);
         progressRotationPrev(jaw, openMouthProgress, (float) Math.toRadians(30), 0, 0, 1F);
-        progressPositionPrev(neck, glide, 0, 1, 0, 1F);
         progressPositionPrev(body, sitProgress, 0, -1, 0, 1F);
         progressPositionPrev(lleg, sitProgress, 0, -2, -3, 1F);
         progressPositionPrev(rleg, sitProgress, 0, -2, -3, 1F);
@@ -198,6 +189,7 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
         progressRotationPrev(rwing, sitProgress, (float) Math.toRadians(40), (float) Math.toRadians(20), (float) Math.toRadians(-20), 1F);
         progressRotationPrev(lhand, sitProgress, (float) Math.toRadians(20), 0, 0, 1F);
         progressRotationPrev(rhand, sitProgress, (float) Math.toRadians(20), 0, 0, 1F);
+        animateFlight(ageInTicks, flyProgress, hoverProgress, glide, flapAmount, entity.isVehicle(), true);
         if (buryEggsAmount > 0.0F) {
             limbSwing = ageInTicks;
             groundMove = buryEggsAmount * 0.5F;
@@ -220,18 +212,6 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
         this.walk(rtalon, walkSpeed, walkDegree * 0.6F, true, -1F, 0.3F, limbSwing, groundMove);
         this.swing(tail, walkSpeed, walkDegree * 0.5F, true, 0.5F, 0F, limbSwing, groundMove);
         this.bob(body, walkSpeed * 2F, walkDegree * 3, false, limbSwing, groundMove);
-        this.walk(lleg, 0.3F, 0.2F, false, 1F, -0.1F, ageInTicks, flyProgress);
-        this.walk(rleg, 0.3F, 0.2F, false, 1F, -0.1F, ageInTicks, flyProgress);
-        this.walk(rwing, 2F, 0.05F, false, 2F, 0.1F, ageInTicks, glide);
-        this.walk(lwing, 2F, 0.05F, false, 2F, 0.1F, ageInTicks, glide);
-        this.flap(rwing, 0.5F, 1F, false, 1F, -0.2F, ageInTicks, flapAmount);
-        this.flap(lwing, 0.5F, 1F, true, 1F, -0.2F, ageInTicks, flapAmount);
-        this.flap(rwingTip, 0.5F, 0.5F, false, 0F, -0.2F, ageInTicks, flapAmount);
-        this.flap(lwingTip, 0.5F, 0.5F, true, 0F, -0.2F, ageInTicks, flapAmount);
-        float bodyFlightBob = ACMath.walkValue(ageInTicks, flapAmount, 0.5F, 0F, 4, false);
-        this.body.rotationPointY -= bodyFlightBob;
-        this.bob(neck, 0.5F, -1, false, ageInTicks, flapAmount);
-        this.walk(neck, 0.5F, 0.1F, false, 1F, 0F, ageInTicks, flyProgress);
         this.bob(neck, 0.1F, 0.5F, false, ageInTicks, 1);
         this.faceTarget(netHeadYaw, headPitch, 1, head, neck);
         this.swing(neck, danceSpeed, 0.5F, true, 0F, 0F, ageInTicks, danceAmount);
@@ -245,15 +225,39 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
         tailTip.rotateAngleY += tailYaw * 0.2F;
         lleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
         rleg.rotateAngleY += tailYaw * flyProgress * 0.4F;
-        if (entity.isVehicle()) {
+    }
+
+    private void animateFlight(float ageInTicks, float flyProgress, float hoverProgress, float glide, float flapAmount, boolean carrying, boolean bob){
+        progressPositionPrev(head, glide, 0, 3, 0, 1F);
+        progressPositionPrev(neck, glide, 0, 1, 0, 1F);
+        progressRotationPrev(body, hoverProgress, (float) Math.toRadians(-50), 0, 0, 1F);
+        progressRotationPrev(neck, hoverProgress, (float) Math.toRadians(30), 0, 0, 1F);
+        progressRotationPrev(head, hoverProgress, (float) Math.toRadians(30), 0, 0, 1F);
+        progressRotationPrev(lleg, hoverProgress, (float) Math.toRadians(-40), 0, 0, 1F);
+        progressRotationPrev(rleg, hoverProgress, (float) Math.toRadians(-40), 0, 0, 1F);
+        progressRotationPrev(ltalon, hoverProgress, (float) Math.toRadians(-20), 0, 0, 1F);
+        progressRotationPrev(rtalon, hoverProgress, (float) Math.toRadians(-20), 0, 0, 1F);
+        progressPositionPrev(neck, glide, 0, 1, 0, 1F);
+        this.walk(lleg, 0.3F, 0.2F, false, 1F, -0.1F, ageInTicks, flyProgress);
+        this.walk(rleg, 0.3F, 0.2F, false, 1F, -0.1F, ageInTicks, flyProgress);
+        this.flap(rwing, 0.5F, 1F, false, 1F, -0.2F, ageInTicks, flapAmount);
+        this.flap(lwing, 0.5F, 1F, true, 1F, -0.2F, ageInTicks, flapAmount);
+        this.flap(rwingTip, 0.5F, 0.5F, false, 0F, -0.2F, ageInTicks, flapAmount);
+        this.flap(lwingTip, 0.5F, 0.5F, true, 0F, -0.2F, ageInTicks, flapAmount);
+        float bodyFlightBob = bob ? ACMath.walkValue(ageInTicks, flapAmount, 0.5F, 0F, 4, false) : 0;
+        this.body.rotationPointY -= bodyFlightBob;
+        this.bob(neck, 0.5F, -1, false, ageInTicks, flapAmount);
+        this.walk(neck, 0.5F, 0.1F, false, 1F, 0F, ageInTicks, flyProgress);
+        if (carrying) {
             this.walk(lleg, 0.3F, 0.2F, true, 1F, -0.1F, ageInTicks, flyProgress);
             this.walk(rleg, 0.3F, 0.2F, true, 1F, -0.1F, ageInTicks, flyProgress);
             this.rleg.rotationPointY += bodyFlightBob * 0.25F;
             this.rleg.rotationPointZ += bodyFlightBob * 0.25F;
             this.lleg.rotationPointY += bodyFlightBob * 0.25F;
             this.lleg.rotationPointZ += bodyFlightBob * 0.25F;
-
         }
+        this.walk(rwing, 2F, 0.05F, false, 2F, 0.1F, ageInTicks, glide);
+        this.walk(lwing, 2F, 0.05F, false, 2F, 0.1F, ageInTicks, glide);
     }
 
     public Vec3 getLegPosition(boolean right, Vec3 offsetIn) {
@@ -299,4 +303,13 @@ public class SubterranodonModel extends AdvancedEntityModel<SubterranodonEntity>
         return ImmutableList.of(body, tail, tailTip, lleg, rleg, ltalon, rtalon, neck, head, jaw, lwing, lwingTip, lhand, rwing, rwingTip, rhand);
     }
 
+    public void animateSpirit(DinosaurSpiritEntity entityIn, float partialTicks) {
+        this.resetToDefaultPose();
+        float ageInTicks = entityIn.tickCount + partialTicks;
+        float flyProgress = 1f;
+        float flapAmount = flyProgress;
+        float hoverProgress = 1F;
+        this.body.rotationPointY -= 16;
+        animateFlight(ageInTicks, flyProgress, hoverProgress, 0F, flapAmount, true, false);
+    }
 }

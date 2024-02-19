@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
+import com.github.alexmodguy.alexscaves.server.potion.IrradiatedEffect;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -81,9 +82,9 @@ public class ACPotionEffectLayer extends RenderLayer {
         if (entity instanceof LivingEntity living) {
             if (living.hasEffect(ACEffectRegistry.IRRADIATED.get()) && AlexsCaves.CLIENT_CONFIG.radiationGlowEffect.get()) {
                 PostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
-                VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getRadiationGlow(getTextureLocation(entity)));
                 int level = living.getEffect(ACEffectRegistry.IRRADIATED.get()).getAmplifier() + 1;
-                float alpha = Math.min(level * 0.33F, 1F);
+                VertexConsumer ivertexbuilder = bufferIn.getBuffer(level >= IrradiatedEffect.BLUE_LEVEL ? ACRenderTypes.getBlueRadiationGlow(getTextureLocation(entity)) : ACRenderTypes.getRadiationGlow(getTextureLocation(entity)));
+                float alpha = level >= IrradiatedEffect.BLUE_LEVEL ? 0.9F : Math.min(level * 0.33F, 1F);
                 poseStack.pushPose();
                 this.getParentModel().renderToBuffer(poseStack, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0), 1, 1F, 1, alpha);
                 poseStack.popPose();

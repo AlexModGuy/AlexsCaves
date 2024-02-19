@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
@@ -45,11 +46,22 @@ public class ResistorShieldItem extends ShieldItem {
         tooltip.add(Component.translatable("item.alexscaves.resistor_shield.desc").withStyle(ChatFormatting.GRAY));
     }
 
+    @Override
+    public int getEnchantmentValue() {
+        return 1;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return stack.getCount() == 1;
+    }
+
     public void onUseTick(Level level, LivingEntity living, ItemStack stack, int timeUsing) {
         super.onUseTick(level, living, stack, timeUsing);
         int i = getUseDuration(stack) - timeUsing;
         boolean scarlet = isScarlet(stack);
         boolean firstHit = i >= 10 && i <= 12;
+        int slamEnchantAmount = stack.getEnchantmentLevel(ACEnchantmentRegistry.HEAVY_SLAM.get());
         float range = 5F;
         if (level.isClientSide) {
             setUseTime(stack, i);
@@ -74,7 +86,7 @@ public class ResistorShieldItem extends ShieldItem {
             AABB bashBox = living.getBoundingBox().inflate(5, 1, 5);
             for (LivingEntity entity : living.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
                 if (!living.isAlliedTo(entity) && !entity.equals(living) && entity.distanceTo(living) <= range) {
-                    entity.hurt(living.damageSources().mobAttack(living), firstHit ? 6 : 2);
+                    entity.hurt(living.damageSources().mobAttack(living), firstHit ? 6 + (slamEnchantAmount * 3) : 2);
                     if (scarlet) {
                         entity.knockback(firstHit ? 0.5D : 0.2D, entity.getX() - living.getX(), entity.getZ() - living.getZ());
                     } else {

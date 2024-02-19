@@ -7,6 +7,7 @@ import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +24,7 @@ public class RadioactiveBlockItem extends BlockItemWithSupplier {
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
-        if (!level.isClientSide && entity instanceof LivingEntity living) {
+        if (!level.isClientSide && entity instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())) {
             float stackChance = stack.getCount() * randomChanceOfRadiation;
             float hazmatMultiplier = 1F - HazmatArmorItem.getWornAmount(living) / 4F;
             if (!living.hasEffect(ACEffectRegistry.IRRADIATED.get()) && level.random.nextFloat() < stackChance * hazmatMultiplier) {

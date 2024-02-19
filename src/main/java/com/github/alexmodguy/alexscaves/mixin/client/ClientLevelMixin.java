@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
 import net.minecraft.client.Minecraft;
@@ -40,6 +41,7 @@ public abstract class ClientLevelMixin extends Level {
             if (override > 0.0F) {
                 Vec3 prevVec3 = cir.getReturnValue();
                 Vec3 sampledVec3 = BiomeSampler.sampleBiomesVec3(Minecraft.getInstance().level, Minecraft.getInstance().cameraEntity.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getSkyColor()));
+                sampledVec3 = ClientProxy.processSkyColor(sampledVec3, partialTick);
                 cir.setReturnValue(prevVec3.add(sampledVec3.subtract(prevVec3).scale(override)));
             }
         }

@@ -2,12 +2,16 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.*;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalBreedEggsGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AnimalLayEggGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.GrottoceratopsEatPlantsGoal;
+import com.github.alexmodguy.alexscaves.server.entity.ai.GrottoceratopsMeleeGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -63,7 +67,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new GroundPathNavigatorNoSpin(this, level);
+        return new AdvancedPathNavigate(this, level, AdvancedPathNavigate.MovementType.WALKING);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {

@@ -11,6 +11,7 @@ import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.config.ACServerConfig;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
 import com.github.alexmodguy.alexscaves.server.event.CommonEvents;
@@ -109,6 +110,7 @@ public class AlexsCaves {
         ACStructureRegistry.DEF_REG.register(modEventBus);
         ACStructurePieceRegistry.DEF_REG.register(modEventBus);
         ACStructureProcessorRegistry.DEF_REG.register(modEventBus);
+        ACEnchantmentRegistry.DEF_REG.register(modEventBus);
         ACEffectRegistry.DEF_REG.register(modEventBus);
         ACEffectRegistry.POTION_DEF_REG.register(modEventBus);
         ACMenuRegistry.DEF_REG.register(modEventBus);
@@ -132,6 +134,7 @@ public class AlexsCaves {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        PROXY.initPathfinding();
         int packetsRegistered = 0;
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, SpelunkeryTableChangeMessage.class, SpelunkeryTableChangeMessage::write, SpelunkeryTableChangeMessage::read, SpelunkeryTableChangeMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, SpelunkeryTableCompleteTutorialMessage.class, SpelunkeryTableCompleteTutorialMessage::write, SpelunkeryTableCompleteTutorialMessage::read, SpelunkeryTableCompleteTutorialMessage::handle);
@@ -146,6 +149,8 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, ArmorKeyMessage.class, ArmorKeyMessage::write, ArmorKeyMessage::read, ArmorKeyMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, WorldEventMessage.class, WorldEventMessage::write, WorldEventMessage::read, WorldEventMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateCaveBiomeMapTagMessage.class, UpdateCaveBiomeMapTagMessage::write, UpdateCaveBiomeMapTagMessage::read, UpdateCaveBiomeMapTagMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateBossEruptionStatus.class, UpdateBossEruptionStatus::write, UpdateBossEruptionStatus::read, UpdateBossEruptionStatus::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateBossBarMessage.class, UpdateBossBarMessage::write, UpdateBossBarMessage::read, UpdateBossBarMessage::handle);
         event.enqueueWork(() -> {
             ACSurfaceRules.setup();
             ACPlayerCapes.setup();

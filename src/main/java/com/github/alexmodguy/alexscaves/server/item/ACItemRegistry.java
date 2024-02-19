@@ -8,6 +8,7 @@ import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
 import com.github.alexmodguy.alexscaves.server.item.dispenser.FluidContainerDispenseItemBehavior;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.server.block.LecternBooks;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -45,6 +46,7 @@ import java.util.Map;
 public class ACItemRegistry {
     private static Map<RegistryObject<Item>, ResourceKey<Biome>> creativeTabSpawnEggMap = new LinkedHashMap<>();
     public static final Rarity RARITY_DEMONIC = Rarity.create("alexscaves:demonic", ChatFormatting.DARK_RED);
+    public static final Rarity RARITY_NUCLEAR = Rarity.create("alexscaves:nuclear", ChatFormatting.GREEN);
     public static final ACArmorMaterial PRIMORDIAL_ARMOR_MATERIAL = new ACArmorMaterial("primordial", 20, new int[]{3, 4, 3, 2}, 25, SoundEvents.ARMOR_EQUIP_LEATHER, 0F);
     public static final ACArmorMaterial HAZMAT_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("hazmat_suit", 20, new int[]{2, 4, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 0.5F);
     public static final ACArmorMaterial DIVING_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("diving_suit", 20, new int[]{2, 5, 6, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 1F);
@@ -78,6 +80,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> TRILOCARIS_TAIL = DEF_REG.register("trilocaris_tail", () -> new Item(new Item.Properties().food(ACFoods.TRILOCARIS_TAIL)));
     public static final RegistryObject<Item> COOKED_TRILOCARIS_TAIL = DEF_REG.register("cooked_trilocaris_tail", () -> new Item(new Item.Properties().food(ACFoods.TRILOCARIS_TAIL_COOKED)));
     public static final RegistryObject<Item> PINE_NUTS = DEF_REG.register("pine_nuts", () -> new Item(new Item.Properties().food(ACFoods.PINE_NUTS)));
+    public static final RegistryObject<Item> PEWEN_SAP = DEF_REG.register("pewen_sap", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> AMBER_CURIOSITY = DEF_REG.register("amber_curiosity", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DINOSAUR_NUGGET = DEF_REG.register("dinosaur_nugget", () -> new Item(new Item.Properties().food(ACFoods.DINOSAUR_NUGGETS)));
     public static final RegistryObject<Item> SERENE_SALAD = DEF_REG.register("serene_salad", () -> new PrehistoricMixtureItem(new Item.Properties().stacksTo(1).food(ACFoods.SERENE_SALAD)));
@@ -92,6 +95,10 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> PRIMORDIAL_PANTS = DEF_REG.register("primordial_pants", () -> new PrimordialArmorItem(PRIMORDIAL_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> LIMESTONE_SPEAR = DEF_REG.register("limestone_spear", () -> new LimestoneSpearItem(new Item.Properties().stacksTo(16)));
     public static final RegistryObject<Item> LIMESTONE_SPEAR_SPRITE = DEF_REG.register("limestone_spear_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> OMINOUS_CATALYST = DEF_REG.register("ominous_catalyst", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant()));
+    public static final RegistryObject<Item> TECTONIC_SHARD = DEF_REG.register("tectonic_shard", () -> new Item(new Item.Properties().rarity(RARITY_DEMONIC).fireResistant()));
+    public static final RegistryObject<Item> EXTINCTION_SPEAR = DEF_REG.register("extinction_spear", () -> new ExtinctionSpearItem(new Item.Properties().durability(1300).rarity(RARITY_DEMONIC).fireResistant()));
+    public static final RegistryObject<Item> EXTINCTION_SPEAR_SPRITE = DEF_REG.register("extinction_spear_inventory", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DINOSAUR_POTTERY_SHERD = DEF_REG.register("dinosaur_pottery_sherd", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> FOOTPRINT_POTTERY_SHERD = DEF_REG.register("footprint_pottery_sherd", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> DINOSAUR_TRAIN = DEF_REG.register("dinosaur_train", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
@@ -117,6 +124,8 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> CHARRED_REMNANT = DEF_REG.register("charred_remnant", () -> new RadioactiveItem(new Item.Properties(), 0.0005F));
     public static final RegistryObject<Item> REMOTE_DETONATOR = DEF_REG.register("remote_detonator", () -> new RemoteDetonatorItem());
     public static final RegistryObject<Item> RAYGUN = DEF_REG.register("raygun", () -> new RaygunItem());
+    public static final RegistryObject<Item> MUSIC_DISC_FUSION_FRAGMENT = DEF_REG.register("disc_fragment_fusion", () -> new DiscFragmentItem(new Item.Properties()));
+    public static final RegistryObject<Item> MUSIC_DISC_FUSION = DEF_REG.register("music_disc_fusion", () -> new RecordItem(14, ACSoundRegistry.FUSIONC_MUSIC_DISC, new Item.Properties().stacksTo(1).rarity(RARITY_NUCLEAR), 237 * 20));
     public static final RegistryObject<Item> LANTERNFISH_BUCKET = DEF_REG.register("lanternfish_bucket", () -> new ModFishBucketItem(ACEntityRegistry.LANTERNFISH, () -> Fluids.WATER, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public static final RegistryObject<Item> LANTERNFISH = DEF_REG.register("lanternfish", () -> new Item(new Item.Properties().food(ACFoods.LANTERNFISH)));
     public static final RegistryObject<Item> COOKED_LANTERNFISH = DEF_REG.register("cooked_lanternfish", () -> new Item(new Item.Properties().food(ACFoods.LANTERNFISH_COOKED)));
@@ -142,7 +151,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> INK_BOMB = DEF_REG.register("ink_bomb", () -> new InkBombItem(new Item.Properties(), false));
     public static final RegistryObject<Item> GLOW_INK_BOMB = DEF_REG.register("glow_ink_bomb", () -> new InkBombItem(new Item.Properties(), true));
     public static final RegistryObject<Item> MAGIC_CONCH = DEF_REG.register("magic_conch", () -> new MagicConchItem(new Item.Properties().defaultDurability(5).rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> SEA_STAFF = DEF_REG.register("sea_staff", () -> new SeaStaffItem(new Item.Properties().defaultDurability(256).rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SEA_STAFF = DEF_REG.register("sea_staff", () -> new SeaStaffItem(new Item.Properties().defaultDurability(850).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> SEA_STAFF_SPRITE = DEF_REG.register("sea_staff_inventory", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ORTHOLANCE = DEF_REG.register("ortholance", () -> new OrtholanceItem(new Item.Properties().defaultDurability(340).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> ORTHOLANCE_SPRITE = DEF_REG.register("ortholance_inventory", () -> new Item(new Item.Properties()));
@@ -152,6 +161,7 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> BIOLUMINESCENT_TORCH = DEF_REG.register("bioluminescent_torch", () -> new StandingAndWallBlockItem(ACBlockRegistry.BIOLUMINESCENT_TORCH.get(), ACBlockRegistry.BIOLUMINESCENT_WALL_TORCH.get(), new Item.Properties(), Direction.DOWN));
     public static final RegistryObject<Item> GAME_CONTROLLER = DEF_REG.register("game_controller", () -> new Item(new Item.Properties().rarity(Rarity.RARE)));
     public static final RegistryObject<Item> STINKY_FISH = DEF_REG.register("stinky_fish", () -> new Item(new Item.Properties().rarity(Rarity.RARE).food(ACFoods.STINKY_FISH)));
+    public static final RegistryObject<Item> IMMORTAL_EMBRYO = DEF_REG.register("immortal_embryo", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
     public static final RegistryObject<Item> GUANO = DEF_REG.register("guano", () -> new ThrownProjectileItem(new Item.Properties(), player -> new GuanoEntity(player.level(), player), 0.0F, 1.0F, 1.0F));
     public static final RegistryObject<Item> MOTH_DUST = DEF_REG.register("moth_dust", () -> new MothDustItem());
     public static final RegistryObject<Item> FERTILIZER = DEF_REG.register("fertilizer", () -> new FertilizerItem());
@@ -191,11 +201,14 @@ public class ACItemRegistry {
         spawnEgg("trilocaris", ACEntityRegistry.TRILOCARIS, 0X713E0D, 0X8B2010, ACBiomeRegistry.PRIMORDIAL_CAVES);
         spawnEgg("tremorsaurus", ACEntityRegistry.TREMORSAURUS, 0X53780E, 0XDFA211, ACBiomeRegistry.PRIMORDIAL_CAVES);
         spawnEgg("relicheirus", ACEntityRegistry.RELICHEIRUS, 0X6AE4F9, 0X5B2152, ACBiomeRegistry.PRIMORDIAL_CAVES);
+        spawnEgg("luxtructosaurus", ACEntityRegistry.LUXTRUCTOSAURUS, 0X1F0E15, 0XB30C03, ACBiomeRegistry.PRIMORDIAL_CAVES);
+        spawnEgg("atlatitan", ACEntityRegistry.ATLATITAN, 0XB67000, 0XBFBAA4, ACBiomeRegistry.PRIMORDIAL_CAVES);
         spawnEgg("nucleeper", ACEntityRegistry.NUCLEEPER, 0X95A1A5, 0X00FF00, ACBiomeRegistry.TOXIC_CAVES);
         spawnEgg("radgill", ACEntityRegistry.RADGILL, 0X43302C, 0XE8E400, ACBiomeRegistry.TOXIC_CAVES);
         spawnEgg("brainiac", ACEntityRegistry.BRAINIAC, 0X3E5136, 0XE87C9E, ACBiomeRegistry.TOXIC_CAVES);
         spawnEgg("gammaroach", ACEntityRegistry.GAMMAROACH, 0X56682A, 0X2A2B19, ACBiomeRegistry.TOXIC_CAVES);
         spawnEgg("raycat", ACEntityRegistry.RAYCAT, 0X67FF00, 0X030A00, ACBiomeRegistry.TOXIC_CAVES);
+        spawnEgg("tremorzilla", ACEntityRegistry.TREMORZILLA, 0X574D2F, 0X8CFF08, ACBiomeRegistry.TOXIC_CAVES);
         spawnEgg("lanternfish", ACEntityRegistry.LANTERNFISH, 0X182538, 0XECA500, ACBiomeRegistry.ABYSSAL_CHASM);
         spawnEgg("sea_pig", ACEntityRegistry.SEA_PIG, 0XFFA3B9, 0XF88672, ACBiomeRegistry.ABYSSAL_CHASM);
         spawnEgg("hullbreaker", ACEntityRegistry.HULLBREAKER, 0X182538, 0X76FFFD, ACBiomeRegistry.ABYSSAL_CHASM);
@@ -276,6 +289,7 @@ public class ACItemRegistry {
         });
         LecternBooks.BOOKS.put(CAVE_BOOK.getId(), new LecternBooks.BookData(0X81301C, 0XFDF8EC));
         ComposterBlock.COMPOSTABLES.put(PINE_NUTS.get(), 0.5F);
+        ComposterBlock.COMPOSTABLES.put(PEWEN_SAP.get(), 0.2F);
         ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.PEWEN_SAPLING.get().asItem(), 0.3F);
         ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.PEWEN_PINES.get().asItem(), 0.3F);
         ComposterBlock.COMPOSTABLES.put(ACBlockRegistry.PEWEN_BRANCH.get().asItem(), 0.3F);

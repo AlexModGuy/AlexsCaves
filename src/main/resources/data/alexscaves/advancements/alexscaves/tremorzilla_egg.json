@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:tremorzilla_egg"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.tremorzilla_egg.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.tremorzilla_egg.desc"
+        },
+        "hidden": true
+    },
+    "parent": "alexscaves:alexscaves/nuclear_bomb",
+    "criteria": {
+        "quarry": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:tremorzilla_egg"]
+                    }
+                ]
+            }
+        }
+    }
+}

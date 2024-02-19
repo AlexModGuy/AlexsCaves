@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 public class RelicheirusRenderer extends MobRenderer<RelicheirusEntity, RelicheirusModel> {
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/relicheirus.png");
     private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/relicheirus_retro.png");
+    private static final ResourceLocation TEXTURE_TECTONIC = new ResourceLocation("alexscaves:textures/entity/relicheirus_tectonic.png");
 
     public RelicheirusRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new RelicheirusModel(), 1.0F);
@@ -21,7 +22,7 @@ public class RelicheirusRenderer extends MobRenderer<RelicheirusEntity, Relichei
     }
 
     public ResourceLocation getTextureLocation(RelicheirusEntity entity) {
-        return entity.isRetro() ? TEXTURE_RETRO : TEXTURE;
+        return entity.getAltSkin() == 2 ? TEXTURE_TECTONIC : entity.getAltSkin() == 1 ? TEXTURE_RETRO : TEXTURE;
     }
 }
 

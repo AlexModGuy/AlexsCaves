@@ -51,11 +51,12 @@ public class WaterBoltEntity extends Projectile {
     private int trailPointer = -1;
 
     private boolean spawnedSplash = false;
-
     private int wooshSoundTime = 0;
     private int dieIn = -1;
-
     private boolean playedSplashSound;
+
+    public boolean ricochet = false;
+    public float seekAmount = 0.3F;
 
     public WaterBoltEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -87,9 +88,10 @@ public class WaterBoltEntity extends Projectile {
         super.tick();
         if (!level().isClientSide) {
             Entity arcTowards = getArcingTowards();
-            if (arcTowards != null && tickCount > 3 && dieIn == -1 && this.distanceTo(arcTowards) > 1.5F && tickCount < 20) {
-                Vec3 arcVec = arcTowards.position().add(0, 0.3 * arcTowards.getBbHeight(), 0).subtract(this.position()).normalize();
-                this.setDeltaMovement(this.getDeltaMovement().add(arcVec.scale(0.3F)));
+            if (arcTowards != null && (tickCount > 3 || seekAmount > 0.3) && dieIn == -1 && this.distanceTo(arcTowards) > 1.5F && (tickCount < 20 || seekAmount > 0.3 && tickCount < 40)) {
+                Vec3 arcVec = arcTowards.position().add(0, 0.85F * arcTowards.getBbHeight(), 0).subtract(this.position()).normalize();
+                float prevDeltaScale = 1.0F - (seekAmount - 0.3F) * 0.3F;
+                this.setDeltaMovement(this.getDeltaMovement().scale(prevDeltaScale).add(arcVec.scale(seekAmount)));
             }
         } else {
             for (int j = 0; j < 3 + random.nextInt(2); ++j) {
@@ -215,8 +217,10 @@ public class WaterBoltEntity extends Projectile {
         Entity owner = this.getOwner();
         DamageSource source = damageSources().mobProjectile(this, (owner instanceof LivingEntity living1 ? living1 : null));
         AABB bashBox = this.getBoundingBox().inflate(2.0D, 2, 2.0D);
+        Entity lastHitMob = null;
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
             if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity)) {
+                lastHitMob = entity;
                 if (entity.hurt(source, 3.0F) && this.isBubbling()) {
                     entity.addEffect(new MobEffectInstance(ACEffectRegistry.BUBBLED.get(), 200));
                     if (!entity.level().isClientSide) {
@@ -224,6 +228,32 @@ public class WaterBoltEntity extends Projectile {
                     }
                 }
             }
+        }
+        if(ricochet && lastHitMob != null){
+            ricochet = false;
+            onRicochetHit(lastHitMob);
+        }
+    }
+
+    private void onRicochetHit(Entity hitBy) {
+        Entity owner = this.getOwner();
+        AABB searchBox = hitBy.getBoundingBox().inflate(32.0D, 32.0D, 32.0D);
+        Entity ricochetTo = null;
+        for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, searchBox)) {
+            if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity) && !entity.is(hitBy) && (owner == null || !entity.is(owner) && !entity.isAlliedTo(owner)) && entity.distanceTo(hitBy) > 3.0D) {
+                if(ricochetTo == null || ricochetTo.distanceTo(hitBy) > entity.distanceTo(hitBy)){
+                    ricochetTo = entity;
+                }
+            }
+        }
+        if(ricochetTo != null && owner instanceof LivingEntity living){
+            WaterBoltEntity bolt = new WaterBoltEntity(level(), living);
+            bolt.copyPosition(this);
+            bolt.setArcingTowards(ricochetTo.getUUID());
+            Vec3 arcVec = ricochetTo.position().add(0, 0.3F + 1 * ricochetTo.getBbHeight(), 0).subtract(this.position()).normalize();
+            bolt.setDeltaMovement(bolt.getDeltaMovement().add(arcVec));
+            bolt.setBubbling(this.isBubbling());
+            level().addFreshEntity(bolt);
         }
     }
 

@@ -417,9 +417,16 @@ public class CaveBookScreen extends Screen {
         RenderSystem.setShaderLights(light0, light1);
     }
 
-    public boolean isEntryVisible(String linkTo) {
+    public int getEntryVisiblity(String linkTo) {
         ResourceLocation resourceLocation = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + linkTo);
         BookEntry dummyEntry = readBookEntry(resourceLocation);
-        return dummyEntry != null && dummyEntry.isUnlocked(this) || Minecraft.getInstance().player != null && Minecraft.getInstance().player.isCreative();
+        int visiblity = 0;
+        if(dummyEntry != null){
+            visiblity = dummyEntry.getVisibility(this);
+        }
+        if(visiblity != 2 && Minecraft.getInstance().player != null && Minecraft.getInstance().player.isCreative()){
+            visiblity = 0;
+        }
+        return visiblity;
     }
 }

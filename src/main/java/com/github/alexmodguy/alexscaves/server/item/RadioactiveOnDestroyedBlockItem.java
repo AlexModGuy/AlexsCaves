@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.RegistryObject;
 
-public class RadioactiveOnDestroyedBlockItem extends RadioactiveBlockItem{
+public class RadioactiveOnDestroyedBlockItem extends RadioactiveBlockItem {
 
     public RadioactiveOnDestroyedBlockItem(RegistryObject<Block> blockSupplier, Properties props, float randomChanceOfRadiation) {
         super(blockSupplier, props, randomChanceOfRadiation);

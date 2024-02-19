@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/atlatitan_stomp.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.atlatitan_stomp.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.atlatitan_stomp.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/defeat_luxtructosaurus",
+  "criteria": {
+    "atlatitan_stomp": {
+      "trigger": "alexscaves:atlatitan_stomp"
+    }
+  }
+}

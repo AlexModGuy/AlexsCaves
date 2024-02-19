@@ -15,10 +15,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -33,7 +30,9 @@ public class WaveEntity extends Entity {
 
     private static final EntityDataAccessor<Boolean> SLAMMING = SynchedEntityData.defineId(WaveEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> LIFESPAN = SynchedEntityData.defineId(WaveEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> WAITING_TICKS = SynchedEntityData.defineId(WaveEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> Y_ROT = SynchedEntityData.defineId(WaveEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> WAVE_SCALE = SynchedEntityData.defineId(WaveEntity.class, EntityDataSerializers.FLOAT);
     @Nullable
     private LivingEntity owner;
     @Nullable
@@ -50,6 +49,7 @@ public class WaveEntity extends Entity {
     private double lxd;
     private double lyd;
     private double lzd;
+    public int activeWaveTicks;
 
     public WaveEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -90,7 +90,9 @@ public class WaveEntity extends Entity {
     protected void defineSynchedData() {
         this.getEntityData().define(SLAMMING, false);
         this.getEntityData().define(LIFESPAN, 10);
+        this.getEntityData().define(WAITING_TICKS, 0);
         this.getEntityData().define(Y_ROT, 0F);
+        this.getEntityData().define(WAVE_SCALE, 1F);
 
     }
 
@@ -135,12 +137,28 @@ public class WaveEntity extends Entity {
         this.entityData.set(LIFESPAN, time);
     }
 
+    public int getWaitingTicks() {
+        return this.entityData.get(WAITING_TICKS);
+    }
+
+    public void setWaitingTicks(int time) {
+        this.entityData.set(WAITING_TICKS, time);
+    }
+
     public boolean isSlamming() {
         return this.entityData.get(SLAMMING);
     }
 
     public void setSlamming(boolean bool) {
         this.entityData.set(SLAMMING, bool);
+    }
+
+    public float getWaveScale() {
+        return this.entityData.get(WAVE_SCALE);
+    }
+
+    public void setWaveScale(float waveScale) {
+        this.entityData.set(WAVE_SCALE, waveScale);
     }
 
     private void spawnParticleAt(float yOffset, float zOffset, float xOffset, ParticleOptions particleType) {
@@ -155,6 +173,17 @@ public class WaveEntity extends Entity {
     public void tick() {
         super.tick();
         prevSlamProgress = slamProgress;
+        if(this.getWaitingTicks() > 0){
+            if(!level().isClientSide){
+                this.setWaitingTicks(this.getWaitingTicks() - 1);
+            }
+            this.setInvisible(true);
+            return;
+        }else{
+            if(this.isInvisible()){
+                this.setInvisible(false);
+            }
+        }
         if (isSlamming() && slamProgress < 10.0F) {
             slamProgress += 1F;
         }
@@ -164,8 +193,7 @@ public class WaveEntity extends Entity {
         if (!this.isNoGravity() && !this.isInWaterOrBubble()) {
             this.setDeltaMovement(this.getDeltaMovement().add(0.0D, (double) -0.04F, 0.0D));
         }
-
-        float f = Math.min(this.tickCount / 10F, 1F);
+        float f = Math.min(this.activeWaveTicks / 10F, 1F);
         Vec3 directionVec = new Vec3(0, 0, f * f * 0.2F).yRot((float) Math.toRadians(-this.getYRot()));
         if (this.level().isClientSide) {
             if (this.lSteps > 0) {
@@ -179,24 +207,27 @@ public class WaveEntity extends Entity {
             } else {
                 this.reapplyPosition();
             }
-            for (int i = 0; i <= 4; i++) {
-                float xOffset = (float) i / 4F - 0.5F;
-                spawnParticleAt(0.2F + random.nextFloat() * 0.2F, 1.2F, xOffset * 1.2F, ACParticleRegistry.WATER_FOAM.get());
-                spawnParticleAt(0.2F + random.nextFloat() * 0.2F, -0.2F, xOffset * 1.4F, ParticleTypes.SPLASH);
+            for(int particleCount = 0; particleCount < getWaveScale(); particleCount++){
+                for (int i = 0; i <= 4; i++) {
+                    float xOffset = (float) i / 4F - 0.5F + (random.nextFloat() - 0.5F) * 0.2F;
+                    spawnParticleAt((0.2F + random.nextFloat() * 0.2F) * this.getWaveScale(), 1.2F, xOffset * 1.2F * this.getWaveScale(), ACParticleRegistry.WATER_FOAM.get());
+                    spawnParticleAt((0.2F + random.nextFloat() * 0.2F) * this.getWaveScale(), -0.2F, xOffset * 1.4F * this.getWaveScale(), ParticleTypes.SPLASH);
+                }
             }
         } else {
             this.reapplyPosition();
             this.setRot(this.getYRot(), this.getXRot());
         }
         if (!level().isClientSide) {
-            attackEntities(getSlamAmount(1.0F) * 2 + 1);
+            attackEntities(getSlamAmount(1.0F) * 2 + 1 + this.getWaveScale());
         }
         Vec3 vec3 = this.getDeltaMovement().scale(0.9F).add(directionVec);
         this.move(MoverType.SELF, vec3);
         this.setDeltaMovement(vec3.multiply((double) 0.99F, (double) 0.98F, (double) 0.99F));
-        if (this.tickCount > getLifespan() || this.tickCount > 10 && this.getDeltaMovement().horizontalDistance() < 0.04) {
+        if (this.activeWaveTicks > getLifespan() || this.activeWaveTicks > 10 && this.getDeltaMovement().horizontalDistance() < 0.04) {
             this.setSlamming(true);
         }
+        activeWaveTicks++;
     }
 
     private void attackEntities(float scale) {
@@ -209,6 +240,18 @@ public class WaveEntity extends Entity {
                 entity.knockback(0.1D + 0.5D * scale, (double) Mth.sin(this.getYRot() * ((float) Math.PI / 180F)), (double) (-Mth.cos(this.getYRot() * ((float) Math.PI / 180F))));
             }
         }
+    }
+
+    public void onSyncedDataUpdated(EntityDataAccessor<?> dataAccessor) {
+        if (WAVE_SCALE.equals(dataAccessor)) {
+            this.refreshDimensions();
+        }
+        super.onSyncedDataUpdated(dataAccessor);
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        return super.getDimensions(pose).scale(this.getWaveScale());
     }
 
     @Override
@@ -229,5 +272,4 @@ public class WaveEntity extends Entity {
         this.lzd = lerpZ;
         this.setDeltaMovement(this.lxd, this.lyd, this.lzd);
     }
-
 }

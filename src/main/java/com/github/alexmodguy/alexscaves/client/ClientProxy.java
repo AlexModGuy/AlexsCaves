@@ -72,7 +72,7 @@ import java.util.*;
 
 public class ClientProxy extends CommonProxy {
 
-    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true", "alexscaves:abyssmarine_", "alexscaves:peering_coprolith#", "alexscaves:forsaken_idol#", "alexscaves:magnetic_light#");
+    private static final List<String> FULLBRIGHTS = ImmutableList.of("alexscaves:ambersol#", "alexscaves:radrock_uranium_ore#", "alexscaves:acidic_radrock#", "alexscaves:uranium_rod#axis=x", "alexscaves:uranium_rod#axis=y", "alexscaves:uranium_rod#axis=z", "alexscaves:block_of_uranium#", "alexscaves:abyssal_altar#active=true", "alexscaves:abyssmarine_", "alexscaves:peering_coprolith#", "alexscaves:forsaken_idol#", "alexscaves:magnetic_light#", "alexscaves:tremorzilla_egg#");
     public static final ResourceLocation BOMB_FLASH = new ResourceLocation(AlexsCaves.MODID, "textures/misc/bomb_flash.png");
     public static final ResourceLocation WATCHER_EFFECT = new ResourceLocation(AlexsCaves.MODID, "textures/misc/watcher_effect.png");
     public static final ResourceLocation IRRADIATED_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/irradiated.json");
@@ -86,6 +86,10 @@ public class ClientProxy extends CommonProxy {
     public static Map<LivingEntity, Integer> darknessTrailPointerMap = new HashMap<>();
     public static int muteNonNukeSoundsFor = 0;
     public static int renderNukeFlashFor = 0;
+    public static boolean primordialBossActive = false;
+    public static float prevPrimordialBossActiveAmount = 0;
+    public static float primordialBossActiveAmount = 0;
+    public static ClientLevel lastBossLevel;
     public static float prevNukeFlashAmount = 0;
     public static float nukeFlashAmount = 0;
     public static float prevPossessionStrengthAmount = 0;
@@ -100,11 +104,12 @@ public class ClientProxy extends CommonProxy {
     public static boolean hasACSplashText = false;
     public static CameraType lastPOV = CameraType.FIRST_PERSON;
     public static int shaderLoadAttemptCooldown = 0;
-
     public static Vec3 lastBiomeLightColor = Vec3.ZERO;
     public static float lastBiomeAmbientLightAmount = 0;
     public static Vec3 lastBiomeLightColorPrev = Vec3.ZERO;
     public static float lastBiomeAmbientLightAmountPrev = 0;
+    public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
+    private static Entity lastCameraEntity;
 
     public void commonInit() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -153,7 +158,13 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.TREMORSAURUS.get(), TremorsaurusRenderer::new);
         EntityRenderers.register(ACEntityRegistry.RELICHEIRUS.get(), RelicheirusRenderer::new);
         EntityRenderers.register(ACEntityRegistry.FALLING_TREE_BLOCK.get(), FallingTreeBlockRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.CRUSHED_BLOCK.get(), CrushedBlockRenderer::new);
         EntityRenderers.register(ACEntityRegistry.LIMESTONE_SPEAR.get(), LimestoneSpearRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.EXTINCTION_SPEAR.get(), ExtinctionSpearRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.DINOSAUR_SPIRIT.get(), DinosaurSpiritRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.LUXTRUCTOSAURUS.get(), LuxtructosaurusRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.TEPHRA.get(), TephraRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.ATLATITAN.get(), AtlatitanRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NUCLEAR_EXPLOSION.get(), EmptyRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NUCLEAR_BOMB.get(), NuclearBombRenderer::new);
         EntityRenderers.register(ACEntityRegistry.NUCLEEPER.get(), NucleeperRenderer::new);
@@ -165,6 +176,7 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.CINDER_BRICK.get(), (context) -> {
             return new ThrownItemRenderer<>(context, 1.25F, false);
         });
+        EntityRenderers.register(ACEntityRegistry.TREMORZILLA.get(), TremorzillaRenderer::new);
         EntityRenderers.register(ACEntityRegistry.LANTERNFISH.get(), LanternfishRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SEA_PIG.get(), SeaPigRenderer::new);
         EntityRenderers.register(ACEntityRegistry.SUBMARINE.get(), SubmarineRenderer::new);
@@ -216,6 +228,9 @@ public class ClientProxy extends CommonProxy {
         ItemProperties.register(ACItemRegistry.LIMESTONE_SPEAR.get(), new ResourceLocation("throwing"), (stack, level, living, j) -> {
             return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
         });
+        ItemProperties.register(ACItemRegistry.EXTINCTION_SPEAR.get(), new ResourceLocation("throwing"), (stack, level, living, j) -> {
+            return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;
+        });
         ItemProperties.register(ACItemRegistry.REMOTE_DETONATOR.get(), new ResourceLocation("active"), (stack, level, living, j) -> {
             return RemoteDetonatorItem.isActive(stack) ? 1.0F : 0.0F;
         });
@@ -254,11 +269,20 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ACParticleRegistry.WATER_TREMOR.get(), WaterTremorParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.AMBER_MONOLITH.get(), AmberMonolithParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.AMBER_EXPLOSION.get(), SmallExplosionParticle.AmberFactory::new);
+        registry.registerSpecial(ACParticleRegistry.DINOSAUR_TRANSFORMATION_AMBER.get(), new DinosaurTransformParticle.AmberFactory());
+        registry.registerSpecial(ACParticleRegistry.DINOSAUR_TRANSFORMATION_TECTONIC.get(), new DinosaurTransformParticle.TectonicFactory());
         registry.registerSpecial(ACParticleRegistry.STUN_STAR.get(), new StunStarParticle.Factory());
+        registry.registerSpriteSet(ACParticleRegistry.TEPHRA.get(), TephraParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TEPHRA_SMALL.get(), TephraParticle.SmallFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TEPHRA_FLAME.get(), TephraParticle.FlameFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.LUXTRUCTOSAURUS_SPIT.get(), LuxtructosaurusSpitParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.LUXTRUCTOSAURUS_ASH.get(), LuxtructosaurusAshParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.HAPPINESS.get(), HappinessParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.ACID_BUBBLE.get(), AcidBubbleParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.BLACK_VENT_SMOKE.get(), VentSmokeParticle.BlackFactory::new);
         registry.registerSpriteSet(ACParticleRegistry.WHITE_VENT_SMOKE.get(), VentSmokeParticle.WhiteFactory::new);
         registry.registerSpriteSet(ACParticleRegistry.GREEN_VENT_SMOKE.get(), VentSmokeParticle.GreenFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.RED_VENT_SMOKE.get(), VentSmokeParticle.RedFactory::new);
         registry.registerSpecial(ACParticleRegistry.MUSHROOM_CLOUD.get(), new MushroomCloudParticle.Factory());
         registry.registerSpriteSet(ACParticleRegistry.MUSHROOM_CLOUD_SMOKE.get(), SmallExplosionParticle.NukeFactory::new);
         registry.registerSpriteSet(ACParticleRegistry.MUSHROOM_CLOUD_EXPLOSION.get(), SmallExplosionParticle.NukeFactory::new);
@@ -266,11 +290,24 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ACParticleRegistry.FALLOUT.get(), FalloutParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.GAMMAROACH.get(), GammaroachParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.HAZMAT_BREATHE.get(), HazmatBreatheParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.BLUE_HAZMAT_BREATHE.get(), HazmatBreatheParticle.BlueFactory::new);
         registry.registerSpriteSet(ACParticleRegistry.RADGILL_SPLASH.get(), RadgillSplashParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.ACID_DROP.get(), AcidDropParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.NUCLEAR_SIREN_SONAR.get(), NuclearSirenSonarParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.RAYGUN_EXPLOSION.get(), SmallExplosionParticle.RaygunFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.BLUE_RAYGUN_EXPLOSION.get(), SmallExplosionParticle.BlueRaygunFactory::new);
         registry.registerSpriteSet(ACParticleRegistry.RAYGUN_BLAST.get(), RaygunBlastParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_EXPLOSION.get(), SmallExplosionParticle.TremorzillaFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_RETRO_EXPLOSION.get(), SmallExplosionParticle.TremorzillaRetroFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_TECTONIC_EXPLOSION.get(), SmallExplosionParticle.TremorzillaTectonicFactory::new);
+        registry.registerSpecial(ACParticleRegistry.TREMORZILLA_PROTON.get(), new TremorzillaProtonParticle.Factory());
+        registry.registerSpecial(ACParticleRegistry.TREMORZILLA_RETRO_PROTON.get(), new TremorzillaProtonParticle.RetroFactory());
+        registry.registerSpecial(ACParticleRegistry.TREMORZILLA_TECTONIC_PROTON.get(), new TremorzillaProtonParticle.TectonicFactory());
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_LIGHTNING.get(), TremorzillaLightningParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_RETRO_LIGHTNING.get(), TremorzillaLightningParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_TECTONIC_LIGHTNING.get(), TremorzillaLightningParticle.Factory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_BLAST.get(), RaygunBlastParticle.TremorzillaFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TREMORZILLA_STEAM.get(), TremorzillaSteamParticle.Factory::new);
         registry.registerSpecial(ACParticleRegistry.TUBE_WORM.get(), new TubeWormParticle.Factory());
         registry.registerSpriteSet(ACParticleRegistry.DEEP_ONE_MAGIC.get(), DeepOneMagicParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.WATER_FOAM.get(), WaterFoamParticle.Factory::new);
@@ -289,6 +326,7 @@ public class ClientProxy extends CommonProxy {
         registry.registerSpriteSet(ACParticleRegistry.FORSAKEN_SPIT.get(), ForsakenSpitParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.FORSAKEN_SONAR.get(), ForsakenSonarParticle.Factory::new);
         registry.registerSpriteSet(ACParticleRegistry.FORSAKEN_SONAR_LARGE.get(), ForsakenSonarParticle.LargeFactory::new);
+        registry.registerSpriteSet(ACParticleRegistry.TOTEM_EXPLOSION.get(), SmallExplosionParticle.TotemFactory::new);
     }
 
     public void onItemColors(RegisterColorHandlersEvent.Item event) {
@@ -316,8 +354,10 @@ public class ClientProxy extends CommonProxy {
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_ferrouslime_gel"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeFerrouslimeGelShader);
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_hologram"), DefaultVertexFormat.POSITION_COLOR), ACInternalShaders::setRenderTypeHologramShader);
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_irradiated"), DefaultVertexFormat.POSITION_COLOR_TEX), ACInternalShaders::setRenderTypeIrradiatedShader);
+            e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_blue_irradiated"), DefaultVertexFormat.POSITION_COLOR_TEX), ACInternalShaders::setRenderTypeBlueIrradiatedShader);
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_bubbled"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeBubbledShader);
             e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_sepia"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeSepiaShader);
+            e.registerShader(new ShaderInstance(e.getResourceProvider(), new ResourceLocation(AlexsCaves.MODID, "rendertype_red_ghost"), DefaultVertexFormat.NEW_ENTITY), ACInternalShaders::setRenderTypeRedGhostShader);
             AlexsCaves.LOGGER.info("registered internal shaders");
         } catch (IOException exception) {
             AlexsCaves.LOGGER.error("could not register internal shaders");
@@ -346,6 +386,10 @@ public class ClientProxy extends CommonProxy {
 
     public float getNukeFlashAmount(float partialTicks) {
         return prevNukeFlashAmount + (nukeFlashAmount - prevNukeFlashAmount) * partialTicks;
+    }
+
+    public float getPrimordialBossActiveAmount(float partialTicks) {
+        return prevPrimordialBossActiveAmount + (primordialBossActiveAmount - prevPrimordialBossActiveAmount) * partialTicks;
     }
 
     public float getPossessionStrengthAmount(float partialTicks) {
@@ -423,26 +467,26 @@ public class ClientProxy extends CommonProxy {
     }
 
     public void setRenderViewEntity(Player player, Entity entity) {
-        boolean flag = entity != Minecraft.getInstance().getCameraEntity();
         if (player == Minecraft.getInstance().player && Minecraft.getInstance().getCameraEntity() == Minecraft.getInstance().player) {
             lastPOV = Minecraft.getInstance().options.getCameraType();
             Minecraft.getInstance().setCameraEntity(entity);
             Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
         }
-        if (flag) {
+        if (lastCameraEntity != Minecraft.getInstance().getCameraEntity()) {
             Minecraft.getInstance().levelRenderer.allChanged();
+            lastCameraEntity = Minecraft.getInstance().getCameraEntity();
         }
     }
 
     public void resetRenderViewEntity(Player player) {
-        boolean flag = Minecraft.getInstance().player != Minecraft.getInstance().getCameraEntity();
         if (player == Minecraft.getInstance().player) {
             Minecraft.getInstance().level = (ClientLevel) Minecraft.getInstance().player.level();
             Minecraft.getInstance().setCameraEntity(Minecraft.getInstance().player);
             Minecraft.getInstance().options.setCameraType(lastPOV);
         }
-        if (flag) {
+        if (lastCameraEntity != Minecraft.getInstance().getCameraEntity()) {
             Minecraft.getInstance().levelRenderer.allChanged();
+            lastCameraEntity = Minecraft.getInstance().getCameraEntity();
         }
     }
 
@@ -462,7 +506,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (NuclearSirenSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -477,7 +521,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (NucleeperSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -492,7 +536,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (NotorHologramSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -507,7 +551,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (HologramProjectorSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -522,7 +566,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (MagnetSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -537,7 +581,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (UnderzealotSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -552,7 +596,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (CorrodentSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -567,7 +611,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (NuclearFurnaceSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -582,7 +626,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (RaygunSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -597,7 +641,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (ResistorShieldSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -612,7 +656,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (ResistorShieldSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -627,7 +671,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (GalenaGauntletSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -642,7 +686,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (BoundroidSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -657,7 +701,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (FerrouslimeSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -672,7 +716,7 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (QuarrySmasherSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
@@ -687,12 +731,31 @@ public class ClientProxy extends CommonProxy {
                     } else {
                         sound = (SubmarineSound) old;
                     }
-                    if (!Minecraft.getInstance().getSoundManager().isActive(sound) && sound.canPlaySound()) {
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
+                        Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
+                    }
+                }
+                break;
+            case 16:
+                if (soundEmitter instanceof TremorzillaEntity tremorzilla) {
+                    TremorzillaBeamSound sound;
+                    AbstractTickableSoundInstance old = ENTITY_SOUND_INSTANCE_MAP.get(tremorzilla.getId());
+                    if (old == null || !(old instanceof TremorzillaBeamSound tremorzillaBeamSound && tremorzillaBeamSound.isSameEntity(tremorzilla))) {
+                        sound = new TremorzillaBeamSound(tremorzilla);
+                        ENTITY_SOUND_INSTANCE_MAP.put(tremorzilla.getId(), sound);
+                    } else {
+                        sound = (TremorzillaBeamSound) old;
+                    }
+                    if (!isSoundPlaying(sound) && sound.canPlaySound()) {
                         Minecraft.getInstance().getSoundManager().queueTickingSound(sound);
                     }
                 }
                 break;
         }
+    }
+
+    private boolean isSoundPlaying(AbstractTickableSoundInstance sound){
+        return Minecraft.getInstance().getSoundManager().soundEngine.queuedTickableSounds.contains(sound) || Minecraft.getInstance().getSoundManager().soundEngine.tickingSounds.contains(sound);
     }
 
     public void playWorldEvent(int messageId, Level level, BlockPos pos) {
@@ -804,6 +867,38 @@ public class ClientProxy extends CommonProxy {
     @Override
     public Vec3 getCameraRotation() {
         return Vec3.ZERO;
+    }
+
+    public void setPrimordialBossActive(Level level, int id, boolean active){
+        if(level.isClientSide){
+            primordialBossActive = active;
+            if(!active && id != -1){
+                Minecraft.getInstance().getMusicManager().stopPlaying(ACMusics.LUXTRUCTOSAURUS_BOSS_MUSIC);
+            }
+        }else{
+            super.setPrimordialBossActive(level, id, active);
+        }
+    }
+
+    public boolean isPrimordialBossActive(Level level){
+        return level.isClientSide ? primordialBossActive : super.isPrimordialBossActive(level);
+    }
+
+    public static Vec3 processSkyColor(Vec3 colorIn, float partialTick){
+        float primordialAmount = AlexsCaves.PROXY.getPrimordialBossActiveAmount(partialTick);
+        if(primordialAmount > 0.0F){
+            Vec3 targetColor = new Vec3(0.2F, 0.15F, 0.1F);
+            colorIn = colorIn.add(targetColor.subtract(colorIn).scale(primordialAmount));
+        }
+        return colorIn;
+    }
+
+    public void removeBossBarRender(UUID bossBar) {
+        this.bossBarRenderTypes.remove(bossBar);
+    }
+
+    public void setBossBarRender(UUID bossBar, int renderType) {
+        this.bossBarRenderTypes.put(bossBar, renderType);
     }
 }
 

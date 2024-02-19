@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.NuclearSirenBlock;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.util.ActivatesSirens;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -80,7 +81,7 @@ public class NuclearSirenBlockEntity extends BlockEntity {
                     level.sendBlockUpdated(entity.getBlockPos(), entity.getBlockState(), entity.getBlockState(), 2);
                 }
             }
-            if (entity.nearestNuclearBomb == null || entity.nearestNuclearBomb.isRemoved()) {
+            if (entity.nearestNuclearBomb == null || entity.nearestNuclearBomb.isRemoved() || entity.nearestNuclearBomb instanceof ActivatesSirens sirens && sirens.shouldStopBlaringSirens()) {
                 entity.nearestNuclearBomb = null;
                 int prevBombId = entity.bombId;
                 entity.bombId = -1;

@@ -8,6 +8,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
@@ -80,7 +81,11 @@ public class CaveInfoItem extends Item {
                     if(AlexsCaves.COMMON_CONFIG.onlyOneResearchNeeded.get()){
                         player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.add_all", biomeTitle), true);
                     }else{
-                        player.displayClientMessage(Component.translatable("item.alexscaves.cave_codex.add", biomeTitle, Component.translatable("item.alexscaves.cave_book." + subcategory.toString().toLowerCase())), true);
+                        MutableComponent unlocked = Component.translatable("item.alexscaves.cave_codex.add", biomeTitle, Component.translatable("item.alexscaves.cave_book." + subcategory.toString().toLowerCase()));
+                        if(subcategory == CaveBookProgress.Subcategory.SECRETS){
+                            unlocked = unlocked.withStyle(ChatFormatting.LIGHT_PURPLE);
+                        }
+                        player.displayClientMessage(unlocked, true);
                     }
                 }
                 if(!player.isCreative()){

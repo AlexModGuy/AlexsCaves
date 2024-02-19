@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "alexscaves:pewen_branch"
+  },
+  "result": "alexscaves:pewen_sap",
+  "experience": 0.1,
+  "cookingtime": 200
+}

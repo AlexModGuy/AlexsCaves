@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.FlightPathNavigatorNoSp
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -202,7 +203,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new FlightPathNavigatorNoSpin(this, level(), 1.0F);
+        return new AdvancedPathNavigate(this, level(), AdvancedPathNavigate.MovementType.FLYING);
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {

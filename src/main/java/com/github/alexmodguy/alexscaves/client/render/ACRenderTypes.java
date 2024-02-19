@@ -18,9 +18,10 @@ public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_FEROUSSLIME_GEL_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeFerrouslimeGelShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_HOLOGRAM_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeHologramShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeIrradiatedShader);
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_BLUE_IRRADIATED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeBlueIrradiatedShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_BUBBLED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeBubbledShader);
-
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_SEPIA_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeSepiaShader);
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_RED_GHOST_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeRedGhostShader);
 
     protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
         RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
@@ -132,6 +133,16 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+    public static RenderType getBlueRadiationGlow(ResourceLocation locationIn) {
+        return create("blue_radiation_glow", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_BLUE_IRRADIATED_SHADER)
+                .setCullState(NO_CULL)
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setOutputState(IRRADIATED_OUTPUT)
+                .createCompositeState(false));
+    }
     public static RenderType getGelTriangles(ResourceLocation locationIn) {
         return create("ferrouslime_gel_triangles", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
@@ -177,6 +188,19 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+
+    public static RenderType getRedGhost(ResourceLocation locationIn) {
+        return create("red_ghost", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_RED_GHOST_SHADER)
+                .setCullState(NO_CULL)
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setTransparencyState(EYES_ALPHA_TRANSPARENCY)
+                .setWriteMaskState(COLOR_DEPTH_WRITE)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setOverlayState(OVERLAY)
+                .createCompositeState(true));
+    }
+
     public static RenderType getBookWidget(ResourceLocation locationIn, boolean sepia) {
         if(sepia){
             return create("book_widget", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
@@ -213,4 +237,14 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+    public static RenderType getTremorzillaBeam(ResourceLocation locationIn, boolean irradiated) {
+        return create("tremorzilla_beam", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setShaderState(RenderType.RENDERTYPE_ENERGY_SWIRL_SHADER)
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setCullState(NO_CULL)
+                .setLightmapState(LIGHTMAP)
+                .setOutputState(irradiated ? IRRADIATED_OUTPUT : ITEM_ENTITY_TARGET)
+                .createCompositeState(false));
+    }
 }

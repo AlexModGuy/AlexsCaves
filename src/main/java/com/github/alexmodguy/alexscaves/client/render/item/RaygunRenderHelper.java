@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client.render.item;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.item.RaygunItem;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -22,8 +23,9 @@ import org.joml.Matrix4f;
 
 public class RaygunRenderHelper {
 
-    private static final ResourceLocation RAYGUN_RAY = new ResourceLocation("alexscaves:textures/entity/raygun_ray.png");
-    private static void renderRay(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 vec3, float useAmount, float offset, boolean irradiated) {
+    private static final ResourceLocation RAYGUN_RAY = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_ray.png");
+    private static final ResourceLocation RAYGUN_BLUE_RAY = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_blue_ray.png");
+    private static void renderRay(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 vec3, float useAmount, float offset, boolean irradiated, boolean blue) {
         float f2 = -1.0F * (offset * 0.25F % 1.0F);
         poseStack.pushPose();
         float length = (float) (vec3.length());
@@ -44,7 +46,7 @@ public class RaygunRenderHelper {
         if(irradiated){
             PostEffectRegistry.renderEffectForNextTick(ClientProxy.IRRADIATED_SHADER);
         }
-        VertexConsumer ivertexbuilder = bufferSource.getBuffer(ACRenderTypes.getRaygunRay(RAYGUN_RAY, irradiated));
+        VertexConsumer ivertexbuilder = bufferSource.getBuffer(ACRenderTypes.getRaygunRay(blue ? RAYGUN_BLUE_RAY : RAYGUN_RAY, irradiated));
         PoseStack.Pose matrixstack$entry = poseStack.last();
         poseStack.pushPose();
         Matrix4f matrix4f = matrixstack$entry.pose();
@@ -71,16 +73,17 @@ public class RaygunRenderHelper {
             float useRaygunAmount = RaygunItem.getUseTime(stack) / 5F;
             float ageInTicks = entity.tickCount + partialTick;
             Vec3 rayPosition = RaygunItem.getLerpedRayPosition(stack, partialTick);
+            boolean blue = stack.getEnchantmentLevel(ACEnchantmentRegistry.GAMMA_RAY.get()) > 0;
             if (rayPosition != null && RaygunItem.getUseTime(stack) >= 5F) {
                 Vec3 gunPos = getGunOffset(entity, partialTick, firstPerson, entity.getMainArm() == HumanoidArm.LEFT);
                 Vec3 vec3 = rayPosition.subtract(rayFrom.add(gunPos));
                 poseStack.pushPose();
                 poseStack.translate(gunPos.x, gunPos.y, gunPos.z);
                 if(firstPersonPass == 0 || firstPersonPass == 1){
-                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false, blue);
                 }
                 if(firstPersonPass == 0 || firstPersonPass == 2){
-                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true, blue);
                 }
                 poseStack.popPose();
             }
@@ -90,16 +93,17 @@ public class RaygunRenderHelper {
             float useRaygunAmount = RaygunItem.getUseTime(stack) / 5F;
             float ageInTicks = entity.tickCount + partialTick;
             Vec3 rayPosition = RaygunItem.getLerpedRayPosition(stack, partialTick);
+            boolean blue = stack.getEnchantmentLevel(ACEnchantmentRegistry.GAMMA_RAY.get()) > 0;
             if (rayPosition != null && RaygunItem.getUseTime(stack) >= 5F) {
                 Vec3 gunPos = getGunOffset(entity, partialTick, firstPerson, entity.getMainArm() == HumanoidArm.RIGHT);
                 Vec3 vec3 = rayPosition.subtract(rayFrom.add(gunPos));
                 poseStack.pushPose();
                 poseStack.translate(gunPos.x, gunPos.y, gunPos.z);
                 if(firstPersonPass == 0 || firstPersonPass == 1){
-                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false);
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, false, blue);
                 }
                 if(firstPersonPass == 0 || firstPersonPass == 2){
-                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true);
+                    RaygunRenderHelper.renderRay(poseStack, bufferSource, vec3, useRaygunAmount, ageInTicks, true, blue);
                 }
                 poseStack.popPose();
             }

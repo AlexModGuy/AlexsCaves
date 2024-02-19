@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.server.block.EnergizedGalenaBlock;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -93,7 +94,8 @@ public abstract class LevelRendererMixin {
     private void ac_renderSky(PoseStack poseStack, Matrix4f matrix4f2, float partialTick, Camera camera, boolean foggy, Runnable runnable, CallbackInfo ci) {
         //AC CODE START
         float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
-        if(!AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get() || override <= 0.0F){
+        float primordialBoss = AlexsCaves.PROXY.getPrimordialBossActiveAmount(partialTick);
+        if(!AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get() || override <= 0.0F && primordialBoss <= 0.0F){
            return;
         }
         ci.cancel();
@@ -108,6 +110,9 @@ public abstract class LevelRendererMixin {
                     this.renderEndSky(poseStack);
                 } else if (this.minecraft.level.effects().skyType() == DimensionSpecialEffects.SkyType.NORMAL) {
                     Vec3 vec3 = this.level.getSkyColor(this.minecraft.gameRenderer.getMainCamera().getPosition(), partialTick);
+                    //AC CODE START
+                    vec3 = ClientProxy.processSkyColor(vec3, partialTick);
+                    // AC CODE END
                     float f = (float)vec3.x;
                     float f1 = (float)vec3.y;
                     float f2 = (float)vec3.z;
