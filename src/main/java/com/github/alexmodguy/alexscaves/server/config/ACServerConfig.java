@@ -18,6 +18,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.IntValue watcherPossessionCooldown;
     public final ForgeConfigSpec.IntValue amberMonolithMeanTime;
     public final ForgeConfigSpec.BooleanValue nuclearFurnaceBlastingOnly;
+    public final ForgeConfigSpec.BooleanValue nuclearFurnaceCustomType;
     public final ForgeConfigSpec.BooleanValue onlyOneResearchNeeded;
     public final ForgeConfigSpec.IntValue caveMapSearchAttempts;
     public final ForgeConfigSpec.IntValue caveMapSearchWidth;
@@ -59,6 +60,7 @@ public class ACServerConfig {
         builder.push("block-behavior");
         amberMonolithMeanTime = builder.comment("How long (in game ticks) it usually takes for an amber monolith to spawn an animal.").translation("amber_monolith_mean_time").defineInRange("amber_monolith_mean_time", 32000, 1000, Integer.MAX_VALUE);
         nuclearFurnaceBlastingOnly = builder.comment("True if the Nuclear Furnace only uses 'Blasting' recipes, false to use all smelting recipes.").translation("nuclear_furnace_blasting_only").define("nuclear_furnace_blasting_only", true);
+        nuclearFurnaceCustomType = builder.comment("True if the Nuclear Furnace should only use recipes using the `alexscaves:nuclear_furnace` recipe type, false to use regular behavior.").translation("nuclear_furnace_custom_type").define("nuclear_furnace_custom_type", false);
         builder.pop();
         builder.push("item-behavior");
         onlyOneResearchNeeded = builder.comment("True if one Cave Codex is all that is needed to unlock every Cave Compendium entry.").translation("only_one_research_needed").define("only_one_research_needed", false);

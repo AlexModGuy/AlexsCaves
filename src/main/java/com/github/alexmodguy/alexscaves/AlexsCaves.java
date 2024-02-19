@@ -115,6 +115,7 @@ public class AlexsCaves {
         ACEffectRegistry.POTION_DEF_REG.register(modEventBus);
         ACMenuRegistry.DEF_REG.register(modEventBus);
         ACRecipeRegistry.DEF_REG.register(modEventBus);
+        ACRecipeRegistry.TYPE_DEF_REG.register(modEventBus);
         ACFrogRegistry.DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
