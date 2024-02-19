@@ -159,6 +159,12 @@
         "maxCount": 2,
         "minCount": 1,
         "weight": 7
+      },
+      {
+        "type": "alexscaves:atlatitan",
+        "maxCount": 3,
+        "minCount": 2,
+        "weight": 10
       }
     ]
   },

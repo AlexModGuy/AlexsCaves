@@ -3,17 +3,18 @@ package com.github.alexmodguy.alexscaves.server.event;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.item.SeekingArrowEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.SubmarineEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.RaycatEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
-import com.github.alexmodguy.alexscaves.server.entity.util.FlyingMount;
-import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
-import com.github.alexmodguy.alexscaves.server.entity.util.VillagerUndergroundCabinMapTrade;
-import com.github.alexmodguy.alexscaves.server.entity.util.WatcherPossessionAccessor;
+import com.github.alexmodguy.alexscaves.server.entity.util.*;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.ExtinctionSpearItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -26,10 +27,13 @@ import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -42,6 +46,7 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.TickEvent;
@@ -57,6 +62,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CommonEvents {
@@ -82,6 +88,33 @@ public class CommonEvents {
         if (event.getEntity().getType() == EntityType.MAGMA_CUBE && event.getSource() != null && event.getSource().getEntity() instanceof Frog frog) {
             if (frog.getVariant() == ACFrogRegistry.PRIMORDIAL.get()) {
                 event.getEntity().spawnAtLocation(new ItemStack(ACBlockRegistry.CARMINE_FROGLIGHT.get()));
+            }
+        }
+        if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Mob mob && event.getSource() != null && event.getSource().getDirectEntity() instanceof LivingEntity directSource && directSource.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.PRIMITIVE_CLUB.get())) {
+            if(directSource.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel(ACEnchantmentRegistry.BONKING.get()) > 0 && event.getEntity().level().random.nextFloat() < 0.33F){
+                Creeper fakeCreeperForSkullDrop = EntityType.CREEPER.create(mob.level());
+                if(fakeCreeperForSkullDrop != null){
+                    if(event.getEntity().level() instanceof ServerLevel serverLevel){
+                        LightningBolt fakeThunder = EntityType.LIGHTNING_BOLT.create(serverLevel);
+                        if(fakeThunder != null){
+                            fakeThunder.setVisualOnly(true);
+                            fakeCreeperForSkullDrop.thunderHit(serverLevel, fakeThunder);
+                        }
+                    }
+                    DamageSource fakeCreeperDamage = mob.level().damageSources().mobAttack(fakeCreeperForSkullDrop);
+                    HashMap<EquipmentSlot, Float> prevLootDropChances = new HashMap<>();
+                    EntityDropChanceAccessor dropChanceAccessor = (EntityDropChanceAccessor) mob;
+                    for(EquipmentSlot slot : EquipmentSlot.values()){
+                        prevLootDropChances.put(slot, dropChanceAccessor.ac_getEquipmentDropChance(slot));
+                        dropChanceAccessor.ac_setDropChance(slot, 0.0F);
+                    }
+                    dropChanceAccessor.ac_dropCustomDeathLoot(fakeCreeperDamage, 0, false);
+                    for(EquipmentSlot slot : EquipmentSlot.values()){
+                        dropChanceAccessor.ac_setDropChance(slot, prevLootDropChances.get(slot));
+                    }
+                }
+
+
             }
         }
         if (event.getEntity() instanceof Player) {
@@ -142,11 +175,26 @@ public class CommonEvents {
         if (event.getEntity() instanceof WatcherPossessionAccessor possessed && possessed.isPossessedByWatcher() && !event.getSource().is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !(event.getSource().getEntity() instanceof WatcherEntity)) {
             event.setCanceled(true);
         }
+        if (event.getEntity() instanceof Player player && player.getUseItem().is(ACItemRegistry.EXTINCTION_SPEAR.get()) && ExtinctionSpearItem.killGrottoGhostsFor(player, true)) {
+            event.setCanceled(true);
+            player.playSound(SoundEvents.SHIELD_BLOCK);
+        }
     }
 
 
     @SubscribeEvent
     public void livingAttack(LivingAttackEvent event) {
+        if(event.getSource().getDirectEntity() instanceof AbstractArrow arrow && event.getEntity().isBlocking() && event.getEntity().getUseItem().is(ACItemRegistry.RESISTOR_SHIELD.get())){
+            ItemStack shield = event.getEntity().getUseItem();
+            if(shield.getEnchantmentLevel(ACEnchantmentRegistry.ARROW_INDUCTING.get()) > 0 && arrow.getType() != ACEntityRegistry.SEEKING_ARROW.get()){
+                SeekingArrowEntity seekingArrowEntity = new SeekingArrowEntity(event.getEntity().level(), event.getEntity());
+                seekingArrowEntity.copyPosition(arrow);
+                seekingArrowEntity.setDeltaMovement(arrow.getDeltaMovement().scale(-0.4D));
+                seekingArrowEntity.setYRot(arrow.getYRot() + 180.0F);
+                event.getEntity().level().addFreshEntity(seekingArrowEntity);
+                arrow.discard();
+            }
+        }
         if (event.getSource() != null && event.getSource().getDirectEntity() instanceof LivingEntity directSource && directSource.hasEffect(ACEffectRegistry.STUNNED.get())) {
             event.setCanceled(true);
         }

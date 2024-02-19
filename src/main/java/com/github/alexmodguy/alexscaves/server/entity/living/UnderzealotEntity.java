@@ -78,7 +78,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.ATTACK_DAMAGE, 4);
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED, 0.25D).add(Attributes.MAX_HEALTH, 20.0D).add(Attributes.ATTACK_DAMAGE, 4).add(Attributes.FOLLOW_RANGE, 20);
     }
 
     protected void registerGoals() {
@@ -93,11 +93,11 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         this.goalSelector.addGoal(9, new RandomStrollGoal(this, 1.0D, 100));
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 15.0F));
         this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, UnderzealotEntity.class, WatcherEntity.class, ForsakenEntity.class).setAlertOthers()));
+        this.targetSelector.addGoal(1, (new UnderzealotHurtByTargetGoal(this)));
         this.targetSelector.addGoal(2, new MobTargetClosePlayers(this, 40, 12){
             @Override
             public boolean canUse() {
-                return !UnderzealotEntity.this.isPraying() && !UnderzealotEntity.this.isCarrying() && super.canUse();
+                return !UnderzealotEntity.this.isTargetingBlocked() && super.canUse();
             }
         });
     }
@@ -356,6 +356,15 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
     @Override
     public boolean isValidLeader(PackAnimal packLeader) {
         return ((UnderzealotEntity) packLeader).isCarrying() && !packLeader.isPackFollower() && ((LivingEntity) packLeader).isAlive();
+    }
+
+    public boolean isTargetingBlocked(){
+        if(this.isPackFollower() && getPackLeader() instanceof UnderzealotEntity underzealotLeader){
+            return underzealotLeader.isCarrying();
+        }else if(this.isCarrying()){
+            return true;
+        }
+        return !this.isPraying();
     }
 
     public boolean isDiggingInProgress() {

@@ -71,6 +71,8 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
     private int possessedTimeout = 0;
     private static final String LAST_POSSESSED_TIME_IDENTIFIER = "alexscaves_last_possessed_time";
 
+    private UUID previousPossessionUUID;
+
     public WatcherEntity(EntityType entityType, Level level) {
         super(entityType, level);
         groundNavigator = createNavigation(level);
@@ -93,7 +95,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
         this.goalSelector.addGoal(3, new LookAtPlayerGoal(this, Player.class, 15.0F));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, UnderzealotEntity.class, WatcherEntity.class, ForsakenEntity.class).setAlertOthers()));
-        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, false, this::canPossessTargetEntity));
+        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, false, 10, this::canPossessTargetEntity));
     }
 
     protected PathNavigation createShadeNavigation(Level level) {
@@ -245,6 +247,9 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
                     if(possessedEntity instanceof WatcherPossessionAccessor possessionAccessor){
                         possessionAccessor.setPossessedByWatcher(false);
                     }
+                    if(possessedEntity instanceof Player player){
+                        setLastPossessedTimeFor(player);
+                    }
                     this.level().broadcastEntityEvent(this, (byte) 78);
                     this.setPossessedEntityUUID(null);
                     this.entityData.set(POSSESSED_ENTITY_ID, -1);
@@ -257,8 +262,10 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
                     }
                 }
             } else {
+                if(possessedEntity != null || this.entityData.get(POSSESSED_ENTITY_ID) != -1){
+                    this.level().broadcastEntityEvent(this, (byte) 78);
+                }
                 possessedTimeout = 0;
-                this.level().broadcastEntityEvent(this, (byte) 78);
                 this.entityData.set(POSSESSED_ENTITY_ID, -1);
             }
         } else if (possessedEntity instanceof LivingEntity living) {
@@ -299,14 +306,12 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
     }
 
     public boolean canPossessTargetEntity(Entity entity) {
-        if (true) {
-            return true;
-        }
         if (entity instanceof Player player) {
             CompoundTag playerData = player.getPersistentData();
             CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
             if (data != null) {
-                return level().getGameTime() - data.getLong(LAST_POSSESSED_TIME_IDENTIFIER) >= 3600;
+                long timeElapsed = level().getGameTime() - data.getLong(LAST_POSSESSED_TIME_IDENTIFIER);
+                return timeElapsed >= AlexsCaves.COMMON_CONFIG.watcherPossessionCooldown.get();
             }
         }
         return true;
@@ -315,7 +320,10 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
     public void handleEntityEvent(byte b) {
         if (b == 77 || b == 78) {
             Entity possessedEntity = getPossessedEntity();
-            if (possessedEntity instanceof Player player) {
+            if(possessedEntity == null && getPossessedEntityUUID() != null){
+                possessedEntity = level().getPlayerByUUID(getPossessedEntityUUID());
+            }
+            if (possessedEntity instanceof Player player && player == AlexsCaves.PROXY.getClientSidePlayer()) {
                 if (b == 77) {
                     if(AlexsCaves.COMMON_CONFIG.watcherPossession.get()){
                         AlexsCaves.PROXY.setRenderViewEntity(player, this);
@@ -348,21 +356,25 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
     }
 
     public boolean attemptPossession(LivingEntity living) {
-        if (tickCount - lastPossessionTimestamp > 100 && (lastPossessionSite == null || lastPossessionSite.distSqr(this.blockPosition()) > 10)) {
+        if (tickCount - lastPossessionTimestamp > 100 && (lastPossessionSite == null || lastPossessionSite.distSqr(this.blockPosition()) > 10) && canPossessTargetEntity(living)) {
             lastPossessionSite = this.blockPosition();
             lastPossessionTimestamp = tickCount;
             if (living instanceof Player player) {
-                CompoundTag playerData = player.getPersistentData();
-                CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
-                if (data != null) {
-                    data.putLong(LAST_POSSESSED_TIME_IDENTIFIER, level().getGameTime());
-                    playerData.put(Player.PERSISTED_NBT_TAG, data);
-                }
+                setLastPossessedTimeFor(player);
                 ((WatcherPossessionAccessor)player).setPossessedByWatcher(true);
             }
             return true;
         }
         return false;
+    }
+
+    public static void setLastPossessedTimeFor(Player player){
+        CompoundTag playerData = player.getPersistentData();
+        CompoundTag data = playerData.getCompound(Player.PERSISTED_NBT_TAG);
+        if (data != null) {
+            data.putLong(LAST_POSSESSED_TIME_IDENTIFIER, player.level().getGameTime());
+            playerData.put(Player.PERSISTED_NBT_TAG, data);
+        }
     }
 
     public void onPossessionKeyPacket(Entity keyPresser, int type) {

@@ -1,0 +1,108 @@
+package com.github.alexmodguy.alexscaves.server.level.structure;
+
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.structure.piece.VolcanoStructurePiece;
+import com.google.common.collect.Sets;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.levelgen.LegacyRandomSource;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.structure.StructureType;
+import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
+
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Consumer;
+
+public class VolcanoStructure extends Structure {
+
+    public static final int VOLCANO_Y_CENTER = -34;
+
+    public static final Codec<VolcanoStructure> CODEC = simpleCodec((settings) -> new VolcanoStructure(settings));
+
+    protected VolcanoStructure(StructureSettings settings) {
+        super(settings);
+    }
+
+    public Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
+        int i = context.chunkPos().getBlockX(9);
+        int j = context.chunkPos().getBlockZ(9);
+
+        for(Holder<Biome> holder : getBiomesWithinAtY(context.biomeSource(), i, VOLCANO_Y_CENTER, j, 30, context.randomState().sampler())) {
+            if (!holder.is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
+                return Optional.empty();
+            }
+        }
+
+        return atYCaveBiomePoint(context, Heightmap.Types.OCEAN_FLOOR_WG, (builder) -> {
+            this.generatePieces(builder, context);
+        });
+    }
+
+    protected Optional<GenerationStub> atYCaveBiomePoint(GenerationContext context, Heightmap.Types heightMap, Consumer<StructurePiecesBuilder> builderConsumer) {
+        ChunkPos chunkpos = context.chunkPos();
+        int i = chunkpos.getMiddleBlockX();
+        int j = chunkpos.getMiddleBlockZ();
+        int k = DinoBowlStructure.BOWL_Y_CENTER;
+        return Optional.of(new GenerationStub(new BlockPos(i, k, j), builderConsumer));
+    }
+
+    public void generatePieces(StructurePiecesBuilder builder, GenerationContext context) {
+        WorldgenRandom worldgenrandom = new WorldgenRandom(new LegacyRandomSource(0L));
+        worldgenrandom.setLargeFeatureSeed(context.seed(), context.chunkPos().x, context.chunkPos().z);
+        int volcanoWidthRadius = 30 + context.random().nextInt(15);
+        int volcanoHeight = volcanoWidthRadius + 8 + context.random().nextInt(5);
+        int i = context.chunkPos().getMinBlockX();
+        int j = context.chunkPos().getMinBlockZ();
+        int k = context.chunkGenerator().getSeaLevel();
+        BlockPos xzCoords = new BlockPos(i, VOLCANO_Y_CENTER, j);
+        int widthChunks = (int)Math.ceil(volcanoWidthRadius / 16F);
+        for (int chunkX = -widthChunks; chunkX <= widthChunks; chunkX++) {
+            for (int chunkZ = -widthChunks; chunkZ <= widthChunks; chunkZ++) {
+                BlockPos offset = xzCoords.offset(chunkX * 16, 0, chunkZ * 16);
+                builder.addPiece(new VolcanoStructurePiece(xzCoords, offset, volcanoWidthRadius, volcanoHeight));
+            }
+        }
+    }
+
+    private Set<Holder<Biome>> getBiomesWithinAtY(BiomeSource biomeSource, int x, int y, int z, int xzDist, Climate.Sampler sampler) {
+        int i = QuartPos.fromBlock(x - xzDist);
+        int j = QuartPos.fromBlock(y);
+        int k = QuartPos.fromBlock(z - xzDist);
+        int l = QuartPos.fromBlock(x + xzDist);
+        int j1 = QuartPos.fromBlock(z + xzDist);
+        int k1 = l - i + 1;
+        int i2 = j1 - k + 1;
+        Set<Holder<Biome>> set = Sets.newHashSet();
+
+        for(int j2 = 0; j2 < i2; ++j2) {
+            for(int k2 = 0; k2 < k1; ++k2) {
+                int i3 = i + k2;
+                int k3 = k + j2;
+                set.add(biomeSource.getNoiseBiome(i3, j, k3, sampler));
+            }
+        }
+        return set;
+    }
+
+
+    @Override
+    public GenerationStep.Decoration step() {
+        return GenerationStep.Decoration.UNDERGROUND_STRUCTURES;
+    }
+
+    @Override
+    public StructureType<?> type() {
+        return ACStructureRegistry.VOLCANO.get();
+    }
+}
+

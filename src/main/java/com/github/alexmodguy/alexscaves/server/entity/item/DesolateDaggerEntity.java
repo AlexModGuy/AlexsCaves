@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
@@ -16,7 +17,9 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkHooks;
@@ -27,14 +30,13 @@ public class DesolateDaggerEntity extends Entity {
     private static final EntityDataAccessor<Integer> TARGET_ID = SynchedEntityData.defineId(DesolateDaggerEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> STAB = SynchedEntityData.defineId(DesolateDaggerEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> PLAYER_ID = SynchedEntityData.defineId(DesolateDaggerEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<ItemStack> ITEMSTACK = SynchedEntityData.defineId(DesolateDaggerEntity.class, EntityDataSerializers.ITEM_STACK);
 
     protected final RandomSource orbitRandom = RandomSource.create();
     private float orbitOffset = 0;
     private float prevStab = 0;
-    private int orbitFor = 20;
-
-    public ItemStack daggerStack = new ItemStack(ACItemRegistry.DESOLATE_DAGGER.get());
-
+    public int orbitFor = 20;
+    public ItemStack daggerRenderStack = new ItemStack(ACItemRegistry.DESOLATE_DAGGER.get());
     private int lSteps;
     private double lx;
     private double ly;
@@ -93,8 +95,13 @@ public class DesolateDaggerEntity extends Entity {
                 if (this.getStab() >= 1F) {
                     Entity player = getPlayer();
                     Entity damageFrom = player == null ? this : player;
-                    if (entity.hurt(ACDamageTypes.causeDesolateDaggerDamage(this.level().registryAccess(), damageFrom), 2)) {
+                    float damage = 2 + this.getItemStack().getEnchantmentLevel(ACEnchantmentRegistry.IMPENDING_STAB.get()) * 2F;
+                    if (entity.hurt(ACDamageTypes.causeDesolateDaggerDamage(this.level().registryAccess(), damageFrom), damage)) {
                         this.playSound(ACSoundRegistry.DESOLATE_DAGGER_HIT.get());
+                        int healBy = this.getItemStack().getEnchantmentLevel(ACEnchantmentRegistry.SATED_BLADE.get());
+                        if(healBy > 0 && damageFrom instanceof Player healPlayer){
+                            healPlayer.getFoodData().eat(0, healBy * 0.1F);
+                        }
                     }
                     this.discard();
                 }
@@ -127,6 +134,14 @@ public class DesolateDaggerEntity extends Entity {
         }
     }
 
+    public ItemStack getItemStack() {
+        return this.entityData.get(ITEMSTACK);
+    }
+
+    public void setItemStack(ItemStack item) {
+        this.entityData.set(ITEMSTACK, item);
+    }
+
     @Override
     public void lerpTo(double x, double y, double z, float yr, float xr, int steps, boolean b) {
         this.lx = x;
@@ -151,6 +166,7 @@ public class DesolateDaggerEntity extends Entity {
         this.entityData.define(TARGET_ID, -1);
         this.entityData.define(PLAYER_ID, -1);
         this.entityData.define(STAB, 0F);
+        this.entityData.define(ITEMSTACK, new ItemStack(Items.IRON_SWORD));
     }
 
     @Override

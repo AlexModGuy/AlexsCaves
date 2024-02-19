@@ -6,6 +6,9 @@ import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.GroundPathNavigatorNoSpin;
 import com.github.alexmodguy.alexscaves.server.entity.item.NuclearExplosionEntity;
+import com.github.alexmodguy.alexscaves.server.entity.util.ActivatesSirens;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
@@ -30,6 +33,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -41,7 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.EnumSet;
 import java.util.stream.Stream;
 
-public class NucleeperEntity extends Monster {
+public class NucleeperEntity extends Monster implements ActivatesSirens {
 
     private float closeProgress;
     private float prevCloseProgress;
@@ -243,6 +247,19 @@ public class NucleeperEntity extends Monster {
         if (!this.isBaby()) {
             this.playSound(ACSoundRegistry.NUCLEEPER_STEP.get(), 1.0F, 1.0F);
         }
+    }
+
+    @Override
+    protected void dropCustomDeathLoot(DamageSource damageSource, int experience, boolean idk) {
+        super.dropCustomDeathLoot(damageSource, experience, idk);
+        if (damageSource.getEntity() instanceof TremorzillaEntity && damageSource.is(ACDamageTypes.TREMORZILLA_BEAM)) {
+            this.spawnAtLocation(ACItemRegistry.MUSIC_DISC_FUSION_FRAGMENT.get());
+        }
+    }
+
+    @Override
+    public boolean shouldStopBlaringSirens() {
+        return !this.isTriggered() && !this.isExploding() || this.isRemoved();
     }
 
     private class MeleeGoal extends Goal {

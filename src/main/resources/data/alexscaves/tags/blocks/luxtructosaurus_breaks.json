@@ -1,0 +1,8 @@
+{
+  "__comment": "all blocks destroyed by colliding with a luxtructosaurus.",
+  "values": [
+    "#minecraft:leaves",
+    "#minecraft:logs",
+    "alexscaves:pewen_branch"
+  ]
+}

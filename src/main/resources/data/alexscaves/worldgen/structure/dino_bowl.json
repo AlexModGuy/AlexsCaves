@@ -1,7 +1,7 @@
 {
   "type": "alexscaves:dino_bowl",
   "biomes": "alexscaves:primordial_caves",
-  "step": "underground_structures",
+  "step": "raw_generation",
   "start_height": {
     "absolute": 0
   },

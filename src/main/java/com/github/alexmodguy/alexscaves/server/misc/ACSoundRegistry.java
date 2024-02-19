@@ -15,6 +15,8 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> TOXIC_CAVES_MUSIC = createSoundEvent("toxic_caves_music");
     public static final RegistryObject<SoundEvent> ABYSSAL_CHASM_MUSIC = createSoundEvent("abyssal_chasm_music");
     public static final RegistryObject<SoundEvent> FORLORN_HOLLOWS_MUSIC = createSoundEvent("forlorn_hollows_music");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_BOSS_MUSIC = createSoundEvent("luxtructosaurus_boss_music");
+    public static final RegistryObject<SoundEvent> FUSIONC_MUSIC_DISC = createSoundEvent("fusion_music_disc");
 
     public static final RegistryObject<SoundEvent> MAGNETIC_CAVES_AMBIENCE = createSoundEvent("magnetic_caves_ambience");
     public static final RegistryObject<SoundEvent> MAGNETIC_CAVES_AMBIENCE_ADDITIONS = createSoundEvent("magnetic_caves_ambience_additions");
@@ -72,6 +74,7 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> FLOOD_BASALT_PLACE = createSoundEvent("flood_basalt_place");
     public static final RegistryObject<SoundEvent> FLOOD_BASALT_BREAK = createSoundEvent("flood_basalt_break");
     public static final RegistryObject<SoundEvent> FLOOD_BASALT_BREAKING = createSoundEvent("flood_basalt_breaking");
+    public static final RegistryObject<SoundEvent> PRIMAL_MAGMA_FISSURE_CLOSE = createSoundEvent("primal_magma_fissure_close");
     public static final RegistryObject<SoundEvent> ACID_BURN = createSoundEvent("acid_burn");
     public static final RegistryObject<SoundEvent> ACID_CORROSION = createSoundEvent("acid_corrosion");
     public static final RegistryObject<SoundEvent> ACID_IDLE = createSoundEvent("acid_idle");
@@ -199,7 +202,26 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> RELICHEIRUS_SCRATCH = createSoundEvent("relicheirus_scratch");
     public static final RegistryObject<SoundEvent> RELICHEIRUS_STEP = createSoundEvent("relicheirus_step");
     public static final RegistryObject<SoundEvent> RELICHEIRUS_TOPPLE = createSoundEvent("relicheirus_topple");
-
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_IDLE = createSoundEvent("luxtructosaurus_idle");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_HURT = createSoundEvent("luxtructosaurus_hurt");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_DEATH = createSoundEvent("luxtructosaurus_death");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_SNORT = createSoundEvent("luxtructosaurus_snort");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_STEP = createSoundEvent("luxtructosaurus_step");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_STOMP = createSoundEvent("luxtructosaurus_stomp");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_ROAR = createSoundEvent("luxtructosaurus_roar");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_ATTACK_STOMP = createSoundEvent("luxtructosaurus_attack_stomp");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_KICK = createSoundEvent("luxtructosaurus_kick");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_TAIL = createSoundEvent("luxtructosaurus_tail");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_BREATH = createSoundEvent("luxtructosaurus_breath");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_SUMMON = createSoundEvent("luxtructosaurus_summon");
+    public static final RegistryObject<SoundEvent> LUXTRUCTOSAURUS_JUMP = createSoundEvent("luxtructosaurus_jump");
+    public static final RegistryObject<SoundEvent> ATLATITAN_IDLE = createSoundEvent("atlatitan_idle");
+    public static final RegistryObject<SoundEvent> ATLATITAN_HURT = createSoundEvent("atlatitan_hurt");
+    public static final RegistryObject<SoundEvent> ATLATITAN_DEATH = createSoundEvent("atlatitan_death");
+    public static final RegistryObject<SoundEvent> ATLATITAN_STEP = createSoundEvent("atlatitan_step");
+    public static final RegistryObject<SoundEvent> ATLATITAN_STOMP = createSoundEvent("atlatitan_stomp");
+    public static final RegistryObject<SoundEvent> ATLATITAN_KICK = createSoundEvent("atlatitan_kick");
+    public static final RegistryObject<SoundEvent> ATLATITAN_TAIL = createSoundEvent("atlatitan_tail");
     public static final RegistryObject<SoundEvent> NUCLEEPER_IDLE = createSoundEvent("nucleeper_idle");
     public static final RegistryObject<SoundEvent> NUCLEEPER_HURT = createSoundEvent("nucleeper_hurt");
     public static final RegistryObject<SoundEvent> NUCLEEPER_DEATH = createSoundEvent("nucleeper_death");
@@ -226,6 +248,21 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> RAYCAT_HURT = createSoundEvent("raycat_hurt");
     public static final RegistryObject<SoundEvent> RAYCAT_EAT = createSoundEvent("raycat_eat");
     public static final RegistryObject<SoundEvent> RAYCAT_ABSORB = createSoundEvent("raycat_absorb");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_IDLE = createSoundEvent("tremorzilla_idle");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_HURT = createSoundEvent("tremorzilla_hurt");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_DEATH = createSoundEvent("tremorzilla_death");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_STOMP = createSoundEvent("tremorzilla_stomp");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_BEAM_START = createSoundEvent("tremorzilla_beam_start");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_BEAM_END = createSoundEvent("tremorzilla_beam_end");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_BEAM_LOOP = createSoundEvent("tremorzilla_beam_loop");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_CHARGE_NORMAL = createSoundEvent("tremorzilla_charge_normal");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_CHARGE_COMPLETE = createSoundEvent("tremorzilla_charge_complete");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_ROAR = createSoundEvent("tremorzilla_roar");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_EAT = createSoundEvent("tremorzilla_eat");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_BITE = createSoundEvent("tremorzilla_bite");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_SCRATCH_ATTACK = createSoundEvent("tremorzilla_scratch_attack");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_STOMP_ATTACK = createSoundEvent("tremorzilla_stomp_attack");
+    public static final RegistryObject<SoundEvent> TREMORZILLA_TAIL_ATTACK = createSoundEvent("tremorzilla_tail_attack");
     public static final RegistryObject<SoundEvent> LANTERNFISH_HURT = createSoundEvent("lanternfish_hurt");
     public static final RegistryObject<SoundEvent> LANTERNFISH_FLOP = createSoundEvent("lanternfish_flop");
     public static final RegistryObject<SoundEvent> SEA_PIG_IDLE = createSoundEvent("sea_pig_idle");
@@ -311,7 +348,6 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> FORSAKEN_BITE = createSoundEvent("forsaken_bite");
     public static final RegistryObject<SoundEvent> FORSAKEN_STEP = createSoundEvent("forsaken_step");
     public static final RegistryObject<SoundEvent> FORSAKEN_SPAWN = createSoundEvent("forsaken_spawn");
-
     public static final RegistryObject<SoundEvent> CAVE_BOOK_OPEN = createSoundEvent("cave_book_open");
     public static final RegistryObject<SoundEvent> CAVE_BOOK_CLOSE = createSoundEvent("cave_book_close");
     public static final RegistryObject<SoundEvent> CAVE_BOOK_TURN = createSoundEvent("cave_book_turn");
@@ -327,6 +363,10 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> LIMESTONE_SPEAR_HIT = createSoundEvent("limestone_spear_hit");
     public static final RegistryObject<SoundEvent> PRIMITIVE_CLUB_HIT = createSoundEvent("primitive_club_hit");
     public static final RegistryObject<SoundEvent> PRIMITIVE_CLUB_MISS = createSoundEvent("primitive_club_miss");
+    public static final RegistryObject<SoundEvent> TECTONIC_SHARD_TRANSFORM = createSoundEvent("tectonic_shard_transform");
+    public static final RegistryObject<SoundEvent> EXTINCTION_SPEAR_THROW = createSoundEvent("extinction_spear_throw");
+    public static final RegistryObject<SoundEvent> EXTINCTION_SPEAR_HIT = createSoundEvent("extinction_spear_hit");
+    public static final RegistryObject<SoundEvent> EXTINCTION_SPEAR_SUMMON = createSoundEvent("extinction_spear_summon");
     public static final RegistryObject<SoundEvent> RAYGUN_LOOP = createSoundEvent("raygun_loop");
     public static final RegistryObject<SoundEvent> RAYGUN_RELOAD = createSoundEvent("raygun_reload");
     public static final RegistryObject<SoundEvent> RAYGUN_EMPTY = createSoundEvent("raygun_empty");
@@ -343,6 +383,8 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> TOTEM_OF_POSSESSION_USE = createSoundEvent("totem_of_possession_use");
     public static final RegistryObject<SoundEvent> DREADBOW_RELEASE = createSoundEvent("dreadbow_release");
     public static final RegistryObject<SoundEvent> DREADBOW_RAIN = createSoundEvent("dreadbow_rain");
+    public static final RegistryObject<SoundEvent> TEPHRA_WHISTLE = createSoundEvent("tephra_whistle");
+    public static final RegistryObject<SoundEvent> TEPHRA_HIT = createSoundEvent("tephra_hit");
     public static final RegistryObject<SoundEvent> NUCLEAR_EXPLOSION = createSoundEvent("nuclear_explosion");
     public static final RegistryObject<SoundEvent> LARGE_NUCLEAR_EXPLOSION = createSoundEvent("large_nuclear_explosion");
     public static final RegistryObject<SoundEvent> NUCLEAR_EXPLOSION_RUMBLE = createSoundEvent("nuclear_explosion_rumble");

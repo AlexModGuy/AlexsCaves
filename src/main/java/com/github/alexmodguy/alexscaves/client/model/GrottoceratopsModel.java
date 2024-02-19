@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
+import com.github.alexmodguy.alexscaves.server.entity.item.DinosaurSpiritEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.GrottoceratopsEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -425,5 +426,14 @@ public class GrottoceratopsModel extends AdvancedEntityModel<GrottoceratopsEntit
 
     }
 
+    public void animateSpirit(DinosaurSpiritEntity entityIn, float partialTicks) {
+        this.resetToDefaultPose();
+    }
 
+    public void renderSpiritToBuffer(PoseStack poseStack, VertexConsumer ivertexbuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        poseStack.pushPose();
+        poseStack.translate(0, 1.3F, 1);
+        head.render(poseStack, ivertexbuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        poseStack.popPose();
+    }
 }

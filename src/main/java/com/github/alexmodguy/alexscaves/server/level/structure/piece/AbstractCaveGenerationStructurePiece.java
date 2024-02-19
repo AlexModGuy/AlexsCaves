@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -26,6 +27,7 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
     protected final BlockPos holeCenter;
     protected final int height;
     protected final int radius;
+    private static boolean replaceBiomesError;
 
     public AbstractCaveGenerationStructurePiece(StructurePieceType pieceType, BlockPos chunkCorner, BlockPos holeCenter, int height, int radius) {
         this(pieceType, chunkCorner, holeCenter, height, radius, chunkCorner.getY() - 2, chunkCorner.getY() + 16);
@@ -64,28 +66,39 @@ public abstract class AbstractCaveGenerationStructurePiece extends StructurePiec
     }
 
     public void replaceBiomes(WorldGenLevel level, ResourceKey<Biome> with, int belowLevel) {
-        Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(with);
-        ChunkAccess chunkAccess = level.getChunk(this.chunkCorner);
-        int stopY = level.getSeaLevel() - belowLevel;
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
-        pos.set(this.chunkCorner.getX(), stopY, this.chunkCorner.getZ());
-        if (chunkAccess != null && !biomeHolder.is(Biomes.PLAINS)) {
-            while (pos.getY() > level.getMinBuildHeight()) {
-                pos.move(0, -8, 0);
-                int sectionIndex = chunkAccess.getSectionIndex(pos.getY());
-                if (sectionIndex >= 0 && sectionIndex < chunkAccess.getSections().length) {
-                    LevelChunkSection section = chunkAccess.getSection(sectionIndex);
-                    PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
-                    for (int biomeX = 0; biomeX < 4; ++biomeX) {
-                        for (int biomeY = 0; biomeY < 4; ++biomeY) {
-                            for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
-                                container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
+        if(replaceBiomesError){
+          return;
+        }
+        try {
+            Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(with);
+            ChunkAccess chunkAccess = level.getChunk(this.chunkCorner);
+            int stopY = level.getSeaLevel() - belowLevel;
+            BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+            pos.set(this.chunkCorner.getX(), stopY, this.chunkCorner.getZ());
+            if (chunkAccess != null && !biomeHolder.is(Biomes.PLAINS)) {
+                while (pos.getY() > level.getMinBuildHeight()) {
+                    pos.move(0, -8, 0);
+                    int sectionIndex = chunkAccess.getSectionIndex(pos.getY());
+                    if (sectionIndex >= 0 && sectionIndex < chunkAccess.getSections().length) {
+                        LevelChunkSection section = chunkAccess.getSection(sectionIndex);
+                        PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
+                        if(container != null){
+                            for (int biomeX = 0; biomeX < 4; ++biomeX) {
+                                for (int biomeY = 0; biomeY < 4; ++biomeY) {
+                                    for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
+                                        container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
+                                    }
+                                }
                             }
+                            section.biomes = container;
                         }
                     }
-                    section.biomes = container;
                 }
             }
+        }catch (Exception e){
+            replaceBiomesError = true;
+            AlexsCaves.LOGGER.warn("Could not replace biomes for Alex's Caves. Error will show only once - likely a world-gen mod incompatibility");
+            e.printStackTrace();
         }
     }
 

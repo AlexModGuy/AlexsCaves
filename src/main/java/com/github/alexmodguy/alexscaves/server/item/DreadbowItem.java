@@ -2,8 +2,11 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.DarkArrowEntity;
+import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -27,9 +30,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
-public class DreadbowItem extends ProjectileWeaponItem {
+public class DreadbowItem extends ProjectileWeaponItem implements UpdatesStackTags {
 
-    public static final int LOAD_TIME = 40;
     public DreadbowItem() {
         super(new Item.Properties().rarity(ACItemRegistry.RARITY_DEMONIC).durability(500));
     }
@@ -76,16 +78,48 @@ public class DreadbowItem extends ProjectileWeaponItem {
             if (tag.getInt("PrevUseTime") != tag.getInt("UseTime")) {
                 tag.putInt("PrevUseTime", getUseTime(stack));
             }
-            if (using && useTime < LOAD_TIME) {
-                setUseTime(stack, useTime + 1);
+
+            if (using && getPerfectShotTicks(stack) > 0) {
+                setPerfectShotTicks(stack, getPerfectShotTicks(stack) - 1);
+                AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(entity.getId(), stack));
+            }
+            boolean relentless = stack.getEnchantmentLevel(ACEnchantmentRegistry.RELENTLESS_DARKNESS.get()) > 0;
+            int twilightPerfection = stack.getEnchantmentLevel(ACEnchantmentRegistry.TWILIGHT_PERFECTION.get());
+            int maxLoadTime = getMaxLoadTime(stack);
+            if (using && useTime < maxLoadTime) {
+                int set = useTime + (relentless ? 3 : 1);
+                setUseTime(stack, set);
+                if(twilightPerfection > 0){
+                    if(set >= maxLoadTime && useTime <= maxLoadTime){
+                        setPerfectShotTicks(stack, 4 + (twilightPerfection - 1) * 3);
+                        AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(entity.getId(), stack));
+                    }else{
+                        setPerfectShotTicks(stack, 0);
+                        AlexsCaves.sendMSGToServer(new UpdateItemTagMessage(entity.getId(), stack));
+                    }
+                }
+            }
+            if(relentless){
+                if (using && useTime >= maxLoadTime) {
+                    setUseTime(stack, 0);
+                }
             }
             if (!using && useTime > 0.0F) {
                 setUseTime(stack, Math.max(0, useTime - 5));
+                setPerfectShotTicks(stack, 0);
             }
             if(using){
                 Vec3 particlePos = entity.position().add((level.random.nextFloat() - 0.5F) * 2.5F, 0F, (level.random.nextFloat() - 0.5F) * 2.5F);
                 level.addParticle(ACParticleRegistry.UNDERZEALOT_MAGIC.get(), particlePos.x, particlePos.y, particlePos.z, entity.getX(), entity.getY(0.5F), entity.getZ());
             }
+        }
+    }
+
+    private static int getMaxLoadTime(ItemStack stack) {
+        if(stack.getEnchantmentLevel(ACEnchantmentRegistry.RELENTLESS_DARKNESS.get()) > 0){
+            return 5;
+        }else{
+            return 40 - 8 * stack.getEnchantmentLevel(ACEnchantmentRegistry.DARK_NOCK.get());
         }
     }
 
@@ -99,6 +133,15 @@ public class DreadbowItem extends ProjectileWeaponItem {
         tag.putInt("PrevUseTime", getUseTime(stack));
         tag.putInt("UseTime", useTime);
     }
+    public static int getPerfectShotTicks(ItemStack stack) {
+        CompoundTag compoundtag = stack.getTag();
+        return compoundtag != null ? compoundtag.getInt("PerfectShotTicks") : 0;
+    }
+
+    public static void setPerfectShotTicks(ItemStack stack, int ticks) {
+        CompoundTag tag = stack.getOrCreateTag();
+        tag.putInt("PerfectShotTicks", ticks);
+    }
 
     public static float getLerpedUseTime(ItemStack stack, float f) {
         CompoundTag compoundtag = stack.getTag();
@@ -108,17 +151,16 @@ public class DreadbowItem extends ProjectileWeaponItem {
     }
 
     public static float getPullingAmount(ItemStack itemStack, float partialTicks){
-        return Math.min(getLerpedUseTime(itemStack, partialTicks) / (float) LOAD_TIME, 1F);
+        return Math.min(getLerpedUseTime(itemStack, partialTicks) / (float) getMaxLoadTime(itemStack), 1F);
     }
-
 
 
     public UseAnim getUseAnimation(ItemStack stack) {
         return UseAnim.BOW;
     }
 
-    public static float getPowerForTime(int i) {
-        float f = (float) i / (float)LOAD_TIME;
+    public static float getPowerForTime(int i, ItemStack itemStack) {
+        float f = (float) i / (float)getMaxLoadTime(itemStack);
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
             f = 1.0F;
@@ -127,13 +169,29 @@ public class DreadbowItem extends ProjectileWeaponItem {
         return f;
     }
 
+    @Override
+    public int getEnchantmentValue() {
+        return 1;
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return stack.getCount() == 1;
+    }
+
     public void releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int i1) {
-        if (livingEntity instanceof Player player) {
+        if (livingEntity instanceof Player player && itemStack.getEnchantmentLevel(ACEnchantmentRegistry.RELENTLESS_DARKNESS.get()) <= 0) {
             int i = this.getUseDuration(itemStack) - i1;
-            float f = getPowerForTime(i);
+            float f = getPowerForTime(i, itemStack);
+            boolean precise = itemStack.getEnchantmentLevel(ACEnchantmentRegistry.PRECISE_VOLLEY.get()) > 0;
+            boolean respite = itemStack.getEnchantmentLevel(ACEnchantmentRegistry.SHADED_RESPITE.get()) > 0 && !DarknessIncarnateEffect.isInLight(player, 11);
+            boolean perfectShot = itemStack.getEnchantmentLevel(ACEnchantmentRegistry.TWILIGHT_PERFECTION.get()) > 0 && getPerfectShotTicks(itemStack) > 0;
             if (f > 0.1D) {
                 player.playSound(ACSoundRegistry.DREADBOW_RELEASE.get());
                 ItemStack ammoStack = player.getProjectile(itemStack);
+                if(respite && ammoStack.isEmpty()){
+                    ammoStack = new ItemStack(Items.ARROW);
+                }
                 AbstractArrow abstractArrow = createArrow(player, itemStack, ammoStack);
                 if(abstractArrow != null){
                     float maxDist = 128 * f;
@@ -153,7 +211,12 @@ public class DreadbowItem extends ProjectileWeaponItem {
                     abstractArrow.pickup = AbstractArrow.Pickup.ALLOWED;
                     for(int j = 0; j < Math.ceil(maxArrows * f); j++){
                         if(darkArrows){
-                            abstractArrow = new DarkArrowEntity(level, livingEntity);
+                            DarkArrowEntity darkArrowEntity = new DarkArrowEntity(level, livingEntity);
+                            darkArrowEntity.setShadowArrowDamage(precise ? 2.0F : 3.0F);
+                            darkArrowEntity.setPerfectShot(perfectShot);
+                            abstractArrow = darkArrowEntity;
+                        }else if(perfectShot){
+                            abstractArrow.setBaseDamage(abstractArrow.getBaseDamage() * 2.0F);
                         }
                         Vec3 vec3 = mutableSkyPos.getCenter().add(level.random.nextFloat() * 16 - 8, level.random.nextFloat() * 4 - 2, level.random.nextFloat() * 16 - 8);
                         int clearTries = 0;
@@ -166,8 +229,8 @@ public class DreadbowItem extends ProjectileWeaponItem {
                         }
                         abstractArrow.setPos(vec3);
                         Vec3 vec31 = realHitResult.getLocation().subtract(vec3);
-                        float randomness = (darkArrows ? 20F : 5F) + level.random.nextFloat() * 10F;
-                        if(level.random.nextFloat() < 0.25F){
+                        float randomness = precise ? 0.0F : (darkArrows ? 20F : 5F) + level.random.nextFloat() * 10F;
+                        if(!precise && level.random.nextFloat() < 0.25F){
                             randomness = level.random.nextFloat();
                         }
                         abstractArrow.shoot(vec31.x, vec31.y, vec31.z, 0.5F + 1.5F * level.random.nextFloat(),  randomness);
@@ -180,16 +243,61 @@ public class DreadbowItem extends ProjectileWeaponItem {
                         level.playSound((Player)null, vec3.x, vec3.y, vec3.z, ACSoundRegistry.DREADBOW_RAIN.get(), SoundSource.PLAYERS, 12.0F, 1.0F);
                     }
                     if(!player.isCreative()){
-                        ammoStack.shrink(1);
-                        itemStack.hurtAndBreak(1, player, (player1) -> {
-                            player1.broadcastBreakEvent(player1.getUsedItemHand());
-                        });
+                        if(!respite){
+                            itemStack.hurtAndBreak(1, player, (player1) -> {
+                                player1.broadcastBreakEvent(player1.getUsedItemHand());
+                            });
+                        }
+                        if(!respite || !ammoStack.is(Items.ARROW)){
+                            ammoStack.shrink(1);
+                        }
                     }
                 }
             }
         }
     }
 
+
+    public void onUseTick(Level level, LivingEntity living, ItemStack itemStack, int timeUsing) {
+        super.onUseTick(level, living, itemStack, timeUsing);
+        if(living instanceof Player player && itemStack.getEnchantmentLevel(ACEnchantmentRegistry.RELENTLESS_DARKNESS.get()) > 0 && timeUsing % 3 == 0){
+            boolean respite = itemStack.getEnchantmentLevel(ACEnchantmentRegistry.SHADED_RESPITE.get()) > 0 && !DarknessIncarnateEffect.isInLight(living, 11);
+            player.playSound(ACSoundRegistry.DREADBOW_RELEASE.get());
+            ItemStack ammoStack = player.getProjectile(itemStack);
+            if(respite && ammoStack.isEmpty()){
+                ammoStack = new ItemStack(Items.ARROW);
+            }
+            AbstractArrow abstractArrow = createArrow(player, itemStack, ammoStack);
+            boolean darkArrows = isConvertibleArrow(abstractArrow);
+            int maxArrows = darkArrows ? 1 + living.getRandom().nextInt(2) : 1;
+            float randomness = 0.5F;
+            for(int i = 0; i < maxArrows; i++){
+                abstractArrow.pickup = AbstractArrow.Pickup.ALLOWED;
+                if(darkArrows){
+                    DarkArrowEntity darkArrowEntity = new DarkArrowEntity(level, living);
+                    darkArrowEntity.setShadowArrowDamage(2.0F);
+                    abstractArrow = darkArrowEntity;
+                }
+                abstractArrow.setPos(abstractArrow.position().add(level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F, level.random.nextFloat() - 0.5F));
+                Vec3 vec3 = player.getViewVector(1.0F);
+                abstractArrow.shoot(vec3.x, vec3.y, vec3.z, 4F + 3F * level.random.nextFloat(),  randomness);
+                randomness += 2.0F;
+                level.addFreshEntity(abstractArrow);
+                abstractArrow = createArrow(player, itemStack, ammoStack);
+                abstractArrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+            }
+            if(!player.isCreative()){
+                if(!respite){
+                    itemStack.hurtAndBreak(1, player, (player1) -> {
+                        player1.broadcastBreakEvent(player1.getUsedItemHand());
+                    });
+                }
+                if(!respite || !ammoStack.is(Items.ARROW)){
+                    ammoStack.shrink(1);
+                }
+            }
+        }
+    }
 
     private AbstractArrow createArrow(Player player, ItemStack bowStack, ItemStack ammoIn) {
         ItemStack ammo = ammoIn.isEmpty() ? player.getProjectile(bowStack) : ammoIn;

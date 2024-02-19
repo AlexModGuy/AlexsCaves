@@ -11,7 +11,7 @@ public class HazmatBreatheParticle extends TextureSheetParticle {
     private float greenOff = 0;
     private float initialColor = 0;
 
-    protected HazmatBreatheParticle(ClientLevel level, double x, double y, double z, double xMotion, double yMotion, double zMotion, SpriteSet sprites) {
+    protected HazmatBreatheParticle(ClientLevel level, double x, double y, double z, double xMotion, double yMotion, double zMotion, SpriteSet sprites, boolean blue) {
         super(level, x, y, z, xMotion, yMotion, zMotion);
         this.friction = 0.96F;
         this.gravity = -0.02F - 0.03F * level.random.nextFloat();
@@ -24,7 +24,7 @@ public class HazmatBreatheParticle extends TextureSheetParticle {
         float greenAmount = level.random.nextFloat() * 0.5F + 0.5F;
         this.rCol = initialColor;
         this.gCol = greenAmount;
-        this.bCol = initialColor;
+        this.bCol = blue ? greenAmount : initialColor;
         this.quadSize *= 0.75F + random.nextFloat() * 0.5F;
         this.lifetime = (int) ((double) 30 / ((double) level.random.nextFloat() * 0.8D + 0.2D));
         this.lifetime = Math.max(this.lifetime, 1);
@@ -60,7 +60,20 @@ public class HazmatBreatheParticle extends TextureSheetParticle {
         }
 
         public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            HazmatBreatheParticle particle = new HazmatBreatheParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+            HazmatBreatheParticle particle = new HazmatBreatheParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false);
+            return particle;
+        }
+    }
+
+    public static class BlueFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public BlueFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            HazmatBreatheParticle particle = new HazmatBreatheParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true);
             return particle;
         }
     }

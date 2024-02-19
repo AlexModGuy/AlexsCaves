@@ -1,6 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.DinosaurEggBlock;
 import com.github.alexmodguy.alexscaves.server.entity.living.DinosaurEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
@@ -65,8 +64,8 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
                 this.laysEggs.setHasEgg(false);
                 this.mob.setInLoveTime(600);
                 this.mob.level().broadcastEntityEvent(this.mob, (byte) 78);
-                if (this.mob instanceof DinosaurEntity && level.getBlockState(this.blockPos).is(BlockTags.DIRT)) {
-                    level.setBlockAndUpdate(this.blockPos, ACBlockRegistry.FERN_THATCH.get().defaultBlockState());
+                if (this.mob instanceof DinosaurEntity dinosaur && level.getBlockState(this.blockPos).is(BlockTags.DIRT)) {
+                    level.setBlockAndUpdate(this.blockPos, dinosaur.createEggBeddingBlockState());
                 }
             }
         } else {
@@ -77,7 +76,14 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
     }
 
     protected boolean isValidTarget(LevelReader levelReader, BlockPos blockPos) {
-        return levelReader.isEmptyBlock(blockPos.above()) && DinosaurEggBlock.isProperHabitat(levelReader, blockPos.above());
+        if(levelReader.isEmptyBlock(blockPos.above()) && this.mob instanceof DinosaurEntity dinosaur){
+            BlockState eggState = dinosaur.createEggBlockState();
+            if(eggState != null && eggState.getBlock() instanceof DinosaurEggBlock dinosaurEggBlock){
+                return dinosaurEggBlock.isProperHabitat(levelReader, blockPos.above());
+            }
+            return true;
+        }
+        return false;
     }
 
 }

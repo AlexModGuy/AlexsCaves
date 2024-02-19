@@ -584,7 +584,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             } else if (player.getLastHurtByMob() != null) {
                 target = player.getLastHurtByMob();
             }
-            if (target != null && target.isAlive() && !target.isAlliedTo(player) && !target.isAlliedTo(this) && !(target instanceof DeepOneBaseEntity)) {
+            if (target != null && target.isAlive() && !target.isAlliedTo(player) && !target.is(player) && !target.isAlliedTo(this) && !(target instanceof DeepOneBaseEntity)) {
                 this.setTarget(target);
             }
         }

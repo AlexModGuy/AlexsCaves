@@ -30,6 +30,12 @@ public class SemiAquaticPathNavigator extends WaterBoundPathNavigation {
         return this.level.clip(new ClipContext(posVec31, vector3d, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.mob)).getType() == HitResult.Type.MISS;
     }
 
+    @Override
+    protected Vec3 getTempMobPos() {
+        return this.mob.isInWaterOrBubble() ? super.getTempMobPos() :  new Vec3(this.mob.getX(), Math.floor(this.mob.getY() + 0.5D), this.mob.getZ());
+    }
+
+
     public boolean isStableDestination(BlockPos pos) {
         return !this.level.getBlockState(pos.below()).isAir();
     }

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.living.TeletorEntity;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
@@ -147,10 +148,16 @@ public class MagneticWeaponEntity extends Entity {
             this.entityData.set(IDLING, false);
             this.comingBack = !isOwnerWearingGauntlet();
             float speed = 0.1F;
-
+            boolean haste = false;
             if (isOwnerWearingGauntlet()) {
                 hadPlayerController = true;
                 float maxDist = 30F;
+                if(getController() instanceof LivingEntity living && living.getUseItem().is(ACItemRegistry.GALENA_GAUNTLET.get())){
+                    ItemStack useItem = living.getUseItem();
+                    haste = useItem.getEnchantmentLevel(ACEnchantmentRegistry.FERROUS_HASTE.get()) > 0;
+                    int fieldExtension = useItem.getEnchantmentLevel(ACEnchantmentRegistry.FIELD_EXTENSION.get());
+                    maxDist += fieldExtension * 5F;
+                }
                 BlockPos miningBlock = null;
                 HitResult hitresult = ProjectileUtil.getHitResultOnViewVector(player, Entity::canBeHitByProjectile, maxDist);
                 if (hitresult instanceof EntityHitResult entityHitResult && playerUseCooldown == 0) {
@@ -162,7 +169,8 @@ public class MagneticWeaponEntity extends Entity {
                             strikeProgress = Math.max(0, strikeProgress + 0.35F);
                         } else {
                             hurtEntity(player, entity);
-                            playerUseCooldown = 5 + random.nextInt(5);
+
+                            playerUseCooldown = haste ? 3 : 5 + random.nextInt(5);
                         }
                     }
                 } else {
@@ -196,7 +204,7 @@ public class MagneticWeaponEntity extends Entity {
                         }
                         totalMiningTime++;
                         strikeProgress = (float) Math.abs(Math.sin(tickCount * 0.6F) * 1.2F - 0.2F);
-                        float j = itemDestroySpeed / f / (float) 10;
+                        float j = itemDestroySpeed / f / (float) (haste ? 8 : 10);
                         destroyBlockProgress += j;
                         this.level().destroyBlockProgress(player.getId(), lastSelectedBlock, (int) (destroyBlockProgress * 10F));
                         if (destroyBlockProgress >= 1.0F && !level().isClientSide) {
@@ -339,10 +347,11 @@ public class MagneticWeaponEntity extends Entity {
         if(this.isOnFire()){
             target.setSecondsOnFire(5);
         }
-        if (holder instanceof Player && target instanceof LivingEntity living) {
-            living.setLastHurtByPlayer((Player) holder);
-            if(living.getHealth() <= 0.0F && holder.distanceTo(target) >= 19.5F){
-                ACAdvancementTriggerRegistry.KILL_MOB_WITH_GALENA_GAUNTLET.triggerForEntity(holder);
+        if (holder instanceof Player player && target instanceof LivingEntity living) {
+            itemStack.hurtEnemy(living, player);
+            living.setLastHurtByPlayer(player);
+            if(living.getHealth() <= 0.0F && player.distanceTo(target) >= 19.5F){
+                ACAdvancementTriggerRegistry.KILL_MOB_WITH_GALENA_GAUNTLET.triggerForEntity(player);
             }
         }
     }

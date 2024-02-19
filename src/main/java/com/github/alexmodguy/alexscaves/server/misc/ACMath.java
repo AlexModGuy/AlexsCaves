@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.misc;
 import com.github.alexthe666.citadel.animation.Animation;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -88,4 +89,20 @@ public class ACMath {
         return Vec3.upFromBottomCenterOf(pos, top);
     }
 
+
+    public static Vec3 readVec3(FriendlyByteBuf buf) {
+        return new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+    }
+
+    public static FriendlyByteBuf writeVec3(FriendlyByteBuf buf, Vec3 vec3) {
+        buf.writeDouble(vec3.x());
+        buf.writeDouble(vec3.y());
+        buf.writeDouble(vec3.z());
+        return buf;
+    }
+
+    public static float approachDegreesNoWrap(float from, float to, float by) {
+        float f = (to - from)  % 360.0F;
+        return Mth.approach(from, from + f, by);
+    }
 }

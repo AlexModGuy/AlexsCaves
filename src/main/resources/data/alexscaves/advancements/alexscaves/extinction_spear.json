@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:extinction_spear"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.extinction_spear.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.extinction_spear.desc"
+        },
+        "frame":"goal"
+    },
+    "parent": "alexscaves:alexscaves/defeat_luxtructosaurus",
+    "criteria": {
+        "dreadbow": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:extinction_spear"]
+                    }
+                ]
+            }
+        }
+    }
+}

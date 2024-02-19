@@ -1,5 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
+import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.VolcanicCoreBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -12,7 +14,11 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -21,11 +27,11 @@ import net.minecraft.world.level.material.MapColor;
 
 import javax.annotation.Nullable;
 
-public class VolcanicCoreBlock extends Block {
+public class VolcanicCoreBlock extends BaseEntityBlock {
     public VolcanicCoreBlock() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).instrument(NoteBlockInstrument.BASEDRUM).requiresCorrectToolForDrops().lightLevel((state) -> {
             return 8;
-        }).strength(10.0F).isValidSpawn((state, getter, pos, entityType) -> {
+        }).strength(55.0F, 1200.0F).isValidSpawn((state, getter, pos, entityType) -> {
             return entityType.fireImmune();
         }).hasPostProcess((state, getter, pos) -> true).emissiveRendering((state, getter, pos) -> true).sound(ACSoundTypes.FLOOD_BASALT));
     }
@@ -60,8 +66,7 @@ public class VolcanicCoreBlock extends Block {
                 adjacent++;
             }
         }
-
-        return adjacent >= 4;
+        return adjacent > 3;
     }
 
     @Nullable
@@ -69,7 +74,22 @@ public class VolcanicCoreBlock extends Block {
         if (!this.scanForLava(context.getLevel(), context.getClickedPos())) {
             context.getLevel().scheduleTick(context.getClickedPos(), this, 60 + context.getLevel().getRandom().nextInt(40));
         }
-
         return this.defaultBlockState();
     }
+
+    @javax.annotation.Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level p_152180_, BlockState p_152181_, BlockEntityType<T> p_152182_) {
+        return  p_152180_.isClientSide ? null : createTickerHelper(p_152182_, ACBlockEntityRegistry.VOLCANIC_CORE.get(), VolcanicCoreBlockEntity::tick);
+    }
+
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
+    }
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new VolcanicCoreBlockEntity(pos, state);
+    }
+
 }

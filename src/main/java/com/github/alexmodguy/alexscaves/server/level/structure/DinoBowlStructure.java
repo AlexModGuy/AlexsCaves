@@ -14,7 +14,7 @@ public class DinoBowlStructure extends AbstractCaveGenerationStructure {
     private static final int BOWL_WIDTH_RADIUS = 100;
     private static final int BOWL_HEIGHT_RADIUS = 80;
 
-    private static final int BOWL_Y_CENTER = -1;
+    public static final int BOWL_Y_CENTER = -1;
 
     public static final Codec<DinoBowlStructure> CODEC = simpleCodec((settings) -> new DinoBowlStructure(settings));
 

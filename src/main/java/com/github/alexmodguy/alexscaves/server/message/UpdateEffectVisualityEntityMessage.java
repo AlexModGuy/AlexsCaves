@@ -3,6 +3,7 @@ package com.github.alexmodguy.alexscaves.server.message;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.potion.IrradiatedEffect;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -59,6 +60,7 @@ public class UpdateEffectVisualityEntityMessage {
             Entity senderEntity = playerSided.level().getEntity(message.fromEntityID);
             if (entity instanceof LivingEntity living && senderEntity != null && senderEntity.distanceTo(living) < 32) {
                 MobEffect mobEffect = null;
+                int level = 0;
                 switch (message.potionType) {
                     case 0:
                         mobEffect = ACEffectRegistry.IRRADIATED.get();
@@ -73,12 +75,16 @@ public class UpdateEffectVisualityEntityMessage {
                     case 3:
                         mobEffect = ACEffectRegistry.STUNNED.get();
                         break;
+                    case 4:
+                        mobEffect = ACEffectRegistry.IRRADIATED.get();
+                        level = IrradiatedEffect.BLUE_LEVEL;
+                        break;
                 }
                 if (mobEffect != null) {
                     if (message.remove) {
                         living.removeEffectNoUpdate(mobEffect);
                     } else {
-                        living.addEffect(new MobEffectInstance(mobEffect, message.duration));
+                        living.addEffect(new MobEffectInstance(mobEffect, message.duration, level));
                     }
                 }
             }
