@@ -128,6 +128,10 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
         return new AdvancedPathNavigate(this, level);
     }
 
+    public boolean isFakeEntity() {
+        return this.firstTick;
+    }
+
     @Override
     public void tick() {
         super.tick();

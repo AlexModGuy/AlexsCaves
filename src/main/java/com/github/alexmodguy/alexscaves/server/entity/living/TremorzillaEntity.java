@@ -224,6 +224,10 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
         this.targetSelector.addGoal(3, new OwnerHurtTargetGoal(this));
     }
 
+    public boolean isFakeEntity() {
+        return this.firstTick;
+    }
+
     public void tick() {
         super.tick();
         AnimationHandler.INSTANCE.updateAnimations(this);
