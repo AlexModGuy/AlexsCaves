@@ -526,7 +526,7 @@ public class TremorzillaModel extends AdvancedEntityModel<TremorzillaEntity> {
         float headPitchAmount = headPitch / 57.295776F * (1F - burnProgress) * standProgress;
         Vec3 burnPos = entity.getClientBeamEndPosition(partialTicks);
         articulateLegs(entity.legSolver, partialTicks, groundProgress * (1F - danceProgress) * standProgress);
-        if(!straighten){
+        if (!straighten && !entity.isFakeEntity()) {
             positionTail(entity, partialTicks);
         }
         if (buryEggsAmount > 0.0F) {
