@@ -24,4 +24,6 @@
         • {トリロカリス|primordial_caves/trilocaris.json}
         • {トレモルサウルス|primordial_caves/tremorsaurus.json}
         • {レリケラス|primordial_caves/relicheirus.json}
+        • {ラクストラクトサウルス|primordial_caves/luxtructosaurus.json}
+        • {アトラティアン|primordial_caves/atlatitan.json}
     • {ユーティリティ|primordial_caves/utilities.json}
