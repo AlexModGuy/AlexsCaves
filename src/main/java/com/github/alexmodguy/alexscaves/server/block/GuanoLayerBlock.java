@@ -29,7 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class GuanoLayerBlock extends SnowLayerBlock implements Fallable {
 
     public GuanoLayerBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(DyeColor.BROWN).strength(0.3F).sound(SoundType.FROGSPAWN));
+        super(BlockBehaviour.Properties.of().mapColor(DyeColor.BROWN).strength(0.3F).sound(SoundType.FROGSPAWN).forceSolidOff().randomTicks());
     }
 
     @Override
