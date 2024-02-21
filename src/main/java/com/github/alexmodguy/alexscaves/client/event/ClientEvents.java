@@ -617,12 +617,16 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void fogRender(ViewportEvent.RenderFog event) {
         if(event.isCanceled()){
             //another mod has cancelled fog rendering.
             return;
         }
+        //some mods incorrectly set the RenderSystem fog start and end directly, so this will have to do as a band-aid...
+        float defaultFarPlaneDistance = RenderSystem.getShaderFogEnd();
+        float defaultNearPlaneDistance = RenderSystem.getShaderFogStart();
+
         Entity player = Minecraft.getInstance().getCameraEntity();
         FluidState fluidstate = player.level().getFluidState(event.getCamera().getBlockPosition());
         BlockState blockState = player.level().getBlockState(event.getCamera().getBlockPosition());
@@ -659,7 +663,7 @@ public class ClientEvents {
             }
             if (farness != 1.0F) {
                 event.setCanceled(true);
-                event.setFarPlaneDistance(event.getFarPlaneDistance() * farness);
+                event.setFarPlaneDistance(defaultFarPlaneDistance * farness);
             }
         } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN && AlexsCaves.CLIENT_CONFIG.biomeSkyFogOverrides.get()) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
@@ -670,14 +674,14 @@ public class ClientEvents {
                 nearness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeFogNearness);
             }
             float primordialBossAmount = AlexsCaves.PROXY.getPrimordialBossActiveAmount((float) event.getPartialTick());
-            boolean flag = nearness != 1.0F;
+            boolean flag = Math.abs(nearness) - 1.0F < 0.01F;
             if (primordialBossAmount > 0.0F) {
                 flag = true;
                 nearness *= (1.0F - primordialBossAmount * 0.75F);
             }
             if (flag) {
                 event.setCanceled(true);
-                event.setNearPlaneDistance(event.getNearPlaneDistance() * nearness);
+                event.setNearPlaneDistance(defaultNearPlaneDistance * nearness);
             }
         }
     }
