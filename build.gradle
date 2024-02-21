@@ -117,7 +117,7 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
     runtimeOnly(fg.deobf("curse.maven:spark-361579:4587309"))
 //    runtimeOnly fg.deobf("curse.maven:naturescompass-252848:4175025")
-    runtimeOnly fg.deobf("curse.maven:structure-compass-319598:4946417")
+//    runtimeOnly fg.deobf("curse.maven:structure-compass-319598:4946417")
 }
 
 mixin {

@@ -1,7 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.level.storage;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.LuxtructosaurusEntity;
-import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeFinder;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
+import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeMapWorldWorker;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -13,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraftforge.common.WorldWorkerManager;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -22,7 +24,6 @@ public class ACWorldData extends SavedData {
 
     private static final String IDENTIFIER = "alexscaves_world_data";
     private Map<UUID, Integer> deepOneReputations = new HashMap<>();
-    private final CaveBiomeFinder caveBiomeFinder = new CaveBiomeFinder();
     private boolean primordialBossDefeatedOnce = false;
     private long firstPrimordialBossDefeatTimestamp = -1;
     private Set<Integer> trackedLuxtructosaurusIds = new ObjectArraySet();
@@ -120,6 +121,9 @@ public class ACWorldData extends SavedData {
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
-        caveBiomeFinder.fillOutCaveMap(uuid, map, serverLevel, center, player);
+        //sets the level seed internally
+        ACBiomeRarity.getRareBiomeCenterQuad(serverLevel.getSeed(), 0, center.getX(), center.getZ());
+        CaveBiomeMapWorldWorker worker = new CaveBiomeMapWorldWorker(map, serverLevel, center, player, uuid);
+        WorldWorkerManager.addWorker(worker);
     }
 }
