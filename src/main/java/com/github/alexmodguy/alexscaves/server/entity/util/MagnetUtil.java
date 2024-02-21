@@ -65,7 +65,7 @@ public class MagnetUtil {
         Vec3 vec3 = getEntityMagneticDelta(entity);
         Direction dir = getEntityMagneticDirection(entity);
         MagneticEntityAccessor magneticAccessor = (MagneticEntityAccessor) entity;
-        boolean attatchesToMagnets = attachesToMagnets(entity);
+        boolean attatchesToMagnets = AlexsCaves.COMMON_CONFIG.walkingOnMagnets.get() && attachesToMagnets(entity);
         float progress = magneticAccessor.getAttachmentProgress(1.0F);
         if (vec3 != Vec3.ZERO) {
             Direction standingOnDirection = getStandingOnMagnetSurface(entity);
@@ -167,7 +167,7 @@ public class MagnetUtil {
     }
 
     public static Direction getEntityMagneticDirection(Entity entity) {
-        if (entity instanceof MagneticEntityAccessor magnetic) {
+        if (entity instanceof MagneticEntityAccessor magnetic && AlexsCaves.COMMON_CONFIG.walkingOnMagnets.get()) {
             return magnetic.getMagneticAttachmentFace();
         }
         return Direction.DOWN;
