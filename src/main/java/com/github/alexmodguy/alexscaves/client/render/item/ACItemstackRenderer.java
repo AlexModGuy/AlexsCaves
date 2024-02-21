@@ -175,9 +175,11 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
                     poseStack.translate(0, 0.5F, 0F);
                     poseStack.scale(0.75F, 0.75F, 0.75F);
                 }
-                VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, ForgeRenderTypes.getUnlitTranslucent(EXTINCTION_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
                 EXTINCTION_SPEAR_MODEL.resetToDefaultPose();
-                EXTINCTION_SPEAR_MODEL.renderToBuffer(poseStack, vertexconsumer, 240, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                VertexConsumer vertexconsumer1 = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(EXTINCTION_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+                EXTINCTION_SPEAR_MODEL.renderToBuffer(poseStack, vertexconsumer1, 240, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, ForgeRenderTypes.getUnlitTranslucent(EXTINCTION_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+                EXTINCTION_SPEAR_MODEL.renderToBuffer(poseStack, vertexconsumer2, 240, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
                 poseStack.popPose();
             } else {
                 renderStaticItemSprite(spriteItem, transformType, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, level);
