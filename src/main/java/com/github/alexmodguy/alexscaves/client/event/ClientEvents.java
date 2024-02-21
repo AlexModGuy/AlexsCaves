@@ -617,8 +617,12 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void fogRender(ViewportEvent.RenderFog event) {
+        if(event.isCanceled()){
+            //another mod has cancelled fog rendering.
+            return;
+        }
         Entity player = Minecraft.getInstance().getCameraEntity();
         FluidState fluidstate = player.level().getFluidState(event.getCamera().getBlockPosition());
         BlockState blockState = player.level().getBlockState(event.getCamera().getBlockPosition());
@@ -678,7 +682,7 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void fogColor(ViewportEvent.ComputeFogColor event) {
         Entity player = Minecraft.getInstance().player;
         BlockState blockState = player.level().getBlockState(event.getCamera().getBlockPosition());

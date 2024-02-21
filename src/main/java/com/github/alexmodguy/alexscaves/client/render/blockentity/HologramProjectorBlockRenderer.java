@@ -26,6 +26,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
@@ -88,6 +89,9 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
         float bob2 = (float) (Math.cos(ticks * 0.05F + amount) * 0.1F);
         float length = (1F + bob1) * amount;
         float width = ((holoEntity == null ? 0.8F : holoEntity.getBbWidth()) + bob2) * amount;
+        if(holoEntity instanceof LivingEntity living){
+            width *= living.getScale();
+        }
         VertexConsumer lightConsumer = bufferIn.getBuffer(ACRenderTypes.getHologramLights());
         poseStack.pushPose();
         float padStart = 0.125F;
