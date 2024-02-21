@@ -23,18 +23,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
-import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.Tags;
 import org.joml.Matrix4f;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CaveMapRenderer {
 
@@ -60,7 +57,7 @@ public class CaveMapRenderer {
         ResourceLocation resourcelocation = Minecraft.getInstance().textureManager.register("cave_map/" + index + (transparent ? "" : "_frame"), this.texture);
         this.renderType = RenderType.text(resourcelocation);
         updateTexture();
-        updateLabels(new LegacyRandomSource(seed));
+        updateLabels();
     }
 
     public static CaveMapRenderer getMapFor(ItemStack item, boolean transparent) {
@@ -125,9 +122,10 @@ public class CaveMapRenderer {
         return false;
     }
 
-    private void updateLabels(LegacyRandomSource random) {
+    private void updateLabels() {
         labels.clear();
-        int extraBiomes = random.nextInt(3) + 3;
+        RandomSource randomSource = Minecraft.getInstance().level.random;
+        int extraBiomes = randomSource.nextInt(3) + 3;
         Registry<Biome> registry = Minecraft.getInstance().level.registryAccess().registry(Registries.BIOME).orElse(null);
         if (registry != null && mapBiomes.length >= 128 * 128) {
             Pair<Integer, Integer> targetBiomeLoc = centerBiomeCoordinates(64, 64);
@@ -135,7 +133,7 @@ public class CaveMapRenderer {
             BiomeLabel centerLabel = buildLabelFrom(targetBiomeLoc, registry, (targetBiomeLoc.getFirst() - 64) / 2, true);
             labels.add(centerLabel);
             for (int i = 0; i < extraBiomes; i++) {
-                Vec3 randomOffsetFromCenterVec = new Vec3(0, 0, random.nextInt(20) + 40).yRot((float) Math.toRadians((360 / (float) extraBiomes) * i + random.nextFloat() * 40));
+                Vec3 randomOffsetFromCenterVec = new Vec3(0, 0, randomSource.nextInt(20) + 40).yRot((float) Math.toRadians((360 / (float) extraBiomes) * i + randomSource.nextFloat() * 40));
                 int offsetX = Mth.clamp(centerLabel.x() + (int) randomOffsetFromCenterVec.x, 10, 118);
                 int offsetY = Mth.clamp(centerLabel.y() + (int) randomOffsetFromCenterVec.z, 10, 118);
 
