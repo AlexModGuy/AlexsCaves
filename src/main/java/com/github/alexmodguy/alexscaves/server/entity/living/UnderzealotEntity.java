@@ -364,7 +364,7 @@ public class UnderzealotEntity extends Monster implements PackAnimal, IAnimatedE
         }else if(this.isCarrying()){
             return true;
         }
-        return !this.isPraying();
+        return this.isPraying();
     }
 
     public boolean isDiggingInProgress() {
