@@ -28,6 +28,8 @@ public class ACWorldData extends SavedData {
     private long firstPrimordialBossDefeatTimestamp = -1;
     private Set<Integer> trackedLuxtructosaurusIds = new ObjectArraySet();
 
+    private CaveBiomeMapWorldWorker lastMapWorker = null;
+
     private ACWorldData() {
         super();
     }
@@ -123,7 +125,10 @@ public class ACWorldData extends SavedData {
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
         //sets the level seed internally
         ACBiomeRarity.getRareBiomeCenterQuad(serverLevel.getSeed(), 0, center.getX(), center.getZ());
-        CaveBiomeMapWorldWorker worker = new CaveBiomeMapWorldWorker(map, serverLevel, center, player, uuid);
-        WorldWorkerManager.addWorker(worker);
+        if(lastMapWorker != null){
+            lastMapWorker.onWorkComplete(lastMapWorker.getLastFoundBiome());
+        }
+        lastMapWorker = new CaveBiomeMapWorldWorker(map, serverLevel, center, player, uuid);
+        WorldWorkerManager.addWorker(lastMapWorker);
     }
 }

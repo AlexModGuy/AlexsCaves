@@ -41,6 +41,7 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
     private UUID taskUUID;
     private Direction sampleDirection = Direction.UP;
     private BlockPos lastSampledPos = null;
+    private BlockPos lastBiomePos = null;
     private boolean complete;
     private int samples = 0;
     private static final int SAMPLE_INCREMENT = AlexsCaves.COMMON_CONFIG.caveMapSearchWidth.get();
@@ -62,12 +63,15 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
 
     @Override
     public boolean hasWork() {
-        return !complete && samples < AlexsCaves.COMMON_CONFIG.caveMapSearchAttempts.get();
+        boolean ret = !complete && samples < AlexsCaves.COMMON_CONFIG.caveMapSearchAttempts.get() && !this.serverLevel.getServer().isStopped();
+        if(!ret){
+            onWorkComplete(getLastFoundBiome());
+        }
+        return ret;
     }
 
     @Override
     public boolean doWork() {
-        BlockPos pos = null;
         if (hasWork()) {
             samples++;
             int y = player.getBlockY();
@@ -91,7 +95,7 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
                 int quartY = QuartPos.fromBlock(blockY);
                 Biome biome = source.getNoiseBiome(quartX, quartY, quartZ, sampler).get();
                 if (verifyBiomeRespectRegistry(serverLevel, biome, biomeResourceKey)) {
-                    pos = new BlockPos(nextBlockX, blockY, nextBlockZ);
+                    lastBiomePos = new BlockPos(nextBlockX, blockY, nextBlockZ);
                 }
             }
 
@@ -106,18 +110,18 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
                 width = 0;
             }
             lastSampledPos = nextPos.immutable();
-            if(pos == null){
+            if(lastBiomePos == null){
                 return true;
             }
         }
         if(!complete){
-            onWorkComplete(pos);
+            onWorkComplete(lastBiomePos);
             complete = true;
         }
         return false;
     }
 
-    private void onWorkComplete(@Nullable BlockPos biomeCorner) {
+    public void onWorkComplete(@Nullable BlockPos biomeCorner) {
         CompoundTag tag = map.getOrCreateTag();
         if (biomeCorner != null) {
             BlockPos centered = getCenterOfBiome(biomeCorner);
@@ -140,11 +144,12 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
         tag.remove("MapUUID");
         map.setTag(tag);
         AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getId(), getTaskUUID(), tag));
+        complete = true;
     }
 
-    private BlockPos findBiome() {
-
-        return null;
+    @Nullable
+    public BlockPos getLastFoundBiome() {
+        return lastBiomePos;
     }
 
     private static boolean verifyBiomeRespectRegistry(Level level, Biome biome, ResourceKey<Biome> matches) {

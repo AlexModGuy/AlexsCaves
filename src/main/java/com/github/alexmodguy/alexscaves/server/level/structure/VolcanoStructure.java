@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.structure;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.piece.VolcanoStructurePiece;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
@@ -37,7 +38,7 @@ public class VolcanoStructure extends Structure {
         int i = context.chunkPos().getBlockX(9);
         int j = context.chunkPos().getBlockZ(9);
 
-        for(Holder<Biome> holder : getBiomesWithinAtY(context.biomeSource(), i, VOLCANO_Y_CENTER, j, 30, context.randomState().sampler())) {
+        for(Holder<Biome> holder : ACMath.getBiomesWithinAtY(context.biomeSource(), i, VOLCANO_Y_CENTER, j, 30, context.randomState().sampler())) {
             if (!holder.is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
                 return Optional.empty();
             }
@@ -73,27 +74,6 @@ public class VolcanoStructure extends Structure {
             }
         }
     }
-
-    private Set<Holder<Biome>> getBiomesWithinAtY(BiomeSource biomeSource, int x, int y, int z, int xzDist, Climate.Sampler sampler) {
-        int i = QuartPos.fromBlock(x - xzDist);
-        int j = QuartPos.fromBlock(y);
-        int k = QuartPos.fromBlock(z - xzDist);
-        int l = QuartPos.fromBlock(x + xzDist);
-        int j1 = QuartPos.fromBlock(z + xzDist);
-        int k1 = l - i + 1;
-        int i2 = j1 - k + 1;
-        Set<Holder<Biome>> set = Sets.newHashSet();
-
-        for(int j2 = 0; j2 < i2; ++j2) {
-            for(int k2 = 0; k2 < k1; ++k2) {
-                int i3 = i + k2;
-                int k3 = k + j2;
-                set.add(biomeSource.getNoiseBiome(i3, j, k3, sampler));
-            }
-        }
-        return set;
-    }
-
 
     @Override
     public GenerationStep.Decoration step() {
