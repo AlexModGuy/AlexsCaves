@@ -112,6 +112,10 @@ public class FerrouslimeEntity extends Monster {
             } else {
                 this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Mth.clamp(getHeadCount() * 10, 10, 100));
                 this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Mth.clamp(getHeadCount() * 2, 2, 10));
+                double d = this.getAttribute(Attributes.MAX_HEALTH).getValue();
+                if(this.getHealth() < d && getHeadCount() > 0){
+                    this.heal((float) Math.ceil(d - this.getHealth()));
+                }
                 prevHeadCount = this.getHeadCount();
             }
         }
