@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -166,6 +167,9 @@ public class DinosaurSpiritEntity extends Entity {
         this.setXRot(10);
         this.setDeltaMovement(orbitTarget.scale(0.25F));
         this.noPhysics = true;
+        if(!level().isClientSide && !player.getUseItem().is(ACItemRegistry.EXTINCTION_SPEAR.get())){
+            this.setFading(true);
+        }
     }
 
     private void tickTremorsaurus(Player player) {

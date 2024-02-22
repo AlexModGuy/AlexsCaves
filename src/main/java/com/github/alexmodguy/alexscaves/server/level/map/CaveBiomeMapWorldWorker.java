@@ -143,7 +143,7 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
         tag.putBoolean("Loading", false);
         tag.remove("MapUUID");
         map.setTag(tag);
-        AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getId(), getTaskUUID(), tag));
+        AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getUUID(), getTaskUUID(), tag));
         complete = true;
     }
 

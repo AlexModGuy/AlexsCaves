@@ -16,23 +16,23 @@ import java.util.function.Supplier;
 
 public class UpdateCaveBiomeMapTagMessage {
 
-    private int entityId;
+    private UUID userUUID;
     private UUID caveBiomeMapUUID;
     private CompoundTag tag;
 
-    public UpdateCaveBiomeMapTagMessage(int entityId, UUID caveBiomeMapUUID, CompoundTag tag) {
-        this.entityId = entityId;
+    public UpdateCaveBiomeMapTagMessage(UUID userUUID, UUID caveBiomeMapUUID, CompoundTag tag) {
+        this.userUUID = userUUID;
         this.caveBiomeMapUUID = caveBiomeMapUUID;
         this.tag = tag;
     }
 
 
     public static UpdateCaveBiomeMapTagMessage read(FriendlyByteBuf buf) {
-        return new UpdateCaveBiomeMapTagMessage(buf.readInt(), buf.readUUID(), PacketBufferUtils.readTag(buf));
+        return new UpdateCaveBiomeMapTagMessage(buf.readUUID(), buf.readUUID(), PacketBufferUtils.readTag(buf));
     }
 
     public static void write(UpdateCaveBiomeMapTagMessage message, FriendlyByteBuf buf) {
-        buf.writeInt(message.entityId);
+        buf.writeUUID(message.userUUID);
         buf.writeUUID(message.caveBiomeMapUUID);
         PacketBufferUtils.writeTag(buf, message.tag);
     }
@@ -44,8 +44,8 @@ public class UpdateCaveBiomeMapTagMessage {
             playerSided = AlexsCaves.PROXY.getClientSidePlayer();
         }
         if(playerSided != null){
-            Entity holder = playerSided.level().getEntity(message.entityId);
-            if (holder instanceof Player player) {
+            Player player = playerSided.level().getPlayerByUUID(message.userUUID);
+            if (player != null) {
                 ItemStack set = null;
                 for(int i = 0; i < player.getInventory().items.size(); i++){
                     ItemStack itemStack = player.getInventory().items.get(i);

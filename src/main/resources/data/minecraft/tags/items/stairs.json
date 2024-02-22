@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:galena_stairs",
+    "alexscaves:galena_brick_stairs",
+    "alexscaves:limestone_stairs",
+    "alexscaves:smooth_limestone_stairs",
+    "alexscaves:radrock_stairs",
+    "alexscaves:radrock_brick_stairs",
+    "alexscaves:cinder_block_stairs",
+    "alexscaves:abyssmarine_stairs",
+    "alexscaves:abyssmarine_brick_stairs",
+    "alexscaves:smooth_bone_stairs",
+    "alexscaves:guanostone_stairs",
+    "alexscaves:guanostone_brick_stairs",
+    "alexscaves:coprolith_stairs",
+    "alexscaves:smooth_coprolith_stairs"
+  ]
+}
