@@ -23,4 +23,5 @@
         • {ブレイニアック|toxic_caves/brainiac.json}
         • {ガンマローチ|toxic_caves/gammaroach.json}
         • {レイキャット|toxic_caves/raycat.json}
+        • {トレモルジラ|toxic_caves/tremorzilla.json}
     • {ユーティリティ|toxic_caves/utilities.json}

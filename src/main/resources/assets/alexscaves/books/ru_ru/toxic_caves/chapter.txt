@@ -23,4 +23,5 @@
         • {Мозгоньяк|toxic_caves/brainiac.json}
         • {Гаммаракан|toxic_caves/gammaroach.json}
         • {Лучекот|toxic_caves/raycat.json}
+        • {Сотрясозилла|toxic_caves/tremorzilla.json}
     • {Применения|toxic_caves/utilities.json}
