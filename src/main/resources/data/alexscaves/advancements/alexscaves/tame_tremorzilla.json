@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:waste_drum"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.tame_tremorzilla.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.tame_tremorzilla.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/hatch_tremorzilla_egg",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:tremorzilla"
+        }
+      }
+    }
+  }
+}

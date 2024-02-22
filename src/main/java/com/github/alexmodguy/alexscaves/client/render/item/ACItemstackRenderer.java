@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.gui.book.widget.ItemWidget;
 import com.github.alexmodguy.alexscaves.client.model.*;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -22,6 +23,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.ForgeRenderTypes;
 
 public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation GALENA_GAUNTLET_TEXTURE = new ResourceLocation("alexscaves:textures/entity/galena_gauntlet.png");
@@ -37,11 +39,15 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final PrimitiveClubModel PRIMITIVE_CLUB_MODEL = new PrimitiveClubModel();
     private static final ResourceLocation LIMESTONE_SPEAR_TEXTURE = new ResourceLocation("alexscaves:textures/entity/limestone_spear.png");
     private static final LimestoneSpearModel LIMESTONE_SPEAR_MODEL = new LimestoneSpearModel();
+    private static final ResourceLocation EXTINCTION_SPEAR_TEXTURE = new ResourceLocation("alexscaves:textures/entity/extinction_spear.png");
+    private static final ExtinctionSpearModel EXTINCTION_SPEAR_MODEL = new ExtinctionSpearModel();
     private static final ResourceLocation SIREN_LIGHT_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/siren_light.png");
     private static final ResourceLocation SIREN_LIGHT_COLOR_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/siren_light_color.png");
     private static final SirenLightModel SIREN_LIGHT_MODEL = new SirenLightModel();
-    private static final ResourceLocation RAYGUN_TEXTURE = new ResourceLocation("alexscaves:textures/entity/raygun.png");
-    private static final ResourceLocation RAYGUN_ACTIVE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/raygun_active.png");
+    private static final ResourceLocation RAYGUN_TEXTURE = new ResourceLocation("alexscaves:textures/entity/raygun/raygun.png");
+    private static final ResourceLocation RAYGUN_ACTIVE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_active.png");
+    private static final ResourceLocation RAYGUN_BLUE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_blue.png");
+    private static final ResourceLocation RAYGUN_BLUE_ACTIVE_TEXTURE = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_blue_active.png");
     private static final RaygunModel RAYGUN_MODEL = new RaygunModel();
     private static final ResourceLocation SEA_STAFF_TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/sea_staff.png");
     private static final SeaStaffModel SEA_STAFF_MODEL = new SeaStaffModel();
@@ -54,6 +60,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation BEHOLDER_TEXTURE_EYE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder_eye.png");
     private static final ResourceLocation DREADBOW_TEXTURE = new ResourceLocation("alexscaves:textures/entity/dreadbow.png");
     private static final ResourceLocation DREADBOW_TEXTURE_EYE = new ResourceLocation("alexscaves:textures/entity/dreadbow_eye.png");
+    private static final ResourceLocation DREADBOW_TEXTURE_EYE_PERFECT = new ResourceLocation("alexscaves:textures/entity/dreadbow_eye_perfect.png");
     private static final DreadbowModel DREADBOW_MODEL = new DreadbowModel();
     public static boolean sepiaFlag = false;
 
@@ -79,12 +86,12 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
             if (left || transformType == ItemDisplayContext.GUI) {
                 GALENA_GAUNTLET_LEFT_MODEL.setupAnim(null, openAmount, 0, ageInTicks, 0, 0);
-                GALENA_GAUNTLET_LEFT_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.entityCutoutNoCull(GALENA_GAUNTLET_TEXTURE), GALENA_GAUNTLET_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                GALENA_GAUNTLET_LEFT_MODEL.renderToBuffer(poseStack, getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(GALENA_GAUNTLET_TEXTURE), GALENA_GAUNTLET_TEXTURE, itemStackIn.hasFoil()), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
                 GALENA_GAUNTLET_LEFT_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(GALENA_GAUNTLET_BLUE_TEXTURE), GALENA_GAUNTLET_BLUE_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, openAmount);
                 GALENA_GAUNTLET_LEFT_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(GALENA_GAUNTLET_RED_TEXTURE), GALENA_GAUNTLET_RED_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, closeAmount);
             } else {
                 GALENA_GAUNTLET_RIGHT_MODEL.setupAnim(null, openAmount, 0, ageInTicks, 0, 0);
-                GALENA_GAUNTLET_RIGHT_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.entityCutoutNoCull(GALENA_GAUNTLET_TEXTURE), GALENA_GAUNTLET_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                GALENA_GAUNTLET_RIGHT_MODEL.renderToBuffer(poseStack, getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(GALENA_GAUNTLET_TEXTURE), GALENA_GAUNTLET_TEXTURE, itemStackIn.hasFoil()), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
                 GALENA_GAUNTLET_RIGHT_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(GALENA_GAUNTLET_BLUE_TEXTURE), GALENA_GAUNTLET_BLUE_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, openAmount);
                 GALENA_GAUNTLET_RIGHT_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(GALENA_GAUNTLET_RED_TEXTURE), GALENA_GAUNTLET_RED_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, closeAmount);
             }
@@ -110,7 +117,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             }
             poseStack.mulPose(Axis.XP.rotationDegrees(-180));
             RESISTOR_SHIELD_MODEL.setupAnim(null, useProgress, switchProgress, 0, 0, 0);
-            RESISTOR_SHIELD_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.entityCutoutNoCull(RESISTOR_SHIELD_TEXTURE), RESISTOR_SHIELD_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            RESISTOR_SHIELD_MODEL.renderToBuffer(poseStack, getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(RESISTOR_SHIELD_TEXTURE), RESISTOR_SHIELD_TEXTURE, itemStackIn.hasFoil()), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
             RESISTOR_SHIELD_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(RESISTOR_SHIELD_RED_TEXTURE), RESISTOR_SHIELD_RED_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, switchProgress);
             RESISTOR_SHIELD_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(RESISTOR_SHIELD_BLUE_TEXTURE), RESISTOR_SHIELD_BLUE_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F - switchProgress);
             poseStack.popPose();
@@ -156,6 +163,29 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             }
         }
 
+        if (itemStackIn.is(ACItemRegistry.EXTINCTION_SPEAR.get())) {
+            poseStack.translate(0.5F, 0.5f, 0.5f);
+            ItemStack spriteItem = new ItemStack(ACItemRegistry.EXTINCTION_SPEAR_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if (heldIn3d) {
+                poseStack.pushPose();
+                poseStack.mulPose(Axis.XP.rotationDegrees(-180));
+                poseStack.translate(0, -0.85F, -0.1F);
+                if (transformType.firstPerson()) {
+                    poseStack.translate(0, 0.5F, 0F);
+                    poseStack.scale(0.75F, 0.75F, 0.75F);
+                }
+                EXTINCTION_SPEAR_MODEL.resetToDefaultPose();
+                VertexConsumer vertexconsumer1 = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(EXTINCTION_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+                EXTINCTION_SPEAR_MODEL.renderToBuffer(poseStack, vertexconsumer1, 240, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                VertexConsumer vertexconsumer2 = ItemRenderer.getArmorFoilBuffer(bufferIn, ForgeRenderTypes.getUnlitTranslucent(EXTINCTION_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+                EXTINCTION_SPEAR_MODEL.renderToBuffer(poseStack, vertexconsumer2, 240, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                poseStack.popPose();
+            } else {
+                renderStaticItemSprite(spriteItem, transformType, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, level);
+            }
+        }
+
         if (itemStackIn.is(ACBlockRegistry.SIREN_LIGHT.get().asItem())) {
             poseStack.pushPose();
             poseStack.translate(0.5F, 1.5F, 0.5F);
@@ -177,8 +207,11 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             poseStack.pushPose();
             poseStack.scale(0.9F, 0.9F, 0.9F);
             RAYGUN_MODEL.setupAnim(null, useAmount, ageInTicks,  0, 0, 0);
-            RAYGUN_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.entityCutoutNoCull(RAYGUN_TEXTURE), RAYGUN_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-            RAYGUN_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(RAYGUN_ACTIVE_TEXTURE), RAYGUN_ACTIVE_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, pulseAlpha);
+            boolean gamma = itemStackIn.getEnchantmentLevel(ACEnchantmentRegistry.GAMMA_RAY.get())  > 0;
+            ResourceLocation texture = gamma ? RAYGUN_BLUE_TEXTURE : RAYGUN_TEXTURE;
+            ResourceLocation textureActive = gamma ? RAYGUN_BLUE_ACTIVE_TEXTURE : RAYGUN_ACTIVE_TEXTURE;
+            RAYGUN_MODEL.renderToBuffer(poseStack, getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(texture), texture, itemStackIn.hasFoil()), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            RAYGUN_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, ACRenderTypes.getEyesAlphaEnabled(textureActive), textureActive), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, pulseAlpha);
             poseStack.popPose();
             poseStack.popPose();
         }
@@ -213,7 +246,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
                 if (transformType.firstPerson()) {
                     poseStack.scale(0.6F, 1F, 0.6F);
                 }
-                VertexConsumer vertexconsumer = getVertexConsumerFoil(bufferIn, RenderType.armorCutoutNoCull(ORTHOLANCE_TEXTURE), ORTHOLANCE_TEXTURE, itemStackIn.hasFoil());
+                VertexConsumer vertexconsumer = getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(ORTHOLANCE_TEXTURE), ORTHOLANCE_TEXTURE, itemStackIn.hasFoil());
                 ORTHOLANCE_MODEL.renderToBuffer(poseStack, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
                 poseStack.popPose();
             } else {
@@ -274,7 +307,8 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
                 }
                 VertexConsumer vertexconsumer = getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(DREADBOW_TEXTURE), DREADBOW_TEXTURE, itemStackIn.hasFoil());
                 DREADBOW_MODEL.renderToBuffer(poseStack, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
-                DREADBOW_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.eyes(DREADBOW_TEXTURE_EYE), DREADBOW_TEXTURE_EYE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                ResourceLocation eyeTexture = DreadbowItem.getPerfectShotTicks(itemStackIn) > 0 ? DREADBOW_TEXTURE_EYE_PERFECT : DREADBOW_TEXTURE_EYE;
+                DREADBOW_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.eyes(eyeTexture), eyeTexture), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
                 poseStack.popPose();
             } else {
                 renderStaticItemSprite(spriteItem, transformType, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, level);
@@ -293,7 +327,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     }
 
     private static VertexConsumer getVertexConsumerFoil(MultiBufferSource bufferIn, RenderType _default, ResourceLocation resourceLocation, boolean foil){
-        return sepiaFlag ? bufferIn.getBuffer(ACRenderTypes.getBookWidget(resourceLocation, true)) : ItemRenderer.getArmorFoilBuffer(bufferIn, _default, false, foil);
+        return sepiaFlag ? bufferIn.getBuffer(ACRenderTypes.getBookWidget(resourceLocation, true)) : ItemRenderer.getFoilBuffer(bufferIn, _default, false, foil);
     }
     private static VertexConsumer getVertexConsumer(MultiBufferSource bufferIn, RenderType _default, ResourceLocation resourceLocation){
         return sepiaFlag ? bufferIn.getBuffer(ACRenderTypes.getBookWidget(resourceLocation, true)) : bufferIn.getBuffer(_default);

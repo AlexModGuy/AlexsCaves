@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
+import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CaveInfoItem;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
@@ -87,6 +88,10 @@ public class ACCreativeTabRegistry {
                 output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_MAGNETIZING_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.MAGNETIZING_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_MAGNETIZING_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.MAGNETIZING_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.LONG_MAGNETIZING_POTION.get()));
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.GALENA_GAUNTLET);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.RESISTOR_SHIELD);
             })
             .build());
 
@@ -106,6 +111,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.TRILOCARIS_TAIL.get());
                 add(output, ACItemRegistry.COOKED_TRILOCARIS_TAIL.get());
                 add(output, ACItemRegistry.PINE_NUTS.get());
+                add(output, ACItemRegistry.PEWEN_SAP.get());
                 add(output, ACItemRegistry.AMBER_CURIOSITY.get());
                 add(output, ACItemRegistry.DINOSAUR_NUGGET.get());
                 add(output, ACItemRegistry.SERENE_SALAD.get());
@@ -118,6 +124,9 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.PRIMORDIAL_HELMET.get());
                 add(output, ACItemRegistry.PRIMORDIAL_TUNIC.get());
                 add(output, ACItemRegistry.PRIMORDIAL_PANTS.get());
+                add(output, ACItemRegistry.OMINOUS_CATALYST.get());
+                add(output, ACItemRegistry.TECTONIC_SHARD.get());
+                add(output, ACItemRegistry.EXTINCTION_SPEAR.get());
                 add(output, ACItemRegistry.DINOSAUR_POTTERY_SHERD.get());
                 add(output, ACItemRegistry.FOOTPRINT_POTTERY_SHERD.get());
                 add(output, ACBlockRegistry.AMBER.get());
@@ -167,6 +176,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.GROTTOCERATOPS_EGG.get());
                 add(output, ACBlockRegistry.TREMORSAURUS_EGG.get());
                 add(output, ACBlockRegistry.RELICHEIRUS_EGG.get());
+                add(output, ACBlockRegistry.ATLATITAN_EGG.get());
                 add(output, ACBlockRegistry.DINOSAUR_CHOP.get());
                 add(output, ACBlockRegistry.COOKED_DINOSAUR_CHOP.get());
                 add(output, ACBlockRegistry.CARMINE_FROGLIGHT.get());
@@ -199,6 +209,11 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.ANCIENT_SAPLING.get());
                 add(output, ACBlockRegistry.TREE_STAR.get());
                 add(output, ACBlockRegistry.FERN_THATCH.get());
+                add(output, ACBlockRegistry.PRIMAL_MAGMA.get());
+                add(output, ACBlockRegistry.FLOOD_BASALT.get());
+                add(output, ACBlockRegistry.VOLCANIC_CORE.get());
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.PRIMITIVE_CLUB);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.EXTINCTION_SPEAR);
             })
             .build());
 
@@ -236,6 +251,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.CHARRED_REMNANT.get());
                 add(output, ACItemRegistry.REMOTE_DETONATOR.get());
                 add(output, ACItemRegistry.RAYGUN.get());
+                add(output, ACItemRegistry.MUSIC_DISC_FUSION_FRAGMENT.get());
+                add(output, ACItemRegistry.MUSIC_DISC_FUSION.get());
                 add(output, ACBlockRegistry.RADROCK.get());
                 add(output, ACBlockRegistry.RADROCK_STAIRS.get());
                 add(output, ACBlockRegistry.RADROCK_SLAB.get());
@@ -278,6 +295,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.CINDER_BLOCK_SLAB.get());
                 add(output, ACBlockRegistry.CINDER_BLOCK_WALL.get());
                 add(output, ACBlockRegistry.HAZMAT_BLOCK.get());
+                add(output, ACBlockRegistry.HAZMAT_WARNING_BLOCK.get());
+                add(output, ACBlockRegistry.HAZMAT_SKULL_BLOCK.get());
                 add(output, ACBlockRegistry.SIREN_LIGHT.get());
                 add(output, ACBlockRegistry.NUCLEAR_SIREN.get());
                 add(output, ACBlockRegistry.WHITE_RADON_LAMP.get());
@@ -296,6 +315,8 @@ public class ACCreativeTabRegistry {
                 add(output, ACBlockRegistry.GREEN_RADON_LAMP.get());
                 add(output, ACBlockRegistry.RED_RADON_LAMP.get());
                 add(output, ACBlockRegistry.BLACK_RADON_LAMP.get());
+                add(output, ACBlockRegistry.TREMORZILLA_EGG.get());
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.RAYGUN);
             })
             .build());
 
@@ -339,6 +360,7 @@ public class ACCreativeTabRegistry {
                 add(output, ACItemRegistry.MAGIC_CONCH.get());
                 add(output, ACItemRegistry.SEA_STAFF.get());
                 add(output, ACItemRegistry.DEPTH_CHARGE.get());
+                add(output, ACItemRegistry.IMMORTAL_EMBRYO.get());
                 add(output, ACItemRegistry.GUARDIAN_POTTERY_SHERD.get());
                 add(output, ACItemRegistry.HERO_POTTERY_SHERD.get());
                 add(output, ACBlockRegistry.ABYSSMARINE.get());
@@ -382,10 +404,17 @@ public class ACCreativeTabRegistry {
                 output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.DEEPSIGHT_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.DEEPSIGHT_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.LONG_DEEPSIGHT_POTION.get()));
                 output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.GLOWING_POTION.get()));
                 output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_GLOWING_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.GLOWING_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_GLOWING_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.GLOWING_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.LONG_GLOWING_POTION.get()));
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.ORTHOLANCE);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.MAGIC_CONCH);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.SEA_STAFF);
             })
             .build());
 
@@ -471,6 +500,12 @@ public class ACCreativeTabRegistry {
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.HASTE_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_HASTE_POTION.get()));
                 output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.STRONG_HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.LONG_HASTE_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.STRONG_HASTE_POTION.get()));
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.TOTEM_OF_POSSESSION);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.DESOLATE_DAGGER);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.DREADBOW);
             })
             .build());
 

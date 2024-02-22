@@ -1,10 +1,17 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexthe666.citadel.animation.Animation;
+import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.QuartPos;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -12,6 +19,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class ACMath {
@@ -88,4 +96,40 @@ public class ACMath {
         return Vec3.upFromBottomCenterOf(pos, top);
     }
 
+
+    public static Vec3 readVec3(FriendlyByteBuf buf) {
+        return new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+    }
+
+    public static FriendlyByteBuf writeVec3(FriendlyByteBuf buf, Vec3 vec3) {
+        buf.writeDouble(vec3.x());
+        buf.writeDouble(vec3.y());
+        buf.writeDouble(vec3.z());
+        return buf;
+    }
+
+    public static float approachDegreesNoWrap(float from, float to, float by) {
+        float f = (to - from)  % 360.0F;
+        return Mth.approach(from, from + f, by);
+    }
+
+    public static Set<Holder<Biome>> getBiomesWithinAtY(BiomeSource biomeSource, int x, int y, int z, int xzDist, Climate.Sampler sampler) {
+        int i = QuartPos.fromBlock(x - xzDist);
+        int j = QuartPos.fromBlock(y);
+        int k = QuartPos.fromBlock(z - xzDist);
+        int l = QuartPos.fromBlock(x + xzDist);
+        int j1 = QuartPos.fromBlock(z + xzDist);
+        int k1 = l - i + 1;
+        int i2 = j1 - k + 1;
+        Set<Holder<Biome>> set = Sets.newHashSet();
+
+        for(int j2 = 0; j2 < i2; ++j2) {
+            for(int k2 = 0; k2 < k1; ++k2) {
+                int i3 = i + k2;
+                int k3 = k + j2;
+                set.add(biomeSource.getNoiseBiome(i3, j, k3, sampler));
+            }
+        }
+        return set;
+    }
 }

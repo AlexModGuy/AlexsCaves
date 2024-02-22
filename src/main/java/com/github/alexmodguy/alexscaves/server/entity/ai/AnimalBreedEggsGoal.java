@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.ExperienceOrb;
@@ -13,14 +14,36 @@ import net.minecraft.world.level.GameRules;
 
 public class AnimalBreedEggsGoal extends BreedGoal {
     private final Animal mob;
+    private int eggLoveTime;
+    private double speed;
 
     public AnimalBreedEggsGoal(Animal mob, double speed) {
         super(mob, speed);
         this.mob = mob;
+        this.speed = speed;
     }
 
     public boolean canUse() {
         return super.canUse() && !((LaysEggs) this.mob).hasEgg();
+    }
+
+    public boolean canContinueToUse() {
+        return this.partner.isAlive() && this.partner.isInLove() && this.eggLoveTime < 60;
+    }
+
+    public void stop() {
+        this.partner = null;
+        this.eggLoveTime = 0;
+    }
+
+    public void tick() {
+        this.animal.getLookControl().setLookAt(this.partner, 10.0F, (float)this.animal.getMaxHeadXRot());
+        this.animal.getNavigation().moveTo(this.partner, this.speed);
+        ++this.eggLoveTime;
+        double width = Math.max(this.animal.getBbWidth() * 2.0F + 0.5F, 3.0D);
+        if (this.eggLoveTime >= this.adjustedTickDelay(60) && Mth.sqrt((float) this.animal.distanceToSqr(this.partner)) < width) {
+            this.breed();
+        }
     }
 
     @Override

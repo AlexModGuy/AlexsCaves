@@ -89,7 +89,7 @@ public class MusselBlock extends Block implements SimpleWaterloggedBlock {
         BlockPos connectedToPos = blockPos.relative(direction.getOpposite());
         BlockState connectedState = serverLevel.getBlockState(connectedToPos);
         int mussels = state.getValue(MUSSELS);
-        if (randomSource.nextInt(8) == 0 && connectedState.is(ACTagRegistry.GROWS_MUSSELS)) {
+        if (randomSource.nextInt(20) == 0 && connectedState.is(ACTagRegistry.GROWS_MUSSELS)) {
             if (mussels >= 5) {
                 BlockPos randomOffsetPos = connectedToPos.offset(randomSource.nextInt(6) - 3, randomSource.nextInt(6) - 3, randomSource.nextInt(6) - 3);
                 BlockState randomOffsetState = serverLevel.getBlockState(randomOffsetPos);

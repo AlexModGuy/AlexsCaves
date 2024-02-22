@@ -61,7 +61,7 @@ public class ProtonParticle extends MagneticOrbitParticle {
         }
 
         MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-        VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(CENTER_TEXTURE));
+        VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(getTexture()));
 
         Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
         vector3f1.rotate(quaternion);
@@ -78,7 +78,7 @@ public class ProtonParticle extends MagneticOrbitParticle {
         float f8 = 1;
         float f5 = 0;
         float f6 = 1;
-        float alpha = Mth.clamp( 1F - age / (float) this.lifetime, 0.0F, 1.0F);
+        float alpha = this.getAlpha();
         int j = 240;
         PoseStack posestack = new PoseStack();
         PoseStack.Pose posestack$pose = posestack.last();
@@ -89,6 +89,14 @@ public class ProtonParticle extends MagneticOrbitParticle {
         vertexconsumer.vertex((double) avector3f[2].x(), (double) avector3f[2].y(), (double) avector3f[2].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f5).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
         vertexconsumer.vertex((double) avector3f[3].x(), (double) avector3f[3].y(), (double) avector3f[3].z()).color(this.rCol, this.gCol, this.bCol, alpha).uv(f7, f6).overlayCoords(NO_OVERLAY).uv2(j).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
         multibuffersource$buffersource.endBatch();
+    }
+
+    public float getAlpha() {
+        return Mth.clamp( 1F - age / (float) this.lifetime, 0.0F, 1.0F);
+    }
+
+    public ResourceLocation getTexture() {
+        return CENTER_TEXTURE;
     }
 
     public void tick() {

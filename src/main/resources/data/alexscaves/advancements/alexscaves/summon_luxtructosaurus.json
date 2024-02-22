@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/summon_luxtructosaurus.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.summon_luxtructosaurus.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.summon_luxtructosaurus.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/ominous_catalyst",
+  "criteria": {
+    "summon_luxtructosaurus": {
+      "trigger": "alexscaves:summon_luxtructosaurus"
+    }
+  }
+}

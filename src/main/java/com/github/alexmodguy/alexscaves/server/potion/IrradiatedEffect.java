@@ -13,6 +13,8 @@ import java.util.List;
 
 public class IrradiatedEffect extends MobEffect {
 
+    public static final int BLUE_LEVEL = 4;
+
     protected IrradiatedEffect() {
         super(MobEffectCategory.HARMFUL, 0X77D60E);
     }

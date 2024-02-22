@@ -122,7 +122,6 @@ public class ForsakenEntity extends Monster implements IAnimatedEntity, ShakesSc
         return new GroundPathNavigatorNoSpin(this, level);
     }
 
-
     public void tick() {
         super.tick();
         this.prevRunProgress = runProgress;

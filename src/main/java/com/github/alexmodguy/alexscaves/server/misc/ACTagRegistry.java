@@ -29,6 +29,8 @@ public class ACTagRegistry {
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LEAVES = registerBlockTag("relicheirus_knockable_leaves");
     public static final TagKey<Block> RELICHEIRUS_KNOCKABLE_LOGS = registerBlockTag("relicheirus_knockable_logs");
     public static final TagKey<Block> COOKS_MEAT_BLOCKS = registerBlockTag("cooks_meat_blocks");
+    public static final TagKey<Block> REGENERATES_AFTER_PRIMORDIAL_BOSS_FIGHT = registerBlockTag("regenerates_after_primordial_boss_fight");
+    public static final TagKey<Block> LUXTRUCTOSAURUS_BREAKS = registerBlockTag("luxtructosaurus_breaks");
     public static final TagKey<Block> VOLCANO_BLOCKS = registerBlockTag("volcano_blocks");
     public static final TagKey<Block> NUKE_PROOF = registerBlockTag("nuke_proof");
     public static final TagKey<Block> RAYCAT_SLEEPS_ON = registerBlockTag("raycat_sleeps_on");
@@ -41,6 +43,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> UNDERZEALOT_LIGHT_SOURCES = registerBlockTag("underzealot_light_sources");
     public static final TagKey<Block> GLOOMOTH_LIGHT_SOURCES = registerBlockTag("gloomoth_light_sources");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
+    public static final TagKey<Item> GALENA_GAUNTLET_CRYSTALLIZATION_ITEMS = registerItemTag("galena_gauntlet_crystallization_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
     public static final TagKey<Item> VALLUMRAPTOR_STEALS = registerItemTag("vallumraptor_steals");
     public static final TagKey<Item> RAW_MEATS = registerItemTag("raw_meats");
@@ -64,6 +67,7 @@ public class ACTagRegistry {
     public static final TagKey<Biome> OVERRIDE_ALL_VANILLA_MUSIC_IN = registerBiomeTag("override_all_vanilla_music_in");
     public static final TagKey<Biome> OVERRIDE_UNDERWATER_AMBIENCE_IN = registerBiomeTag("override_underwater_ambience_in");
     public static final TagKey<Biome> ONLY_AMBIENT_LOOP_UNDERWATER = registerBiomeTag("only_ambient_loop_underwater");
+    public static final TagKey<Biome> HAS_NO_ANCIENT_CITIES_IN = registerBiomeTag("has_no_ancient_cities_in");
     public static final TagKey<EntityType<?>> RESISTS_BUBBLED = registerEntityTag("resists_bubbled");
     public static final TagKey<Block> DRAIN_BREAKS = registerBlockTag("drain_breaks");
     public static final TagKey<Block> CORRODENT_BLOCKS_DIGGING = registerBlockTag("corrodent_blocks_digging");

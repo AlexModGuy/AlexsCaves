@@ -62,4 +62,8 @@ public class ACEffectRegistry {
     public static ItemStack createSplashPotion(Potion potion) {
         return PotionUtils.setPotion(new ItemStack(Items.SPLASH_POTION), potion);
     }
+
+    public static ItemStack createLingeringPotion(Potion potion) {
+        return PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION), potion);
+    }
 }

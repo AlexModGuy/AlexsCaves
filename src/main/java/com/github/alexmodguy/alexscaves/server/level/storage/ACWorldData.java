@@ -1,6 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.level.storage;
 
-import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeFinder;
+import com.github.alexmodguy.alexscaves.server.entity.living.LuxtructosaurusEntity;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
+import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeMapWorldWorker;
+import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -11,18 +14,21 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
+import net.minecraftforge.common.WorldWorkerManager;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ACWorldData extends SavedData {
 
     private static final String IDENTIFIER = "alexscaves_world_data";
     private Map<UUID, Integer> deepOneReputations = new HashMap<>();
-    private final CaveBiomeFinder caveBiomeFinder = new CaveBiomeFinder();
-    private boolean primordialBossActive = false;
+    private boolean primordialBossDefeatedOnce = false;
+    private long firstPrimordialBossDefeatTimestamp = -1;
+    private Set<Integer> trackedLuxtructosaurusIds = new ObjectArraySet();
+
+    private CaveBiomeMapWorldWorker lastMapWorker = null;
 
     private ACWorldData() {
         super();
@@ -50,7 +56,9 @@ public class ACWorldData extends SavedData {
                 data.deepOneReputations.put(innerTag.getUUID("UUID"), innerTag.getInt("Reputation"));
             }
         }
-        data.primordialBossActive = nbt.getBoolean("PrimordialBossActive");
+        data.primordialBossDefeatedOnce = nbt.getBoolean("PrimordialBossDefeatedOnce");
+        data.firstPrimordialBossDefeatTimestamp = nbt.getLong("FirstPrimordialBossDefeatTimestamp");
+        data.trackedLuxtructosaurusIds = Arrays.stream(nbt.getIntArray("TrackedLuxtructosaurusIds")).boxed().collect(Collectors.toSet());
         return data;
     }
 
@@ -66,7 +74,9 @@ public class ACWorldData extends SavedData {
             }
             compound.put("DeepOneReputations", listTag);
         }
-        compound.putBoolean("PrimordialBossActive", primordialBossActive);
+        compound.putBoolean("PrimordialBossDefeatedOnce", primordialBossDefeatedOnce);
+        compound.putLong("FirstPrimordialBossDefeatTimestamp", firstPrimordialBossDefeatTimestamp);
+        compound.putIntArray("TrackedLuxtructosaurusIds", trackedLuxtructosaurusIds.stream().mapToInt(Integer::intValue).toArray());
         return compound;
     }
 
@@ -78,15 +88,47 @@ public class ACWorldData extends SavedData {
         deepOneReputations.put(uuid, Mth.clamp(reputation, -100, 100));
     }
 
-    public boolean isPrimordialBossActive(){
-        return false;// primordialBossActive;
+    public boolean isPrimordialBossActive(Level level){
+        for(int i : trackedLuxtructosaurusIds){
+            if(level.getEntity(i) instanceof LuxtructosaurusEntity lux && lux.isAlive() && lux.isLoadedInWorld()){
+                return true;
+            }
+        }
+        return false;
     }
 
-    public void setPrimordialBossActive(boolean active){
-        this.primordialBossActive = active;
+    public void trackPrimordialBoss(int id, boolean add){
+        if(add){
+            trackedLuxtructosaurusIds.add(id);
+        }else{
+            trackedLuxtructosaurusIds.remove(id);
+        }
+    }
+
+
+    public boolean isPrimordialBossDefeatedOnce(){
+        return primordialBossDefeatedOnce;
+    }
+
+    public void setPrimordialBossDefeatedOnce(boolean defeatedOnce){
+        this.primordialBossDefeatedOnce = defeatedOnce;
+    }
+
+    public long getFirstPrimordialBossDefeatTimestamp(){
+        return firstPrimordialBossDefeatTimestamp;
+    }
+
+    public void setFirstPrimordialBossDefeatTimestamp(long time){
+        this.firstPrimordialBossDefeatTimestamp = time;
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
-        caveBiomeFinder.fillOutCaveMap(uuid, map, serverLevel, center, player);
+        //sets the level seed internally
+        ACBiomeRarity.getRareBiomeCenterQuad(serverLevel.getSeed(), 0, center.getX(), center.getZ());
+        if(lastMapWorker != null){
+            lastMapWorker.onWorkComplete(lastMapWorker.getLastFoundBiome());
+        }
+        lastMapWorker = new CaveBiomeMapWorldWorker(map, serverLevel, center, player, uuid);
+        WorldWorkerManager.addWorker(lastMapWorker);
     }
 }

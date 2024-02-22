@@ -9,9 +9,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class VentSmokeParticle extends TextureSheetParticle {
 
-    private final boolean green;
+    private final boolean fullbright;
 
-    protected VentSmokeParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean green) {
+    protected VentSmokeParticle(ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, boolean fullbright) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.xd = xSpeed;
         this.yd = ySpeed;
@@ -20,7 +20,7 @@ public class VentSmokeParticle extends TextureSheetParticle {
         this.quadSize = 0.8F + world.random.nextFloat() * 0.3F;
         this.lifetime = (int) (Math.random() * 20.0D) + 40;
         this.friction = 0.99F;
-        this.green = green;
+        this.fullbright = fullbright;
     }
 
     public void tick() {
@@ -51,7 +51,7 @@ public class VentSmokeParticle extends TextureSheetParticle {
 
     public int getLightColor(float partialTicks) {
         int i = super.getLightColor(partialTicks);
-        if (green) {
+        if (fullbright) {
             return 240;
         } else {
             return i;
@@ -105,6 +105,23 @@ public class VentSmokeParticle extends TextureSheetParticle {
             particle.pickSprite(spriteSet);
             float randCol = worldIn.random.nextFloat() * 0.05F;
             particle.setColor(randCol + 0.05F, randCol + 0.95F, 0);
+            return particle;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class RedFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public RedFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            VentSmokeParticle particle = new VentSmokeParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, true);
+            particle.pickSprite(spriteSet);
+            float randCol = worldIn.random.nextFloat() * 0.15F;
+            particle.setColor(randCol + 0.85F, randCol + 0.55F, randCol + 0.35F);
             return particle;
         }
     }

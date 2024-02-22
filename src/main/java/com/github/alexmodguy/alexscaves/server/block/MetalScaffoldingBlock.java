@@ -18,10 +18,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BucketPickup;
-import net.minecraft.world.level.block.LiquidBlockContainer;
-import net.minecraft.world.level.block.ScaffoldingBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -159,9 +156,11 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
         BlockPos.MutableBlockPos blockpos$mutableblockpos = pos.mutable().move(Direction.DOWN);
         BlockState blockstate = getter.getBlockState(blockpos$mutableblockpos);
         int i = STABILITY_MAX_DISTANCE;
-        if (blockstate.is(ACTagRegistry.SCAFFOLDING)) {
-            i = blockstate.getValue(DISTANCE);
-        } else if (blockstate.isFaceSturdy(getter, blockpos$mutableblockpos, Direction.UP)) {
+        if (blockstate.is(Blocks.SCAFFOLDING)) {
+            i = blockstate.getValue(ScaffoldingBlock.DISTANCE);
+        } else if (blockstate.getBlock() instanceof MetalScaffoldingBlock) {
+            i = blockstate.getValue(MetalScaffoldingBlock.DISTANCE);
+        } else if (blockstate.is(ACTagRegistry.SCAFFOLDING) || blockstate.isFaceSturdy(getter, blockpos$mutableblockpos, Direction.UP)) {
             return 0;
         }
 

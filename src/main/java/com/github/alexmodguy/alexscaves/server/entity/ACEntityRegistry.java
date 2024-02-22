@@ -4,10 +4,14 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.living.*;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +20,8 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.Optional;
+
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ACEntityRegistry {
 
@@ -23,6 +29,7 @@ public class ACEntityRegistry {
     public static final DeferredRegister<EntityType<?>> DEF_REG = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, AlexsCaves.MODID);
     public static final MobCategory CAVE_CREATURE = MobCategory.create("cave_creature", "alexscaves:cave_creature", 10, true, true, 128);
     public static final MobCategory DEEP_SEA_CREATURE = MobCategory.create("deep_sea_creature", "alexscaves:deep_sea_creature", 20, true, false, 128);
+    public static final EntityDataSerializer<Optional<Vec3>> OPTIONAL_VEC_3_ENTITY_DATA_SERIALIZER = EntityDataSerializer.optional(ACMath::writeVec3, ACMath::readVec3);
     public static final RegistryObject<EntityType<AlexsCavesBoatEntity>> BOAT = DEF_REG.register("boat", () -> (EntityType) EntityType.Builder.of(AlexsCavesBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).setCustomClientFactory(AlexsCavesBoatEntity::new).clientTrackingRange(10).build("ac_boat"));
     public static final RegistryObject<EntityType<AlexsCavesChestBoatEntity>> CHEST_BOAT = DEF_REG.register("chest_boat", () -> (EntityType) EntityType.Builder.of(AlexsCavesChestBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).setCustomClientFactory(AlexsCavesBoatEntity::new).clientTrackingRange(10).build("ac_chest_boat"));
     public static final RegistryObject<EntityType<MovingMetalBlockEntity>> MOVING_METAL_BLOCK = DEF_REG.register("moving_metal_block", () -> (EntityType) EntityType.Builder.of(MovingMetalBlockEntity::new, MobCategory.MISC).sized(0.99F, 0.99F).setCustomClientFactory(MovingMetalBlockEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("moving_metal_block"));
@@ -41,8 +48,14 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<TrilocarisEntity>> TRILOCARIS = DEF_REG.register("trilocaris", () -> (EntityType) EntityType.Builder.of(TrilocarisEntity::new, MobCategory.WATER_AMBIENT).sized(0.9F, 0.4F).build("trilocaris"));
     public static final RegistryObject<EntityType<TremorsaurusEntity>> TREMORSAURUS = DEF_REG.register("tremorsaurus", () -> (EntityType) EntityType.Builder.of(TremorsaurusEntity::new, CAVE_CREATURE).sized(2.5F, 3.85F).setTrackingRange(8).build("tremorsaurus"));
     public static final RegistryObject<EntityType<RelicheirusEntity>> RELICHEIRUS = DEF_REG.register("relicheirus", () -> (EntityType) EntityType.Builder.of(RelicheirusEntity::new, CAVE_CREATURE).sized(2.65F, 5.9F).setTrackingRange(9).build("relicheirus"));
+    public static final RegistryObject<EntityType<LuxtructosaurusEntity>> LUXTRUCTOSAURUS = DEF_REG.register("luxtructosaurus", () -> (EntityType) EntityType.Builder.of(LuxtructosaurusEntity::new, MobCategory.MONSTER).sized(6.0F, 8.5F).setTrackingRange(12).fireImmune().build("luxtructosaurus"));
+    public static final RegistryObject<EntityType<TephraEntity>> TEPHRA = DEF_REG.register("tephra", () -> (EntityType) EntityType.Builder.of(TephraEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(TephraEntity::new).fireImmune().setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("tephra"));
+    public static final RegistryObject<EntityType<AtlatitanEntity>> ATLATITAN = DEF_REG.register("atlatitan", () -> (EntityType) EntityType.Builder.of(AtlatitanEntity::new, CAVE_CREATURE).sized(5.0F, 8.0F).setTrackingRange(11).build("atlatitan"));
     public static final RegistryObject<EntityType<FallingTreeBlockEntity>> FALLING_TREE_BLOCK = DEF_REG.register("falling_tree_block", () -> (EntityType) EntityType.Builder.of(FallingTreeBlockEntity::new, MobCategory.MISC).sized(0.99F, 0.99F).setCustomClientFactory(FallingTreeBlockEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("falling_tree_block"));
+    public static final RegistryObject<EntityType<CrushedBlockEntity>> CRUSHED_BLOCK = DEF_REG.register("crushed_block", () -> (EntityType) EntityType.Builder.of(CrushedBlockEntity::new, MobCategory.MISC).sized(0.99F, 0.99F).setCustomClientFactory(CrushedBlockEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("crushed_block"));
     public static final RegistryObject<EntityType<LimestoneSpearEntity>> LIMESTONE_SPEAR = DEF_REG.register("limestone_spear", () -> (EntityType) EntityType.Builder.of(LimestoneSpearEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(LimestoneSpearEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("limestone_spear"));
+    public static final RegistryObject<EntityType<ExtinctionSpearEntity>> EXTINCTION_SPEAR = DEF_REG.register("extinction_spear", () -> (EntityType) EntityType.Builder.of(ExtinctionSpearEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(ExtinctionSpearEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).fireImmune().build("extinction_spear"));
+    public static final RegistryObject<EntityType<DinosaurSpiritEntity>> DINOSAUR_SPIRIT = DEF_REG.register("dinosaur_spirit", () -> (EntityType) EntityType.Builder.of(DinosaurSpiritEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).setCustomClientFactory(DinosaurSpiritEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).fireImmune().build("dinosaur_spirit"));
     public static final RegistryObject<EntityType<NuclearExplosionEntity>> NUCLEAR_EXPLOSION = DEF_REG.register("nuclear_explosion", () -> (EntityType) EntityType.Builder.of(NuclearExplosionEntity::new, MobCategory.MISC).sized(0.99F, 0.99F).setCustomClientFactory(NuclearExplosionEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("nuclear_explosion"));
     public static final RegistryObject<EntityType<NuclearBombEntity>> NUCLEAR_BOMB = DEF_REG.register("nuclear_bomb", () -> (EntityType) EntityType.Builder.of(NuclearBombEntity::new, MobCategory.MISC).sized(0.98F, 0.98F).setCustomClientFactory(NuclearBombEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("nuclear_bomb"));
     public static final RegistryObject<EntityType<NucleeperEntity>> NUCLEEPER = DEF_REG.register("nucleeper", () -> (EntityType) EntityType.Builder.of(NucleeperEntity::new, MobCategory.MONSTER).sized(0.98F, 3.95F).build("nucleeper"));
@@ -52,6 +65,7 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<GammaroachEntity>> GAMMAROACH = DEF_REG.register("gammaroach", () -> (EntityType) EntityType.Builder.of(GammaroachEntity::new, MobCategory.AMBIENT).sized(1.25F, 0.9F).build("gammaroach"));
     public static final RegistryObject<EntityType<RaycatEntity>> RAYCAT = DEF_REG.register("raycat", () -> (EntityType) EntityType.Builder.of(RaycatEntity::new, CAVE_CREATURE).sized(0.85F, 0.6F).build("raycat"));
     public static final RegistryObject<EntityType<CinderBrickEntity>> CINDER_BRICK = DEF_REG.register("cinder_brick", () -> (EntityType) EntityType.Builder.of(CinderBrickEntity::new, MobCategory.MISC).sized(0.4F, 0.4F).setCustomClientFactory(CinderBrickEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("cinder_brick"));
+    public static final RegistryObject<EntityType<TremorzillaEntity>> TREMORZILLA = DEF_REG.register("tremorzilla", () -> (EntityType) EntityType.Builder.of(TremorzillaEntity::new, CAVE_CREATURE).sized(4.5F, 11F).setTrackingRange(11).fireImmune().build("tremorzilla"));
     public static final RegistryObject<EntityType<LanternfishEntity>> LANTERNFISH = DEF_REG.register("lanternfish", () -> (EntityType) EntityType.Builder.of(LanternfishEntity::new, MobCategory.WATER_AMBIENT).sized(0.5F, 0.4F).build("lanternfish"));
     public static final RegistryObject<EntityType<SeaPigEntity>> SEA_PIG = DEF_REG.register("sea_pig", () -> (EntityType) EntityType.Builder.of(SeaPigEntity::new, DEEP_SEA_CREATURE).sized(0.5F, 0.65F).build("sea_pig"));
     public static final RegistryObject<EntityType<SubmarineEntity>> SUBMARINE = DEF_REG.register("submarine", () -> (EntityType) EntityType.Builder.of(SubmarineEntity::new, MobCategory.MISC).sized(3.5F, 3.3F).setCustomClientFactory(SubmarineEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("submarine"));
@@ -81,6 +95,10 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<BurrowingArrowEntity>> BURROWING_ARROW = DEF_REG.register("burrowing_arrow", () -> (EntityType) EntityType.Builder.of(BurrowingArrowEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(BurrowingArrowEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("burrowing_arrow"));
     public static final RegistryObject<EntityType<DarkArrowEntity>> DARK_ARROW = DEF_REG.register("dark_arrow", () -> (EntityType) EntityType.Builder.of(DarkArrowEntity::new, MobCategory.MISC).sized(1.1F, 0.5F).setCustomClientFactory(DarkArrowEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("dark_arrow"));
 
+    static {
+        EntityDataSerializers.registerSerializer(OPTIONAL_VEC_3_ENTITY_DATA_SERIALIZER);
+    }
+
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
         event.put(TELETOR.get(), TeletorEntity.createAttributes().build());
@@ -95,11 +113,14 @@ public class ACEntityRegistry {
         event.put(TRILOCARIS.get(), TrilocarisEntity.createAttributes().build());
         event.put(TREMORSAURUS.get(), TremorsaurusEntity.createAttributes().build());
         event.put(RELICHEIRUS.get(), RelicheirusEntity.createAttributes().build());
+        event.put(LUXTRUCTOSAURUS.get(), LuxtructosaurusEntity.createAttributes().build());
+        event.put(ATLATITAN.get(), AtlatitanEntity.createAttributes().build());
         event.put(NUCLEEPER.get(), NucleeperEntity.createAttributes().build());
-        event.put(RADGILL.get(), NucleeperEntity.createAttributes().build());
+        event.put(RADGILL.get(), RadgillEntity.createAttributes().build());
         event.put(BRAINIAC.get(), BrainiacEntity.createAttributes().build());
         event.put(GAMMAROACH.get(), GammaroachEntity.createAttributes().build());
         event.put(RAYCAT.get(), RaycatEntity.createAttributes().build());
+        event.put(TREMORZILLA.get(), TremorzillaEntity.createAttributes().build());
         event.put(LANTERNFISH.get(), LanternfishEntity.createAttributes().build());
         event.put(SEA_PIG.get(), SeaPigEntity.createAttributes().build());
         event.put(HULLBREAKER.get(), HullbreakerEntity.createAttributes().build());
@@ -131,6 +152,8 @@ public class ACEntityRegistry {
         event.register(TRILOCARIS.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TrilocarisEntity::checkTrilocarisSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(TREMORSAURUS.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TremorsaurusEntity::checkPrehistoricSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(RELICHEIRUS.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RelicheirusEntity::checkPrehistoricSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(LUXTRUCTOSAURUS.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LuxtructosaurusEntity::checkPrehistoricSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(ATLATITAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, AtlatitanEntity::checkPrehistoricPostBossSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(NUCLEEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, NucleeperEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(RADGILL.get(), inAcid, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RadgillEntity::checkRadgillSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(BRAINIAC.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BrainiacEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);

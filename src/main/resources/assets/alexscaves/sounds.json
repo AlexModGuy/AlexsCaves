@@ -12,6 +12,10 @@
       {
         "name": "alexscaves:music/paleoverdant",
         "stream": true
+      },
+      {
+        "name": "alexscaves:music/pristine_dawnrise",
+        "stream": true
       }
     ]
   },
@@ -35,6 +39,22 @@
     "sounds": [
       {
         "name": "alexscaves:music/arid_reverie",
+        "stream": true
+      }
+    ]
+  },
+  "luxtructosaurus_boss_music": {
+    "sounds": [
+      {
+        "name": "alexscaves:music/lux",
+        "stream": true
+      }
+    ]
+  },
+  "fusion_music_disc": {
+    "sounds": [
+      {
+        "name": "alexscaves:music/fusion",
         "stream": true
       }
     ]
@@ -763,14 +783,14 @@
     "subtitle": "alexscaves.sound.subtitle.neodymium_breaking"
   },
   "metal_swarf_step": {
-  "sounds": [
-    "alexscaves:block/metal_swarf/metal_swarf_step_0",
-    "alexscaves:block/metal_swarf/metal_swarf_step_1",
-    "alexscaves:block/metal_swarf/metal_swarf_step_2",
-    "alexscaves:block/metal_swarf/metal_swarf_step_3"
-  ],
-  "subtitle": "alexscaves.sound.subtitle.metal_swarf_step"
-},
+    "sounds": [
+      "alexscaves:block/metal_swarf/metal_swarf_step_0",
+      "alexscaves:block/metal_swarf/metal_swarf_step_1",
+      "alexscaves:block/metal_swarf/metal_swarf_step_2",
+      "alexscaves:block/metal_swarf/metal_swarf_step_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.metal_swarf_step"
+  },
   "metal_swarf_place": {
     "sounds": [
       "alexscaves:block/metal_swarf/metal_swarf_place_0",
@@ -1002,6 +1022,14 @@
       "alexscaves:block/flood_basalt/flood_basalt_breaking_4"
     ],
     "subtitle": "alexscaves.sound.subtitle.flood_basalt_breaking"
+  },
+  "primal_magma_fissure_close": {
+    "sounds": [
+      "alexscaves:block/primal_magma/primal_magma_fissure_close_0",
+      "alexscaves:block/primal_magma/primal_magma_fissure_close_1",
+      "alexscaves:block/primal_magma/primal_magma_fissure_close_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.primal_magma_fissure_close"
   },
   "acid_burn": {
     "sounds": [
@@ -2089,6 +2117,163 @@
     ],
     "subtitle": "alexscaves.sound.subtitle.relicheirus_topple"
   },
+  "luxtructosaurus_idle": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_2",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_3",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_4",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_5",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_6"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_idle"
+  },
+  "luxtructosaurus_hurt": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_hurt_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_hurt_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_hurt_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_hurt"
+  },
+  "luxtructosaurus_death": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_death"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_death"
+  },
+  "luxtructosaurus_snort": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_snort_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_snort_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_snort_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_snort"
+  },
+  "luxtructosaurus_step": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_step_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_step_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_step_2",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_step_3",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_step_4",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_step_5"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_step"
+  },
+  "luxtructosaurus_stomp": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_stomp_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_stomp_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_stomp_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_stomp"
+  },
+  "luxtructosaurus_kick": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_kick_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_kick_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_kick_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_kick"
+  },
+  "luxtructosaurus_tail": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_tail_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_tail_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_tail"
+  },
+  "luxtructosaurus_breathe": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_breathe_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_breathe_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_breathe_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_breathe"
+  },
+  "luxtructosaurus_roar": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_roar"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_roar"
+  },
+  "luxtructosaurus_attack_stomp": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_attack_stomp_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_attack_stomp_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_attack_stomp"
+  },
+  "luxtructosaurus_summon": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_summon"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_summon"
+  },
+  "luxtructosaurus_jump": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_jump"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_jump"
+  },
+  "atlatitan_idle": {
+    "sounds": [
+      "alexscaves:mob/atlatitan/atlatitan_idle_0",
+      "alexscaves:mob/atlatitan/atlatitan_idle_1",
+      "alexscaves:mob/atlatitan/atlatitan_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_idle"
+  },
+  "atlatitan_hurt": {
+    "sounds": [
+      "alexscaves:mob/atlatitan/atlatitan_hurt_0",
+      "alexscaves:mob/atlatitan/atlatitan_hurt_1",
+      "alexscaves:mob/atlatitan/atlatitan_hurt_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_hurt"
+  },
+  "atlatitan_death": {
+    "sounds": [
+      "alexscaves:mob/atlatitan/atlatitan_death_0",
+      "alexscaves:mob/atlatitan/atlatitan_death_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_death"
+  },
+  "atlatitan_step": {
+    "sounds": [
+      "alexscaves:mob/atlatitan/atlatitan_step_0",
+      "alexscaves:mob/atlatitan/atlatitan_step_1",
+      "alexscaves:mob/atlatitan/atlatitan_step_2",
+      "alexscaves:mob/atlatitan/atlatitan_step_3",
+      "alexscaves:mob/atlatitan/atlatitan_step_4",
+      "alexscaves:mob/atlatitan/atlatitan_step_5"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_step"
+  },
+  "atlatitan_stomp": {
+    "sounds": [
+      "alexscaves:mob/atlatitan/atlatitan_stomp_0",
+      "alexscaves:mob/atlatitan/atlatitan_stomp_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_stomp"
+  },
+  "atlatitan_kick": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_kick_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_kick_1",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_kick_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_kick"
+  },
+  "atlatitan_tail": {
+    "sounds": [
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_tail_0",
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_tail_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.atlatitan_tail"
+  },
   "nucleeper_idle": {
     "sounds": [
       "alexscaves:mob/nucleeper/nucleeper_idle_0",
@@ -2104,6 +2289,7 @@
       "alexscaves:mob/nucleeper/nucleeper_hurt_1",
       "alexscaves:mob/nucleeper/nucleeper_hurt_2",
       "alexscaves:mob/nucleeper/nucleeper_hurt_3"
+
     ],
     "subtitle": "alexscaves.sound.subtitle.nucleeper_hurt"
   },
@@ -2293,6 +2479,109 @@
       "alexscaves:mob/raycat/raycat_absorb_1"
     ],
     "subtitle": "alexscaves.sound.subtitle.raycat_absorb"
+  },
+  "tremorzilla_idle": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_idle_0",
+      "alexscaves:mob/tremorzilla/tremorzilla_idle_1",
+      "alexscaves:mob/tremorzilla/tremorzilla_idle_2",
+      "alexscaves:mob/tremorzilla/tremorzilla_idle_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_idle"
+  },
+  "tremorzilla_hurt": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_hurt_0",
+      "alexscaves:mob/tremorzilla/tremorzilla_hurt_1",
+      "alexscaves:mob/tremorzilla/tremorzilla_hurt_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_hurt"
+  },
+  "tremorzilla_death": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_death"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_death"
+  },
+  "tremorzilla_stomp": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_stomp_0",
+      "alexscaves:mob/tremorzilla/tremorzilla_stomp_1",
+      "alexscaves:mob/tremorzilla/tremorzilla_stomp_2",
+      "alexscaves:mob/tremorzilla/tremorzilla_stomp_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_stomp"
+  },
+  "tremorzilla_beam_start": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_beam_start"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_beam_start"
+  },
+  "tremorzilla_beam_end": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_beam_end"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_beam_end"
+  },
+  "tremorzilla_beam_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/tremorzilla/tremorzilla_beam_loop",
+        "attenuation_distance": 64
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_beam_loop"
+  },
+  "tremorzilla_charge_normal": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_charge_normal"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_charge_normal"
+  },
+  "tremorzilla_charge_complete": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_charge_complete"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_charge_complete"
+  },
+  "tremorzilla_roar": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_roar"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_roar"
+  },
+  "tremorzilla_bite": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_bite"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_bite"
+  },
+  "tremorzilla_eat": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_eat_0",
+      "alexscaves:mob/tremorzilla/tremorzilla_eat_1",
+      "alexscaves:mob/tremorzilla/tremorzilla_eat_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_eat"
+  },
+  "tremorzilla_scratch_attack": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_scratch_attack"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_scratch_attack"
+  },
+  "tremorzilla_stomp_attack": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_stomp_attack"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_stomp_attack"
+  },
+  "tremorzilla_tail_attack": {
+    "sounds": [
+      "alexscaves:mob/tremorzilla/tremorzilla_tail_attack"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tremorzilla_tail_attack"
   },
   "lanternfish_hurt": {
     "sounds": [
@@ -3113,6 +3402,32 @@
     ],
     "subtitle": "alexscaves.sound.subtitle.primitive_club_miss"
   },
+  "tectonic_shard_transform": {
+    "sounds": [
+      "alexscaves:item/tectonic_shard/tectonic_shard_transform_0",
+      "alexscaves:item/tectonic_shard/tectonic_shard_transform_1",
+      "alexscaves:item/tectonic_shard/tectonic_shard_transform_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tectonic_shard_transform"
+  },
+  "extinction_spear_throw": {
+    "sounds": [
+      "alexscaves:item/extinction_spear/extinction_spear_throw"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.extinction_spear_throw"
+  },
+  "extinction_spear_hit": {
+    "sounds": [
+      "alexscaves:item/extinction_spear/extinction_spear_hit"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.extinction_spear_hit"
+  },
+  "extinction_spear_summon": {
+    "sounds": [
+      "alexscaves:item/extinction_spear/extinction_spear_summon"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.extinction_spear_summon"
+  },
   "raygun_loop": {
     "sounds": [
       "alexscaves:item/raygun/raygun_loop"
@@ -3271,6 +3586,37 @@
       "alexscaves:item/dreadbow/dreadbow_rain_2"
     ],
     "subtitle": "alexscaves.sound.subtitle.dreadbow_rain"
+  },
+  "tephra_whistle": {
+    "sounds": [
+      {
+        "name": "alexscaves:misc/tephra/tephra_whistle_0",
+        "stream": true,
+        "attenuation_distance": 128,
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:misc/tephra/tephra_whistle_1",
+        "stream": true,
+        "attenuation_distance": 128,
+        "volume": 0.5
+      },
+      {
+        "name": "alexscaves:misc/tephra/tephra_whistle_2",
+        "stream": true,
+        "attenuation_distance": 128,
+        "volume": 0.5
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tephra_whistle"
+  },
+  "tephra_hit": {
+    "sounds": [
+      "alexscaves:misc/tephra/tephra_hit_0",
+      "alexscaves:misc/tephra/tephra_hit_1",
+      "alexscaves:misc/tephra/tephra_hit_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.tephra_hit"
   },
   "nuclear_explosion": {
     "sounds": [

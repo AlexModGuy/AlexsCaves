@@ -20,4 +20,10 @@ public class MovingMetalBlockEntity extends AbstractMovingBlockEntity {
     public boolean movesEntities() {
         return true;
     }
+
+    @Override
+    public boolean canBeCollidedWith() {
+        return true;
+    }
+
 }

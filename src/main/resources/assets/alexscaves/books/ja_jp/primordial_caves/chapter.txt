@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    原始の洞窟にようこそ...
+
+    • {基本情報|primordial_caves/general.json}
+    • {資源|primordial_caves/resources.json}
+    • 生態系
+        • {サブテラノドン|primordial_caves/subterranodon.json}
+        • {ヴァラムラプトル|primordial_caves/vallumraptor.json}
+        • {グラトセラトプス|primordial_caves/grottoceratops.json}
+        • {トリロカリス|primordial_caves/trilocaris.json}
+        • {トレモルサウルス|primordial_caves/tremorsaurus.json}
+        • {レリケラス|primordial_caves/relicheirus.json}
+        • {ラクストラクトサウルス|primordial_caves/luxtructosaurus.json}
+        • {アトラティアン|primordial_caves/atlatitan.json}
+    • {ユーティリティ|primordial_caves/utilities.json}

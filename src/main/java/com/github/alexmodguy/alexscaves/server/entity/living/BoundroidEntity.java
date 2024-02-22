@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import net.minecraft.core.BlockPos;
@@ -33,7 +34,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
@@ -182,7 +182,7 @@ public class BoundroidEntity extends Monster {
                 double extraY = 0.8F;
                 double extraZ = radius * Mth.cos(angle);
                 Vec3 center = this.position().add(new Vec3(0, 3, 0).yRot((float) Math.toRadians(-this.yBodyRot)));
-                BlockPos ground = BlockPos.containing(getGroundBelowPosition(new Vec3(Mth.floor(center.x + extraX), Mth.floor(center.y + extraY) - 1, Mth.floor(center.z + extraZ))));
+                BlockPos ground = BlockPos.containing(ACMath.getGroundBelowPosition(level(), new Vec3(Mth.floor(center.x + extraX), Mth.floor(center.y + extraY) - 1, Mth.floor(center.z + extraZ))));
                 BlockState state = this.level().getBlockState(ground);
                 if (state.isSolid()) {
                     if (level().isClientSide) {
@@ -191,24 +191,6 @@ public class BoundroidEntity extends Monster {
                 }
             }
         }
-    }
-
-    private Vec3 getGroundBelowPosition(Vec3 in) {
-        BlockPos pos = BlockPos.containing(in);
-        while (pos.getY() > level().getMinBuildHeight() && level().getBlockState(pos).getCollisionShape(level(), pos).isEmpty()) {
-            pos = pos.below();
-        }
-        float top;
-        BlockState state = level().getBlockState(pos);
-        VoxelShape shape = state.getCollisionShape(level(), pos);
-        if (shape.isEmpty()) {
-            top = 0.0F;
-        } else {
-            Optional<Vec3> closest = shape.closestPointTo(this.position());
-            top = closest.isPresent() ? (float) closest.get().y : 0.0F;
-        }
-
-        return Vec3.upFromBottomCenterOf(pos, top);
     }
 
     public boolean onClimbable() {

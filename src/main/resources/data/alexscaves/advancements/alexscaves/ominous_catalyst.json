@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:ominous_catalyst"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.ominous_catalyst.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.ominous_catalyst.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "alexscaves:alexscaves/mystery_cave_painting",
+    "criteria": {
+        "nuclear_bomb": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:ominous_catalyst"]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -85,7 +85,6 @@ public class PageRenderer {
                             int fontWidth = font.width(printLine.substring(0, bookLink.getCharacterStartsAt()));
                             Component component = Component.literal(bookLink.getDisplayText()).withStyle(ChatFormatting.UNDERLINE);
                             font.drawInBatch(component, fontWidth, (i - startReadingAt) * 10, bookLink.isEnabled() ? bookLink.isHovered() ? CaveBookScreen.TEXT_LINK_HOVER_COLOR : CaveBookScreen.TEXT_LINK_COLOR : CaveBookScreen.TEXT_LINK_LOCKED_COLOR, false, poseStack.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 15728880);
-
                         }
                     }
                 }

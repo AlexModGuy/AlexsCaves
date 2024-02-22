@@ -7,6 +7,7 @@ import com.github.alexmodguy.alexscaves.server.entity.ai.FlightPathNavigatorNoSp
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -111,6 +112,10 @@ public class FerrouslimeEntity extends Monster {
             } else {
                 this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(Mth.clamp(getHeadCount() * 10, 10, 100));
                 this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(Mth.clamp(getHeadCount() * 2, 2, 10));
+                double d = this.getAttribute(Attributes.MAX_HEALTH).getValue();
+                if(this.getHealth() < d && getHeadCount() > 0){
+                    this.heal((float) Math.ceil(d - this.getHealth()));
+                }
                 prevHeadCount = this.getHeadCount();
             }
         }
@@ -202,7 +207,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new FlightPathNavigatorNoSpin(this, level(), 1.0F);
+        return new AdvancedPathNavigate(this, level(), AdvancedPathNavigate.MovementType.FLYING);
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {

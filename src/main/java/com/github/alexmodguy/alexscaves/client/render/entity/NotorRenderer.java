@@ -1,9 +1,7 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.client.model.HullbreakerModel;
-import com.github.alexmodguy.alexscaves.client.model.NotorModel;
-import com.github.alexmodguy.alexscaves.client.model.UnderzealotModel;
+import com.github.alexmodguy.alexscaves.client.model.*;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
@@ -162,6 +160,12 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     if(model instanceof HullbreakerModel hullbreakerModel){
                         hullbreakerModel.straighten = true;
                     }
+                    if(model instanceof SauropodBaseModel sauropodBaseModel){
+                        sauropodBaseModel.straighten = true;
+                    }
+                    if(model instanceof TremorzillaModel tremorzillaModel){
+                        tremorzillaModel.straighten = true;
+                    }
                     model.setupAnim(living, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F);
 
                     if(model instanceof UnderzealotModel underzealotModel){
@@ -169,6 +173,12 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     }
                     if(model instanceof HullbreakerModel hullbreakerModel){
                         hullbreakerModel.straighten = false;
+                    }
+                    if(model instanceof SauropodBaseModel sauropodBaseModel){
+                        sauropodBaseModel.straighten = false;
+                    }
+                    if(model instanceof TremorzillaModel tremorzillaModel){
+                        tremorzillaModel.straighten = false;
                     }
                     matrixStack.scale(living.getScale(), -living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);

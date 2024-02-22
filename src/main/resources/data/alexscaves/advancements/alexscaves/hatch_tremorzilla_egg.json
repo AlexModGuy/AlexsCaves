@@ -1,0 +1,20 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/hatch_tremorzilla.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.hatch_tremorzilla_egg.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.hatch_tremorzilla_egg.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/tremorzilla_egg",
+  "criteria": {
+    "hatch_tremorzilla_egg": {
+      "trigger": "alexscaves:hatch_tremorzilla_egg"
+    }
+  }
+}

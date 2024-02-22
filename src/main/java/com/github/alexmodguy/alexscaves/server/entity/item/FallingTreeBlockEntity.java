@@ -75,10 +75,6 @@ public class FallingTreeBlockEntity extends AbstractMovingBlockEntity {
         this.setFallProgress(Math.min(this.getFallProgress() + 0.05F, 1F));
     }
 
-    private void createBlockDropAt(BlockPos fallPos, BlockState state, CompoundTag blockData) {
-        Block.dropResources(state, level(), fallPos);
-    }
-
     public Rotation getRotationFromDirection(Direction direction) {
         switch (direction) {
             case NORTH:

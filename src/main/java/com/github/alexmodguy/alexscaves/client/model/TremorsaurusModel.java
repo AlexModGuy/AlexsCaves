@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.model;
 
+import com.github.alexmodguy.alexscaves.server.entity.item.DinosaurSpiritEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.TremorsaurusEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.animation.Animation;
@@ -442,5 +443,22 @@ public class TremorsaurusModel extends AdvancedEntityModel<TremorsaurusEntity> {
         Vec3 vec3 = new Vec3(armOffsetVec.x(), armOffsetVec.y(), armOffsetVec.z());
         translationStack.popPose();
         return vec3;
+    }
+
+    public void animateSpirit(DinosaurSpiritEntity entityIn, float partialTicks) {
+        this.resetToDefaultPose();
+        float abilityProgress = entityIn.getAbilityProgress(partialTicks);
+        float middleProgress = (float) Math.sin(abilityProgress * Math.PI);
+        progressRotationPrev(neck, middleProgress, (float) Math.toRadians(-20F), 0, 0, 1F);
+        progressRotationPrev(head, middleProgress, (float) Math.toRadians(-70F), 0, 0, 1F);
+        progressRotationPrev(jaw, middleProgress, (float) Math.toRadians(70F), 0, 0, 1F);
+        progressPositionPrev(neck, abilityProgress, 0, -4, -9, 1F);
+    }
+
+    public void renderSpiritToBuffer(PoseStack poseStack, VertexConsumer ivertexbuilder, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        poseStack.pushPose();
+        poseStack.translate(0, 1.3F, 1);
+        neck.render(poseStack, ivertexbuilder, packedLightIn, packedOverlayIn, red, green, blue, alpha);
+        poseStack.popPose();
     }
 }

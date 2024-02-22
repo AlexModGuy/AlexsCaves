@@ -13,6 +13,7 @@ public class TremorsaurusRenderer extends MobRenderer<TremorsaurusEntity, Tremor
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/tremorsaurus.png");
     private static final ResourceLocation TEXTURE_PRINCESS = new ResourceLocation("alexscaves:textures/entity/tremorsaurus_princess.png");
     private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/tremorsaurus_retro.png");
+    private static final ResourceLocation TEXTURE_TECTONIC = new ResourceLocation("alexscaves:textures/entity/tremorsaurus_tectonic.png");
 
     public TremorsaurusRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new TremorsaurusModel(), 1.1F);
@@ -24,7 +25,7 @@ public class TremorsaurusRenderer extends MobRenderer<TremorsaurusEntity, Tremor
     }
 
     public ResourceLocation getTextureLocation(TremorsaurusEntity entity) {
-        return entity.hasCustomName() && "princess".equalsIgnoreCase(entity.getName().getString()) ? TEXTURE_PRINCESS : entity.isRetro() ? TEXTURE_RETRO : TEXTURE;
+        return entity.hasCustomName() && "princess".equalsIgnoreCase(entity.getName().getString()) ? TEXTURE_PRINCESS : entity.getAltSkin() == 1 ? TEXTURE_RETRO : entity.getAltSkin() == 2 ? TEXTURE_TECTONIC : TEXTURE;
     }
 
 

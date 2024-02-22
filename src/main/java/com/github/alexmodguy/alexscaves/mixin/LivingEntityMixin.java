@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
-public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor, WatcherPossessionAccessor, DarknessIncarnateUserAccessor {
+public abstract class LivingEntityMixin extends Entity implements HeadRotationEntityAccessor, WatcherPossessionAccessor, DarknessIncarnateUserAccessor, EntityDropChanceAccessor {
 
     @Shadow
     public abstract float getYHeadRot();
@@ -121,5 +121,6 @@ public abstract class LivingEntityMixin extends Entity implements HeadRotationEn
     public boolean hasSlowFallingFlag(){
         return slowFallingFlag;
     }
+
 
 }

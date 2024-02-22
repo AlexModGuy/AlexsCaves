@@ -1,5 +1,8 @@
 package com.github.alexmodguy.alexscaves.server;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
+import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.PathfindingConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.Entity;
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class CommonProxy {
 
     public void commonInit() {
+
     }
 
     public void clientInit() {
@@ -83,6 +87,10 @@ public class CommonProxy {
         return living.position();
     }
 
+    public float getPrimordialBossActiveAmount(float partialTicks) {
+        return 0.0F;
+    }
+
     public float getPossessionStrengthAmount(float partialTick) {
         return 0.0F;
     }
@@ -103,5 +111,32 @@ public class CommonProxy {
     }
 
     public void playWorldEvent(int messageId, Level level, BlockPos blockPos) {
+    }
+
+    public void setPrimordialBossActive(Level level, int id, boolean active){
+        ACWorldData worldData = ACWorldData.get(level);
+        if(worldData != null){
+            worldData.trackPrimordialBoss(id, active);
+        }
+    }
+
+    public boolean isPrimordialBossActive(Level level){
+        ACWorldData worldData = ACWorldData.get(level);
+        if(worldData != null){
+            return worldData.isPrimordialBossActive(level);
+        }else{
+            return false;
+        }
+    }
+
+    public void initPathfinding() {
+        //PathfindingConstants.isDebugMode = true;
+        PathfindingConstants.pathfindingThreads = Math.max(PathfindingConstants.pathfindingThreads, AlexsCaves.COMMON_CONFIG.pathfindingThreads.get());
+    }
+
+    public void removeBossBarRender(UUID bossBar) {
+    }
+
+    public void setBossBarRender(UUID bossBar, int renderType) {
     }
 }

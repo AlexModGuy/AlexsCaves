@@ -129,6 +129,75 @@ public class SmallExplosionParticle extends TextureSheetParticle {
         }
     }
 
+    public static class BlueRaygunFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public BlueRaygunFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XEEEEEE);
+            particle.setSpriteFromAge(spriteSet);
+            particle.lifetime = 5 + worldIn.random.nextInt(5);
+            particle.scale(0.5F + worldIn.random.nextFloat() * 0.5F);
+            particle.setFadeColor(0X40EEDA);
+            return particle;
+        }
+    }
+
+    public static class TremorzillaFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public TremorzillaFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XEEEEEE);
+            particle.setSpriteFromAge(spriteSet);
+            particle.lifetime = 9 + worldIn.random.nextInt(3);
+            particle.scale(1.0F + worldIn.random.nextFloat() * 0.9F);
+            particle.setFadeColor(0X9BFF3D);
+            return particle;
+        }
+    }
+
+    public static class TremorzillaRetroFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public TremorzillaRetroFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XEEEEEE);
+            particle.setSpriteFromAge(spriteSet);
+            particle.lifetime = 9 + worldIn.random.nextInt(3);
+            particle.scale(1.0F + worldIn.random.nextFloat() * 0.9F);
+            particle.setFadeColor(0XE06EFF);
+            return particle;
+        }
+    }
+
+
+    public static class TremorzillaTectonicFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public TremorzillaTectonicFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XEEEEEE);
+            particle.setSpriteFromAge(spriteSet);
+            particle.lifetime = 9 + worldIn.random.nextInt(3);
+            particle.scale(1.0F + worldIn.random.nextFloat() * 0.9F);
+            particle.setFadeColor(0XFFD631);
+            return particle;
+        }
+    }
+
     public static class AmberFactory implements ParticleProvider<SimpleParticleType> {
         private final SpriteSet spriteSet;
 
@@ -140,6 +209,23 @@ public class SmallExplosionParticle extends TextureSheetParticle {
             SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, false, 0XFFDA1E);
             particle.setSpriteFromAge(spriteSet);
             particle.scale(0.8F);
+            return particle;
+        }
+    }
+
+    public static class TotemFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public TotemFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XFF0000);
+            particle.setSpriteFromAge(spriteSet);
+            particle.lifetime = 5 + worldIn.random.nextInt(3);
+            particle.scale(1.2F + worldIn.random.nextFloat() * 0.3F);
+            particle.setFadeColor(0);
             return particle;
         }
     }

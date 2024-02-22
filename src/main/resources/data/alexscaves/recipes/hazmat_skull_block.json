@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "HHH",
+    "HSH",
+    "HHH"
+  ],
+  "key": {
+    "H": {
+      "item": "alexscaves:hazmat_block"
+    },
+    "S": {
+      "item": "minecraft:skeleton_skull"
+    }
+  },
+  "result": {
+    "item": "alexscaves:hazmat_skull_block",
+    "count": 8
+  }
+}

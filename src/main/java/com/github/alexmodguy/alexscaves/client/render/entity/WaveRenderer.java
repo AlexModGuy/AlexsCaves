@@ -31,28 +31,31 @@ public class WaveRenderer extends EntityRenderer<WaveEntity> {
     }
 
     public void render(WaveEntity entityIn, float entityYaw, float partialTicks, PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn) {
+        if(entityIn.isInvisible()){
+            return;
+        }
         matrixStackIn.pushPose();
         matrixStackIn.translate(0.0D, (double) 1.5F, 0.0D);
         matrixStackIn.mulPose(Axis.YN.rotationDegrees(Mth.lerp(partialTicks, entityIn.yRotO, entityIn.getYRot()) + 180.0F));
-        float ageInTicks = entityIn.tickCount + partialTicks;
+        float ageInTicks = entityIn.activeWaveTicks + partialTicks;
         float f = ageInTicks / 10F;
         matrixStackIn.translate(0.0D, -0.1F + (1 - f) * -1, -(double) 0.5);
         matrixStackIn.scale(1F, -(0.2F + f * 0.9F), 1F);
         MODEL.setupAnim(entityIn, 0.0F, 0.0F, ageInTicks, 0.0F, 0.0F);
-        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getWaveTexture(entityIn.tickCount)));
+        VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityTranslucent(getWaveTexture(entityIn.activeWaveTicks)));
         int waterColorAt = entityIn.level().getBiome(entityIn.blockPosition()).get().getWaterColor();
         float colorR = (waterColorAt >> 16 & 255) / 255F;
         float colorG = (waterColorAt >> 8 & 255) / 255F;
         float colorB = (waterColorAt & 255) / 255F;
         MODEL.renderToBuffer(matrixStackIn, ivertexbuilder, packedLightIn, OverlayTexture.NO_OVERLAY, colorR, colorG, colorB, 1.0F);
-        VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RenderType.entityTranslucent(getOverlayTexture(entityIn.tickCount)));
+        VertexConsumer ivertexbuilder2 = bufferIn.getBuffer(RenderType.entityTranslucent(getOverlayTexture(entityIn.activeWaveTicks)));
         MODEL.renderToBuffer(matrixStackIn, ivertexbuilder2, packedLightIn, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         matrixStackIn.popPose();
         super.render(entityIn, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
 
     public ResourceLocation getTextureLocation(WaveEntity entity) {
-        return getWaveTexture(entity.tickCount);
+        return getWaveTexture(entity.activeWaveTicks);
     }
 
     private ResourceLocation getWaveTexture(int tickCount) {

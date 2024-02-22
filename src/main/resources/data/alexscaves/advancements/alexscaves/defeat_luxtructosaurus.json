@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:tectonic_shard"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_luxtructosaurus.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_luxtructosaurus.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/summon_luxtructosaurus",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:luxtructosaurus"
+        }
+      }
+    }
+  }
+}

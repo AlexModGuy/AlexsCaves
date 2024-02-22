@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -76,6 +77,9 @@ public class HullbreakerPartEntity extends PartEntity<HullbreakerEntity> {
     @Override
     public boolean hurt(DamageSource source, float amount) {
         HullbreakerEntity parent = this.getParent();
+        if(source.is(DamageTypeTags.IS_PROJECTILE)){
+            amount *= 0.35F;
+        }
         if (!this.isInvulnerableTo(source) && parent != null) {
             Entity player = source.getEntity();
             if (player != null && player.level().isClientSide) {

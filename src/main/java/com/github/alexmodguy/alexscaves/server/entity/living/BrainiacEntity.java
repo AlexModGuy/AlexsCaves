@@ -348,7 +348,7 @@ public class BrainiacEntity extends Monster implements IAnimatedEntity {
                 }
                 if (BrainiacEntity.this.getAnimation() == ANIMATION_BITE) {
                     if (BrainiacEntity.this.getAnimationTick() >= 10 && BrainiacEntity.this.getAnimationTick() <= 15) {
-                        checkAndDealDamage(target, 0);
+                        checkAndDealDamage(target, 1);
                     }
                 }
             }

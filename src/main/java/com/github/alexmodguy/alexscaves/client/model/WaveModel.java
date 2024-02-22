@@ -35,15 +35,16 @@ public class WaveModel extends AdvancedEntityModel<WaveEntity> {
     public void setupAnim(WaveEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.resetToDefaultPose();
         float f = (float) ((Math.sin(ageInTicks * 0.1F) + 1F) * 0.2F);
+        float waveScale = entity.getWaveScale();
         float stretch = Math.min(40F, ageInTicks) / 40F;
-        float slam = entity.getSlamAmount(ageInTicks - entity.tickCount) * 1.4F;
+        float slam = entity.getSlamAmount(ageInTicks - entity.activeWaveTicks) * 1.4F;
         progressRotationPrev(top, slam, (float) Math.toRadians(100), 0, 0, 1F);
         progressPositionPrev(top, slam, 0, -1, 13, 1F);
         this.top.rotateAngleX += f;
         this.top.rotationPointY += f * 8;
         this.top.rotationPointZ += f * 2;
-        main.setScale(1, 1, 1 + stretch * 4F);
-        top.setScale(1, 1, 1 + stretch * 1F);
+        main.setScale(waveScale, waveScale, waveScale + stretch * 4F);
+        top.setScale(waveScale, waveScale, waveScale + stretch * 1F);
         this.top.rotationPointY += stretch * 2;
         this.top.rotationPointZ += stretch * 2;
     }

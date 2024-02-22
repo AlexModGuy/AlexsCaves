@@ -58,9 +58,10 @@ public class SeekingArrowEntity extends AbstractArrow {
             if (id == -1) {
                 if (!level().isClientSide) {
                     Entity closest = null;
+                    Entity owner = this.getOwner();
                     float boxExpandBy = Math.min(10, 3 + (this.tickCount / 4));
                     for (Entity entity : this.level().getEntities(this, this.getBoundingBox().inflate(boxExpandBy), this::canHitEntity)) {
-                        if ((closest == null || entity.distanceTo(this) < closest.distanceTo(this)) && !ownedBy(entity)) {
+                        if ((closest == null || entity.distanceTo(this) < closest.distanceTo(this)) && !ownedBy(entity) && (owner == null || !entity.isAlliedTo(owner))) {
                             closest = entity;
                         }
                     }
