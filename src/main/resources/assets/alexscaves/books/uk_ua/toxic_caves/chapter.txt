@@ -19,8 +19,9 @@
     • {Ресурси|toxic_caves/resources.json}
     • Мешканці
         • {Гамматарган|toxic_caves/gammaroach.json}
-        • {Мозколом|toxic_caves/brainiac.json}
+        • {Мозколам|toxic_caves/brainiac.json}
         • {Нукліпер|toxic_caves/nucleeper.json}
         • {Промен. кіт|toxic_caves/raycat.json}
         • {Радозябр|toxic_caves/radgill.json}
+        • {Тремозілла|toxic_caves/tremorzilla.json}
     • {Приладдя|toxic_caves/utilities.json}
