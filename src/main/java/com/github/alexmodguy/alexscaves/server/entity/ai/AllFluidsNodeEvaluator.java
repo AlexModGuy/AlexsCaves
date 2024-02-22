@@ -13,8 +13,8 @@ import net.minecraft.world.level.pathfinder.SwimNodeEvaluator;
 
 public class AllFluidsNodeEvaluator extends SwimNodeEvaluator {
 
-    public AllFluidsNodeEvaluator(boolean shallow) {
-        super(shallow);
+    public AllFluidsNodeEvaluator(boolean breaching) {
+        super(breaching);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class AllFluidsNodeEvaluator extends SwimNodeEvaluator {
             }
         }
         BlockState blockstate1 = getter.getBlockState(blockpos$mutableblockpos);
-        return blockstate1.isAir() ? BlockPathTypes.OPEN : !blockstate1.getFluidState().isEmpty() ? BlockPathTypes.WATER : BlockPathTypes.BLOCKED;
+        return blockstate1.isAir() ? BlockPathTypes.BREACH : !blockstate1.getFluidState().isEmpty() ? BlockPathTypes.WATER : BlockPathTypes.BLOCKED;
     }
 }
