@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.MovingBlockData;
 import net.minecraft.core.BlockPos;
@@ -7,11 +8,20 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.PlayMessages;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class CrushedBlockEntity  extends AbstractMovingBlockEntity {
 
@@ -72,10 +82,6 @@ public class CrushedBlockEntity  extends AbstractMovingBlockEntity {
         }else{
             this.setDeltaMovement(this.getDeltaMovement().add(0, -1F, 0));
         }
-    }
-
-    private void createBlockDropAt(BlockPos CrushPos, BlockState state, CompoundTag blockData) {
-        Block.dropResources(state, level(), CrushPos);
     }
 
     public float getCrushProgress(float partialTick) {
