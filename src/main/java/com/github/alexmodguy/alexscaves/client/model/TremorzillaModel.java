@@ -502,11 +502,11 @@ public class TremorzillaModel extends AdvancedEntityModel<TremorzillaEntity> {
             setupAnimForAnimation(entity, entity.getAnimation(), limbSwing, limbSwingAmount, ageInTicks);
         }
         float partialTicks = ageInTicks - entity.tickCount;
-        float swimProgress = entity.getSwimAmount(partialTicks);
-        float groundProgress = 1F - swimProgress;
         float burnProgress = entity.getBeamProgress(partialTicks);
         float danceProgress = entity.getDanceProgress(partialTicks);
         float sitProgress = entity.getSitProgress(partialTicks) * (1F - danceProgress);
+        float swimProgress = entity.getSwimAmount(partialTicks) - sitProgress;
+        float groundProgress = 1F - swimProgress;
         float standProgress = 1F - sitProgress;
         float spikesDownProgress = entity.getClientSpikeDownAmount(partialTicks);
         float buryEggsAmount = entity.getBuryEggsProgress(partialTicks);
@@ -622,7 +622,6 @@ public class TremorzillaModel extends AdvancedEntityModel<TremorzillaEntity> {
         this.walk(rightLeg, walkSpeed, walkDegree * 0.2F, true, 1.5F, 0F, limbSwing, limbSwingAmountGround);
         rightLeg.rotationPointY += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmountGround, walkSpeed, -0.5F, 20, false));
         rightLeg.rotationPointZ += Math.min(0, ACMath.walkValue(limbSwing, limbSwingAmountGround, walkSpeed, -1F, 5, false));
-
         this.bob(root, swimSpeed, 4, false, limbSwing, limbSwingAmountSwim);
         this.swing(tail2, swimSpeed, 0.1F, true, -2F, 0F, limbSwing, limbSwingAmountSwim);
         this.swing(tail3, swimSpeed, 0.2F, true, -3F, 0F, limbSwing, limbSwingAmountSwim);
