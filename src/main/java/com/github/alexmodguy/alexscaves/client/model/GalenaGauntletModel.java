@@ -85,10 +85,10 @@ public class GalenaGauntletModel extends AdvancedEntityModel<Entity> {
         progressPositionPrev(finger2, closeAmount, 0, 3, -1, 1F);
         progressPositionPrev(finger3, closeAmount, -1, 2.5F, 0, 1F);
         progressPositionPrev(thumb, closeAmount, 0, -2.5F, 0, 1F);
-        this.walk(finger, 0.1F, 0.3F, true, 3 * leftOff, 0.4F * leftOff, ageInTicks, openAmount);
+        this.walk(finger, 0.1F, 0.3F, true, 3 * leftOff, -0.4F, ageInTicks, openAmount);
         this.swing(finger, 0.1F, 0.1F, left, 5 * leftOff, 0.1F * leftOff, ageInTicks, openAmount);
-        this.walk(finger2, 0.1F, 0.3F, true, 2 * leftOff, 0.4F * leftOff, ageInTicks, openAmount);
-        this.walk(finger3, 0.1F, 0.3F, true, 1 * leftOff, 0.4F * leftOff, ageInTicks, openAmount);
+        this.walk(finger2, 0.1F, 0.3F, true, 2 * leftOff, -0.4F, ageInTicks, openAmount);
+        this.walk(finger3, 0.1F, 0.3F, true, 1 * leftOff, -0.4F, ageInTicks, openAmount);
         this.swing(finger3, 0.1F, -0.1F, left, 2 * leftOff, -0.1F * leftOff, ageInTicks, openAmount);
         this.flap(thumb, 0.1F, 0.3F * leftOff, true, -1, -0.2F * leftOff, ageInTicks, openAmount);
 
