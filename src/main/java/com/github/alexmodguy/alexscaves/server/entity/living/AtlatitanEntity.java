@@ -130,9 +130,9 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
                         ACAdvancementTriggerRegistry.ATLATITAN_STOMP.triggerForEntity(passenger);
                     }
                 }
-                if(this.getRideableFor() > 0){
-                    this.setRideableFor(this.getRideableFor() - 1);
-                }
+            }
+            if(this.getRideableFor() > 0){
+                this.setRideableFor(this.getRideableFor() - 1);
             }
             if(this.getAnimation() == ANIMATION_RIGHT_KICK && this.getAnimationTick() == 8){
                 Vec3 armPos = this.position().add(rotateOffsetVec(new Vec3(-2, 0, 2.5F), 0, this.yBodyRot));
