@@ -505,7 +505,7 @@ public class TremorzillaModel extends AdvancedEntityModel<TremorzillaEntity> {
         float burnProgress = entity.getBeamProgress(partialTicks);
         float danceProgress = entity.getDanceProgress(partialTicks);
         float sitProgress = entity.getSitProgress(partialTicks) * (1F - danceProgress);
-        float swimProgress = entity.getSwimAmount(partialTicks) - sitProgress;
+        float swimProgress = entity.getSwimAmount(partialTicks) * (1F - sitProgress);
         float groundProgress = 1F - swimProgress;
         float standProgress = 1F - sitProgress;
         float spikesDownProgress = entity.getClientSpikeDownAmount(partialTicks);

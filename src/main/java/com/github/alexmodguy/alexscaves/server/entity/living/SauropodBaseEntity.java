@@ -199,7 +199,8 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
         this.prevLegBackAmount = legBackAmount;
         float f = getLegSlamAmount(2.0F, 0.333F);
         float f1 = getLegSlamAmount(2.0F, 0.666F);
-        float speed = (float) this.getDeltaMovement().length();
+        Vec3 movement = this.getDeltaMovement();
+        float speed = (float) movement.length();
         if (this.areLegsMoving()) {
             this.walkAnimPosition += walkAnimSpeed;
             if (this.getAnimation() == ANIMATION_LEFT_WHIP || this.getAnimation() == ANIMATION_RIGHT_WHIP) {
@@ -215,7 +216,7 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
                 walkAnimSpeed = Math.max(0, walkAnimSpeed - 0.025F);
             }
         }
-        if (f <= 0.05 && walkAnimSpeed > 0.0F && this.onGround() && speed > 0.003F) {
+        if (f <= 0.05 && walkAnimSpeed > 0.0F && this.onGround() && (speed > 0.003F || this.isVehicle())) {
             this.onStep();
         }
         if (f1 < 0.65F) {
