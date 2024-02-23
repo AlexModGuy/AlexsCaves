@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "alexscaves:coprolith"
-  },
-  "result": "alexscaves:smooth_coprolith",
-  "experience": 0.1,
-  "cookingtime": 100
-}

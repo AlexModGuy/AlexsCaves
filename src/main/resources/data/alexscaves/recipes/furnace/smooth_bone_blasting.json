@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "minecraft:bone_block"
-  },
-  "result": "alexscaves:smooth_bone",
-  "experience": 0.1,
-  "cookingtime": 100
-}

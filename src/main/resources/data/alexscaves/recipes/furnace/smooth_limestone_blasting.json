@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "ingredient": {
-    "item": "alexscaves:limestone"
-  },
-  "result": "alexscaves:smooth_limestone",
-  "experience": 0.1,
-  "cookingtime": 100
-}

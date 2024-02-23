@@ -72,7 +72,6 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Mob.class, 10.0F));
         this.goalSelector.addGoal(10, new LookForwardsGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, AtlatitanEntity.class)));
-        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Pig.class, false));
     }
 
     @Override
