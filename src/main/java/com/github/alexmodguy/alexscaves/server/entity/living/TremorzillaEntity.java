@@ -633,7 +633,6 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
         }
         float f2 = Math.min(f1 * walkSpeed, 1.0F);
         walkAnimation.update(f2, 0.4F);
-        System.out.println(level().isClientSide + " " +  walkAnimation.speed());
     }
 
     @Override

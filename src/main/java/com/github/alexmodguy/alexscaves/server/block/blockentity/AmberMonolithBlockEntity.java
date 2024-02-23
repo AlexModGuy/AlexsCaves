@@ -153,6 +153,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
     }
 
     private BlockPos getRandomSpawnPos() {
+        boolean caveCreature = spawnType.getCategory() == ACEntityRegistry.CAVE_CREATURE;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         for (int i = 0; i < 20; i++) {
             mutableBlockPos.set(this.getBlockPos().getX() + level.getRandom().nextInt(20) - 10, this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + level.getRandom().nextInt(20) - 10);
@@ -164,7 +165,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                 }
                 if (Math.abs(mutableBlockPos.getY() - this.getBlockPos().getY()) < 20) {
                     BlockPos pos = mutableBlockPos.immutable();
-                    if(!level.getBlockState(pos).isAir() && (level.getBlockState(pos.above()).isAir() || level.getBlockState(pos.above()).canBeReplaced())){
+                    if(!level.getBlockState(pos).isAir() && (level.getBlockState(pos.above()).isAir() || level.getBlockState(pos.above()).canBeReplaced()) && (!caveCreature || !level.canSeeSky(pos.above()))){
                         return pos.above();
                     }
                 }
