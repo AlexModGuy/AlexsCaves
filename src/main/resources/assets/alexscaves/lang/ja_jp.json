@@ -1101,7 +1101,7 @@
   "alexscaves.sound.subtitle.lanternfish_hurt": "ハダカイワシがダメージを受ける",
   "alexscaves.sound.subtitle.lanternfish_flop": "ハダカイワシが跳ねる",
   "alexscaves.sound.subtitle.sea_pig_idle": "センジュナマコが鳴く",
-  "alexscaves.sound.subtitle.sea_pig_hurt": "センジュナマコがダメージを受ける,
+  "alexscaves.sound.subtitle.sea_pig_hurt": "センジュナマコがダメージを受ける",
   "alexscaves.sound.subtitle.sea_pig_death": "センジュナマコが死ぬ",
   "alexscaves.sound.subtitle.sea_pig_eat": "センジュナマコが食べる",
   "alexscaves.sound.subtitle.tremorzilla_idle": "トレモルジラが鳴く",
@@ -1256,7 +1256,7 @@
   "alexscaves.sound.subtitle.darkness_incarnate_idle": "闇の化身が身震いする",
   "alexscaves.sound.subtitle.disappointment": "ぐわんぐわん",
   "alexscaves.sound.subtitle.nuclear_siren": "警告サイレンが鳴る",
-  "alexscaves.startup_warning.generation_incompatible": "Alex's Cavesのワールド生成はMOD(ID:%s)と互換性がありません。洞窟バイオームがワールドに全く生成されなかったり、クラッシュやサーバーハングを引き起こしたりします。この警告メッセージはAlex's Cavesのコンフィグで無効にできます。"
+  "alexscaves.startup_warning.generation_incompatible": "Alex's Cavesのワールド生成はMOD(ID:%s)と互換性がありません。洞窟バイオームがワールドに全く生成されなかったり、クラッシュやサーバーハングを引き起こしたりします。この警告メッセージはAlex's Cavesのコンフィグで無効にできます。",
   "enchantment.alexscaves.field_extension": "範囲拡大",
   "enchantment.alexscaves.field_extension.desc": "アイテムを磁力の籠手でより遠くに動かすことができる",
   "enchantment.alexscaves.crystallization": "結晶化",
