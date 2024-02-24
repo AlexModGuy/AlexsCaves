@@ -115,7 +115,7 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new AdvancedPathNavigate(this, level, AdvancedPathNavigate.MovementType.WALKING);
+        return new AdvancedPathNavigateNoTeleport(this, level);
     }
 
     @Override

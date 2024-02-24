@@ -3,7 +3,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.FlightPathNavigatorNoSpin;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AdvancedPathNavigateNoTeleport;
 import com.github.alexmodguy.alexscaves.server.entity.ai.MobTarget3DGoal;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -207,7 +207,7 @@ public class FerrouslimeEntity extends Monster {
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new AdvancedPathNavigate(this, level(), AdvancedPathNavigate.MovementType.FLYING);
+        return new AdvancedPathNavigateNoTeleport(this, level, AdvancedPathNavigate.MovementType.FLYING);
     }
 
     public float getWalkTargetValue(BlockPos pos, LevelReader level) {

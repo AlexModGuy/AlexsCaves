@@ -22,6 +22,7 @@ import net.minecraftforge.network.PlayMessages;
 
 public class SeekingArrowEntity extends AbstractArrow {
     private static final EntityDataAccessor<Integer> ARC_TOWARDS_ENTITY_ID = SynchedEntityData.defineId(SeekingArrowEntity.class, EntityDataSerializers.INT);
+    private boolean stopSeeking;
 
     public SeekingArrowEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -54,7 +55,7 @@ public class SeekingArrowEntity extends AbstractArrow {
     public void tick() {
         super.tick();
         int id = this.getArcTowardsID();
-        if (!inGround) {
+        if (!inGround && !stopSeeking) {
             if (id == -1) {
                 if (!level().isClientSide) {
                     Entity closest = null;
@@ -73,8 +74,10 @@ public class SeekingArrowEntity extends AbstractArrow {
             } else {
                 Entity arcTowards = level().getEntity(id);
                 if (arcTowards != null) {
-                    Vec3 arcVec = arcTowards.position().add(0, 0.65F * arcTowards.getBbHeight(), 0).subtract(this.position()).normalize();
-                    this.setDeltaMovement(this.getDeltaMovement().scale(0.3F).add(arcVec.scale(0.7F)));
+                    Vec3 arcVec = arcTowards.position().add(0, 0.65F * arcTowards.getBbHeight(), 0).subtract(this.position());
+                    if(arcVec.length() > arcTowards.getBbWidth()){
+                        this.setDeltaMovement(this.getDeltaMovement().scale(0.3F).add(arcVec.normalize().scale(0.7F)));
+                    }
                 }
             }
         }
@@ -83,6 +86,10 @@ public class SeekingArrowEntity extends AbstractArrow {
             Vec3 vec3 = center.add(new Vec3(random.nextFloat() - 0.5F, random.nextFloat() - 0.5F, random.nextFloat() - 0.5F));
             this.level().addParticle(ACParticleRegistry.SCARLET_SHIELD_LIGHTNING.get(), center.x, center.y, center.z, vec3.x, vec3.y, vec3.z);
         }
+    }
+
+    protected void doPostHurtEffects(LivingEntity entity) {
+        stopSeeking = true;
     }
 
     protected ItemStack getPickupItem() {

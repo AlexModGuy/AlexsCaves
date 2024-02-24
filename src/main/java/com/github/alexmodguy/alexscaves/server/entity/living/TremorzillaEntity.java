@@ -15,7 +15,6 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.ITallWalker;
 import com.google.common.base.Predicates;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -168,7 +167,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new TremorzillaPathNavigation(this, level);
+        return new AdvancedPathNavigateNoTeleport(this, level);
     }
 
     protected void switchNavigator(boolean onLand) {

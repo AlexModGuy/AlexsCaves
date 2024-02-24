@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AdvancedPathNavigateNoTeleport;
 import com.github.alexmodguy.alexscaves.server.entity.item.CrushedBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.FallingTreeBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.KaijuMob;
@@ -13,7 +14,6 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.ITallWalker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,11 +21,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -125,7 +123,7 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new AdvancedPathNavigate(this, level);
+        return new AdvancedPathNavigateNoTeleport(this, level);
     }
 
     public boolean isFakeEntity() {

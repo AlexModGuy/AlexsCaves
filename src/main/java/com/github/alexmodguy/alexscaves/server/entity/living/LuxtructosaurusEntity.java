@@ -12,7 +12,6 @@ import com.github.alexmodguy.alexscaves.server.entity.util.ACBossEvent;
 import com.github.alexmodguy.alexscaves.server.entity.util.KaijuMob;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.message.UpdateBossEruptionStatus;
-import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.VoronoiGenerator;
