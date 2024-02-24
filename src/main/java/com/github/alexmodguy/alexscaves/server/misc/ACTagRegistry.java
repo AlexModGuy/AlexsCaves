@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.material.Fluid;
 
 public class ACTagRegistry {
 
@@ -77,6 +78,7 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> RESISTS_TOTEM_OF_POSSESSION = registerEntityTag("resists_totem_of_possession");
     public static final TagKey<Structure> ON_UNDERGROUND_CABIN_MAPS = registerStructureTag("on_underground_cabin_maps");
     public static final TagKey<DamageType> DEEP_ONE_IGNORES = registerDamageTypeTag("deep_one_ignores");
+    public static final TagKey<Fluid> DOES_NOT_FLOW_INTO_WATERLOGGABLE_BLOCKS = registerFluidTag("does_not_flow_into_waterloggable_blocks");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
@@ -100,5 +102,9 @@ public class ACTagRegistry {
 
     private static TagKey<DamageType> registerDamageTypeTag(String name) {
         return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
+    }
+
+    private static TagKey<Fluid> registerFluidTag(String name) {
+        return TagKey.create(Registries.FLUID, new ResourceLocation(AlexsCaves.MODID, name));
     }
 }

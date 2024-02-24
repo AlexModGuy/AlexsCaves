@@ -6,6 +6,7 @@
     "alexscaves:metal_scaffolding",
     "alexscaves:metal_barrel",
     "alexscaves:waste_drum",
+    "alexscaves:flood_basalt",
     "minecraft:iron_boots",
     "minecraft:netherite_boots",
     "minecraft:chainmail_boots",
@@ -68,6 +69,9 @@
     "minecraft:tnt_minecart",
     "minecraft:recovery_compass",
     "minecraft:lantern",
-    "minecraft:soul_lantern"
+    "minecraft:soul_lantern",
+    "minecraft:basalt",
+    "minecraft:smooth_basalt",
+    "minecraft:polished_basalt"
   ]
 }

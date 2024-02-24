@@ -11,6 +11,7 @@
     "EnchantRandomlyFunctionMixin",
     "EntityMixin",
     "FallingBlockEntityMixin",
+    "FlowingFluidMixin",
     "FoodDataMixin",
     "FrogMixin",
     "JigsawStructureMixin",

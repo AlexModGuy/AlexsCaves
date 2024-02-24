@@ -19,6 +19,7 @@
     "alexscaves:quarry",
     "alexscaves:heart_of_iron",
     "alexscaves:nuclear_siren",
+    "alexscaves:flood_basalt",
     "#forge:storage_blocks/raw_iron",
     "#forge:storage_blocks/iron",
     "#forge:storage_blocks/netherite",
@@ -39,6 +40,9 @@
     "#minecraft:anvil",
     "minecraft:tripwire_hook",
     "minecraft:lantern",
-    "minecraft:soul_lantern"
+    "minecraft:soul_lantern",
+    "minecraft:basalt",
+    "minecraft:smooth_basalt",
+    "minecraft:polished_basalt"
   ]
 }

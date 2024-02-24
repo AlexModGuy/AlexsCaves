@@ -18,7 +18,6 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolver;
-import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.ITallWalker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
