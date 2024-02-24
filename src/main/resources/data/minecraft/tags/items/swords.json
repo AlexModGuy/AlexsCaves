@@ -1,6 +1,9 @@
 {
   "replace": false,
   "values": [
+    "alexscaves:limestone_spear",
+    "alexscaves:extinction_spear",
+    "alexscaves:ortholance",
     "alexscaves:desolate_dagger"
   ]
 }

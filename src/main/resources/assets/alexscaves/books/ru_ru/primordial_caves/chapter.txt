@@ -24,4 +24,6 @@
         • {Трилокарис|primordial_caves/trilocaris.json}
         • {Сотрясозавр|primordial_caves/tremorsaurus.json}
         • {Реликвейрус|primordial_caves/relicheirus.json}
+        • {Люкстрактозавр|primordial_caves/luxtructosaurus.json}
+        • {Атлатитан|primordial_caves/atlatitan.json}
     • {Применения|primordial_caves/utilities.json}

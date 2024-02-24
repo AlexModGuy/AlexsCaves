@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.mixin;
 
+import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +32,7 @@ public class JigsawStructureMixin {
             int i = context.chunkPos().getBlockX(9);
             int j = context.chunkPos().getBlockZ(9);
 
-            for (Holder<Biome> holder : context.biomeSource().getBiomesWithin(i, context.chunkGenerator().getSeaLevel() - 80, j, 29, context.randomState().sampler())) {
+            for (Holder<Biome> holder : ACMath.getBiomesWithinAtY(context.biomeSource(), i, context.chunkGenerator().getSeaLevel() - 80, j, 80, context.randomState().sampler())) {
                 if (holder.is(ACTagRegistry.HAS_NO_ANCIENT_CITIES_IN)) {
                     cir.setReturnValue(Optional.empty());
                 }

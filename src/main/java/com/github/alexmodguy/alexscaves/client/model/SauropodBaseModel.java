@@ -428,7 +428,7 @@ public abstract class SauropodBaseModel<T extends SauropodBaseEntity> extends Ad
     }
 
     private void positionNeckAndTail(SauropodBaseEntity entity, float netHeadYaw, float headPitch, float partialTicks) {
-        if (!straighten) {
+        if (!straighten && !entity.isFakeEntity()) {
             float neckPart1Pitch = (float) Math.toRadians(entity.neckPart1.calculateAnimationAngle(partialTicks, true)) * 0.5F;
             float neckPart2Pitch = (float) Math.toRadians(entity.neckPart2.calculateAnimationAngle(partialTicks, true)) * 0.5F;
             float neckPart3Pitch = (float) Math.toRadians(entity.neckPart3.calculateAnimationAngle(partialTicks, true)) * 0.5F;

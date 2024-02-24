@@ -116,7 +116,7 @@ public class ACEntityRegistry {
         event.put(LUXTRUCTOSAURUS.get(), LuxtructosaurusEntity.createAttributes().build());
         event.put(ATLATITAN.get(), AtlatitanEntity.createAttributes().build());
         event.put(NUCLEEPER.get(), NucleeperEntity.createAttributes().build());
-        event.put(RADGILL.get(), NucleeperEntity.createAttributes().build());
+        event.put(RADGILL.get(), RadgillEntity.createAttributes().build());
         event.put(BRAINIAC.get(), BrainiacEntity.createAttributes().build());
         event.put(GAMMAROACH.get(), GammaroachEntity.createAttributes().build());
         event.put(RAYCAT.get(), RaycatEntity.createAttributes().build());

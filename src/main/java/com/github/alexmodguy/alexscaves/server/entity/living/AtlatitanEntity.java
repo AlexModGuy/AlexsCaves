@@ -72,7 +72,6 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
         this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Mob.class, 10.0F));
         this.goalSelector.addGoal(10, new LookForwardsGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, AtlatitanEntity.class)));
-        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Pig.class, false));
     }
 
     @Override
@@ -131,6 +130,9 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
                         ACAdvancementTriggerRegistry.ATLATITAN_STOMP.triggerForEntity(passenger);
                     }
                 }
+            }
+            if(this.getRideableFor() > 0){
+                this.setRideableFor(this.getRideableFor() - 1);
             }
             if(this.getAnimation() == ANIMATION_RIGHT_KICK && this.getAnimationTick() == 8){
                 Vec3 armPos = this.position().add(rotateOffsetVec(new Vec3(-2, 0, 2.5F), 0, this.yBodyRot));

@@ -224,6 +224,10 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
         this.targetSelector.addGoal(3, new OwnerHurtTargetGoal(this));
     }
 
+    public boolean isFakeEntity() {
+        return this.firstTick;
+    }
+
     public void tick() {
         super.tick();
         AnimationHandler.INSTANCE.updateAnimations(this);
@@ -572,7 +576,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
         } else if (target != null && target.isAlive()) {
             float time = (float) beamTime / maxBeamTime;
             float accuracy = 1F - (Math.min(0.75F, time) / 0.75F);
-            Vec3 position = target instanceof KaijuMob ? target.getEyePosition() : target.position();
+            Vec3 position = target.position();
             Vec3 swingVec = new Vec3(Math.sin(tickCount * 0.2F) * 6, 0, Math.cos(tickCount * 0.2F) * -6).yRot((float) Math.toRadians(-this.yBodyRot)).scale(accuracy);
             Vec3 approach = position.add(swingVec).subtract(vec3).scale(0.1F).add(vec3);
             beamServerTarget = approach;
@@ -610,6 +614,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
                 delta = delta.add(0, 0.05, 0);
             }
             this.setDeltaMovement(delta.scale(0.8D));
+            this.calculateEntityAnimation(false);
         } else {
             super.travel(vec3d);
         }

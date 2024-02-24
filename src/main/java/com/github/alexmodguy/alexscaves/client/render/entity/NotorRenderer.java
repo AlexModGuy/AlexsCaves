@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.*;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.FerrouslimeEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
@@ -180,12 +181,20 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     if(model instanceof TremorzillaModel tremorzillaModel){
                         tremorzillaModel.straighten = false;
                     }
-                    matrixStack.scale(living.getScale(), -living.getScale(), living.getScale());
+                    matrixStack.scale(-living.getScale(), -living.getScale(), living.getScale());
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();
                     if (model instanceof HumanoidModel<?> humanoidModel) {
                         humanoidModel.crouching = prevCrouching;
                     }
+                }else if(render instanceof FerrouslimeRenderer && living instanceof FerrouslimeEntity ferrouslime){
+                    matrixStack.pushPose();
+                    matrixStack.translate(0, -1, 0);
+                    matrixStack.scale(-living.getScale(), -living.getScale(), living.getScale());
+                    VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(render.getTextureLocation(entityIn)));
+                    FerrouslimeRenderer.FERROUSLIME_MODEL.setupAnim(ferrouslime, 0.0F, 0.0F, -0.1F, 0.0F, 0.0F);
+                    FerrouslimeRenderer.FERROUSLIME_MODEL.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+                    matrixStack.popPose();
                 }
                 entityIn.setXRot(xRot);
                 entityIn.xRotO = xRotOld;

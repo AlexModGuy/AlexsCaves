@@ -17,7 +17,7 @@ import java.util.EnumSet;
 public class TremorzillaFollowOwnerGoal extends Goal {
 
 
-    public static final int TELEPORT_WHEN_DISTANCE_IS = 12;
+    public static final int TELEPORT_WHEN_DISTANCE_IS = 32;
     private static final int MIN_HORIZONTAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 2;
     private static final int MAX_HORIZONTAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 3;
     private static final int MAX_VERTICAL_DISTANCE_FROM_PLAYER_WHEN_TELEPORTING = 1;
@@ -25,7 +25,6 @@ public class TremorzillaFollowOwnerGoal extends Goal {
     private LivingEntity owner;
     private final LevelReader level;
     private final double speedModifier;
-    private final PathNavigation navigation;
     private int timeToRecalcPath;
     private final float stopDistance;
     private final float startDistance;
@@ -35,7 +34,6 @@ public class TremorzillaFollowOwnerGoal extends Goal {
         this.tremorzilla = tremorzilla;
         this.level = tremorzilla.level();
         this.speedModifier = speed;
-        this.navigation = tremorzilla.getNavigation();
         this.startDistance = minDist;
         this.stopDistance = maxDist;
     }
@@ -63,7 +61,7 @@ public class TremorzillaFollowOwnerGoal extends Goal {
     public boolean canContinueToUse() {
         if(this.tremorzilla.getCommand() != 2){
             return false;
-        }else if (this.navigation.isDone()) {
+        }else if (this.tremorzilla.getNavigation().isDone()) {
             return false;
         } else if (this.unableToMove()) {
             return false;
@@ -84,17 +82,17 @@ public class TremorzillaFollowOwnerGoal extends Goal {
 
     public void stop() {
         this.owner = null;
-        this.navigation.stop();
+        this.tremorzilla.getNavigation().stop();
     }
 
     public void tick() {
         this.tremorzilla.getLookControl().setLookAt(this.owner, 10.0F, (float)this.tremorzilla.getMaxHeadXRot());
         if (--this.timeToRecalcPath <= 0) {
             this.timeToRecalcPath = this.adjustedTickDelay(10);
-            if (this.tremorzilla.distanceToSqr(this.owner) >= 144.0D && AlexsCaves.COMMON_CONFIG.devastatingTremorzillaBeam.get()) {
+            if (this.tremorzilla.distanceToSqr(this.owner) >= TELEPORT_WHEN_DISTANCE_IS * TELEPORT_WHEN_DISTANCE_IS && AlexsCaves.COMMON_CONFIG.devastatingTremorzillaBeam.get()) {
                 this.teleportToOwner();
             } else {
-                this.navigation.moveTo(this.owner, this.speedModifier);
+                this.tremorzilla.getNavigation().moveTo(this.owner, this.speedModifier);
             }
 
         }
@@ -130,7 +128,7 @@ public class TremorzillaFollowOwnerGoal extends Goal {
             return false;
         } else {
             this.tremorzilla.moveTo((double)x + 0.5D, (double)y, (double)z + 0.5D, this.tremorzilla.getYRot(), this.tremorzilla.getXRot());
-            this.navigation.stop();
+            this.tremorzilla.getNavigation().stop();
             return true;
         }
     }

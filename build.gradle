@@ -36,7 +36,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.1.0'
+version = '1.1.1'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 
@@ -109,7 +109,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.20.1-47.2.0'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.2.20'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     implementation fg.deobf("curse.maven:citadel-331936:5075402")
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"))
@@ -117,6 +117,7 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
     runtimeOnly(fg.deobf("curse.maven:spark-361579:4587309"))
 //    runtimeOnly fg.deobf("curse.maven:naturescompass-252848:4175025")
+//    runtimeOnly fg.deobf("curse.maven:structure-compass-319598:4946417")
 }
 
 mixin {

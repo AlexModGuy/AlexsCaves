@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -26,6 +27,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix3f;
@@ -39,6 +41,9 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
 
     private static final Map<BlockPos, HologramProjectorBlockEntity> allOnScreen = new HashMap<>();
     private static final Map<UUID, PlayerInfo> playerInfo = new HashMap<>();
+
+    private static PlayerModel playerModel = null;
+    private static PlayerModel slimPlayerModel = null;
 
     public HologramProjectorBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
     }
@@ -88,6 +93,9 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
         float bob2 = (float) (Math.cos(ticks * 0.05F + amount) * 0.1F);
         float length = (1F + bob1) * amount;
         float width = ((holoEntity == null ? 0.8F : holoEntity.getBbWidth()) + bob2) * amount;
+        if(holoEntity instanceof LivingEntity living){
+            width *= living.getScale();
+        }
         VertexConsumer lightConsumer = bufferIn.getBuffer(ACRenderTypes.getHologramLights());
         poseStack.pushPose();
         float padStart = 0.125F;
@@ -155,50 +163,18 @@ public class HologramProjectorBlockRenderer<T extends HologramProjectorBlockEnti
         String modelName = getPlayerModelName(playerInfo, lastPlayerUUID);
         EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
         EntityRenderer<? extends Player> renderer = manager.getSkinMap().get(modelName);
+        if(playerModel == null || slimPlayerModel == null){
+            playerModel = new PlayerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER), false);
+            slimPlayerModel = new PlayerModel(Minecraft.getInstance().getEntityModels().bakeLayer(ModelLayers.PLAYER_SLIM), true);
+        }
+        PlayerModel model = modelName.equals("slim") ? slimPlayerModel : playerModel;
+        model.young = false;
         if (renderer instanceof LivingEntityRenderer livingEntityRenderer) {
-            EntityModel model = livingEntityRenderer.getModel();
             VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(getPlayerSkinTextureLocation(playerInfo, lastPlayerUUID)));
             poseStack.pushPose();
-            model.young = false;
-            model.riding = false;
-            model.attackTime = 0;
-            boolean prevCrouching = false;
-            if (model instanceof HumanoidModel<?> humanoidModel) {
-                prevCrouching = humanoidModel.crouching;
-                humanoidModel.crouching = false;
-            }
-            poseStack.scale(1F, -1F, 1F);
-            if (model instanceof PlayerModel playerModel) {
-                playerModel.leftArm.xRot = 0;
-                playerModel.leftArm.yRot = 0;
-                playerModel.leftArm.zRot = 0;
-                playerModel.rightArm.xRot = 0;
-                playerModel.rightArm.yRot = 0;
-                playerModel.rightArm.zRot = 0;
-                playerModel.leftLeg.xRot = 0;
-                playerModel.leftLeg.yRot = 0;
-                playerModel.leftLeg.zRot = 0;
-                playerModel.rightLeg.xRot = 0;
-                playerModel.rightLeg.yRot = 0;
-                playerModel.rightLeg.zRot = 0;
-                playerModel.head.xRot = 0;
-                playerModel.head.yRot = 0;
-                playerModel.head.zRot = 0;
-                playerModel.body.xRot = 0;
-                playerModel.body.yRot = 0;
-                playerModel.body.zRot = 0;
-                playerModel.leftPants.copyFrom(playerModel.leftLeg);
-                playerModel.rightPants.copyFrom(playerModel.rightLeg);
-                playerModel.leftSleeve.copyFrom(playerModel.leftArm);
-                playerModel.rightSleeve.copyFrom(playerModel.rightArm);
-                playerModel.jacket.copyFrom(playerModel.body);
-                playerModel.hat.copyFrom(playerModel.head);
-            }
+            poseStack.scale(-1F, -1F, 1F);
             model.renderToBuffer(poseStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             poseStack.popPose();
-            if (model instanceof HumanoidModel<?> humanoidModel) {
-                humanoidModel.crouching = prevCrouching;
-            }
         }
         Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
     }

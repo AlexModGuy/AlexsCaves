@@ -9,7 +9,7 @@ import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class AllFluidsPathNavigator extends SemiAquaticPathNavigator{
+public class AllFluidsPathNavigator extends SemiAquaticPathNavigatorNoSpin {
     public AllFluidsPathNavigator(Mob mob, Level worldIn) {
         super(mob, worldIn);
     }
@@ -20,12 +20,7 @@ public class AllFluidsPathNavigator extends SemiAquaticPathNavigator{
     }
 
     protected boolean canUpdatePath() {
-        return true;
-    }
-
-    protected boolean canMoveDirectly(Vec3 posVec31, Vec3 posVec32) {
-        Vec3 vector3d = new Vec3(posVec32.x, posVec32.y + (double) this.mob.getBbHeight() * 0.5D, posVec32.z);
-        return this.level.clip(new ClipContext(posVec31, vector3d, ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, this.mob)).getType() == HitResult.Type.MISS;
+        return this.isInLiquid();
     }
 
     @Override

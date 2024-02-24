@@ -16,6 +16,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.BooleanValue devastatingTremorzillaBeam;
     public final ForgeConfigSpec.BooleanValue watcherPossession;
     public final ForgeConfigSpec.IntValue watcherPossessionCooldown;
+    public final ForgeConfigSpec.BooleanValue walkingOnMagnets;
     public final ForgeConfigSpec.IntValue amberMonolithMeanTime;
     public final ForgeConfigSpec.BooleanValue nuclearFurnaceBlastingOnly;
     public final ForgeConfigSpec.BooleanValue nuclearFurnaceCustomType;
@@ -58,6 +59,7 @@ public class ACServerConfig {
         watcherPossessionCooldown = builder.comment("How long (in game ticks) between watcher possession attempts.").translation("watcher_possession_cooldown").defineInRange("watcher_possession_cooldown", 300, 20, 24000);
         builder.pop();
         builder.push("block-behavior");
+        walkingOnMagnets = builder.comment("True if players wearing boots can walk on any scarlet neodymium surface.").translation("walking_on_magnets").define("walking_on_magnets", true);
         amberMonolithMeanTime = builder.comment("How long (in game ticks) it usually takes for an amber monolith to spawn an animal.").translation("amber_monolith_mean_time").defineInRange("amber_monolith_mean_time", 32000, 1000, Integer.MAX_VALUE);
         nuclearFurnaceBlastingOnly = builder.comment("True if the Nuclear Furnace only uses 'Blasting' recipes, false to use all smelting recipes.").translation("nuclear_furnace_blasting_only").define("nuclear_furnace_blasting_only", true);
         nuclearFurnaceCustomType = builder.comment("True if the Nuclear Furnace should only use recipes using the `alexscaves:nuclear_furnace` recipe type, false to use regular behavior.").translation("nuclear_furnace_custom_type").define("nuclear_furnace_custom_type", false);

@@ -38,7 +38,6 @@ public class AmberMonolithBlockEntity extends BlockEntity {
     private int spawnCount;
     private Entity displayEntity;
     private Entity prevDisplayEntity;
-    private float prevSwitchProgress;
     private float switchProgress;
     private float previousRotation;
     private float rotation = (float) (Math.random() * 360F);
@@ -154,17 +153,21 @@ public class AmberMonolithBlockEntity extends BlockEntity {
     }
 
     private BlockPos getRandomSpawnPos() {
+        boolean caveCreature = spawnType.getCategory() == ACEntityRegistry.CAVE_CREATURE;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         for (int i = 0; i < 20; i++) {
-            mutableBlockPos.set(this.getBlockPos().getX() + level.getRandom().nextInt(20) - 10, this.getBlockPos().getY() - 10, this.getBlockPos().getZ() + level.getRandom().nextInt(20) - 10);
+            mutableBlockPos.set(this.getBlockPos().getX() + level.getRandom().nextInt(20) - 10, this.getBlockPos().getY() + 1, this.getBlockPos().getZ() + level.getRandom().nextInt(20) - 10);
             if (!level.isLoaded(mutableBlockPos)) {
                 continue;
             } else {
-                while (!level.getBlockState(mutableBlockPos).isAir() && mutableBlockPos.getY() < level.getMaxBuildHeight()) {
-                    mutableBlockPos.move(0, 1, 0);
+                while ((level.getBlockState(mutableBlockPos).isAir() || level.getBlockState(mutableBlockPos).canBeReplaced()) && mutableBlockPos.getY() > level.getMinBuildHeight()) {
+                    mutableBlockPos.move(0, -1, 0);
                 }
                 if (Math.abs(mutableBlockPos.getY() - this.getBlockPos().getY()) < 20) {
-                    return mutableBlockPos.immutable();
+                    BlockPos pos = mutableBlockPos.immutable();
+                    if(!level.getBlockState(pos).isAir() && (level.getBlockState(pos.above()).isAir() || level.getBlockState(pos.above()).canBeReplaced()) && (!caveCreature || !level.canSeeSky(pos.above()))){
+                        return pos.above();
+                    }
                 }
             }
         }
@@ -288,11 +291,6 @@ public class AmberMonolithBlockEntity extends BlockEntity {
         }
         return displayEntity;
     }
-
-    public float getSwitchAmount(float partialTicks) {
-        return (prevSwitchProgress + (switchProgress - prevSwitchProgress) * partialTicks) * 0.1F;
-    }
-
     public Entity getPrevDisplayEntity() {
         return prevDisplayEntity;
     }

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.item;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.util.MovingBlockData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -9,11 +10,16 @@ import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
@@ -29,6 +35,7 @@ public abstract class AbstractMovingBlockEntity extends Entity {
     private List<MovingBlockData> data;
     private VoxelShape shape = null;
     private int placementCooldown = 40;
+    private static boolean destroyErrorMessage;
 
     public AbstractMovingBlockEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -124,6 +131,25 @@ public abstract class AbstractMovingBlockEntity extends Entity {
             }
         }
     }
+
+    protected void createBlockDropAt(BlockPos crushPos, BlockState state, CompoundTag blockData) {
+        if(this.level() instanceof ServerLevel serverLevel){
+            LootParams.Builder lootparams$builder = (new LootParams.Builder(serverLevel)).withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(crushPos)).withParameter(LootContextParams.TOOL, ItemStack.EMPTY);
+            try{
+                List<ItemStack> drops = state.getDrops(lootparams$builder);
+                for(ItemStack drop : drops){
+                    Block.popResource(serverLevel, crushPos, drop);
+                }
+                state.spawnAfterBreak(serverLevel, crushPos, ItemStack.EMPTY, true);
+            }catch (Exception e){
+                if(!destroyErrorMessage){
+                    destroyErrorMessage = true;
+                    AlexsCaves.LOGGER.warn("Stopped crash when trying to destroy fake block entity for {}", state.getBlock());
+                }
+            }
+        }
+    }
+
 
     protected Entity.MovementEmission getMovementEmission() {
         return Entity.MovementEmission.NONE;

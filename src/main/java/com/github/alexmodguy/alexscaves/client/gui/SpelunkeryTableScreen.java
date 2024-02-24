@@ -21,7 +21,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -64,8 +63,6 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private ResourceLocation prevWordsFile = null;
     private List<SpelunkeryTableWordButton> wordButtons = new ArrayList<>();
     private SpelunkeryTableWordButton targetWordButton = null;
-
-    private final RandomSource random = RandomSource.create();
     private int highlightColor = 0XFFFFFF;
     private int level = 0;
     private boolean finishedLevel;
@@ -474,7 +471,9 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
             wordLines++;
         }
         if (!wordButtons.isEmpty()) {
-            targetWordButton = wordButtons.size() <= 1 ? wordButtons.get(0) : wordButtons.get(random.nextInt(wordButtons.size()));
+            if(Minecraft.getInstance().level != null){
+                targetWordButton = wordButtons.size() <= 1 ? wordButtons.get(0) : wordButtons.get(Minecraft.getInstance().level.random.nextInt(wordButtons.size()));
+            }
             attemptsLeft = 5;
         } else {
             targetWordButton = null;

@@ -22,7 +22,7 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> imple
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/ferrouslime.png");
     private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/ferrouslime_eyes.png");
     private static final ResourceLocation TEXTURE_GEL = new ResourceLocation("alexscaves:textures/entity/ferrouslime_gel.png");
-    private FerrouslimeModel model = new FerrouslimeModel();
+    public static final FerrouslimeModel FERROUSLIME_MODEL = new FerrouslimeModel();
     private boolean sepia = false;
 
     public FerrouslimeRenderer(EntityRendererProvider.Context context) {
@@ -66,11 +66,11 @@ public class FerrouslimeRenderer extends EntityRenderer<FerrouslimeEntity> imple
         float headPitch = Mth.rotLerp(partialTicks, entity.xRotO, entity.getXRot());
         poseStack.pushPose();
         poseStack.mulPose(Axis.ZP.rotationDegrees(180));
-        model.setupAnim(entity, 0, 0, entity.tickCount + partialTicks, headYaw, headPitch);
+        FERROUSLIME_MODEL.setupAnim(entity, 0, 0, entity.tickCount + partialTicks, headYaw, headPitch);
         VertexConsumer textureConsumer = source.getBuffer(sepia ? ACRenderTypes.getBookWidget(TEXTURE, true) : RenderType.entityCutoutNoCull(TEXTURE));
-        model.renderToBuffer(poseStack, textureConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+        FERROUSLIME_MODEL.renderToBuffer(poseStack, textureConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         VertexConsumer eyesConsumer = source.getBuffer(sepia ? ACRenderTypes.getBookWidget(TEXTURE_EYES, true) : RenderType.eyes(TEXTURE_EYES));
-        model.renderToBuffer(poseStack, eyesConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+        FERROUSLIME_MODEL.renderToBuffer(poseStack, eyesConsumer, packedLight, LivingEntityRenderer.getOverlayCoords(entity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
         poseStack.popPose();
     }
 

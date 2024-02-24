@@ -56,6 +56,8 @@ public class TremorzillaLightningParticle extends TextureSheetParticle {
                 float f = Mth.clamp(this.age / (float)lifetime, 0F, 1F);
                 Vec3 setPosVec = inMouthPos.add(dist.scale(f));
                 this.setPos(setPosVec.x, setPosVec.y, setPosVec.z);
+            }else{
+                this.remove();
             }
         }
     }
