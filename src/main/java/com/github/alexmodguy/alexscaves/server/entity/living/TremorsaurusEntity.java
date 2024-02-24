@@ -199,18 +199,8 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
             LivingEntity target = riderHitEntity instanceof LivingEntity ? (LivingEntity) riderHitEntity : this.getTarget();
             if (target != null && target.isAlive() && target.distanceTo(this) < (isVehicle() ? 10.0F : 5.5F)) {
                 if (this.getAnimation() == ANIMATION_SHAKE_PREY && this.getAnimationTick() <= 35) {
-                    Vec3 shakePreyPos = getShakePreyPos();
-                    Vec3 minus = new Vec3(shakePreyPos.x - target.getX(), shakePreyPos.y - target.getY(), shakePreyPos.z - target.getZ());
-                    target.setDeltaMovement(minus);
-                    if (this.getAnimationTick() % 10 == 0) {
-                        target.hurt(damageSources().mobAttack(this), 5 + this.getRandom().nextInt(2));
-                    }
                     held = true;
                     this.setHeldMobId(target.getId());
-                }else if(this.getAnimation() == ANIMATION_SHAKE_PREY && this.getAnimationTick() <= 36){
-                    if(target.getDeltaMovement().length() > 1F){
-                        target.setDeltaMovement(target.getDeltaMovement().normalize().scale(0.5));
-                    }
                 }
             }
             if (!held && getHeldMobId() != -1) {
@@ -235,6 +225,21 @@ public class TremorsaurusEntity extends DinosaurEntity implements KeybindUsingMo
             }
         } else {
             this.setMeterAmount(0.0F);
+        }
+        if(this.getAnimation() == ANIMATION_SHAKE_PREY && getHeldMobId() != -1){
+            Entity entity = level().getEntity(getHeldMobId());
+            if(entity != null){
+                if (this.getAnimationTick() <= 35) {
+                    Vec3 shakePreyPos = getShakePreyPos();
+                    Vec3 minus = new Vec3(shakePreyPos.x - entity.getX(), shakePreyPos.y - entity.getY(), shakePreyPos.z - entity.getZ());
+                    entity.setDeltaMovement(minus);
+                    if (this.getAnimationTick() % 10 == 0) {
+                        entity.hurt(damageSources().mobAttack(this), 5 + this.getRandom().nextInt(2));
+                    }
+                }else{
+                    entity.setDeltaMovement(entity.getDeltaMovement().scale(0.6F));
+                }
+            }
         }
         if (roarCooldown > 0) {
             roarCooldown--;

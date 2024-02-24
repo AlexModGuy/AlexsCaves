@@ -82,10 +82,12 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
                     Direction randomDirection = Direction.from2DDataValue(2 + randomsource.nextInt(3));
                     worm.move(randomDirection.getStepX(), randomDirection.getStepY(), randomDirection.getStepZ());
                     if (!level.getFluidState(worm).isEmpty()) {
-                        if(!level.getBlockState(worm).is(Blocks.WATER)){
+                        if(!level.getBlockState(worm).is(Blocks.WATER) || !level.getBlockState(worm).canBeReplaced()){
                             return;
                         }
-                        level.setBlock(prevWorm, wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.TURN).setValue(TubeWormBlock.FACING, randomDirection), 3);
+                        if(level.getBlockState(prevWorm).canBeReplaced() || level.getBlockState(prevWorm).is(ACBlockRegistry.TUBE_WORM.get())){
+                            level.setBlock(prevWorm, wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.TURN).setValue(TubeWormBlock.FACING, randomDirection), 3);
+                        }
                         wormState = wormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, randomDirection.getOpposite());
                     } else {
                         worm.set(prevWorm);
@@ -97,16 +99,17 @@ public class TubeWormFeature extends Feature<NoneFeatureConfiguration> {
                 worm.move(0, 1, 0);
                 canBranch = placedWorms > 1;
             }
-            if (!level.isWaterAt(worm) && level.getFluidState(worm).isEmpty()) {
+            if (level.getFluidState(worm).isEmpty()) {
                 break;
-            } else {
+            } else if(level.getBlockState(worm).canBeReplaced()){
                 level.setBlock(worm, wormState, 3);
             }
 
             placedWorms++;
         }
-        if (wormAttachDirection.getAxis().isHorizontal()) {
-            level.setBlock(wormAttachedToPos.relative(wormAttachDirection.getOpposite()), defaultWormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, wormAttachDirection), 3);
+        BlockPos fixAttachementPos = wormAttachedToPos.relative(wormAttachDirection.getOpposite());
+        if (wormAttachDirection.getAxis().isHorizontal() && (level.getBlockState(fixAttachementPos).canBeReplaced() || level.getBlockState(fixAttachementPos).is(ACBlockRegistry.TUBE_WORM.get()))) {
+            level.setBlock(fixAttachementPos, defaultWormState.setValue(TubeWormBlock.TUBE_TYPE, TubeWormBlock.TubeShape.ELBOW).setValue(TubeWormBlock.FACING, wormAttachDirection), 3);
         }
     }
 }
