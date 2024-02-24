@@ -609,22 +609,26 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
         VoronoiGenerator.VoronoiInfo info = VORONOI_GENERATOR.get2(blockPos.getX() * sampleScale, blockPos.getZ() * sampleScale);
         boolean flag = false;
         if (info.distance1() - sampleScale * 4 < info.distance()) {
-            int y = blockPos.getY();
-            for (int i = 0; i <= depth; i++) {
-                BlockState state = level().getBlockState(blockPos);
-                if (blockPos.getY() <= level().getMinBuildHeight() || state.is(ACTagRegistry.UNMOVEABLE) || state.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
-                    break;
-                } else {
-                    if (i < depth && !state.is(ACTagRegistry.REGENERATES_AFTER_PRIMORDIAL_BOSS_FIGHT)) {
-                        level().destroyBlock(blockPos, true);
+            if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
+                int y = blockPos.getY();
+                for (int i = 0; i <= depth; i++) {
+                    BlockState state = level().getBlockState(blockPos);
+                    if (blockPos.getY() <= level().getMinBuildHeight() || state.is(ACTagRegistry.UNMOVEABLE) || state.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
+                        break;
                     } else {
-                        level().setBlockAndUpdate(blockPos, i == depth ? ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get().defaultBlockState().setValue(FissurePrimalMagmaBlock.REGEN_HEIGHT, Mth.clamp(i - 1, 0, 4)) : Blocks.AIR.defaultBlockState());
+                        if (i < depth && !state.is(ACTagRegistry.REGENERATES_AFTER_PRIMORDIAL_BOSS_FIGHT)) {
+                            level().destroyBlock(blockPos, true);
+                        } else {
+                            level().setBlockAndUpdate(blockPos, i == depth ? ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get().defaultBlockState().setValue(FissurePrimalMagmaBlock.REGEN_HEIGHT, Mth.clamp(i - 1, 0, 4)) : Blocks.AIR.defaultBlockState());
+                        }
+                        flag = true;
                     }
-                    flag = true;
+                    blockPos.move(0, -1, 0);
                 }
-                blockPos.move(0, -1, 0);
+                blockPos.setY(y);
+            }else{
+                return true;
             }
-            blockPos.setY(y);
         }
         return flag;
     }
