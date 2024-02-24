@@ -117,7 +117,8 @@ public class ACEnchantmentRegistry {
             if (enchantObject.isPresent()) {
                 Enchantment enchant = enchantObject.get();
                 if(enchant.category == enchantmentCategory){
-                    output.accept(EnchantedBookItem.createForEnchantment(new EnchantmentInstance(enchant, enchant.getMaxLevel())));
+                    EnchantmentInstance instance = new EnchantmentInstance(enchant, enchant.getMaxLevel());
+                    output.accept(EnchantedBookItem.createForEnchantment(instance));
                 }
             }
         }

@@ -884,7 +884,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     public boolean breakBlocksAround(Vec3 center, float radius, boolean square, boolean triggerExplosions, float dropChance) {
-        if (this.isBaby() || !net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+        if (this.isBaby() || !net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) || !level().isClientSide) {
             return false;
         }
         boolean flag = false;
@@ -912,7 +912,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     public boolean breakBlocksInBoundingBox(float dropChance) {
-        if (this.isBaby() || !net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+        if (this.isBaby() || !net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) || !level().isClientSide) {
             return false;
         }
         boolean flag = false;
