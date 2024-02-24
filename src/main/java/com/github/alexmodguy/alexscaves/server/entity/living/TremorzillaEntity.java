@@ -104,7 +104,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     protected float tailXRot;
     protected float tailYRot;
     public TremorzillaLegSolver legSolver = new TremorzillaLegSolver(1F, 2.15F, 3);
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(4.0F, 5.0F, false);
+    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(4.0F, 5.0F, true);
     private Animation currentAnimation;
     private int animationTick;
     private float lastYawBeforeWhip;
@@ -1305,7 +1305,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     public EntityDimensions getDimensions(Pose poseIn) {
-        return this.isTremorzillaSwimming() ? SWIMMING_SIZE : super.getDimensions(poseIn);
+        return this.isTremorzillaSwimming() ? SWIMMING_SIZE.scale(this.getScale()) : super.getDimensions(poseIn);
     }
 
     public boolean isTremorzillaSwimming() {

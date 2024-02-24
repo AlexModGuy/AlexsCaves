@@ -88,11 +88,13 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
 
     @Override
     protected void onStep() {
-        if (screenShakeAmount <= 1.0F) {
-            this.playSound(ACSoundRegistry.ATLATITAN_STEP.get(), 2, 1);
-        }
-        if (screenShakeAmount <= 1.0F) {
-            screenShakeAmount = 1.0F;
+        if(!this.isBaby()){
+            if (screenShakeAmount <= 1.0F) {
+                this.playSound(ACSoundRegistry.ATLATITAN_STEP.get(), 2, 1);
+            }
+            if (screenShakeAmount <= 1.0F) {
+                screenShakeAmount = 1.0F;
+            }
         }
     }
 
