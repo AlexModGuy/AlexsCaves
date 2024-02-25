@@ -24,4 +24,6 @@
         • {Trilokaris|primordial_caves/trilocaris.json}
         • {Titremezor|primordial_caves/tremorsaurus.json}
         • {Yadikaryus|primordial_caves/relicheirus.json}
+        • {Lukstruzor|primordial_caves/luxtructosaurus.json}
+        • {Atlatitan|primordial_caves/atlatitan.json}
     • {Araçlar|primordial_caves/utilities.json}
