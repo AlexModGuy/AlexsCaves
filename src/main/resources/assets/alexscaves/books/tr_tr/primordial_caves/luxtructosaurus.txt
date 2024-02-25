@@ -13,9 +13,9 @@
     • 600.0 ♥
     • 12.0 🗡
     • 20.0 ⛨
-    The Luxtructosaurus is a monstrous boss locked deep inside the heart of the volcanoes that appear within the Primordial Caves.
-    This immense creature is the reason why many dinosaur species that once called the Primordial Caves home have gone extinct. It is an undead dinosaur that is immune to fire thanks to its soul being trapped in the core of a volcano for countless millennia.
-    To awaken this boss and trigger the eruption, one must toss an Ominous Catalyst into the top of a volcano.
+    Lukstruzor, İlkel Mağaralarda ortaya çıkan volkanların kalbinin derinliklerinde kilitli, bir canavardır.
+    Bu muazzam yaratık, bir zamanlar İlkel Mağaralar'ın evi olarak adlandırılan birçok dinozor türünün neslinin tükenmesinin sebebidir. Ruhunun sayısız bin yıl boyunca bir yanardağın çekirdeğinde sıkışıp kalması sayesinde ateşe karşı bağışıklığı olan ölümsüz bir dinozordur.
+    Bu canavarı uyandırmak ve patlamayı tetiklemek için Uğursuz Katalizörün bir yanardağa atılması gerekir.
 
 
 
@@ -23,13 +23,14 @@
 
 
 
-    The Luxtructosaurus has an arsenal of powerful attacks. It can rear up and slam with its front legs, smashing entire layers of blocks into nothing. It can also kick forwards with these legs, sending targets flying. When close to a target, it can spin around and use its long tail to fling targets and disable shields.
-    Occasionally, the Luxtructosaurus will roar loudly and channel the power of the volcano itself to aid it in its battle. This will make the dinosaur drip lava, and it gains the ability to spew flames, along with making its other attacks even more devastating. In this state, the stomp attack of the dinosaur can even expose massive rifts under its targets feet, full of Primal Magma.
-    If a Luxtructosaurus cannot reach its prey, it can leap great distances or smash blocks in its way.
-    During the entire boss fight, the sky will become red and thick with volcanic ash, and volcanoes will begin to erupt by spewing out flying tephra. This makes the fight even more difficult.
-    In the unlikelihood that the Luxtructosaurus is defeated, it will fade into ash and leave behind multiple §lTectonic §lShards§r.
-    Once this great beast is defeated, the Primal Magma left behind will begin to recede and a species of dinosaur previously extinct to the Primordial Caves will instantly begin to spawn from Amber Monoliths.
-    The Tectonic Shards can be used to create the ultimate weapon of the Primordial Caves: the §lExtinction §lSpear§r.
+
+    Lukstruzor güçlü saldırılardan oluşan bir cephaneliğe sahiptir. Ön ayaklarıyla şaha kalkabilir ve çarparak blok katmanlarını yok edebilir. Ayrıca bacaklarıyla ileriye doğru tekmeyle hedefleri uçurabilir. Bir hedefe yaklaştığında kuyruğunu kullanarak hedefleri fırlatabilir ve kalkanları devre dışı bırakabilir.
+    Lukstruzor ara sıra yüksek sesle kükrer ve savaşında ona yardımcı olmak için yanardağın gücünü kanalize eder. Bu, dinozorun lav damlatmasına neden olur ve diğer saldırılarını daha da yıkıcı hale getirmenin yanı sıra alev püskürtme yeteneği kazandırır. Bu durumda, dinozorun saldırısı, hedefin ayaklarının altında İlksel Magma ile dolu devasa yarıkları açığa çıkarabilir.
+    Bir Luxtructosaurus avına ulaşamazsa, yükselere sıçrar veya yoluna çıkan blokları parçalayabilir.
+    Tüm boss savaşı boyunca gökyüzü kırmızılaşacak, volkanik külle kalınlaşacak ve volkanlar tefra kusarak patlamaya başlayacak. Bu da mücadeleyi daha da zorlaştıracak.
+    Lukstruzor'un yenilmesi çok zor olsa da, yenilirse küle dönüşür ve arkasında birden fazla §lTektonik §lParça§r düşürür.
+    Bu büyük canavar yenildiğinde geride kalan İlkel Magma geri çekilmeye başlayacak ve daha önce İlkel Mağaralarda nesli tükenen bir dinozor türü, Kehribar Anıtlarda ortaya çıkmaya başlayacaktır.
+    Tektonik Parçalar, İlkel Mağaraların nihai silahını yaratmak için kullanılabilir: §lYokoluş §lMızrağı§r.
 
 
 
