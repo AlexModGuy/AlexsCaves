@@ -924,7 +924,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
                 continue;
             }
 
-            if (!blockstate.is(ACTagRegistry.NUKE_PROOF) && !blockstate.isAir() && (blockstate.is(BlockTags.LEAVES) || blockpos.getY() > this.getBlockY()) && blockstate.getBlock().getExplosionResistance() <= 15 && !blockstate.getCollisionShape(level(), blockpos).isEmpty()) {
+            if (!blockstate.is(ACTagRegistry.NUKE_PROOF) && !blockstate.isAir() && (blockstate.is(BlockTags.LEAVES) || blockpos.getY() > this.getBlockY()) && blockstate.getBlock().getExplosionResistance() <= 15 && (blockstate.is(Blocks.COBWEB) || !blockstate.getCollisionShape(level(), blockpos).isEmpty())) {
                 if (random.nextFloat() <= dropChance) {
                     level().destroyBlock(blockpos, true);
                 } else {
