@@ -23,4 +23,5 @@
         • {Çatlak|toxic_caves/brainiac.json}
         • {Gamaböceği|toxic_caves/gammaroach.json}
         • {Işınkedi|toxic_caves/raycat.json}
+        • {Titrezilla|toxic_caves/tremorzilla.json}
     • {Araçlar|toxic_caves/utilities.json}
