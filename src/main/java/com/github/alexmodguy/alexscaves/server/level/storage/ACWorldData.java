@@ -123,8 +123,6 @@ public class ACWorldData extends SavedData {
     }
 
     public void fillOutCaveMap(UUID uuid, ItemStack map, ServerLevel serverLevel, BlockPos center, Player player){
-        //sets the level seed internally
-        ACBiomeRarity.getRareBiomeCenterQuad(serverLevel.getSeed(), 0, center.getX(), center.getZ());
         if(lastMapWorker != null){
             lastMapWorker.onWorkComplete(lastMapWorker.getLastFoundBiome());
         }

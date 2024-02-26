@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.level.map;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.item.CaveMapItem;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.message.UpdateCaveBiomeMapTagMessage;
 import com.google.common.base.Stopwatch;
@@ -90,12 +91,13 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
             int nextBlockZ = nextPos.getZ();
             int quartX = QuartPos.fromBlock(nextBlockX);
             int quartZ = QuartPos.fromBlock(nextBlockZ);
-
-            for (int blockY : searchedHeights) {
-                int quartY = QuartPos.fromBlock(blockY);
-                Biome biome = source.getNoiseBiome(quartX, quartY, quartZ, sampler).get();
-                if (verifyBiomeRespectRegistry(serverLevel, biome, biomeResourceKey)) {
-                    lastBiomePos = new BlockPos(nextBlockX, blockY, nextBlockZ);
+            if(ACBiomeRarity.isQuartInRareBiome(serverLevel.getSeed(), quartX, quartZ)){
+                for (int blockY : searchedHeights) {
+                    int quartY = QuartPos.fromBlock(blockY);
+                    Biome biome = source.getNoiseBiome(quartX, quartY, quartZ, sampler).get();
+                    if (verifyBiomeRespectRegistry(serverLevel, biome, biomeResourceKey)) {
+                        lastBiomePos = new BlockPos(nextBlockX, blockY, nextBlockZ);
+                    }
                 }
             }
 

@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.config;
 
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.VoronoiGenerator;
 import com.github.alexthe666.citadel.Citadel;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import com.google.common.reflect.TypeToken;
@@ -18,7 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -37,7 +39,7 @@ public class BiomeGenerationConfig {
             .dimensions(OVERWORLD).distanceFromSpawn(400).alexscavesRarityOffset(3).continentalness(-0.95F, -0.65F).temperature(-1.0F, 0.5F).depth(0.2F, 1.5F).build();
     private static final BiomeGenerationNoiseCondition FORLORN_HOLLOWS_CONDITION = new BiomeGenerationNoiseCondition.Builder()
             .dimensions(OVERWORLD).distanceFromSpawn(650).alexscavesRarityOffset(4).continentalness(0.6F, 1F).depth(0.3F, 1.5F).build();
-    private static Map<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new HashMap<>();
+    private static LinkedHashMap<ResourceKey<Biome>, BiomeGenerationNoiseCondition> biomes = new LinkedHashMap<>();
 
     public static void reloadConfig() {
         biomes.put(ACBiomeRegistry.MAGNETIC_CAVES, getConfigData("magnetic_caves", MAGNETIC_CAVES_CONDITION));
@@ -49,9 +51,13 @@ public class BiomeGenerationConfig {
 
     @Nullable
     public static ResourceKey<Biome> getBiomeForEvent(EventReplaceBiome event) {
-        for (Map.Entry<ResourceKey<Biome>, BiomeGenerationNoiseCondition> condition : biomes.entrySet()) {
-            if (condition.getValue().test(event)) {
-                return condition.getKey();
+        VoronoiGenerator.VoronoiInfo voronoiInfo = ACBiomeRarity.getRareBiomeInfoForQuad(event.getWorldSeed(), event.getX(), event.getZ());
+        if(voronoiInfo != null){
+            int foundRarityOffset = ACBiomeRarity.getRareBiomeOffsetId(voronoiInfo);
+            for (Map.Entry<ResourceKey<Biome>, BiomeGenerationNoiseCondition> condition : biomes.entrySet()) {
+                if (foundRarityOffset == condition.getValue().getRarityOffset() && condition.getValue().test(event, voronoiInfo)) {
+                    return condition.getKey();
+                }
             }
         }
         return null;

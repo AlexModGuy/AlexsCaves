@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.config;
 
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
+import com.github.alexmodguy.alexscaves.server.misc.VoronoiGenerator;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import net.minecraft.core.QuartPos;
 import net.minecraft.world.level.biome.Climate;
@@ -34,14 +35,14 @@ public class BiomeGenerationNoiseCondition {
         this.dimensions = List.of(dimensions);
     }
 
-    public boolean test(EventReplaceBiome event) {
+    public boolean test(EventReplaceBiome event, VoronoiGenerator.VoronoiInfo info) {
         if (disabledCompletely) {
             return false;
         }
         if (!isFarEnoughFromSpawn(event, distanceFromSpawn)) {
             return false;
         }
-        Vec3 rareBiomeCenter = ACBiomeRarity.getRareBiomeCenterQuad(event.getWorldSeed(), alexscavesRarityOffset, event.getX(), event.getZ());
+        Vec3 rareBiomeCenter = ACBiomeRarity.getRareBiomeCenter(info);
         if (rareBiomeCenter == null) {
             return false;
         }
@@ -89,6 +90,10 @@ public class BiomeGenerationNoiseCondition {
 
     public boolean isInvalid() {
         return dimensions == null && !disabledCompletely;
+    }
+
+    public int getRarityOffset(){
+        return alexscavesRarityOffset;
     }
 
     public static final class Builder {
