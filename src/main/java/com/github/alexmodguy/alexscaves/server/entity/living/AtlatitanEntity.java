@@ -135,6 +135,9 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
             if(this.getRideableFor() > 0){
                 this.setRideableFor(this.getRideableFor() - 1);
             }
+            if (this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()) {
+                this.heal(2);
+            }
             if(this.getAnimation() == ANIMATION_RIGHT_KICK && this.getAnimationTick() == 8){
                 Vec3 armPos = this.position().add(rotateOffsetVec(new Vec3(-2, 0, 2.5F), 0, this.yBodyRot));
                 this.hurtEntitiesAround(armPos, 5.0F,  (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.8F, 1.0F, false, false);

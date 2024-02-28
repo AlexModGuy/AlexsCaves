@@ -18,6 +18,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -107,6 +108,15 @@ public class ExtinctionSpearEntity extends AbstractArrow {
             Vec3 center = this.position().add(0, 0.25F, 0);
             Vec3 vec3 = this.getDeltaMovement().scale(-0.2F);
             this.level().addAlwaysVisibleParticle(ACParticleRegistry.TEPHRA_FLAME.get(), true, center.x, center.y, center.z, vec3.x, vec3.y, vec3.z);
+        }
+    }
+
+    protected boolean tryPickup(Player player) {
+        Entity entity = this.getOwner();
+        if(entity == null || entity.equals(player)){
+            return super.tryPickup(player);
+        }else{
+            return false;
         }
     }
 
