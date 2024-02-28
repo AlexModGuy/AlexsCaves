@@ -1318,7 +1318,7 @@
   "enchantment.alexscaves.sightless": "盲控",
   "enchantment.alexscaves.sightless.desc": "被控心图腾控制的生物在视线被阻隔时仍然保持被控制状态",
   "enchantment.alexscaves.astral_transferring": "星移斗转",
-  "enchantment.alexscaves.astral_transferring.desc": "被控心图腾控制的生物低于攻击目标时，被控制状态会转移到后者",
+  "enchantment.alexscaves.astral_transferring.desc": "被控心图腾控制的生物血量低于攻击目标时，被控制状态会转移到后者",
   "enchantment.alexscaves.impending_stab": "悬刃",
   "enchantment.alexscaves.impending_stab.desc": "幻影匕首的攻击推迟，伤害更高",
   "enchantment.alexscaves.sated_blade": "饮血",
