@@ -129,4 +129,8 @@ public class ACWorldData extends SavedData {
         lastMapWorker = new CaveBiomeMapWorldWorker(map, serverLevel, center, player, uuid);
         WorldWorkerManager.addWorker(lastMapWorker);
     }
+
+    public boolean isCaveMapTicking(){
+        return lastMapWorker != null && lastMapWorker.hasWork();
+    }
 }

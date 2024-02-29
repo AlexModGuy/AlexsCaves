@@ -124,28 +124,30 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
     }
 
     public void onWorkComplete(@Nullable BlockPos biomeCorner) {
-        CompoundTag tag = map.getOrCreateTag();
-        if (biomeCorner != null) {
-            BlockPos centered = getCenterOfBiome(biomeCorner);
-            fillOutMapColors(centered, tag);
-            tag.putInt("BiomeX", centered.getX());
-            tag.putInt("BiomeY", centered.getY());
-            tag.putInt("BiomeZ", centered.getZ());
-            tag.putLong("RandomSeed", serverLevel.getRandom().nextLong());
-            tag.putBoolean("Filled", true);
-            AlexsCaves.LOGGER.info("Found {} at {} {} {} in {}s", biomeResourceKey.location(), centered.getX(), centered.getY(), centered.getZ(), stopwatch.elapsed().toSeconds());
-        } else {
-            int distance = 0;
-            if (lastSampledPos != null) {
-                distance = (int) Math.sqrt(center.distSqr(lastSampledPos));
+        if(!complete){
+            CompoundTag tag = map.getOrCreateTag();
+            if (biomeCorner != null) {
+                BlockPos centered = calculateBiomeCenter(biomeCorner);
+                fillOutMapColors(centered, tag);
+                tag.putInt("BiomeX", centered.getX());
+                tag.putInt("BiomeY", centered.getY());
+                tag.putInt("BiomeZ", centered.getZ());
+                tag.putLong("RandomSeed", serverLevel.getRandom().nextLong());
+                tag.putBoolean("Filled", true);
+                AlexsCaves.LOGGER.info("Found {} at {} {} {} in {}s", biomeResourceKey.location(), centered.getX(), centered.getY(), centered.getZ(), stopwatch.elapsed().toSeconds());
+            } else {
+                int distance = 0;
+                if (lastSampledPos != null) {
+                    distance = (int) Math.sqrt(center.distSqr(lastSampledPos));
+                }
+                player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error", distance).withStyle(ChatFormatting.RED));
+                AlexsCaves.LOGGER.info("Could not find {} after {}s", biomeResourceKey.location(), stopwatch.elapsed().toSeconds());
             }
-            player.sendSystemMessage(Component.translatable("item.alexscaves.cave_map.error", distance).withStyle(ChatFormatting.RED));
-            AlexsCaves.LOGGER.info("Could not find {} after {}s", biomeResourceKey.location(), stopwatch.elapsed().toSeconds());
+            tag.putBoolean("Loading", false);
+            tag.remove("MapUUID");
+            map.setTag(tag);
+            AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getUUID(), getTaskUUID(), tag));
         }
-        tag.putBoolean("Loading", false);
-        tag.remove("MapUUID");
-        map.setTag(tag);
-        AlexsCaves.sendMSGToAll(new UpdateCaveBiomeMapTagMessage(player.getUUID(), getTaskUUID(), tag));
         complete = true;
     }
 
@@ -164,7 +166,10 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
         }
     }
 
-    private BlockPos getCenterOfBiome(BlockPos biomeCorner) {
+    private BlockPos calculateBiomeCenter(BlockPos biomeCorner) {
+        ServerChunkCache cache = serverLevel.getChunkSource();
+        BiomeSource source = cache.getGenerator().getBiomeSource();
+        Climate.Sampler sampler = cache.randomState().sampler();
         int biomeNorth = 0;
         int biomeSouth = 0;
         int biomeEast = 0;
@@ -173,7 +178,7 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
         if (mapBiomeBeneathSurfaceOnly()) {
             int iterations = 0;
             yCentered = biomeCorner;
-            while (iterations < 256 && serverLevel.getBiome(yCentered).is(biomeResourceKey)) {
+            while (iterations < 256 && getNoiseBiomeAtPos(source, yCentered, sampler).is(biomeResourceKey)) {
                 iterations++;
                 yCentered = yCentered.above();
             }
@@ -181,34 +186,41 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
         } else {
             int biomeUp = 0;
             int biomeDown = 0;
-            while (biomeUp < 32 && serverLevel.getBiome(biomeCorner.above(biomeUp)).is(biomeResourceKey)) {
+            while (biomeUp < 32 && getNoiseBiomeAtPos(source, biomeCorner.above(biomeUp), sampler).is(biomeResourceKey)) {
                 biomeUp += 8;
             }
-            while (biomeDown < 64 && serverLevel.getBiome(biomeCorner.below(biomeDown)).is(biomeResourceKey)) {
+            while (biomeDown < 64 && getNoiseBiomeAtPos(source, biomeCorner.below(biomeDown), sampler).is(biomeResourceKey)) {
                 biomeDown += 8;
             }
             yCentered = biomeCorner.atY((int) (Math.floor(biomeUp * 0.25F)) - biomeDown);
         }
-        while (biomeNorth < 800 && serverLevel.getBiome(yCentered.north(biomeNorth)).is(biomeResourceKey)) {
+        while (biomeNorth < 800 && getNoiseBiomeAtPos(source, yCentered.north(biomeNorth), sampler).is(biomeResourceKey)) {
             biomeNorth += 8;
         }
-        while (biomeSouth < 800 && serverLevel.getBiome(yCentered.south(biomeSouth)).is(biomeResourceKey)) {
+        while (biomeSouth < 800 && getNoiseBiomeAtPos(source, yCentered.south(biomeSouth), sampler).is(biomeResourceKey)) {
             biomeSouth += 8;
         }
-        while (biomeEast < 800 && serverLevel.getBiome(yCentered.east(biomeEast)).is(biomeResourceKey)) {
+        while (biomeEast < 800 && getNoiseBiomeAtPos(source, yCentered.east(biomeEast), sampler).is(biomeResourceKey)) {
             biomeEast += 8;
         }
-        while (biomeWest < 800 && serverLevel.getBiome(yCentered.west(biomeWest)).is(biomeResourceKey)) {
+        while (biomeWest < 800 && getNoiseBiomeAtPos(source, yCentered.west(biomeWest), sampler).is(biomeResourceKey)) {
             biomeWest += 8;
         }
         return yCentered.offset(biomeEast - biomeWest, 0, biomeSouth - biomeNorth);
     }
 
+    private Holder<Biome> getNoiseBiomeAtPos(BiomeSource source, BlockPos pos, Climate.Sampler sampler){
+       return source.getNoiseBiome(pos.getX() >> 2, pos.getY() >> 2, pos.getZ() >> 2, sampler);
+    }
 
     private void fillOutMapColors(BlockPos first, CompoundTag tag) {
         Registry<Biome> registry = serverLevel.registryAccess().registry(Registries.BIOME).orElse(null);
         byte[] arr = new byte[128 * 128];
         Map<Integer, Byte> biomeMap = new HashMap<>();
+        ServerChunkCache cache = serverLevel.getChunkSource();
+        BiomeSource source = cache.getGenerator().getBiomeSource();
+        Climate.Sampler sampler = cache.randomState().sampler();
+
         if (registry != null) {
             BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
             int scale = CaveMapItem.MAP_SCALE;
@@ -218,19 +230,22 @@ public class CaveBiomeMapWorldWorker implements WorldWorkerManager.IWorker {
             int i1 = k / scale - 64;
             for (int j1 = 0; j1 < 128; ++j1) {
                 for (int k1 = 0; k1 < 128; ++k1) {
-                    Holder<Biome> holder1 = serverLevel.getBiome(mutableBlockPos.set((l + k1) * scale, first.getY(), (i1 + j1) * scale));
+                    mutableBlockPos.set((l + k1) * scale, first.getY(), (i1 + j1) * scale);
+                    Holder<Biome> holder1 = null;
                     if (mapBiomeBeneathSurfaceOnly()) {
-                        holder1 = serverLevel.getBiome(mutableBlockPos.setY(first.getY() - 5));
+                        mutableBlockPos.setY(first.getY() - 5);
+                        holder1 = source.getNoiseBiome(mutableBlockPos.getX() >> 2, mutableBlockPos.getY() >> 2, mutableBlockPos.getZ() >> 2, sampler);
                     } else {
-                        for (int yUpFromBottom = serverLevel.getMinBuildHeight() + 1; yUpFromBottom < serverLevel.getMaxBuildHeight(); yUpFromBottom += 32) {
-                            holder1 = serverLevel.getBiome(mutableBlockPos.setY(yUpFromBottom));
+                        for (int yUpFromBottom = serverLevel.getMinBuildHeight() + 1; yUpFromBottom < serverLevel.getSeaLevel(); yUpFromBottom += 32) {
+                            mutableBlockPos.setY(yUpFromBottom);
+                            holder1 = source.getNoiseBiome(mutableBlockPos.getX() >> 2, mutableBlockPos.getY() >> 2, mutableBlockPos.getZ() >> 2, sampler);
                             if (holder1.is(biomeResourceKey)) {
                                 break;
                             }
                         }
 
                     }
-                    int id = registry.getId(holder1.value());
+                    int id = holder1 == null ? 0 : registry.getId(holder1.value());
                     byte biomeHash;
                     if (biomeMap.containsKey(id)) {
                         biomeHash = biomeMap.get(id);
