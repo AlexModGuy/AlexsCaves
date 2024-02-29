@@ -111,6 +111,9 @@ public class ClientProxy extends CommonProxy {
     public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
     private static Entity lastCameraEntity;
 
+    public static float acSkyOverrideAmount;
+    public static Vec3 acSkyOverrideColor = Vec3.ZERO;
+
     public void commonInit() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addListener(this::setupParticles);

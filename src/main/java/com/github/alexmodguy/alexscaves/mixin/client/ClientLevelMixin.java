@@ -3,9 +3,6 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
-import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -37,12 +34,11 @@ public abstract class ClientLevelMixin extends Level {
             cancellable = true)
     private void ac_getSkyColor_timeOfDay(Vec3 position, float partialTick, CallbackInfoReturnable<Vec3> cir) {
         if (AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()) {
-            float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
-            if (override > 0.0F) {
+            if (ClientProxy.acSkyOverrideAmount > 0.0F) {
                 Vec3 prevVec3 = cir.getReturnValue();
-                Vec3 sampledVec3 = BiomeSampler.sampleBiomesVec3(Minecraft.getInstance().level, Minecraft.getInstance().cameraEntity.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getSkyColor()));
+                Vec3 sampledVec3 = ClientProxy.acSkyOverrideColor;
                 sampledVec3 = ClientProxy.processSkyColor(sampledVec3, partialTick);
-                cir.setReturnValue(prevVec3.add(sampledVec3.subtract(prevVec3).scale(override)));
+                cir.setReturnValue(prevVec3.add(sampledVec3.subtract(prevVec3).scale(ClientProxy.acSkyOverrideAmount)));
             }
         }
     }
@@ -55,9 +51,8 @@ public abstract class ClientLevelMixin extends Level {
     private void ac_getSkyDarken_timeOfDay(float partialTick, CallbackInfoReturnable<Float> cir) {
         if (AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get()) {
             float skyDarken = cir.getReturnValue();
-            float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
-            if(override > 0.0F){
-                cir.setReturnValue(Math.max(skyDarken, override));
+            if (ClientProxy.acSkyOverrideAmount > 0.0F) {
+                cir.setReturnValue(Math.max(skyDarken, ClientProxy.acSkyOverrideAmount));
             }
         }
     }

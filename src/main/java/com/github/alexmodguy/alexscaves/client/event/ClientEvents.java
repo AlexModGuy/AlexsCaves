@@ -75,6 +75,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
+import static net.minecraft.client.renderer.texture.OverlayTexture.v;
 
 public class ClientEvents {
 
@@ -86,6 +87,10 @@ public class ClientEvents {
     private static final ResourceLocation WATCHER_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/watcher_perspective.json");
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/teletor_trail.png");
 
+    private static float lastSampledFogNearness = 0.0F;
+    private static float lastSampledWaterFogFarness = 0.0F;
+    private static Vec3 lastSampledFogColor = Vec3.ZERO;
+    private static Vec3 lastSampledWaterFogColor = Vec3.ZERO;
     @SubscribeEvent
     public void setupEntityRotations(EventLivingRenderer.SetupRotations event) {
         if (event.getEntity() instanceof MagneticEntityAccessor magnetic) {
@@ -651,13 +656,7 @@ public class ClientEvents {
             return;
         }
         if (event.getCamera().getFluidInCamera() == FogType.WATER && AlexsCaves.CLIENT_CONFIG.biomeWaterFogOverrides.get()) {
-            int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-            float farness;
-            if (i == 0) {
-                farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiome(player.blockPosition()));
-            } else {
-                farness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeWaterFogFarness);
-            }
+            float farness = lastSampledWaterFogFarness;
             if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())) {
                 farness *= 1.0F + 1.5F * DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float) event.getPartialTick());
             }
@@ -666,13 +665,7 @@ public class ClientEvents {
                 event.setFarPlaneDistance(defaultFarPlaneDistance * farness);
             }
         } else if (event.getMode() == FogRenderer.FogMode.FOG_TERRAIN && AlexsCaves.CLIENT_CONFIG.biomeSkyFogOverrides.get()) {
-            int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-            float nearness;
-            if (i == 0) {
-                nearness = ACBiomeRegistry.getBiomeFogNearness(player.level().getBiome(player.blockPosition()));
-            } else {
-                nearness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeFogNearness);
-            }
+            float nearness = lastSampledFogNearness;
             float primordialBossAmount = AlexsCaves.PROXY.getPrimordialBossActiveAmount((float) event.getPartialTick());
             boolean flag = Math.abs(nearness) - 1.0F < 0.01F;
             if (primordialBossAmount > 0.0F) {
@@ -699,13 +692,7 @@ public class ClientEvents {
             event.setGreen((float) (1));
             event.setBlue((float) (0));
         } else if (event.getCamera().getFluidInCamera() == FogType.NONE && AlexsCaves.CLIENT_CONFIG.biomeSkyFogOverrides.get()) {
-            int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-            float override;
-            if (i == 0) {
-                override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
-            } else {
-                override = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeSkyOverride);
-            }
+            float override = ClientProxy.acSkyOverrideAmount;
             float setR = event.getRed();
             float setG = event.getGreen();
             float setB = event.getBlue();
@@ -713,12 +700,7 @@ public class ClientEvents {
             boolean flag = false;
             if (override != 0.0F) {
                 flag = true;
-                Vec3 vec3;
-                if (i == 0) {
-                    vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), 1.0F);
-                } else {
-                    vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(BiomeSampler.sampleBiomesVec3(player.level(), player.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getFogColor())), 1.0F);
-                }
+                Vec3 vec3 = lastSampledFogColor;
                 setR = (float) (vec3.x - setR) * override + setR;
                 setG = (float) (vec3.y - setG) * override + setG;
                 setB = (float) (vec3.z - setB) * override + setB;
@@ -737,14 +719,9 @@ public class ClientEvents {
             }
         } else if (event.getCamera().getFluidInCamera() == FogType.WATER && AlexsCaves.CLIENT_CONFIG.biomeWaterFogOverrides.get()) {
             int i = Minecraft.getInstance().options.biomeBlendRadius().get();
-            float override;
-            if (i == 0) {
-                override = ACBiomeRegistry.getBiomeSkyOverride(player.level().getBiome(player.blockPosition()));
-            } else {
-                override = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeSkyOverride);
-            }
+            float override = ClientProxy.acSkyOverrideAmount;
             if (override != 0) {
-                Vec3 vec3 = Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor());
+                Vec3 vec3 = lastSampledWaterFogColor;
                 event.setRed((float) (event.getRed() + (vec3.x - event.getRed()) * override));
                 event.setGreen((float) (event.getGreen() + (vec3.y - event.getGreen()) * override));
                 event.setBlue((float) (event.getBlue() + (vec3.z - event.getBlue()) * override));
@@ -796,7 +773,7 @@ public class ClientEvents {
         }
     }
 
-    private static float calculateBiomeAmbientLight(Player player) {
+    private static float calculateBiomeAmbientLight(Entity player) {
         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
         if (i == 0) {
             return ACBiomeRegistry.getBiomeAmbientLight(player.level().getBiome(player.blockPosition()));
@@ -805,7 +782,7 @@ public class ClientEvents {
         }
     }
 
-    private static Vec3 calculateBiomeLightColor(Player player) {
+    private static Vec3 calculateBiomeLightColor(Entity player) {
         int i = Minecraft.getInstance().options.biomeBlendRadius().get();
         if (i == 0) {
             return ACBiomeRegistry.getBiomeLightColorOverride(player.level().getBiome(player.blockPosition()));
@@ -814,21 +791,74 @@ public class ClientEvents {
         }
     }
 
+    private static float calculateBiomeFogNearness(Entity player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        float nearness;
+        if (i == 0) {
+            nearness = ACBiomeRegistry.getBiomeFogNearness(player.level().getBiome(player.blockPosition()));
+        } else {
+            nearness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeFogNearness);
+        }
+        return nearness;
+    }
+
+    private static float calculateBiomeWaterFogFarness(Entity player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        float farness;
+        if (i == 0) {
+            farness = ACBiomeRegistry.getBiomeWaterFogFarness(player.level().getBiome(player.blockPosition()));
+        } else {
+            farness = BiomeSampler.sampleBiomesFloat(player.level(), player.position(), ACBiomeRegistry::getBiomeWaterFogFarness);
+        }
+        return farness;
+    }
+
+    private static Vec3 calculateBiomeFogColor(Entity player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        Vec3 vec3;
+        if (i == 0) {
+            vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getFogColor()), 1.0F);
+        } else {
+            vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(BiomeSampler.sampleBiomesVec3(player.level(), player.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getFogColor())), 1.0F);
+        }
+        return vec3;
+    }
+
+    private Vec3 calculateBiomeWaterFogColor(Entity player) {
+        int i = Minecraft.getInstance().options.biomeBlendRadius().get();
+        Vec3 vec3;
+        if (i == 0) {
+            vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(Vec3.fromRGB24(player.level().getBiomeManager().getNoiseBiomeAtPosition(player.blockPosition()).value().getWaterFogColor()), 1.0F);
+        } else {
+            vec3 = ((ClientLevel) player.level()).effects().getBrightnessDependentFogColor(BiomeSampler.sampleBiomesVec3(player.level(), player.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getWaterFogColor())), 1.0F);
+        }
+        return vec3;
+    }
+
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = Minecraft.getInstance().player;
+            Entity cameraEntity = Minecraft.getInstance().cameraEntity;
             float partialTicks = AlexsCaves.PROXY.getPartialTicks();
             if (ClientProxy.shaderLoadAttemptCooldown > 0) {
                 ClientProxy.shaderLoadAttemptCooldown--;
             }
             ClientProxy.prevPrimordialBossActiveAmount = ClientProxy.primordialBossActiveAmount;
             ClientProxy.prevNukeFlashAmount = ClientProxy.nukeFlashAmount;
-            if (player != null) {
+            if (cameraEntity != null) {
+                ClientProxy.acSkyOverrideAmount = ACBiomeRegistry.calculateBiomeSkyOverride(cameraEntity);
+                if(ClientProxy.acSkyOverrideAmount > 0){
+                    ClientProxy.acSkyOverrideColor = BiomeSampler.sampleBiomesVec3(Minecraft.getInstance().level, Minecraft.getInstance().cameraEntity.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getSkyColor()));
+                }
                 ClientProxy.lastBiomeLightColorPrev = ClientProxy.lastBiomeLightColor;
-                ClientProxy.lastBiomeLightColor = calculateBiomeLightColor(player);
+                ClientProxy.lastBiomeLightColor = calculateBiomeLightColor(cameraEntity);
                 ClientProxy.lastBiomeAmbientLightAmountPrev = ClientProxy.lastBiomeAmbientLightAmount;
-                ClientProxy.lastBiomeAmbientLightAmount = calculateBiomeAmbientLight(player);
+                ClientProxy.lastBiomeAmbientLightAmount = calculateBiomeAmbientLight(cameraEntity);
+                lastSampledFogNearness = calculateBiomeFogNearness(cameraEntity);
+                lastSampledWaterFogFarness = calculateBiomeWaterFogFarness(cameraEntity);
+                lastSampledFogColor = calculateBiomeFogColor(cameraEntity);
+                lastSampledWaterFogColor = calculateBiomeWaterFogColor(cameraEntity);
             }
             if (ClientProxy.renderNukeSkyDarkFor > 0) {
                 ClientProxy.renderNukeSkyDarkFor--;
