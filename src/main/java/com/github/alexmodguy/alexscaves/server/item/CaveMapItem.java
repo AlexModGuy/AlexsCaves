@@ -32,8 +32,9 @@ import java.util.UUID;
 
 public class CaveMapItem extends Item implements UpdatesStackTags {
 
+    private static final double CHECK_REGEN_TICKS = 1800;
     private static final double TRIGGER_REGEN_DIST = 200;
-    public static int MAP_SCALE = 7;
+    public static final int MAP_SCALE = 7;
 
     public CaveMapItem(Item.Properties properties) {
         super(properties);
@@ -89,7 +90,7 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
 
     public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
-        if(!level.isClientSide() && held && !isLoading(stack) && isFilled(stack) && (entity.tickCount + entity.getId()) % 200 == 0 && entity instanceof Player){
+        if(!level.isClientSide() && held && !isLoading(stack) && isFilled(stack) && (entity.tickCount + entity.getId()) % CHECK_REGEN_TICKS == 0 && entity instanceof Player){
             BlockPos biomePos = getBiomeBlockPos(stack);
             double xD = biomePos.getX() - entity.blockPosition().getX();
             double zD = biomePos.getZ() - entity.blockPosition().getZ();
