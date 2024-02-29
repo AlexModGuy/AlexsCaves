@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#alexscaves:unmovable",
+    "minecraft:budding_amethyst",
+    "minecraft:small_amethyst_bud",
+    "minecraft:medium_amethyst_bud",
+    "minecraft:large_amethyst_bud",
+    "alexscaves:sulfur_bud_small",
+    "alexscaves:sulfur_bud_medium",
+    "alexscaves:sulfur_bud_large"
+  ]
+}

@@ -85,7 +85,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                 if (entity.spawnType == null) {
                     entity.generateSpawnData();
                 } else {
-                    if (entity.spawnMobs()) {
+                    if (level.getNearestPlayer(entity.getBlockPos().getX() + 0.5F, entity.getBlockPos().getY() + 0.5F, entity.getBlockPos().getZ() + 0.5F, 28, false) != null && entity.spawnMobs()) {
                         level.playSound((Player)null, blockPos, ACSoundRegistry.AMBER_MONOLITH_SUMMON.get(), SoundSource.BLOCKS);
                         entity.generateSpawnData();
                     }

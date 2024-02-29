@@ -316,7 +316,7 @@ public class MagnetronEntity extends Monster {
         all.addAll(weapons);
         all.addAll(magnetic);
         if (weapons.size() + magnetic.size() < BLOCK_COUNT) {
-            List<BlockPos> everything = findBlocksMatching((state -> !state.isAir() && !state.is(ACTagRegistry.UNMOVEABLE)), all::contains, BLOCK_COUNT - weapons.size() - magnetic.size(), 0.3F);
+            List<BlockPos> everything = findBlocksMatching((state -> !state.isAir() && !state.is(ACTagRegistry.RESISTS_MAGNETRON_BODY_BUILDING)), all::contains, BLOCK_COUNT - weapons.size() - magnetic.size(), 0.3F);
             all.addAll(everything);
         }
         return all;

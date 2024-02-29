@@ -21,6 +21,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> MAGNET_REMOVES_LAST = registerBlockTag("magnet_removes_last");
     public static final TagKey<Block> TESLA_BULB_BASE_BLOCKS = registerBlockTag("tesla_bulb_base_blocks");
     public static final TagKey<Block> MAGNETRON_WEAPONS = registerBlockTag("magnetron_weapons");
+    public static final TagKey<Block> RESISTS_MAGNETRON_BODY_BUILDING = registerBlockTag("resists_magnetron_body_building");
     public static final TagKey<Block> SCAFFOLDING = registerBlockTag("scaffolding");
     public static final TagKey<Block> DINOSAURS_SPAWNABLE_ON = registerBlockTag("dinosaurs_spawnable_on");
     public static final TagKey<Block> TURNS_INTO_CAVE_PAINTINGS = registerBlockTag("turns_into_cave_paintings");
