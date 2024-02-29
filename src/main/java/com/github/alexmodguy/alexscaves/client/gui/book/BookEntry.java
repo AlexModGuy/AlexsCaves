@@ -84,8 +84,9 @@ public class BookEntry {
 
     private List<String> getRawTextFromFile(String fileName, CaveBookScreen screen, int maxLineSize) {
         String lang = Minecraft.getInstance().getLanguageManager().getSelected().toLowerCase();
-        ResourceLocation fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
+        ResourceLocation fileRes;
         try {
+            fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
             //test if it exists. if no exception, then the language is supported
             InputStream is = Minecraft.getInstance().getResourceManager().open(fileRes);
             is.close();
