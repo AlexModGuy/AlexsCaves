@@ -105,7 +105,8 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Mob.class, 10.0F));
         this.goalSelector.addGoal(6, new LookForwardsGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, LuxtructosaurusEntity.class)));
-        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, DinosaurEntity.class, false, 100, dinosaur -> !(dinosaur instanceof LuxtructosaurusEntity)));
+        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, false));
+        this.targetSelector.addGoal(3, new MobTarget3DGoal(this, DinosaurEntity.class, false, 200, dinosaur -> !(dinosaur instanceof LuxtructosaurusEntity)));
     }
 
     @Override
