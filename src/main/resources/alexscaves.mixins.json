@@ -37,7 +37,6 @@
     "client.GameRendererMixin",
     "client.HumanoidArmorLayerMixin",
     "client.ItemFrameRendererMixin",
-    "client.ItemInHandRendererMixin",
     "client.LevelRendererMixin",
     "client.LightTextureMixin",
     "client.LiquidBlockRendererMixin",

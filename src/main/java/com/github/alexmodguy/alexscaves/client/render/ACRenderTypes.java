@@ -201,6 +201,17 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(true));
     }
 
+    public static RenderType getCaveMapBackground(ResourceLocation locationIn, boolean showBackground) {
+        RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_TEXT_SHADER)
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setLightmapState(LIGHTMAP)
+                .setCullState(showBackground ? NO_CULL : CULL)
+                .createCompositeState(false);
+        return create("cave_map_background", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 256, false, true, rendertype$state);
+    }
+
     public static RenderType getBookWidget(ResourceLocation locationIn, boolean sepia) {
         if(sepia){
             return create("book_widget", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()

@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.gui.book.widget.ItemWidget;
 import com.github.alexmodguy.alexscaves.client.model.*;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.render.misc.CaveMapRenderHelper;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
@@ -17,10 +18,15 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.ForgeRenderTypes;
@@ -76,6 +82,38 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         float partialTick = Minecraft.getInstance().getPartialTick();
         boolean heldIn3d = transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.THIRD_PERSON_RIGHT_HAND || transformType == ItemDisplayContext.FIRST_PERSON_RIGHT_HAND || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
         boolean left = transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
+
+        if (itemStackIn.is(ACItemRegistry.CAVE_MAP.get())) {
+            poseStack.translate(0.5F, 0.5f, 0.5f);
+            ItemStack spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if(CaveMapItem.isFilled(itemStackIn)){
+                spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_FILLED_SPRITE.get());
+            }else if(CaveMapItem.isFilled(itemStackIn)){
+                spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_LOADING_SPRITE.get());
+            }
+            if (transformType.firstPerson()) {
+                Player player = Minecraft.getInstance().player;
+                ItemStack offhandHeldItem = player.getItemInHand(InteractionHand.OFF_HAND);
+                boolean offhand = offhandHeldItem.equals(itemStackIn);
+                poseStack.pushPose();
+                if(offhand){
+                    poseStack.translate(left ? 0.5F : -0.5F, 0.35, 0);
+                    CaveMapRenderHelper.renderOneHandedCaveMap(poseStack, bufferIn, combinedLightIn, 0, player.getMainArm().getOpposite(), 0, itemStackIn);
+                }else{
+                    poseStack.translate(left ? 0.55F : -0.55F, 0.525F, 0.75F);
+                    CaveMapRenderHelper.renderTwoHandedCaveMap(poseStack, bufferIn, combinedLightIn, partialTick, 0, 0, itemStackIn);
+                }
+                poseStack.popPose();
+            } else if(heldIn3d && AlexsCaves.CLIENT_CONFIG.caveMapsVisibleInThirdPerson.get()){
+                poseStack.translate(left ? 0.15F : -0.15F, 0.25F, 0.05F);
+                poseStack.scale(1.5F, 1.5F, 1.5F);
+                CaveMapRenderHelper.renderCaveMap(poseStack, bufferIn, combinedLightIn, itemStackIn, true);
+            }else{
+                renderStaticItemSpriteWithLighting(spriteItem, transformType, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, level);
+            }
+        }
+
         if (itemStackIn.is(ACItemRegistry.GALENA_GAUNTLET.get())) {
             poseStack.pushPose();
             poseStack.translate(0, 0F, 0);
@@ -323,6 +361,15 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             ItemWidget.renderSepiaItem(poseStack, bakedmodel, spriteItem, Minecraft.getInstance().renderBuffers().bufferSource());
         }else{
             Minecraft.getInstance().getItemRenderer().renderStatic(spriteItem, transformType, transformType == ItemDisplayContext.GROUND ? combinedLightIn : 240, combinedOverlayIn, poseStack, bufferIn, level, 0);
+        }
+    }
+
+    private void renderStaticItemSpriteWithLighting(ItemStack spriteItem, ItemDisplayContext transformType, int combinedLightIn, int combinedOverlayIn, PoseStack poseStack, MultiBufferSource bufferIn, ClientLevel level) {
+        if(sepiaFlag){
+            BakedModel bakedmodel = Minecraft.getInstance().getItemRenderer().getModel(spriteItem, Minecraft.getInstance().level, null, 0);
+            ItemWidget.renderSepiaItem(poseStack, bakedmodel, spriteItem, Minecraft.getInstance().renderBuffers().bufferSource());
+        }else{
+            Minecraft.getInstance().getItemRenderer().renderStatic(spriteItem, transformType, transformType != ItemDisplayContext.GUI ? combinedLightIn : 240, combinedOverlayIn, poseStack, bufferIn, level, 0);
         }
     }
 

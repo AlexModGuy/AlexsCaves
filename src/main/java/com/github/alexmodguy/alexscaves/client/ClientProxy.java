@@ -216,12 +216,6 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.DARK_ARROW.get(), DarkArrowRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         Sheets.addWoodType(ACBlockRegistry.THORNWOOD_WOOD_TYPE);
-        ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
-            return CaveMapItem.isFilled(stack) ? 1F : 0F;
-        });
-        ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("loading"), (stack, level, living, j) -> {
-            return CaveMapItem.isLoading(stack) ? 1F : 0F;
-        });
         ItemProperties.register(ACItemRegistry.HOLOCODER.get(), new ResourceLocation("bound"), (stack, level, living, j) -> {
             return HolocoderItem.isBound(stack) ? 1.0F : 0.0F;
         });

@@ -23,6 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -38,6 +39,11 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
 
     public CaveMapItem(Item.Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
+        consumer.accept((IClientItemExtensions) AlexsCaves.PROXY.getISTERProperties());
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {

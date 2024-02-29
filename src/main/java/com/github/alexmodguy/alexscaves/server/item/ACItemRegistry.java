@@ -57,6 +57,9 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> CAVE_CODEX = DEF_REG.register("cave_codex", () -> new CaveInfoItem(new Item.Properties(), false));
     public static final RegistryObject<Item> CAVE_BOOK = DEF_REG.register("cave_book", () -> new CaveBookItem());
     public static final RegistryObject<Item> CAVE_MAP = DEF_REG.register("cave_map", () -> new CaveMapItem(new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> CAVE_MAP_SPRITE = DEF_REG.register("cave_map_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> CAVE_MAP_LOADING_SPRITE = DEF_REG.register("cave_map_loading", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> CAVE_MAP_FILLED_SPRITE = DEF_REG.register("cave_map_filled", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> RAW_SCARLET_NEODYMIUM = DEF_REG.register("raw_scarlet_neodymium", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> RAW_AZURE_NEODYMIUM = DEF_REG.register("raw_azure_neodymium", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SCARLET_NEODYMIUM_INGOT = DEF_REG.register("scarlet_neodymium_ingot", () -> new Item(new Item.Properties()));

@@ -1,20 +1,31 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "alexscaves:item/cave_map"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "filled": 1
-      },
-      "model": "alexscaves:item/cave_map_filled"
+  "parent": "builtin/entity",
+  "gui_light": "front",
+  "ambientocclusion": true,
+  "display": {
+    "thirdperson_righthand": {
+      "translation": [0, 0, 0]
     },
-    {
-      "predicate": {
-        "loading": 1
-      },
-      "model": "alexscaves:item/cave_map_loading"
+    "thirdperson_lefthand": {
+      "translation": [0, 0, 0]
+    },
+    "firstperson_righthand": {
+      "translation": [0, 0, 0]
+    },
+    "firstperson_lefthand": {
+      "translation": [0, 0, 0]
+    },
+    "ground": {
+      "translation": [0, 0, 0]
+    },
+    "gui": {
+      "translation": [0, 0, 0]
+    },
+    "head": {
+      "translation": [0, 0, 0]
+    },
+    "fixed": {
+      "translation": [0, 0, 0]
     }
-  ]
+  }
 }

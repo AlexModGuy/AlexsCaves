@@ -4,6 +4,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 
 public class ACClientConfig {
 
+    public final ForgeConfigSpec.BooleanValue caveMapsVisibleInThirdPerson;
     public final ForgeConfigSpec.BooleanValue screenShaking;
     public final ForgeConfigSpec.BooleanValue emissiveBlockModels;
     public final ForgeConfigSpec.BooleanValue nuclearBombFlash;
@@ -20,6 +21,7 @@ public class ACClientConfig {
 
     public ACClientConfig(final ForgeConfigSpec.Builder builder) {
         builder.push("visuals");
+        caveMapsVisibleInThirdPerson = builder.comment("whether to cave maps are visible when held by players from the third-person perspective.").translation("cave_maps_visible_in_third_person").define("cave_maps_visible_in_third_person", true);
         screenShaking = builder.comment("whether to shake the screen from tremorsaurus stomping, nuclear explosions, etc.").translation("screen_shaking").define("screen_shaking", true);
         emissiveBlockModels = builder.comment("true if some block models, like uranium ore or abyssmarine bricks render as fullbright. May increase load time, no gameplay performance impact.").translation("emissive_block_models").define("emissive_block_models", true);
         nuclearBombFlash = builder.comment("whether to make the screen flash white during nuclear explosions.").translation("nuclear_bomb_flash").define("nuclear_bomb_flash", true);
