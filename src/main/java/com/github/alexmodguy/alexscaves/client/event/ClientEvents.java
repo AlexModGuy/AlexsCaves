@@ -75,7 +75,6 @@ import java.util.Arrays;
 import java.util.UUID;
 
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
-import static net.minecraft.client.renderer.texture.OverlayTexture.v;
 
 public class ClientEvents {
 
@@ -91,6 +90,7 @@ public class ClientEvents {
     private static float lastSampledWaterFogFarness = 0.0F;
     private static Vec3 lastSampledFogColor = Vec3.ZERO;
     private static Vec3 lastSampledWaterFogColor = Vec3.ZERO;
+
     @SubscribeEvent
     public void setupEntityRotations(EventLivingRenderer.SetupRotations event) {
         if (event.getEntity() instanceof MagneticEntityAccessor magnetic) {
@@ -502,10 +502,10 @@ public class ClientEvents {
                 dinoHeight = 32;
                 k += 3;
                 hudY = 40;
-            }  else if (dinosaur instanceof TremorzillaEntity tremorzilla) {
+            } else if (dinosaur instanceof TremorzillaEntity tremorzilla) {
                 vOffset = 193;
-                if(tremorzilla.isPowered() && !tremorzilla.isFiring() && tremorzilla.getSpikesDownAmount() > 0){
-                    if(tremorzilla.tickCount / 2 % 2 == 1){
+                if (tremorzilla.isPowered() && !tremorzilla.isFiring() && tremorzilla.getSpikesDownAmount() > 0) {
+                    if (tremorzilla.tickCount / 2 % 2 == 1) {
                         vOffset = 251;
                     }
                     invProgress = 1F;
@@ -598,16 +598,16 @@ public class ClientEvents {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void renderBossOverlay(CustomizeGuiOverlayEvent.BossEventProgress event){
-        if(ClientProxy.bossBarRenderTypes.containsKey(event.getBossEvent().getId())){
+    public void renderBossOverlay(CustomizeGuiOverlayEvent.BossEventProgress event) {
+        if (ClientProxy.bossBarRenderTypes.containsKey(event.getBossEvent().getId())) {
             int renderTypeFor = ClientProxy.bossBarRenderTypes.get(event.getBossEvent().getId());
             int i = event.getGuiGraphics().guiWidth();
             int j = event.getY();
             Component component = event.getBossEvent().getName();
-            if(renderTypeFor == 0){
+            if (renderTypeFor == 0) {
                 event.setCanceled(true);
                 event.getGuiGraphics().blit(BOSS_BAR_HUD_OVERLAYS, event.getX(), event.getY(), 0, 0, 182, 15);
-                int progressScaled = (int)(event.getBossEvent().getProgress() * 183.0F);
+                int progressScaled = (int) (event.getBossEvent().getProgress() * 183.0F);
                 event.getGuiGraphics().blit(BOSS_BAR_HUD_OVERLAYS, event.getX(), event.getY(), 0, 15, progressScaled, 15);
                 int l = Minecraft.getInstance().font.width(component);
                 int i1 = i / 2 - l / 2;
@@ -624,7 +624,7 @@ public class ClientEvents {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void fogRender(ViewportEvent.RenderFog event) {
-        if(event.isCanceled()){
+        if (event.isCanceled()) {
             //another mod has cancelled fog rendering.
             return;
         }
@@ -683,11 +683,11 @@ public class ClientEvents {
     public void fogColor(ViewportEvent.ComputeFogColor event) {
         Entity player = Minecraft.getInstance().player;
         BlockState blockState = player.level().getBlockState(event.getCamera().getBlockPosition());
-        if(blockState.is(ACBlockRegistry.PRIMAL_MAGMA.get()) || blockState.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())){
+        if (blockState.is(ACBlockRegistry.PRIMAL_MAGMA.get()) || blockState.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
             event.setRed((float) (1F));
             event.setGreen((float) (0.4F));
             event.setBlue((float) (0));
-        }else if (player.getEyeInFluidType() != null && player.getEyeInFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
+        } else if (player.getEyeInFluidType() != null && player.getEyeInFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setRed((float) (0));
             event.setGreen((float) (1));
             event.setBlue((float) (0));
@@ -838,7 +838,6 @@ public class ClientEvents {
     @SubscribeEvent
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
-            Player player = Minecraft.getInstance().player;
             Entity cameraEntity = Minecraft.getInstance().cameraEntity;
             float partialTicks = AlexsCaves.PROXY.getPartialTicks();
             if (ClientProxy.shaderLoadAttemptCooldown > 0) {
@@ -848,7 +847,7 @@ public class ClientEvents {
             ClientProxy.prevNukeFlashAmount = ClientProxy.nukeFlashAmount;
             if (cameraEntity != null) {
                 ClientProxy.acSkyOverrideAmount = ACBiomeRegistry.calculateBiomeSkyOverride(cameraEntity);
-                if(ClientProxy.acSkyOverrideAmount > 0){
+                if (ClientProxy.acSkyOverrideAmount > 0) {
                     ClientProxy.acSkyOverrideColor = BiomeSampler.sampleBiomesVec3(Minecraft.getInstance().level, Minecraft.getInstance().cameraEntity.position(), biomeHolder -> Vec3.fromRGB24(biomeHolder.value().getSkyColor()));
                 }
                 ClientProxy.lastBiomeLightColorPrev = ClientProxy.lastBiomeLightColor;
@@ -857,8 +856,10 @@ public class ClientEvents {
                 ClientProxy.lastBiomeAmbientLightAmount = calculateBiomeAmbientLight(cameraEntity);
                 lastSampledFogNearness = calculateBiomeFogNearness(cameraEntity);
                 lastSampledWaterFogFarness = calculateBiomeWaterFogFarness(cameraEntity);
-                lastSampledFogColor = calculateBiomeFogColor(cameraEntity);
-                lastSampledWaterFogColor = calculateBiomeWaterFogColor(cameraEntity);
+                if (cameraEntity.level() instanceof ClientLevel) { //fixes crash with beholder
+                    lastSampledFogColor = calculateBiomeFogColor(cameraEntity);
+                    lastSampledWaterFogColor = calculateBiomeWaterFogColor(cameraEntity);
+                }
             }
             if (ClientProxy.renderNukeSkyDarkFor > 0) {
                 ClientProxy.renderNukeSkyDarkFor--;
@@ -871,7 +872,7 @@ public class ClientEvents {
             } else if (ClientProxy.masterVolumeNukeModifier > 0.0F) {
                 ClientProxy.masterVolumeNukeModifier -= 0.1F;
             }
-            if(ClientProxy.lastBossLevel != Minecraft.getInstance().level){
+            if (ClientProxy.lastBossLevel != Minecraft.getInstance().level) {
                 ClientProxy.primordialBossActive = false;
                 ClientProxy.primordialBossActiveAmount = 0;
                 ClientProxy.lastBossLevel = Minecraft.getInstance().level;
@@ -986,16 +987,16 @@ public class ClientEvents {
 
     @SubscribeEvent
     public void outlineColor(EventGetOutlineColor event) {
-        if(Minecraft.getInstance().player.getUseItem() != null && Minecraft.getInstance().player.getUseItem().is(ACItemRegistry.TOTEM_OF_POSSESSION.get())){
+        if (Minecraft.getInstance().player.getUseItem() != null && Minecraft.getInstance().player.getUseItem().is(ACItemRegistry.TOTEM_OF_POSSESSION.get())) {
             ItemStack stack = Minecraft.getInstance().player.getUseItem();
             UUID boundUUID = TotemOfPossessionItem.getBoundEntityUUID(stack);
-            if(boundUUID != null && boundUUID.equals(event.getEntityIn().getUUID())){
+            if (boundUUID != null && boundUUID.equals(event.getEntityIn().getUUID())) {
                 event.setResult(Event.Result.ALLOW);
                 event.setColor(0xFF0000);
             }
         }
-        if(event.getEntityIn() instanceof ItemEntity item){
-            if(item.getItem().is(ACItemRegistry.TECTONIC_SHARD.get())){
+        if (event.getEntityIn() instanceof ItemEntity item) {
+            if (item.getItem().is(ACItemRegistry.TECTONIC_SHARD.get())) {
                 event.setResult(Event.Result.ALLOW);
                 event.setColor(0XFFDB00);
             }
