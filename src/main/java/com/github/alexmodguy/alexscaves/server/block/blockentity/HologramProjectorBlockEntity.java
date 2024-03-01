@@ -29,7 +29,8 @@ public class HologramProjectorBlockEntity extends BlockEntity {
     private CompoundTag entityTag;
     private Entity displayEntity;
     private Entity prevDisplayEntity;
-
+    private UUID displayUUID;
+    private UUID prevDisplayUUID;
     private float prevSwitchProgress;
     private float switchProgress;
     private float previousRotation;
@@ -45,35 +46,35 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         entity.tickCount++;
         entity.prevSwitchProgress = entity.switchProgress;
         entity.previousRotation = entity.rotation;
-        if (entity.prevDisplayEntity != entity.displayEntity || entity.isPlayerRender()) {
-            if (entity.displayEntity == null && !entity.isPlayerRender()) {
-                if (entity.switchProgress > 0.0F) {
-                    if(entity.switchProgress == 10.0F){
-                        level.playSound((Player)null, blockPos, ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
-                    }
-                    entity.switchProgress--;
-                } else {
-                    entity.prevDisplayEntity = null;
-                    entity.markUpdated();
+        if (entity.prevDisplayUUID != entity.displayUUID) {
+            if (entity.switchProgress < 10.0F) {
+                if (entity.switchProgress == 0) {
+                    level.playSound((Player) null, blockPos, ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
                 }
+                entity.switchProgress++;
             } else {
-                if (entity.switchProgress < 10.0F) {
-                    if(entity.switchProgress == 0){
-                        level.playSound((Player)null, blockPos, ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
-                    }
-                    entity.switchProgress++;
-                } else {
-                    entity.prevDisplayEntity = entity.displayEntity;
-                    entity.markUpdated();
-                }
-                if(!entity.isRemoved() && level.isClientSide){
-                    AlexsCaves.PROXY.playWorldSound(entity, (byte)3);
-                }
+                entity.prevDisplayEntity = entity.displayEntity;
+                entity.prevDisplayUUID = entity.displayUUID;
+                entity.markUpdated();
+            }
+            if (!entity.isRemoved() && level.isClientSide) {
+                AlexsCaves.PROXY.playWorldSound(entity, (byte) 3);
             }
         }
         if (entity.isPlayerRender() && entity.lastPlayerUUID == null) {
             entity.lastPlayerUUID = entity.entityTag.getUUID("UUID");
             entity.markUpdated();
+        }
+        if (entity.isPlayerRender()) {
+            if(entity.lastPlayerUUID == null || entity.displayUUID == null || !entity.lastPlayerUUID.equals(entity.displayUUID)){
+                entity.displayUUID = entity.lastPlayerUUID;
+                entity.switchProgress = 0.0F;
+            }
+        } else if (entity.displayEntity != null) {
+            if(entity.displayUUID != entity.displayEntity.getUUID()){
+                entity.displayUUID = entity.displayEntity.getUUID();
+                entity.switchProgress = 0.0F;
+            }
         }
         float redstoneSignal = level.getBestNeighborSignal(blockPos) * 1F;
         if (redstoneSignal > 0.0F) {
@@ -196,7 +197,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
 
     public void setRemoved() {
         AlexsCaves.PROXY.clearSoundCacheFor(this);
-        level.playSound((Player)null, this.getBlockPos(), ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
+        level.playSound((Player) null, this.getBlockPos(), ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
         super.setRemoved();
     }
 }

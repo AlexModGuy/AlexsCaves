@@ -149,8 +149,11 @@ public class CommonEvents {
         if (stack.is(ACItemRegistry.HOLOCODER.get()) && event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof ArmorStand) && event.getTarget().isAlive()) {
             CompoundTag tag = stack.getOrCreateTag();
             tag.putUUID("BoundEntityUUID", event.getTarget().getUUID());
-            CompoundTag entityTag = event.getTarget().serializeNBT();
+            CompoundTag entityTag = event.getTarget() instanceof Player ? new CompoundTag() : event.getTarget().serializeNBT();
             entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(event.getTarget().getType()).toString());
+            if(event.getTarget() instanceof Player){
+                entityTag.putUUID("UUID", event.getTarget().getUUID());
+            }
             tag.put("BoundEntityTag", entityTag);
             ItemStack stackReplacement = new ItemStack(ACItemRegistry.HOLOCODER.get());
             stack.shrink(1);

@@ -87,12 +87,13 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             poseStack.translate(0.5F, 0.5f, 0.5f);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
-            if(CaveMapItem.isFilled(itemStackIn)){
+            boolean done = CaveMapItem.isFilled(itemStackIn) && !CaveMapItem.isLoading(itemStackIn);
+            if(done){
                 spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_FILLED_SPRITE.get());
-            }else if(CaveMapItem.isFilled(itemStackIn)){
+            }else if(CaveMapItem.isLoading(itemStackIn)){
                 spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_LOADING_SPRITE.get());
             }
-            if (transformType.firstPerson()) {
+            if (transformType.firstPerson() && done) {
                 Player player = Minecraft.getInstance().player;
                 ItemStack offhandHeldItem = player.getItemInHand(InteractionHand.OFF_HAND);
                 boolean renderingSmallMap = !offhandHeldItem.isEmpty();
@@ -106,7 +107,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
                     CaveMapRenderHelper.renderTwoHandedCaveMap(poseStack, bufferIn, combinedLightIn, partialTick, 0, 0, itemStackIn);
                 }
                 poseStack.popPose();
-            } else if(heldIn3d && AlexsCaves.CLIENT_CONFIG.caveMapsVisibleInThirdPerson.get()){
+            } else if(heldIn3d && AlexsCaves.CLIENT_CONFIG.caveMapsVisibleInThirdPerson.get() && done){
                 poseStack.translate(left ? 0.15F : -0.15F, 0.25F, 0.05F);
                 poseStack.scale(1.5F, 1.5F, 1.5F);
                 CaveMapRenderHelper.renderCaveMap(poseStack, bufferIn, combinedLightIn, itemStackIn, true);

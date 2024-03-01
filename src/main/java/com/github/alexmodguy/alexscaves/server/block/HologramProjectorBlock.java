@@ -3,9 +3,11 @@ package com.github.alexmodguy.alexscaves.server.block;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.ACBlockEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.HologramProjectorBlockEntity;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -72,7 +74,7 @@ public class HologramProjectorBlock extends BaseEntityBlock implements SimpleWat
             if (!flag) {
                 entityType = EntityType.PLAYER;
                 CompoundTag playerTag = new CompoundTag();
-                playerTag = player.saveWithoutId(playerTag);
+                playerTag.putUUID("UUID", player.getUUID());
                 String s = player.getEncodeId();
                 if (s != null) {
                     playerTag.putString("id", s);
@@ -80,6 +82,7 @@ public class HologramProjectorBlock extends BaseEntityBlock implements SimpleWat
                 entityTag = playerTag;
             }
             projectorBlockEntity.setEntity(entityType, entityTag, player.getYHeadRot());
+            worldIn.playSound((Player) null, pos, ACSoundRegistry.HOLOGRAM_STOP.get(), SoundSource.BLOCKS);
             if (!player.isCreative()) {
                 heldItem.shrink(1);
             }
