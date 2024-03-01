@@ -50,7 +50,10 @@ public class MothBallBlock extends Block implements SimpleWaterloggedBlock {
         if (state.getValue(WATERLOGGED)) {
             levelAccessor.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
         }
-        return !state.canSurvive(levelAccessor, blockPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, levelAccessor, blockPos, blockPos1);
+        if(!state.canSurvive(levelAccessor, blockPos)){
+            return Blocks.AIR.defaultBlockState();
+        }
+        return super.updateShape(state, direction, state1, levelAccessor, blockPos, blockPos1);
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
