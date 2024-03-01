@@ -42,6 +42,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.frog.Frog;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Drowned;
@@ -145,7 +146,7 @@ public class CommonEvents {
     @SubscribeEvent
     public void playerEntityInteract(PlayerInteractEvent.EntityInteract event) {
         ItemStack stack = event.getItemStack();
-        if (stack.is(ACItemRegistry.HOLOCODER.get()) && event.getTarget().isAlive()) {
+        if (stack.is(ACItemRegistry.HOLOCODER.get()) && event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof ArmorStand) && event.getTarget().isAlive()) {
             CompoundTag tag = stack.getOrCreateTag();
             tag.putUUID("BoundEntityUUID", event.getTarget().getUUID());
             CompoundTag entityTag = event.getTarget().serializeNBT();
