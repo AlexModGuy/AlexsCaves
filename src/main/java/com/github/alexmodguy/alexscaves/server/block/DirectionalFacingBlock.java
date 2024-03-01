@@ -11,9 +11,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 
 public class DirectionalFacingBlock extends DirectionalBlock {
 
+    private final boolean facesPlayer;
+
     protected DirectionalFacingBlock(Properties properties) {
+        this(properties, false);
+    }
+
+    protected DirectionalFacingBlock(Properties properties, boolean facesPlayer) {
         super(properties);
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH));
+        this.facesPlayer = facesPlayer;
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateBuilder) {
@@ -28,8 +35,7 @@ public class DirectionalFacingBlock extends DirectionalBlock {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getClickedFace());
+        return this.defaultBlockState().setValue(FACING, facesPlayer ? context.getNearestLookingDirection().getOpposite() : context.getClickedFace());
     }
 }

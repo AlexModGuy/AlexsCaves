@@ -88,7 +88,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> LIMESTONE_SLAB = registerBlockAndItem("limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_WALL = registerBlockAndItem("limestone_wall", () -> new WallBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_PILLAR = registerBlockAndItem("limestone_pillar", () -> new RotatedPillarBlock(LIMESTONE_PROPERTIES));
-    public static final RegistryObject<Block> LIMESTONE_CHISELED = registerBlockAndItem("limestone_chiseled", () -> new DirectionalFacingBlock(LIMESTONE_PROPERTIES));
+    public static final RegistryObject<Block> LIMESTONE_CHISELED = registerBlockAndItem("limestone_chiseled", () -> new DirectionalFacingBlock(LIMESTONE_PROPERTIES, true));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE = registerBlockAndItem("smooth_limestone", () -> new SmoothLimestoneBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_STAIRS = registerBlockAndItem("smooth_limestone_stairs", () -> new StairBlock(SMOOTH_LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_SLAB = registerBlockAndItem("smooth_limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
