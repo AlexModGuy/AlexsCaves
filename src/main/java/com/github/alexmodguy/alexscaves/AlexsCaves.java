@@ -12,6 +12,7 @@ import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
 import com.github.alexmodguy.alexscaves.server.config.ACServerConfig;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityDataRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACFrogRegistry;
 import com.github.alexmodguy.alexscaves.server.event.CommonEvents;
@@ -102,6 +103,7 @@ public class AlexsCaves {
         ACItemRegistry.DEF_REG.register(modEventBus);
         ACParticleRegistry.DEF_REG.register(modEventBus);
         ACEntityRegistry.DEF_REG.register(modEventBus);
+        ACEntityDataRegistry.DEF_REG.register(modEventBus);
         ACPOIRegistry.DEF_REG.register(modEventBus);
         ACFeatureRegistry.DEF_REG.register(modEventBus);
         ACSurfaceRuleConditionRegistry.DEF_REG.register(modEventBus);
