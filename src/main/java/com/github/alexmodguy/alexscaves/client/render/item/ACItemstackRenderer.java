@@ -95,11 +95,12 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             if (transformType.firstPerson()) {
                 Player player = Minecraft.getInstance().player;
                 ItemStack offhandHeldItem = player.getItemInHand(InteractionHand.OFF_HAND);
+                boolean renderingSmallMap = !offhandHeldItem.isEmpty();
                 boolean offhand = offhandHeldItem.equals(itemStackIn);
                 poseStack.pushPose();
-                if(offhand){
+                if(renderingSmallMap){
                     poseStack.translate(left ? 0.5F : -0.5F, 0.35, 0);
-                    CaveMapRenderHelper.renderOneHandedCaveMap(poseStack, bufferIn, combinedLightIn, 0, player.getMainArm().getOpposite(), 0, itemStackIn);
+                    CaveMapRenderHelper.renderOneHandedCaveMap(poseStack, bufferIn, combinedLightIn, 0, offhand ? player.getMainArm().getOpposite() : player.getMainArm(), 0, itemStackIn);
                 }else{
                     poseStack.translate(left ? 0.55F : -0.55F, 0.525F, 0.75F);
                     CaveMapRenderHelper.renderTwoHandedCaveMap(poseStack, bufferIn, combinedLightIn, partialTick, 0, 0, itemStackIn);
