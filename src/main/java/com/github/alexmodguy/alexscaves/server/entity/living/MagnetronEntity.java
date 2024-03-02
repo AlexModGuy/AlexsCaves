@@ -391,7 +391,7 @@ public class MagnetronEntity extends Monster {
         if (this.isFunctionallyMultipart()) {
             double idealDistance = this.position().y - this.allParts[lowestPartIndex].getLowPoint();
             Vec3 bottom = new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
-            Vec3 ground = ACMath.getGroundBelowPosition(level(), bottom);
+            Vec3 ground = ACMath.getGroundBelowPosition(level(), new Vec3(this.getX(), this.getBoundingBox().maxY, this.getZ()));
             Vec3 aboveGround = ground.add(0, idealDistance, 0);
             Vec3 diff = aboveGround.subtract(bottom);
             this.gravityFlag = true;
