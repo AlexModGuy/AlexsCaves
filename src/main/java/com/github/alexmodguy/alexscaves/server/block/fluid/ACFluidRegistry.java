@@ -36,7 +36,7 @@ public class ACFluidRegistry {
         ));
         FluidInteractionRegistry.addInteraction(ACID_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
                 ForgeMod.LAVA_TYPE.get(),
-                fluidState -> fluidState.isSource() ? ACBlockRegistry.RADROCK.get().defaultBlockState() : Blocks.COBBLESTONE.defaultBlockState()
+                fluidState -> ACBlockRegistry.RADROCK.get().defaultBlockState()
         ));
     }
 }

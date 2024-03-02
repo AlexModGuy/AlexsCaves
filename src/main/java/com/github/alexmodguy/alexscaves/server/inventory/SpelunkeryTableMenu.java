@@ -239,7 +239,7 @@ public class SpelunkeryTableMenu extends AbstractContainerMenu {
     public int getHighlightColor(Level level) {
         ItemStack stack = this.getSlot(0).getItem();
         if (stack.getItem() == ACItemRegistry.CAVE_TABLET.get()) {
-            return CaveInfoItem.getBiomeColorOf(level, stack);
+            return CaveInfoItem.getBiomeColorOf(level, stack, true);
         }
         return -1;
     }
