@@ -48,17 +48,15 @@ public abstract class HumanoidArmorLayerMixin extends RenderLayer {
     private void ac_renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, LivingEntity livingEntity, EquipmentSlot equipmentSlot, int light, HumanoidModel humanoidModel, CallbackInfo ci) {
         ItemStack itemstack = livingEntity.getItemBySlot(equipmentSlot);
         if (itemstack.getItem() instanceof CustomArmorPostRender) {
-
             ci.cancel();
             lastArmorItemStackRendered = livingEntity.getItemBySlot(equipmentSlot);
-
             Item item = itemstack.getItem();
             if (item instanceof ArmorItem armorItem) {
                 if (armorItem.getEquipmentSlot() == equipmentSlot) {
-                    HumanoidModel model = this.getParentModel() instanceof HumanoidModel humanoidModel1 ? humanoidModel1 : humanoidModel;
                     boolean legs = equipmentSlot == EquipmentSlot.LEGS;
-                    setPartVisibility(model, equipmentSlot);
+                    HumanoidModel model = this.getParentModel() instanceof HumanoidModel humanoidModel1 ? humanoidModel1 : humanoidModel;
                     Model armorModel = ForgeHooksClient.getArmorModel(livingEntity, itemstack, equipmentSlot, model);
+                    setPartVisibility((HumanoidModel) armorModel, equipmentSlot);
                     ResourceLocation texture= getACArmorResource(livingEntity, itemstack, equipmentSlot, null);
                     ACArmorRenderProperties.renderCustomArmor(poseStack, multiBufferSource, light, lastArmorItemStackRendered, armorItem, armorModel, legs, texture);
                 }
