@@ -104,7 +104,7 @@ public class TremorzillaLegSolver {
             }else if (shape.isEmpty()) {
                 return 1.0F;
             } else {
-                Vec3 modIn = new Vec3(position.x % 1.0D, 1.0D, position.z % 1.0D);
+                Vec3 modIn = new Vec3(position.x % 1.0D, 0.0D, position.z % 1.0D);
                 Optional<Vec3> closest = shape.closestPointTo(modIn);
                 if (closest.isEmpty()) {
                     return 1.0F;
