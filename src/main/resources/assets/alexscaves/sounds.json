@@ -2122,10 +2122,7 @@
       "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_0",
       "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_1",
       "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_2",
-      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_3",
-      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_4",
-      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_5",
-      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_6"
+      "alexscaves:mob/luxtructosaurus/luxtructosaurus_idle_3"
     ],
     "subtitle": "alexscaves.sound.subtitle.luxtructosaurus_idle"
   },

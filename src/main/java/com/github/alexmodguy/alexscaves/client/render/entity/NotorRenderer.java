@@ -142,7 +142,7 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                 entityIn.xRotO = 0;
                 entityIn.setYRot(0);
                 entityIn.yRotO = 0;
-                if (render instanceof LivingEntityRenderer<?, ?> renderer) {
+                if (render instanceof LivingEntityRenderer renderer) {
                     EntityModel model = renderer.getModel();
                     VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(entityIn instanceof DeepOneMageEntity ? DeepOneMageRenderer.TEXTURE : render.getTextureLocation(entityIn)));
                     matrixStack.pushPose();
@@ -182,6 +182,7 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                         tremorzillaModel.straighten = false;
                     }
                     matrixStack.scale(-living.getScale(), -living.getScale(), living.getScale());
+                    ((LivingEntityRendererAccessor)renderer).scaleForHologram(living, matrixStack, partialTicks);
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();
                     if (model instanceof HumanoidModel<?> humanoidModel) {
