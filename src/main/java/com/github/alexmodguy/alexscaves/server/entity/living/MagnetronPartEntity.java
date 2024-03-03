@@ -151,7 +151,8 @@ public class MagnetronPartEntity extends PartEntity<MagnetronEntity> {
         return blockState;
     }
     public BlockState getVisualBlockState() {
-        return blockState == null ? STONE : blockState;
+        MagnetronEntity parent = this.getParent();
+        return blockState == null && parent != null && parent.isAlive() ? STONE : blockState;
     }
 
     public void setBlockState(BlockState state) {
