@@ -69,7 +69,6 @@ public class GammaroachEntity extends PathfinderMob implements IAnimatedEntity {
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 20, false, true, IRRADIATED_TARGET));
-        this.targetSelector.addGoal(3, new MobTarget3DGoal(this, Cow.class, true));
     }
 
     public static boolean isValidLightLevel(ServerLevelAccessor levelAccessor, BlockPos blockPos, RandomSource randomSource) {

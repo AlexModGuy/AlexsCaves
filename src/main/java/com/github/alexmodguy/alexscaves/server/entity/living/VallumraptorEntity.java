@@ -571,7 +571,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
 
     @Override
     public boolean canTargetItem(ItemStack stack) {
-        return stack.is(ACTagRegistry.VALLUMRAPTOR_STEALS) || stack.getItem().isEdible() && stack.getItem().getFoodProperties(stack, this).isMeat();
+        return (stack.is(ACTagRegistry.VALLUMRAPTOR_STEALS) || stack.getItem().isEdible() && stack.getItem().getFoodProperties(stack, this).isMeat()) && !stack.is(ACBlockRegistry.VALLUMRAPTOR_EGG.get().asItem());
     }
 
     public double getMaxDistToItem() {
