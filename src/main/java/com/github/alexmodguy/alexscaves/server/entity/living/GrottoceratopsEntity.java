@@ -126,7 +126,7 @@ public class GrottoceratopsEntity extends DinosaurEntity implements IAnimatedEnt
             resetAttackerCooldown--;
         } else if (!level().isClientSide && !this.isBaby() && (this.getLastHurtByMob() == null || !this.getLastHurtByMob().isAlive())) {
             this.setTarget(this.getLastHurtByMob());
-            resetAttackerCooldown = 30;
+            resetAttackerCooldown = 600;
         }
         if (this.getAnimation() == ANIMATION_SPEAK_1 && this.getAnimationTick() == 5 || this.getAnimation() == ANIMATION_SPEAK_2 && this.getAnimationTick() == 2) {
             actuallyPlayAmbientSound();

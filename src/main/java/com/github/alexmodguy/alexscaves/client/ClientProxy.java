@@ -782,6 +782,9 @@ public class ClientProxy extends CommonProxy {
                 level.addParticle(blockparticleoption, pos.getX() + level.random.nextFloat(), pos.getY() + 1.0F, pos.getZ() + level.random.nextFloat(), 0, 0, 0);
             }
         }
+        if(messageId == 6 && level.getBlockState(pos).is(ACBlockRegistry.ABYSSAL_ALTAR.get()) && level.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlock){
+            altarBlock.resetSlideAnimation();
+        }
     }
 
     public void clearSoundCacheFor(Entity entity) {
