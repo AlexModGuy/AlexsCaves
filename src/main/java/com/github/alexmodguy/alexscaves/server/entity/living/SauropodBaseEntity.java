@@ -99,6 +99,7 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
     private float lastYawBeforeWhip;
     public boolean turningFast;
     private boolean wasPreviouslyChild;
+    private int stepSoundCooldown = 0;
 
     public SauropodBaseEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -214,12 +215,16 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
                 walkAnimSpeed = Math.max(0, walkAnimSpeed - 0.025F);
             }
         }
-        if (f <= 0.05 && walkAnimSpeed > 0.0F && this.onGround() && (speed > 0.003F || this.isVehicle())) {
+        if (f <= 0.05 && walkAnimSpeed > 0.0F && this.onGround() && (speed > 0.003F || this.isVehicle()) && stepSoundCooldown <= 0) {
             this.onStep();
+            stepSoundCooldown = 5;
         }
         if (f1 < 0.65F) {
             this.lastStompX = this.getX();
             this.lastStompZ = this.getZ();
+        }
+        if(stepSoundCooldown > 0){
+            stepSoundCooldown--;
         }
         double stompX = (this.getX() - this.lastStompX);
         double stompZ = (this.getZ() - this.lastStompZ);

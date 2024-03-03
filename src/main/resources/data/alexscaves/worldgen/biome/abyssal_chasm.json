@@ -154,12 +154,6 @@
         "weight": 100
       },
       {
-        "type": "minecraft:enderman",
-        "maxCount": 4,
-        "minCount": 1,
-        "weight": 10
-      },
-      {
         "type": "minecraft:witch",
         "maxCount": 1,
         "minCount": 1,
