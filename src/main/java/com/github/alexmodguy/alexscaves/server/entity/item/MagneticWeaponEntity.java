@@ -269,11 +269,13 @@ public class MagneticWeaponEntity extends Entity {
     public void damageItem(int damageAmount) {
         if (getController() instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())) {
             ItemStack stack = getItemStack();
-            stack.hurtAndBreak(damageAmount, living, (player1) -> {
-                player1.broadcastBreakEvent(player1.getUsedItemHand());
-            });
-            if(stack.getDamageValue() >= stack.getMaxDamage()){
-                this.remove(RemovalReason.DISCARDED);
+            if(stack.isDamageableItem()){
+                stack.hurtAndBreak(damageAmount, living, (player1) -> {
+                    player1.broadcastBreakEvent(player1.getUsedItemHand());
+                });
+                if(stack.getDamageValue() >= stack.getMaxDamage()){
+                    this.remove(RemovalReason.DISCARDED);
+                }
             }
         }
     }

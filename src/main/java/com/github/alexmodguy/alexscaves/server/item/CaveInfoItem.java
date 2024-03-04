@@ -34,7 +34,7 @@ public class CaveInfoItem extends Item {
         this.hideCaveId = hideCaveId;
     }
 
-    public static int getBiomeColorOf(Level level, ItemStack stack) {
+    public static int getBiomeColorOf(Level level, ItemStack stack, boolean darken) {
         if (stack.getTag() != null && stack.getTag().getBoolean("Rainbow")) {
             float hue = (System.currentTimeMillis() % 4000) / 4000f;
             int rainbow = Color.HSBtoRGB(hue, 1f, 0.8f);
@@ -45,6 +45,11 @@ public class CaveInfoItem extends Item {
             if(biomeResourceKey == null){
                 int selectedBiomeIndex = (int)(ACBiomeRegistry.ALEXS_CAVES_BIOMES.size() * (System.currentTimeMillis() % 4000) / 4000f);
                 biomeResourceKey = ACBiomeRegistry.ALEXS_CAVES_BIOMES.get(selectedBiomeIndex);
+            }
+            if(darken && biomeResourceKey != null){
+                if(biomeResourceKey.equals(ACBiomeRegistry.TOXIC_CAVES)){
+                    return 0X45BE24;
+                }
             }
             return biomeResourceKey == null ? -1 : getBiomeColor(level, biomeResourceKey);
         }

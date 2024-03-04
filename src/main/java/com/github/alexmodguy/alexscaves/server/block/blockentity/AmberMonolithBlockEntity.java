@@ -20,6 +20,7 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -84,7 +85,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                 if (entity.spawnType == null) {
                     entity.generateSpawnData();
                 } else {
-                    if (entity.spawnMobs()) {
+                    if (level.getNearestPlayer(entity.getBlockPos().getX() + 0.5F, entity.getBlockPos().getY() + 0.5F, entity.getBlockPos().getZ() + 0.5F, 28, false) != null && entity.spawnMobs()) {
                         level.playSound((Player)null, blockPos, ACSoundRegistry.AMBER_MONOLITH_SUMMON.get(), SoundSource.BLOCKS);
                         entity.generateSpawnData();
                     }
@@ -109,7 +110,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                 if (spawnType.canSummon() && NaturalSpawner.isSpawnPositionOk(SpawnPlacements.getPlacementType(spawnType), level, blockpos, spawnType)) {
                     double d0 = blockpos.getX() + 0.5F;
                     double d1 = blockpos.getZ() + 0.5F;
-                    if (!level.noCollision(spawnType.getAABB(d0, (double) blockpos.getY(), d1)) || !SpawnPlacements.checkSpawnRules(spawnType, (ServerLevelAccessor) level, MobSpawnType.CHUNK_GENERATION, BlockPos.containing(d0, (double) blockpos.getY(), d1), level.getRandom())) {
+                    if (!level.noCollision(spawnType.getAABB(d0, (double) blockpos.getY(), d1)) || !SpawnPlacements.checkSpawnRules(spawnType, (ServerLevelAccessor) level, MobSpawnType.SPAWNER, BlockPos.containing(d0, (double) blockpos.getY(), d1), level.getRandom())) {
                         continue;
                     }
 
@@ -165,7 +166,7 @@ public class AmberMonolithBlockEntity extends BlockEntity {
                 }
                 if (Math.abs(mutableBlockPos.getY() - this.getBlockPos().getY()) < 20) {
                     BlockPos pos = mutableBlockPos.immutable();
-                    if(!level.getBlockState(pos).isAir() && (level.getBlockState(pos.above()).isAir() || level.getBlockState(pos.above()).canBeReplaced()) && (!caveCreature || !level.canSeeSky(pos.above()))){
+                    if(!caveCreature || !level.canSeeSky(pos.above())){
                         return pos.above();
                     }
                 }

@@ -50,8 +50,11 @@ import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.sounds.AbstractTickableSoundInstance;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -59,6 +62,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
@@ -110,6 +114,9 @@ public class ClientProxy extends CommonProxy {
     public static float lastBiomeAmbientLightAmountPrev = 0;
     public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
     private static Entity lastCameraEntity;
+
+    public static float acSkyOverrideAmount;
+    public static Vec3 acSkyOverrideColor = Vec3.ZERO;
 
     public void commonInit() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -213,12 +220,6 @@ public class ClientProxy extends CommonProxy {
         EntityRenderers.register(ACEntityRegistry.DARK_ARROW.get(), DarkArrowRenderer::new);
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         Sheets.addWoodType(ACBlockRegistry.THORNWOOD_WOOD_TYPE);
-        ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("filled"), (stack, level, living, j) -> {
-            return CaveMapItem.isFilled(stack) ? 1F : 0F;
-        });
-        ItemProperties.register(ACItemRegistry.CAVE_MAP.get(), new ResourceLocation("loading"), (stack, level, living, j) -> {
-            return CaveMapItem.isLoading(stack) ? 1F : 0F;
-        });
         ItemProperties.register(ACItemRegistry.HOLOCODER.get(), new ResourceLocation("bound"), (stack, level, living, j) -> {
             return HolocoderItem.isBound(stack) ? 1.0F : 0.0F;
         });
@@ -331,8 +332,8 @@ public class ClientProxy extends CommonProxy {
 
     public void onItemColors(RegisterColorHandlersEvent.Item event) {
         AlexsCaves.LOGGER.info("loaded in item colorizer");
-        event.register((stack, colorIn) -> colorIn != 1 ? -1 : CaveInfoItem.getBiomeColorOf(Minecraft.getInstance().level, stack), ACItemRegistry.CAVE_TABLET.get());
-        event.register((stack, colorIn) -> colorIn != 1 ? -1 : CaveInfoItem.getBiomeColorOf(Minecraft.getInstance().level, stack), ACItemRegistry.CAVE_CODEX.get());
+        event.register((stack, colorIn) -> colorIn != 1 ? -1 : CaveInfoItem.getBiomeColorOf(Minecraft.getInstance().level, stack, false), ACItemRegistry.CAVE_TABLET.get());
+        event.register((stack, colorIn) -> colorIn != 1 ? -1 : CaveInfoItem.getBiomeColorOf(Minecraft.getInstance().level, stack, false), ACItemRegistry.CAVE_CODEX.get());
         event.register((stack, colorIn) -> colorIn != 0 ? -1 : GazingPearlItem.getPearlColor(stack), ACItemRegistry.GAZING_PEARL.get());
     }
 
@@ -773,6 +774,16 @@ public class ClientProxy extends CommonProxy {
         }
         if(messageId == 4 && level.getBlockState(pos).is(ACBlockRegistry.DRAIN.get())){
             level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, ACSoundRegistry.DRAIN_STOP.get(), SoundSource.BLOCKS, 1.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
+        }
+        if(messageId == 5 && level.getBlockState(pos).is(ACBlockRegistry.SPELUNKERY_TABLE.get())){
+            level.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, ACSoundRegistry.SPELUNKERY_TABLE_FAIL.get(), SoundSource.BLOCKS, 1.5F, level.random.nextFloat() * 0.4F + 0.8F, false);
+            BlockParticleOption blockparticleoption = new BlockParticleOption(ParticleTypes.BLOCK, Blocks.STONE.defaultBlockState());
+            for (int i = 0; i < 8; i++) {
+                level.addParticle(blockparticleoption, pos.getX() + level.random.nextFloat(), pos.getY() + 1.0F, pos.getZ() + level.random.nextFloat(), 0, 0, 0);
+            }
+        }
+        if(messageId == 6 && level.getBlockState(pos).is(ACBlockRegistry.ABYSSAL_ALTAR.get()) && level.getBlockEntity(pos) instanceof AbyssalAltarBlockEntity altarBlock){
+            altarBlock.resetSlideAnimation();
         }
     }
 

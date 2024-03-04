@@ -1,7 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.block.blockentity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.AbyssalAltarBlock;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneBaseEntity;
+import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -46,6 +48,7 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
     private LivingEntity lastInteracter;
     private UUID placingPlayer = null;
     private long lastInteractionTime = 0;
+    private boolean slideImpulse;
 
     public AbyssalAltarBlockEntity(BlockPos pos, BlockState state) {
         super(ACBlockEntityRegistry.ABYSSAL_ALTAR.get(), pos, state);
@@ -54,19 +57,19 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
     public static void tick(Level level, BlockPos pos, BlockState state, AbyssalAltarBlockEntity entity) {
         if (level.isClientSide) {
             ItemStack itemStack = entity.getItem(0);
-            entity.prevSlideProgress = entity.slideProgress;
-            if (!itemStack.equals(entity.displayCopyStack, false)) {
+            if (!itemStack.equals(entity.displayCopyStack, false) || entity.slideImpulse) {
                 if (entity.slideProgress > 0.0F) {
+                    entity.prevSlideProgress = entity.slideProgress;
                     entity.slideProgress--;
                 } else {
+                    entity.prevSlideProgress = entity.slideProgress;
+                    entity.slideImpulse = false;
                     entity.displayCopyStack = itemStack.copy();
                 }
-            } else {
-                entity.slideProgress = 0.0F;
             }
         }
         if (entity.popStack != null && !level.isClientSide) {
-            if (entity.popDelay++ > 5) {
+            if (entity.popDelay++ > 6) {
                 ItemStack drop = entity.popStack.copy();
                 Vec3 angleAdd = new Vec3(0, 0, 1).yRot(entity.itemAngle * ((float) Math.PI / 180F));
                 Vec3 vec3 = Vec3.atCenterOf(entity.worldPosition).add(0, 0.5F, 0).add(angleAdd);
@@ -101,7 +104,6 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
                     }
                 }
                 entity.popStack = null;
-                entity.popDelay = 0;
                 entity.lastInteracter = null;
             }
         }
@@ -112,26 +114,36 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
     }
 
     public void onEntityInteract(LivingEntity entity, boolean flip) {
+        displayCopyStack = this.getItem(0).copy();
         if (flip) {
             if (this.getBlockState().getValue(AbyssalAltarBlock.ACTIVE)) {
                 level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(AbyssalAltarBlock.ACTIVE, false));
             }
         } else {
-            displayCopyStack = this.getItem(0).copy();
             if (entity instanceof DeepOneBaseEntity) {
                 level.setBlockAndUpdate(this.worldPosition, this.getBlockState().setValue(AbyssalAltarBlock.ACTIVE, true));
             }
         }
         Vec3 vec3 = entity.position().subtract(Vec3.atCenterOf(this.worldPosition));
         itemAngle = Mth.wrapDegrees((float) (Mth.atan2(vec3.x, vec3.z) * (double) (180F / (float) Math.PI)));
-        prevSlideProgress = 5.0F;
-        slideProgress = 5.0F;
         lastInteracter = entity;
+        popDelay = 0;
+        resetSlideAnimation();
+        if(!level.isClientSide){
+            BlockPos blockPos = this.getBlockPos();
+            AlexsCaves.sendMSGToAll(new WorldEventMessage(6, blockPos.getX(), blockPos.getY(), blockPos.getZ()));
+        }
         if (entity instanceof Player) {
             placingPlayer = entity.getUUID();
         } else {
             lastInteractionTime = entity.level().getGameTime();
         }
+    }
+
+    public void resetSlideAnimation(){
+        prevSlideProgress = 5.0F;
+        slideProgress = 5.0F;
+        slideImpulse = true;
     }
 
     public float getSlideProgress(float partialTick) {
@@ -215,6 +227,9 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
         if (compound.hasUUID("PlayerUUID")) {
             placingPlayer = compound.getUUID("PlayerUUID");
         }
+        slideProgress = compound.getFloat("SlideAmount");
+        prevSlideProgress = compound.getFloat("PrevSlideAmount");
+
         itemAngle = compound.getFloat("Angle");
     }
 
@@ -231,6 +246,8 @@ public class AbyssalAltarBlockEntity extends BaseContainerBlockEntity implements
             compound.putUUID("PlayerUUID", this.placingPlayer);
         }
         compound.putFloat("Angle", itemAngle);
+        compound.putFloat("SlideAmount", slideProgress);
+        compound.putFloat("PrevSlideAmount", prevSlideProgress);
     }
 
     @Override

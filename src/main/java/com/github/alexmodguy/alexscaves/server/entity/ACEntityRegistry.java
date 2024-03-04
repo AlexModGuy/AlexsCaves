@@ -29,7 +29,6 @@ public class ACEntityRegistry {
     public static final DeferredRegister<EntityType<?>> DEF_REG = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, AlexsCaves.MODID);
     public static final MobCategory CAVE_CREATURE = MobCategory.create("cave_creature", "alexscaves:cave_creature", 10, true, true, 128);
     public static final MobCategory DEEP_SEA_CREATURE = MobCategory.create("deep_sea_creature", "alexscaves:deep_sea_creature", 20, true, false, 128);
-    public static final EntityDataSerializer<Optional<Vec3>> OPTIONAL_VEC_3_ENTITY_DATA_SERIALIZER = EntityDataSerializer.optional(ACMath::writeVec3, ACMath::readVec3);
     public static final RegistryObject<EntityType<AlexsCavesBoatEntity>> BOAT = DEF_REG.register("boat", () -> (EntityType) EntityType.Builder.of(AlexsCavesBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).setCustomClientFactory(AlexsCavesBoatEntity::new).clientTrackingRange(10).build("ac_boat"));
     public static final RegistryObject<EntityType<AlexsCavesChestBoatEntity>> CHEST_BOAT = DEF_REG.register("chest_boat", () -> (EntityType) EntityType.Builder.of(AlexsCavesChestBoatEntity::new, MobCategory.MISC).sized(1.375F, 0.5625F).setCustomClientFactory(AlexsCavesBoatEntity::new).clientTrackingRange(10).build("ac_chest_boat"));
     public static final RegistryObject<EntityType<MovingMetalBlockEntity>> MOVING_METAL_BLOCK = DEF_REG.register("moving_metal_block", () -> (EntityType) EntityType.Builder.of(MovingMetalBlockEntity::new, MobCategory.MISC).sized(0.99F, 0.99F).setCustomClientFactory(MovingMetalBlockEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("moving_metal_block"));
@@ -94,10 +93,6 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<DesolateDaggerEntity>> DESOLATE_DAGGER = DEF_REG.register("desolate_dagger", () -> (EntityType) EntityType.Builder.of(DesolateDaggerEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(DesolateDaggerEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("desolate_dagger"));
     public static final RegistryObject<EntityType<BurrowingArrowEntity>> BURROWING_ARROW = DEF_REG.register("burrowing_arrow", () -> (EntityType) EntityType.Builder.of(BurrowingArrowEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(BurrowingArrowEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("burrowing_arrow"));
     public static final RegistryObject<EntityType<DarkArrowEntity>> DARK_ARROW = DEF_REG.register("dark_arrow", () -> (EntityType) EntityType.Builder.of(DarkArrowEntity::new, MobCategory.MISC).sized(1.1F, 0.5F).setCustomClientFactory(DarkArrowEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("dark_arrow"));
-
-    static {
-        EntityDataSerializers.registerSerializer(OPTIONAL_VEC_3_ENTITY_DATA_SERIALIZER);
-    }
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {

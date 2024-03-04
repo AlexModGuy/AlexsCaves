@@ -30,12 +30,12 @@ public class DeepOneWanderGoal extends Goal {
     @Override
     public boolean canUse() {
         LivingEntity target = mob.getTarget();
-        return mob.isInWaterOrBubble() && (target == null || !target.isAlive()) && (chance == 0 || mob.getRandom().nextInt(chance) == 0);
+        return mob.isInWaterOrBubble() && (target == null || !target.isAlive()) && (chance == 0 || mob.getRandom().nextInt(chance) == 0) && !mob.isTradingLocked();
     }
 
     @Override
     public boolean canContinueToUse() {
-        return goal != null && !mob.getNavigation().isDone() && mob.getRandom().nextInt(200) != 0;
+        return goal != null && !mob.getNavigation().isDone() && mob.getRandom().nextInt(200) != 0 && !mob.isTradingLocked();
     }
 
     public void start() {

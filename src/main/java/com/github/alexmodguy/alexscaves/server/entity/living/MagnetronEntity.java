@@ -33,7 +33,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.entity.monster.Husk;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
@@ -136,7 +135,6 @@ public class MagnetronEntity extends Monster {
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true, false));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Husk.class, true, false));
     }
 
     public void removeParts() {
@@ -318,7 +316,7 @@ public class MagnetronEntity extends Monster {
         all.addAll(weapons);
         all.addAll(magnetic);
         if (weapons.size() + magnetic.size() < BLOCK_COUNT) {
-            List<BlockPos> everything = findBlocksMatching((state -> !state.isAir() && !state.is(ACTagRegistry.UNMOVEABLE)), all::contains, BLOCK_COUNT - weapons.size() - magnetic.size(), 0.3F);
+            List<BlockPos> everything = findBlocksMatching((state -> !state.isAir() && !state.is(ACTagRegistry.RESISTS_MAGNETRON_BODY_BUILDING)), all::contains, BLOCK_COUNT - weapons.size() - magnetic.size(), 0.3F);
             all.addAll(everything);
         }
         return all;
@@ -393,7 +391,7 @@ public class MagnetronEntity extends Monster {
         if (this.isFunctionallyMultipart()) {
             double idealDistance = this.position().y - this.allParts[lowestPartIndex].getLowPoint();
             Vec3 bottom = new Vec3(this.getX(), this.getBoundingBox().minY, this.getZ());
-            Vec3 ground = ACMath.getGroundBelowPosition(level(), bottom);
+            Vec3 ground = ACMath.getGroundBelowPosition(level(), new Vec3(this.getX(), this.getBoundingBox().maxY, this.getZ()));
             Vec3 aboveGround = ground.add(0, idealDistance, 0);
             Vec3 diff = aboveGround.subtract(bottom);
             this.gravityFlag = true;

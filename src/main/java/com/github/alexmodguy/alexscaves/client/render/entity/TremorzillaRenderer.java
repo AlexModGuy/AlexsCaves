@@ -74,6 +74,7 @@ public class TremorzillaRenderer extends MobRenderer<TremorzillaEntity, Tremorzi
 
     public void render(TremorzillaEntity entity, float entityYaw, float partialTicks, PoseStack poseStack, MultiBufferSource source, int packedLight) {
         this.model.straighten = sepia;
+        this.shadowRadius = 4.0F * (float)entity.getScale();
         super.render(entity, entityYaw, partialTicks, poseStack, source, packedLight);
         float bodyYaw = Mth.rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
         float beamProgress = entity.getBeamProgress(partialTicks);

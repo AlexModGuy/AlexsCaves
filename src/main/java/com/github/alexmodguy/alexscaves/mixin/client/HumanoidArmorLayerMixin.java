@@ -33,7 +33,8 @@ public abstract class HumanoidArmorLayerMixin extends RenderLayer {
     private static final Map<String, ResourceLocation> AC_ARMOR_LOCATION_CACHE = Maps.newHashMap();
     private ItemStack lastArmorItemStackRendered = ItemStack.EMPTY;
 
-    @Shadow protected abstract void setPartVisibility(HumanoidModel humanoidModel, EquipmentSlot equipmentSlot);
+    @Shadow
+    protected abstract void setPartVisibility(HumanoidModel humanoidModel, EquipmentSlot equipmentSlot);
 
     public HumanoidArmorLayerMixin(RenderLayerParent renderLayerParent) {
         super(renderLayerParent);
@@ -48,18 +49,16 @@ public abstract class HumanoidArmorLayerMixin extends RenderLayer {
     private void ac_renderArmorPiece(PoseStack poseStack, MultiBufferSource multiBufferSource, LivingEntity livingEntity, EquipmentSlot equipmentSlot, int light, HumanoidModel humanoidModel, CallbackInfo ci) {
         ItemStack itemstack = livingEntity.getItemBySlot(equipmentSlot);
         if (itemstack.getItem() instanceof CustomArmorPostRender) {
-
             ci.cancel();
             lastArmorItemStackRendered = livingEntity.getItemBySlot(equipmentSlot);
-
             Item item = itemstack.getItem();
             if (item instanceof ArmorItem armorItem) {
                 if (armorItem.getEquipmentSlot() == equipmentSlot) {
-                    HumanoidModel model = this.getParentModel() instanceof HumanoidModel humanoidModel1 ? humanoidModel1 : humanoidModel;
                     boolean legs = equipmentSlot == EquipmentSlot.LEGS;
-                    setPartVisibility(model, equipmentSlot);
+                    HumanoidModel model = this.getParentModel() instanceof HumanoidModel humanoidModel1 ? humanoidModel1 : humanoidModel;
                     Model armorModel = ForgeHooksClient.getArmorModel(livingEntity, itemstack, equipmentSlot, model);
-                    ResourceLocation texture= getACArmorResource(livingEntity, itemstack, equipmentSlot, null);
+                    setPartVisibility((HumanoidModel) armorModel, equipmentSlot);
+                    ResourceLocation texture = getACArmorResource(livingEntity, itemstack, equipmentSlot, null);
                     ACArmorRenderProperties.renderCustomArmor(poseStack, multiBufferSource, light, lastArmorItemStackRendered, armorItem, armorModel, legs, texture);
                 }
             }
@@ -69,7 +68,7 @@ public abstract class HumanoidArmorLayerMixin extends RenderLayer {
 
     /* copy of forge method */
     private ResourceLocation getACArmorResource(LivingEntity entity, ItemStack stack, EquipmentSlot slot, @Nullable String type) {
-        ArmorItem item = (ArmorItem)stack.getItem();
+        ArmorItem item = (ArmorItem) stack.getItem();
         String texture = item.getMaterial().getName();
         String domain = "minecraft";
         int idx = texture.indexOf(':');

@@ -12,7 +12,6 @@ import com.github.alexmodguy.alexscaves.server.entity.util.ACBossEvent;
 import com.github.alexmodguy.alexscaves.server.entity.util.KaijuMob;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.message.UpdateBossEruptionStatus;
-import com.github.alexmodguy.alexscaves.server.message.WorldEventMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.VoronoiGenerator;
@@ -106,7 +105,8 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Mob.class, 10.0F));
         this.goalSelector.addGoal(6, new LookForwardsGoal(this));
         this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, LuxtructosaurusEntity.class)));
-        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, DinosaurEntity.class, false, 100, dinosaur -> !(dinosaur instanceof LuxtructosaurusEntity)));
+        this.targetSelector.addGoal(2, new MobTarget3DGoal(this, Player.class, false));
+        this.targetSelector.addGoal(3, new MobTarget3DGoal(this, DinosaurEntity.class, false, 200, dinosaur -> !(dinosaur instanceof LuxtructosaurusEntity)));
     }
 
     @Override
@@ -609,22 +609,26 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
         VoronoiGenerator.VoronoiInfo info = VORONOI_GENERATOR.get2(blockPos.getX() * sampleScale, blockPos.getZ() * sampleScale);
         boolean flag = false;
         if (info.distance1() - sampleScale * 4 < info.distance()) {
-            int y = blockPos.getY();
-            for (int i = 0; i <= depth; i++) {
-                BlockState state = level().getBlockState(blockPos);
-                if (blockPos.getY() <= level().getMinBuildHeight() || state.is(ACTagRegistry.UNMOVEABLE) || state.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
-                    break;
-                } else {
-                    if (i < depth && !state.is(ACTagRegistry.REGENERATES_AFTER_PRIMORDIAL_BOSS_FIGHT)) {
-                        level().destroyBlock(blockPos, true);
+            if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this)){
+                int y = blockPos.getY();
+                for (int i = 0; i <= depth; i++) {
+                    BlockState state = level().getBlockState(blockPos);
+                    if (blockPos.getY() <= level().getMinBuildHeight() || state.is(ACTagRegistry.UNMOVEABLE) || state.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
+                        break;
                     } else {
-                        level().setBlockAndUpdate(blockPos, i == depth ? ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get().defaultBlockState().setValue(FissurePrimalMagmaBlock.REGEN_HEIGHT, Mth.clamp(i - 1, 0, 4)) : Blocks.AIR.defaultBlockState());
+                        if (i < depth && !state.is(ACTagRegistry.REGENERATES_AFTER_PRIMORDIAL_BOSS_FIGHT)) {
+                            level().destroyBlock(blockPos, true);
+                        } else {
+                            level().setBlockAndUpdate(blockPos, i == depth ? ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get().defaultBlockState().setValue(FissurePrimalMagmaBlock.REGEN_HEIGHT, Mth.clamp(i - 1, 0, 4)) : Blocks.AIR.defaultBlockState());
+                        }
+                        flag = true;
                     }
-                    flag = true;
+                    blockPos.move(0, -1, 0);
                 }
-                blockPos.move(0, -1, 0);
+                blockPos.setY(y);
+            }else{
+                return true;
             }
-            blockPos.setY(y);
         }
         return flag;
     }

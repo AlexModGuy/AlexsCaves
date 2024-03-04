@@ -70,7 +70,7 @@ public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronMod
                 double partX = Mth.lerp(partialTicks, part.xOld, part.getX()) - x;
                 double partY = Mth.lerp(partialTicks, part.yOld, part.getY()) - y;
                 double partZ = Mth.lerp(partialTicks, part.zOld, part.getZ()) - z;
-                BlockState blockstate = part.getBlockState();
+                BlockState blockstate = part.getVisualBlockState();
                 if (blockstate != null) {
                     poseStack.pushPose();
                     poseStack.translate(partX, partY, partZ);

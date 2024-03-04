@@ -73,7 +73,8 @@ public class AcidBlock extends LiquidBlock {
                 ACAdvancementTriggerRegistry.ENTER_ACID_WITH_ARMOR.triggerForEntity(entity);
             }
             if (level.random.nextFloat() < dmgMultiplier) {
-                hurtSound = entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 1.0D));
+                float golemAddition = entity.getType().is(ACTagRegistry.WEAK_TO_ACID) ? 10.0F : 0.0F;
+                hurtSound = entity.hurt(ACDamageTypes.causeAcidDamage(level.registryAccess()), dmgMultiplier * (float) (armor ? 0.01D : 1.0D) + golemAddition);
             }
             if (hurtSound) {
                 entity.playSound(ACSoundRegistry.ACID_BURN.get());

@@ -1,0 +1,15 @@
+{
+  "__comment": "all the natural prey of the vallumraptor, not including players and grottoceratops.",
+  "values": [
+    "minecraft:pig",
+    "minecraft:sheep",
+    "minecraft:cow",
+    "minecraft:horse",
+    "minecraft:donkey",
+    "minecraft:mule",
+    "minecraft:goat",
+    "minecraft:frog",
+    "minecraft:mooshroom",
+    "minecraft:sniffer"
+  ]
+}

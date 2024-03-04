@@ -89,13 +89,12 @@ public class ACMath {
         if (shape.isEmpty()) {
             top = 0.0F;
         } else {
-            Optional<Vec3> closest = shape.closestPointTo(in);
+            Vec3 modIn = new Vec3(in.x % 1.0D, 1.0D, in.z % 1.0D);
+            Optional<Vec3> closest = shape.closestPointTo(modIn);
             top = closest.isPresent() ? (float) closest.get().y : 0.0F;
         }
-
         return Vec3.upFromBottomCenterOf(pos, top);
     }
-
 
     public static Vec3 readVec3(FriendlyByteBuf buf) {
         return new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());

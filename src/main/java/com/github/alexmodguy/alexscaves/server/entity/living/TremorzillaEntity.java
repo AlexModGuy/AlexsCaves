@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.block.blockentity.NuclearSirenBlockEntity;
 import com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ACEntityDataRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ai.*;
 import com.github.alexmodguy.alexscaves.server.entity.item.NuclearBombEntity;
@@ -15,7 +16,6 @@ import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.ITallWalker;
 import com.google.common.base.Predicates;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -74,7 +74,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMount, IAnimatedEntity, ShakesScreen, KaijuMob, ActivatesSirens, ITallWalker {
-    private static final EntityDataAccessor<Optional<Vec3>> BEAM_END_POSITION = SynchedEntityData.defineId(TremorzillaEntity.class, ACEntityRegistry.OPTIONAL_VEC_3_ENTITY_DATA_SERIALIZER);
+    private static EntityDataAccessor<Optional<Vec3>> BEAM_END_POSITION = SynchedEntityData.defineId(TremorzillaEntity.class, ACEntityDataRegistry.OPTIONAL_VEC_3.get());
     private static final EntityDataAccessor<Boolean> SWIMMING = SynchedEntityData.defineId(TremorzillaEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CHARGE = SynchedEntityData.defineId(TremorzillaEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> MAX_BEAM_BREAK_LENGTH = SynchedEntityData.defineId(TremorzillaEntity.class, EntityDataSerializers.FLOAT);
@@ -105,7 +105,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     protected float tailXRot;
     protected float tailYRot;
     public TremorzillaLegSolver legSolver = new TremorzillaLegSolver(1F, 2.15F, 3);
-    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(4.0F, 5.0F, false);
+    private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(4.0F, 5.0F, true);
     private Animation currentAnimation;
     private int animationTick;
     private float lastYawBeforeWhip;
@@ -168,7 +168,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new TremorzillaPathNavigation(this, level);
+        return new AdvancedPathNavigateNoTeleport(this, level);
     }
 
     protected void switchNavigator(boolean onLand) {
@@ -885,7 +885,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     public boolean breakBlocksAround(Vec3 center, float radius, boolean square, boolean triggerExplosions, float dropChance) {
-        if (this.isBaby()) {
+        if (this.isBaby() || !net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) || level().isClientSide) {
             return false;
         }
         boolean flag = false;
@@ -913,7 +913,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     public boolean breakBlocksInBoundingBox(float dropChance) {
-        if (this.isBaby()) {
+        if (this.isBaby() || !net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) || level().isClientSide) {
             return false;
         }
         boolean flag = false;
@@ -925,7 +925,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
                 continue;
             }
 
-            if (!blockstate.is(ACTagRegistry.NUKE_PROOF) && !blockstate.isAir() && (blockstate.is(BlockTags.LEAVES) || blockpos.getY() > this.getBlockY()) && blockstate.getBlock().getExplosionResistance() <= 15 && !blockstate.getCollisionShape(level(), blockpos).isEmpty()) {
+            if (!blockstate.is(ACTagRegistry.NUKE_PROOF) && !blockstate.isAir() && (blockstate.is(BlockTags.LEAVES) || blockpos.getY() > this.getBlockY()) && blockstate.getBlock().getExplosionResistance() <= 15 && (blockstate.is(Blocks.COBWEB) || !blockstate.getCollisionShape(level(), blockpos).isEmpty())) {
                 if (random.nextFloat() <= dropChance) {
                     level().destroyBlock(blockpos, true);
                 } else {
@@ -1306,7 +1306,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
     public EntityDimensions getDimensions(Pose poseIn) {
-        return this.isTremorzillaSwimming() ? SWIMMING_SIZE : super.getDimensions(poseIn);
+        return this.isTremorzillaSwimming() ? SWIMMING_SIZE.scale(this.getScale()) : super.getDimensions(poseIn);
     }
 
     public boolean isTremorzillaSwimming() {

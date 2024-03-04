@@ -18,7 +18,7 @@ public class DeepOneAttackGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return deepOne.getTarget() != null && deepOne.getTarget().isAlive();
+        return deepOne.getTarget() != null && deepOne.getTarget().isAlive() && !deepOne.isTradingLocked();
     }
 
     @Override

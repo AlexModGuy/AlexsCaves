@@ -53,6 +53,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
+import java.util.function.Predicate;
 
 public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntity, ICustomCollisions, PackAnimal, ChestThief, TargetsDroppedItems {
 
@@ -72,6 +73,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
     private static final EntityDataAccessor<Float> PUZZLED_HEAD_ROT = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> RELAXED_FOR = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> HIDING_FOR = SynchedEntityData.defineId(VallumraptorEntity.class, EntityDataSerializers.INT);
+    private static final Predicate<LivingEntity> VALLUMRAPTOR_TARGETS = living -> living.getType().is(ACTagRegistry.VALLUMRAPTOR_TARGETS);
     private Animation currentAnimation;
     private int animationTick;
     private float leapProgress;
@@ -152,8 +154,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
         this.targetSelector.addGoal(3, new OwnerHurtTargetGoal(this));
         this.targetSelector.addGoal(4, (new HurtByTargetGoal(this, VallumraptorEntity.class)).setAlertOthers());
         this.targetSelector.addGoal(5, new AnimalPackTargetGoal(this, GrottoceratopsEntity.class, 30, false, 5));
-        this.targetSelector.addGoal(6, new MobTargetUntamedGoal<>(this, Frog.class, 100, true, false, null));
-        this.targetSelector.addGoal(7, new MobTargetUntamedGoal<>(this, Pig.class, 50, true, false, null));
+        this.targetSelector.addGoal(6, new MobTargetUntamedGoal<>(this, Mob.class, 100, true, false, VALLUMRAPTOR_TARGETS));
         this.targetSelector.addGoal(8, new MobTargetClosePlayers(this,  120,12));
     }
 
@@ -570,7 +571,7 @@ public class VallumraptorEntity extends DinosaurEntity implements IAnimatedEntit
 
     @Override
     public boolean canTargetItem(ItemStack stack) {
-        return stack.is(ACTagRegistry.VALLUMRAPTOR_STEALS) || stack.getItem().isEdible() && stack.getItem().getFoodProperties(stack, this).isMeat();
+        return (stack.is(ACTagRegistry.VALLUMRAPTOR_STEALS) || stack.getItem().isEdible() && stack.getItem().getFoodProperties(stack, this).isMeat()) && !stack.is(ACBlockRegistry.VALLUMRAPTOR_EGG.get().asItem());
     }
 
     public double getMaxDistToItem() {

@@ -124,6 +124,6 @@ public class DarknessIncarnateEffect extends MobEffect {
     }
 
     private boolean isCreativePlayer(LivingEntity living) {
-        return living instanceof Player player && player.isCreative();
+        return living instanceof Player player && (player.isCreative() || player.isSpectator());
     }
 }

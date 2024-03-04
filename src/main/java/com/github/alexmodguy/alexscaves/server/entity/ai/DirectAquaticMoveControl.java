@@ -1,7 +1,5 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.control.MoveControl;

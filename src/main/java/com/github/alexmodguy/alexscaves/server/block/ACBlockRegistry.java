@@ -88,7 +88,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> LIMESTONE_SLAB = registerBlockAndItem("limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_WALL = registerBlockAndItem("limestone_wall", () -> new WallBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> LIMESTONE_PILLAR = registerBlockAndItem("limestone_pillar", () -> new RotatedPillarBlock(LIMESTONE_PROPERTIES));
-    public static final RegistryObject<Block> LIMESTONE_CHISELED = registerBlockAndItem("limestone_chiseled", () -> new DirectionalFacingBlock(LIMESTONE_PROPERTIES));
+    public static final RegistryObject<Block> LIMESTONE_CHISELED = registerBlockAndItem("limestone_chiseled", () -> new DirectionalFacingBlock(LIMESTONE_PROPERTIES, true));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE = registerBlockAndItem("smooth_limestone", () -> new SmoothLimestoneBlock(LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_STAIRS = registerBlockAndItem("smooth_limestone_stairs", () -> new StairBlock(SMOOTH_LIMESTONE.get().defaultBlockState(), LIMESTONE_PROPERTIES));
     public static final RegistryObject<Block> SMOOTH_LIMESTONE_SLAB = registerBlockAndItem("smooth_limestone_slab", () -> new SlabBlock(LIMESTONE_PROPERTIES));
@@ -190,7 +190,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GEOTHERMAL_VENT = registerBlockAndItem("geothermal_vent", () -> new GeothermalVentBlock());
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
     public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
-    public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable().replaceable()));
+    public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable().replaceable().liquid().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable()));
     public static final RegistryObject<Block> POTTED_UNDERWEED = DEF_REG.register("potted_underweed", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, UNDERWEED, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());

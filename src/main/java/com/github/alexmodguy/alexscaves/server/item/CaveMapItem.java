@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.message.UpdateItemTagMessage;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -12,14 +13,17 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -29,10 +33,17 @@ import java.util.UUID;
 
 public class CaveMapItem extends Item implements UpdatesStackTags {
 
-    public static int MAP_SCALE = 7;
+    private static final double CHECK_REGEN_TICKS = 1800;
+    private static final double TRIGGER_REGEN_DIST = 200;
+    public static final int MAP_SCALE = 7;
 
     public CaveMapItem(Item.Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public void initializeClient(java.util.function.Consumer<IClientItemExtensions> consumer) {
+        consumer.accept((IClientItemExtensions) AlexsCaves.PROXY.getISTERProperties());
     }
 
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
@@ -81,6 +92,37 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
             return new BlockPos(stack.getTag().getInt("BiomeX"), stack.getTag().getInt("BiomeY"), stack.getTag().getInt("BiomeZ"));
         }
         return BlockPos.ZERO;
+    }
+
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
+        super.inventoryTick(stack, level, entity, i, held);
+        if(!level.isClientSide() && held && !isLoading(stack) && isFilled(stack) && (entity.tickCount + entity.getId()) % CHECK_REGEN_TICKS == 0 && entity instanceof Player){
+            BlockPos biomePos = getBiomeBlockPos(stack);
+            double xD = biomePos.getX() - entity.blockPosition().getX();
+            double zD = biomePos.getZ() - entity.blockPosition().getZ();
+            if(Mth.sqrt((float) (xD * xD + zD * zD)) < TRIGGER_REGEN_DIST){
+                ResourceKey<Biome> biomeResourceKey = getBiomeTarget(stack);
+                Holder<Biome> currentBiome = level.getBiome(biomePos);
+                if(biomeResourceKey == null || !currentBiome.is(biomeResourceKey)){
+                    ACWorldData acWorldData = ACWorldData.get(level);
+                    if (acWorldData != null) {
+                        UUID uuid;
+                        CompoundTag tag = stack.getOrCreateTag();
+                        if (!tag.contains("MapUUID")) {
+                            uuid = UUID.randomUUID();
+                            tag.putUUID("MapUUID", uuid);
+                            AlexsCaves.sendMSGToAll(new UpdateItemTagMessage(entity.getId(), stack));
+                        }else{
+                            uuid = tag.getUUID("MapUUID");
+                        }
+                        String currentBiomeName = currentBiome.unwrapKey().isPresent() ? currentBiome.unwrapKey().get().location().toString() : "NULL";
+                        String wantedBiomeName = biomeResourceKey == null ? "NULL" : biomeResourceKey.location().toString();
+                        AlexsCaves.LOGGER.info("regenerating cave biome map, incorrect biome {} found at {} {} {}, should be {}", currentBiomeName, biomePos.getX(), biomePos.getY(), biomePos.getZ(), wantedBiomeName);
+                        acWorldData.fillOutCaveMap(uuid, stack, (ServerLevel) level, entity.getRootVehicle().blockPosition(), (Player)entity);
+                    }
+                }
+            }
+        }
     }
 
     public static int[] createBiomeArray(ItemStack stack) {

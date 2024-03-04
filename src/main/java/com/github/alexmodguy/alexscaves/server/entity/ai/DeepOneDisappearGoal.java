@@ -22,7 +22,7 @@ public class DeepOneDisappearGoal extends Goal {
     @Override
     public boolean canUse() {
         Player player = this.deepOne.getCorneringPlayer();
-        return player != null && !player.isSpectator() && player.isAlive() && this.deepOne.distanceTo(player) < 10;
+        return player != null && !player.isSpectator() && player.isAlive() && this.deepOne.distanceTo(player) < 10 && !deepOne.isTradingLocked();
     }
 
     @Override

@@ -1,0 +1,6 @@
+{
+  "__comment": "all mobs that take additional damage from acid.",
+  "values": [
+    "minecraft:iron_golem"
+  ]
+}

@@ -84,8 +84,9 @@ public class BookEntry {
 
     private List<String> getRawTextFromFile(String fileName, CaveBookScreen screen, int maxLineSize) {
         String lang = Minecraft.getInstance().getLanguageManager().getSelected().toLowerCase();
-        ResourceLocation fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
+        ResourceLocation fileRes;
         try {
+            fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
             //test if it exists. if no exception, then the language is supported
             InputStream is = Minecraft.getInstance().getResourceManager().open(fileRes);
             is.close();
@@ -102,6 +103,7 @@ public class BookEntry {
             for (String readString : readIn) {
                 Matcher m = pattern.matcher(readString);
                 boolean skipLineEntirely = false;
+                boolean noOverflow = false;
                 while (m.find()) {
                     String[] found = m.group().split("\\|");
                     if (found.length >= 1) {
@@ -116,6 +118,7 @@ public class BookEntry {
                             readString = display;
                             skipLineEntirely = true;
                         }
+                        noOverflow = true;
                     }
                 }
                 if(readString.isEmpty() && !skipLineEntirely){
@@ -127,7 +130,7 @@ public class BookEntry {
                     int lastSpace = -1;
                     while(spaceScanIndex < readString.length()){
                         if(readString.charAt(spaceScanIndex) == ' ' && font.width(readString.substring(0, spaceScanIndex)) > 92){
-                            lastSpace = spaceScanIndex;
+                            lastSpace = noOverflow ? readString.length() : spaceScanIndex;
                             break;
                         }
                         spaceScanIndex++;

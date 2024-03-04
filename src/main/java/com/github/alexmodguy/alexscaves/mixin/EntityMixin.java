@@ -63,6 +63,8 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
     @Shadow public abstract boolean onGround();
 
+    @Shadow public abstract double getY();
+
     private static final EntityDataAccessor<Float> MAGNET_DELTA_X = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Y = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Z = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
@@ -157,32 +159,39 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             at = @At(value = "HEAD")
     )
     //must override entire method for compatibility with Radium mod
-    public void ac_collide(Vec3 p_20273_, CallbackInfoReturnable<Vec3> cir) {
+    public void ac_collide(Vec3 deltaIn, CallbackInfoReturnable<Vec3> cir) {
+
         AABB aabb = this.getBoundingBox();
         Entity thisEntity = (Entity)(Object)this;
-        List<VoxelShape> list = this.level().getEntityCollisions(thisEntity, aabb.expandTowards(p_20273_));
         //AC CODE START
-        List<VoxelShape> list2 = MagnetUtil.getMovingBlockCollisions(thisEntity, aabb);
-        list = ImmutableList.<VoxelShape>builder().addAll(list).addAll(list2).build();;
+        List<VoxelShape> list;
+        //fix infinity voxel collection crash for ItemEntity
+        if(this.getY() > this.level().getMinBuildHeight() - 200) {
+            list = this.level().getEntityCollisions(thisEntity, aabb.expandTowards(deltaIn));
+            List<VoxelShape> list2 = MagnetUtil.getMovingBlockCollisions(thisEntity, aabb);
+            list = ImmutableList.<VoxelShape>builder().addAll(list).addAll(list2).build();
+        }else{
+            list = List.of();
+        }
         //AC CODE END
-        Vec3 vec3 = p_20273_.lengthSqr() == 0.0D ? p_20273_ : Entity.collideBoundingBox(thisEntity, p_20273_, aabb, this.level(), list);
-        boolean flag = p_20273_.x != vec3.x;
-        boolean flag1 = p_20273_.y != vec3.y;
-        boolean flag2 = p_20273_.z != vec3.z;
-        boolean flag3 = this.onGround() || flag1 && p_20273_.y < 0.0D;
+        Vec3 vec3 = deltaIn.lengthSqr() == 0.0D ? deltaIn : Entity.collideBoundingBox(thisEntity, deltaIn, aabb, this.level(), list);
+        boolean flag = deltaIn.x != vec3.x;
+        boolean flag1 = deltaIn.y != vec3.y;
+        boolean flag2 = deltaIn.z != vec3.z;
+        boolean flag3 = this.onGround() || flag1 && deltaIn.y < 0.0D;
         float stepHeight = thisEntity.getStepHeight();
         if (stepHeight > 0.0F && flag3 && (flag || flag2)) {
-            Vec3 vec31 = Entity.collideBoundingBox(thisEntity, new Vec3(p_20273_.x, (double)stepHeight, p_20273_.z), aabb, this.level, list);
-            Vec3 vec32 = Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, (double)stepHeight, 0.0D), aabb.expandTowards(p_20273_.x, 0.0D, p_20273_.z), this.level, list);
+            Vec3 vec31 = Entity.collideBoundingBox(thisEntity, new Vec3(deltaIn.x, (double)stepHeight, deltaIn.z), aabb, this.level, list);
+            Vec3 vec32 = Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, (double)stepHeight, 0.0D), aabb.expandTowards(deltaIn.x, 0.0D, deltaIn.z), this.level, list);
             if (vec32.y < (double)stepHeight) {
-                Vec3 vec33 = Entity.collideBoundingBox(thisEntity, new Vec3(p_20273_.x, 0.0D, p_20273_.z), aabb.move(vec32), this.level(), list).add(vec32);
+                Vec3 vec33 = Entity.collideBoundingBox(thisEntity, new Vec3(deltaIn.x, 0.0D, deltaIn.z), aabb.move(vec32), this.level(), list).add(vec32);
                 if (vec33.horizontalDistanceSqr() > vec31.horizontalDistanceSqr()) {
                     vec31 = vec33;
                 }
             }
 
             if (vec31.horizontalDistanceSqr() > vec3.horizontalDistanceSqr()) {
-                cir.setReturnValue( vec31.add(Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, -vec31.y + p_20273_.y, 0.0D), aabb.move(vec31), this.level(), list)));
+                cir.setReturnValue(vec31.add(Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, -vec31.y + deltaIn.y, 0.0D), aabb.move(vec31), this.level(), list)));
                 return;
             }
         }
@@ -222,7 +231,7 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             at = @At(value = "HEAD")
     )
     public void ac_isInWater(CallbackInfoReturnable<Boolean> cir) {
-        if ((Object) this instanceof LivingEntity living && living.hasEffect(ACEffectRegistry.BUBBLED.get()) && (living.canBreatheUnderwater() || living.getMobType() == MobType.WATER) && !living.getType().is(ACTagRegistry.RESISTS_BUBBLED)) {
+        if ((Object) this instanceof LivingEntity living && living.getActiveEffects() != null && living.hasEffect(ACEffectRegistry.BUBBLED.get()) && (living.canBreatheUnderwater() || living.getMobType() == MobType.WATER) && !living.getType().is(ACTagRegistry.RESISTS_BUBBLED)) {
             cir.setReturnValue(true);
         }
     }

@@ -32,7 +32,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.util.DefaultRandomPos;
-import net.minecraft.world.entity.animal.Pig;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -89,11 +88,13 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
 
     @Override
     protected void onStep() {
-        if (screenShakeAmount <= 1.0F) {
-            this.playSound(ACSoundRegistry.ATLATITAN_STEP.get(), 2, 1);
-        }
-        if (screenShakeAmount <= 1.0F) {
-            screenShakeAmount = 1.0F;
+        if(!this.isBaby()){
+            if (screenShakeAmount <= 1.0F) {
+                this.playSound(ACSoundRegistry.ATLATITAN_STEP.get(), 2, 1);
+            }
+            if (screenShakeAmount <= 1.0F) {
+                screenShakeAmount = 1.0F;
+            }
         }
     }
 
@@ -133,6 +134,9 @@ public class AtlatitanEntity extends SauropodBaseEntity implements KeybindUsingM
             }
             if(this.getRideableFor() > 0){
                 this.setRideableFor(this.getRideableFor() - 1);
+            }
+            if (this.tickCount % 100 == 0 && this.getHealth() < this.getMaxHealth()) {
+                this.heal(2);
             }
             if(this.getAnimation() == ANIMATION_RIGHT_KICK && this.getAnimationTick() == 8){
                 Vec3 armPos = this.position().add(rotateOffsetVec(new Vec3(-2, 0, 2.5F), 0, this.yBodyRot));

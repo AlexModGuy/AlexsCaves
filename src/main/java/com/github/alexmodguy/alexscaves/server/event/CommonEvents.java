@@ -14,7 +14,9 @@ import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.github.alexmodguy.alexscaves.server.entity.living.WatcherEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.*;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.AlwaysCombinableOnAnvil;
 import com.github.alexmodguy.alexscaves.server.item.ExtinctionSpearItem;
+import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
@@ -40,6 +42,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.animal.frog.Frog;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Drowned;
@@ -48,13 +51,18 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
@@ -64,6 +72,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommonEvents {
 
@@ -137,11 +146,14 @@ public class CommonEvents {
     @SubscribeEvent
     public void playerEntityInteract(PlayerInteractEvent.EntityInteract event) {
         ItemStack stack = event.getItemStack();
-        if (stack.is(ACItemRegistry.HOLOCODER.get()) && event.getTarget().isAlive()) {
+        if (stack.is(ACItemRegistry.HOLOCODER.get()) && event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof ArmorStand) && event.getTarget().isAlive()) {
             CompoundTag tag = stack.getOrCreateTag();
             tag.putUUID("BoundEntityUUID", event.getTarget().getUUID());
-            CompoundTag entityTag = event.getTarget().serializeNBT();
+            CompoundTag entityTag = event.getTarget() instanceof Player ? new CompoundTag() : event.getTarget().serializeNBT();
             entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(event.getTarget().getType()).toString());
+            if(event.getTarget() instanceof Player){
+                entityTag.putUUID("UUID", event.getTarget().getUUID());
+            }
             tag.put("BoundEntityTag", entityTag);
             ItemStack stackReplacement = new ItemStack(ACItemRegistry.HOLOCODER.get());
             stack.shrink(1);
@@ -279,6 +291,11 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    public void onServerAboutToStart(ServerAboutToStartEvent event) {
+        ACBiomeRarity.init();
+    }
+
+    @SubscribeEvent
     public void onReplaceBiome(EventReplaceBiome event) {
         ResourceKey<Biome> biome = BiomeGenerationConfig.getBiomeForEvent(event);
         if (biome != null) {
@@ -344,6 +361,57 @@ public class CommonEvents {
                     }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public void onUpdateAnvil(AnvilUpdateEvent event) {
+        if(event.getLeft().getItem() instanceof AlwaysCombinableOnAnvil && event.getLeft().getItem() == event.getRight().getItem() && !event.getLeft().getAllEnchantments().isEmpty() && !event.getRight().getAllEnchantments().isEmpty()){
+            Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(event.getLeft());
+            Map<Enchantment, Integer> map1 = EnchantmentHelper.getEnchantments(event.getRight());
+            boolean canCombine = true;
+            int i = 0;
+            for(Enchantment enchantment1 : map1.keySet()) {
+                if (enchantment1 != null) {
+                    int i2 = map.getOrDefault(enchantment1, 0);
+                    int j2 = map1.get(enchantment1);
+                    j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
+
+                    for(Enchantment enchantment : map.keySet()) {
+                        if (enchantment != enchantment1 && !enchantment1.isCompatibleWith(enchantment)) {
+                            canCombine = false;
+                            ++i;
+                        }
+                    }
+
+                    if (canCombine) {
+                        if (j2 > enchantment1.getMaxLevel()) {
+                            j2 = enchantment1.getMaxLevel();
+                        }
+
+                        map.put(enchantment1, j2);
+                        int k3 = 0;
+                        switch (enchantment1.getRarity()) {
+                            case COMMON:
+                                k3 = 1;
+                                break;
+                            case UNCOMMON:
+                                k3 = 2;
+                                break;
+                            case RARE:
+                                k3 = 4;
+                                break;
+                            case VERY_RARE:
+                                k3 = 8;
+                        }
+                        i += k3 * j2;
+                    }
+                }
+            }
+            event.setCost(i);
+            ItemStack copy = event.getLeft().copy();
+            EnchantmentHelper.setEnchantments(map, copy);
+            event.setOutput(copy);
         }
     }
 

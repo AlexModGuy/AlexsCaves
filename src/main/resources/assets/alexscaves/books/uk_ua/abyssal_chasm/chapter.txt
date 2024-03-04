@@ -18,12 +18,12 @@
     • {Ресурси|abyssal_chasm/resources.json}
     • Мешканці
         • {Глибоководник|abyssal_chasm/deep_one.json}
-        • {Глиб. чаклун|abyssal_chasm/deep_one_mage.json}
         • {Глиб. рицар|abyssal_chasm/deep_one_knight.json}
+        • {Глиб. чаклун|abyssal_chasm/deep_one_mage.json}
+        • {Міктоф|abyssal_chasm/lanternfish.json}
         • {Мінний вартовий|abyssal_chasm/mine_guardian.json}
-        • {Морська свинка|abyssal_chasm/sea_pig.json}
         • {Павут. хробак|abyssal_chasm/gossamer_worm.json}
-        • {Риба-ліхтар|abyssal_chasm/lanternfish.json}
         • {Риба-тринога|abyssal_chasm/tripodfish.json}
-        • {Суднолом|abyssal_chasm/hullbreaker.json}
+        • {Скотопланес|abyssal_chasm/sea_pig.json}
+        • {Суднолам|abyssal_chasm/hullbreaker.json}
     • {Приладдя|abyssal_chasm/utilities.json}

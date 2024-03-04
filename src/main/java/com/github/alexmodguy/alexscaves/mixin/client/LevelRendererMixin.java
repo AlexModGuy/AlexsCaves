@@ -93,7 +93,7 @@ public abstract class LevelRendererMixin {
     //have to completely override this method for compatibility reasons
     private void ac_renderSky(PoseStack poseStack, Matrix4f matrix4f2, float partialTick, Camera camera, boolean foggy, Runnable runnable, CallbackInfo ci) {
         //AC CODE START
-        float override = ACBiomeRegistry.calculateBiomeSkyOverride(Minecraft.getInstance().cameraEntity);
+        float override = ClientProxy.acSkyOverrideAmount;
         float primordialBoss = AlexsCaves.PROXY.getPrimordialBossActiveAmount(partialTick);
         if(!AlexsCaves.CLIENT_CONFIG.biomeSkyOverrides.get() || override <= 0.0F && primordialBoss <= 0.0F){
            return;

@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
+import com.github.alexmodguy.alexscaves.server.entity.ai.AdvancedPathNavigateNoTeleport;
 import com.github.alexmodguy.alexscaves.server.entity.item.CrushedBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.FallingTreeBlockEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.KaijuMob;
@@ -13,7 +14,6 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
-import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.ITallWalker;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -21,11 +21,9 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
-import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -101,6 +99,7 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
     private float lastYawBeforeWhip;
     public boolean turningFast;
     private boolean wasPreviouslyChild;
+    private int stepSoundCooldown = 0;
 
     public SauropodBaseEntity(EntityType entityType, Level level) {
         super(entityType, level);
@@ -125,7 +124,7 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new AdvancedPathNavigate(this, level);
+        return new AdvancedPathNavigateNoTeleport(this, level);
     }
 
     public boolean isFakeEntity() {
@@ -216,12 +215,16 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
                 walkAnimSpeed = Math.max(0, walkAnimSpeed - 0.025F);
             }
         }
-        if (f <= 0.05 && walkAnimSpeed > 0.0F && this.onGround() && (speed > 0.003F || this.isVehicle())) {
+        if (f <= 0.05 && walkAnimSpeed > 0.0F && this.onGround() && (speed > 0.003F || this.isVehicle()) && stepSoundCooldown <= 0) {
             this.onStep();
+            stepSoundCooldown = 5;
         }
         if (f1 < 0.65F) {
             this.lastStompX = this.getX();
             this.lastStompZ = this.getZ();
+        }
+        if(stepSoundCooldown > 0){
+            stepSoundCooldown--;
         }
         double stompX = (this.getX() - this.lastStompX);
         double stompZ = (this.getZ() - this.lastStompZ);
@@ -308,7 +311,6 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
 
     protected void crushBlocksInRing(int width, int ringStartX, int ringStartZ, float dropChance) {
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
-        BlockPos.MutableBlockPos lastCenter = new BlockPos.MutableBlockPos();
         float lowestFoot = 0.0F;
         for(LuxtructosaurusLegSolver.Leg leg : legSolver.legs){
             float height = leg.getHeight(1.0F);
@@ -318,47 +320,49 @@ public abstract class SauropodBaseEntity extends DinosaurEntity implements Shake
         }
         int feetY = this.blockPosition().getY() - (int)lowestFoot;
         BlockPos center = new BlockPos(ringStartX, feetY, ringStartZ);
-        for (int y = 0; y <= STOMP_CRUSH_HEIGHT; y++) {
-            List<MovingBlockData> dataPerYLevel = new ArrayList<>();
-            int currentBlocksInChunk = 0;
-            for (int i = -width - 1; i <= width + 1; i++) {
-                for (int j = -width - 1; j <= width + 1; j++) {
-                    mutableBlockPos.set(this.getBlockX() + i, feetY + y, this.getBlockZ() + j);
-                    double dist = Math.sqrt(mutableBlockPos.distSqr(center));
-                    if (dist <= width && level().isLoaded(mutableBlockPos)) {
-                        BlockState state = level().getBlockState(mutableBlockPos);
-                        if (state.is(ACTagRegistry.UNMOVEABLE) || state.isAir() || state.canBeReplaced() || state.getBlock().getExplosionResistance() > AlexsCaves.COMMON_CONFIG.atlatitanMaxExplosionResistance.get()) {
-                            continue;
-                        } else {
-                            BlockEntity te = level().getBlockEntity(mutableBlockPos);
-                            BlockPos offset = mutableBlockPos.immutable().subtract(center);
-                            MovingBlockData data = new MovingBlockData(state, state.getShape(level(), mutableBlockPos), offset, te == null ? null : te.saveWithoutMetadata());
-                            dataPerYLevel.add(data);
-
-                            if (currentBlocksInChunk < 16) {
-                                currentBlocksInChunk++;
+        if(net.minecraftforge.event.ForgeEventFactory.getMobGriefingEvent(this.level(), this) || this.isVehicle() && this.getControllingPassenger() instanceof Player){
+            for (int y = 0; y <= STOMP_CRUSH_HEIGHT; y++) {
+                List<MovingBlockData> dataPerYLevel = new ArrayList<>();
+                int currentBlocksInChunk = 0;
+                for (int i = -width - 1; i <= width + 1; i++) {
+                    for (int j = -width - 1; j <= width + 1; j++) {
+                        mutableBlockPos.set(this.getBlockX() + i, feetY + y, this.getBlockZ() + j);
+                        double dist = Math.sqrt(mutableBlockPos.distSqr(center));
+                        if (dist <= width && level().isLoaded(mutableBlockPos)) {
+                            BlockState state = level().getBlockState(mutableBlockPos);
+                            if (state.is(ACTagRegistry.UNMOVEABLE) || state.isAir() || state.canBeReplaced() || state.getBlock().getExplosionResistance() > AlexsCaves.COMMON_CONFIG.atlatitanMaxExplosionResistance.get()) {
+                                continue;
                             } else {
-                                CrushedBlockEntity crushed = ACEntityRegistry.CRUSHED_BLOCK.get().create(level());
-                                crushed.moveTo(Vec3.atCenterOf(center.above(y)));
-                                crushed.setAllBlockData(FallingTreeBlockEntity.createTagFromData(dataPerYLevel));
-                                crushed.setPlacementCooldown(10);
-                                crushed.setDropChance(dropChance);
-                                level().addFreshEntity(crushed);
-                                dataPerYLevel.clear();
-                                currentBlocksInChunk = 0;
+                                BlockEntity te = level().getBlockEntity(mutableBlockPos);
+                                BlockPos offset = mutableBlockPos.immutable().subtract(center);
+                                MovingBlockData data = new MovingBlockData(state, state.getShape(level(), mutableBlockPos), offset, te == null ? null : te.saveWithoutMetadata());
+                                dataPerYLevel.add(data);
+
+                                if (currentBlocksInChunk < 16) {
+                                    currentBlocksInChunk++;
+                                } else {
+                                    CrushedBlockEntity crushed = ACEntityRegistry.CRUSHED_BLOCK.get().create(level());
+                                    crushed.moveTo(Vec3.atCenterOf(center.above(y)));
+                                    crushed.setAllBlockData(FallingTreeBlockEntity.createTagFromData(dataPerYLevel));
+                                    crushed.setPlacementCooldown(10);
+                                    crushed.setDropChance(dropChance);
+                                    level().addFreshEntity(crushed);
+                                    dataPerYLevel.clear();
+                                    currentBlocksInChunk = 0;
+                                }
+                                level().setBlockAndUpdate(mutableBlockPos, Blocks.AIR.defaultBlockState());
                             }
-                            level().setBlockAndUpdate(mutableBlockPos, Blocks.AIR.defaultBlockState());
                         }
                     }
                 }
-            }
-            if (!dataPerYLevel.isEmpty()) {
-                CrushedBlockEntity crushed = ACEntityRegistry.CRUSHED_BLOCK.get().create(level());
-                crushed.moveTo(Vec3.atCenterOf(center.above(y)));
-                crushed.setAllBlockData(FallingTreeBlockEntity.createTagFromData(dataPerYLevel));
-                crushed.setDropChance(dropChance);
-                crushed.setPlacementCooldown(1);
-                level().addFreshEntity(crushed);
+                if (!dataPerYLevel.isEmpty()) {
+                    CrushedBlockEntity crushed = ACEntityRegistry.CRUSHED_BLOCK.get().create(level());
+                    crushed.moveTo(Vec3.atCenterOf(center.above(y)));
+                    crushed.setAllBlockData(FallingTreeBlockEntity.createTagFromData(dataPerYLevel));
+                    crushed.setDropChance(dropChance);
+                    crushed.setPlacementCooldown(1);
+                    level().addFreshEntity(crushed);
+                }
             }
         }
 

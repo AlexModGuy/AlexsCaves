@@ -91,13 +91,12 @@ public class DeepOneBarterGoal extends Goal {
 
 
     public void tick() {
-        mob.setTradingLockedTime(10);
         Vec3 center = Vec3.atCenterOf(altarPos);
-        double distance = Vec3.atCenterOf(altarPos).distanceTo(mob.position());
+        double distance = Vec3.atBottomCenterOf(altarPos).subtract(mob.position()).horizontalDistance();
         if (distance < 8) {
             mob.getLookControl().setLookAt(center.x, center.y, center.z, 10.0F, (float) this.mob.getMaxHeadXRot());
         }
-        if (distance > 2) {
+        if (distance > 3) {
             mob.getNavigation().moveTo(altarPos.getX() + 0.5F, altarPos.getY(), altarPos.getZ() + 0.5F, 1);
         } else {
             mob.setLastAltarPos(altarPos);

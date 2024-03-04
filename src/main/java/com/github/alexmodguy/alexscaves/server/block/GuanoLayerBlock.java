@@ -26,6 +26,8 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+import javax.annotation.Nullable;
+
 public class GuanoLayerBlock extends SnowLayerBlock implements Fallable {
 
     public GuanoLayerBlock() {
@@ -86,6 +88,18 @@ public class GuanoLayerBlock extends SnowLayerBlock implements Fallable {
             if (GuanoBlock.isForlornEntity(entity)) {
                 entity.setDeltaMovement(entity.getDeltaMovement().multiply(0.9D, 1.0D, 0.9D));
             }
+        }
+    }
+
+    //overridden to fix issues with snow real magic mod
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
+        if (blockstate.is(this)) {
+            int i = blockstate.getValue(LAYERS);
+            return blockstate.setValue(LAYERS, Integer.valueOf(Math.min(8, i + 1)));
+        } else {
+            return this.defaultBlockState();
         }
     }
 

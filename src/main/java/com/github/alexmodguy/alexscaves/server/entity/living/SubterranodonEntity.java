@@ -163,7 +163,7 @@ public class SubterranodonEntity extends DinosaurEntity implements PackAnimal, F
     }
 
     private PathNavigation createMultithreadedPathFinder(boolean flying){
-        return new AdvancedPathNavigate(this, level(), flying ? AdvancedPathNavigate.MovementType.FLYING : AdvancedPathNavigate.MovementType.WALKING);
+        return new AdvancedPathNavigateNoTeleport(this, level(), flying ? AdvancedPathNavigate.MovementType.FLYING : AdvancedPathNavigate.MovementType.WALKING);
     }
 
     @Override

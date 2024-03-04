@@ -87,7 +87,7 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
             BlockPos corner = getCornerForFurnace(level, blockPos, true);
             if (corner != null && corner.getY() == blockPos.getY() - 1 && level.getBlockEntity(corner) instanceof NuclearFurnaceBlockEntity furnace && furnace.isUndergoingFission()) { //top
                 if(entity instanceof LivingEntity living && !entity.getType().is(ACTagRegistry.RESISTS_RADIATION)){
-                    living.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 2000, 4));
+                    living.addEffect(new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 2000, 3));
                 }
             }
         }

@@ -85,7 +85,7 @@ public class MetalScaffoldingBlock extends Block implements BucketPickup, Liquid
     private int getLiquidType(FluidState fluidState) {
         if (fluidState.getType() == Fluids.WATER) {
             return 1;
-        } else if (fluidState.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get()) {
+        } else if (fluidState.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get() && fluidState.isSource()) {
             return 2;
         }
         return 0;

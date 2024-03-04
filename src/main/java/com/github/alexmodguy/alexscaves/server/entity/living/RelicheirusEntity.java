@@ -10,7 +10,6 @@ import com.github.alexthe666.citadel.animation.Animation;
 import com.github.alexthe666.citadel.animation.AnimationHandler;
 import com.github.alexthe666.citadel.animation.IAnimatedEntity;
 import com.github.alexthe666.citadel.animation.LegSolverQuadruped;
-import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.AdvancedPathNavigate;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -92,7 +91,7 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
     }
 
     protected PathNavigation createNavigation(Level level) {
-        return new AdvancedPathNavigate(this, level, AdvancedPathNavigate.MovementType.WALKING);
+        return new AdvancedPathNavigateNoTeleport(this, level);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {

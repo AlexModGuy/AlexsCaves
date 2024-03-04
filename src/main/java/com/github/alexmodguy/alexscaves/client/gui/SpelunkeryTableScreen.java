@@ -32,10 +32,7 @@ import org.joml.Matrix4f;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTableMenu> {
 
@@ -75,6 +72,8 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     private boolean doneWithTutorial = false;
     private boolean invalidTablet = false;
     private ItemStack lastTablet;
+
+    private Random random = new Random();
 
     public SpelunkeryTableScreen(SpelunkeryTableMenu menu, Inventory inventory, Component name) {
         super(menu, inventory, name);
@@ -472,7 +471,7 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         }
         if (!wordButtons.isEmpty()) {
             if(Minecraft.getInstance().level != null){
-                targetWordButton = wordButtons.size() <= 1 ? wordButtons.get(0) : wordButtons.get(Minecraft.getInstance().level.random.nextInt(wordButtons.size()));
+                targetWordButton = wordButtons.size() <= 1 ? wordButtons.get(0) : wordButtons.get(random.nextInt(wordButtons.size()));
             }
             attemptsLeft = 5;
         } else {
