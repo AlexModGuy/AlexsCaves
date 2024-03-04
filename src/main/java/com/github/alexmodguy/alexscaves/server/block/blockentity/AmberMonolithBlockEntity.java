@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -192,6 +193,9 @@ public class AmberMonolithBlockEntity extends BlockEntity {
     }
 
     private static boolean isEntitySpawnBlocked(MobSpawnSettings.SpawnerData settings, Level level, BlockPos pos, int range) {
+        if(settings.type.is(ACTagRegistry.AMBER_MONOLITH_SKIPS)){
+            return true;
+        }
         if(settings.type == ACEntityRegistry.ATLATITAN.get()){
             ACWorldData worldData = ACWorldData.get(level);
             if(worldData != null && !worldData.isPrimordialBossDefeatedOnce()){
