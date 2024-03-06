@@ -99,8 +99,8 @@ public class DesolateDaggerEntity extends Entity {
                     if (entity.hurt(ACDamageTypes.causeDesolateDaggerDamage(this.level().registryAccess(), damageFrom), damage)) {
                         this.playSound(ACSoundRegistry.DESOLATE_DAGGER_HIT.get());
                         int healBy = this.getItemStack().getEnchantmentLevel(ACEnchantmentRegistry.SATED_BLADE.get());
-                        if(healBy > 0 && damageFrom instanceof Player healPlayer){
-                            healPlayer.getFoodData().eat(0, healBy * 0.1F);
+                        if(healBy > 0 && damageFrom instanceof Player healPlayer && healPlayer.getFoodData().getSaturationLevel() < 5F){
+                            healPlayer.getFoodData().setSaturation(healPlayer.getFoodData().getSaturationLevel() + healBy * 0.1F);
                         }
                     }
                     this.discard();
