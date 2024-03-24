@@ -9,7 +9,7 @@
 
     • {ma anpa pi kiwen tawa|magnetic_caves/chapter.json}
     • {ma anpa majuna|primordial_caves/chapter.json}
-    • {ma anpa pakala|toxic_caves/chapter.json}
+    • {ma anpa wawa|toxic_caves/chapter.json}
     • {telo pi anpa mute|abyssal_chasm/chapter.json}
     • {ma anpa pimeja|forlorn_hollows/chapter.json}
 
