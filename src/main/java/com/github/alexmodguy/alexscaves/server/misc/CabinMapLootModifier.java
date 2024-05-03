@@ -54,7 +54,7 @@ public class CabinMapLootModifier implements IGlobalLootModifier {
             if(blockpos != null){
                 ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte)2, true, true);
                 MapItem.renderBiomePreviewMap(serverlevel, itemstack);
-                MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
+                MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", ACVanillaMapUtil.UNDERGROUND_CABIN_MAP_DECORATION);
                 itemstack.setHoverName(Component.translatable("item.alexscaves.underground_cabin_explorer_map"));
                 generatedLoot.add(itemstack);
             }

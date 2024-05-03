@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.entity.util;
 
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACVanillaMapUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -37,7 +38,7 @@ public class VillagerUndergroundCabinMapTrade implements VillagerTrades.ItemList
             if (blockpos != null) {
                 ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte)2, true, true);
                 MapItem.renderBiomePreviewMap(serverlevel, itemstack);
-                MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
+                MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", ACVanillaMapUtil.UNDERGROUND_CABIN_MAP_DECORATION);
                 itemstack.setHoverName(Component.translatable("item.alexscaves.underground_cabin_explorer_map"));
                 return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCost), new ItemStack(Items.COMPASS), itemstack, this.maxUses, this.villagerXp, 0.2F);
             } else {
