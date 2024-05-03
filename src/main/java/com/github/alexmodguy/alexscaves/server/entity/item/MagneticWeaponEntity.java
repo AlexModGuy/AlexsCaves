@@ -14,6 +14,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
@@ -31,6 +32,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.ShulkerBoxBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -215,8 +217,16 @@ public class MagneticWeaponEntity extends Entity {
                             int silkTouchLevel = itemStack.getEnchantmentLevel(Enchantments.SILK_TOUCH);
                             int exp = miningState.getExpDrop(level(), level().random, miningBlock, fortuneLevel, silkTouchLevel);
                             net.minecraftforge.event.ForgeEventFactory.onPlayerDestroyItem(player, itemStack, InteractionHand.MAIN_HAND);
-                            boolean flag = level().destroyBlock(miningBlock, false);
-                            miningState.getBlock().playerDestroy(level(), player, miningBlock, miningState, level().getBlockEntity(miningBlock), itemStack);
+                            boolean flag;
+                            if (miningState.getBlock() instanceof ShulkerBoxBlock) {
+                                flag = level().destroyBlock(miningBlock, true);
+                                player.awardStat(Stats.BLOCK_MINED.get(miningState.getBlock()));
+                                player.causeFoodExhaustion(0.005F);
+                            }
+                            else {
+                                flag = level().destroyBlock(miningBlock, false);
+                                miningState.getBlock().playerDestroy(level(), player, miningBlock, miningState, level().getBlockEntity(miningBlock), itemStack);
+                            }
                             if (flag && exp > 0 && level() instanceof ServerLevel serverLevel) {
                                 miningState.getBlock().popExperience(serverLevel, miningBlock, exp);
                             }
