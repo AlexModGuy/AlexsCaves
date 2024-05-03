@@ -54,4 +54,4 @@
 
 
 
-    Cave Maps can point to the nearest cave biome detailed by the codex. The process of creating a Cave Codex seems to imdue this map with an uncanny range and responsiveness.
+    Cave Maps can point to the nearest cave biome detailed by the codex. The process of creating a Cave Codex seems to imbue this map with an uncanny range and responsiveness.
