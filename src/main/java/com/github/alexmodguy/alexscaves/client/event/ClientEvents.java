@@ -81,10 +81,10 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class ClientEvents {
 
-    public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
-    public static final ResourceLocation BOSS_BAR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/boss_bar_hud_overlays.png");
-    public static final ResourceLocation DINOSAUR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/dinosaur_hud_overlays.png");
-    public static final ResourceLocation ARMOR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/armor_hud_overlays.png");
+    private static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
+    private static final ResourceLocation BOSS_BAR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/boss_bar_hud_overlays.png");
+    private static final ResourceLocation DINOSAUR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/dinosaur_hud_overlays.png");
+    private static final ResourceLocation ARMOR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/armor_hud_overlays.png");
     private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/submarine_light.json");
     private static final ResourceLocation WATCHER_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/watcher_perspective.json");
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/teletor_trail.png");
@@ -93,6 +93,11 @@ public class ClientEvents {
     private static float lastSampledWaterFogFarness = 0.0F;
     private static Vec3 lastSampledFogColor = Vec3.ZERO;
     private static Vec3 lastSampledWaterFogColor = Vec3.ZERO;
+
+    public static PoseStack lastVanillaMapPoseStack;
+    public static MultiBufferSource lastVanillaMapRenderBuffer;
+    public static int lastVanillaMapRenderPackedLight;
+    private static final RenderType UNDERGROUND_CABIN_MAP_ICONS = RenderType.text(new ResourceLocation(AlexsCaves.MODID, "textures/misc/underground_cabin_map_icons.png"));
 
     @SubscribeEvent
     public void setupEntityRotations(EventLivingRenderer.SetupRotations event) {
@@ -1005,11 +1010,6 @@ public class ClientEvents {
             }
         }
     }
-
-    public static PoseStack lastVanillaMapPoseStack;
-    public static MultiBufferSource lastVanillaMapRenderBuffer;
-    public static int lastVanillaMapRenderPackedLight;
-    static final RenderType UNDERGROUND_CABIN_MAP_ICONS = RenderType.text(new ResourceLocation(AlexsCaves.MODID, "textures/misc/underground_cabin_map_icons.png"));
 
     public static void renderVanillaMapDecoration(MapDecoration mapdecoration, int k) {
         if(mapdecoration.getType() == ACVanillaMapUtil.UNDERGROUND_CABIN_MAP_DECORATION){
