@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.server.enchantment.ACEnchantmentRegistry
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.TephraExplosion;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.network.protocol.Packet;
@@ -148,14 +149,14 @@ public class ExtinctionSpearEntity extends AbstractArrow {
         }
 
         Entity entity1 = this.getOwner();
-        DamageSource damagesource = this.damageSources().trident(this, (Entity) (entity1 == null ? this : entity1));
+        DamageSource damagesource = ACDamageTypes.causeSpiritDinosaurDamage(level().registryAccess(), (Entity) (entity1 == null ? this : entity1));
         this.dealtDamage = true;
         SoundEvent soundevent = ACSoundRegistry.EXTINCTION_SPEAR_HIT.get();
+        entity.setSecondsOnFire(5);
         if (entity.hurt(damagesource, f)) {
             if (entity.getType() == EntityType.ENDERMAN) {
                 return;
             }
-            entity.setSecondsOnFire(5);
             if (entity instanceof LivingEntity) {
                 LivingEntity livingentity1 = (LivingEntity) entity;
                 if (entity1 instanceof LivingEntity) {

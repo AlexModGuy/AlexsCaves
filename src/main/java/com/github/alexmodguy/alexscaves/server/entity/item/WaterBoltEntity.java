@@ -205,7 +205,7 @@ public class WaterBoltEntity extends Projectile {
             playedSplashSound = true;
             this.playSound(ACSoundRegistry.SEA_STAFF_HIT.get());
         }
-        if (!this.level().isClientSide && !ownedBy(hitResult.getEntity())) {
+        if (!this.level().isClientSide && !ownedBy(hitResult.getEntity()) && tickCount > 2) {
             damageMobs();
             if (dieIn == -1) {
                 dieIn = 5;
@@ -219,7 +219,7 @@ public class WaterBoltEntity extends Projectile {
         AABB bashBox = this.getBoundingBox().inflate(2.0D, 2, 2.0D);
         Entity lastHitMob = null;
         for (LivingEntity entity : this.level().getEntitiesOfClass(LivingEntity.class, bashBox)) {
-            if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity)) {
+            if (!isAlliedTo(entity) && !(entity instanceof DeepOneBaseEntity) && (owner == null || !entity.is(owner) && !entity.isAlliedTo(owner))) {
                 lastHitMob = entity;
                 if (entity.hurt(source, 3.0F) && this.isBubbling()) {
                     entity.addEffect(new MobEffectInstance(ACEffectRegistry.BUBBLED.get(), 200));
