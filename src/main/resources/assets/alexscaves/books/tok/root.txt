@@ -1,20 +1,20 @@
 
 
-    §lLON §lANPA §lMUTE §lMA §lLA §rma anpa mute li lon.
+    §lLON §lANPA §lMA §lLA §rlupa mute li lon.
 
-    jan li wile lon ma anpa ni tan ni: ona li ante li jo e ijo mani e ijo wawa. taso, ijo moli kin li lon ona.
-    jan li sona e ma anpa luka ni:
+    jan li wile lon lupa ni tan ni: ona li nasa li jo e ijo wawa mute. taso, ijo moli kin li lon ona.
+    jan li sona e lupa luka ni:
 
 
 
-    • {ma anpa pi kiwen tawa|magnetic_caves/chapter.json}
-    • {ma anpa majuna|primordial_caves/chapter.json}
-    • {ma anpa wawa|toxic_caves/chapter.json}
+    • {lupa pi kiwen tawa|magnetic_caves/chapter.json}
+    • {ma anpa pi tenpo pini|primordial_caves/chapter.json}
+    • {lupa wawa|toxic_caves/chapter.json}
     • {telo pi anpa mute|abyssal_chasm/chapter.json}
-    • {ma anpa pimeja|forlorn_hollows/chapter.json}
+    • {lupa pimeja|forlorn_hollows/chapter.json}
 
 
-    sina wile sona e ma anpa ni la, o alasa e §ltomo §lanpa §lsona§r a!
+    sina wile sona e lupa ni la, o alasa e §ltomo §lanpa §lsona§r a!
     tomo anpa sona mute li lon lupa anpa. monsuta anpa la ona li tomo awen pona!
 
     jan pi sitelen ma li ken esun e sitelen ma pi tomo anpa sona. kin la, sitelen ma ni li ken lon poki lon nasin pi lupa ma.
@@ -27,10 +27,10 @@
 
 
 
-    lipu nasa pi ma anpa en lipu li ken lon §lsupa §lpi §lma §lanpa§r. supa ni li lon tomo anpa sona kin.
+    lipu nasa lupa en lipu li ken lon §lsupa §lpi §lma §lanpa§r. supa ni li lon tomo anpa sona kin.
 
-    ni la, jan li ken open ante toki e lipu nasa pi ma anpa!
-    lipu tu ni li lon supa la, sitelen nasa mute li lon lipu nasa pi ma anpa.
+    ni la, jan li ken open ante toki e lipu nasa lupa!
+    lipu tu ni li lon supa la, sitelen nasa mute li lon lipu nasa lupa.
 
     sina luka e sitelen la, nimi ona li kama toki. sina lukin kepeken ilo lukin la sina ken lukin e ante toki pi nimi toki. taso, sina luka e nimi ike 5 la lipu li pakala.
 
@@ -40,17 +40,9 @@
 
 
 
-    sina ken sona e nimi alasa kepeken sona ni: sitelen seme nasa li sitelen seme pi nasa ala? sina luka e nimi alasa tu wan la, lipu tu li kama §lkipisi §llipu §lpi §lma §lanpa§r.
+    sina ken sona e nimi alasa kepeken sona ni: sitelen seme nasa li sitelen seme pi nasa ala? sina luka e nimi alasa tu wan la, lipu tu li kama §llipu §lkipisi §llupa§r.
 
-    sina ken ijo mute kepeken kipisi lipu ni. sina ken kama sona e ma anpa ona kepeken ona.
-
-
-
-
-
-
-
-    kin la, sina ken pali e §lsitelen §lma §lanpa kepeken ijo ni: kipisi lipu pi ma anpa en lipu.
+    sina ken ijo mute kepeken lipu kipisi ni. sina ken kama sona e lupa ona kepeken ona.
 
 
 
@@ -58,5 +50,13 @@
 
 
 
+    kin la, sina ken pali e §lsitelen §lma §lanpa kepeken ijo ni: lipu kipisi lupa en lipu.
 
-    sitelen ma anpa li toki e lon pi ma anpa. nasa la, nasin pali pi lipu pini li wawa mute e sitelen ma anpa.
+
+
+
+
+
+
+
+    sitelen ma lupa li toki e ma ni: lupa pi ona sitelen li lon ona.
