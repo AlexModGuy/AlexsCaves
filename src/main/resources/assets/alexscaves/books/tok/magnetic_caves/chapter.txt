@@ -13,14 +13,14 @@
 
 
 
-    o kama pona tawa ma anpa pi kiwen tawa a!
+    o kama pona tawa lupa pi kiwen tawa a!
 
     • {open|magnetic_caves/general.json}
-    • {mani|magnetic_caves/resources.json}
+    • {ijo|magnetic_caves/resources.json}
     • soweli
         • {monsuta pi waso ilo|magnetic_caves/teletor.json}
         • {monsuta leko|magnetic_caves/magnetron.json}
-        • {monsuta kipisi linja|magnetic_caves/boundroid.json}
+        • {monsuta supa|magnetic_caves/boundroid.json}
         • {monsuta ko kiwen|magnetic_caves/ferrouslime.json}
         • {waso sitelen|magnetic_caves/notor.json}
     • {kepeken|magnetic_caves/utilities.json}

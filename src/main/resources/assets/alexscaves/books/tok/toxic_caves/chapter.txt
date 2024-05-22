@@ -13,10 +13,10 @@
 
 
 
-    o kama pona tawa ma anpa wawa a!
+    o kama pona tawa lupa wawa a!
 
     • {open|toxic_caves/general.json}
-    • {mani|toxic_caves/resources.json}
+    • {ijo|toxic_caves/resources.json}
     • soweli
         • {monsuta Creeper suli|toxic_caves/nucleeper.json}
         • {kala nasa|toxic_caves/radgill.json}
