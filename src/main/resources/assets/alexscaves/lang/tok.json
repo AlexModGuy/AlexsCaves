@@ -1261,7 +1261,7 @@
   "alexscaves.sound.subtitle.darkness_incarnate_idle": "wawa pimeja li kalama",
   "alexscaves.sound.subtitle.disappointment": "pakala :(",
   "alexscaves.sound.subtitle.nuclear_siren": "kalama pi moli kama",
-  "alexscaves.startup_warning.generation_incompatible": "ante (ID:%s) la pali ma pi ante Alex's Caves li ken ala pona. ken la lupa pi ante Alex's Caves li lon ala. ken ante la musi li pini. sina ken weka e toki ni kepeken lipu lawa pi ante Alex's Caves.",
+  "alexscaves.startup_warning.generation_incompatible": "(ID:%s) la pali ma pi ante Alex's Caves li ken ala pona. ken la lupa pi ante Alex's Caves li lon ala. ken ante la musi li pini. sina ken weka e toki ni kepeken lipu lawa pi ante Alex's Caves.",
   "enchantment.alexscaves.field_extension": "waso weka",
   "enchantment.alexscaves.field_extension.desc": "len luka pi waso ilo li ken weka suli e ijo",
   "enchantment.alexscaves.crystallization": "lawa nasa",
