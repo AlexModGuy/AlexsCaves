@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    어서오세요 자기 동굴에...
+
+    • {소개|magnetic_caves/general.json}
+    • {자원|magnetic_caves/resources.json}
+    • 생물들
+        • {텔레터|magnetic_caves/teletor.json}
+        • {마그네트론|magnetic_caves/magnetron.json}
+        • {바운드로이드|magnetic_caves/boundroid.json}
+        • {페러슬라임|magnetic_caves/ferrouslime.json}
+        • {노터|magnetic_caves/notor.json}
+    • {유용한 것들|magnetic_caves/utilities.json}
