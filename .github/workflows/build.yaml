@@ -1,0 +1,24 @@
+name: "Nightly Build"
+on: [push, pull_request]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: 'Setup Java'
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+          java-package: jdk
+      - name: 'Build'
+        run: ./gradlew build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: my-artifact
+          path: ./build/libs/*
