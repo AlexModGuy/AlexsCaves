@@ -166,6 +166,7 @@ public class AlexsCaves {
         });
         readModIncompatibilities();
     }
+
     private void clientSetup(final FMLClientSetupEvent event) {
         event.enqueueWork(() -> PROXY.clientInit());
     }
@@ -203,8 +204,9 @@ public class AlexsCaves {
             } catch (IOException e) {
                 LOGGER.warn("Failed to load mod conflicts");
             }
-        } else{
+        } else {
             LOGGER.warn("Failed to load mod conflicts");
         }
     }
+
 }
