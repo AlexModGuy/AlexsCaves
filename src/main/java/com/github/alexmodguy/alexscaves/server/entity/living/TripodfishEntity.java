@@ -17,6 +17,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -323,6 +324,10 @@ public class TripodfishEntity extends WaterAnimal implements Bucketable {
 
     protected SoundEvent getDeathSound() {
         return ACSoundRegistry.TRIPODFISH_HURT.get();
+    }
+
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        return damageSource.is(DamageTypes.IN_WALL) || super.isInvulnerableTo(damageSource);
     }
 
     class AvoidHurtGoal extends Goal {
