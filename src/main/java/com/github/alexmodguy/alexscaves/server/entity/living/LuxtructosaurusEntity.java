@@ -400,7 +400,7 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
                 for (BlockPos blockpos : BlockPos.betweenClosed(Mth.floor(aabb.minX - 1), Mth.floor(aabb.minY - 1), Mth.floor(aabb.minZ - 1), Mth.ceil(aabb.maxX + 1), Mth.ceil(aabb.maxY + 2.0F), Mth.ceil(aabb.maxZ + 1))) {
                     BlockState blockstate = this.level().getBlockState(blockpos);
                     if (blockstate.is(ACTagRegistry.LUXTRUCTOSAURUS_BREAKS)) {
-                        this.level().destroyBlock(blockpos, true, this);
+                        this.level().destroyBlock(blockpos, random.nextFloat() < AlexsCaves.COMMON_CONFIG.luxtructosaurusBlockDropChance.get(), this);
                     }
                     if (blockstate.getFluidState().is(FluidTags.WATER)) {
                         level().setBlock(blockpos, net.minecraftforge.event.ForgeEventFactory.fireFluidPlaceBlockEvent(level(), blockpos, blockpos, Blocks.STONE.defaultBlockState()), 3);
@@ -617,7 +617,7 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
                         break;
                     } else {
                         if (i < depth && !state.is(ACTagRegistry.REGENERATES_AFTER_PRIMORDIAL_BOSS_FIGHT)) {
-                            level().destroyBlock(blockPos, true);
+                            level().destroyBlock(blockPos, random.nextFloat() < AlexsCaves.COMMON_CONFIG.luxtructosaurusBlockDropChance.get());
                         } else {
                             level().setBlockAndUpdate(blockPos, i == depth ? ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get().defaultBlockState().setValue(FissurePrimalMagmaBlock.REGEN_HEIGHT, Mth.clamp(i - 1, 0, 4)) : Blocks.AIR.defaultBlockState());
                         }

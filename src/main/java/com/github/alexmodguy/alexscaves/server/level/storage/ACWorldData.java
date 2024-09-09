@@ -1,7 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.storage;
 
 import com.github.alexmodguy.alexscaves.server.entity.living.LuxtructosaurusEntity;
-import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeMapWorldWorker;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.core.BlockPos;

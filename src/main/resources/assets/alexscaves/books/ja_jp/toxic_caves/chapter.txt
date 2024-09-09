@@ -19,7 +19,7 @@
     • {資源|toxic_caves/resources.json}
     • 生態系
         • {核クリーパー|toxic_caves/nucleeper.json}
-        • {ラドギル|toxic_caves/radgill.json}
+        • {ラッドギル|toxic_caves/radgill.json}
         • {ブレイニアック|toxic_caves/brainiac.json}
         • {ガンマローチ|toxic_caves/gammaroach.json}
         • {レイキャット|toxic_caves/raycat.json}
