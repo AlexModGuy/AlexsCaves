@@ -298,7 +298,7 @@ public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJ
                     }else{
                         this.setAltSkin(altSkinFromItem);
                     }
-                    this.level().broadcastEntityEvent(this, (byte) (altSkinFromItem > 1 ? 83 : 82));
+                    this.level().broadcastEntityEvent(this, (byte) (altSkinFromItem == 2 ? 83 : 82));
                 }
                 return InteractionResult.SUCCESS;
             } else if (isTame() && isOwnedBy(player) && !isFood(itemstack)) {

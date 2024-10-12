@@ -54,7 +54,6 @@ import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -64,6 +63,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
@@ -910,6 +910,10 @@ public class ClientProxy extends CommonProxy {
 
     public void setBossBarRender(UUID bossBar, int renderType) {
         this.bossBarRenderTypes.put(bossBar, renderType);
+    }
+
+    public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index){
+        ClientEvents.renderVanillaMapDecoration(mapDecoration, index + 1);
     }
 }
 

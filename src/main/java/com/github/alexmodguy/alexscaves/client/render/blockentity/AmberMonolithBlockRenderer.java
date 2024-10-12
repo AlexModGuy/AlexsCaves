@@ -82,7 +82,7 @@ public class AmberMonolithBlockRenderer<T extends AmberMonolithBlockEntity> impl
                 entityIn.xRotO = 0;
                 entityIn.setYRot(0);
                 entityIn.yRotO = 0;
-                if (render instanceof LivingEntityRenderer<?, ?> renderer) {
+                if (render instanceof LivingEntityRenderer<?, ?> renderer && renderer.getModel() != null) {
                     EntityModel model = renderer.getModel();
                     VertexConsumer ivertexbuilder = bufferIn.getBuffer(ForgeRenderTypes.getUnlitTranslucent(render.getTextureLocation(entityIn)));
                     matrixStack.pushPose();

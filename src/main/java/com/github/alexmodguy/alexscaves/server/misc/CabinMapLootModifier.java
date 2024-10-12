@@ -9,7 +9,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MapItem;
-import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
@@ -54,7 +53,7 @@ public class CabinMapLootModifier implements IGlobalLootModifier {
             if(blockpos != null){
                 ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte)2, true, true);
                 MapItem.renderBiomePreviewMap(serverlevel, itemstack);
-                MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", MapDecoration.Type.RED_X);
+                MapItemSavedData.addTargetDecoration(itemstack, blockpos, "+", ACVanillaMapUtil.UNDERGROUND_CABIN_MAP_DECORATION);
                 itemstack.setHoverName(Component.translatable("item.alexscaves.underground_cabin_explorer_map"));
                 generatedLoot.add(itemstack);
             }

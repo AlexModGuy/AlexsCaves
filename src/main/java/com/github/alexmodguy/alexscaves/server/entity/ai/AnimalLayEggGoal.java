@@ -24,8 +24,6 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
 
     private int layEggCounter;
 
-    private float startBodyRot;
-
     public AnimalLayEggGoal(Animal mob, int maxTime, double speed) {
         super(mob, speed, 16);
         this.mob = mob;
@@ -34,7 +32,7 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
     }
 
     public boolean canUse() {
-        return this.laysEggs.hasEgg() ? super.canUse() : false;
+        return this.laysEggs.hasEgg() && super.canUse();
     }
 
     public boolean canContinueToUse() {
@@ -47,7 +45,7 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
     }
 
     public double acceptedDistance() {
-        return 4.0D;
+        return Math.ceil(this.mob.getBbWidth()) + 0.5D;
     }
 
     public void tick() {
@@ -69,7 +67,6 @@ public class AnimalLayEggGoal extends MoveToBlockGoal {
                 }
             }
         } else {
-            startBodyRot = mob.yBodyRot;
             layEggCounter = 0;
         }
 

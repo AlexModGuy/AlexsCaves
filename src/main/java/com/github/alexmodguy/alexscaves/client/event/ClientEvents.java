@@ -18,6 +18,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.*;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSampler;
+import com.github.alexmodguy.alexscaves.server.misc.ACVanillaMapUtil;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
@@ -31,6 +32,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
@@ -55,6 +57,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.FogType;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
@@ -78,10 +81,10 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class ClientEvents {
 
-    public static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
-    public static final ResourceLocation BOSS_BAR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/boss_bar_hud_overlays.png");
-    public static final ResourceLocation DINOSAUR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/dinosaur_hud_overlays.png");
-    public static final ResourceLocation ARMOR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/armor_hud_overlays.png");
+    private static final ResourceLocation POTION_EFFECT_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/potion_effect_hud_overlays.png");
+    private static final ResourceLocation BOSS_BAR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/boss_bar_hud_overlays.png");
+    private static final ResourceLocation DINOSAUR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/dinosaur_hud_overlays.png");
+    private static final ResourceLocation ARMOR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/armor_hud_overlays.png");
     private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/submarine_light.json");
     private static final ResourceLocation WATCHER_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/watcher_perspective.json");
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/teletor_trail.png");
@@ -90,6 +93,11 @@ public class ClientEvents {
     private static float lastSampledWaterFogFarness = 0.0F;
     private static Vec3 lastSampledFogColor = Vec3.ZERO;
     private static Vec3 lastSampledWaterFogColor = Vec3.ZERO;
+
+    public static PoseStack lastVanillaMapPoseStack;
+    public static MultiBufferSource lastVanillaMapRenderBuffer;
+    public static int lastVanillaMapRenderPackedLight;
+    private static final RenderType UNDERGROUND_CABIN_MAP_ICONS = RenderType.text(new ResourceLocation(AlexsCaves.MODID, "textures/misc/underground_cabin_map_icons.png"));
 
     @SubscribeEvent
     public void setupEntityRotations(EventLivingRenderer.SetupRotations event) {
@@ -999,6 +1007,43 @@ public class ClientEvents {
             if (item.getItem().is(ACItemRegistry.TECTONIC_SHARD.get())) {
                 event.setResult(Event.Result.ALLOW);
                 event.setColor(0XFFDB00);
+            }
+        }
+    }
+
+    public static void renderVanillaMapDecoration(MapDecoration mapdecoration, int k) {
+        if(mapdecoration.getType() == ACVanillaMapUtil.UNDERGROUND_CABIN_MAP_DECORATION){
+            MultiBufferSource multiBufferSource = lastVanillaMapRenderBuffer == null ? Minecraft.getInstance().renderBuffers().bufferSource() : lastVanillaMapRenderBuffer;
+            PoseStack poseStack = lastVanillaMapPoseStack == null ? new PoseStack() : lastVanillaMapPoseStack;
+            poseStack.pushPose();
+            poseStack.translate(0.0F + (float)mapdecoration.getX() / 2.0F + 64.0F, 0.0F + (float)mapdecoration.getY() / 2.0F + 64.0F, -0.02F);
+            poseStack.mulPose(Axis.ZP.rotationDegrees((float)(mapdecoration.getRot() * 360) / 16.0F));
+            poseStack.scale(4.0F, 4.0F, 3.0F);
+            poseStack.translate(-0.125F, 0.125F, 0.0F);
+            byte b0 = ACVanillaMapUtil.getMapIconRenderOrdinal(mapdecoration.getType());
+            float f1 = (float)(b0 % 16 + 0) / 16.0F;
+            float f2 = (float)(b0 / 16 + 0) / 16.0F;
+            float f3 = (float)(b0 % 16 + 1) / 16.0F;
+            float f4 = (float)(b0 / 16 + 1) / 16.0F;
+            Matrix4f matrix4f1 = poseStack.last().pose();
+            float f5 = -0.001F;
+            VertexConsumer vertexconsumer1 = multiBufferSource.getBuffer(UNDERGROUND_CABIN_MAP_ICONS);
+            vertexconsumer1.vertex(matrix4f1, -1.0F, 1.0F, (float)k * -0.001F).color(255, 255, 255, 255).uv(f1, f2).uv2(lastVanillaMapRenderPackedLight).endVertex();
+            vertexconsumer1.vertex(matrix4f1, 1.0F, 1.0F, (float)k * -0.001F).color(255, 255, 255, 255).uv(f3, f2).uv2(lastVanillaMapRenderPackedLight).endVertex();
+            vertexconsumer1.vertex(matrix4f1, 1.0F, -1.0F, (float)k * -0.001F).color(255, 255, 255, 255).uv(f3, f4).uv2(lastVanillaMapRenderPackedLight).endVertex();
+            vertexconsumer1.vertex(matrix4f1, -1.0F, -1.0F, (float)k * -0.001F).color(255, 255, 255, 255).uv(f1, f4).uv2(lastVanillaMapRenderPackedLight).endVertex();
+            poseStack.popPose();
+            if (mapdecoration.getName() != null) {
+                Font font = Minecraft.getInstance().font;
+                Component component = mapdecoration.getName();
+                float f6 = (float)font.width(component);
+                float f7 = Mth.clamp(25.0F / f6, 0.0F, 6.0F / 9.0F);
+                poseStack.pushPose();
+                poseStack.translate(0.0F + (float)mapdecoration.getX() / 2.0F + 64.0F - f6 * f7 / 2.0F, 0.0F + (float)mapdecoration.getY() / 2.0F + 64.0F + 4.0F, -0.025F);
+                poseStack.scale(f7, f7, 1.0F);
+                poseStack.translate(0.0F, 0.0F, -0.1F);
+                font.drawInBatch(component, 0.0F, 0.0F, -1, false, poseStack.last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, Integer.MIN_VALUE, lastVanillaMapRenderPackedLight);
+                poseStack.popPose();
             }
         }
     }

@@ -194,7 +194,7 @@ public class QuarryBlockEntity extends BlockEntity {
 
     public static boolean isMinable(Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
-        return !state.is(ACTagRegistry.UNMOVEABLE) && !state.isAir() && !state.canBeReplaced();
+        return !state.is(ACTagRegistry.UNMOVEABLE) && !state.isAir() && !state.canBeReplaced() && state.getBlock().defaultDestroyTime() >= 0.0F;
     }
 
     public AABB getMiningBox() {

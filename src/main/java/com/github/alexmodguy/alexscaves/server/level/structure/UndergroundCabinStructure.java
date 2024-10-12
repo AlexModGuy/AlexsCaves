@@ -6,10 +6,8 @@ import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.mojang.serialization.Codec;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.LevelHeightAccessor;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -42,10 +40,8 @@ public class UndergroundCabinStructure extends Structure {
         int y = context.chunkGenerator().getBaseHeight(context.chunkPos().getMinBlockX(), context.chunkPos().getMinBlockZ(), Heightmap.Types.OCEAN_FLOOR_WG, levelHeight, context.randomState()) - 20;
         int maxHeight = y - 14 - context.random().nextInt(15);
         BlockPos blockpos = new BlockPos(context.chunkPos().getMinBlockX(), maxHeight, context.chunkPos().getMinBlockZ());
-        for (Holder<Biome> holder : context.biomeSource().getBiomesWithin(blockpos.getX(), blockpos.getY(), blockpos.getZ(), 63, context.randomState().sampler())) {
-            if (holder.is(ACTagRegistry.HAS_NO_UNDERGROUND_CABINS)) {
-                return Optional.empty();
-            }
+        if(context.biomeSource().getNoiseBiome(blockpos.getX(), blockpos.getY(), blockpos.getZ(), context.randomState().sampler()).is(ACTagRegistry.HAS_NO_UNDERGROUND_CABINS)){
+            return Optional.empty();
         }
         ResourceLocation res = Util.getRandom(CABIN_NBT, context.random());
         return Optional.of(new GenerationStub(blockpos, (piecesBuilder -> piecesBuilder.addPiece(new UndergroundCabinStructurePiece(context.structureTemplateManager(), res, blockpos, rotation)))));

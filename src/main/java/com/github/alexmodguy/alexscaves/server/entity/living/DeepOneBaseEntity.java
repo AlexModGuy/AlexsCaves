@@ -30,6 +30,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
@@ -157,7 +158,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
             if (this.getSummonTime() > 0) {
                 if (summonedProgress < 20.0F) {
                     if (summonedProgress == 0) {
-                        if(!level().isClientSide){
+                        if (!level().isClientSide) {
                             this.level().broadcastEntityEvent(this, (byte) 61);
                         }
                         this.playSound(ACSoundRegistry.MAGIC_CONCH_SUMMON.get());
@@ -170,11 +171,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
                 }
             }
             if (getSummonTime() > 0) {
-                if(!level().isClientSide){
+                if (!level().isClientSide) {
                     setSummonTime(getSummonTime() - 1);
                 }
                 if (getSummonTime() == 0) {
-                    if(!level().isClientSide){
+                    if (!level().isClientSide) {
                         this.level().broadcastEntityEvent(this, (byte) 61);
                     }
                     this.playSound(ACSoundRegistry.MAGIC_CONCH_SUMMON.get());
@@ -468,6 +469,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
     }
 
     @Override
+    public boolean isInvulnerableTo(DamageSource damageSource) {
+        return super.isInvulnerableTo(damageSource) || damageSource.is(DamageTypes.IN_WALL);
+    }
+
+    @Override
     public boolean hurt(DamageSource damageSource, float damageValue) {
         boolean sup = super.hurt(damageSource, damageValue);
         if (sup && damageSource.getEntity() instanceof Player player && !level().isClientSide && !damageSource.is(ACTagRegistry.DEEP_ONE_IGNORES)) {
@@ -541,11 +547,11 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     public abstract Animation getTradingAnimation();
 
-    public boolean soundsAngry(){
+    public boolean soundsAngry() {
         return this.entityData.get(SOUNDS_ANGRY);
     }
 
-    public void setSoundsAngry(boolean angrySounding){
+    public void setSoundsAngry(boolean angrySounding) {
         this.entityData.set(SOUNDS_ANGRY, angrySounding);
     }
 

@@ -21,7 +21,7 @@ public class ACFoods {
     public static final FoodProperties LANTERNFISH = (new FoodProperties.Builder()).nutrition(1).saturationMod(0.175F).fast().build();
     public static final FoodProperties LANTERNFISH_COOKED = (new FoodProperties.Builder()).nutrition(2).saturationMod(0.3F).fast().build();
     public static final FoodProperties TRIPODFISH = (new FoodProperties.Builder()).nutrition(2).saturationMod(0.2F).build();
-    public static final FoodProperties TRIPODFISH_COOKED = (new FoodProperties.Builder()).nutrition(5).saturationMod(0.34F).fast().build();
+    public static final FoodProperties TRIPODFISH_COOKED = (new FoodProperties.Builder()).nutrition(5).saturationMod(0.34F).build();
     public static final FoodProperties SEA_PIG = (new FoodProperties.Builder()).nutrition(1).saturationMod(0.2F).effect(() -> new MobEffectInstance(MobEffects.HUNGER, 1200), 0.7F).build();
     public static final FoodProperties MUSSEL_COOKED = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F).fast().build();
     public static final FoodProperties DEEP_SEA_SUSHI_ROLL = (new FoodProperties.Builder()).nutrition(7).saturationMod(0.4F).build();

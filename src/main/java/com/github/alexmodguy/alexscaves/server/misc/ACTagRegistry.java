@@ -60,6 +60,7 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> SUBTERRANODON_FLEES = registerEntityTag("subterranodon_flees");
     public static final TagKey<EntityType<?>> VALLUMRAPTOR_TARGETS = registerEntityTag("vallumraptor_targets");
     public static final TagKey<EntityType<?>> RESISTS_TREMORSAURUS_ROAR = registerEntityTag("resists_tremorsaurus_roar");
+    public static final TagKey<EntityType<?>> AMBER_MONOLITH_SKIPS = registerEntityTag("amber_monolith_skips");
     public static final TagKey<EntityType<?>> RESISTS_ACID = registerEntityTag("resists_acid");
     public static final TagKey<EntityType<?>> RESISTS_RADIATION = registerEntityTag("resists_radiation");
     public static final TagKey<EntityType<?>> SEAFLOOR_DENIZENS = registerEntityTag("seafloor_denizens");

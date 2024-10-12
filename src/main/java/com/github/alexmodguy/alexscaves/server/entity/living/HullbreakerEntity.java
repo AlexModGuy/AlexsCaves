@@ -116,6 +116,13 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity, K
         return level.getFluidState(pos).is(FluidTags.WATER) && pos.getY() < level.getSeaLevel() - 25;
     }
 
+    public int getMaxSpawnClusterSize() {
+        return 1;
+    }
+
+    public boolean isMaxGroupSizeReached(int i) {
+        return i >= getMaxSpawnClusterSize();
+    }
 
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new HullbreakerMeleeGoal(this));
