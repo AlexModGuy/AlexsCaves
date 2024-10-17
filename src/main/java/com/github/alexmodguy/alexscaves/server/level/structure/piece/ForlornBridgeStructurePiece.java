@@ -143,7 +143,7 @@ public class ForlornBridgeStructurePiece extends StructurePiece {
         if (level.canSeeSky(pos) || level.getHeight(Heightmap.Types.WORLD_SURFACE_WG, above.getX(), above.getZ()) >= level.getMaxBuildHeight()) {
             return;
         }
-        while (!checkedGetBlock(level, pos).isSolid() && pos.getY() < level.getMaxBuildHeight()) {
+        while (!checkedGetBlock(level, pos).isSolid() && pos.getY() < level.getMaxBuildHeight() && !level.canSeeSky(pos)) {
             checkedSetBlock(level, pos, Blocks.CHAIN.defaultBlockState());
             pos.move(0, 1, 0);
         }

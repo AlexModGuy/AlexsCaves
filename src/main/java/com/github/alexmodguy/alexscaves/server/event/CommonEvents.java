@@ -269,19 +269,19 @@ public class CommonEvents {
             }
             if (event.getEntity() instanceof Drowned drowned && drowned.level().getBiome(drowned.blockPosition()).is(ACBiomeRegistry.ABYSSAL_CHASM)) {
                 if (drowned.getItemBySlot(EquipmentSlot.FEET).isEmpty() && drowned.getItemBySlot(EquipmentSlot.LEGS).isEmpty() && drowned.getItemBySlot(EquipmentSlot.CHEST).isEmpty() && drowned.getItemBySlot(EquipmentSlot.HEAD).isEmpty()) {
-                    if (drowned.getRandom().nextFloat() < 0.2) {
+                    if (drowned.getRandom().nextFloat() < AlexsCaves.COMMON_CONFIG.drownedDivingGearSpawnChance.get()) {
                         drowned.setItemSlot(EquipmentSlot.HEAD, new ItemStack(ACItemRegistry.DIVING_HELMET.get()));
                         drowned.setDropChance(EquipmentSlot.HEAD, 0.5F);
                     }
-                    if (drowned.getRandom().nextFloat() < 0.2) {
+                    if (drowned.getRandom().nextFloat() < AlexsCaves.COMMON_CONFIG.drownedDivingGearSpawnChance.get()) {
                         drowned.setItemSlot(EquipmentSlot.CHEST, new ItemStack(ACItemRegistry.DIVING_CHESTPLATE.get()));
                         drowned.setDropChance(EquipmentSlot.CHEST, 0.5F);
                     }
-                    if (drowned.getRandom().nextFloat() < 0.2) {
+                    if (drowned.getRandom().nextFloat() < AlexsCaves.COMMON_CONFIG.drownedDivingGearSpawnChance.get()) {
                         drowned.setItemSlot(EquipmentSlot.LEGS, new ItemStack(ACItemRegistry.DIVING_LEGGINGS.get()));
                         drowned.setDropChance(EquipmentSlot.LEGS, 0.5F);
                     }
-                    if (drowned.getRandom().nextFloat() < 0.2) {
+                    if (drowned.getRandom().nextFloat() < AlexsCaves.COMMON_CONFIG.drownedDivingGearSpawnChance.get()) {
                         drowned.setItemSlot(EquipmentSlot.FEET, new ItemStack(ACItemRegistry.DIVING_BOOTS.get()));
                         drowned.setDropChance(EquipmentSlot.FEET, 0.5F);
                     }

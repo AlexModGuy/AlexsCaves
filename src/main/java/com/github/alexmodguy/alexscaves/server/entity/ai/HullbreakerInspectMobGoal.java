@@ -43,7 +43,7 @@ public class HullbreakerInspectMobGoal extends Goal {
         if (!list.isEmpty()) {
             LivingEntity closest = null;
             for (LivingEntity mob : list) {
-                if ((closest == null || mob.distanceToSqr(entity) < closest.distanceToSqr(entity)) && entity.hasLineOfSight(mob)) {
+                if ((closest == null || mob.distanceToSqr(entity) < closest.distanceToSqr(entity)) && entity.hasLineOfSight(mob) && !mob.is(entity)) {
                     closest = mob;
                 }
             }

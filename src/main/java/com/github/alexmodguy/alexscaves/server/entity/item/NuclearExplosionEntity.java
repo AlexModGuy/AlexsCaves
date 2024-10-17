@@ -181,6 +181,7 @@ public class NuclearExplosionEntity extends Entity {
         for (int x = 0; x < 16; x++) {
             for (int z = 0; z < 16; z++) {
                 for (int y = 15; y >= 0; y--) {
+                    boolean canSetToFire = false;
                     carve.set(chunkCorner.getX() + x, Mth.clamp(chunkCorner.getY() + y, level().getMinBuildHeight(), level().getMaxBuildHeight()), chunkCorner.getZ() + z);
                     float widthSimplexNoise1 = (ACMath.sampleNoise3D(carve.getX(), carve.getY(), carve.getZ(), radius) - 0.5F) * 0.45F + 0.55F;
                     double yDist = ACMath.smin(0.6F - Math.abs(this.blockPosition().getY() - carve.getY()) / (float) radius, 0.6F, 0.2F);
@@ -190,6 +191,7 @@ public class NuclearExplosionEntity extends Entity {
                         BlockState state = level().getBlockState(carve);
                         if ((!state.isAir() || !state.getFluidState().isEmpty()) && isDestroyable(state)) {
                             carveBelow.set(carve.getX(), carve.getY() - 1, carve.getZ());
+                            canSetToFire = true;
                             if(state.is(ACBlockRegistry.TREMORZILLA_EGG.get()) && state.getBlock() instanceof TremorzillaEggBlock tremorzillaEggBlock){
                                 tremorzillaEggBlock.spawnDinosaurs(level(), carve, state);
                             }else if (AlexsCaves.COMMON_CONFIG.nukesSpawnItemDrops.get() && random.nextFloat() < itemDropModifier && state.getFluidState().isEmpty()) {
@@ -199,9 +201,9 @@ public class NuclearExplosionEntity extends Entity {
                             }
                         }
                     }
-                }
-                if (random.nextFloat() < 0.15 && !level().getBlockState(carveBelow).isAir()) {
-                    level().setBlockAndUpdate(carveBelow.above(), Blocks.FIRE.defaultBlockState());
+                    if (canSetToFire && random.nextFloat() < 0.15 && !level().getBlockState(carveBelow).isAir()) {
+                        level().setBlockAndUpdate(carveBelow.above(), Blocks.FIRE.defaultBlockState());
+                    }
                 }
             }
         }

@@ -15,6 +15,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.DoubleValue luxtructosaurusBlockDropChance;
     public final ForgeConfigSpec.IntValue atlatitanMaxExplosionResistance;
     public final ForgeConfigSpec.BooleanValue devastatingTremorzillaBeam;
+    public final ForgeConfigSpec.DoubleValue drownedDivingGearSpawnChance;
     public final ForgeConfigSpec.BooleanValue watcherPossession;
     public final ForgeConfigSpec.IntValue watcherPossessionCooldown;
     public final ForgeConfigSpec.BooleanValue walkingOnMagnets;
@@ -53,6 +54,8 @@ public class ACServerConfig {
         builder.pop();
         builder.push("mob-spawning");
         caveCreatureSpawnCountModifier = builder.comment("Cave Creatures (All dinosaurs, raycats, etc) spawn at this frequency. Their cap is calculated by multiplying this number with the default mob cap for surface animals.").translation("cave_creature_spawn_count_modifier").defineInRange("cave_creature_spawn_count_modifier", 1.75D, 0, 10D);
+        drownedDivingGearSpawnChance = builder.comment("The percent chance that drowned have to spawn wearing diving gear in the Abyssal Chasm. 0 = no diving gear wearing drowned will spawn").translation("drowned_diving_gear_spawn_chance").defineInRange("drowned_diving_gear_spawn_chance", 0.2D, 0, 1D);
+
         builder.pop();
         builder.push("mob-behavior");
         pathfindingThreads = builder.comment("How many cpu cores big mobs(tremorzilla, atlatitan, grottoceratops etc) should utilize when pathing. Bigger number = less impact on TPS").translation("pathfinding_threads").defineInRange("pathfinding_threads", 5, 1, 100);
