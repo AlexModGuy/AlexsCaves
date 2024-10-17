@@ -178,7 +178,7 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
                             entity.resetCookTime();
                             cookStack.shrink(1);
                             if (ItemStack.isSameItem(entity.items.get(3), cookResult)) {
-                                entity.items.get(3).grow(1);
+                                entity.items.get(3).grow(cookResult.getCount());
                             } else {
                                 entity.setItem(3, cookResult.copy());
                             }
