@@ -1,12 +1,9 @@
 package com.github.alexmodguy.alexscaves.server.entity;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
-import com.github.alexmodguy.alexscaves.server.entity.item.AlexsCavesBoatEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.GummyColors;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

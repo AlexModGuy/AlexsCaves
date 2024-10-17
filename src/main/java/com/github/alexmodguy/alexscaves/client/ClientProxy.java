@@ -69,6 +69,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
@@ -1072,6 +1073,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public boolean isFarFromCamera(double x, double y, double z) {
         return Minecraft.getInstance().gameRenderer.getMainCamera().getPosition().distanceToSqr(x, y, z) >= 256.0D;
+    }
+
+    public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index){
+        ClientEvents.renderVanillaMapDecoration(mapDecoration, index + 1);
     }
 }
 

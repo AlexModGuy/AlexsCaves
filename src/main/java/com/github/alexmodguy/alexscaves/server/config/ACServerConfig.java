@@ -12,6 +12,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.DoubleValue caveCreatureSpawnCountModifier;
     public final ForgeConfigSpec.IntValue pathfindingThreads;
     public final ForgeConfigSpec.IntValue nucleeperFuseTime;
+    public final ForgeConfigSpec.DoubleValue luxtructosaurusBlockDropChance;
     public final ForgeConfigSpec.IntValue atlatitanMaxExplosionResistance;
     public final ForgeConfigSpec.BooleanValue devastatingTremorzillaBeam;
     public final ForgeConfigSpec.BooleanValue watcherPossession;
@@ -55,6 +56,7 @@ public class ACServerConfig {
         builder.pop();
         builder.push("mob-behavior");
         pathfindingThreads = builder.comment("How many cpu cores big mobs(tremorzilla, atlatitan, grottoceratops etc) should utilize when pathing. Bigger number = less impact on TPS").translation("pathfinding_threads").defineInRange("pathfinding_threads", 5, 1, 100);
+        luxtructosaurusBlockDropChance = builder.comment("Chance that blocks destroyed by luxtructosaurus attacks drop themselves, if mob griefing is enabled.").translation("luxtructosaurus_block_drop_chance").defineInRange("luxtructosaurus_block_drop_chance", 0.75D, 0, 1D);
         atlatitanMaxExplosionResistance = builder.comment("The maximum explosion resistance that a block can have to be destroyed by an atlatitan stomp. Set to zero to disable all atlatitan block breaking.").translation("atlatitan_max_block_explosion_resistance").defineInRange("atlatitan_max_block_explosion_resistance", 10, 0, Integer.MAX_VALUE);
         nucleeperFuseTime = builder.comment("How long (in game ticks) it takes for a nucleeper to explode.").translation("nucleeper_fuse_time").defineInRange("nucleeper_fuse_time", 300, 20, Integer.MAX_VALUE);
         devastatingTremorzillaBeam = builder.comment("True if the Tremorzilla beam breaks even more blocks.").translation("devastating_tremorzilla_beam").define("devastating_tremorzilla_beam", true);

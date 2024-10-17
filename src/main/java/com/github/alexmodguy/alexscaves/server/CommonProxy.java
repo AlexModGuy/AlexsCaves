@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
@@ -154,5 +155,8 @@ public class CommonProxy {
 
     public boolean isFarFromCamera(double x, double y, double z) {
         return false;
+    }
+
+    public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index) {
     }
 }

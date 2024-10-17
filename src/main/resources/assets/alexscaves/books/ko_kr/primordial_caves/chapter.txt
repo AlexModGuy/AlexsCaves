@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    어서오세요 원시 동굴에...
+
+    • {소개|primordial_caves/general.json}
+    • {자원|primordial_caves/resources.json}
+    • 생물들
+        • {서브테라노돈|primordial_caves/subterranodon.json}
+        • {발룸랩터|primordial_caves/vallumraptor.json}
+        • {그로토케라톱스|primordial_caves/grottoceratops.json}
+        • {트릴로카리스|primordial_caves/trilocaris.json}
+        • {트레머사우르스|primordial_caves/tremorsaurus.json}
+        • {렐리케이루스|primordial_caves/relicheirus.json}
+        • {럭스트럭토사우루스|primordial_caves/luxtructosaurus.json}
+        • {아틀라티탄|primordial_caves/atlatitan.json}
+    • {유용한 것들|primordial_caves/utilities.json}

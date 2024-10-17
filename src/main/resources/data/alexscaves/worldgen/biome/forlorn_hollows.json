@@ -125,7 +125,7 @@
       "energy_budget": 0.1
     },
     "alexscaves:vesper": {
-      "charge": 0.275,
+      "charge": 0.25,
       "energy_budget": 0.1
     }
   },
@@ -162,9 +162,9 @@
       },
       {
         "type": "alexscaves:vesper",
-        "maxCount": 4,
+        "maxCount": 3,
         "minCount": 2,
-        "weight": 70
+        "weight": 60
       }
     ],
     "underground_water_creature": [],

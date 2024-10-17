@@ -17,6 +17,7 @@ import com.github.alexmodguy.alexscaves.server.item.AlwaysCombinableOnAnvil;
 import com.github.alexmodguy.alexscaves.server.item.ExtinctionSpearItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
+import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSourceAccessor;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -24,10 +25,14 @@ import com.github.alexmodguy.alexscaves.server.potion.DarknessIncarnateEffect;
 import com.github.alexmodguy.alexscaves.server.potion.SugarRushEffect;
 import com.github.alexthe666.citadel.server.event.EventReplaceBiome;
 import com.github.alexthe666.citadel.server.tick.ServerTickRateTracker;
+import com.google.common.collect.ImmutableSet;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -69,6 +74,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraftforge.event.AnvilUpdateEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
@@ -84,6 +90,7 @@ import net.minecraftforge.event.server.ServerStoppingEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.event.village.WandererTradesEvent;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -91,6 +98,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class CommonEvents {
 
@@ -118,12 +126,12 @@ public class CommonEvents {
             }
         }
         if (!event.getEntity().level().isClientSide && event.getEntity() instanceof Mob mob && event.getSource() != null && event.getSource().getDirectEntity() instanceof LivingEntity directSource && directSource.getItemInHand(InteractionHand.MAIN_HAND).is(ACItemRegistry.PRIMITIVE_CLUB.get())) {
-            if(directSource.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel(ACEnchantmentRegistry.BONKING.get()) > 0 && event.getEntity().level().random.nextFloat() < 0.33F){
+            if (directSource.getItemInHand(InteractionHand.MAIN_HAND).getEnchantmentLevel(ACEnchantmentRegistry.BONKING.get()) > 0 && event.getEntity().level().random.nextFloat() < 0.33F) {
                 Creeper fakeCreeperForSkullDrop = EntityType.CREEPER.create(mob.level());
-                if(fakeCreeperForSkullDrop != null){
-                    if(event.getEntity().level() instanceof ServerLevel serverLevel){
+                if (fakeCreeperForSkullDrop != null) {
+                    if (event.getEntity().level() instanceof ServerLevel serverLevel) {
                         LightningBolt fakeThunder = EntityType.LIGHTNING_BOLT.create(serverLevel);
-                        if(fakeThunder != null){
+                        if (fakeThunder != null) {
                             fakeThunder.setVisualOnly(true);
                             fakeCreeperForSkullDrop.thunderHit(serverLevel, fakeThunder);
                         }
@@ -131,12 +139,12 @@ public class CommonEvents {
                     DamageSource fakeCreeperDamage = mob.level().damageSources().mobAttack(fakeCreeperForSkullDrop);
                     HashMap<EquipmentSlot, Float> prevLootDropChances = new HashMap<>();
                     EntityDropChanceAccessor dropChanceAccessor = (EntityDropChanceAccessor) mob;
-                    for(EquipmentSlot slot : EquipmentSlot.values()){
+                    for (EquipmentSlot slot : EquipmentSlot.values()) {
                         prevLootDropChances.put(slot, dropChanceAccessor.ac_getEquipmentDropChance(slot));
                         dropChanceAccessor.ac_setDropChance(slot, 0.0F);
                     }
                     dropChanceAccessor.ac_dropCustomDeathLoot(fakeCreeperDamage, 0, false);
-                    for(EquipmentSlot slot : EquipmentSlot.values()){
+                    for (EquipmentSlot slot : EquipmentSlot.values()) {
                         dropChanceAccessor.ac_setDropChance(slot, prevLootDropChances.get(slot));
                     }
                 }
@@ -145,7 +153,7 @@ public class CommonEvents {
             }
         }
         if (event.getEntity() instanceof Player) {
-            if(event.getEntity().getUUID().toString().equals("71363abe-fd03-49c9-940d-aae8b8209b7c")){
+            if (event.getEntity().getUUID().toString().equals("71363abe-fd03-49c9-940d-aae8b8209b7c")) {
                 event.getEntity().spawnAtLocation(new ItemStack(ACItemRegistry.GREEN_SOYLENT.get(), 1 + event.getEntity().getRandom().nextInt(9)));
             }
             if (event.getEntity().getUUID().toString().equals("4a463319-625c-4b86-a4e7-8b700f023a60")) {
@@ -169,7 +177,7 @@ public class CommonEvents {
             tag.putUUID("BoundEntityUUID", event.getTarget().getUUID());
             CompoundTag entityTag = event.getTarget() instanceof Player ? new CompoundTag() : event.getTarget().serializeNBT();
             entityTag.putString("id", ForgeRegistries.ENTITY_TYPES.getKey(event.getTarget().getType()).toString());
-            if(event.getTarget() instanceof Player){
+            if (event.getTarget() instanceof Player) {
                 entityTag.putUUID("UUID", event.getTarget().getUUID());
             }
             tag.put("BoundEntityTag", entityTag);
@@ -214,9 +222,9 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void livingAttack(LivingAttackEvent event) {
-        if(event.getSource().getDirectEntity() instanceof AbstractArrow arrow && event.getEntity().isBlocking() && event.getEntity().getUseItem().is(ACItemRegistry.RESISTOR_SHIELD.get())){
+        if (event.getSource().getDirectEntity() instanceof AbstractArrow arrow && event.getEntity().isBlocking() && event.getEntity().getUseItem().is(ACItemRegistry.RESISTOR_SHIELD.get())) {
             ItemStack shield = event.getEntity().getUseItem();
-            if(shield.getEnchantmentLevel(ACEnchantmentRegistry.ARROW_INDUCTING.get()) > 0 && arrow.getType() != ACEntityRegistry.SEEKING_ARROW.get()){
+            if (shield.getEnchantmentLevel(ACEnchantmentRegistry.ARROW_INDUCTING.get()) > 0 && arrow.getType() != ACEntityRegistry.SEEKING_ARROW.get()) {
                 SeekingArrowEntity seekingArrowEntity = new SeekingArrowEntity(event.getEntity().level(), event.getEntity());
                 seekingArrowEntity.copyPosition(arrow);
                 seekingArrowEntity.setDeltaMovement(arrow.getDeltaMovement().scale(-0.4D));
@@ -332,11 +340,6 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
-    public void onServerAboutToStart(ServerAboutToStartEvent event) {
-        ACBiomeRarity.init();
-    }
-
-    @SubscribeEvent
     public void onServerStopping(ServerStoppingEvent event) {
         if (AlexsCaves.COMMON_CONFIG.sugarRushSlowsTime.get()) {
             ServerTickRateTracker tracker = ServerTickRateTracker.getForServer(event.getServer());
@@ -345,6 +348,7 @@ public class CommonEvents {
     }
 
     @SubscribeEvent
+    @Deprecated(forRemoval = true, since = "1.21")
     public void onReplaceBiome(EventReplaceBiome event) {
         ResourceKey<Biome> biome = BiomeGenerationConfig.getBiomeForEvent(event);
         if (biome != null) {
@@ -352,6 +356,33 @@ public class CommonEvents {
             if (biomeHolder != null) {
                 event.setResult(Event.Result.ALLOW);
                 event.setBiomeToGenerate(biomeHolder);
+            }
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public void onServerAboutToStart(ServerAboutToStartEvent event) {
+        ACBiomeRarity.init();
+        //moved from citadel
+        RegistryAccess registryAccess = event.getServer().registryAccess();
+        Registry<Biome> allBiomes = registryAccess.registryOrThrow(Registries.BIOME);
+        Registry<LevelStem> levelStems = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
+        Map<ResourceKey<Biome>, Holder<Biome>> biomeMap = new HashMap<>();
+        for (ResourceKey<Biome> biomeResourceKey : allBiomes.registryKeySet()) {
+            Optional<Holder.Reference<Biome>> holderOptional = allBiomes.getHolder(biomeResourceKey);
+            holderOptional.ifPresent(biomeHolder -> biomeMap.put(biomeResourceKey, biomeHolder));
+        }
+        for (ResourceKey<LevelStem> levelStemResourceKey : levelStems.registryKeySet()) {
+            Optional<Holder.Reference<LevelStem>> holderOptional = levelStems.getHolder(levelStemResourceKey);
+            if (holderOptional.isPresent() && holderOptional.get().value().generator().getBiomeSource() instanceof BiomeSourceAccessor expandedBiomeSource) {
+                expandedBiomeSource.setResourceKeyMap(biomeMap);
+                if (levelStemResourceKey.equals(LevelStem.OVERWORLD)) {
+                    ImmutableSet.Builder<Holder<Biome>> biomeHolders = ImmutableSet.builder();
+                    for (ResourceKey<Biome> biomeResourceKey : ACBiomeRegistry.ALEXS_CAVES_BIOMES) {
+                        allBiomes.getHolder(biomeResourceKey).ifPresent(biomeHolders::add);
+                    }
+                    expandedBiomeSource.expandBiomesWith(biomeHolders.build());
+                }
             }
         }
     }
@@ -387,9 +418,9 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void playerLoggedIn(PlayerEvent.PlayerLoggedInEvent event) {
-        if(AlexsCaves.COMMON_CONFIG.warnGenerationIncompatibility.get() && !AlexsCaves.MOD_GENERATION_CONFLICTS.isEmpty() && event.getEntity().level().isClientSide){
-            for(String modid : AlexsCaves.MOD_GENERATION_CONFLICTS){
-                if(ModList.get().isLoaded(modid)){
+        if (AlexsCaves.COMMON_CONFIG.warnGenerationIncompatibility.get() && !AlexsCaves.MOD_GENERATION_CONFLICTS.isEmpty() && event.getEntity().level().isClientSide) {
+            for (String modid : AlexsCaves.MOD_GENERATION_CONFLICTS) {
+                if (ModList.get().isLoaded(modid)) {
                     event.getEntity().sendSystemMessage(Component.translatable("alexscaves.startup_warning.generation_incompatible", modid).withStyle(ChatFormatting.RED));
                 }
             }
@@ -455,18 +486,18 @@ public class CommonEvents {
 
     @SubscribeEvent
     public void onUpdateAnvil(AnvilUpdateEvent event) {
-        if(event.getLeft().getItem() instanceof AlwaysCombinableOnAnvil && event.getLeft().getItem() == event.getRight().getItem() && !event.getLeft().getAllEnchantments().isEmpty() && !event.getRight().getAllEnchantments().isEmpty()){
+        if (event.getLeft().getItem() instanceof AlwaysCombinableOnAnvil && event.getLeft().getItem() == event.getRight().getItem() && !event.getLeft().getAllEnchantments().isEmpty() && !event.getRight().getAllEnchantments().isEmpty()) {
             Map<Enchantment, Integer> map = EnchantmentHelper.getEnchantments(event.getLeft());
             Map<Enchantment, Integer> map1 = EnchantmentHelper.getEnchantments(event.getRight());
             boolean canCombine = true;
             int i = 0;
-            for(Enchantment enchantment1 : map1.keySet()) {
+            for (Enchantment enchantment1 : map1.keySet()) {
                 if (enchantment1 != null) {
                     int i2 = map.getOrDefault(enchantment1, 0);
                     int j2 = map1.get(enchantment1);
                     j2 = i2 == j2 ? j2 + 1 : Math.max(j2, i2);
 
-                    for(Enchantment enchantment : map.keySet()) {
+                    for (Enchantment enchantment : map.keySet()) {
                         if (enchantment != enchantment1 && !enchantment1.isCompatibleWith(enchantment)) {
                             canCombine = false;
                             ++i;
@@ -507,9 +538,7 @@ public class CommonEvents {
     private static boolean itemTagContainsAC(CompoundTag tag, String tagID, boolean allowUndergroundCabin) {
         if (tag.contains(tagID)) {
             String resourceLocation = tag.getString(tagID);
-            if (resourceLocation.contains("alexscaves:") && (!allowUndergroundCabin || !resourceLocation.contains("underground_cabin"))) {
-                return true;
-            }
+            return resourceLocation.contains("alexscaves:") && (!allowUndergroundCabin || !resourceLocation.contains("underground_cabin"));
         }
         return false;
     }
