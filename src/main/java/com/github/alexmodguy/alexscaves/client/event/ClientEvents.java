@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.client.event;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
-import com.github.alexmodguy.alexscaves.client.beta.UserVerification;
 import com.github.alexmodguy.alexscaves.client.gui.ACAdvancementTabs;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.HologramProjectorBlockRenderer;
@@ -1070,7 +1069,7 @@ public class ClientEvents {
         }
         Player player = Minecraft.getInstance().player;
         FogType fogtype = event.getCamera().getFluidInCamera();
-        if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && fogtype == FogType.WATER) {
+        if (player != null && player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && fogtype == FogType.WATER) {
             float f = (float) Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get(), 1.0D, 0.85714287F);
             event.setFOV(event.getFOV() / f);
         }
@@ -1122,12 +1121,6 @@ public class ClientEvents {
                 event.setColor(0XFF8ACD);
             }
         }
-    }
-
-    //TODO remove
-    @SubscribeEvent
-    public void onScreenOpen(ScreenEvent.Init event) {
-        UserVerification.onGameStart();
     }
 
     public static void renderVanillaMapDecoration(MapDecoration mapdecoration, int k) {

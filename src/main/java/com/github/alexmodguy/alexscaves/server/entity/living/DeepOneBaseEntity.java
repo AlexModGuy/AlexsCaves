@@ -24,6 +24,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -39,6 +40,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -57,7 +59,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import java.util.*;
 
-public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEntity {
+public abstract class DeepOneBaseEntity extends PathfinderMob implements IAnimatedEntity {
     protected boolean isLandNavigator;
     private boolean hasSwimmingSize = false;
     private float fishPitch = 0;
@@ -82,6 +84,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
 
     protected DeepOneBaseEntity(EntityType entityType, Level level) {
         super(entityType, level);
+        this.xpReward = 8;
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
         this.setPathfindingMalus(BlockPathTypes.WATER_BORDER, 0.0F);
         switchNavigator(false);
@@ -117,7 +120,7 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         if (!level.getFluidState(blockPos.below()).is(FluidTags.WATER)) {
             return false;
         } else {
-            boolean flag = level.getDifficulty() != Difficulty.PEACEFUL && isDarkEnoughToSpawn(level, blockPos, randomSource) && (mobSpawnType == MobSpawnType.SPAWNER || level.getFluidState(blockPos).is(FluidTags.WATER));
+            boolean flag = level.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(level, blockPos, randomSource) && (mobSpawnType == MobSpawnType.SPAWNER || level.getFluidState(blockPos).is(FluidTags.WATER));
             return randomSource.nextInt(110) == 0 && blockPos.getY() < level.getSeaLevel() - 80 && flag;
         }
     }
@@ -240,6 +243,64 @@ public abstract class DeepOneBaseEntity extends Monster implements IAnimatedEnti
         AnimationHandler.INSTANCE.updateAnimations(this);
     }
 
+    @Override
+    public void aiStep() {
+        this.updateSwingTime();
+        this.updateNoActionTime();
+        super.aiStep();
+    }
+
+    protected void updateNoActionTime() {
+        float f = this.getLightLevelDependentMagicValue();
+        if (f > 0.5F) {
+            this.noActionTime += 2;
+        }
+    }
+
+    @Override
+    public SoundSource getSoundSource() {
+        return SoundSource.HOSTILE;
+    }
+
+    @Override
+    protected SoundEvent getSwimSound() {
+        return SoundEvents.HOSTILE_SWIM;
+    }
+
+    @Override
+    protected SoundEvent getSwimSplashSound() {
+        return SoundEvents.HOSTILE_SPLASH;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource p_33034_) {
+        return SoundEvents.HOSTILE_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.HOSTILE_DEATH;
+    }
+
+    @Override
+    public LivingEntity.Fallsounds getFallSounds() {
+        return new LivingEntity.Fallsounds(SoundEvents.HOSTILE_SMALL_FALL, SoundEvents.HOSTILE_BIG_FALL);
+    }
+
+    @Override
+    public float getWalkTargetValue(BlockPos blockPos, LevelReader levelReader) {
+        return -levelReader.getPathfindingCostFromLightLevels(blockPos);
+    }
+
+    @Override
+    public boolean shouldDropExperience() {
+        return true;
+    }
+
+    @Override
+    protected boolean shouldDropLoot() {
+        return true;
+    }
 
     private List<ItemStack> generateBarterLoot() {
         LootTable loottable = this.level().getServer().getLootData().getLootTable(getBarterLootTable());
