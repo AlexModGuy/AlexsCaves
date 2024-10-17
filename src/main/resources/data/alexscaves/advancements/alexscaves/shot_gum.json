@@ -18,7 +18,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:shot_gum"
+                        "items": ["alexscaves:shot_gum"]
                     }
                 ]
             }

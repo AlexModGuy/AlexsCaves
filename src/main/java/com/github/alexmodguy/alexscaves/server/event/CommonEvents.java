@@ -347,19 +347,6 @@ public class CommonEvents {
         }
     }
 
-    @SubscribeEvent
-    @Deprecated(forRemoval = true, since = "1.21")
-    public void onReplaceBiome(EventReplaceBiome event) {
-        ResourceKey<Biome> biome = BiomeGenerationConfig.getBiomeForEvent(event);
-        if (biome != null) {
-            Holder<Biome> biomeHolder = event.getBiomeSource().getResourceKeyMap().get(biome);
-            if (biomeHolder != null) {
-                event.setResult(Event.Result.ALLOW);
-                event.setBiomeToGenerate(biomeHolder);
-            }
-        }
-    }
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onServerAboutToStart(ServerAboutToStartEvent event) {
         ACBiomeRarity.init();

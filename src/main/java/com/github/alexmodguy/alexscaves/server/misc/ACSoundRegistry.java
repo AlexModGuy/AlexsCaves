@@ -466,6 +466,8 @@ public class ACSoundRegistry {
     public static final RegistryObject<SoundEvent> CANDY_CANE_HOOK_LAUNCH = createSoundEvent("candy_cane_hook_launch");
     public static final RegistryObject<SoundEvent> CANDY_CANE_HOOK_REEL = createSoundEvent("candy_cane_hook_reel");
     public static final RegistryObject<SoundEvent> RAINBOUNCE_BOOTS_BOUNCE = createSoundEvent("rainbounce_boots_bounce");
+    public static final RegistryObject<SoundEvent> SUGAR_STAFF_CAST_PEPPERMINT = createSoundEvent("sugar_staff_cast_peppermint");
+    public static final RegistryObject<SoundEvent> SUGAR_STAFF_CAST_HEX = createSoundEvent("sugar_staff_cast_hex");
     public static final RegistryObject<SoundEvent> FROSTMINT_SPEAR_THROW = createSoundEvent("frostmint_spear_throw");
     public static final RegistryObject<SoundEvent> FROSTMINT_SPEAR_HIT = createSoundEvent("frostmint_spear_hit");
     public static final RegistryObject<SoundEvent> TEPHRA_WHISTLE = createSoundEvent("tephra_whistle");

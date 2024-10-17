@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gobthumper"
+                        "items": ["alexscaves:gobthumper"]
                     }
                 ]
             }

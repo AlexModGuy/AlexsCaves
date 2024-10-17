@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:conversion_crucible"
+                        "items": ["alexscaves:conversion_crucible"]
                     }
                 ]
             }

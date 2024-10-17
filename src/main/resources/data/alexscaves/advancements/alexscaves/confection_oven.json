@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:confection_oven"
+                        "items": ["alexscaves:confection_oven"]
                     }
                 ]
             }

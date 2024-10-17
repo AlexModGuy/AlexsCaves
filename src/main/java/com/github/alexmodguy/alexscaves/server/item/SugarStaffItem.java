@@ -6,6 +6,9 @@ import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.SpinningPeppermintEntity;
 import com.github.alexmodguy.alexscaves.server.entity.item.SugarStaffHexEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
+import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -41,6 +44,7 @@ public class SugarStaffItem extends Item {
                 sugarStaffHexEntity.setPos(ground.x, ground.y, ground.z);
                 sugarStaffHexEntity.setHexScale(1.0F + 0.25F * itemstack.getEnchantmentLevel(ACEnchantmentRegistry.HUMUNGOUS_HEX.get()));
                 level.addFreshEntity(sugarStaffHexEntity);
+                level.playSound((Player)null, player.blockPosition(), ACSoundRegistry.SUGAR_STAFF_CAST_HEX.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 sugarStaffHexEntity.setLifespan(100 + 60 * itemstack.getEnchantmentLevel(ACEnchantmentRegistry.SPELL_LASTING.get()));
                 player.getCooldowns().addCooldown(this, 100);
             }else{
@@ -71,6 +75,7 @@ public class SugarStaffItem extends Item {
                     spinningPeppermintEntity.setLifespan(80);
                     level.addFreshEntity(spinningPeppermintEntity);
                 }
+                level.playSound((Player)null, player.blockPosition(), ACSoundRegistry.SUGAR_STAFF_CAST_PEPPERMINT.get(), SoundSource.PLAYERS, 1.0F, 1.0F);
                 player.getCooldowns().addCooldown(this, despawnTime);
             }
             itemstack.hurtAndBreak(1, player, (player1) -> {

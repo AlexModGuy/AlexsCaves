@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:caramel_apple"
+                        "items": ["alexscaves:caramel_apple"]
                     }
                 ]
             }

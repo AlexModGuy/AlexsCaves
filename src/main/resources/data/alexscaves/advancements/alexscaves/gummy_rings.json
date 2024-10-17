@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gummy_ring_red"
+                        "items": ["alexscaves:gummy_ring_red"]
                     }
                 ]
             }
@@ -27,7 +27,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gummy_ring_green"
+                        "items": ["alexscaves:gummy_ring_green"]
                     }
                 ]
             }
@@ -37,7 +37,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gummy_ring_yellow"
+                        "items": ["alexscaves:gummy_ring_yellow"]
                     }
                 ]
             }
@@ -47,7 +47,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gummy_ring_blue"
+                        "items": ["alexscaves:gummy_ring_blue"]
                     }
                 ]
             }
@@ -57,7 +57,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gummy_ring_pink"
+                        "items": ["alexscaves:gummy_ring_pink"]
                     }
                 ]
             }

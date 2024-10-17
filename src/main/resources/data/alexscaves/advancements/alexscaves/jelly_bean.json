@@ -19,7 +19,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:jelly_bean"
+                        "items": ["alexscaves:jelly_bean"]
                     }
                 ]
             }

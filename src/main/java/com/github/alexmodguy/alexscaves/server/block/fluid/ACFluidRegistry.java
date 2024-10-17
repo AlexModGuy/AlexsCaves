@@ -48,6 +48,14 @@ public class ACFluidRegistry {
                 ForgeMod.LAVA_TYPE.get(),
                 fluidState -> ACBlockRegistry.RADROCK.get().defaultBlockState()
         ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
+                ACID_FLUID_TYPE.get(),
+                fluidState -> Blocks.MUD.defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
+                ACID_FLUID_TYPE.get(),
+                fluidState -> ACBlockRegistry.RADROCK.get().defaultBlockState()
+        ));
         FluidInteractionRegistry.addInteraction(PURPLE_SODA_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
                 ForgeMod.WATER_TYPE.get(),
                 fluidState -> ACBlockRegistry.BLUE_ROCK_CANDY.get().defaultBlockState()
@@ -58,6 +66,18 @@ public class ACFluidRegistry {
         ));
         FluidInteractionRegistry.addInteraction(PURPLE_SODA_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
                 ACID_FLUID_TYPE.get(),
+                fluidState -> ACBlockRegistry.GREEN_ROCK_CANDY.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.WATER_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
+                PURPLE_SODA_FLUID_TYPE.get(),
+                fluidState -> ACBlockRegistry.BLUE_ROCK_CANDY.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
+                PURPLE_SODA_FLUID_TYPE.get(),
+                fluidState -> ACBlockRegistry.ORANGE_ROCK_CANDY.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ACID_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
+                PURPLE_SODA_FLUID_TYPE.get(),
                 fluidState -> ACBlockRegistry.GREEN_ROCK_CANDY.get().defaultBlockState()
         ));
     }

@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:radiant_essence"
+                        "items": ["alexscaves:radiant_essence"]
                     }
                 ]
             }

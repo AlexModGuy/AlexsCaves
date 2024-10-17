@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:candy_cane_hook"
+                        "items": ["alexscaves:candy_cane_hook"]
                     }
                 ]
             }

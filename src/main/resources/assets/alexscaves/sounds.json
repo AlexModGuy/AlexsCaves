@@ -4273,6 +4273,18 @@
     ],
     "subtitle": "alexscaves.sound.subtitle.rainbounce_boots_bounce"
   },
+  "sugar_staff_cast_peppermint": {
+    "sounds": [
+      "alexscaves:item/sugar_staff/sugar_staff_cast_peppermint"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sugar_staff_cast_peppermint"
+  },
+  "sugar_staff_cast_hex": {
+    "sounds": [
+      "alexscaves:item/sugar_staff/sugar_staff_cast_hex"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sugar_staff_cast_hex"
+  },
   "frostmint_spear_throw": {
     "sounds": [
       "alexscaves:item/frostmint_spear/frostmint_spear_throw"

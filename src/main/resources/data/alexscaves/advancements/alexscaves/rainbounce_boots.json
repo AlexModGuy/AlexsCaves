@@ -17,7 +17,7 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:rainbounce_boots"
+                        "items": ["alexscaves:rainbounce_boots"]
                     }
                 ]
             }

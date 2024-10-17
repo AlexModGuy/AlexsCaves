@@ -12,12 +12,12 @@
     },
     "parent": "alexscaves:alexscaves/gingerbread_town",
     "criteria": {
-        "mussel": {
+        "crumbs": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "alexscaves:gingerbread_crumbs"
+                        "items": ["alexscaves:gingerbread_crumbs"]
                     }
                 ]
             }
