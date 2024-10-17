@@ -44,6 +44,10 @@ public class ACTagRegistry {
     public static final TagKey<Block> SUBMARINE_ASSEMBLY_BLOCKS = registerBlockTag("submarine_assembly_blocks");
     public static final TagKey<Block> UNDERZEALOT_LIGHT_SOURCES = registerBlockTag("underzealot_light_sources");
     public static final TagKey<Block> GLOOMOTH_LIGHT_SOURCES = registerBlockTag("gloomoth_light_sources");
+    public static final TagKey<Block> GUM_WORM_BLOCKS_DIGGING = registerBlockTag("gum_worm_blocks_digging");
+    public static final TagKey<Block> GUM_WORM_FAVORED_DIGGING = registerBlockTag("gum_worm_favored_digging");
+    public static final TagKey<Block> ROCK_CANDIES = registerBlockTag("rock_candies");
+    public static final TagKey<Block> GINGERBREAD_TOWN_GEN_REPLACEABLES = registerBlockTag("gingerbread_town_gen_replaceables");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> GALENA_GAUNTLET_CRYSTALLIZATION_ITEMS = registerItemTag("galena_gauntlet_crystallization_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");
@@ -53,6 +57,10 @@ public class ACTagRegistry {
     public static final TagKey<Item> NUCLEAR_FURNACE_RODS = registerItemTag("nuclear_furnace_rods");
     public static final TagKey<Item> SEA_PIG_DIGESTS = registerItemTag("sea_pig_digests");
     public static final TagKey<Item> DEEP_ONE_BARTERS = registerItemTag("deep_one_barters");
+    public static final TagKey<Item> GUMMY_ITEMS = registerItemTag("gummy_items");
+    public static final TagKey<Item> GINGERBREAD_MAN_STEALS = registerItemTag("gingerbread_man_steals");
+    public static final TagKey<Item> RESTRICTED_FROM_SACK_OF_SATING = registerItemTag("restricted_from_sack_of_sating");
+    public static final TagKey<Item> EXPLODES_SACK_OF_SATING = registerItemTag("explodes_sack_of_sating");
     public static final TagKey<Item> RESTRICTED_BIOME_LOCATORS = registerItemTag("restricted_biome_locators");
     public static final TagKey<EntityType<?>> MAGNETIC_ENTITIES = registerEntityTag("ferromagnetic_entities");
     public static final TagKey<EntityType<?>> NOTOR_IGNORES = registerEntityTag("notor_ignores");
@@ -80,7 +88,9 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> FORSAKEN_IGNORES = registerEntityTag("forsaken_ignores");
     public static final TagKey<EntityType<?>> MOTH_DUST_ENRAGES = registerEntityTag("moth_dust_enrages");
     public static final TagKey<EntityType<?>> RESISTS_TOTEM_OF_POSSESSION = registerEntityTag("resists_totem_of_possession");
+    public static final TagKey<EntityType<?>> CANDY_MOBS = registerEntityTag("candy_mobs");
     public static final TagKey<Structure> ON_UNDERGROUND_CABIN_MAPS = registerStructureTag("on_underground_cabin_maps");
+    public static final TagKey<Structure> GINGERBREAD_MEN_WANDER_THROUGH = registerStructureTag("gingerbread_men_wander_through");
     public static final TagKey<DamageType> DEEP_ONE_IGNORES = registerDamageTypeTag("deep_one_ignores");
     public static final TagKey<Fluid> DOES_NOT_FLOW_INTO_WATERLOGGABLE_BLOCKS = registerFluidTag("does_not_flow_into_waterloggable_blocks");
 

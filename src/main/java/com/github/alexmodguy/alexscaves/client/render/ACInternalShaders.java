@@ -14,6 +14,7 @@ public class ACInternalShaders {
     private static ShaderInstance renderTypeSepiaShader;
     private static ShaderInstance renderTypeSepiaOutlineShader;
     private static ShaderInstance renderTypeRedGhostShader;
+    private static ShaderInstance renderTypePurpleWitchShader;
 
     @Nullable
     public static ShaderInstance getRenderTypeFerrouslimeGelShader() {
@@ -76,6 +77,15 @@ public class ACInternalShaders {
 
     public static void setRenderTypeRedGhostShader(ShaderInstance instance) {
         renderTypeRedGhostShader = instance;
+    }
+
+    @Nullable
+    public static ShaderInstance getRenderTypePurpleWitchShader() {
+        return renderTypePurpleWitchShader;
+    }
+
+    public static void setRenderTypePurpleWitchShader(ShaderInstance instance) {
+        renderTypePurpleWitchShader = instance;
     }
 
 }

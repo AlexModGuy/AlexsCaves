@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:rainbounce_boots"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.rainbounce_boots.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.rainbounce_boots.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/gelatin",
+    "criteria": {
+        "limestone": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:rainbounce_boots"
+                    }
+                ]
+            }
+        }
+    }
+}

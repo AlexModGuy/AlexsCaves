@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "alexscaves:donut_arch",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 22331293834,
+    "spacing": 11,
+    "separation": 7
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "citadel:effect_item",
+      "nbt": "{DisplayEffect:\"alexscaves:sugar_rush\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.sugar_rush.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.sugar_rush.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/eat_block_of_chocolate",
+  "criteria": {
+    "all_effects": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "alexscaves:sugar_rush": {}
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "alexscaves:sweetish_fish_pink"
+  },
+  "result": "alexscaves:gelatin_pink",
+  "experience": 0.15,
+  "cookingtime": 100
+}

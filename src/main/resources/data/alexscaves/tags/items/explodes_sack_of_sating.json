@@ -1,0 +1,21 @@
+{
+  "__comment": "all items that cause the sack of sating to...",
+  "values": [
+    {
+      "id": "artifacts:eternal_steak",
+      "required": false
+    },
+    {
+      "id": "artifacts:everlasting_beef",
+      "required": false
+    },
+    {
+      "id": "foodexpansion:forbidden_fruit",
+      "required": false
+    },
+    {
+      "id": "foodexpansion:golden_feast",
+      "required": false
+    }
+  ]
+}

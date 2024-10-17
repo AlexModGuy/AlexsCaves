@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP",
+    "PP"
+  ],
+  "key": {
+    "P": {
+      "item": "alexscaves:sweet_puff"
+    }
+  },
+  "result": {
+    "item": "alexscaves:block_of_frosting"
+  }
+}

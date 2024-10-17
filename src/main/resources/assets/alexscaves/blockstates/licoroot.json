@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/licoroot",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/licoroot"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/licoroot",
+      "x": 90
+    }
+  }
+}

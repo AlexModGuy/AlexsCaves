@@ -1,0 +1,89 @@
+{
+  "parent": "candy_cavity/chapter.json",
+  "text": "candy_cavity/utilities.txt",
+  "title": "book.alexscaves.utilities",
+  "required_progression": "alexscaves:candy_cavity_utilities",
+  "widgets": [
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:rainbounce_boots",
+      "sepia": true,
+      "x": 55,
+      "y": 25,
+      "scale": 1
+    },
+    {
+      "display_page": 3,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:candy_cane_hook",
+      "sepia": true,
+      "x": 55,
+      "y": 70,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:shot_gum",
+      "sepia": true,
+      "x": 55,
+      "y": 120,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:gobthumper",
+      "sepia": true,
+      "x": 55,
+      "y": 115,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:sack_of_sating",
+      "sepia": true,
+      "x": 55,
+      "y": 80,
+      "scale": 1
+    },
+    {
+      "display_page": 8,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:gingerbarrel",
+      "sepia": true,
+      "x": 55,
+      "y": 90,
+      "scale": 1
+    },
+    {
+      "display_page": 10,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:confection_oven",
+      "sepia": true,
+      "x": 55,
+      "y": 90,
+      "scale": 1
+    },
+    {
+      "display_page": 11,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:conversion_crucible",
+      "sepia": true,
+      "x": 55,
+      "y": 110,
+      "scale": 1
+    },
+    {
+      "display_page": 12,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:biome_treat",
+      "sepia": true,
+      "x": 55,
+      "y": 50,
+      "scale": 1
+    }
+  ]
+}

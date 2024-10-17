@@ -1,0 +1,7 @@
+{
+    "parent": "alexscaves:block/wall_inventory",
+    "textures": {
+        "wall": "alexscaves:block/frosted_gingerbread_bricks",
+        "top" : "alexscaves:block/vanilla_frosting"
+    }
+}

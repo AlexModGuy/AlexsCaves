@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "alexscaves:block/small_peppermint",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "alexscaves:block/small_peppermint",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "alexscaves:block/small_peppermint"
+    },
+    "facing=south": {
+      "model": "alexscaves:block/small_peppermint",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "alexscaves:block/small_peppermint",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "alexscaves:block/small_peppermint",
+      "y": 270
+    }
+  }
+}

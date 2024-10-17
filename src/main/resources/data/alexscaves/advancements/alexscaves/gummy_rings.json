@@ -1,0 +1,66 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:gummy_ring_blue"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.gummy_rings.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.gummy_rings.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/gelatin",
+    "criteria": {
+        "red": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gummy_ring_red"
+                    }
+                ]
+            }
+        },
+        "green": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gummy_ring_green"
+                    }
+                ]
+            }
+        },
+        "yellow": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gummy_ring_yellow"
+                    }
+                ]
+            }
+        },
+        "blue": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gummy_ring_blue"
+                    }
+                ]
+            }
+        },
+        "pink": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gummy_ring_pink"
+                    }
+                ]
+            }
+        }
+    }
+}

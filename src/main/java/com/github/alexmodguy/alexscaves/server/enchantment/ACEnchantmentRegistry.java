@@ -26,6 +26,9 @@ public class ACEnchantmentRegistry {
     public static final EnchantmentCategory TOTEM_OF_POSSESSION = EnchantmentCategory.create("totem_of_possession", (item -> item == ACItemRegistry.TOTEM_OF_POSSESSION.get()));
     public static final EnchantmentCategory DESOLATE_DAGGER = EnchantmentCategory.create("desolate_dagger", (item -> item == ACItemRegistry.DESOLATE_DAGGER.get()));
     public static final EnchantmentCategory DREADBOW = EnchantmentCategory.create("dreadbow", (item -> item == ACItemRegistry.DREADBOW.get()));
+    public static final EnchantmentCategory SHOT_GUM = EnchantmentCategory.create("shot_gum", (item -> item == ACItemRegistry.SHOT_GUM.get()));
+    public static final EnchantmentCategory CANDY_CANE_HOOK = EnchantmentCategory.create("candy_cane_hook", (item -> item == ACItemRegistry.CANDY_CANE_HOOK.get()));
+    public static final EnchantmentCategory SUGAR_STAFF = EnchantmentCategory.create("sugar_staff", (item -> item == ACItemRegistry.SUGAR_STAFF.get()));
     public static final RegistryObject<Enchantment> FIELD_EXTENSION = DEF_REG.register("field_extension", () -> new ACWeaponEnchantment("field_extension", Enchantment.Rarity.COMMON, GALENA_GAUNTLET, 4, 6, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND));
     public static final RegistryObject<Enchantment> CRYSTALLIZATION = DEF_REG.register("crystallization", () -> new ACWeaponEnchantment("crystallization", Enchantment.Rarity.RARE, GALENA_GAUNTLET, 1, 15, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND));
     public static final RegistryObject<Enchantment> FERROUS_HASTE = DEF_REG.register("ferrous_haste", () -> new ACWeaponEnchantment("ferrous_haste", Enchantment.Rarity.RARE, GALENA_GAUNTLET, 1, 15, EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND));
@@ -65,6 +68,18 @@ public class ACEnchantmentRegistry {
     public static final RegistryObject<Enchantment> RELENTLESS_DARKNESS = DEF_REG.register("relentless_darkness", () -> new ACWeaponEnchantment("relentless_darkness", Enchantment.Rarity.VERY_RARE, DREADBOW, 1, 20, EquipmentSlot.MAINHAND));
     public static final RegistryObject<Enchantment> TWILIGHT_PERFECTION = DEF_REG.register("twilight_perfection", () -> new ACWeaponEnchantment("twilight_perfection", Enchantment.Rarity.RARE, DREADBOW, 3, 7, EquipmentSlot.MAINHAND));
     public static final RegistryObject<Enchantment> SHADED_RESPITE = DEF_REG.register("shaded_respite", () -> new ACWeaponEnchantment("shaded_respite", Enchantment.Rarity.VERY_RARE, DREADBOW, 1, 9, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> TARGETED_RICOCHET = DEF_REG.register("targeted_ricochet", () -> new ACWeaponEnchantment("targeted_ricochet", Enchantment.Rarity.RARE, SHOT_GUM, 1, 16, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> TRIPLE_SPLIT = DEF_REG.register("triple_split", () -> new ACWeaponEnchantment("triple_split", Enchantment.Rarity.RARE, SHOT_GUM, 1, 12, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> BOUNCY_BALL = DEF_REG.register("bouncy_ball", () -> new ACWeaponEnchantment("bouncy_ball", Enchantment.Rarity.COMMON, SHOT_GUM, 3, 7, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> EXPLOSIVE_FLAVOR = DEF_REG.register("explosive_flavor", () -> new ACWeaponEnchantment("explosive_flavor", Enchantment.Rarity.VERY_RARE, SHOT_GUM, 1, 16, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> FAR_FLUNG = DEF_REG.register("far_flung", () -> new ACWeaponEnchantment("far_flung", Enchantment.Rarity.COMMON, CANDY_CANE_HOOK, 3, 6, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> SHARP_CANE = DEF_REG.register("sharp_cane", () -> new ACWeaponEnchantment("sharp_cane", Enchantment.Rarity.COMMON, CANDY_CANE_HOOK, 2, 8, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> STRAIGHT_HOOK = DEF_REG.register("straight_hook", () -> new ACWeaponEnchantment("straight_hook", Enchantment.Rarity.RARE, CANDY_CANE_HOOK, 1, 12, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> SPELL_LASTING = DEF_REG.register("spell_lasting", () -> new ACWeaponEnchantment("spell_lasting", Enchantment.Rarity.COMMON, SUGAR_STAFF, 3, 8, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> PEPPERMINT_PUNTING = DEF_REG.register("peppermint_punting", () -> new ACWeaponEnchantment("peppermint_punting", Enchantment.Rarity.RARE, SUGAR_STAFF, 1, 12, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> HUMUNGOUS_HEX = DEF_REG.register("humungous_hex", () -> new ACWeaponEnchantment("humungous_hex", Enchantment.Rarity.UNCOMMON, SUGAR_STAFF, 2, 9, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> MULTIPLE_MINT = DEF_REG.register("multiple_mint", () -> new ACWeaponEnchantment("multiple_mint", Enchantment.Rarity.UNCOMMON, SUGAR_STAFF, 2, 9, EquipmentSlot.MAINHAND));
+    public static final RegistryObject<Enchantment> SEEKCANDY = DEF_REG.register("seekcandy", () -> new ACWeaponEnchantment("seekcandy", Enchantment.Rarity.RARE, SUGAR_STAFF, 1, 16, EquipmentSlot.MAINHAND));
 
     public static boolean areCompatible(ACWeaponEnchantment enchantment1, Enchantment enchantment2) {
         if(enchantment1 == X_RAY.get() && enchantment2 == GAMMA_RAY.get()){
@@ -107,6 +122,12 @@ public class ACEnchantmentRegistry {
             return false;
         }
         if((enchantment1 == PRECISE_VOLLEY.get() || enchantment1 == DARK_NOCK.get()  || enchantment1 == TWILIGHT_PERFECTION.get()) && enchantment2 == RELENTLESS_DARKNESS.get()){
+            return false;
+        }
+        if(enchantment1 == TARGETED_RICOCHET.get() && enchantment2 == TRIPLE_SPLIT.get()){
+            return false;
+        }
+        if(enchantment1 == TRIPLE_SPLIT.get() && enchantment2 == TARGETED_RICOCHET.get()){
             return false;
         }
         return true;

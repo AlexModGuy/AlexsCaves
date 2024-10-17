@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:block_of_chocolate"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.eat_block_of_chocolate.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.eat_block_of_chocolate.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/walk_on_rock_candy",
+  "criteria": {
+    "eat_block_of_chocolate": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "alexscaves:block_of_chocolate"
+          ]
+        }
+      }
+    }
+  }
+}

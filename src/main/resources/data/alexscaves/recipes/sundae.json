@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    "DEF",
+    " G "
+  ],
+  "key": {
+    "A": {
+    "item": "alexscaves:candy_cane"
+    },
+    "B": {
+      "item": "alexscaves:caramel"
+    },
+    "C": {
+      "tag": "alexscaves:sweet_berries"
+    },
+    "D": {
+      "item": "alexscaves:vanilla_ice_cream_scoop"
+    },
+    "E": {
+      "item": "alexscaves:chocolate_ice_cream_scoop"
+    },
+    "F": {
+      "item": "alexscaves:sweetberry_ice_cream_scoop"
+    },
+    "G": {
+      "item": "minecraft:bowl"
+    }
+  },
+  "result": {
+    "item": "alexscaves:sundae"
+  }
+}

@@ -4,7 +4,7 @@ license="GNU LESSER GENERAL PUBLIC LICENSE"
 issueTrackerURL="https://github.com/AlexModGuy/AlexsCavesBetaTest/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
-version="1.1.5" #mandatory
+version="2.0.0" #mandatory
 displayName="Alex's Caves" #mandatory
 displayURL="" #optional
 authors="Alexthe668, Noonyeyz" #optional

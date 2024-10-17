@@ -22,6 +22,7 @@ public class ACRenderTypes extends RenderType {
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_BUBBLED_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeBubbledShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_SEPIA_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeSepiaShader);
     protected static final RenderStateShard.ShaderStateShard RENDERTYPE_RED_GHOST_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypeRedGhostShader);
+    protected static final RenderStateShard.ShaderStateShard RENDERTYPE_PURPLE_WITCH_SHADER = new RenderStateShard.ShaderStateShard(ACInternalShaders::getRenderTypePurpleWitchShader);
 
     protected static final RenderStateShard.OutputStateShard IRRADIATED_OUTPUT = new RenderStateShard.OutputStateShard("irradiated_target", () -> {
         RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.IRRADIATED_SHADER);
@@ -34,6 +35,16 @@ public class ACRenderTypes extends RenderType {
     });
     protected static final RenderStateShard.OutputStateShard HOLOGRAM_OUTPUT = new RenderStateShard.OutputStateShard("hologram_target", () -> {
         RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.HOLOGRAM_SHADER);
+        if (target != null) {
+            target.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
+            target.bindWrite(false);
+        }
+    }, () -> {
+        Minecraft.getInstance().getMainRenderTarget().bindWrite(false);
+    });
+
+    protected static final RenderStateShard.OutputStateShard PURPLE_WITCH_OUTPUT = new RenderStateShard.OutputStateShard("purple_witch_target", () -> {
+        RenderTarget target = PostEffectRegistry.getRenderTargetFor(ClientProxy.PURPLE_WITCH_SHADER);
         if (target != null) {
             target.copyDepthFrom(Minecraft.getInstance().getMainRenderTarget());
             target.bindWrite(false);
@@ -100,6 +111,15 @@ public class ACRenderTypes extends RenderType {
                 .createCompositeState(false));
     }
 
+    public static RenderType getCrucibleItemBeam() {
+        return create("crucible_item_beam", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
+                .setShaderState(RenderStateShard.RENDERTYPE_LIGHTNING_SHADER)
+                .setCullState(CULL)
+                .setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+                .setLightmapState(NO_LIGHTMAP)
+                .createCompositeState(true));
+    }
+
     public static RenderType getSubmarineLights() {
         return create("submarine_lights", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder()
                 .setShaderState(RENDERTYPE_LIGHTNING_SHADER)
@@ -152,6 +172,7 @@ public class ACRenderTypes extends RenderType {
                 .setLightmapState(LIGHTMAP)
                 .createCompositeState(false));
     }
+
 
     public static RenderType getSubmarineMask() {
         return create("submarine_mask", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 256, true, true, RenderType.CompositeState.builder().setShaderState(RENDERTYPE_WATER_MASK_SHADER).setTextureState(NO_TEXTURE).setDepthTestState(RenderStateShard.LEQUAL_DEPTH_TEST).setWriteMaskState(DEPTH_WRITE).setCullState(NO_CULL).createCompositeState(false));
@@ -258,4 +279,16 @@ public class ACRenderTypes extends RenderType {
                 .setOutputState(irradiated ? IRRADIATED_OUTPUT : ITEM_ENTITY_TARGET)
                 .createCompositeState(false));
     }
+
+    public static RenderType getPurpleWitch(ResourceLocation locationIn) {
+        return create("purple_witch", DefaultVertexFormat.POSITION_COLOR_TEX, VertexFormat.Mode.QUADS, 256, false, true, RenderType.CompositeState.builder()
+                .setShaderState(RENDERTYPE_PURPLE_WITCH_SHADER)
+                .setCullState(NO_CULL)
+                .setTextureState(new RenderStateShard.TextureStateShard(locationIn, false, false))
+                .setTransparencyState(RenderStateShard.LIGHTNING_TRANSPARENCY)
+                .setDepthTestState(LEQUAL_DEPTH_TEST)
+                .setOutputState(PURPLE_WITCH_OUTPUT)
+                .createCompositeState(false));
+    }
+
 }

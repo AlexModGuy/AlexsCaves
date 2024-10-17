@@ -26,6 +26,9 @@ public class ACAdvancementTriggerRegistry {
     public static final ACAdvancementTrigger UNDERZEALOT_SACRIFICE = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "underzealot_sacrifice"));
     public static final ACAdvancementTrigger BEHOLDER_FAR_AWAY = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "beholder_far_away"));
     public static final ACAdvancementTrigger EAT_DARKENED_APPLE = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "eat_darkened_apple"));
+    public static final ACAdvancementTrigger FROSTMINT_EXPLOSION = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "frostmint_explosion"));
+    public static final ACAdvancementTrigger CONVERT_BIOME = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "convert_biome"));
+    public static final ACAdvancementTrigger CONVERT_NETHER_BIOME = new ACAdvancementTrigger(new ResourceLocation(AlexsCaves.MODID, "convert_nether_biome"));
 
     public static void setup() {
         CriteriaTriggers.register(KILL_MOB_WITH_GALENA_GAUNTLET);
@@ -48,5 +51,8 @@ public class ACAdvancementTriggerRegistry {
         CriteriaTriggers.register(UNDERZEALOT_SACRIFICE);
         CriteriaTriggers.register(BEHOLDER_FAR_AWAY);
         CriteriaTriggers.register(EAT_DARKENED_APPLE);
+        CriteriaTriggers.register(FROSTMINT_EXPLOSION);
+        CriteriaTriggers.register(CONVERT_BIOME);
+        CriteriaTriggers.register(CONVERT_NETHER_BIOME);
     }
 }

@@ -40,25 +40,7 @@ public class SeaStaffItem extends Item {
         float seekAmount = itemstack.getEnchantmentLevel(ACEnchantmentRegistry.SOAK_SEEKING.get());
         if (!level.isClientSide) {
             double dist = 128;
-            Entity closestValid = null;
-            Vec3 playerEyes = player.getEyePosition(1.0F);
-            HitResult hitresult = level.clip(new ClipContext(playerEyes, playerEyes.add(player.getLookAngle().scale(dist)), ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, player));
-            if (hitresult instanceof EntityHitResult) {
-                Entity entity = ((EntityHitResult) hitresult).getEntity();
-                if (!entity.equals(player) && !player.isAlliedTo(entity) && !entity.isAlliedTo(player) && entity instanceof Mob && player.hasLineOfSight(entity)) {
-                    closestValid = entity;
-                }
-            } else {
-                Vec3 at = hitresult.getLocation();
-                AABB around = new AABB(at.add(-0.5F, -0.5F, -0.5F), at.add(0.5F, 0.5F, 0.5F)).inflate(15);
-                for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, around.inflate(dist))) {
-                    if (!entity.equals(player) && !player.isAlliedTo(entity) && !entity.isAlliedTo(player) && entity instanceof Mob && player.hasLineOfSight(entity)) {
-                        if (closestValid == null || entity.distanceToSqr(at) < closestValid.distanceToSqr(at)) {
-                            closestValid = entity;
-                        }
-                    }
-                }
-            }
+            Entity closestValid = getClosestLookingAtEntityFor(level, player, dist);
             int bolts = itemstack.getEnchantmentLevel(ACEnchantmentRegistry.TRIPLE_SPLASH.get()) > 0 ? 3 : 1;
             for(int i = 0; i < bolts; i++){
                 float shootRot = i == 0 ? 0 : i == 1 ? -50 : 50;
@@ -87,6 +69,29 @@ public class SeaStaffItem extends Item {
             });
         }
         return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+    }
+
+    public static Entity getClosestLookingAtEntityFor(Level level, Player player, double dist) {
+        Entity closestValid = null;
+        Vec3 playerEyes = player.getEyePosition(1.0F);
+        HitResult hitresult = level.clip(new ClipContext(playerEyes, playerEyes.add(player.getLookAngle().scale(dist)), ClipContext.Block.VISUAL, ClipContext.Fluid.NONE, player));
+        if (hitresult instanceof EntityHitResult) {
+            Entity entity = ((EntityHitResult) hitresult).getEntity();
+            if (!entity.equals(player) && !player.isAlliedTo(entity) && !entity.isAlliedTo(player) && entity instanceof Mob && player.hasLineOfSight(entity)) {
+                closestValid = entity;
+            }
+        } else {
+            Vec3 at = hitresult.getLocation();
+            AABB around = new AABB(at.add(-0.5F, -0.5F, -0.5F), at.add(0.5F, 0.5F, 0.5F)).inflate(15);
+            for (Entity entity : level.getEntitiesOfClass(LivingEntity.class, around.inflate(dist))) {
+                if (!entity.equals(player) && !player.isAlliedTo(entity) && !entity.isAlliedTo(player) && entity instanceof Mob && player.hasLineOfSight(entity)) {
+                    if (closestValid == null || entity.distanceToSqr(at) < closestValid.distanceToSqr(at)) {
+                        closestValid = entity;
+                    }
+                }
+            }
+        }
+        return closestValid;
     }
 
     @Override

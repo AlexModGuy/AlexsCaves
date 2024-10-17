@@ -1,0 +1,27 @@
+{
+  "parent": "candy_cavity/chapter.json",
+  "text": "candy_cavity/gum_worm.txt",
+  "title": "entity.alexscaves.gum_worm",
+  "required_progression": "alexscaves:candy_cavity_mobs",
+  "widgets": [
+    {
+      "display_page" : 1,
+      "type": "entity_box",
+      "entity_id" : "alexscaves:gum_worm",
+      "x": 65,
+      "y": 65,
+      "sepia": true,
+      "nbt" : "",
+      "box_width": 50,
+      "box_height": 35,
+      "box_image": "alexscaves:textures/gui/book/candy_entity_border.png",
+      "box_scale": 2.0,
+      "entity_x_offset": 0,
+      "entity_y_offset": -5,
+      "rot_x": -15,
+      "rot_y": 225,
+      "rot_z": 0,
+      "scale": 1.1
+    }
+  ]
+}

@@ -11,9 +11,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -32,6 +34,7 @@ public class ACPotionEffectLayer extends RenderLayer {
     private static final ResourceLocation TEXTURE_WATER = new ResourceLocation("textures/block/water_still.png");
     public static final ResourceLocation INSIDE_BUBBLE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/misc/inside_bubble.png");
     public static final ResourceLocation TEXTURE_DARKNESS = new ResourceLocation(AlexsCaves.MODID, "textures/entity/darkness_incarnate.png");
+    public static final ResourceLocation TEXTURE_SUGAR_RUSH = new ResourceLocation(AlexsCaves.MODID, "textures/entity/sugar_rush.png");
     private RenderLayerParent parent;
 
 
@@ -107,6 +110,10 @@ public class ACPotionEffectLayer extends RenderLayer {
                 float alpha = DarknessIncarnateEffect.getIntensity(living, partialTicks, 25F);
                 this.getParentModel().renderToBuffer(poseStack, ivertexbuilder, 0, LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0), 0F, 0F, 0F, alpha);
                 poseStack.popPose();
+            }
+            if (living.hasEffect(ACEffectRegistry.SUGAR_RUSH.get()) && getParentModel() instanceof HumanoidModel<?>) {
+                VertexConsumer ivertexbuilder = bufferIn.getBuffer(RenderType.entityCutoutNoCull(TEXTURE_SUGAR_RUSH));
+                this.getParentModel().renderToBuffer(poseStack, ivertexbuilder, packedLightIn, LivingEntityRenderer.getOverlayCoords((LivingEntity) entity, 0), 1, 1F, 1, 1);
             }
         }
     }

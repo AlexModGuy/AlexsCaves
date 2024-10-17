@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,amount=1": {
+      "model": "alexscaves:block/candy_cane_0",
+      "y": 90
+    },
+    "facing=north,amount=1": {
+      "model": "alexscaves:block/candy_cane_0"
+    },
+    "facing=south,amount=1": {
+      "model": "alexscaves:block/candy_cane_0",
+      "y": 180
+    },
+    "facing=west,amount=1": {
+      "model": "alexscaves:block/candy_cane_0",
+      "y": 270
+    },
+    "facing=east,amount=2": {
+      "model": "alexscaves:block/candy_cane_1",
+      "y": 90
+    },
+    "facing=north,amount=2": {
+      "model": "alexscaves:block/candy_cane_1"
+    },
+    "facing=south,amount=2": {
+      "model": "alexscaves:block/candy_cane_1",
+      "y": 180
+    },
+    "facing=west,amount=2": {
+      "model": "alexscaves:block/candy_cane_1",
+      "y": 270
+    },
+    "facing=east,amount=3": {
+      "model": "alexscaves:block/candy_cane_2",
+      "y": 90
+    },
+    "facing=north,amount=3": {
+      "model": "alexscaves:block/candy_cane_2"
+    },
+    "facing=south,amount=3": {
+      "model": "alexscaves:block/candy_cane_2",
+      "y": 180
+    },
+    "facing=west,amount=3": {
+      "model": "alexscaves:block/candy_cane_2",
+      "y": 270
+    },
+    "facing=east,amount=4": {
+      "model": "alexscaves:block/candy_cane_3",
+      "y": 90
+    },
+    "facing=north,amount=4": {
+      "model": "alexscaves:block/candy_cane_3"
+    },
+    "facing=south,amount=4": {
+      "model": "alexscaves:block/candy_cane_3",
+      "y": 180
+    },
+    "facing=west,amount=4": {
+      "model": "alexscaves:block/candy_cane_3",
+      "y": 270
+    }
+  }
+}

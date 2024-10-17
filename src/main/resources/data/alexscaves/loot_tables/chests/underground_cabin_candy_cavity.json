@@ -1,0 +1,42 @@
+{
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "alexscaves:cave_book"
+        }
+      ],
+      "rolls": {
+        "min": 0,
+        "max": 1
+      }
+    },
+    {
+      "name": "underground_cabin_candy_cavity",
+      "rolls": {
+        "min": 12,
+        "max": 22
+      },
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "weight": 15,
+          "name": "alexscaves:chests/underground_cabin"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "alexscaves:cave_tablet",
+          "weight": 10,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{CaveBiome:\"alexscaves:candy_cavity\"}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

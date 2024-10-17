@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:sundae"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.sundae.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.sundae.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/caramel",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:sundae"
+                    }
+                ]
+            }
+        }
+    }
+}

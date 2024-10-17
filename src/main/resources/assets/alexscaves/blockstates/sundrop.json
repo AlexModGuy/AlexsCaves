@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "facing=down": { "model": "alexscaves:block/sundrop", "x": 180 },
+    "facing=east": { "model": "alexscaves:block/sundrop", "x": 90, "y": 90 },
+    "facing=north": { "model": "alexscaves:block/sundrop", "x": 90 },
+    "facing=south": { "model": "alexscaves:block/sundrop", "x": 270 },
+    "facing=up": { "model": "alexscaves:block/sundrop" },
+    "facing=west": { "model": "alexscaves:block/sundrop", "x": 90, "y": 270 }
+  }
+}

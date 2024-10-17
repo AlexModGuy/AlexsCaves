@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 
 import com.github.alexmodguy.alexscaves.client.model.NucleeperModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.render.entity.layer.NucleeperEnergySwirlLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.NucleeperEntity;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -33,8 +34,9 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
 
 
     public NucleeperRenderer(EntityRendererProvider.Context renderManagerIn) {
-        super(renderManagerIn, new NucleeperModel(), 0.8F);
+        super(renderManagerIn, new NucleeperModel(0.0F), 0.8F);
         this.addLayer(new LayerGlow());
+        this.addLayer(new NucleeperEnergySwirlLayer(this));
     }
 
     protected void scale(NucleeperEntity mob, PoseStack poseStack, float partialTicks) {
@@ -105,6 +107,9 @@ public class NucleeperRenderer extends MobRenderer<NucleeperEntity, NucleeperMod
             this.getParentModel().renderToBuffer(poseStack, ivertexbuilder2, packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
             ResourceLocation buttons;
             int buttonDiv = entitylivingbaseIn.tickCount / 5 % 6;
+            if(entitylivingbaseIn.isCharged()){
+                buttonDiv = entitylivingbaseIn.tickCount / 2 % 6;
+            }
             if (buttonDiv < 2) {
                 buttons = TEXTURE_BUTTONS_0;
             } else if (buttonDiv < 4) {

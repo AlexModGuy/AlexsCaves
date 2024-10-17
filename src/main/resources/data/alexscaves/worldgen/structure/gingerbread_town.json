@@ -1,0 +1,22 @@
+{
+  "type": "alexscaves:gingerbread_town",
+  "biomes": "alexscaves:candy_cavity",
+  "step": "underground_structures",
+  "start_height": {
+    "absolute": 0
+  },
+  "use_expansion_hack": false,
+  "spawn_overrides": {
+    "monster": {
+      "bounding_box": "piece",
+      "spawns": [
+        {
+          "type": "alexscaves:gingerbread_man",
+          "maxCount": 4,
+          "minCount": 4,
+          "weight": 100
+        }
+      ]
+    }
+  }
+}

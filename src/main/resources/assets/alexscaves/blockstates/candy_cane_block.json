@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/candy_cane_block",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/candy_cane_block"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/candy_cane_block",
+      "x": 90
+    }
+  }
+}

@@ -14,6 +14,11 @@
     "alexscaves:guanostone_wall",
     "alexscaves:guanostone_brick_wall",
     "alexscaves:coprolith_wall",
-    "alexscaves:smooth_coprolith_wall"
+    "alexscaves:smooth_coprolith_wall",
+    "alexscaves:wafer_cookie_wall",
+    "alexscaves:gingerbread_wall",
+    "alexscaves:frosted_gingerbread_wall",
+    "alexscaves:gingerbread_brick_wall",
+    "alexscaves:frosted_gingerbread_brick_wall"
   ]
 }

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:caramel"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.caramel.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.caramel.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/gelatin",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:caramel"
+                    }
+                ]
+            }
+        }
+    }
+}

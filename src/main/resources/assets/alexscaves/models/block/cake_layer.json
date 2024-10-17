@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "side": "alexscaves:block/cake_layer",
+    "bottom": "alexscaves:block/cake_layer_top",
+    "top": "alexscaves:block/cake_layer_top"
+  }
+}

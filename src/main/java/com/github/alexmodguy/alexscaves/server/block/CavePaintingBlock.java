@@ -36,7 +36,6 @@ public class CavePaintingBlock extends DirectionalBlock {
         return id;
     }
 
-
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
     }

@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:radiant_essence"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.radiant_essence.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.radiant_essence.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/licowitch_tower",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:radiant_essence"
+                    }
+                ]
+            }
+        }
+    }
+}

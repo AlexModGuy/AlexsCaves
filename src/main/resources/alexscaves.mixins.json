@@ -22,13 +22,16 @@
     "MapDecorationMixin",
     "MapDecorationTypeMixin",
     "MobMixin",
+    "MonsterMixin",
     "MultifaceGrowthFeatureMixin",
     "MultiNoiseBiomeSourceMixin",
     "NaturalSpawnerMixin",
     "OceanMonumentStructureMixin",
+    "PlayerMixin",
     "PotionUtilsMixin",
     "SeagrassFeatureMixin",
-    "ShipwreckStructureMixin"
+    "ShipwreckStructureMixin",
+    "SwampHutPieceMixin"
   ],
   "client": [
     "client.AdvancementTabMixin",

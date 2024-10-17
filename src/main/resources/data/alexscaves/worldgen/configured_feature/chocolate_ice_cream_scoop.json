@@ -1,0 +1,11 @@
+{
+  "type": "alexscaves:ice_cream_scoop",
+  "config": {
+    "ice_cream": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "alexscaves:chocolate_ice_cream"
+      }
+    }
+  }
+}

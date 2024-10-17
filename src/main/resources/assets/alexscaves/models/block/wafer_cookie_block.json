@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "alexscaves:block/wafer_cookie_block"
+  }
+}

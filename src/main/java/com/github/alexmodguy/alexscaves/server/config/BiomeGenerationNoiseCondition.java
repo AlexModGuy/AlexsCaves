@@ -84,7 +84,7 @@ public class BiomeGenerationNoiseCondition {
     @Deprecated(forRemoval = true, since="1.21")
     private static boolean isFarEnoughFromSpawn(EventReplaceBiome event, double dist) {
         int x = QuartPos.fromSection(event.getX());
-        int z = QuartPos.toBlock(event.getZ());
+        int z = QuartPos.fromSection(event.getZ());
         return x * x + z * z >= dist * dist;
     }
 

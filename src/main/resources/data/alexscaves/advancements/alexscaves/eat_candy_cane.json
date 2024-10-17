@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:candy_cane"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.eat_candy_cane.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.eat_candy_cane.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/eat_block_of_chocolate",
+  "criteria": {
+    "eat_candy_cane": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "item": {
+          "items": [
+            "alexscaves:candy_cane"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "alexscaves:cave_tablet",
+  "biome": "alexscaves:candy_cavity",
+  "replace": false,
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "alexscaves:chests/witch_hut"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "betterwitchhuts:chests/hut_0"
+    },
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "nova_structures:chests/mangrove_witchhud"
+    }
+  ]
+}

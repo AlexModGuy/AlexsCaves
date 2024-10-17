@@ -74,7 +74,7 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
             blockpos1 = blockpos1.below();
             replaceDown++;
         }
-        blockpos1 = blockpos1.below(config.sinkBy);
+        blockpos1 = blockpos1.below(calculateSinkBy(level, blockpos1, structuretemplate, config.sinkBy));
         BlockPos blockpos2 = structuretemplate.getZeroPositionWithTransform(blockpos1, Mirror.NONE, rotation);
         if (structuretemplate.placeInWorld(level, blockpos2, blockpos2, structureplacesettings, randomsource, 18)) {
             for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate.processBlockInfos(level, blockpos2, blockpos2, structureplacesettings, getDataMarkers(structuretemplate, blockpos2, rotation, false))) {
@@ -89,6 +89,10 @@ public class UndergroundRuinsFeature extends Feature<UndergroundRuinsFeatureConf
             processBoundingBox(level, structuretemplate.getBoundingBox(structureplacesettings, blockpos2), randomsource);
         }
         return true;
+    }
+
+    protected int calculateSinkBy(WorldGenLevel level, BlockPos blockpos1, StructureTemplate structuretemplate, int sinkByIn) {
+        return sinkByIn;
     }
 
     public void processBoundingBox(WorldGenLevel level, BoundingBox boundingBox, RandomSource randomsource) {

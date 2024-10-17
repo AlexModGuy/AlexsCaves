@@ -6,15 +6,13 @@ import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.util.AlexsCavesBoat;
+import com.github.alexmodguy.alexscaves.server.entity.util.GummyColors;
 import com.github.alexmodguy.alexscaves.server.item.dispenser.FluidContainerDispenseItemBehavior;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexthe666.citadel.server.block.LecternBooks;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockSource;
-import net.minecraft.core.Direction;
-import net.minecraft.core.Position;
+import net.minecraft.core.*;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.resources.ResourceKey;
@@ -22,6 +20,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -38,6 +37,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -47,10 +47,14 @@ public class ACItemRegistry {
     private static Map<RegistryObject<Item>, ResourceKey<Biome>> creativeTabSpawnEggMap = new LinkedHashMap<>();
     public static final Rarity RARITY_DEMONIC = Rarity.create("alexscaves:demonic", ChatFormatting.DARK_RED);
     public static final Rarity RARITY_NUCLEAR = Rarity.create("alexscaves:nuclear", ChatFormatting.GREEN);
+    public static final Rarity RARITY_SWEET = Rarity.create("alexscaves:sweet", style -> style.withColor(0XFF8ACD));
+    public static final Rarity RARITY_RAINBOW = Rarity.create("alexscaves:rainbow", style -> style.withColor(Color.HSBtoRGB((System.currentTimeMillis() % 5000) / 5000F, 1f, 1F)));
     public static final ACArmorMaterial PRIMORDIAL_ARMOR_MATERIAL = new ACArmorMaterial("primordial", 20, new int[]{3, 4, 3, 2}, 25, SoundEvents.ARMOR_EQUIP_LEATHER, 0F);
     public static final ACArmorMaterial HAZMAT_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("hazmat_suit", 20, new int[]{2, 4, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 0.5F);
     public static final ACArmorMaterial DIVING_SUIT_ARMOR_MATERIAL = new ACArmorMaterial("diving_suit", 20, new int[]{2, 6, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_IRON, 0.0F);
     public static final ACArmorMaterial DARKNESS_ARMOR_MATERIAL = new ACArmorMaterial("darkness", 15, new int[]{4, 5, 1, 1}, 40, SoundEvents.ARMOR_EQUIP_LEATHER, 0.5F);
+    public static final ACArmorMaterial RAINBOUNCE_ARMOR_MATERIAL = new ACArmorMaterial("rainbounce", 6, new int[]{2, 2, 1, 2}, 40, SoundEvents.ARMOR_EQUIP_GENERIC, 0.0F);
+    public static final ACArmorMaterial GINGERBREAD_ARMOR_MATERIAL = new ACArmorMaterial("gingerbread", 10, new int[]{2, 4, 5, 2}, 25, SoundEvents.ARMOR_EQUIP_LEATHER, 0.0F);
     public static final DeferredRegister<Item> DEF_REG = DeferredRegister.create(ForgeRegistries.ITEMS, AlexsCaves.MODID);
     public static final RegistryObject<Item> ADVANCEMENT_TAB_ICON = DEF_REG.register("advancement_tab_icon", () -> new Item(new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> CAVE_TABLET = DEF_REG.register("cave_tablet", () -> new CaveInfoItem(new Item.Properties(), true));
@@ -191,6 +195,54 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> THORNWOOD_HANGING_SIGN = DEF_REG.register("thornwood_hanging_sign", () -> new HangingSignItem(ACBlockRegistry.THORNWOOD_HANGING_SIGN.get(), ACBlockRegistry.THORNWOOD_WALL_HANGING_SIGN.get(), (new Item.Properties()).stacksTo(16)));
     public static final RegistryObject<Item> THORNWOOD_BOAT = DEF_REG.register("thornwood_boat", () -> new CaveBoatItem(false, AlexsCavesBoat.Type.THORNWOOD, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> THORNWOOD_CHEST_BOAT = DEF_REG.register("thornwood_chest_boat", () -> new CaveBoatItem(true, AlexsCavesBoat.Type.THORNWOOD, new Item.Properties().stacksTo(1)));
+    public static final RegistryObject<Item> PURPLE_SODA_BUCKET = DEF_REG.register("purple_soda_bucket", () -> new BucketItem(ACFluidRegistry.PURPLE_SODA_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistryObject<Item> PURPLE_SODA_BOTTLE = DEF_REG.register("purple_soda_bottle", () -> new DrinkableBottledItem(new Item.Properties().stacksTo(16).food(ACFoods.PURPLE_SODA_BOTTLE)));
+    public static final RegistryObject<Item> SWEETISH_FISH_RED_BUCKET = DEF_REG.register("sweetish_fish_red_bucket", () -> new SweetishFishBucketItem(GummyColors.RED));
+    public static final RegistryObject<Item> SWEETISH_FISH_GREEN_BUCKET = DEF_REG.register("sweetish_fish_green_bucket", () -> new SweetishFishBucketItem(GummyColors.GREEN));
+    public static final RegistryObject<Item> SWEETISH_FISH_BLUE_BUCKET = DEF_REG.register("sweetish_fish_blue_bucket", () -> new SweetishFishBucketItem(GummyColors.BLUE));
+    public static final RegistryObject<Item> SWEETISH_FISH_YELLOW_BUCKET = DEF_REG.register("sweetish_fish_yellow_bucket", () -> new SweetishFishBucketItem(GummyColors.YELLOW));
+    public static final RegistryObject<Item> SWEETISH_FISH_PINK_BUCKET = DEF_REG.register("sweetish_fish_pink_bucket", () -> new SweetishFishBucketItem(GummyColors.PINK));
+    public static final RegistryObject<Item> SWEETISH_FISH_RED = DEF_REG.register("sweetish_fish_red", () -> new Item(new Item.Properties().food(ACFoods.SWEETISH_FISH)));
+    public static final RegistryObject<Item> SWEETISH_FISH_GREEN = DEF_REG.register("sweetish_fish_green", () -> new Item(new Item.Properties().food(ACFoods.SWEETISH_FISH)));
+    public static final RegistryObject<Item> SWEETISH_FISH_BLUE = DEF_REG.register("sweetish_fish_blue", () -> new Item(new Item.Properties().food(ACFoods.SWEETISH_FISH)));
+    public static final RegistryObject<Item> SWEETISH_FISH_YELLOW = DEF_REG.register("sweetish_fish_yellow", () -> new Item(new Item.Properties().food(ACFoods.SWEETISH_FISH)));
+    public static final RegistryObject<Item> SWEETISH_FISH_PINK = DEF_REG.register("sweetish_fish_pink", () -> new Item(new Item.Properties().food(ACFoods.SWEETISH_FISH)));
+    public static final RegistryObject<Item> GELATIN_RED = DEF_REG.register("gelatin_red", () -> new Item(new Item.Properties().food(ACFoods.GELATIN)));
+    public static final RegistryObject<Item> GELATIN_GREEN = DEF_REG.register("gelatin_green", () -> new Item(new Item.Properties().food(ACFoods.GELATIN)));
+    public static final RegistryObject<Item> GELATIN_BLUE = DEF_REG.register("gelatin_blue", () -> new Item(new Item.Properties().food(ACFoods.GELATIN)));
+    public static final RegistryObject<Item> GELATIN_YELLOW = DEF_REG.register("gelatin_yellow", () -> new Item(new Item.Properties().food(ACFoods.GELATIN)));
+    public static final RegistryObject<Item> GELATIN_PINK = DEF_REG.register("gelatin_pink", () -> new Item(new Item.Properties().food(ACFoods.GELATIN)));
+    public static final RegistryObject<Item> HOT_CHOCOLATE_BOTTLE = DEF_REG.register("hot_chocolate_bottle", () -> new HotChocolateBottleItem());
+    public static final RegistryObject<Item> VANILLA_ICE_CREAM_SCOOP = DEF_REG.register("vanilla_ice_cream_scoop", () -> new ThrownProjectileItem(new Item.Properties(), player -> new ThrownIceCreamScoopEntity(player.level(), player), -10.0F, 1.0F, 0.2F));
+    public static final RegistryObject<Item> CHOCOLATE_ICE_CREAM_SCOOP = DEF_REG.register("chocolate_ice_cream_scoop", () -> new ThrownProjectileItem(new Item.Properties(), player -> new ThrownIceCreamScoopEntity(player.level(), player), -10.0F, 1.0F, 0.2F));
+    public static final RegistryObject<Item> SWEETBERRY_ICE_CREAM_SCOOP = DEF_REG.register("sweetberry_ice_cream_scoop", () -> new ThrownProjectileItem(new Item.Properties(), player -> new ThrownIceCreamScoopEntity(player.level(), player), -10.0F, 1.0F, 0.2F));
+    public static final RegistryObject<Item> SUNDAE = DEF_REG.register("sundae", () -> new BowlFoodItem(new Item.Properties().food(ACFoods.SUNDAE).rarity(RARITY_SWEET).stacksTo(1)));
+    public static final RegistryObject<Item> SHARPENED_CANDY_CANE = DEF_REG.register("sharpened_candy_cane", () -> new SharpenedCandyCaneItem(new Item.Properties().food(ACFoods.CANDY_CANE)));
+    public static final RegistryObject<Item> PEPPERMINT_POWDER = DEF_REG.register("peppermint_powder", () -> new Item(new Item.Properties().food(ACFoods.PEPPERMINT_POWDER)));
+    public static final RegistryObject<Item> RAINBOUNCE_BOOTS = DEF_REG.register("rainbounce_boots", () -> new RainbounceBootsItem(RAINBOUNCE_ARMOR_MATERIAL));
+    public static final RegistryObject<Item> GUMBALL_PILE = DEF_REG.register("gumball_pile", () -> new Item(new Item.Properties().food(ACFoods.GUMBALL_PILE)));
+    public static final RegistryObject<Item> SHOT_GUM = DEF_REG.register("shot_gum", () -> new ShotGumItem());
+    public static final RegistryObject<Item> CARAMEL = DEF_REG.register("caramel", () -> new Item(new Item.Properties().food(ACFoods.CARAMEL)));
+    public static final RegistryObject<Item> CARAMEL_APPLE = DEF_REG.register("caramel_apple", () -> new Item(new Item.Properties().food(ACFoods.CARAMEL_APPLE)));
+    public static final RegistryObject<Item> CANDY_CANE_HOOK = DEF_REG.register("candy_cane_hook", () -> new CandyCaneHookItem());
+    public static final RegistryObject<Item> SWEET_TOOTH = DEF_REG.register("sweet_tooth", () -> new Item(new Item.Properties().rarity(RARITY_SWEET)));
+    public static final RegistryObject<Item> RADIANT_ESSENCE = DEF_REG.register("radiant_essence", () -> new RadiantEssenceItem());
+    public static final RegistryObject<Item> SACK_OF_SATING = DEF_REG.register("sack_of_sating", () -> new SackOfSatingItem());
+    public static final RegistryObject<Item> SUGAR_STAFF = DEF_REG.register("sugar_staff", () -> new SugarStaffItem(new Item.Properties().defaultDurability(100).rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SUGAR_STAFF_SPRITE = DEF_REG.register("sugar_staff_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> GINGERBREAD_CRUMBS = DEF_REG.register("gingerbread_crumbs", () -> new Item(new Item.Properties().food(ACFoods.GINGERBREAD_CRUMBS)));
+    public static final RegistryObject<Item> GINGERBREAD_HELMET = DEF_REG.register("gingerbread_helmet", () -> new GingerbreadArmorItem(GINGERBREAD_ARMOR_MATERIAL, ArmorItem.Type.HELMET));
+    public static final RegistryObject<Item> GINGERBREAD_CHESTPLATE = DEF_REG.register("gingerbread_chestplate", () -> new GingerbreadArmorItem(GINGERBREAD_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
+    public static final RegistryObject<Item> GINGERBREAD_LEGGINGS = DEF_REG.register("gingerbread_leggings", () -> new GingerbreadArmorItem(GINGERBREAD_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
+    public static final RegistryObject<Item> GINGERBREAD_BOOTS = DEF_REG.register("gingerbread_boots", () -> new GingerbreadArmorItem(GINGERBREAD_ARMOR_MATERIAL, ArmorItem.Type.BOOTS));
+    public static final RegistryObject<Item> PURPLE_SODA_BOTTLE_ROCKET = DEF_REG.register("purple_soda_bottle_rocket", () -> new SodaBottleRocketItem());
+    public static final RegistryObject<Item> FROSTMINT_SPEAR = DEF_REG.register("frostmint_spear", () -> new FrostmintSpearItem(new Item.Properties().stacksTo(16)));
+    public static final RegistryObject<Item> FROSTMINT_SPEAR_SPRITE = DEF_REG.register("frostmint_spear_inventory", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> MUSIC_DISC_TASTY_FRAGMENT = DEF_REG.register("disc_fragment_tasty", () -> new DiscFragmentItem(new Item.Properties()));
+    public static final RegistryObject<Item> MUSIC_DISC_TASTY = DEF_REG.register("music_disc_tasty", () -> new RecordItem(14, ACSoundRegistry.TASTY_MUSIC_DISC, new Item.Properties().stacksTo(1).rarity(RARITY_SWEET), 183 * 20));
+    public static final RegistryObject<Item> ALEX_MEAL = DEF_REG.register("alex_meal", () -> new AlexMealItem());
+    public static final RegistryObject<Item> BIOME_TREAT = DEF_REG.register("biome_treat", () -> new BiomeTreatItem());
+    public static final RegistryObject<Item> JELLY_BEAN = DEF_REG.register("jelly_bean", () -> new JellyBeanItem());
 
     static {
         spawnEgg("teletor", ACEntityRegistry.TELETOR, 0X433B4A, 0X0060EF, ACBiomeRegistry.MAGNETIC_CAVES);
@@ -227,6 +279,15 @@ public class ACItemRegistry {
         spawnEgg("corrodent", ACEntityRegistry.CORRODENT, 0X351A14, 0X593B33, ACBiomeRegistry.FORLORN_HOLLOWS);
         spawnEgg("vesper", ACEntityRegistry.VESPER, 0X884E2A, 0XA54A6B, ACBiomeRegistry.FORLORN_HOLLOWS);
         spawnEgg("forsaken", ACEntityRegistry.FORSAKEN, 0X000000, 0X110909, ACBiomeRegistry.FORLORN_HOLLOWS);
+        spawnEgg("sweetish_fish", ACEntityRegistry.SWEETISH_FISH, 0XE9132C, 0XFF364D, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("caniac", ACEntityRegistry.CANIAC, 0XF9F0FF, 0XFF3F56, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("gumbeeper", ACEntityRegistry.GUMBEEPER, 0XFF2B44, 0XE7BAFF, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("candicorn", ACEntityRegistry.CANDICORN, 0XE86B00, 0XFFEF57, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("gum_worm", ACEntityRegistry.GUM_WORM, 0X92FFD9, 0XFFA1DC, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("caramel_cube", ACEntityRegistry.CARAMEL_CUBE, 0XCC8015, 0XB86A0D, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("gummy_bear", ACEntityRegistry.GUMMY_BEAR, 0XFF463F, 0XFDA09E, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("licowitch", ACEntityRegistry.LICOWITCH, 0X681182, 0XFF6CD7, ACBiomeRegistry.CANDY_CAVITY);
+        spawnEgg("gingerbread_man", ACEntityRegistry.GINGERBREAD_MAN, 0XBB581D, 0XFFFFFF, ACBiomeRegistry.CANDY_CAVITY);
     }
 
     private static void spawnEgg(String entityName, RegistryObject type, int color1, int color2, ResourceKey<Biome> biomeTab) {
@@ -239,6 +300,7 @@ public class ACItemRegistry {
         HAZMAT_SUIT_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(POLYMER_PLATE.get()));
         DIVING_SUIT_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(Items.COPPER_INGOT));
         DARKNESS_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(DARK_TATTERS.get()));
+        GINGERBREAD_ARMOR_MATERIAL.setRepairMaterial(Ingredient.of(GINGERBREAD_CRUMBS.get()));
         DispenserBlock.registerBehavior(SEEKING_ARROW.get(), new AbstractProjectileDispenseBehavior() {
             protected Projectile getProjectile(Level level, Position position, ItemStack itemStack) {
                 AbstractArrow abstractarrow = new SeekingArrowEntity(level, position.x(), position.y(), position.z());
@@ -325,5 +387,14 @@ public class ACItemRegistry {
             }
         }
         return list;
+    }
+
+    public static Item getSpawnEggFor(EntityType type) {
+        for (Map.Entry<RegistryObject<Item>, ResourceKey<Biome>> entry : creativeTabSpawnEggMap.entrySet()) {
+            if (entry.getKey().get() instanceof ForgeSpawnEggItem forgeSpawnEggItem && forgeSpawnEggItem.getType(null) == type) {
+                return forgeSpawnEggItem;
+            }
+        }
+        return Items.AIR;
     }
 }

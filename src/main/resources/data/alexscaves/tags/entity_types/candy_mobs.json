@@ -1,0 +1,18 @@
+{
+  "__comment": "all mobs that do not break sugar glass by walking on it.",
+  "values": [
+    "alexscaves:sweetish_fish",
+    "alexscaves:caniac",
+    "alexscaves:gumbeeper",
+    "alexscaves:candicorn",
+    "alexscaves:gum_worm",
+    "alexscaves:gum_worm_segment",
+    "alexscaves:caramel_cube",
+    "alexscaves:melted_caramel",
+    "alexscaves:gummy_bear",
+    "alexscaves:licowitch",
+    "alexscaves:spinning_peppermint",
+    "alexscaves:sugar_staff_hex",
+    "alexscaves:gingerbread_man"
+  ]
+}

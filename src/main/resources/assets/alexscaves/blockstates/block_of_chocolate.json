@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/block_of_chocolate",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/block_of_chocolate"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/block_of_chocolate",
+      "x": 90
+    }
+  }
+}

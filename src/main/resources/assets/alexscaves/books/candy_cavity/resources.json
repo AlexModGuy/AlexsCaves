@@ -1,0 +1,44 @@
+{
+  "parent": "candy_cavity/chapter.json",
+  "text": "candy_cavity/resources.txt",
+  "title": "book.alexscaves.resources",
+  "required_progression": "alexscaves:candy_cavity_resources",
+  "widgets": [
+    {
+      "display_page": 2,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:hot_chocolate_bottle",
+      "sepia": true,
+      "x": 55,
+      "y": 30,
+      "scale": 1
+    },
+    {
+      "display_page": 4,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:sundae",
+      "sepia": true,
+      "x": 55,
+      "y": 80,
+      "scale": 1
+    },
+    {
+      "display_page": 5,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:frostmint_spear",
+      "sepia": true,
+      "x": 55,
+      "y": 90,
+      "scale": 1
+    },
+    {
+      "display_page": 7,
+      "type": "crafting_recipe",
+      "recipe_id": "alexscaves:purple_soda_bottle_rocket",
+      "sepia": true,
+      "x": 55,
+      "y": 40,
+      "scale": 1
+    }
+  ]
+}

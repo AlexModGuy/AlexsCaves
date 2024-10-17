@@ -12,6 +12,7 @@ import com.github.alexmodguy.alexscaves.server.misc.ACDamageTypes;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -23,9 +24,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -44,7 +43,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.EnumSet;
 import java.util.stream.Stream;
 
-public class NucleeperEntity extends Monster implements ActivatesSirens {
+public class NucleeperEntity extends Monster implements ActivatesSirens, PowerableMob {
 
     private float closeProgress;
     private float prevCloseProgress;
@@ -58,6 +57,7 @@ public class NucleeperEntity extends Monster implements ActivatesSirens {
     private static final EntityDataAccessor<Boolean> TRIGGERED = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CLOSE_TIME = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> EXPLODING = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Boolean> CHARGED = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
 
     public NucleeperEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
@@ -93,6 +93,7 @@ public class NucleeperEntity extends Monster implements ActivatesSirens {
         this.entityData.define(TRIGGERED, false);
         this.entityData.define(CLOSE_TIME, 0);
         this.entityData.define(EXPLODING, false);
+        this.entityData.define(CHARGED, false);
     }
 
     public int getCloseTime() {
@@ -117,6 +118,31 @@ public class NucleeperEntity extends Monster implements ActivatesSirens {
 
     public void setExploding(boolean explode) {
         this.entityData.set(EXPLODING, explode);
+    }
+
+    public boolean isCharged() {
+        return this.entityData.get(CHARGED);
+    }
+
+    public void setCharged(boolean explode) {
+        this.entityData.set(CHARGED, explode);
+    }
+
+    public void addAdditionalSaveData(CompoundTag compoundTag) {
+        super.addAdditionalSaveData(compoundTag);
+        compoundTag.putBoolean("Charged", this.isCharged());
+        compoundTag.putInt("CloseTime", this.getCloseTime());
+    }
+
+    public void readAdditionalSaveData(CompoundTag compoundTag) {
+        super.readAdditionalSaveData(compoundTag);
+        this.setCharged(compoundTag.getBoolean("Charged"));
+        this.setCloseTime(compoundTag.getInt("CloseTime"));
+    }
+
+    public void thunderHit(ServerLevel serverLevel, LightningBolt lightningBolt) {
+        super.thunderHit(serverLevel, lightningBolt);
+        this.setCharged(true);
     }
 
     protected InteractionResult mobInteract(Player player, InteractionHand hand) {
@@ -180,6 +206,9 @@ public class NucleeperEntity extends Monster implements ActivatesSirens {
                 this.explode();
             }
         }
+        if(this.isCharged() && this.isAlive() && this.tickCount % 150 == 0){
+            this.heal(1);
+        }
     }
 
     public void remove(Entity.RemovalReason removalReason) {
@@ -201,7 +230,7 @@ public class NucleeperEntity extends Monster implements ActivatesSirens {
     private void explode() {
         NuclearExplosionEntity explosion = ACEntityRegistry.NUCLEAR_EXPLOSION.get().create(level());
         explosion.copyPosition(this);
-        explosion.setSize(1F);
+        explosion.setSize(isCharged() ? 1.75F : 1F);
         if(!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)){
             explosion.setNoGriefing(true);
         }
@@ -259,6 +288,11 @@ public class NucleeperEntity extends Monster implements ActivatesSirens {
     @Override
     public boolean shouldStopBlaringSirens() {
         return !this.isTriggered() && !this.isExploding() || this.isRemoved();
+    }
+
+    @Override
+    public boolean isPowered() {
+        return this.isCharged();
     }
 
     private class MeleeGoal extends Goal {

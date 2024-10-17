@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "alexscaves:item/gelatin_pink"
+  }
+}

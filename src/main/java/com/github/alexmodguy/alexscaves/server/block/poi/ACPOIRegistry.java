@@ -21,6 +21,9 @@ public class ACPOIRegistry {
     public static final RegistryObject<PoiType> NUCLEAR_FURNACE = DEF_REG.register("nuclear_furnace", () -> new PoiType(getAllStatesOf(ACBlockRegistry.NUCLEAR_FURNACE.get()), 0, 6));
     public static final RegistryObject<PoiType> ABYSSAL_ALTAR = DEF_REG.register("abyssal_altar", () -> new PoiType(getAllStatesOf(ACBlockRegistry.ABYSSAL_ALTAR.get()), 0, 6));
     public static final RegistryObject<PoiType> MOTH_BALL = DEF_REG.register("moth_ball", () -> new PoiType(getAllStatesOf(ACBlockRegistry.MOTH_BALL.get()), 32, 6));
+    public static final RegistryObject<PoiType> SUNDROP = DEF_REG.register("sundrop", () -> new PoiType(getAllStatesOf(ACBlockRegistry.SUNDROP.get()), 32, 6));
+    public static final RegistryObject<PoiType> CONVERSION_CRUCIBLE = DEF_REG.register("conversion_crucible", () -> new PoiType(getAllStatesOf(ACBlockRegistry.CONVERSION_CRUCIBLE.get()), 0, 6));
+    public static final RegistryObject<PoiType> GINGERBARREL = DEF_REG.register("gingerbarrel", () -> new PoiType(getAllStatesOf(ACBlockRegistry.GINGERBARREL.get()), 0, 6));
 
     private static Set<BlockState> getAllAttractingMagnets() {
         ImmutableSet.Builder<BlockState> builder = ImmutableSet.builder();

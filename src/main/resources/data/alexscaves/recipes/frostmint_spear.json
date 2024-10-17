@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " F ",
+    "FCF",
+    " C "
+  ],
+  "key": {
+    "F": {
+      "item": "alexscaves:frostmint"
+    },
+    "C": {
+      "item": "alexscaves:candy_cane"
+    }
+  },
+  "result": {
+    "item": "alexscaves:frostmint_spear",
+    "count": 4
+  }
+}

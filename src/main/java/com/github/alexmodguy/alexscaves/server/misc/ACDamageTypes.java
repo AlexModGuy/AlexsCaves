@@ -23,6 +23,8 @@ public class ACDamageTypes {
     public static final ResourceKey<DamageType> DARK_ARROW = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "dark_arrow"));
     public static final ResourceKey<DamageType> SPIRIT_DINOSAUR = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "spirit_dinosaur"));
     public static final ResourceKey<DamageType> TREMORZILLA_BEAM = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "tremorzilla_beam"));
+    public static final ResourceKey<DamageType> GUMBALL = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "gumball"));
+    public static final ResourceKey<DamageType> INTENTIONAL_GAME_DESIGN = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, "intentional_game_design"));
 
     public static DamageSource causeAcidDamage(RegistryAccess registryAccess) {
         return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(ACID), 1);
@@ -58,6 +60,14 @@ public class ACDamageTypes {
 
     public static DamageSource causeTremorzillaBeamDamage(RegistryAccess registryAccess, Entity source) {
         return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(TREMORZILLA_BEAM), source, 1);
+    }
+
+    public static DamageSource causeGumballDamage(RegistryAccess registryAccess, Entity source) {
+        return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(GUMBALL), source, 1);
+    }
+
+    public static DamageSource causeIntentionalGameDesign(RegistryAccess registryAccess) {
+        return new DamageSourceRandomMessages(registryAccess.registry(Registries.DAMAGE_TYPE).get().getHolderOrThrow(INTENTIONAL_GAME_DESIGN), 1);
     }
 
 

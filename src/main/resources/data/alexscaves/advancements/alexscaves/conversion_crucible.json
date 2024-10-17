@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:conversion_crucible"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.conversion_crucible.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.conversion_crucible.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/radiant_essence",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:conversion_crucible"
+                    }
+                ]
+            }
+        }
+    }
+}

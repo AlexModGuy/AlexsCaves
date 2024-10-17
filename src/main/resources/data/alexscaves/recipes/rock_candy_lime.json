@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "PDP",
+    "SPS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "P": {
+      "item": "alexscaves:peppermint_powder"
+    },
+    "D": {
+      "tag": "forge:dyes/lime"
+    }
+  },
+  "result": {
+    "item": "alexscaves:rock_candy_lime",
+    "count": 4
+  }
+}

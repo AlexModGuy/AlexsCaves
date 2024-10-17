@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:frostmint_spear"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.frostmint_spear.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.frostmint_spear.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/frostmint_explosion",
+    "criteria": {
+        "deep_sea_sushi_roll": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:frostmint_spear"
+                    }
+                ]
+            }
+        }
+    }
+}

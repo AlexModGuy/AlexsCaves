@@ -1,0 +1,20 @@
+{
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "alexscaves:item/sack_of_sating"
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "open": 0.5
+            },
+            "model": "alexscaves:item/sack_of_sating_open"
+        },
+        {
+            "predicate": {
+                "open": 1
+            },
+            "model": "alexscaves:item/sack_of_sating_chewing"
+        }
+    ]
+}

@@ -2,7 +2,7 @@ package com.github.alexmodguy.alexscaves.server.entity.living;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
-import com.github.alexmodguy.alexscaves.server.entity.ai.AcidSwimNodeEvaluator;
+import com.github.alexmodguy.alexscaves.server.entity.ai.NotLavaSwimNodeEvaluator;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -84,7 +84,7 @@ public class RadgillEntity extends WaterAnimal implements Bucketable {
         return new WaterBoundPathNavigation(this, level) {
 
             protected PathFinder createPathFinder(int p_26598_) {
-                this.nodeEvaluator = new AcidSwimNodeEvaluator(true);
+                this.nodeEvaluator = new NotLavaSwimNodeEvaluator(true);
                 return new PathFinder(this.nodeEvaluator, p_26598_);
             }
 

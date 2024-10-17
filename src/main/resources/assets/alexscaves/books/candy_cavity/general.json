@@ -1,0 +1,35 @@
+{
+  "parent": "candy_cavity/chapter.json",
+  "text": "candy_cavity/general.txt",
+  "title": "book.alexscaves.general",
+  "required_progression": "alexscaves:candy_cavity_general",
+  "widgets": [
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:block_of_frosted_chocolate",
+      "sepia": true,
+      "x": 25,
+      "y": 100,
+      "scale": 2.5
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:block_of_chocolate",
+      "sepia": true,
+      "x": 65,
+      "y": 100,
+      "scale": 2.5
+    },
+    {
+      "display_page" : 2,
+      "type": "item",
+      "item": "alexscaves:cake_layer",
+      "sepia": true,
+      "x": 105,
+      "y": 100,
+      "scale": 2.5
+    }
+  ]
+}

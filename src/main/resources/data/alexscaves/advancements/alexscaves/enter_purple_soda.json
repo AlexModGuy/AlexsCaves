@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:purple_soda_bucket"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.enter_purple_soda.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.enter_purple_soda.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/walk_on_rock_candy",
+  "criteria": {
+    "in_purple_soda": {
+      "conditions": {
+        "block": "alexscaves:purple_soda"
+      },
+      "trigger": "minecraft:enter_block"
+    }
+  }
+}

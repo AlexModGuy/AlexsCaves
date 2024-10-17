@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "FFF",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "alexscaves:disc_fragment_tasty"
+    }
+  },
+  "result": {
+    "item": "alexscaves:music_disc_tasty"
+  }
+}

@@ -30,7 +30,8 @@ public class ACPlayerCapes {
     private static final List<UUID> COMMUNITY_ORGANIZERS = List.of(
             UUID.fromString("8c1af44c-d02a-42e8-8ae6-e3f2132acbbf"), /*Plummet_Studios*/
             UUID.fromString("7058b4a0-c527-4667-9162-d816e42ebf75"), /*HolidayTheRaptor*/
-            UUID.fromString("3562ab33-f01b-4801-aab5-807f3750ded1") /*AbysswalkerDeno*/
+            UUID.fromString("3562ab33-f01b-4801-aab5-807f3750ded1"), /*AbysswalkerDeno*/
+            UUID.fromString("befc934f-f684-4049-8f47-7b5a3727dbc6") /*PCAwesomeness*/
     );
 
     public static void setup() {

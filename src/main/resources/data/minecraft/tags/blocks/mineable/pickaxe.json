@@ -142,6 +142,20 @@
     "alexscaves:smooth_coprolith_wall",
     "alexscaves:coprolith_coal_ore",
     "alexscaves:porous_coprolith",
-    "alexscaves:peering_coprolith"
+    "alexscaves:peering_coprolith",
+    "alexscaves:small_peppermint",
+    "alexscaves:large_peppermint",
+    "alexscaves:block_of_polished_chocolate",
+    "alexscaves:block_of_chiseled_chocolate",
+    "alexscaves:candy_cane",
+    "alexscaves:candy_cane_block",
+    "alexscaves:chiseled_candy_cane_block",
+    "alexscaves:stripped_candy_cane_block",
+    "alexscaves:candy_cane_pole",
+    "alexscaves:stripped_candy_cane_pole",
+    "#alexscaves:rock_candies",
+    "alexscaves:sugar_glass",
+    "alexscaves:frostmint",
+    "alexscaves:conversion_crucible"
   ]
 }

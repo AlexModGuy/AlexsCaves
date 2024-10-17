@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:gobthumper"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.gobthumper.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.gobthumper.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/candy_cane_hook",
+    "criteria": {
+        "gobthumper": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gobthumper"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/convert_nether_biome.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.convert_nether_biome.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.convert_nether_biome.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/convert_biome",
+  "criteria": {
+    "convert_biome": {
+      "trigger": "alexscaves:convert_nether_biome"
+    }
+  }
+}

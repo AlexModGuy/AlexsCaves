@@ -1,0 +1,41 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "alexscaves:block/stripped_candy_cane_pole"
+      }
+    },
+    {
+      "apply": {
+        "model": "alexscaves:block/stripped_candy_cane_pole_connection_north"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "alexscaves:block/stripped_candy_cane_pole_connection_east"
+      },
+      "when": {
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "alexscaves:block/stripped_candy_cane_pole_connection_south"
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "alexscaves:block/stripped_candy_cane_pole_connection_west"
+      },
+      "when": {
+        "west": "true"
+      }
+    }
+  ]
+}

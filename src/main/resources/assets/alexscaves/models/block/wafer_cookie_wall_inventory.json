@@ -1,0 +1,7 @@
+{
+    "parent": "alexscaves:block/wall_inventory",
+    "textures": {
+        "wall": "alexscaves:block/wafer_cookie_block",
+        "top" : "alexscaves:block/wafer_cookie_block"
+    }
+}

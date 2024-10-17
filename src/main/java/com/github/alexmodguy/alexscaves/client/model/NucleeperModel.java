@@ -28,10 +28,9 @@ public class NucleeperModel extends AdvancedEntityModel<NucleeperEntity> {
     private final AdvancedModelBox rfoot;
     private final AdvancedModelBox coreBottom;
 
-    public NucleeperModel() {
+    public NucleeperModel(float f) {
         texWidth = 128;
         texHeight = 128;
-        float f = 0;
         base = new AdvancedModelBox(this);
         base.setRotationPoint(0.0F, 15.5F, 0.0F);
         base.setTextureOffset(80, 21).addBox(-7.0F, -36.5F, -5.0F, 14.0F, 38.0F, 10.0F, f, false);

@@ -1,0 +1,8 @@
+{
+	"parent": "alexscaves:block/gummy_ring_template",
+	"render_type": "cutout",
+	"textures": {
+		"top": "alexscaves:block/gummy_ring_pink_top",
+		"side": "alexscaves:block/gummy_ring_pink_side"
+	}
+}

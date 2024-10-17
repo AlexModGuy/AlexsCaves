@@ -116,7 +116,8 @@ public class ACAdvancementTabs {
         PRIMORDIAL(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_primordial_caves"), 0XF2D860, new ResourceLocation(AlexsCaves.MODID, "textures/block/limestone.png")),
         TOXIC(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_toxic_caves"), 0X7EFF00, new ResourceLocation(AlexsCaves.MODID, "textures/block/radrock.png")),
         ABYSSAL(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_abyssal_chasm"), 0X011437, new ResourceLocation(AlexsCaves.MODID, "textures/block/abyssmarine.png")),
-        FORLORN(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_forlorn_hollows"), 0X15110E, new ResourceLocation(AlexsCaves.MODID, "textures/block/guanostone.png"));
+        FORLORN(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_forlorn_hollows"), 0X15110E, new ResourceLocation(AlexsCaves.MODID, "textures/block/guanostone.png")),
+        CANDY(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_candy_cavity"), 0XF795CA, new ResourceLocation(AlexsCaves.MODID, "textures/block/block_of_chocolate.png"));
 
         ResourceLocation root;
 

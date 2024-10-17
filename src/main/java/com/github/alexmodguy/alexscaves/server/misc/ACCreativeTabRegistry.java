@@ -16,6 +16,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ACCreativeTabRegistry {
@@ -508,6 +509,154 @@ public class ACCreativeTabRegistry {
                 ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.DREADBOW);
             })
             .build());
+
+    public static final RegistryObject<CreativeModeTab> CANDY_CAVITY = DEF_REG.register("candy_cavity", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.alexscaves.candy_cavity"))
+            .icon(() -> new ItemStack(ACBlockRegistry.LARGE_PEPPERMINT.get()))
+            .withTabsBefore(CreativeModeTabs.SPAWN_EGGS)
+            .withTabsBefore(FORLORN_HOLLOWS.getKey())
+            .displayItems((enabledFeatures, output) -> {
+                output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_TABLET.get(), ACBiomeRegistry.CANDY_CAVITY));
+                output.accept(CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), ACBiomeRegistry.CANDY_CAVITY));
+                add(output, ACBlockRegistry.SPELUNKERY_TABLE.get());
+                add(output, ACItemRegistry.CAVE_BOOK.get());
+                output.accept(CaveMapItem.createMap(ACBiomeRegistry.CANDY_CAVITY));
+                ACItemRegistry.getSpawnEggsForTab(ACBiomeRegistry.CANDY_CAVITY).forEach((spawnEgg -> add(output, spawnEgg.get())));
+                add(output, ACItemRegistry.PURPLE_SODA_BUCKET.get());
+                add(output, ACItemRegistry.PURPLE_SODA_BOTTLE.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_RED_BUCKET.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_GREEN_BUCKET.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_YELLOW_BUCKET.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_BLUE_BUCKET.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_PINK_BUCKET.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_RED.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_GREEN.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_YELLOW.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_BLUE.get());
+                add(output, ACItemRegistry.SWEETISH_FISH_PINK.get());
+                add(output, ACItemRegistry.GELATIN_RED.get());
+                add(output, ACItemRegistry.GELATIN_GREEN.get());
+                add(output, ACItemRegistry.GELATIN_YELLOW.get());
+                add(output, ACItemRegistry.GELATIN_BLUE.get());
+                add(output, ACItemRegistry.GELATIN_PINK.get());
+                add(output, ACItemRegistry.HOT_CHOCOLATE_BOTTLE.get());
+                add(output, ACItemRegistry.VANILLA_ICE_CREAM_SCOOP.get());
+                add(output, ACItemRegistry.CHOCOLATE_ICE_CREAM_SCOOP.get());
+                add(output, ACItemRegistry.SWEETBERRY_ICE_CREAM_SCOOP.get());
+                add(output, ACItemRegistry.SUNDAE.get());
+                add(output, ACItemRegistry.SHARPENED_CANDY_CANE.get());
+                add(output, ACItemRegistry.PEPPERMINT_POWDER.get());
+                add(output, ACItemRegistry.RAINBOUNCE_BOOTS.get());
+                add(output, ACItemRegistry.GUMBALL_PILE.get());
+                add(output, ACItemRegistry.SHOT_GUM.get());
+                add(output, ACItemRegistry.CARAMEL.get());
+                add(output, ACItemRegistry.CARAMEL_APPLE.get());
+                add(output, ACItemRegistry.CANDY_CANE_HOOK.get());
+                add(output, ACItemRegistry.SWEET_TOOTH.get());
+                add(output, ACItemRegistry.RADIANT_ESSENCE.get());
+                add(output, ACItemRegistry.SACK_OF_SATING.get());
+                add(output, ACItemRegistry.SUGAR_STAFF.get());
+                add(output, ACItemRegistry.GINGERBREAD_CRUMBS.get());
+                add(output, ACItemRegistry.GINGERBREAD_HELMET.get());
+                add(output, ACItemRegistry.GINGERBREAD_CHESTPLATE.get());
+                add(output, ACItemRegistry.GINGERBREAD_LEGGINGS.get());
+                add(output, ACItemRegistry.GINGERBREAD_BOOTS.get());
+                add(output, ACItemRegistry.PURPLE_SODA_BOTTLE_ROCKET.get());
+                add(output, ACItemRegistry.FROSTMINT_SPEAR.get());
+                add(output, ACItemRegistry.MUSIC_DISC_TASTY_FRAGMENT.get());
+                add(output, ACItemRegistry.MUSIC_DISC_TASTY.get());
+                add(output, ACItemRegistry.BIOME_TREAT.get());
+                add(output, ACBlockRegistry.BLOCK_OF_CHOCOLATE.get());
+                add(output, ACBlockRegistry.BLOCK_OF_POLISHED_CHOCOLATE.get());
+                add(output, ACBlockRegistry.BLOCK_OF_CHISELED_CHOCOLATE.get());
+                add(output, ACBlockRegistry.BLOCK_OF_FROSTED_CHOCOLATE.get());
+                add(output, ACBlockRegistry.BLOCK_OF_FROSTING.get());
+                add(output, ACBlockRegistry.BLOCK_OF_VANILLA_FROSTING.get());
+                add(output, ACBlockRegistry.BLOCK_OF_CHOCOLATE_FROSTING.get());
+                add(output, ACBlockRegistry.SWEET_PUFF.get());
+                add(output, ACBlockRegistry.CAKE_LAYER.get());
+                add(output, ACBlockRegistry.DOUGH_BLOCK.get());
+                add(output, ACBlockRegistry.COOKIE_BLOCK.get());
+                add(output, ACBlockRegistry.WAFER_COOKIE_BLOCK.get());
+                add(output, ACBlockRegistry.WAFER_COOKIE_STAIRS.get());
+                add(output, ACBlockRegistry.WAFER_COOKIE_SLAB.get());
+                add(output, ACBlockRegistry.WAFER_COOKIE_WALL.get());
+                add(output, ACBlockRegistry.LICOROOT.get());
+                add(output, ACBlockRegistry.LICOROOT_VINE.get());
+                add(output, ACBlockRegistry.LICOROOT_SPROUT.get());
+                add(output, ACBlockRegistry.SMALL_PEPPERMINT.get());
+                add(output, ACBlockRegistry.LARGE_PEPPERMINT.get());
+                add(output, ACBlockRegistry.VANILLA_ICE_CREAM.get());
+                add(output, ACBlockRegistry.CHOCOLATE_ICE_CREAM.get());
+                add(output, ACBlockRegistry.SWEETBERRY_ICE_CREAM.get());
+                add(output, ACBlockRegistry.SPRINKLES.get());
+                add(output, ACBlockRegistry.GIANT_SWEETBERRY.get());
+                add(output, ACBlockRegistry.CANDY_CANE.get());
+                add(output, ACBlockRegistry.CANDY_CANE_BLOCK.get());
+                add(output, ACBlockRegistry.CHISELED_CANDY_CANE_BLOCK.get());
+                add(output, ACBlockRegistry.STRIPPED_CANDY_CANE_BLOCK.get());
+                add(output, ACBlockRegistry.CANDY_CANE_POLE.get());
+                add(output, ACBlockRegistry.STRIPPED_CANDY_CANE_POLE.get());
+                add(output, ACBlockRegistry.LOLLIPOP_BUNCH.get());
+                add(output, ACBlockRegistry.FROSTMINT.get());
+                add(output, ACBlockRegistry.SUGAR_GLASS.get());
+                add(output, ACBlockRegistry.SUNDROP.get());
+                add(output, ACBlockRegistry.GUMMY_RING_RED.get());
+                add(output, ACBlockRegistry.GUMMY_RING_GREEN.get());
+                add(output, ACBlockRegistry.GUMMY_RING_YELLOW.get());
+                add(output, ACBlockRegistry.GUMMY_RING_BLUE.get());
+                add(output, ACBlockRegistry.GUMMY_RING_PINK.get());
+                add(output, ACBlockRegistry.GOBTHUMPER.get());
+                add(output, ACBlockRegistry.CONVERSION_CRUCIBLE.get());
+                add(output, ACBlockRegistry.WHITE_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.ORANGE_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.MAGENTA_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.LIGHT_BLUE_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.YELLOW_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.LIME_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.PINK_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.GRAY_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.LIGHT_GRAY_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.CYAN_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.PURPLE_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.BLUE_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.BROWN_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.GREEN_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.RED_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.BLACK_ROCK_CANDY.get());
+                add(output, ACBlockRegistry.GINGERBREAD_BLOCK.get());
+                add(output, ACBlockRegistry.GINGERBREAD_STAIRS.get());
+                add(output, ACBlockRegistry.GINGERBREAD_SLAB.get());
+                add(output, ACBlockRegistry.GINGERBREAD_WALL.get());
+                add(output, ACBlockRegistry.GINGERBREAD_DOOR.get());
+                add(output, ACBlockRegistry.GINGERBARREL.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_BLOCK.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_STAIRS.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_SLAB.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_WALL.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_DOOR.get());
+                add(output, ACBlockRegistry.GINGERBREAD_BRICKS.get());
+                add(output, ACBlockRegistry.GINGERBREAD_BRICK_STAIRS.get());
+                add(output, ACBlockRegistry.GINGERBREAD_BRICK_SLAB.get());
+                add(output, ACBlockRegistry.GINGERBREAD_BRICK_WALL.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_BRICKS.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_BRICK_STAIRS.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_BRICK_SLAB.get());
+                add(output, ACBlockRegistry.FROSTED_GINGERBREAD_BRICK_WALL.get());
+                add(output, ACBlockRegistry.CONFECTION_OVEN.get());
+                ForgeRegistries.POTIONS.getValues().stream().filter(potion -> !potion.getEffects().isEmpty() && !potion.hasInstantEffects()).forEach(potion -> output.accept(ACEffectRegistry.createJellybean(potion)));
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.SUGAR_RUSH_POTION.get()));
+                output.accept(ACEffectRegistry.createPotion(ACEffectRegistry.LONG_SUGAR_RUSH_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.SUGAR_RUSH_POTION.get()));
+                output.accept(ACEffectRegistry.createSplashPotion(ACEffectRegistry.LONG_SUGAR_RUSH_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.SUGAR_RUSH_POTION.get()));
+                output.accept(ACEffectRegistry.createLingeringPotion(ACEffectRegistry.LONG_SUGAR_RUSH_POTION.get()));
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.SHOT_GUM);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.CANDY_CANE_HOOK);
+                ACEnchantmentRegistry.addAllEnchantsToCreativeTab(output, ACEnchantmentRegistry.SUGAR_STAFF);
+            })
+            .build());
+
 
     private static void add(CreativeModeTab.Output tab, ItemLike itemLike) {
         if (itemLike instanceof CustomTabBehavior customTabBehavior) {

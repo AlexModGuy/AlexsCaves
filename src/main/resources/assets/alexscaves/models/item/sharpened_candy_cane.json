@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "alexscaves:item/sharpened_candy_cane"
+  }
+}

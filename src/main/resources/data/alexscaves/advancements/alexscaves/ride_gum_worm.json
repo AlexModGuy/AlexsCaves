@@ -1,0 +1,34 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/ride_gum_worm.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.ride_gum_worm.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.ride_gum_worm.desc"
+    },
+    "frame": "challenge"
+  },
+  "parent": "alexscaves:alexscaves/gobthumper",
+  "criteria": {
+    "ride_gum_worm": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "vehicle": {
+                "type": "alexscaves:gum_worm_segment"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:started_riding"
+    }
+  }
+}

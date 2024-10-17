@@ -1,0 +1,8 @@
+{
+    "parent": "block/cube_bottom_top",
+    "textures": {
+        "side": "alexscaves:block/chiseled_candy_cane_block",
+        "bottom": "alexscaves:block/large_peppermint_front",
+        "top": "alexscaves:block/large_peppermint_front"
+    }
+}

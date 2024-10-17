@@ -30,14 +30,17 @@ public class ACServerConfig {
     public final ForgeConfigSpec.BooleanValue totemOfPossessionPlayers;
     public final ForgeConfigSpec.IntValue darknessCloakChargeTime;
     public final ForgeConfigSpec.IntValue darknessCloakFlightTime;
+    public final ForgeConfigSpec.BooleanValue sugarRushSlowsTime;
     public final ForgeConfigSpec.DoubleValue magneticTabletLootChance;
     public final ForgeConfigSpec.DoubleValue primordialTabletLootChance;
     public final ForgeConfigSpec.DoubleValue toxicTabletLootChance;
     public final ForgeConfigSpec.DoubleValue abyssalTabletLootChance;
     public final ForgeConfigSpec.DoubleValue forlornTabletLootChance;
+    public final ForgeConfigSpec.DoubleValue candyTabletLootChance;
     public final ForgeConfigSpec.DoubleValue cabinMapLootChance;
     public final ForgeConfigSpec.BooleanValue cartographersSellCabinMaps;
     public final ForgeConfigSpec.BooleanValue wanderingTradersSellCabinMaps;
+    public final ForgeConfigSpec.BooleanValue lootChestInWitchHuts;
     public final ForgeConfigSpec.BooleanValue enchantmentsInLoot;
 
     public ACServerConfig(final ForgeConfigSpec.Builder builder) {
@@ -77,15 +80,20 @@ public class ACServerConfig {
         darknessCloakChargeTime = builder.comment("The amount of time (in ticks) it takes to charge up the Cloak of Darkness ability.").translation("darkness_cloak_charge_time").defineInRange("darkness_cloak_charge_time", 1000, 20, Integer.MAX_VALUE);
         darknessCloakFlightTime = builder.comment("The amount of time (in ticks) that players can fly with the Cloak of Darkness ability.").translation("darkness_cloak_fly_time").defineInRange("darkness_cloak_fly_time", 200, 20, Integer.MAX_VALUE);
         builder.pop();
+        builder.push("potion-behavior");
+        sugarRushSlowsTime = builder.comment("Whether the Sugar Rush changes the tick rate of the game in the area of affected players.").translation("sugar_rush_slows_time").define("sugar_rush_slows_time", true);
+        builder.pop();
         builder.push("vanilla-changes");
         magneticTabletLootChance = builder.comment("percent chance of bastion having a cave tablet for magnetic caves in its loot table:").translation("magnetic_tablet_loot_chance").defineInRange("magnetic_tablet_loot_chance", 0.45D, 0.0, 1.0D);
         primordialTabletLootChance = builder.comment("percent chance of suspicious sand having a cave tablet for primordial caves in its loot table:").translation("primordial_tablet_loot_chance").defineInRange("primordial_tablet_loot_chance", 0.15D, 0.0, 1.0D);
         toxicTabletLootChance = builder.comment("percent chance of jungle temple having a cave tablet for toxic caves in its loot table:").translation("toxic_tablet_loot_chance").defineInRange("toxic_tablet_loot_chance", 0.5D, 0.0, 1.0D);
         abyssalTabletLootChance = builder.comment("percent chance of underwater ruins having a cave tablet for abyssal chasm in its loot table:").translation("abyssal_tablet_loot_chance").defineInRange("abyssal_tablet_loot_chance", 0.4D, 0.0, 1.0D);
         forlornTabletLootChance = builder.comment("percent chance of mansion having a cave tablet for forlorn hollows in its loot table:").translation("forlorn_tablet_loot_chance").defineInRange("forlorn_tablet_loot_chance", 0.75D, 0.0, 1.0D);
+        candyTabletLootChance = builder.comment("percent chance of witch hut chest having a cave tablet for candy cavity in its loot table:").translation("candy_cavity_loot_chance").defineInRange("candy_cavity_loot_chance", 0.9D, 0.0, 1.0D);
         cabinMapLootChance = builder.comment("percent chance of abandoned mineshaft chests having a map to a nearby underground mineshaft in their loot table:").translation("cabin_map_loot_chance").defineInRange("cabin_map_loot_chance", 0.15D, 0.0, 1.0D);
         cartographersSellCabinMaps = builder.comment("Whether the Cartographer Villagers can sell maps to Underground Cabins.").translation("cartographers_sell_cabin_maps").define("cartographers_sell_cabin_maps", true);
         wanderingTradersSellCabinMaps = builder.comment("Whether the Wandering Traders can sell maps to Underground Cabins.").translation("wandering_traders_sell_cabin_maps").define("wandering_traders_sell_cabin_maps", true);
+        lootChestInWitchHuts = builder.comment("Whether a loot chest is added to vanilla's witch huts. This is included to provide another place to find candy cavity biome cave tablets.").translation("loot_chest_in_witch_huts").define("loot_chest_in_witch_huts", true);
         enchantmentsInLoot = builder.comment("Whether the Enchantments added by AC appear in vanilla loot tables.").translation("enchantments_in_loot").define("enchantments_in_loot", false);
         builder.pop();
     }

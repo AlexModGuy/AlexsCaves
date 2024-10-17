@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0" : "minecraft:item/bucket",
+    "layer1" : "alexscaves:item/bucket_content/sweetish_fish_green"
+  }
+}

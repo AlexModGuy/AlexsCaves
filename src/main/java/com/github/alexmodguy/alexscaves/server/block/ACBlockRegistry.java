@@ -1,14 +1,17 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.client.model.ConversionCrucibleModel;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.block.grower.AncientTreeGrower;
+import com.github.alexmodguy.alexscaves.server.block.grower.LicorootGrower;
 import com.github.alexmodguy.alexscaves.server.block.grower.PewenGrower;
 import com.github.alexmodguy.alexscaves.server.block.grower.ThornwoodGrower;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.item.*;
 import com.github.alexthe666.citadel.item.BlockItemWithSupplier;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -43,6 +46,12 @@ public class ACBlockRegistry {
     public static final BlockBehaviour.Properties PEERING_COPROLITH_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(1.75F, 4.0F).sound(ACSoundTypes.PEERING_COPROLITH).noOcclusion();
     public static final BlockBehaviour.Properties THORNWOOD_LOG_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS);
     public static final BlockBehaviour.Properties THORNWOOD_PLANKS_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0F, 3.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS);
+    public static final BlockBehaviour.Properties CHOCOLATE_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(1.0F, 2.0F).sound(ACSoundTypes.DENSE_CANDY).instrument(NoteBlockInstrument.BASEDRUM);
+    public static final BlockBehaviour.Properties COOKIE_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(1.5F, 1.5F).sound(ACSoundTypes.DENSE_CANDY).instrument(NoteBlockInstrument.BASEDRUM);
+    public static final BlockBehaviour.Properties DOUGH_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(1.0F, 1.5F).sound(SoundType.WOOL).instrument(NoteBlockInstrument.BASS);
+    public static final BlockBehaviour.Properties LICOROOT_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).strength(1.0F, 1.5F).sound(SoundType.NETHER_WOOD).instrument(NoteBlockInstrument.SNARE);
+    public static final BlockBehaviour.Properties ROCK_CANDY_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(1.0F, 1.5F).sound(SoundType.STONE).instrument(NoteBlockInstrument.BASS);
+    public static final BlockBehaviour.Properties GINGERBREAD_PROPERTIES = BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(1.0F, 1.5F).sound(ACSoundTypes.DENSE_CANDY).instrument(NoteBlockInstrument.BASS);
     public static final WoodType PEWEN_WOOD_TYPE = WoodType.register(new WoodType("alexscaves:pewen", BlockSetType.OAK));
     public static final WoodType THORNWOOD_WOOD_TYPE = WoodType.register(new WoodType("alexscaves:thornwood", BlockSetType.OAK));
 
@@ -191,7 +200,7 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> GEOTHERMAL_VENT_MEDIUM = registerBlockAndItem("geothermal_vent_medium", () -> new ThinGeothermalVentBlock(12));
     public static final RegistryObject<Block> GEOTHERMAL_VENT_THIN = registerBlockAndItem("geothermal_vent_thin", () -> new ThinGeothermalVentBlock(8));
     public static final RegistryObject<LiquidBlock> ACID = DEF_REG.register("acid", () -> new AcidBlock(ACFluidRegistry.ACID_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).noCollission().strength(100.0F).lightLevel(state -> 7).emissiveRendering((state, world, pos) -> false).noLootTable().replaceable().liquid().pushReaction(PushReaction.DESTROY)));
-    public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable()));
+    public static final RegistryObject<Block> UNDERWEED = registerBlockAndItem("underweed", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable(), false));
     public static final RegistryObject<Block> POTTED_UNDERWEED = DEF_REG.register("potted_underweed", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, UNDERWEED, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> METAL_BARREL = registerBlockAndItem("metal_barrel", () -> new MetalBarrelBlock());
     public static final RegistryObject<Block> WASTE_DRUM = registerBlockAndItem("waste_drum", () -> new WasteDrumBlock(), 5);
@@ -316,10 +325,89 @@ public class ACBlockRegistry {
     public static final RegistryObject<Block> THORNWOOD_BUTTON = registerBlockAndItem("thornwood_button", () -> new ButtonBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).noCollission().strength(0.5F).sound(SoundType.WOOD), BlockSetType.OAK, 30, true));
     public static final RegistryObject<Block> THORNWOOD_FENCE_GATE = registerBlockAndItem("thornwood_fence_gate", () -> new FenceGateBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(2.0F, 3.0F).sound(SoundType.WOOD).forceSolidOn(), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN));
     public static final RegistryObject<Block> THORNWOOD_DOOR = DEF_REG.register("thornwood_door", () -> new DoorBlock(BlockBehaviour.Properties.copy(THORNWOOD_PLANKS.get()).strength(3.0F).sound(SoundType.WOOD).noOcclusion(), BlockSetType.OAK));
-    public static final RegistryObject<Block> THORNWOOD_SAPLING = registerBlockAndItem("thornwood_sapling", () -> new CaveSaplingBlock(new ThornwoodGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.GRASS)));
+    public static final RegistryObject<Block> THORNWOOD_SAPLING = registerBlockAndItem("thornwood_sapling", () -> new CaveSaplingBlock(new ThornwoodGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().randomTicks().instabreak().sound(SoundType.GRASS), true));
     public static final RegistryObject<Block> POTTED_THORNWOOD_SAPLING = DEF_REG.register("potted_thornwood_sapling", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, THORNWOOD_SAPLING, BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY)));
     public static final RegistryObject<Block> MOTH_BALL = registerBlockAndItem("moth_ball", () -> new MothBallBlock());
     public static final RegistryObject<Block> BEHOLDER = registerBlockAndItem("beholder", () -> new BeholderBlock(), 3);
+    public static final RegistryObject<Block> BLOCK_OF_CHOCOLATE = registerBlockAndItemEdible("block_of_chocolate", () -> new ChocolateBlock(CHOCOLATE_PROPERTIES), ACFoods.BLOCK_OF_CHOCOLATE);
+    public static final RegistryObject<Block> BLOCK_OF_POLISHED_CHOCOLATE = registerBlockAndItemEdible("block_of_polished_chocolate", () -> new Block(CHOCOLATE_PROPERTIES), ACFoods.BLOCK_OF_CHOCOLATE);
+    public static final RegistryObject<Block> BLOCK_OF_CHISELED_CHOCOLATE = registerBlockAndItemEdible("block_of_chiseled_chocolate", () -> new Block(CHOCOLATE_PROPERTIES), ACFoods.BLOCK_OF_CHOCOLATE);
+    public static final RegistryObject<Block> BLOCK_OF_FROSTED_CHOCOLATE = registerBlockAndItemEdible("block_of_frosted_chocolate", () -> new FrostedChocolateBlock(), ACFoods.BLOCK_OF_CHOCOLATE);
+    public static final RegistryObject<Block> BLOCK_OF_FROSTING = registerBlockAndItemEdible("block_of_frosting", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).strength(1.0F, 1.0F).sound(ACSoundTypes.SQUISHY_CANDY).instrument(NoteBlockInstrument.BASEDRUM)), ACFoods.BLOCK_OF_FROSTING);
+    public static final RegistryObject<Block> BLOCK_OF_VANILLA_FROSTING = registerBlockAndItemEdible("block_of_vanilla_frosting", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_WHITE).strength(1.0F, 1.0F).sound(ACSoundTypes.SQUISHY_CANDY).instrument(NoteBlockInstrument.BASEDRUM)), ACFoods.BLOCK_OF_FROSTING);
+    public static final RegistryObject<Block> BLOCK_OF_CHOCOLATE_FROSTING = registerBlockAndItemEdible("block_of_chocolate_frosting", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).strength(1.0F, 1.0F).sound(ACSoundTypes.SQUISHY_CANDY).instrument(NoteBlockInstrument.BASEDRUM)), ACFoods.BLOCK_OF_FROSTING);
+    public static final RegistryObject<Block> SWEET_PUFF = registerBlockAndItemEdible("sweet_puff", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK).instabreak().offsetType(BlockBehaviour.OffsetType.XYZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable(), true), ACFoods.SWEET_PUFF);
+    public static final RegistryObject<Block> CAKE_LAYER = registerBlockAndItemEdible("cake_layer", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(1.5F, 1.0F).sound(ACSoundTypes.SOFT_CANDY).instrument(NoteBlockInstrument.BASEDRUM)), ACFoods.CAKE_LAYER);
+    public static final RegistryObject<Block> DOUGH_BLOCK = registerBlockAndItemEdible("dough_block", () -> new Block(DOUGH_PROPERTIES), ACFoods.DOUGH);
+    public static final RegistryObject<Block> COOKIE_BLOCK = registerBlockAndItemEdible("cookie_block", () -> new Block(COOKIE_PROPERTIES), ACFoods.COOKIE);
+    public static final RegistryObject<Block> WAFER_COOKIE_BLOCK = registerBlockAndItemEdible("wafer_cookie_block", () -> new Block(COOKIE_PROPERTIES), ACFoods.COOKIE);
+    public static final RegistryObject<Block> WAFER_COOKIE_STAIRS = registerBlockAndItemEdible("wafer_cookie_stairs", () -> new StairBlock(WAFER_COOKIE_BLOCK.get().defaultBlockState(), COOKIE_PROPERTIES), ACFoods.COOKIE_HALF);
+    public static final RegistryObject<Block> WAFER_COOKIE_SLAB = registerBlockAndItemEdible("wafer_cookie_slab", () -> new SlabBlock(COOKIE_PROPERTIES), ACFoods.COOKIE_HALF);
+    public static final RegistryObject<Block> WAFER_COOKIE_WALL = registerBlockAndItemEdible("wafer_cookie_wall", () -> new WallBlock(COOKIE_PROPERTIES), ACFoods.COOKIE_HALF);
+    public static final RegistryObject<Block> LICOROOT = registerBlockAndItemEdible("licoroot", () -> new RotatedPillarBlock(LICOROOT_PROPERTIES), ACFoods.LICOROOT);
+    public static final RegistryObject<Block> LICOROOT_VINE = registerBlockAndItemEdible("licoroot_vine", () -> new LicorootVineBlock(), ACFoods.LICOROOT_VINE);
+    public static final RegistryObject<Block> LICOROOT_SPROUT = registerBlockAndItemEdible("licoroot_sprout", () -> new CaveSaplingBlock(new LicorootGrower(), BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK).instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.GRASS).noOcclusion().noCollission().replaceable(), false), ACFoods.LICOROOT_VINE);
+    public static final RegistryObject<Block> SMALL_PEPPERMINT = registerBlockAndItemEdible("small_peppermint", () -> new PeppermintBlock(2.0D, 6.0D), ACFoods.SMALL_PEPPERMINT);
+    public static final RegistryObject<Block> LARGE_PEPPERMINT = registerBlockAndItemEdible("large_peppermint", () -> new PeppermintBlock(0.0D, 8.0D), ACFoods.LARGE_PEPPERMINT);
+    public static final RegistryObject<Block> VANILLA_ICE_CREAM = registerBlockAndItemEdible("vanilla_ice_cream", () -> new IceCreamBlock(0), ACFoods.VANILLA_ICE_CREAM);
+    public static final RegistryObject<Block> CHOCOLATE_ICE_CREAM = registerBlockAndItemEdible("chocolate_ice_cream", () -> new IceCreamBlock(1), ACFoods.CHOCOLATE_ICE_CREAM);
+    public static final RegistryObject<Block> SWEETBERRY_ICE_CREAM = registerBlockAndItemEdible("sweetberry_ice_cream", () -> new IceCreamBlock(2), ACFoods.SWEETBERRY_ICE_CREAM);
+    public static final RegistryObject<Block> SPRINKLES = registerBlockAndItemEdible("sprinkles", () -> new SprinklesBlock(), ACFoods.SPRINKLES);
+    public static final RegistryObject<Block> GIANT_SWEETBERRY = registerBlockAndItemEdible("giant_sweetberry", () -> new GiantSweetberryBlock(), ACFoods.GIANT_SWEETBERRY);
+    public static final RegistryObject<Block> CANDY_CANE = registerBlockAndItemEdible("candy_cane", () -> new SmallCandyCaneBlock(), ACFoods.CANDY_CANE);
+    public static final RegistryObject<Block> CANDY_CANE_BLOCK = registerBlockAndItemEdible("candy_cane_block", () -> new CandyCaneBlock(), ACFoods.CANDY_CANE);
+    public static final RegistryObject<Block> CHISELED_CANDY_CANE_BLOCK = registerBlockAndItemEdible("chiseled_candy_cane_block", () -> new CandyCaneBlock(), ACFoods.CANDY_CANE);
+    public static final RegistryObject<Block> STRIPPED_CANDY_CANE_BLOCK = registerBlockAndItemEdible("stripped_candy_cane_block", () -> new CandyCaneBlock(), ACFoods.CANDY_CANE);
+    public static final RegistryObject<Block> CANDY_CANE_POLE = registerBlockAndItemEdible("candy_cane_pole", () -> new CandyCanePoleBlock(), ACFoods.CANDY_CANE_POLE);
+    public static final RegistryObject<Block> STRIPPED_CANDY_CANE_POLE = registerBlockAndItemEdible("stripped_candy_cane_pole", () -> new CandyCanePoleBlock(), ACFoods.CANDY_CANE_POLE);
+    public static final RegistryObject<Block> LOLLIPOP_BUNCH = registerBlockAndItemEdible("lollipop_bunch", () -> new CavePlantBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).instabreak().offsetType(BlockBehaviour.OffsetType.XZ).sound(SoundType.STONE).noOcclusion().noCollission(), true), ACFoods.LOLLIPOP_BUNCH);
+    public static final RegistryObject<Block> FROSTMINT = registerBlockAndItemEdible("frostmint", () -> new FrostmintBlock(), ACFoods.FROSTMINT);
+    public static final RegistryObject<Block> SUGAR_GLASS = registerBlockAndItemEdible("sugar_glass", () -> new SugarGlassBlock(), ACFoods.SUGAR_GLASS);
+    public static final RegistryObject<LiquidBlock> PURPLE_SODA = DEF_REG.register("purple_soda", () -> new PurpleSodaBlock(ACFluidRegistry.PURPLE_SODA_FLUID_SOURCE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).noCollission().strength(100.0F).emissiveRendering((state, world, pos) -> false).noLootTable().replaceable().liquid().pushReaction(PushReaction.DESTROY)));
+    public static final RegistryObject<Block> SUNDROP = registerBlockAndItemEdible("sundrop", () -> new SundropBlock(), ACFoods.SUNDROP);
+    public static final RegistryObject<Block> GUMMY_RING_RED = registerBlockAndItemEdible("gummy_ring_red", () -> new GummyRingBlock(), ACFoods.GUMMY_RING);
+    public static final RegistryObject<Block> GUMMY_RING_GREEN = registerBlockAndItemEdible("gummy_ring_green", () -> new GummyRingBlock(), ACFoods.GUMMY_RING);
+    public static final RegistryObject<Block> GUMMY_RING_YELLOW = registerBlockAndItemEdible("gummy_ring_yellow", () -> new GummyRingBlock(), ACFoods.GUMMY_RING);
+    public static final RegistryObject<Block> GUMMY_RING_BLUE = registerBlockAndItemEdible("gummy_ring_blue", () -> new GummyRingBlock(), ACFoods.GUMMY_RING);
+    public static final RegistryObject<Block> GUMMY_RING_PINK = registerBlockAndItemEdible("gummy_ring_pink", () -> new GummyRingBlock(), ACFoods.GUMMY_RING);
+    public static final RegistryObject<Block> GOBTHUMPER = registerBlockAndItem("gobthumper", () -> new GobthumperBlock(), 3);
+    public static final RegistryObject<Block> CONVERSION_CRUCIBLE = registerBlockAndItem("conversion_crucible", () -> new ConversionCrucibleBlock(), 6);
+    public static final RegistryObject<Block> WHITE_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_white", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> ORANGE_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_orange", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> MAGENTA_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_magenta", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> LIGHT_BLUE_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_light_blue", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> YELLOW_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_yellow", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> LIME_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_lime", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> PINK_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_pink", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> GRAY_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_gray", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> LIGHT_GRAY_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_light_gray", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> CYAN_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_cyan", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> PURPLE_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_purple", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> BLUE_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_blue", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> BROWN_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_brown", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> GREEN_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_green", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> RED_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_red", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> BLACK_ROCK_CANDY = registerBlockAndItemEdible("rock_candy_black", () -> new Block(ROCK_CANDY_PROPERTIES), ACFoods.ROCK_CANDY);
+    public static final RegistryObject<Block> GINGERBREAD_BLOCK = registerBlockAndItemEdible("gingerbread_block", () -> new Block(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD);
+    public static final RegistryObject<Block> GINGERBREAD_STAIRS = registerBlockAndItemEdible("gingerbread_stairs", () -> new StairBlock(GINGERBREAD_BLOCK.get().defaultBlockState(), GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBREAD_SLAB = registerBlockAndItemEdible("gingerbread_slab", () -> new SlabBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBREAD_WALL = registerBlockAndItemEdible("gingerbread_wall", () -> new WallBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBREAD_DOOR = registerBlockAndItemEdible("gingerbread_door", () -> new GingerbreadDoorBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBARREL = registerBlockAndItemEdible("gingerbarrel", () -> new GingerbarrelBlock(), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_BLOCK = registerBlockAndItemEdible("frosted_gingerbread_block", () -> new Block(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_STAIRS = registerBlockAndItemEdible("frosted_gingerbread_stairs", () -> new StairBlock(GINGERBREAD_BLOCK.get().defaultBlockState(), GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_SLAB = registerBlockAndItemEdible("frosted_gingerbread_slab", () -> new SlabBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_WALL = registerBlockAndItemEdible("frosted_gingerbread_wall", () -> new WallBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_DOOR = registerBlockAndItemEdible("frosted_gingerbread_door", () -> new GingerbreadDoorBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBREAD_BRICKS = registerBlockAndItemEdible("gingerbread_bricks", () -> new Block(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD);
+    public static final RegistryObject<Block> GINGERBREAD_BRICK_STAIRS = registerBlockAndItemEdible("gingerbread_brick_stairs", () -> new StairBlock(GINGERBREAD_BRICKS.get().defaultBlockState(), GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBREAD_BRICK_SLAB = registerBlockAndItemEdible("gingerbread_brick_slab", () -> new SlabBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> GINGERBREAD_BRICK_WALL = registerBlockAndItemEdible("gingerbread_brick_wall", () -> new WallBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_BRICKS = registerBlockAndItemEdible("frosted_gingerbread_bricks", () -> new Block(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_BRICK_STAIRS = registerBlockAndItemEdible("frosted_gingerbread_brick_stairs", () -> new StairBlock(GINGERBREAD_BRICKS.get().defaultBlockState(), GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_BRICK_SLAB = registerBlockAndItemEdible("frosted_gingerbread_brick_slab", () -> new SlabBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> FROSTED_GINGERBREAD_BRICK_WALL = registerBlockAndItemEdible("frosted_gingerbread_brick_wall", () -> new WallBlock(GINGERBREAD_PROPERTIES), ACFoods.GINGERBREAD_HALF);
+    public static final RegistryObject<Block> CONFECTION_OVEN = registerBlockAndItem("confection_oven", () -> new ConfectionOvenBlock());
 
     private static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block) {
         return registerBlockAndItem(name, block, 0);
@@ -328,6 +416,12 @@ public class ACBlockRegistry {
     private static RegistryObject<Block> registerBlockAndItem(String name, Supplier<Block> block, int itemType) {
         RegistryObject<Block> blockObj = DEF_REG.register(name, block);
         ACItemRegistry.DEF_REG.register(name, getBlockSupplier(itemType, blockObj));
+        return blockObj;
+    }
+
+    private static RegistryObject<Block> registerBlockAndItemEdible(String name, Supplier<Block> block, FoodProperties foodProperties) {
+        RegistryObject<Block> blockObj = DEF_REG.register(name, block);
+        ACItemRegistry.DEF_REG.register(name, () -> new BlockItemWithSupplier(blockObj, new Item.Properties().food(foodProperties)));
         return blockObj;
     }
 
@@ -351,8 +445,11 @@ public class ACBlockRegistry {
                 return () -> new BlockItemWithSupplier(blockObj, new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant());
             case 8:
                 return () -> new BlockItemWithSupplier(blockObj, new Item.Properties().rarity(Rarity.UNCOMMON).fireResistant().rarity(ACItemRegistry.RARITY_NUCLEAR));
+            case 9:
+                return () -> new BlockItemWithISTER(blockObj, new Item.Properties().rarity(Rarity.UNCOMMON));
         }
     }
+
 
     public static void setup() {
         FlowerPotBlock flowerPotBlock = (FlowerPotBlock) Blocks.FLOWER_POT;

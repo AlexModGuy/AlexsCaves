@@ -111,6 +111,10 @@ public class ACMath {
         float f = (to - from)  % 360.0F;
         return Mth.approach(from, from + f, by);
     }
+    public static float canyonStep(float heightScale, int scaleTo) {
+        int clampTo100 = (int) ((heightScale) * scaleTo * scaleTo);
+        return Mth.clamp((float) (Math.round(clampTo100 / (float) scaleTo)) / (float) scaleTo, 0F, 1F);
+    }
 
     public static Set<Holder<Biome>> getBiomesWithinAtY(BiomeSource biomeSource, int x, int y, int z, int xzDist, Climate.Sampler sampler) {
         int i = QuartPos.fromBlock(x - xzDist);

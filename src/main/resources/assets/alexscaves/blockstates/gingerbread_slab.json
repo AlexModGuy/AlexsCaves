@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/gingerbread_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/gingerbread_block"
+    },
+    "type=top": {
+      "model": "alexscaves:block/gingerbread_slab_top"
+    }
+  }
+}

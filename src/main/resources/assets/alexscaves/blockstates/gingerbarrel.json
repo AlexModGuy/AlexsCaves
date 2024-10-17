@@ -1,0 +1,49 @@
+{
+  "variants": {
+    "facing=down,open=false": {
+      "model": "alexscaves:block/gingerbarrel",
+      "x": 180
+    },
+    "facing=down,open=true": {
+      "model": "alexscaves:block/gingerbarrel_open",
+      "x": 180
+    },
+    "facing=east,open=false": {
+      "model": "alexscaves:block/gingerbarrel_side",
+      "y": 90
+    },
+    "facing=east,open=true": {
+      "model": "alexscaves:block/gingerbarrel_side_open",
+      "y": 90
+    },
+    "facing=north,open=false": {
+      "model": "alexscaves:block/gingerbarrel_side"
+    },
+    "facing=north,open=true": {
+      "model": "alexscaves:block/gingerbarrel_side_open"
+    },
+    "facing=south,open=false": {
+      "model": "alexscaves:block/gingerbarrel_side",
+      "y": 180
+    },
+    "facing=south,open=true": {
+      "model": "alexscaves:block/gingerbarrel_side_open",
+      "y": 180
+    },
+    "facing=up,open=false": {
+      "model": "alexscaves:block/gingerbarrel"
+    },
+    "facing=up,open=true": {
+      "model": "alexscaves:block/gingerbarrel_open"
+    },
+    "facing=west,open=false": {
+      "model": "alexscaves:block/gingerbarrel_side",
+      "y": 270
+    },
+    "facing=west,open=true": {
+      "model": "alexscaves:block/gingerbarrel_side_open",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

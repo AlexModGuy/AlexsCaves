@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GCG",
+    "GEG",
+    "GGG"
+  ],
+  "key": {
+    "E": {
+      "item": "alexscaves:radiant_essence"
+    },
+    "C": {
+      "item": "minecraft:cauldron"
+    },
+    "G": {
+      "tag": "forge:storage_blocks/gold"
+    }
+  },
+  "result": {
+    "item": "alexscaves:conversion_crucible",
+    "count": 1
+  }
+}

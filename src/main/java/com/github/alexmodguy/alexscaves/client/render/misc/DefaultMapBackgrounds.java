@@ -41,7 +41,8 @@ public enum DefaultMapBackgrounds {
     PRIMORDIAL_CAVES,
     TOXIC_CAVES,
     ABYSSAL_CHASM,
-    FORLORN_HOLLOWS;
+    FORLORN_HOLLOWS,
+    CANDY_CAVITY;
 
     private ResourceLocation texture;
 

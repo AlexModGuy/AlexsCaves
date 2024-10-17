@@ -1,0 +1,53 @@
+{
+  "feature": "alexscaves:ceiling_ice_cream_cone",
+  "placement": [
+    {
+      "type": "minecraft:count",
+      "count": {
+        "type": "minecraft:uniform",
+        "value": {
+          "max_inclusive": 3,
+          "min_inclusive": 0
+        }
+      }
+    },
+    {
+      "type": "minecraft:height_range",
+      "height": {
+        "type": "minecraft:uniform",
+        "max_inclusive": {
+          "above_bottom": 160
+        },
+        "min_inclusive": {
+          "above_bottom": 0
+        }
+      }
+    },
+    {
+      "type": "minecraft:biome"
+    },
+    {
+      "type": "minecraft:environment_scan",
+      "allowed_search_condition": {
+        "type": "minecraft:matching_blocks",
+        "blocks": [
+          "minecraft:air",
+          "minecraft:cave_air",
+          "minecraft:void_air",
+          "alexscaves:ambersol_light"
+        ]
+      },
+      "direction_of_search": "up",
+      "max_steps": 32,
+      "target_condition": {
+        "type": "minecraft:has_sturdy_face",
+        "direction": "down"
+      }
+    },
+    {
+      "type": "minecraft:random_offset",
+      "xz_spread": 8,
+      "y_spread": -1
+    }
+  ]
+}

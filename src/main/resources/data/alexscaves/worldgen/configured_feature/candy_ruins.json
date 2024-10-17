@@ -1,0 +1,11 @@
+{
+  "type": "alexscaves:candy_ruins",
+  "config": {
+    "structures": [
+      "alexscaves:chocolate_bar_0",
+      "alexscaves:chocolate_bar_1"
+    ],
+    "chest_loot": "alexscaves:chests/gingerbread_town",
+    "sink_by": 5
+  }
+}

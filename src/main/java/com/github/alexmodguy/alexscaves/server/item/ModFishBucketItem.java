@@ -49,7 +49,7 @@ public class ModFishBucketItem extends MobBucketItem {
         addExtraAttributes(entity, stack);
     }
 
-    private void addExtraAttributes(Entity entity, ItemStack stack) {
+    protected void addExtraAttributes(Entity entity, ItemStack stack) {
 
     }
 

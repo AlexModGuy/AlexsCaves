@@ -1,0 +1,23 @@
+{
+  "parent": "root.json",
+  "text": "candy_cavity/chapter.txt",
+  "title": "book.alexscaves.candy_cavity",
+  "required_progression": "alexscaves:candy_cavity_general",
+  "widgets": [
+    {
+      "display_page" : 1,
+      "type": "image",
+      "image": "alexscaves:textures/gui/book/candy_chapter.png",
+      "sepia": true,
+      "x": 64,
+      "y": 83,
+      "scale": 2.5,
+      "u0": 0,
+      "v0": 0,
+      "u1": 49,
+      "v1": 64,
+      "width": 64,
+      "height": 64
+    }
+  ]
+}

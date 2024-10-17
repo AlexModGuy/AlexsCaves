@@ -1,0 +1,101 @@
+{
+  "pools": [
+    {
+      "name": "gingerbread_town",
+      "rolls": {
+        "min": 1,
+        "max": 4
+      },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "alexscaves:cave_tablet",
+          "weight": 3,
+          "functions": [
+            {
+              "function": "set_nbt",
+              "tag": "{CaveBiome:\"alexscaves:candy_cavity\"}"
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:candy_cane",
+          "weight": 20,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:gingerbread_crumbs",
+          "weight": 7,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "minecraft:bread",
+          "weight": 7
+        },
+        {
+          "type": "item",
+          "name": "minecraft:cookie",
+          "weight": 14,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ]
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:peppermint_powder",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:vanilla_ice_cream_scoop",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:chocolate_ice_cream_scoop",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:sweetberry_ice_cream_scoop",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:caramel_apple",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "alexscaves:sprinkles",
+          "weight": 4
+        }
+      ]
+    }
+  ]
+}

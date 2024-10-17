@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:sharpened_candy_cane"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_caniac.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_caniac.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/eat_candy_cane",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:caniac"
+        }
+      }
+    }
+  }
+}

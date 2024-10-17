@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "VV",
+    "VV"
+  ],
+  "key": {
+    "V": {
+      "item": "alexscaves:licoroot_vine"
+    }
+  },
+  "result": {
+    "item": "alexscaves:licoroot",
+    "count": 1
+  }
+}

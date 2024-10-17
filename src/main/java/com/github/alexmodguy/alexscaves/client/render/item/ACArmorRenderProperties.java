@@ -28,6 +28,8 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
     public static HazmatArmorModel HAZMAT_ARMOR_MODEL;
     public static DivingArmorModel DIVING_ARMOR_MODEL;
     public static DarknessArmorModel DARKNESS_ARMOR_MODEL;
+    public static RainbounceArmorModel RAINBOUNCE_ARMOR_MODEL;
+    public static GingerbreadArmorModel GINGERBREAD_ARMOR_MODEL;
 
 
     public static void initializeModels() {
@@ -36,6 +38,8 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
         HAZMAT_ARMOR_MODEL = new HazmatArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.HAZMAT_ARMOR));
         DIVING_ARMOR_MODEL = new DivingArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.DIVING_ARMOR));
         DARKNESS_ARMOR_MODEL = new DarknessArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.DARKNESS_ARMOR));
+        RAINBOUNCE_ARMOR_MODEL = new RainbounceArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.RAINBOUNCE_ARMOR));
+        GINGERBREAD_ARMOR_MODEL = new GingerbreadArmorModel(Minecraft.getInstance().getEntityModels().bakeLayer(ACModelLayers.GINGERBREAD_ARMOR));
     }
 
     @Override
@@ -55,6 +59,12 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
         if (itemStack.getItem() instanceof DarknessArmorItem) {
             return entityLiving == null ? DARKNESS_ARMOR_MODEL : DARKNESS_ARMOR_MODEL.withAnimations(entityLiving);
         }
+        if (itemStack.getItem() instanceof RainbounceBootsItem) {
+            return RAINBOUNCE_ARMOR_MODEL;
+        }
+        if (itemStack.getItem() instanceof GingerbreadArmorItem) {
+            return GINGERBREAD_ARMOR_MODEL;
+        }
         return _default;
     }
 
@@ -64,6 +74,9 @@ public class ACArmorRenderProperties implements IClientItemExtensions {
             armorModel.renderToBuffer(poseStack, vertexconsumer1, light, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             VertexConsumer vertexconsumer2 = multiBufferSource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(DARKNESS_ARMOR_GLOW));
             armorModel.renderToBuffer(poseStack, vertexconsumer2, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        }else if(armorItem.getMaterial() == ACItemRegistry.RAINBOUNCE_ARMOR_MATERIAL){
+            VertexConsumer vertexconsumer1 = itemStack.hasFoil() ? VertexMultiConsumer.create(multiBufferSource.getBuffer(RenderType.entityGlintDirect()), multiBufferSource.getBuffer(ACRenderTypes.getTeslaBulb(texture))) : multiBufferSource.getBuffer(ACRenderTypes.getTeslaBulb(texture));
+            armorModel.renderToBuffer(poseStack, vertexconsumer1, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " S ",
+    "FFF",
+    "LLL"
+  ],
+  "key": {
+    "S": {
+      "tag": "alexscaves:sweet_berries"
+    },
+    "F": {
+      "tag": "alexscaves:frosting"
+    },
+    "L": {
+      "item": "alexscaves:cake_layer"
+    }
+  },
+  "result": {
+    "item": "minecraft:cake"
+  }
+}

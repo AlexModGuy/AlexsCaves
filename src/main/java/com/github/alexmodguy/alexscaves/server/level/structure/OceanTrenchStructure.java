@@ -34,8 +34,8 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
         BlockPos center = new BlockPos(i, getGenerateYHeight(context.random(), i, j), j);
         int heightRad = getHeightRadius(context.random(), context.chunkGenerator().getSeaLevel());
         int widthRad = getWidthRadius(context.random());
-        int biomeUp = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.UP, center, heightRad) + getYExpand();
-        int biomeDown = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.DOWN, center, heightRad) + getYExpand();
+        int biomeUp = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.UP, center, heightRad) + getYExpandUp();
+        int biomeDown = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.DOWN, center, heightRad) + getYExpandDown();
         BlockPos ground = center.below(biomeDown - 2);
         int biomeEast = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.EAST, ground, widthRad) + 32;
         int biomeWest = biomeContinuesInDirectionFor(context.biomeSource(), context.randomState(), Direction.WEST, ground, widthRad) + 32;
@@ -68,7 +68,12 @@ public class OceanTrenchStructure extends AbstractCaveGenerationStructure {
     }
 
     @Override
-    protected int getYExpand() {
+    protected int getYExpandUp() {
+        return 16;
+    }
+
+    @Override
+    protected int getYExpandDown() {
         return 16;
     }
 

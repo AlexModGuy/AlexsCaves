@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "alexscaves:soda_bottle",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 11224949,
+    "spacing": 8,
+    "separation": 3
+  }
+}

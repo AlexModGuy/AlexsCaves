@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "alexscaves:block/gingerbread_block",
+    "side": "alexscaves:block/gingerbread_block",
+    "top": "alexscaves:block/gingerbread_block"
+  }
+}

@@ -12,13 +12,16 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class CavePlantBlock extends BushBlock {
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D);
+    protected static final VoxelShape SHAPE_TALL = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 7.0D, 13.0D);
+    private final boolean taller;
 
-    public CavePlantBlock(Properties props) {
+    public CavePlantBlock(Properties props, boolean taller) {
         super(props);
+        this.taller = taller;
     }
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext collisionContext) {
-        return SHAPE;
+        return taller ? SHAPE_TALL : SHAPE;
     }
 
     @Override

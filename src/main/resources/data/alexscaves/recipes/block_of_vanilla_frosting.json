@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "FFF",
+    "FCF",
+    "FFF"
+  ],
+  "key": {
+    "F": {
+      "item": "alexscaves:block_of_frosting"
+    },
+    "C": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "result": {
+    "item": "alexscaves:block_of_vanilla_frosting",
+    "count": 8
+  }
+}
