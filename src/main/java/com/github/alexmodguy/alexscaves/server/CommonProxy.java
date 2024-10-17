@@ -4,16 +4,12 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.PathfindingConstants;
 import com.github.alexthe666.citadel.server.tick.ServerTickRateTracker;
-import com.github.alexthe666.citadel.server.tick.TickRateTracker;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
@@ -158,5 +154,9 @@ public class CommonProxy {
     }
 
     public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index) {
+    }
+
+    public void checkModCompatibility(){
+
     }
 }

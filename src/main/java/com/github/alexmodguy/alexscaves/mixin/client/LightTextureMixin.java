@@ -101,7 +101,7 @@ public abstract class LightTextureMixin {
             at = @At(value = "HEAD")
     )
     private void ac_updateLightTexture(float partialTicks, CallbackInfo ci) {
-        if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get()) {
+        if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get() && !ClientProxy.disabledBiomeAmbientLightByOtherMod) {
             ci.cancel();
             if (this.updateLightTexture) {
                 this.updateLightTexture = false;

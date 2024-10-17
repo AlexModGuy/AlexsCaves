@@ -74,6 +74,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import javax.annotation.Nullable;
@@ -121,9 +122,9 @@ public class ClientProxy extends CommonProxy {
     public static float lastBiomeAmbientLightAmountPrev = 0;
     public static Map<UUID, Integer> bossBarRenderTypes = new HashMap<>();
     private static Entity lastCameraEntity;
-
     public static float acSkyOverrideAmount;
     public static Vec3 acSkyOverrideColor = Vec3.ZERO;
+    public static boolean disabledBiomeAmbientLightByOtherMod = false;
 
     public void commonInit() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -1077,6 +1078,9 @@ public class ClientProxy extends CommonProxy {
 
     public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index){
         ClientEvents.renderVanillaMapDecoration(mapDecoration, index + 1);
+    }
+    public void checkModCompatibility(){
+        disabledBiomeAmbientLightByOtherMod = ModList.get().isLoaded("distanthorizons");
     }
 }
 

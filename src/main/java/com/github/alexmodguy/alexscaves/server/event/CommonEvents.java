@@ -411,6 +411,7 @@ public class CommonEvents {
                     event.getEntity().sendSystemMessage(Component.translatable("alexscaves.startup_warning.generation_incompatible", modid).withStyle(ChatFormatting.RED));
                 }
             }
+            AlexsCaves.PROXY.checkModCompatibility();
         }
     }
 
