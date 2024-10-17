@@ -21,6 +21,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.carver.ACCarverRegistry;
 import com.github.alexmodguy.alexscaves.server.level.feature.ACFeatureRegistry;
+import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.level.structure.ACStructureRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.piece.ACStructurePieceRegistry;
 import com.github.alexmodguy.alexscaves.server.level.structure.processor.ACStructureProcessorRegistry;
@@ -36,6 +37,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.world.ForgeChunkManager;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -165,6 +167,7 @@ public class AlexsCaves {
             ACAdvancementTriggerRegistry.setup();
             ACPotPatternRegistry.expandVanillaDefinitions();
             ACBlockEntityRegistry.expandVanillaDefinitions();
+            ForgeChunkManager.setForcedChunkLoadingCallback(MODID, ACWorldData::clearLoadedChunksCallback);
         });
         readModIncompatibilities();
     }

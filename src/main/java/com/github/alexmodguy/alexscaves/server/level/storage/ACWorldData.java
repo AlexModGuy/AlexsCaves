@@ -1,7 +1,10 @@
 package com.github.alexmodguy.alexscaves.server.level.storage;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.entity.living.LuxtructosaurusEntity;
 import com.github.alexmodguy.alexscaves.server.level.map.CaveBiomeMapWorldWorker;
+import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.longs.LongSet;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.storage.DimensionDataStorage;
 import net.minecraftforge.common.WorldWorkerManager;
+import net.minecraftforge.common.world.ForgeChunkManager;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -131,5 +135,21 @@ public class ACWorldData extends SavedData {
 
     public boolean isCaveMapTicking(){
         return lastMapWorker != null && lastMapWorker.hasWork();
+    }
+
+    public static void clearLoadedChunksCallback(ServerLevel serverLevel, ForgeChunkManager.TicketHelper ticketHelper) {
+        //remove all forced chunks on server relog
+        int i = 0;
+        for(Map.Entry<UUID, Pair<LongSet, LongSet>> entry : ticketHelper.getEntityTickets().entrySet()){
+            ticketHelper.removeAllTickets(entry.getKey());
+            i++;
+        }
+        for(Map.Entry<BlockPos, Pair<LongSet, LongSet>> entry : ticketHelper.getBlockTickets().entrySet()){
+            ticketHelper.removeAllTickets(entry.getKey());
+            i++;
+        }
+        if(i > 0){
+            AlexsCaves.LOGGER.debug("unloaded {} forced chunks", i);
+        }
     }
 }
