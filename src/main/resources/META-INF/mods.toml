@@ -1,7 +1,7 @@
 modLoader="javafml" #mandatory
 loaderVersion="[46,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license="GNU LESSER GENERAL PUBLIC LICENSE"
-issueTrackerURL="https://github.com/AlexModGuy/AlexsCavesBetaTest/issues" #optional
+issueTrackerURL="https://github.com/AlexModGuy/AlexsCaves/issues" #optional
 [[mods]] #mandatory
 modId="alexscaves" #mandatory
 version="2.0.0" #mandatory
