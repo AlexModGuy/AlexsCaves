@@ -19,7 +19,7 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public abstract class AbstractTrailParticle extends Particle {
 
-    private Vec3[] trailPositions = new Vec3[64];
+    protected Vec3[] trailPositions = new Vec3[64];
     private int trailPointer = -1;
 
     protected float trailR = 1.0F;
@@ -68,7 +68,7 @@ public abstract class AbstractTrailParticle extends Particle {
     public void render(VertexConsumer consumer, Camera camera, float partialTick) {
         if (trailPointer > -1) {
             MultiBufferSource.BufferSource multibuffersource$buffersource = Minecraft.getInstance().renderBuffers().bufferSource();
-            VertexConsumer vertexconsumer = multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(getTrailTexture()));
+            VertexConsumer vertexconsumer = getVetrexConsumer(multibuffersource$buffersource);
 
             Vec3 cameraPos = camera.getPosition();
             double x = (float) (Mth.lerp((double) partialTick, this.xo, this.x));
@@ -105,6 +105,10 @@ public abstract class AbstractTrailParticle extends Particle {
             multibuffersource$buffersource.endBatch();
             posestack.popPose();
         }
+    }
+
+    protected VertexConsumer getVetrexConsumer(MultiBufferSource.BufferSource multibuffersource$buffersource) {
+        return multibuffersource$buffersource.getBuffer(ACRenderTypes.itemEntityTranslucentCull(getTrailTexture()));
     }
 
     public float getTrailRot(Camera camera) {

@@ -28,6 +28,8 @@ public class MushroomCloudParticle extends Particle {
 
     private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/particle/mushroom_cloud.png");
     private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/particle/mushroom_cloud_glow.png");
+    private static final ResourceLocation TEXTURE_PINK = new ResourceLocation("alexscaves:textures/particle/mushroom_cloud_pink.png");
+    private static final ResourceLocation TEXTURE_PINK_GLOW = new ResourceLocation("alexscaves:textures/particle/mushroom_cloud_pink_glow.png");
     private static final MushroomCloudModel MODEL = new MushroomCloudModel();
     private static final int BALL_FOR = 10;
     private static final int GLOW_FOR = 20;
@@ -38,13 +40,15 @@ public class MushroomCloudParticle extends Particle {
     private boolean playedExplosion;
     private boolean playedRumble;
 
-    protected MushroomCloudParticle(ClientLevel level, double x, double y, double z, float scale) {
+    private final boolean pink;
+
+    protected MushroomCloudParticle(ClientLevel level, double x, double y, double z, float scale, boolean pink) {
         super(level, x, y, z);
         this.gravity = 0.0F;
-
         this.lifetime = (int) Math.ceil(133.33F * scale);
         this.scale = scale + 0.2F;
         this.setSize(3.0F, 3.0F);
+        this.pink = pink;
     }
 
     public boolean shouldCull() {
@@ -109,11 +113,11 @@ public class MushroomCloudParticle extends Particle {
         int left = lifetime - age;
         float alpha = left <= FADE_SPEED ? left / (float) FADE_SPEED : 1.0F;
         MODEL.animateParticle(age, ACMath.smin(life, 1.0F, 0.5F), partialTick);
-        VertexConsumer baseConsumer = multibuffersource$buffersource.getBuffer(RenderType.entityTranslucent(TEXTURE));
+        VertexConsumer baseConsumer = multibuffersource$buffersource.getBuffer(RenderType.entityTranslucent(pink ? TEXTURE_PINK : TEXTURE));
         MODEL.renderToBuffer(posestack, baseConsumer, getLightColor(partialTick), OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
-        VertexConsumer glowConsumer1 = multibuffersource$buffersource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(TEXTURE));
+        VertexConsumer glowConsumer1 = multibuffersource$buffersource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(pink ? TEXTURE_PINK : TEXTURE));
         MODEL.renderToBuffer(posestack, glowConsumer1, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, alpha);
-        VertexConsumer glowConsumer2 = multibuffersource$buffersource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(TEXTURE_GLOW));
+        VertexConsumer glowConsumer2 = multibuffersource$buffersource.getBuffer(ACRenderTypes.getEyesAlphaEnabled(pink ? TEXTURE_PINK_GLOW : TEXTURE_GLOW));
         MODEL.renderToBuffer(posestack, glowConsumer2, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, glowLife * alpha);
         multibuffersource$buffersource.endBatch();
         posestack.popPose();
@@ -130,7 +134,7 @@ public class MushroomCloudParticle extends Particle {
             if (xSpeed == 0.0) {
                 xSpeed = 1.0F;
             }
-            return new MushroomCloudParticle(worldIn, x, y, z, (float) Math.max(0.5F, xSpeed));
+            return new MushroomCloudParticle(worldIn, x, y, z, (float) Math.max(0.5F, xSpeed), ySpeed >= 1.0F);
         }
     }
 }

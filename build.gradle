@@ -36,7 +36,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
 
-version = '1.1.4'
+version = '2.0.0-alpha-16'
 group = 'com.github.alexthe668' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'alexscaves'
 
@@ -49,7 +49,7 @@ minecraft {
 
 
     // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
+    // These can be tweaked, removed, or duplicated as h  needed.
     runs {
         client {
             workingDirectory project.file('run')
@@ -57,7 +57,7 @@ minecraft {
             arg "-mixin.config="+"citadel.mixins.json"
             arg "-mixin.config="+"alexscaves.mixins.json"
 
-            // Recommended logging data for a userdev environment
+            // Recommended logging data f  or a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
@@ -111,7 +111,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.2.20'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("curse.maven:citadel-331936:5143956")
+    implementation fg.deobf("curse.maven:citadel-331936:5633260")
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-common-api:${jei_version}"))
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))

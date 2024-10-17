@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
+import com.github.alexthe666.citadel.repack.jcodec.scale.ColorUtil;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.*;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -23,7 +24,7 @@ public class SmallExplosionParticle extends TextureSheetParticle {
         this.friction = 0.96F;
         float randCol = world.random.nextFloat() * 0.05F;
         this.sprites = sprites;
-        this.setColor(Math.min(FastColor.ARGB32.red(color1) / 255F + randCol, 1), FastColor.ARGB32.green(color1) / 255F + randCol, FastColor.ARGB32.blue(color1) / 255F + randCol);
+        this.setColor(Math.min(FastColor.ARGB32.red(color1) / 255F + randCol, 1), Math.min(1F, FastColor.ARGB32.green(color1) / 255F + randCol), Math.min(1F, FastColor.ARGB32.blue(color1) / 255F + randCol));
     }
 
     public void setFadeColor(int i){
@@ -226,6 +227,54 @@ public class SmallExplosionParticle extends TextureSheetParticle {
             particle.lifetime = 5 + worldIn.random.nextInt(3);
             particle.scale(1.2F + worldIn.random.nextFloat() * 0.3F);
             particle.setFadeColor(0);
+            return particle;
+        }
+    }
+
+    public static class PurpleWitchFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public PurpleWitchFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XFF69FF);
+            particle.setSpriteFromAge(spriteSet);
+            particle.scale(0.8F);
+            particle.setFadeColor(0XFFFFFF);
+            return particle;
+        }
+    }
+
+    public static class ConversionCrucibleFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public ConversionCrucibleFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, 0.0D, 0.0D, 0.0D, spriteSet, true, FastColor.ARGB32.color(255, (int)(255F * xSpeed), (int)(255F * ySpeed), (int)(255F * zSpeed)));
+            particle.setSpriteFromAge(spriteSet);
+            particle.scale(0.8F);
+            particle.setFadeColor(0XFFFFFF);
+            return particle;
+        }
+    }
+
+    public static class FrostmintFactory implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet spriteSet;
+
+        public FrostmintFactory(SpriteSet spriteSet) {
+            this.spriteSet = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType typeIn, ClientLevel worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            SmallExplosionParticle particle = new SmallExplosionParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet, true, 0XFFFFFF);
+            particle.quadSize *= 1.6F;
+            particle.setSpriteFromAge(spriteSet);
+            particle.setFadeColor(0XE5F9FA);
             return particle;
         }
     }

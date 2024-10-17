@@ -8,6 +8,7 @@ import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.recipe.RecipeType;
@@ -16,9 +17,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.CraftingRecipe;
+import net.minecraft.world.item.crafting.Recipe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @JeiPlugin
 public class AlexsCavesPlugin implements IModPlugin {
@@ -47,6 +53,16 @@ public class AlexsCavesPlugin implements IModPlugin {
             List<AbstractCookingRecipe> abstractCookingRecipeList = new ArrayList<>();
             abstractCookingRecipeList.addAll(Minecraft.getInstance().level.getRecipeManager().getAllRecipesFor(NuclearFurnaceBlockEntity.getRecipeType()));
             registration.addRecipes(NUCLEAR_FURNACE_RECIPE_TYPE, abstractCookingRecipeList);
+        }
+    }
+
+    @Override
+    public void registerRuntime(IRuntimeRegistration registration) {
+        if(Minecraft.getInstance().level != null){
+            Optional<? extends Recipe> alexMealRecipe = Minecraft.getInstance().level.getRecipeManager().byKey(new ResourceLocation("alexscaves:alex_meal"));
+            if(alexMealRecipe.isPresent() && alexMealRecipe.get() instanceof CraftingRecipe craftingRecipe){
+                registration.getRecipeManager().hideRecipes(RecipeTypes.CRAFTING, List.of(craftingRecipe));
+            }
         }
     }
 

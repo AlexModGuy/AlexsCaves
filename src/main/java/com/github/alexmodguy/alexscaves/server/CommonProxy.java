@@ -3,12 +3,17 @@ package com.github.alexmodguy.alexscaves.server;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.PathfindingConstants;
+import com.github.alexthe666.citadel.server.tick.ServerTickRateTracker;
+import com.github.alexthe666.citadel.server.tick.TickRateTracker;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
@@ -113,18 +118,18 @@ public class CommonProxy {
     public void playWorldEvent(int messageId, Level level, BlockPos blockPos) {
     }
 
-    public void setPrimordialBossActive(Level level, int id, boolean active){
+    public void setPrimordialBossActive(Level level, int id, boolean active) {
         ACWorldData worldData = ACWorldData.get(level);
-        if(worldData != null){
+        if (worldData != null) {
             worldData.trackPrimordialBoss(id, active);
         }
     }
 
-    public boolean isPrimordialBossActive(Level level){
+    public boolean isPrimordialBossActive(Level level) {
         ACWorldData worldData = ACWorldData.get(level);
-        if(worldData != null){
+        if (worldData != null) {
             return worldData.isPrimordialBossActive(level);
-        }else{
+        } else {
             return false;
         }
     }
@@ -138,5 +143,16 @@ public class CommonProxy {
     }
 
     public void setBossBarRender(UUID bossBar, int renderType) {
+    }
+
+    public void updateBiomeVisuals(int sectionX, int sectionY, int sectionZ) {
+    }
+
+    public boolean isTickRateModificationActive(Level level){
+        return ServerTickRateTracker.getForServer(level.getServer()).getServerTickLengthMs() != 50;
+    }
+
+    public boolean isFarFromCamera(double x, double y, double z) {
+        return false;
     }
 }

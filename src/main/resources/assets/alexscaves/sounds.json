@@ -59,6 +59,22 @@
       }
     ]
   },
+  "candy_cavity_music": {
+    "sounds": [
+      {
+        "name": "alexscaves:music/dulcet",
+        "stream": true
+      }
+    ]
+  },
+  "tasty_music_disc": {
+    "sounds": [
+      {
+        "name": "alexscaves:music/tasty",
+        "stream": true
+      }
+    ]
+  },
   "magnetic_caves_ambience": {
     "sounds": [
       {
@@ -682,6 +698,80 @@
       "alexscaves:ambient/forlorn_hollows/mood/mood_3",
       "alexscaves:ambient/forlorn_hollows/mood/mood_4",
       "alexscaves:ambient/forlorn_hollows/mood/mood_5"
+    ]
+  },
+  "candy_cavity_ambience": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/candy_cavity/ambience",
+        "stream": true,
+        "volume": 0.35
+      }
+    ]
+  },
+  "candy_cavity_ambience_additions": {
+    "sounds": [
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/chimes_0",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/chimes_1",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/chimes_2",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/chimes_3",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/chimes_4",
+        "volume": 0.5,
+        "weight": 3
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/whimsy_0",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/whimsy_1",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/whimsy_2",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/whoosh_0",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/whoosh_1",
+        "volume": 0.5,
+        "weight": 1
+      },
+      {
+        "name": "alexscaves:ambient/candy_cavity/loop_additions/whoosh_2",
+        "volume": 0.5,
+        "weight": 1
+      }
+    ]
+  },
+  "candy_cavity_ambience_mood": {
+    "sounds": [
+      "alexscaves:ambient/candy_cavity/mood/mood_0",
+      "alexscaves:ambient/candy_cavity/mood/mood_1"
     ]
   },
   "spelunkery_table_tablet_insert": {
@@ -1638,6 +1728,204 @@
       "alexscaves:block/beholder/beholder_exit"
     ],
     "subtitle": "alexscaves.sound.subtitle.beholder_exit"
+  },
+  "soft_candy_step": {
+    "sounds": [
+      "alexscaves:block/candy/soft_candy_breaking_0",
+      "alexscaves:block/candy/soft_candy_breaking_1",
+      "alexscaves:block/candy/soft_candy_breaking_2",
+      "alexscaves:block/candy/soft_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.soft_candy_step"
+  },
+  "soft_candy_place": {
+    "sounds": [
+      "alexscaves:block/candy/soft_candy_break_0",
+      "alexscaves:block/candy/soft_candy_break_1",
+      "alexscaves:block/candy/soft_candy_break_2",
+      "alexscaves:block/candy/soft_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.soft_candy_place"
+  },
+  "soft_candy_break": {
+    "sounds": [
+      "alexscaves:block/candy/soft_candy_break_0",
+      "alexscaves:block/candy/soft_candy_break_1",
+      "alexscaves:block/candy/soft_candy_break_2",
+      "alexscaves:block/candy/soft_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.soft_candy_break"
+  },
+  "soft_candy_breaking": {
+    "sounds": [
+      "alexscaves:block/candy/soft_candy_breaking_0",
+      "alexscaves:block/candy/soft_candy_breaking_1",
+      "alexscaves:block/candy/soft_candy_breaking_2",
+      "alexscaves:block/candy/soft_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.soft_candy_breaking"
+  },
+  "dense_candy_step": {
+    "sounds": [
+      "alexscaves:block/candy/dense_candy_breaking_0",
+      "alexscaves:block/candy/dense_candy_breaking_1",
+      "alexscaves:block/candy/dense_candy_breaking_2",
+      "alexscaves:block/candy/dense_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.dense_candy_step"
+  },
+  "dense_candy_place": {
+    "sounds": [
+      "alexscaves:block/candy/dense_candy_break_0",
+      "alexscaves:block/candy/dense_candy_break_1",
+      "alexscaves:block/candy/dense_candy_break_2",
+      "alexscaves:block/candy/dense_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.dense_candy_place"
+  },
+  "dense_candy_break": {
+    "sounds": [
+      "alexscaves:block/candy/dense_candy_break_0",
+      "alexscaves:block/candy/dense_candy_break_1",
+      "alexscaves:block/candy/dense_candy_break_2",
+      "alexscaves:block/candy/dense_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.dense_candy_break"
+  },
+  "dense_candy_breaking": {
+    "sounds": [
+      "alexscaves:block/candy/dense_candy_breaking_0",
+      "alexscaves:block/candy/dense_candy_breaking_1",
+      "alexscaves:block/candy/dense_candy_breaking_2",
+      "alexscaves:block/candy/dense_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.dense_candy_breaking"
+  },
+  "hard_candy_step": {
+    "sounds": [
+      "alexscaves:block/candy/hard_candy_breaking_0",
+      "alexscaves:block/candy/hard_candy_breaking_1",
+      "alexscaves:block/candy/hard_candy_breaking_2",
+      "alexscaves:block/candy/hard_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.hard_candy_step"
+  },
+  "hard_candy_place": {
+    "sounds": [
+      "alexscaves:block/candy/hard_candy_break_0",
+      "alexscaves:block/candy/hard_candy_break_1",
+      "alexscaves:block/candy/hard_candy_break_2",
+      "alexscaves:block/candy/hard_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.hard_candy_place"
+  },
+  "hard_candy_break": {
+    "sounds": [
+      "alexscaves:block/candy/hard_candy_break_0",
+      "alexscaves:block/candy/hard_candy_break_1",
+      "alexscaves:block/candy/hard_candy_break_2",
+      "alexscaves:block/candy/hard_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.hard_candy_break"
+  },
+  "hard_candy_breaking": {
+    "sounds": [
+      "alexscaves:block/candy/hard_candy_breaking_0",
+      "alexscaves:block/candy/hard_candy_breaking_1",
+      "alexscaves:block/candy/hard_candy_breaking_2",
+      "alexscaves:block/candy/hard_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.hard_candy_breaking"
+  },
+  "squishy_candy_step": {
+    "sounds": [
+      "alexscaves:block/candy/squishy_candy_breaking_0",
+      "alexscaves:block/candy/squishy_candy_breaking_1",
+      "alexscaves:block/candy/squishy_candy_breaking_2",
+      "alexscaves:block/candy/squishy_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.squishy_candy_step"
+  },
+  "squishy_candy_place": {
+    "sounds": [
+      "alexscaves:block/candy/squishy_candy_break_0",
+      "alexscaves:block/candy/squishy_candy_break_1",
+      "alexscaves:block/candy/squishy_candy_break_2",
+      "alexscaves:block/candy/squishy_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.squishy_candy_place"
+  },
+  "squishy_candy_break": {
+    "sounds": [
+      "alexscaves:block/candy/squishy_candy_break_0",
+      "alexscaves:block/candy/squishy_candy_break_1",
+      "alexscaves:block/candy/squishy_candy_break_2",
+      "alexscaves:block/candy/squishy_candy_break_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.squishy_candy_break"
+  },
+  "squishy_candy_breaking": {
+    "sounds": [
+      "alexscaves:block/candy/squishy_candy_breaking_0",
+      "alexscaves:block/candy/squishy_candy_breaking_1",
+      "alexscaves:block/candy/squishy_candy_breaking_2",
+      "alexscaves:block/candy/squishy_candy_breaking_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.squishy_candy_breaking"
+  },
+  "purple_soda_idle": {
+    "sounds": [
+      "alexscaves:block/purple_soda/purple_soda_idle_0",
+      "alexscaves:block/purple_soda/purple_soda_idle_1",
+      "alexscaves:block/purple_soda/purple_soda_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.purple_soda_idle"
+  },
+  "purple_soda_swim": {
+    "sounds": [
+      "alexscaves:block/purple_soda/purple_soda_swim_0",
+      "alexscaves:block/purple_soda/purple_soda_swim_1",
+      "alexscaves:block/purple_soda/purple_soda_swim_2",
+      "alexscaves:block/purple_soda/purple_soda_swim_3",
+      "alexscaves:block/purple_soda/purple_soda_swim_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.purple_soda_swim"
+  },
+  "purple_soda_submerge": {
+    "sounds": [
+      "alexscaves:block/purple_soda/purple_soda_submerge"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.purple_soda_submerge"
+  },
+  "purple_soda_unsubmerge": {
+    "sounds": [
+      "alexscaves:block/purple_soda/purple_soda_unsubmerge"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.purple_soda_unsubmerge"
+  },
+  "gobthumper_thump": {
+    "sounds": [
+      "alexscaves:block/gobthumper/gobthumper_thump"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gobthumper_thump"
+  },
+  "conversion_crucible_add": {
+    "sounds": [
+      "alexscaves:block/conversion_crucible/conversion_crucible_add"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.conversion_crucible_add"
+  },
+  "conversion_crucible_activate": {
+    "sounds": [
+      "alexscaves:block/conversion_crucible/conversion_crucible_activate"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.conversion_crucible_activate"
+  },
+  "conversion_crucible_convert": {
+    "sounds": [
+      "alexscaves:block/conversion_crucible/conversion_crucible_convert"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.conversion_crucible_convert"
   },
   "teletor_idle": {
     "sounds": [
@@ -3291,6 +3579,371 @@
     ],
     "subtitle": "alexscaves.sound.subtitle.forsaken_step"
   },
+  "sweetish_fish_hurt": {
+    "sounds": [
+      "alexscaves:mob/sweetish_fish/sweetish_fish_hurt_0",
+      "alexscaves:mob/sweetish_fish/sweetish_fish_hurt_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sweetish_fish_hurt"
+  },
+  "sweetish_fish_flop": {
+    "sounds": [
+      "alexscaves:mob/sweetish_fish/sweetish_fish_flop_0",
+      "alexscaves:mob/sweetish_fish/sweetish_fish_flop_1",
+      "alexscaves:mob/sweetish_fish/sweetish_fish_flop_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sweetish_fish_flop"
+  },
+  "caniac_idle": {
+    "sounds": [
+      "alexscaves:mob/caniac/caniac_idle_0",
+      "alexscaves:mob/caniac/caniac_idle_1",
+      "alexscaves:mob/caniac/caniac_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caniac_idle"
+  },
+  "caniac_hurt": {
+    "sounds": [
+      "alexscaves:mob/caniac/caniac_hurt_0",
+      "alexscaves:mob/caniac/caniac_hurt_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caniac_hurt"
+  },
+  "caniac_death": {
+    "sounds": [
+      "alexscaves:mob/caniac/caniac_death_0",
+      "alexscaves:mob/caniac/caniac_death_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caniac_death"
+  },
+  "caniac_attack": {
+    "sounds": [
+      "alexscaves:mob/caniac/caniac_attack_0",
+      "alexscaves:mob/caniac/caniac_attack_1",
+      "alexscaves:mob/caniac/caniac_attack_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caniac_attack"
+  },
+  "caniac_swing": {
+    "sounds": [
+      "alexscaves:mob/caniac/caniac_swing_0",
+      "alexscaves:mob/caniac/caniac_swing_1",
+      "alexscaves:mob/caniac/caniac_swing_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caniac_attack"
+  },
+  "gumbeeper_hurt": {
+    "sounds": [
+      "alexscaves:mob/gumbeeper/gumbeeper_hurt_0",
+      "alexscaves:mob/gumbeeper/gumbeeper_hurt_1",
+      "alexscaves:mob/gumbeeper/gumbeeper_hurt_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gumbeeper_hurt"
+  },
+  "gumbeeper_death": {
+    "sounds": [
+      "alexscaves:mob/gumbeeper/gumbeeper_death"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gumbeeper_death"
+  },
+  "gumbeeper_explode": {
+    "sounds": [
+      "alexscaves:mob/gumbeeper/gumbeeper_explode"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gumbeeper_explode"
+  },
+  "gumball_launch": {
+    "sounds": [
+      "alexscaves:mob/gumbeeper/gumball_launch"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gumball_launch"
+  },
+  "gumball_hit": {
+    "sounds": [
+      "alexscaves:mob/gumbeeper/gumball_hit"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gumball_hit"
+  },
+  "gumball_bounce": {
+    "sounds": [
+      "alexscaves:mob/gumbeeper/gumball_bounce"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gumball_bounce"
+  },
+  "candicorn_idle": {
+    "sounds": [
+      "alexscaves:mob/candicorn/candicorn_idle_0",
+      "alexscaves:mob/candicorn/candicorn_idle_1",
+      "alexscaves:mob/candicorn/candicorn_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_idle"
+  },
+  "candicorn_hurt": {
+    "sounds": [
+      "alexscaves:mob/candicorn/candicorn_hurt_0",
+      "alexscaves:mob/candicorn/candicorn_hurt_1",
+      "alexscaves:mob/candicorn/candicorn_hurt_2",
+      "alexscaves:mob/candicorn/candicorn_hurt_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_hurt"
+  },
+  "candicorn_death": {
+    "sounds": [
+      "alexscaves:mob/candicorn/candicorn_death"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_death"
+  },
+  "candicorn_step": {
+    "sounds": [
+      "alexscaves:mob/candicorn/candicorn_step_0",
+      "alexscaves:mob/candicorn/candicorn_step_1",
+      "alexscaves:mob/candicorn/candicorn_step_2",
+      "alexscaves:mob/candicorn/candicorn_step_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_step"
+  },
+  "candicorn_gallop": {
+    "sounds": [
+      "alexscaves:mob/candicorn/candicorn_gallop_0",
+      "alexscaves:mob/candicorn/candicorn_gallop_1",
+      "alexscaves:mob/candicorn/candicorn_gallop_2",
+      "alexscaves:mob/candicorn/candicorn_gallop_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_gallop"
+  },
+  "candicorn_charge_start": {
+    "sounds": [
+      "alexscaves:mob/candicorn/candicorn_charge_start"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_charge_start"
+  },
+  "candicorn_charge_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/candicorn/candicorn_charge_loop",
+        "attenuation_distance": 32,
+        "stream": true
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candicorn_charge_loop"
+  },
+  "gum_worm_idle": {
+    "sounds": [
+      "alexscaves:mob/gum_worm/gum_worm_idle_0",
+      "alexscaves:mob/gum_worm/gum_worm_idle_1",
+      "alexscaves:mob/gum_worm/gum_worm_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gum_worm_idle"
+  },
+  "gum_worm_hurt": {
+    "sounds": [
+      "alexscaves:mob/gum_worm/gum_worm_hurt_0",
+      "alexscaves:mob/gum_worm/gum_worm_hurt_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gum_worm_hurt"
+  },
+  "gum_worm_death": {
+    "sounds": [
+      "alexscaves:mob/gum_worm/gum_worm_death"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gum_worm_death"
+  },
+  "gum_worm_attack": {
+    "sounds": [
+      "alexscaves:mob/gum_worm/gum_worm_attack_0",
+      "alexscaves:mob/gum_worm/gum_worm_attack_1",
+      "alexscaves:mob/gum_worm/gum_worm_attack_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gum_worm_attack"
+  },
+  "gum_worm_dig_loop": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/gum_worm/gum_worm_dig_loop",
+        "attenuation_distance": 96,
+        "stream": true
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gum_worm_dig_loop"
+  },
+  "gum_worm_dig_stop": {
+    "sounds": [
+      {
+        "name": "alexscaves:mob/gum_worm/gum_worm_dig_stop",
+        "attenuation_distance": 96,
+        "stream": true
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gum_worm_dig_stop"
+  },
+  "caramel_cube_attack": {
+    "sounds": [
+      "alexscaves:mob/caramel_cube/caramel_cube_attack_0",
+      "alexscaves:mob/caramel_cube/caramel_cube_attack_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caramel_cube_attack"
+  },
+  "caramel_cube_small": {
+    "sounds": [
+      "alexscaves:mob/caramel_cube/caramel_cube_small_0",
+      "alexscaves:mob/caramel_cube/caramel_cube_small_1",
+      "alexscaves:mob/caramel_cube/caramel_cube_small_2",
+      "alexscaves:mob/caramel_cube/caramel_cube_small_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caramel_cube_small"
+  },
+  "caramel_cube_big": {
+    "sounds": [
+      "alexscaves:mob/caramel_cube/caramel_cube_big_0",
+      "alexscaves:mob/caramel_cube/caramel_cube_big_1",
+      "alexscaves:mob/caramel_cube/caramel_cube_big_2",
+      "alexscaves:mob/caramel_cube/caramel_cube_big_3"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.caramel_cube_big"
+  },
+  "gummy_bear_idle": {
+    "sounds": [
+      "alexscaves:mob/gummy_bear/gummy_bear_idle_0",
+      "alexscaves:mob/gummy_bear/gummy_bear_idle_1",
+      "alexscaves:mob/gummy_bear/gummy_bear_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gummy_bear_idle"
+  },
+  "gummy_bear_hurt": {
+    "sounds": [
+      "alexscaves:mob/gummy_bear/gummy_bear_hurt_0",
+      "alexscaves:mob/gummy_bear/gummy_bear_hurt_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gummy_bear_hurt"
+  },
+  "gummy_bear_death": {
+    "sounds": [
+      "alexscaves:mob/gummy_bear/gummy_bear_death_0",
+      "alexscaves:mob/gummy_bear/gummy_bear_death_1",
+      "alexscaves:mob/gummy_bear/gummy_bear_death_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gummy_bear_death"
+  },
+  "gummy_bear_eat": {
+    "sounds": [
+      "alexscaves:mob/gummy_bear/gummy_bear_eat_0",
+      "alexscaves:mob/gummy_bear/gummy_bear_eat_1",
+      "alexscaves:mob/gummy_bear/gummy_bear_eat_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gummy_bear_eat"
+  },
+  "gummy_bear_snore": {
+    "sounds": [
+      "alexscaves:mob/gummy_bear/gummy_bear_snore_0",
+      "alexscaves:mob/gummy_bear/gummy_bear_snore_1",
+      "alexscaves:mob/gummy_bear/gummy_bear_snore_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gummy_bear_snore"
+  },
+  "gummy_bear_step": {
+    "sounds": [
+      "alexscaves:mob/gummy_bear/gummy_bear_step_0",
+      "alexscaves:mob/gummy_bear/gummy_bear_step_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gummy_bear_step"
+  },
+  "licowitch_idle": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_idle_0",
+      "alexscaves:mob/licowitch/licowitch_idle_1",
+      "alexscaves:mob/licowitch/licowitch_idle_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_idle"
+  },
+  "licowitch_hurt": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_hurt_0",
+      "alexscaves:mob/licowitch/licowitch_hurt_1",
+      "alexscaves:mob/licowitch/licowitch_hurt_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_hurt"
+  },
+  "licowitch_death": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_death_0",
+      "alexscaves:mob/licowitch/licowitch_death_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_death"
+  },
+  "licowitch_celebrate": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_celebrate_0",
+      "alexscaves:mob/licowitch/licowitch_celebrate_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_celebrate"
+  },
+  "licowitch_cast_hex": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_cast_hex_0",
+      "alexscaves:mob/licowitch/licowitch_cast_hex_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_cast_hex"
+  },
+  "licowitch_cast_peppermint": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_cast_peppermint_0",
+      "alexscaves:mob/licowitch/licowitch_cast_peppermint_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_cast_peppermint"
+  },
+  "licowitch_cast_summon": {
+    "sounds": [
+      "alexscaves:mob/licowitch/licowitch_cast_summon_0",
+      "alexscaves:mob/licowitch/licowitch_cast_summon_1"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.licowitch_cast_summon"
+  },
+  "gingerbread_man_idle": {
+    "sounds": [
+      "alexscaves:mob/gingerbread_man/gingerbread_man_idle_0",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_idle_1",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_idle_2",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_idle_3",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_idle_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gingerbread_man_idle"
+  },
+  "gingerbread_man_hurt": {
+    "sounds": [
+      "alexscaves:mob/gingerbread_man/gingerbread_man_hurt_0",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_hurt_1",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_hurt_2",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_hurt_3",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_hurt_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gingerbread_man_hurt"
+  },
+  "gingerbread_man_death": {
+    "sounds": [
+      "alexscaves:mob/gingerbread_man/gingerbread_man_death_0",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_death_1",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_death_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gingerbread_man_death"
+  },
+  "gingerbread_man_attack": {
+    "sounds": [
+      "alexscaves:mob/gingerbread_man/gingerbread_man_attack_0",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_attack_1",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_attack_2",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_attack_3",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_attack_4"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gingerbread_man_attack"
+  },
+  "gingerbread_man_talk": {
+    "sounds": [
+      "alexscaves:mob/gingerbread_man/gingerbread_man_talk_0",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_talk_1",
+      "alexscaves:mob/gingerbread_man/gingerbread_man_talk_2"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.gingerbread_man_talk"
+  },
   "cave_book_open": {
     "sounds": [
       "alexscaves:item/cave_book/book_open_0",
@@ -3584,6 +4237,54 @@
     ],
     "subtitle": "alexscaves.sound.subtitle.dreadbow_rain"
   },
+  "shotgum_shoot": {
+    "sounds": [
+      "alexscaves:item/shotgum/shotgum_shoot"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.shotgum_shoot"
+  },
+  "shotgum_reload": {
+    "sounds": [
+      "alexscaves:item/shotgum/shotgum_reload"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.shotgum_reload"
+  },
+  "shotgum_empty": {
+    "sounds": [
+      "alexscaves:item/shotgum/shotgum_empty"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.shotgum_empty"
+  },
+  "candy_cane_hook_launch": {
+    "sounds": [
+      "alexscaves:item/candy_cane_hook/candy_cane_hook_launch"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candy_cane_hook_launch"
+  },
+  "candy_cane_hook_reel": {
+    "sounds": [
+      "alexscaves:item/candy_cane_hook/candy_cane_hook_reel"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.candy_cane_hook_reel"
+  },
+  "rainbounce_boots_bounce": {
+    "sounds": [
+      "alexscaves:item/rainbounce_boots/rainbounce_boots_bounce"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.rainbounce_boots_bounce"
+  },
+  "frostmint_spear_throw": {
+    "sounds": [
+      "alexscaves:item/frostmint_spear/frostmint_spear_throw"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.frostmint_spear_throw"
+  },
+  "frostmint_spear_hit": {
+    "sounds": [
+      "alexscaves:item/frostmint_spear/frostmint_spear_hit"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.frostmint_spear_hit"
+  },
   "tephra_whistle": {
     "sounds": [
       {
@@ -3768,6 +4469,28 @@
       "alexscaves:misc/darkness_incarnate/darkness_incarnate_idle_3"
     ],
     "subtitle": "alexscaves.sound.subtitle.darkness_incarnate_idle"
+  },
+  "sugar_rush_enter": {
+    "sounds": [
+      "alexscaves:misc/sugar_rush/sugar_rush_enter"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sugar_rush_enter"
+  },
+  "sugar_rush_exit": {
+    "sounds": [
+      "alexscaves:misc/sugar_rush/sugar_rush_exit"
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sugar_rush_exit"
+  },
+  "sugar_rush_loop": {
+    "sounds": [
+      {
+        "name":"alexscaves:misc/sugar_rush/sugar_rush_loop",
+        "attenuation_distance": 10,
+        "stream": true
+      }
+    ],
+    "subtitle": "alexscaves.sound.subtitle.sugar_rush_loop"
   },
   "disappointment": {
     "sounds": [

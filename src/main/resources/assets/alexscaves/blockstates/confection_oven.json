@@ -1,0 +1,73 @@
+{
+  "variants": {
+    "facing=down,cookstate=0": {
+      "model": "alexscaves:block/confection_oven",
+      "x": 90
+    },
+    "facing=east,cookstate=0": {
+      "model": "alexscaves:block/confection_oven",
+      "y": 90
+    },
+    "facing=north,cookstate=0": {
+      "model": "alexscaves:block/confection_oven"
+    },
+    "facing=south,cookstate=0": {
+      "model": "alexscaves:block/confection_oven",
+      "y": 180
+    },
+    "facing=up,cookstate=0": {
+      "model": "alexscaves:block/confection_oven",
+      "x": 270
+    },
+    "facing=west,cookstate=0": {
+      "model": "alexscaves:block/confection_oven",
+      "y": 270
+    },
+    "facing=down,cookstate=1": {
+      "model": "alexscaves:block/confection_oven_spawning",
+      "x": 90
+    },
+    "facing=east,cookstate=1": {
+      "model": "alexscaves:block/confection_oven_spawning",
+      "y": 90
+    },
+    "facing=north,cookstate=1": {
+      "model": "alexscaves:block/confection_oven_spawning"
+    },
+    "facing=south,cookstate=1": {
+      "model": "alexscaves:block/confection_oven_spawning",
+      "y": 180
+    },
+    "facing=up,cookstate=1": {
+      "model": "alexscaves:block/confection_oven_spawning",
+      "x": 270
+    },
+    "facing=west,cookstate=1": {
+      "model": "alexscaves:block/confection_oven_spawning",
+      "y": 270
+    },
+    "facing=down,cookstate=2": {
+      "model": "alexscaves:block/confection_oven_cooling",
+      "x": 90
+    },
+    "facing=east,cookstate=2": {
+      "model": "alexscaves:block/confection_oven_cooling",
+      "y": 90
+    },
+    "facing=north,cookstate=2": {
+      "model": "alexscaves:block/confection_oven_cooling"
+    },
+    "facing=south,cookstate=2": {
+      "model": "alexscaves:block/confection_oven_cooling",
+      "y": 180
+    },
+    "facing=up,cookstate=2": {
+      "model": "alexscaves:block/confection_oven_cooling",
+      "x": 270
+    },
+    "facing=west,cookstate=2": {
+      "model": "alexscaves:block/confection_oven_cooling",
+      "y": 270
+    }
+  }
+}

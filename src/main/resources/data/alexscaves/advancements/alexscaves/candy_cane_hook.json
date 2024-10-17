@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:candy_cane_hook"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.candy_cane_hook.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.candy_cane_hook.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/defeat_caniac",
+    "criteria": {
+        "candy_cane_hook": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:candy_cane_hook"
+                    }
+                ]
+            }
+        }
+    }
+}

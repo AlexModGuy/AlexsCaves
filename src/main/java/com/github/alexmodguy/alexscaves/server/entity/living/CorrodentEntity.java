@@ -380,6 +380,10 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
         return (!this.isDigging() || canDigBlock(blockstate)) && super.isColliding(pos, blockstate);
     }
 
+    public static boolean canDigBlock(BlockState state) {
+        return !state.is(ACTagRegistry.CORRODENT_BLOCKS_DIGGING) && state.getFluidState().isEmpty() && state.canOcclude();
+    }
+
     @Override
     public Vec3 getLightProbePosition(float f) {
         if (surfacePosition != null && prevSurfacePosition != null) {
@@ -393,10 +397,6 @@ public class CorrodentEntity extends Monster implements ICustomCollisions, IAnim
         BlockState state = level.getBlockState(pos);
         BlockState below = level.getBlockState(pos.below());
         return canDigBlock(state) && canDigBlock(below);
-    }
-
-    public static boolean canDigBlock(BlockState state) {
-        return !state.is(ACTagRegistry.CORRODENT_BLOCKS_DIGGING) && state.getFluidState().isEmpty() && state.canOcclude();
     }
 
 

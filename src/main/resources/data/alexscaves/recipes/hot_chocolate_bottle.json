@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:block_of_chocolate"
+    },
+    {
+      "item": "alexscaves:block_of_chocolate"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:hot_chocolate_bottle"
+  }
+}

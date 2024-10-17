@@ -1,0 +1,56 @@
+{
+  "variants": {
+    "facing=down,floating=false": {
+      "model": "alexscaves:block/gummy_ring_red",
+      "x": 180
+    },
+    "facing=east,floating=false": {
+      "model": "alexscaves:block/gummy_ring_red",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,floating=false": {
+      "model": "alexscaves:block/gummy_ring_red",
+      "x": 90
+    },
+    "facing=south,floating=false": {
+      "model": "alexscaves:block/gummy_ring_red",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,floating=false": {
+      "model": "alexscaves:block/gummy_ring_red"
+    },
+    "facing=west,floating=false": {
+      "model": "alexscaves:block/gummy_ring_red",
+      "x": 90,
+      "y": 270
+    },
+    "facing=down,floating=true": {
+      "model": "alexscaves:block/gummy_ring_red_floating",
+      "x": 180
+    },
+    "facing=east,floating=true": {
+      "model": "alexscaves:block/gummy_ring_red_floating",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north,floating=true": {
+      "model": "alexscaves:block/gummy_ring_red_floating",
+      "x": 90
+    },
+    "facing=south,floating=true": {
+      "model": "alexscaves:block/gummy_ring_red_floating",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up,floating=true": {
+      "model": "alexscaves:block/gummy_ring_red_floating"
+    },
+    "facing=west,floating=true": {
+      "model": "alexscaves:block/gummy_ring_red_floating",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

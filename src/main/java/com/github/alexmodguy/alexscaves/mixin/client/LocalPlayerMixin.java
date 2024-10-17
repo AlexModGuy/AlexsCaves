@@ -17,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class LocalPlayerMixin extends AbstractClientPlayer {
 
     private boolean wasUnderAcid;
+    private boolean wasUnderPurpleSoda;
 
     public LocalPlayerMixin(ClientLevel clientLevel, GameProfile gameProfile) {
         super(clientLevel, gameProfile);
@@ -26,6 +27,7 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
             at = @At("TAIL"))
     private void ac_updateIsUnderwater(CallbackInfoReturnable<Boolean> cir) {
         boolean underAcid = this.getEyeInFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get());
+        boolean underPurpleSoda = this.getEyeInFluidType().equals(ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get());
         if(wasUnderAcid != underAcid){
             if(underAcid){
                 this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ACSoundRegistry.ACID_SUBMERGE.get(), SoundSource.AMBIENT, 1.0F, 1.0F, false);
@@ -33,6 +35,14 @@ public abstract class LocalPlayerMixin extends AbstractClientPlayer {
                 this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ACSoundRegistry.ACID_UNSUBMERGE.get(), SoundSource.AMBIENT, 1.0F, 1.0F, false);
             }
         }
+        if(wasUnderPurpleSoda != underPurpleSoda){
+            if(underPurpleSoda){
+                this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ACSoundRegistry.PURPLE_SODA_SUBMERGE.get(), SoundSource.AMBIENT, 1.0F, 1.0F, false);
+            }else{
+                this.level().playLocalSound(this.getX(), this.getY(), this.getZ(), ACSoundRegistry.PURPLE_SODA_UNSUBMERGE.get(), SoundSource.AMBIENT, 1.0F, 1.0F, false);
+            }
+        }
         wasUnderAcid = underAcid;
+        wasUnderPurpleSoda = underPurpleSoda;
     }
 }

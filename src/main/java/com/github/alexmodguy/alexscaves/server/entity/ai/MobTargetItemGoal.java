@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.entity.ai;
 
+import com.github.alexmodguy.alexscaves.server.entity.living.GingerbreadManEntity;
 import com.github.alexmodguy.alexscaves.server.entity.util.TargetsDroppedItems;
 import com.google.common.base.Predicate;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
@@ -30,6 +31,7 @@ public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
     private int tickThreshold;
     private float radius = 9F;
     private int walkCooldown = 0;
+    private boolean offhand = false;
 
     public MobTargetItemGoal(PathfinderMob creature, boolean checkSight) {
         this(creature, checkSight, false);
@@ -43,16 +45,15 @@ public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
 
 
     public MobTargetItemGoal(PathfinderMob creature, boolean checkSight, boolean onlyNearby) {
-        this(creature, 10, checkSight, onlyNearby, null, 0);
+        this(creature, 10, checkSight, onlyNearby, null, 0, 9, false);
     }
 
     public MobTargetItemGoal(PathfinderMob creature, boolean checkSight, boolean onlyNearby, int tickThreshold, int radius) {
-        this(creature, 10, checkSight, onlyNearby, null, tickThreshold);
-        this.radius = radius;
+        this(creature, 10, checkSight, onlyNearby, null, tickThreshold, radius, false);
     }
 
 
-    public MobTargetItemGoal(PathfinderMob creature, int chance, boolean checkSight, boolean onlyNearby, @Nullable final Predicate<? super T> targetSelector, int ticksExisted) {
+    public MobTargetItemGoal(PathfinderMob creature, int chance, boolean checkSight, boolean onlyNearby, @Nullable final Predicate<? super T> targetSelector, int ticksExisted, int radius, boolean offhand) {
         super(creature, checkSight, onlyNearby);
         this.executionChance = chance;
         this.tickThreshold = ticksExisted;
@@ -65,6 +66,8 @@ public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
                 return !stack.isEmpty() && hunter.canTargetItem(stack) && item.tickCount > tickThreshold;
             }
         };
+        this.radius = radius;
+        this.offhand = offhand;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
@@ -73,7 +76,7 @@ public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
         if (this.mob.isPassenger() || mob.isVehicle() && mob.getControllingPassenger() != null || this.mob instanceof TamableAnimal tamableAnimal && tamableAnimal.isOrderedToSit()) {
             return false;
         }
-        if (!mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+        if (!mob.getItemInHand(offhand ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).isEmpty()) {
             return false;
         }
         if (!this.mustUpdate) {
@@ -142,7 +145,7 @@ public class MobTargetItemGoal<T extends ItemEntity> extends TargetGoal {
         if (targetEntity != null && this.mob.hasLineOfSight(targetEntity) && this.mob.getBbWidth() > 2D && this.mob.onGround()) {
             this.mob.getMoveControl().setWantedPosition(targetEntity.getX(), targetEntity.getY(), targetEntity.getZ(), 1);
         }
-        if (this.targetEntity != null && this.targetEntity.isAlive() && this.mob.distanceToSqr(this.targetEntity) < this.hunter.getMaxDistToItem() && mob.getItemInHand(InteractionHand.MAIN_HAND).isEmpty()) {
+        if (this.targetEntity != null && this.targetEntity.isAlive() && this.mob.distanceToSqr(this.targetEntity) < this.hunter.getMaxDistToItem() && mob.getItemInHand(offhand ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND).isEmpty()) {
             hunter.onGetItem(targetEntity);
             stop();
         }

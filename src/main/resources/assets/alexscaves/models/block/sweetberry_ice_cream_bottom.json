@@ -1,0 +1,7 @@
+{
+  "parent": "alexscaves:block/ice_cream_bottom_template",
+  "textures": {
+    "side": "alexscaves:block/sweetberry_ice_cream_side",
+    "scoop": "alexscaves:block/sweetberry_ice_cream"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item" : "alexscaves:sweet_tooth"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_gum_worm.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_gum_worm.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/gobthumper",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:gum_worm"
+        }
+      }
+    }
+  }
+}

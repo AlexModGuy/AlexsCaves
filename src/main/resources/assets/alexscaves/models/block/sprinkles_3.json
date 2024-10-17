@@ -1,0 +1,6 @@
+{
+  "parent": "alexscaves:block/sprinkles_template",
+  "textures": {
+    "texture": "alexscaves:block/sprinkles_3"
+  }
+}

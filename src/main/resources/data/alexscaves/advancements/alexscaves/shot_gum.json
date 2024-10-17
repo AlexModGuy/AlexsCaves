@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:shot_gum"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.shot_gum.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.shot_gum.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "alexscaves:alexscaves/defeat_gumbeeper",
+    "criteria": {
+        "shot_gum": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:shot_gum"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+  "structures": [
+    {
+      "structure": "alexscaves:gingerbread_town",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "exclusion_zone": {
+      "chunk_count": 10,
+      "other_set": "#alexscaves:licowitch_tower_generates_far_from"
+    },
+    "salt": 92463117,
+    "spacing": 13,
+    "separation": 11
+  }
+}

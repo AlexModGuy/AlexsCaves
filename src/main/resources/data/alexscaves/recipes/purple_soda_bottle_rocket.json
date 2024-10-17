@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "alexscaves:purple_soda_bottle"
+    },
+    {
+      "item": "alexscaves:purple_soda_bottle"
+    },
+    {
+      "item": "alexscaves:purple_soda_bottle"
+    },
+    {
+      "item": "alexscaves:frostmint"
+    }
+  ],
+  "result": {
+    "item": "alexscaves:purple_soda_bottle_rocket",
+    "count": 3
+  }
+}

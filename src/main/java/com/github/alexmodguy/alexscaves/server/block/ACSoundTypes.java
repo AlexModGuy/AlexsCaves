@@ -28,4 +28,9 @@ public class ACSoundTypes {
     public static final SoundType MOTH_BALL = new ForgeSoundType(1.0F, 1.0F, () -> ACSoundRegistry.MOTH_BALL_PLACE.get(), () -> SoundEvents.WOOL_STEP, () -> ACSoundRegistry.MOTH_BALL_PLACE.get(), () -> SoundEvents.WOOL_HIT, () -> SoundEvents.WOOL_STEP);
     public static final SoundType BEHOLDER = new ForgeSoundType(1.0F, 1.0F, () -> ACSoundRegistry.BEHOLDER_BREAK.get(), () -> ACSoundRegistry.BEHOLDER_STEP.get(), () -> ACSoundRegistry.BEHOLDER_PLACE.get(), () -> ACSoundRegistry.BEHOLDER_BREAKING.get(), () -> ACSoundRegistry.BEHOLDER_STEP.get());
 
+    public static final SoundType SOFT_CANDY = new ForgeSoundType(1.0F, 1.0F, () -> ACSoundRegistry.SOFT_CANDY_BREAK.get(), () -> ACSoundRegistry.SOFT_CANDY_STEP.get(), () -> ACSoundRegistry.SOFT_CANDY_PLACE.get(), () -> ACSoundRegistry.SOFT_CANDY_BREAKING.get(), () -> ACSoundRegistry.SOFT_CANDY_STEP.get());
+    public static final SoundType DENSE_CANDY = new ForgeSoundType(1.0F, 1.0F, () -> ACSoundRegistry.DENSE_CANDY_BREAK.get(), () -> ACSoundRegistry.DENSE_CANDY_STEP.get(), () -> ACSoundRegistry.DENSE_CANDY_PLACE.get(), () -> ACSoundRegistry.DENSE_CANDY_BREAKING.get(), () -> ACSoundRegistry.DENSE_CANDY_STEP.get());
+    public static final SoundType HARD_CANDY = new ForgeSoundType(1.0F, 1.0F, () -> ACSoundRegistry.HARD_CANDY_BREAK.get(), () -> ACSoundRegistry.HARD_CANDY_STEP.get(), () -> ACSoundRegistry.HARD_CANDY_PLACE.get(), () -> ACSoundRegistry.HARD_CANDY_BREAKING.get(), () -> ACSoundRegistry.HARD_CANDY_STEP.get());
+    public static final SoundType SQUISHY_CANDY = new ForgeSoundType(1.0F, 1.0F, () -> ACSoundRegistry.SQUISHY_CANDY_BREAK.get(), () -> ACSoundRegistry.SQUISHY_CANDY_STEP.get(), () -> ACSoundRegistry.SQUISHY_CANDY_PLACE.get(), () -> ACSoundRegistry.SQUISHY_CANDY_BREAKING.get(), () -> ACSoundRegistry.SQUISHY_CANDY_STEP.get());
+
 }

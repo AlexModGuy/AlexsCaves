@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/wafer_cookie_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/wafer_cookie"
+    },
+    "type=top": {
+      "model": "alexscaves:block/wafer_cookie_slab_top"
+    }
+  }
+}

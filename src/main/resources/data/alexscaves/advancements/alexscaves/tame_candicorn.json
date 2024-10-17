@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/tame_candicorn.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.tame_candicorn.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.tame_candicorn.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/caramel_apple",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:candicorn"
+        }
+      }
+    }
+  }
+}

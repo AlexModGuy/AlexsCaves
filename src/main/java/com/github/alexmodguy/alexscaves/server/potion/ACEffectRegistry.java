@@ -28,6 +28,7 @@ public class ACEffectRegistry {
     public static final RegistryObject<MobEffect> BUBBLED = DEF_REG.register("bubbled", () -> new BubbledEffect());
     public static final RegistryObject<MobEffect> DEEPSIGHT = DEF_REG.register("deepsight", () -> new DeepsightEffect());
     public static final RegistryObject<MobEffect> DARKNESS_INCARNATE = DEF_REG.register("darkness_incarnate", () -> new DarknessIncarnateEffect());
+    public static final RegistryObject<MobEffect> SUGAR_RUSH = DEF_REG.register("sugar_rush", () -> new SugarRushEffect());
     public static final RegistryObject<Potion> MAGNETIZING_POTION = POTION_DEF_REG.register("magnetizing", () -> new Potion(new MobEffectInstance(MAGNETIZING.get(), 3600)));
     public static final RegistryObject<Potion> LONG_MAGNETIZING_POTION = POTION_DEF_REG.register("long_magnetizing", () -> new Potion(new MobEffectInstance(MAGNETIZING.get(), 9600)));
     public static final RegistryObject<Potion> DEEPSIGHT_POTION = POTION_DEF_REG.register("deepsight", () -> new Potion(new MobEffectInstance(DEEPSIGHT.get(), 3600)));
@@ -37,6 +38,9 @@ public class ACEffectRegistry {
     public static final RegistryObject<Potion> HASTE_POTION = POTION_DEF_REG.register("haste", () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, 3600)));
     public static final RegistryObject<Potion> LONG_HASTE_POTION = POTION_DEF_REG.register("long_haste", () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, 9600)));
     public static final RegistryObject<Potion> STRONG_HASTE_POTION = POTION_DEF_REG.register("strong_haste", () -> new Potion(new MobEffectInstance(MobEffects.DIG_SPEED, 1800, 1)));
+    public static final RegistryObject<Potion> STRONG_HUNGER_POTION = POTION_DEF_REG.register("strong_hunger", () -> new Potion(new MobEffectInstance(MobEffects.HUNGER, 1800, 4)));
+    public static final RegistryObject<Potion> SUGAR_RUSH_POTION = POTION_DEF_REG.register("sugar_rush", () -> new Potion(new MobEffectInstance(SUGAR_RUSH.get(), 1800)));
+    public static final RegistryObject<Potion> LONG_SUGAR_RUSH_POTION = POTION_DEF_REG.register("long_sugar_rush", () -> new Potion(new MobEffectInstance(SUGAR_RUSH.get(), 3600)));
 
 
     public static void setup() {
@@ -49,6 +53,8 @@ public class ACEffectRegistry {
         BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(Potions.AWKWARD)), Ingredient.of(ACItemRegistry.CORRODENT_TEETH.get()), createPotion(HASTE_POTION)));
         BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(HASTE_POTION)), Ingredient.of(Items.REDSTONE), createPotion(LONG_HASTE_POTION)));
         BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(HASTE_POTION)), Ingredient.of(Items.GLOWSTONE_DUST), createPotion(STRONG_HASTE_POTION)));
+        BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(Potions.STRONG_SWIFTNESS)), Ingredient.of(ACItemRegistry.SWEET_TOOTH.get()), createPotion(SUGAR_RUSH_POTION)));
+        BrewingRecipeRegistry.addRecipe(new ProperBrewingRecipe(Ingredient.of(createPotion(SUGAR_RUSH_POTION)), Ingredient.of(Items.REDSTONE), createPotion(LONG_SUGAR_RUSH_POTION)));
     }
 
     public static ItemStack createPotion(RegistryObject<Potion> potion) {
@@ -65,5 +71,9 @@ public class ACEffectRegistry {
 
     public static ItemStack createLingeringPotion(Potion potion) {
         return PotionUtils.setPotion(new ItemStack(Items.LINGERING_POTION), potion);
+    }
+
+    public static ItemStack createJellybean(Potion potion) {
+        return PotionUtils.setPotion(new ItemStack(ACItemRegistry.JELLY_BEAN.get()), potion);
     }
 }

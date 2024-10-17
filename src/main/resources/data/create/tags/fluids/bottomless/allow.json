@@ -8,6 +8,14 @@
     {
       "id": "alexscaves:acid_flowing",
       "required": false
+    },
+    {
+      "id": "alexscaves:purple_soda",
+      "required": false
+    },
+    {
+      "id": "alexscaves:flowing_purple_soda",
+      "required": false
     }
   ]
 }

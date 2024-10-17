@@ -1,0 +1,6 @@
+{
+	"parent": "alexscaves:block/gingerbread_door_right_open_template",
+	"textures": {
+		"door": "alexscaves:block/gingerbread_door"
+	}
+}

@@ -4,14 +4,10 @@ import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.item.*;
 import com.github.alexmodguy.alexscaves.server.entity.living.*;
-import com.github.alexmodguy.alexscaves.server.misc.ACMath;
-import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,8 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = AlexsCaves.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ACEntityRegistry {
@@ -93,6 +87,25 @@ public class ACEntityRegistry {
     public static final RegistryObject<EntityType<DesolateDaggerEntity>> DESOLATE_DAGGER = DEF_REG.register("desolate_dagger", () -> (EntityType) EntityType.Builder.of(DesolateDaggerEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(DesolateDaggerEntity::new).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("desolate_dagger"));
     public static final RegistryObject<EntityType<BurrowingArrowEntity>> BURROWING_ARROW = DEF_REG.register("burrowing_arrow", () -> (EntityType) EntityType.Builder.of(BurrowingArrowEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(BurrowingArrowEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("burrowing_arrow"));
     public static final RegistryObject<EntityType<DarkArrowEntity>> DARK_ARROW = DEF_REG.register("dark_arrow", () -> (EntityType) EntityType.Builder.of(DarkArrowEntity::new, MobCategory.MISC).sized(1.1F, 0.5F).setCustomClientFactory(DarkArrowEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("dark_arrow"));
+    public static final RegistryObject<EntityType<SweetishFishEntity>> SWEETISH_FISH = DEF_REG.register("sweetish_fish", () -> (EntityType) EntityType.Builder.of(SweetishFishEntity::new, MobCategory.WATER_AMBIENT).sized(0.7F, 0.45F).build("sweetish_fish"));
+    public static final RegistryObject<EntityType<CaniacEntity>> CANIAC = DEF_REG.register("caniac", () -> (EntityType) EntityType.Builder.of(CaniacEntity::new, MobCategory.MONSTER).sized(0.9F, 2.3F).setTrackingRange(12).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).build("caniac"));
+    public static final RegistryObject<EntityType<GumbeeperEntity>> GUMBEEPER = DEF_REG.register("gumbeeper", () -> (EntityType) EntityType.Builder.of(GumbeeperEntity::new, MobCategory.MONSTER).sized(0.8F, 1.6F).build("gumbeeper"));
+    public static final RegistryObject<EntityType<GumballEntity>> GUMBALL = DEF_REG.register("gumball", () -> (EntityType) EntityType.Builder.of(GumballEntity::new, MobCategory.MISC).sized(0.25F, 0.25F).setCustomClientFactory(GumballEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("gumball"));
+    public static final RegistryObject<EntityType<CandicornEntity>> CANDICORN = DEF_REG.register("candicorn", () -> (EntityType) EntityType.Builder.of(CandicornEntity::new, CAVE_CREATURE).sized(1.7F, 2.25F).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("candicorn"));
+    public static final RegistryObject<EntityType<GumWormEntity>> GUM_WORM = DEF_REG.register("gum_worm", () -> (EntityType) EntityType.Builder.of(GumWormEntity::new, MobCategory.MONSTER).sized(3.5F, 2.7F).setTrackingRange(14).setShouldReceiveVelocityUpdates(true).setUpdateInterval(1).fireImmune().build("gum_worm"));
+    public static final RegistryObject<EntityType<GumWormSegmentEntity>> GUM_WORM_SEGMENT = DEF_REG.register("gum_worm_segment", () -> (EntityType) EntityType.Builder.of(GumWormSegmentEntity::new, MobCategory.MISC).sized(2.0F, 2.0F).setCustomClientFactory(GumWormSegmentEntity::new).setTrackingRange(14).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).fireImmune().build("gumball"));
+    public static final RegistryObject<EntityType<CaramelCubeEntity>> CARAMEL_CUBE = DEF_REG.register("caramel_cube", () -> (EntityType) EntityType.Builder.of(CaramelCubeEntity::new, MobCategory.MONSTER).sized(0.8F, 0.8F).build("caramel_cube"));
+    public static final RegistryObject<EntityType<MeltedCaramelEntity>> MELTED_CARAMEL = DEF_REG.register("melted_caramel", () -> (EntityType) EntityType.Builder.of(MeltedCaramelEntity::new, MobCategory.MISC).sized(0.99F, 0.1F).setCustomClientFactory(MeltedCaramelEntity::new).build("melted_caramel"));
+    public static final RegistryObject<EntityType<GummyBearEntity>> GUMMY_BEAR = DEF_REG.register("gummy_bear", () -> (EntityType) EntityType.Builder.of(GummyBearEntity::new, CAVE_CREATURE).sized(1.45F, 1.2F).build("gummy_bear"));
+    public static final RegistryObject<EntityType<LicowitchEntity>> LICOWITCH = DEF_REG.register("licowitch", () -> (EntityType) EntityType.Builder.of(LicowitchEntity::new, MobCategory.MONSTER).sized(0.8F, 1.9F).build("licowitch"));
+    public static final RegistryObject<EntityType<SpinningPeppermintEntity>> SPINNING_PEPPERMINT = DEF_REG.register("spinning_peppermint", () -> (EntityType) EntityType.Builder.of(SpinningPeppermintEntity::new, MobCategory.MISC).sized(0.8F, 0.4F).setCustomClientFactory(SpinningPeppermintEntity::new).build("spinning_peppermint"));
+    public static final RegistryObject<EntityType<SugarStaffHexEntity>> SUGAR_STAFF_HEX = DEF_REG.register("sugar_staff_hex", () -> (EntityType) EntityType.Builder.of(SugarStaffHexEntity::new, MobCategory.MISC).sized(4.0F, 0.25F).setCustomClientFactory(SugarStaffHexEntity::new).build("sugar_staff_hex"));
+    public static final RegistryObject<EntityType<GingerbreadManEntity>> GINGERBREAD_MAN = DEF_REG.register("gingerbread_man", () -> (EntityType) EntityType.Builder.of(GingerbreadManEntity::new, MobCategory.MONSTER).sized(0.5F, 0.9F).build("gingerbread_man"));
+    public static final RegistryObject<EntityType<ThrownIceCreamScoopEntity>> THROWN_ICE_CREAM_SCOOP = DEF_REG.register("thrown_ice_cream_scoop", () -> (EntityType) EntityType.Builder.of(ThrownIceCreamScoopEntity::new, MobCategory.MISC).sized(0.4F, 0.4F).setCustomClientFactory(ThrownIceCreamScoopEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("thrown_ice_cream_scoop"));
+    public static final RegistryObject<EntityType<FallingFrostmintEntity>> FALLING_FROSTMINT = DEF_REG.register("falling_frostmint", () -> (EntityType) EntityType.Builder.of(FallingFrostmintEntity::new, MobCategory.MISC).sized(0.8F, 0.9F).setCustomClientFactory(FallingFrostmintEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("falling_frostmint"));
+    public static final RegistryObject<EntityType<CandyCaneHookEntity>> CANDY_CANE_HOOK = DEF_REG.register("candy_cane_hook", () -> (EntityType) EntityType.Builder.of(CandyCaneHookEntity::new, MobCategory.MISC).sized(0.6F, 0.6F).setCustomClientFactory(CandyCaneHookEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).updateInterval(10).clientTrackingRange(20).build("candy_cane_hook"));
+    public static final RegistryObject<EntityType<SodaBottleRocketEntity>> SODA_BOTTLE_ROCKET = DEF_REG.register("soda_bottle_rocket", () -> (EntityType) EntityType.Builder.of(SodaBottleRocketEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(SodaBottleRocketEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("soda_bottle_rocket"));
+    public static final RegistryObject<EntityType<FrostmintSpearEntity>> FROSTMINT_SPEAR = DEF_REG.register("frostmint_spear", () -> (EntityType) EntityType.Builder.of(FrostmintSpearEntity::new, MobCategory.MISC).sized(0.5F, 0.5F).setCustomClientFactory(FrostmintSpearEntity::new).setUpdateInterval(1).setShouldReceiveVelocityUpdates(true).build("frostmint_spear"));
 
     @SubscribeEvent
     public static void initializeAttributes(EntityAttributeCreationEvent event) {
@@ -131,11 +144,21 @@ public class ACEntityRegistry {
         event.put(CORRODENT.get(), CorrodentEntity.createAttributes().build());
         event.put(VESPER.get(), VesperEntity.createAttributes().build());
         event.put(FORSAKEN.get(), ForsakenEntity.createAttributes().build());
+        event.put(SWEETISH_FISH.get(), SweetishFishEntity.createAttributes().build());
+        event.put(CANIAC.get(), CaniacEntity.createAttributes().build());
+        event.put(GUMBEEPER.get(), GumbeeperEntity.createAttributes().build());
+        event.put(CANDICORN.get(), CandicornEntity.createAttributes().build());
+        event.put(GUM_WORM.get(), CandicornEntity.createAttributes().build());
+        event.put(CARAMEL_CUBE.get(), CaramelCubeEntity.createAttributes().build());
+        event.put(GUMMY_BEAR.get(), GummyBearEntity.createAttributes().build());
+        event.put(LICOWITCH.get(), LicowitchEntity.createAttributes().build());
+        event.put(GINGERBREAD_MAN.get(), GingerbreadManEntity.createAttributes().build());
     }
 
     @SubscribeEvent
     public static void spawnPlacements(SpawnPlacementRegisterEvent event) {
         SpawnPlacements.Type inAcid = SpawnPlacements.Type.create("in_acid", (levelReader, blockPos, entityType) -> !levelReader.getFluidState(blockPos).isEmpty() && levelReader.getFluidState(blockPos).getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get());
+        SpawnPlacements.Type inSoda = SpawnPlacements.Type.create("in_soda", (levelReader, blockPos, entityType) -> !levelReader.getFluidState(blockPos).isEmpty() && levelReader.getFluidState(blockPos).getFluidType() == ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get());
         event.register(TELETOR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, TeletorEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(MAGNETRON.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, MagnetronEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(BOUNDROID.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BoundroidEntity::checkMonsterSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
@@ -169,6 +192,15 @@ public class ACEntityRegistry {
         event.register(CORRODENT.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CorrodentEntity::checkCorrodentSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(VESPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, VesperEntity::checkVesperSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
         event.register(FORSAKEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ForsakenEntity::checkForsakenSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(SWEETISH_FISH.get(), inSoda, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SweetishFishEntity::checkSweetishFishSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(CANIAC.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CaniacEntity::checkCaniacSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GUMBEEPER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GumbeeperEntity::checkGumbeeperSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(CANDICORN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CandicornEntity::checkCandicornSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GUM_WORM.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GumWormEntity::checkGumWormSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(CARAMEL_CUBE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CaramelCubeEntity::checkCaramelCubeSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GUMMY_BEAR.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GummyBearEntity::checkGummyBearSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(LICOWITCH.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, LicowitchEntity::checkLicowitchSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
+        event.register(GINGERBREAD_MAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GingerbreadManEntity::checkGingerbreadManSpawnRules, SpawnPlacementRegisterEvent.Operation.AND);
     }
 }
 

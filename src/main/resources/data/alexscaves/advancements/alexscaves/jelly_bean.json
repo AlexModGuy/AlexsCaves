@@ -1,0 +1,28 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:jelly_bean",
+            "nbt": "{Rainbow:1}"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.jelly_bean.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.jelly_bean.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "alexscaves:alexscaves/feed_gummy_bear",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:jelly_bean"
+                    }
+                ]
+            }
+        }
+    }
+}

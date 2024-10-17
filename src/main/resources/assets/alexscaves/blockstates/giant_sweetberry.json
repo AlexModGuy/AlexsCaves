@@ -1,0 +1,34 @@
+{
+  "variants": {
+    "rotation=0": {
+      "model": "alexscaves:block/giant_sweetberry"
+    },
+    "rotation=1": {
+      "model": "alexscaves:block/giant_sweetberry_ne"
+    },
+    "rotation=2": {
+      "model": "alexscaves:block/giant_sweetberry",
+      "y": 90
+    },
+    "rotation=3": {
+      "model": "alexscaves:block/giant_sweetberry_ne",
+      "y": 90
+    },
+    "rotation=4": {
+      "model": "alexscaves:block/giant_sweetberry",
+      "y": 180
+    },
+    "rotation=5": {
+      "model": "alexscaves:block/giant_sweetberry_ne",
+      "y": 180
+    },
+    "rotation=6": {
+      "model": "alexscaves:block/giant_sweetberry",
+      "y": 270
+    },
+    "rotation=7": {
+      "model": "alexscaves:block/giant_sweetberry_ne",
+      "y": 270
+    }
+  }
+}

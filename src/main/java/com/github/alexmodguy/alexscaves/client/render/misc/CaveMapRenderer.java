@@ -204,6 +204,9 @@ public class CaveMapRenderer {
         if (biome.is(ACBiomeRegistry.FORLORN_HOLLOWS)) {
             return DefaultMapBackgrounds.FORLORN_HOLLOWS.getMapColor(u, v);
         }
+        if (biome.is(ACBiomeRegistry.CANDY_CAVITY)) {
+            return DefaultMapBackgrounds.CANDY_CAVITY.getMapColor(u, v);
+        }
         if (biome.is(Tags.Biomes.IS_SNOWY) && biome.is(BiomeTags.IS_OCEAN)) {
             return DefaultMapBackgrounds.FROZEN_OCEAN.getMapColor(u, v);
         }
@@ -307,7 +310,9 @@ public class CaveMapRenderer {
         vertexconsumer.vertex(matrix4f, 0.0F, 128.0F, -0.01F).color(255, 255, 255, 255).uv(0.0F, 1.0F).uv2(light).endVertex();
         vertexconsumer.vertex(matrix4f, 128.0F, 128.0F, -0.01F).color(255, 255, 255, 255).uv(1.0F, 1.0F).uv2(light).endVertex();
         vertexconsumer.vertex(matrix4f, 128.0F, 0.0F, -0.01F).color(255, 255, 255, 255).uv(1.0F, 0.0F).uv2(light).endVertex();
-        vertexconsumer.vertex(matrix4f, 0.0F, 0.0F, -0.01F).color(255, 255, 255, 255).uv(0.0F, 0.0F).uv2(light).endVertex();
+        vertexconsumer.vertex(matrix4f, 0.0F, 0.0F, -0.01F).color(255, 255,
+                255, 255).uv(0.0F, 0.0F).uv2(light).endVertex();
+
 
         renderLabels(poseStack, multiBufferSource, light);
         if (!fullFrame) {

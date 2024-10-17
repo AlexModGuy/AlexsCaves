@@ -1,0 +1,24 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:gumball_pile"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.defeat_gumbeeper.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.defeat_gumbeeper.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/defeat_caniac",
+  "criteria": {
+    "killed": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "alexscaves:gumbeeper"
+        }
+      }
+    }
+  }
+}

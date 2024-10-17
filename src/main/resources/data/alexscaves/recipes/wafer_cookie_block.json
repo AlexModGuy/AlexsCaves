@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CC",
+    "CC"
+  ],
+  "key": {
+    "C": {
+      "item": "alexscaves:cookie_block"
+    }
+  },
+  "result": {
+    "item": "alexscaves:wafer_cookie_block",
+    "count": 4
+  }
+}

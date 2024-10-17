@@ -1,0 +1,6 @@
+{
+	"parent": "alexscaves:block/confection_oven_template",
+	"textures": {
+		"front": "alexscaves:block/confection_oven_front_spawning"
+	}
+}

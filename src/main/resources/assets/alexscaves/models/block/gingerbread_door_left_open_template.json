@@ -1,0 +1,23 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"textures": {
+		"0": "#door",
+		"particle": "#door"
+	},
+	"elements": [
+		{
+			"from": [14, 0, 0],
+			"to": [16, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [14, 0, 16]},
+			"faces": {
+				"north": {"uv": [16, 0, 14, 16], "texture": "#0"},
+				"east": {"uv": [0, 0, 16, 16], "texture": "#0"},
+				"south": {"uv": [14, 0, 16, 16], "texture": "#0"},
+				"west": {"uv": [16, 0, 0, 16], "texture": "#0"},
+				"up": {"uv": [0, 2, 16, 0], "rotation": 270, "texture": "#0"},
+				"down": {"uv": [16, 16, 0, 14], "rotation": 90, "texture": "#0"}
+			}
+		}
+	]
+}

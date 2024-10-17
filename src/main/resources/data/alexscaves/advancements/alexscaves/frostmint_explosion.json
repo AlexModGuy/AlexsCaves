@@ -1,0 +1,19 @@
+{
+  "display": {
+    "icon": {
+      "item": "alexscaves:frostmint"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.frostmint_explosion.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.frostmint_explosion.desc"
+    }
+  },
+  "parent": "alexscaves:alexscaves/enter_purple_soda",
+  "criteria": {
+    "frostmint_explosion": {
+      "trigger": "alexscaves:frostmint_explosion"
+    }
+  }
+}

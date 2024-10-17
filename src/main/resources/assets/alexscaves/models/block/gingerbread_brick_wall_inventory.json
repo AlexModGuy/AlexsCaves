@@ -1,0 +1,7 @@
+{
+    "parent": "alexscaves:block/wall_inventory",
+    "textures": {
+        "wall": "alexscaves:block/gingerbread_bricks",
+        "top" : "alexscaves:block/gingerbread_bricks"
+    }
+}

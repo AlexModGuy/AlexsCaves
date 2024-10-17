@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/frosted_gingerbread_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/frosted_gingerbread_block"
+    },
+    "type=top": {
+      "model": "alexscaves:block/frosted_gingerbread_slab_top"
+    }
+  }
+}

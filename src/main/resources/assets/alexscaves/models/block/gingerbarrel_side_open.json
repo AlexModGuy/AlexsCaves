@@ -1,0 +1,6 @@
+{
+	"parent": "alexscaves:block/gingerbarrel_side_template",
+	"textures": {
+		"gingerbarrel": "alexscaves:block/gingerbarrel_open"
+	}
+}

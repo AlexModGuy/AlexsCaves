@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:gingerbread_crumbs"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.gingerbread_crumbs.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.gingerbread_crumbs.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/gingerbread_town",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:gingerbread_crumbs"
+                    }
+                ]
+            }
+        }
+    }
+}

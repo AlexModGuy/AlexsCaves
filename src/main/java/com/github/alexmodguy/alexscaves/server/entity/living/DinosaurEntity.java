@@ -4,6 +4,7 @@ import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.ACEntityRegistry;
 import com.github.alexmodguy.alexscaves.server.entity.util.LaysEggs;
+import com.github.alexmodguy.alexscaves.server.entity.util.RidingMeterMount;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
 import com.github.alexmodguy.alexscaves.server.misc.ACAdvancementTriggerRegistry;
@@ -40,7 +41,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJukebox, LaysEggs, IAdvancedPathingMob {
+public abstract class DinosaurEntity extends TamableAnimal implements IDancesToJukebox, LaysEggs, IAdvancedPathingMob, RidingMeterMount {
 
     private static final EntityDataAccessor<Boolean> DANCING = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAS_EGG = SynchedEntityData.defineId(DinosaurEntity.class, EntityDataSerializers.BOOLEAN);

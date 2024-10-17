@@ -1,0 +1,30 @@
+{
+    "display": {
+        "icon": {
+            "item" : "citadel:icon_item",
+            "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/feed_gummy_bear.png\"}"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.feed_gummy_bear.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.feed_gummy_bear.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/gelatin",
+    "criteria": {
+        "interact": {
+            "trigger": "minecraft:player_interacted_with_entity",
+            "conditions": {
+                "item": {
+                    "items": [
+                        "minecraft:potion"
+                    ]
+                },
+                "entity": {
+                    "type": "alexscaves:gummy_bear"
+                }
+            }
+        }
+    }
+}

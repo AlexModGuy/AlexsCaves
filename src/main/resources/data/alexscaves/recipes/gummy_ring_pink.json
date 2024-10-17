@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "G G",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:gelatin_pink"
+    }
+  },
+  "result": {
+    "item": "alexscaves:gummy_ring_pink",
+    "count": 3
+  }
+}

@@ -15,6 +15,7 @@ public class ACClientConfig {
     public final ForgeConfigSpec.BooleanValue biomeWaterFogOverrides;
     public final ForgeConfigSpec.BooleanValue ambersolShines;
     public final ForgeConfigSpec.BooleanValue radiationGlowEffect;
+    public final ForgeConfigSpec.BooleanValue sugarRushSaturationEffect;
     public final ForgeConfigSpec.IntValue subterranodonIndicatorX;
     public final ForgeConfigSpec.IntValue subterranodonIndicatorY;
     public final ForgeConfigSpec.BooleanValue nuclearBombMufflesSounds;
@@ -34,6 +35,7 @@ public class ACClientConfig {
         radiationGlowEffect = builder.comment("true if irradiated effect makes mobs glow. May conflict with shaders.").translation("radiation_glow_effect").define("radiation_glow_effect", true);
         subterranodonIndicatorX = builder.comment("determines how far to the left the subterranodon flight indicator renders on the screen when mounted. Negative numbers will render it on the right. ").translation("subterranodon_indicator_x").defineInRange("subterranodon_indicator_x", 22, -12000, 12000);
         subterranodonIndicatorY = builder.comment("determines how far from bottom the subterranodon flight indicator renders on the screen when mounted.").translation("subterranodon_indicator_y").defineInRange("subterranodon_indicator_y", 6, -12000, 12000);
+        sugarRushSaturationEffect = builder.comment("true if sugar rush makes the world more saturated. May conflict with shaders.").translation("sugar_rush_saturation_effect").define("sugar_rush_saturation_effect", true);
         builder.pop();
         builder.push("audio");
         nuclearBombMufflesSounds = builder.comment("whether nuclear explosions briefly muffle other sounds.").translation("nuclear_bomb_muffles_sounds").define("nuclear_bomb_muffles_sounds", true);

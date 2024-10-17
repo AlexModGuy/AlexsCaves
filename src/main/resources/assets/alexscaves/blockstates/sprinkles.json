@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "amount=1": [
+      { "model": "alexscaves:block/sprinkles_0" },
+      { "model": "alexscaves:block/sprinkles_0", "y": 90 },
+      { "model": "alexscaves:block/sprinkles_0", "y": 180 },
+      { "model": "alexscaves:block/sprinkles_0", "y": 270 }
+    ],
+    "amount=2": [
+      { "model": "alexscaves:block/sprinkles_1" },
+      { "model": "alexscaves:block/sprinkles_1", "y": 90 },
+      { "model": "alexscaves:block/sprinkles_1", "y": 180 },
+      { "model": "alexscaves:block/sprinkles_1", "y": 270 }
+    ],
+    "amount=3": [
+      { "model": "alexscaves:block/sprinkles_2" },
+      { "model": "alexscaves:block/sprinkles_2", "y": 90 },
+      { "model": "alexscaves:block/sprinkles_2", "y": 180 },
+      { "model": "alexscaves:block/sprinkles_2", "y": 270 }
+    ],
+    "amount=4": [
+      { "model": "alexscaves:block/sprinkles_3" },
+      { "model": "alexscaves:block/sprinkles_3", "y": 90 },
+      { "model": "alexscaves:block/sprinkles_3", "y": 180 },
+      { "model": "alexscaves:block/sprinkles_3", "y": 270 }
+    ]
+  }
+}

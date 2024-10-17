@@ -44,4 +44,22 @@ public class ACFeatureRegistry {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> THORNWOOD_ROOTS = DEF_REG.register("thornwood_roots", () -> new ThornwoodRootsFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> GUANO_PILE = DEF_REG.register("guano_pile", () -> new GuanoPileFeature(NoneFeatureConfiguration.CODEC));
     public static final RegistryObject<Feature<UndergroundRuinsFeatureConfiguration>> FORLORN_RUINS = DEF_REG.register("forlorn_ruins", () -> new ForlornRuinsFeature(UndergroundRuinsFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> PEPPERMINT_PILE = DEF_REG.register("peppermint_patch", () -> new PeppermintPileFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> ENCRUSTED_PEPPERMINT = DEF_REG.register("encrusted_peppermint", () -> new EncrustedPeppermintFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LICOROOT_TREE = DEF_REG.register("licoroot_tree", () -> new LicorootTreeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> LICOROOT_TREE_WITH_SPROUTS = DEF_REG.register("licoroot_tree_with_sprouts", () -> new LicorootTreeWithSproutsFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SPILLED_ICE_CREAM_CONE = DEF_REG.register("spilled_ice_cream_cone", () -> new SpilledIceCreamConeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<IceCreamScoopFeatureConfiguration>> ICE_CREAM_SCOOP = DEF_REG.register("ice_cream_scoop", () -> new IceCreamScoopFeature(IceCreamScoopFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> CEILING_ICE_CREAM_CONE = DEF_REG.register("ceiling_ice_cream_cone", () -> new CeilingIceCreamConeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SWEET_PUFF = DEF_REG.register("sweet_puff", () -> new SweetPuffFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SPRINKLES_PILE = DEF_REG.register("sprinkles_pile", () -> new SprinklesPileFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> CANDY_CANE = DEF_REG.register("candy_cane", () -> new CandyCaneFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> SUNDROP_PATCH = DEF_REG.register("sundrop_patch", () -> new SundropPatchFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<LollipopFeatureConfiguration>> LOLLIPOP = DEF_REG.register("lollipop", () -> new LollipopFeature(LollipopFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> COOKIE_SHELF = DEF_REG.register("cookie_shelf", () -> new CookieShelfFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<UndergroundRuinsFeatureConfiguration>> CANDY_RUINS = DEF_REG.register("candy_ruins", () -> new CandyRuinsFeature(UndergroundRuinsFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> GOBSTOPPER_GEODE = DEF_REG.register("gobstopper_geode", () -> new GobstopperGeodeFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> CEILING_FROSTMINT = DEF_REG.register("ceiling_frostmint", () -> new CeilingFrostmintFeature(NoneFeatureConfiguration.CODEC));
+    public static final RegistryObject<Feature<NoneFeatureConfiguration>> FLOATING_GUMMY_RING = DEF_REG.register("floating_gummy_ring", () -> new FloatingGummyRingFeature(NoneFeatureConfiguration.CODEC));
+
 }

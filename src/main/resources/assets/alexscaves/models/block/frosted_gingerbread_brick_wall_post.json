@@ -1,0 +1,23 @@
+{
+    "parent": "minecraft:block/block",
+    "render_type": "cutout",
+    "textures": {
+        "wall": "alexscaves:block/frosted_gingerbread_bricks",
+        "top" : "alexscaves:block/vanilla_frosting",
+        "particle": "alexscaves:block/frosted_gingerbread_bricks"
+    },
+    "elements": [
+        {   "from": [ 4, 0, 4 ],
+            "to": [ 12, 16, 12 ],
+            "faces": {
+                "down":  { "texture": "#wall", "cullface": "down" },
+                "up":    { "texture": "#top", "cullface": "up" },
+                "north": { "texture": "#wall" },
+                "south": { "texture": "#wall" },
+                "west":  { "texture": "#wall" },
+                "east":  { "texture": "#wall" }
+            },
+            "__comment": "Center post"
+        }
+    ]
+}

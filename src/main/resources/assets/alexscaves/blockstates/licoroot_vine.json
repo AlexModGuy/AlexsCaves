@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "facing=up,end=false": [
+      { "model": "alexscaves:block/licoroot_vine" }
+    ],
+    "facing=down,end=false": [
+      { "model": "alexscaves:block/licoroot_vine", "x": 180 }
+    ],
+    "facing=east,end=false": [
+      { "model": "alexscaves:block/licoroot_vine", "x": 90, "y": 90 }
+    ],
+    "facing=north,end=false": [
+      { "model": "alexscaves:block/licoroot_vine", "x": 90 }
+    ],
+    "facing=south,end=false": [
+      { "model": "alexscaves:block/licoroot_vine", "x": 90, "y": 180 }
+    ],
+    "facing=west,end=false": [
+      { "model": "alexscaves:block/licoroot_vine", "x": 90, "y": 270 }
+    ],
+    "facing=up,end=true": [
+      { "model": "alexscaves:block/licoroot_vine_top" }
+    ],
+    "facing=down,end=true": [
+      { "model": "alexscaves:block/licoroot_vine_top", "x": 180 }
+    ],
+    "facing=east,end=true": [
+      { "model": "alexscaves:block/licoroot_vine_top", "x": 90, "y": 90 }
+    ],
+    "facing=north,end=true": [
+      { "model": "alexscaves:block/licoroot_vine_top", "x": 90 }
+    ],
+    "facing=south,end=true": [
+      { "model": "alexscaves:block/licoroot_vine_top", "x": 90, "y": 180 }
+    ],
+    "facing=west,end=true": [
+      { "model": "alexscaves:block/licoroot_vine_top", "x": 90, "y": 270 }
+    ]
+  }
+}

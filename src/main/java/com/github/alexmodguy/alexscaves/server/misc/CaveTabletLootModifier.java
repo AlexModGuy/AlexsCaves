@@ -86,6 +86,9 @@ public class CaveTabletLootModifier implements IGlobalLootModifier {
         if (biome.equals(ACBiomeRegistry.FORLORN_HOLLOWS)) {
             return AlexsCaves.COMMON_CONFIG.forlornTabletLootChance.get().floatValue();
         }
+        if (biome.equals(ACBiomeRegistry.CANDY_CAVITY)) {
+            return AlexsCaves.COMMON_CONFIG.candyTabletLootChance.get().floatValue();
+        }
         return 0F;
     }
 

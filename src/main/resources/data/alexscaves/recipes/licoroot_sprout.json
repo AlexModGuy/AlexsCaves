@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "V V",
+    " V ",
+    " S "
+  ],
+  "key": {
+    "V": {
+      "item": "alexscaves:licoroot_vine"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    }
+  },
+  "result": {
+    "item": "alexscaves:licoroot_sprout",
+    "count": 1
+  }
+}

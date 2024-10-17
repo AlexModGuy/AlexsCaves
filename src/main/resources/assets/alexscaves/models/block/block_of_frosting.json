@@ -1,0 +1,19 @@
+{   "parent": "block/block",
+	"textures": {
+		"particle": "alexscaves:block/frosting",
+		"block": "alexscaves:block/frosting"
+	},
+	"elements": [
+		{   "from": [ 0, 0, 0 ],
+			"to": [ 16, 16, 16 ],
+			"faces": {
+				"down":  { "uv": [ 0, 0, 16, 16 ], "texture": "#block", "cullface": "down", "tintindex": 0 },
+				"up":    { "uv": [ 0, 0, 16, 16 ], "texture": "#block",    "cullface": "up", "tintindex": 0 },
+				"north": { "uv": [ 0, 0, 16, 16 ], "texture": "#block",   "cullface": "north", "tintindex": 0 },
+				"south": { "uv": [ 0, 0, 16, 16 ], "texture": "#block",   "cullface": "south", "tintindex": 0 },
+				"west":  { "uv": [ 0, 0, 16, 16 ], "texture": "#block",   "cullface": "west", "tintindex": 0 },
+				"east":  { "uv": [ 0, 0, 16, 16 ], "texture": "#block",   "cullface": "east", "tintindex": 0 }
+			}
+		}
+	]
+}

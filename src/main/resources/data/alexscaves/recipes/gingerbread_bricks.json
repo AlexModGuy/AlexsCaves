@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GG",
+    "GG"
+  ],
+  "key": {
+    "G": {
+      "item": "alexscaves:gingerbread_block"
+    }
+  },
+  "result": {
+    "item": "alexscaves:gingerbread_bricks",
+    "count": 4
+  }
+}

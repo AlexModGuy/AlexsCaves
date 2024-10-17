@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:gelatin_green"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.gelatin.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.gelatin.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/sweetish_fish_bucket",
+    "criteria": {
+        "gelatin": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "tag": "alexscaves:gelatins"
+                    }
+                ]
+            }
+        }
+    }
+}

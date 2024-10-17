@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "alexscaves:block/cake_layer",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "alexscaves:block/cake_layer"
+    },
+    "axis=z": {
+      "model": "alexscaves:block/cake_layer",
+      "x": 90
+    }
+  }
+}

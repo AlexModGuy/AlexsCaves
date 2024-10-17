@@ -1,0 +1,17 @@
+{
+  "__comment": "all items that gingerbread men will steal from mobs. If 9 of these fill a barrel, a gingerbread armor piece will be created.",
+  "values": [
+    "alexscaves:candy_cane",
+    "alexscaves:gumball_pile",
+    "alexscaves:sweet_tooth",
+    "alexscaves:sundae",
+    "alexscaves:caramel_apple",
+    "alexscaves:hot_chocolate_bottle",
+    "alexscaves:radiant_essence",
+    "alexscaves:frostmint",
+    "alexscaves:sundrop",
+    "minecraft:cake",
+    "minecraft:cookie",
+    "minecraft:pumpkin_pie"
+  ]
+}

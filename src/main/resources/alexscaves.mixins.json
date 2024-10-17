@@ -18,12 +18,15 @@
     "KelpFeatureMixin",
     "LivingEntityMixin",
     "MobMixin",
+    "MonsterMixin",
     "MultifaceGrowthFeatureMixin",
     "NaturalSpawnerMixin",
     "OceanMonumentStructureMixin",
+    "PlayerMixin",
     "PotionUtilsMixin",
     "SeagrassFeatureMixin",
-    "ShipwreckStructureMixin"
+    "ShipwreckStructureMixin",
+    "SwampHutPieceMixin"
   ],
   "client": [
     "client.AdvancementTabMixin",

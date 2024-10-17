@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "alexscaves:sweetish_fish_green"
+  },
+  "result": "alexscaves:gelatin_green",
+  "experience": 0.15,
+  "cookingtime": 600
+}

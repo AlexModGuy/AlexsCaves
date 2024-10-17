@@ -1,8 +1,12 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.mojang.serialization.Codec;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
@@ -84,5 +88,42 @@ public class ACParticleRegistry {
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR = DEF_REG.register("forsaken_sonar", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> FORSAKEN_SONAR_LARGE = DEF_REG.register("forsaken_sonar_large", () -> new SimpleParticleType(false));
     public static final RegistryObject<SimpleParticleType> TOTEM_EXPLOSION = DEF_REG.register("totem_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> ICE_CREAM_DRIP = DEF_REG.register("ice_cream_drip", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> ICE_CREAM_SPLASH = DEF_REG.register("ice_cream_splash", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PURPLE_SODA_BUBBLE = DEF_REG.register("purple_soda_bubble", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PURPLE_SODA_BUBBLE_EMITTER = DEF_REG.register("purple_soda_bubble_emitter", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PURPLE_SODA_FIZZ = DEF_REG.register("purple_soda_fizz", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> SUNDROP = DEF_REG.register("sundrop", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> RAINBOW = DEF_REG.register("rainbow", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PLAYER_RAINBOW = DEF_REG.register("player_rainbow", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> CANDICORN_CHARGE = DEF_REG.register("candicorn_charge", () -> new SimpleParticleType(false));
+    public static final RegistryObject<ParticleType<BlockParticleOption>> BIG_BLOCK_DUST = DEF_REG.register("big_block_dust", ACParticleRegistry::createBlockParticleType);
+    public static final RegistryObject<SimpleParticleType> CARAMEL_DROP = DEF_REG.register("caramel_drop", () -> new SimpleParticleType(false));
+    public static final RegistryObject<ParticleType<ItemParticleOption>> JELLY_BEAN_EAT = DEF_REG.register("jelly_bean_eat", ACParticleRegistry::createItemParticleType);
+    public static final RegistryObject<SimpleParticleType> SLEEP = DEF_REG.register("sleep", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> WITCH_COOKIE = DEF_REG.register("witch_cookie", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PURPLE_WITCH_MAGIC = DEF_REG.register("purple_witch_magic", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> PURPLE_WITCH_EXPLOSION = DEF_REG.register("purple_witch_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> GOBTHUMPER = DEF_REG.register("gobthumper", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> COLORED_DUST = DEF_REG.register("colored_dust", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> SMALL_COLORED_DUST = DEF_REG.register("small_colored_dust", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> CONVERSION_CRUCIBLE_EXPLOSION = DEF_REG.register("conversion_crucible_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> FROSTMINT_EXPLOSION = DEF_REG.register("frostmint_explosion", () -> new SimpleParticleType(false));
+    public static final RegistryObject<SimpleParticleType> SUGAR_FLAKE = DEF_REG.register("sugar_flake", () -> new SimpleParticleType(false));
 
+    private static ParticleType<BlockParticleOption> createBlockParticleType(){
+        return new ParticleType<>(false, BlockParticleOption.DESERIALIZER) {
+            public Codec<BlockParticleOption> codec() {
+                return BlockParticleOption.codec(this);
+            }
+        };
+    }
+
+    private static ParticleType<ItemParticleOption> createItemParticleType(){
+        return new ParticleType<>(false, ItemParticleOption.DESERIALIZER) {
+            public Codec<ItemParticleOption> codec() {
+                return ItemParticleOption.codec(this);
+            }
+        };
+    }
 }

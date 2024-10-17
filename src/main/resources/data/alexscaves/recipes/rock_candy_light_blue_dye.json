@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "LDL",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "tag": "alexscaves:rock_candies"
+    },
+    "D": {
+      "tag": "forge:dyes/light_blue"
+    }
+  },
+  "result": {
+    "item": "alexscaves:rock_candy_light_blue",
+    "count": 8
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LTL",
+    "G G",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "alexscaves:gelatins"
+    },
+    "L": {
+      "item": "alexscaves:licoroot_vine"
+    },
+    "T": {
+      "item": "alexscaves:sweet_tooth"
+    }
+  },
+  "result": {
+    "item": "alexscaves:sack_of_sating"
+  }
+}

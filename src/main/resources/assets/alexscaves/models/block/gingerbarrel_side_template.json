@@ -1,0 +1,23 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"textures": {
+		"0": "#gingerbarrel",
+		"particle": "#gingerbarrel"
+	},
+	"elements": [
+		{
+			"from": [4, 0, 3],
+			"to": [12, 8, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 4, 8]},
+			"faces": {
+				"north": {"uv": [8, 8, 16, 16], "texture": "#0"},
+				"east": {"uv": [0, 0, 10, 8], "texture": "#0"},
+				"south": {"uv": [0, 8, 8, 16], "texture": "#0"},
+				"west": {"uv": [0, 0, 10, 8], "texture": "#0"},
+				"up": {"uv": [10, 8, 0, 0], "rotation": 90, "texture": "#0"},
+				"down": {"uv": [0, 8, 10, 0], "rotation": 90, "texture": "#0"}
+			}
+		}
+	]
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "side": "alexscaves:block/licoroot/licoroot",
+    "bottom": "alexscaves:block/licoroot/licoroot_top",
+    "top": "alexscaves:block/licoroot/licoroot_top"
+  }
+}

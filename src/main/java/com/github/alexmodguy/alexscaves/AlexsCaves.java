@@ -121,7 +121,8 @@ public class AlexsCaves {
         ACFrogRegistry.DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_TYPE_DEF_REG.register(modEventBus);
         ACFluidRegistry.FLUID_DEF_REG.register(modEventBus);
-        ACLootTableRegistry.DEF_REG.register(modEventBus);
+        ACLootTableRegistry.GLOBAL_LOOT_MODIFIER_DEF_REG.register(modEventBus);
+        ACLootTableRegistry.LOOT_FUNCTION_DEF_REG.register(modEventBus);
         ACCreativeTabRegistry.DEF_REG.register(modEventBus);
         ACPotPatternRegistry.DEF_REG.register(modEventBus);
         PROXY.commonInit();
@@ -154,6 +155,7 @@ public class AlexsCaves {
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateCaveBiomeMapTagMessage.class, UpdateCaveBiomeMapTagMessage::write, UpdateCaveBiomeMapTagMessage::read, UpdateCaveBiomeMapTagMessage::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateBossEruptionStatus.class, UpdateBossEruptionStatus::write, UpdateBossEruptionStatus::read, UpdateBossEruptionStatus::handle);
         NETWORK_WRAPPER.registerMessage(packetsRegistered++, UpdateBossBarMessage.class, UpdateBossBarMessage::write, UpdateBossBarMessage::read, UpdateBossBarMessage::handle);
+        NETWORK_WRAPPER.registerMessage(packetsRegistered++, SundropRainbowMessage.class, SundropRainbowMessage::write, SundropRainbowMessage::read, SundropRainbowMessage::handle);
         event.enqueueWork(() -> {
             ACSurfaceRules.setup();
             ACPlayerCapes.setup();

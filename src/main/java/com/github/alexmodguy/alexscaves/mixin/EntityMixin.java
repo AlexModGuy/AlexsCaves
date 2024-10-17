@@ -2,6 +2,8 @@ package com.github.alexmodguy.alexscaves.mixin;
 
 import com.github.alexmodguy.alexscaves.server.entity.util.MagnetUtil;
 import com.github.alexmodguy.alexscaves.server.entity.util.MagneticEntityAccessor;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import com.github.alexmodguy.alexscaves.server.item.RainbounceBootsItem;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexthe666.citadel.CitadelConstants;
@@ -11,10 +13,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -57,13 +56,17 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     @Shadow
     protected boolean wasTouchingWater;
 
-    @Shadow public abstract AABB getBoundingBox();
+    @Shadow
+    public abstract AABB getBoundingBox();
 
-    @Shadow public abstract Level level();
+    @Shadow
+    public abstract Level level();
 
-    @Shadow public abstract boolean onGround();
+    @Shadow
+    public abstract boolean onGround();
 
-    @Shadow public abstract double getY();
+    @Shadow
+    public abstract double getY();
 
     private static final EntityDataAccessor<Float> MAGNET_DELTA_X = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Float> MAGNET_DELTA_Y = SynchedEntityData.defineId(Entity.class, EntityDataSerializers.FLOAT);
@@ -75,6 +78,7 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     private int jumpFlipCooldown = 0;
 
     private BlockPos lastStepPos;
+    private Vec3 lastBouncePos;
 
     @Inject(at = @At("TAIL"), remap = CitadelConstants.REMAPREFS, method = "Lnet/minecraft/world/entity/Entity;<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V")
     private void citadel_registerData(CallbackInfo ci) {
@@ -162,15 +166,15 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
     public void ac_collide(Vec3 deltaIn, CallbackInfoReturnable<Vec3> cir) {
 
         AABB aabb = this.getBoundingBox();
-        Entity thisEntity = (Entity)(Object)this;
+        Entity thisEntity = (Entity) (Object) this;
         //AC CODE START
         List<VoxelShape> list;
         //fix infinity voxel collection crash for ItemEntity
-        if(this.getY() > this.level().getMinBuildHeight() - 200) {
+        if (this.getY() > this.level().getMinBuildHeight() - 200) {
             list = this.level().getEntityCollisions(thisEntity, aabb.expandTowards(deltaIn));
             List<VoxelShape> list2 = MagnetUtil.getMovingBlockCollisions(thisEntity, aabb);
             list = ImmutableList.<VoxelShape>builder().addAll(list).addAll(list2).build();
-        }else{
+        } else {
             list = List.of();
         }
         //AC CODE END
@@ -181,9 +185,9 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
         boolean flag3 = this.onGround() || flag1 && deltaIn.y < 0.0D;
         float stepHeight = thisEntity.getStepHeight();
         if (stepHeight > 0.0F && flag3 && (flag || flag2)) {
-            Vec3 vec31 = Entity.collideBoundingBox(thisEntity, new Vec3(deltaIn.x, (double)stepHeight, deltaIn.z), aabb, this.level, list);
-            Vec3 vec32 = Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, (double)stepHeight, 0.0D), aabb.expandTowards(deltaIn.x, 0.0D, deltaIn.z), this.level, list);
-            if (vec32.y < (double)stepHeight) {
+            Vec3 vec31 = Entity.collideBoundingBox(thisEntity, new Vec3(deltaIn.x, stepHeight, deltaIn.z), aabb, this.level, list);
+            Vec3 vec32 = Entity.collideBoundingBox(thisEntity, new Vec3(0.0D, stepHeight, 0.0D), aabb.expandTowards(deltaIn.x, 0.0D, deltaIn.z), this.level, list);
+            if (vec32.y < (double) stepHeight) {
                 Vec3 vec33 = Entity.collideBoundingBox(thisEntity, new Vec3(deltaIn.x, 0.0D, deltaIn.z), aabb.move(vec32), this.level(), list).add(vec32);
                 if (vec33.horizontalDistanceSqr() > vec31.horizontalDistanceSqr()) {
                     vec31 = vec33;
@@ -236,6 +240,22 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
         }
     }
 
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;move(Lnet/minecraft/world/entity/MoverType;Lnet/minecraft/world/phys/Vec3;)V"},
+            remap = true,
+            cancellable = true,
+            at = {@At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/block/Block;updateEntityAfterFallOn(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/world/entity/Entity;)V",
+                    shift = At.Shift.AFTER
+            )}
+    )
+    public void ac_move(MoverType moverType, Vec3 vec3, CallbackInfo ci) {
+        if ((Object) this instanceof LivingEntity living && living.getItemBySlot(EquipmentSlot.FEET).is(ACItemRegistry.RAINBOUNCE_BOOTS.get())) {
+            RainbounceBootsItem.onEntityLand(living, vec3);
+        }
+    }
+
     @Override
     public float getMagneticDeltaX() {
         return entityData.hasItem(MAGNET_DELTA_X) ? entityData.get(MAGNET_DELTA_X) : 0.0F;
@@ -268,32 +288,31 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
 
     @Override
     public void setMagneticDeltaX(float f) {
-        if(entityData.hasItem(MAGNET_DELTA_X)) {
+        if (entityData.hasItem(MAGNET_DELTA_X)) {
             entityData.set(MAGNET_DELTA_X, f);
         }
     }
 
     @Override
     public void setMagneticDeltaY(float f) {
-        if(entityData.hasItem(MAGNET_DELTA_Y)) {
+        if (entityData.hasItem(MAGNET_DELTA_Y)) {
             entityData.set(MAGNET_DELTA_Y, f);
         }
     }
 
     @Override
     public void setMagneticDeltaZ(float f) {
-        if(entityData.hasItem(MAGNET_DELTA_Z)) {
+        if (entityData.hasItem(MAGNET_DELTA_Z)) {
             entityData.set(MAGNET_DELTA_Z, f);
         }
     }
 
     @Override
     public void setMagneticAttachmentFace(Direction dir) {
-        if(entityData.hasItem(MAGNET_ATTACHMENT_DIRECTION)){
+        if (entityData.hasItem(MAGNET_ATTACHMENT_DIRECTION)) {
             entityData.set(MAGNET_ATTACHMENT_DIRECTION, dir);
         }
     }
-
 
     @Override
     public void postMagnetJump() {

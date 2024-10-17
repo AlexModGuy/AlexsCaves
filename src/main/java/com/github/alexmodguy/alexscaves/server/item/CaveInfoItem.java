@@ -1,6 +1,8 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.block.ConversionCrucibleBlock;
+import com.github.alexmodguy.alexscaves.server.block.blockentity.ConversionCrucibleBlockEntity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.CaveBookProgress;
 import net.minecraft.ChatFormatting;
@@ -29,6 +31,8 @@ public class CaveInfoItem extends Item {
 
     private boolean hideCaveId;
 
+    private static final int PLAINS_FOG_COLOR = 12638463;
+
     public CaveInfoItem(Properties properties, boolean hideCaveId) {
         super(properties);
         this.hideCaveId = hideCaveId;
@@ -56,13 +60,13 @@ public class CaveInfoItem extends Item {
         return -1;
     }
 
-    private static int getBiomeColor(Level level, ResourceKey<Biome> biomeResourceKey){
+    protected static int getBiomeColor(Level level, ResourceKey<Biome> biomeResourceKey){
         int color = ACBiomeRegistry.getBiomeTabletColor(biomeResourceKey);
         if (color == -1) {
             if (level != null) {
                 Registry<Biome> registry = level.registryAccess().registry(Registries.BIOME).orElse(null);
                 if (registry != null && registry.getHolder(biomeResourceKey).isPresent()) {
-                    return registry.getHolder(biomeResourceKey).get().value().getFoliageColor();
+                    return ConversionCrucibleBlockEntity.calculateBiomeColor(registry.getHolder(biomeResourceKey));
                 }
             }
             return 0;
@@ -108,7 +112,9 @@ public class CaveInfoItem extends Item {
     public static ItemStack create(Item item, ResourceKey<Biome> biomeResourceKey) {
         ItemStack map = new ItemStack(item);
         CompoundTag tag = new CompoundTag();
-        tag.putString("CaveBiome", biomeResourceKey.location().toString());
+        if(biomeResourceKey != null){
+            tag.putString("CaveBiome", biomeResourceKey.location().toString());
+        }
         map.setTag(tag);
         return map;
     }

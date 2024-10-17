@@ -1,0 +1,21 @@
+{
+  "display": {
+    "icon": {
+      "item" : "citadel:icon_item",
+      "nbt": "{IconLocation:\"alexscaves:textures/misc/advancement/icon/convert_biome.png\"}"
+    },
+    "title": {
+      "translate": "advancements.alexscaves.convert_biome.title"
+    },
+    "description": {
+      "translate": "advancements.alexscaves.convert_biome.desc"
+    },
+    "frame": "goal"
+  },
+  "parent": "alexscaves:alexscaves/conversion_crucible",
+  "criteria": {
+    "convert_biome": {
+      "trigger": "alexscaves:convert_biome"
+    }
+  }
+}

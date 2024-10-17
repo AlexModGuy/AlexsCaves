@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "ambientocclusion": false,
+  "textures": {
+    "all": "alexscaves:block/chocolate_ice_cream"
+  }
+}

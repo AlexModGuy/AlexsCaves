@@ -1,0 +1,32 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:sweetish_fish_red_bucket"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.sweetish_fish_bucket.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.sweetish_fish_bucket.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/enter_purple_soda",
+    "criteria": {
+        "bucket": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": [
+                            "alexscaves:sweetish_fish_red_bucket",
+                            "alexscaves:sweetish_fish_green_bucket",
+                            "alexscaves:sweetish_fish_yellow_bucket",
+                            "alexscaves:sweetish_fish_blue_bucket",
+                            "alexscaves:sweetish_fish_pink_bucket"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

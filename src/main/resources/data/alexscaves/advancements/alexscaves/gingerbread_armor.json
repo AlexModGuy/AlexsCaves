@@ -1,0 +1,57 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:gingerbread_chestplate"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.gingerbread_armor.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.gingerbread_armor.desc"
+        },
+        "frame": "challenge"
+    },
+    "parent": "alexscaves:alexscaves/gingerbread_town",
+    "criteria": {
+        "helmet": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:gingerbread_helmet"]
+                    }
+                ]
+            }
+        },
+        "shirt": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:gingerbread_chestplate"]
+                    }
+                ]
+            }
+        },
+        "pants": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:gingerbread_leggings"]
+                    }
+                ]
+            }
+        },
+        "boots": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "items": ["alexscaves:gingerbread_boots"]
+                    }
+                ]
+            }
+        }
+    }
+}

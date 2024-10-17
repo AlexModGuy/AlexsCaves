@@ -77,7 +77,7 @@ public class ForlornCanyonStructurePiece extends AbstractCaveGenerationStructure
         float verticalNoise = (ACMath.sampleNoise2D(carve.getX(), carve.getZ(), 50) + 1.0F) * 0.2F - (ACMath.smin(ACMath.sampleNoise2D(carve.getX(), carve.getZ(), 20), -0.5F, 0.1F) + 0.5F) * 0.7F;
         double distToCenter = carve.distToLowCornerSqr(this.holeCenter.getX(), carve.getY(), this.holeCenter.getZ());
         float f = getHeightOf(carve);
-        float f1 = (float) Math.pow(canyonStep(f, 10), 2.5F);
+        float f1 = (float) Math.pow(ACMath.canyonStep(f, 10), 2.5F);
         float rawHeight = Math.abs(this.holeCenter.getY() - carve.getY()) / (float) (height * 0.5F);
         float reverseRawHeight = 1F - rawHeight;
         double yDist = ACMath.smin((float) Math.pow(reverseRawHeight, 0.3F), 1.0F, 0.1F);
@@ -93,12 +93,6 @@ public class ForlornCanyonStructurePiece extends AbstractCaveGenerationStructure
             return 1F - ((this.holeCenter.getY() + halfHeight - carve.getY()) / (float) (height * 2));
         }
     }
-
-    private float canyonStep(float heightScale, int scaleTo) {
-        int clampTo100 = (int) ((heightScale) * scaleTo * scaleTo);
-        return Mth.clamp((float) (Math.round(clampTo100 / (float) scaleTo)) / (float) scaleTo, 0F, 1F);
-    }
-
     private void decorateFloor(WorldGenLevel level, RandomSource rand, BlockPos.MutableBlockPos carveBelow) {
         float floorNoise = (ACMath.sampleNoise2D(carveBelow.getX(), carveBelow.getZ(), 50) + 1.0F) * 0.5F;
         checkedSetBlock(level, carveBelow, Blocks.PACKED_MUD.defaultBlockState());

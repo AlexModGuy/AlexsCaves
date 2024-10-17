@@ -1,0 +1,18 @@
+{
+  "type": "alexscaves:lollipop",
+  "config": {
+    "big_lollipop_top_structures": [
+      "alexscaves:big_lollipop_top_0",
+      "alexscaves:big_lollipop_top_1",
+      "alexscaves:big_lollipop_top_2",
+      "alexscaves:big_lollipop_top_3"
+    ],
+    "small_lollipop_top_structures": [
+      "alexscaves:small_lollipop_top_0",
+      "alexscaves:small_lollipop_top_1",
+      "alexscaves:small_lollipop_top_2",
+      "alexscaves:small_lollipop_top_3"
+    ],
+    "big_chance": 0.4
+  }
+}

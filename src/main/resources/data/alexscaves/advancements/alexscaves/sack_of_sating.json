@@ -1,0 +1,27 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:sack_of_sating"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.sack_of_sating.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.sack_of_sating.desc"
+        },
+        "frame": "goal"
+    },
+    "parent": "alexscaves:alexscaves/defeat_gum_worm",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:sack_of_sating"
+                    }
+                ]
+            }
+        }
+    }
+}

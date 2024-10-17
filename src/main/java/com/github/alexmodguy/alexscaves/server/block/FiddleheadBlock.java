@@ -21,7 +21,7 @@ public class FiddleheadBlock extends CavePlantBlock {
     protected static final VoxelShape SHAPE = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 8.0D, 10.0D);
 
     public FiddleheadBlock() {
-        super(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().instabreak().randomTicks().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ));
+        super(BlockBehaviour.Properties.of().mapColor(MapColor.GRASS).noCollission().instabreak().randomTicks().sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ), false);
     }
 
 

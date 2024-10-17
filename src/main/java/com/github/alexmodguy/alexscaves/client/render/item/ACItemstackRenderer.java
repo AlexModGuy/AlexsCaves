@@ -68,6 +68,17 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation DREADBOW_TEXTURE_EYE = new ResourceLocation("alexscaves:textures/entity/dreadbow_eye.png");
     private static final ResourceLocation DREADBOW_TEXTURE_EYE_PERFECT = new ResourceLocation("alexscaves:textures/entity/dreadbow_eye_perfect.png");
     private static final DreadbowModel DREADBOW_MODEL = new DreadbowModel();
+    private static final GobthumperModel GOBTHUMPER_MODEL = new GobthumperModel();
+    private static final ResourceLocation GOBTHUMPER_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gobthumper.png");
+    private static final ResourceLocation GOBTHUMPER_JELLY_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gobthumper_jelly.png");
+    private static final ResourceLocation SHOT_GUM_TEXTURE = new ResourceLocation("alexscaves:textures/entity/shot_gum.png");
+    private static final ResourceLocation SHOT_GUM_GLASS_TEXTURE = new ResourceLocation("alexscaves:textures/entity/shot_gum_glass.png");
+    private static final ShotGumModel SHOT_GUM_MODEL = new ShotGumModel();
+    private static final ResourceLocation SUGAR_STAFF_TEXTURE = new ResourceLocation("alexscaves:textures/entity/sugar_staff.png");
+    private static final SugarStaffModel SUGAR_STAFF_MODEL = new SugarStaffModel();
+    private static final ResourceLocation FROSTMINT_SPEAR_TEXTURE = new ResourceLocation("alexscaves:textures/entity/frostmint_spear.png");
+    private static final FrostmintSpearModel FROSTMINT_SPEAR_MODEL = new FrostmintSpearModel();
+
     public static boolean sepiaFlag = false;
 
     private Entity renderedDreadbowArrow = null;
@@ -84,7 +95,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         boolean left = transformType == ItemDisplayContext.THIRD_PERSON_LEFT_HAND || transformType == ItemDisplayContext.FIRST_PERSON_LEFT_HAND;
 
         if (itemStackIn.is(ACItemRegistry.CAVE_MAP.get())) {
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.CAVE_MAP_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             boolean done = CaveMapItem.isFilled(itemStackIn) && !CaveMapItem.isLoading(itemStackIn);
@@ -164,7 +175,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         if (itemStackIn.is(ACItemRegistry.PRIMITIVE_CLUB.get())) {
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.PRIMITIVE_CLUB_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             if (heldIn3d) {
@@ -184,7 +195,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         if (itemStackIn.is(ACItemRegistry.LIMESTONE_SPEAR.get())) {
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.LIMESTONE_SPEAR_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             if (heldIn3d) {
@@ -204,7 +215,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         if (itemStackIn.is(ACItemRegistry.EXTINCTION_SPEAR.get())) {
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.EXTINCTION_SPEAR_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             if (heldIn3d) {
@@ -257,7 +268,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         if (itemStackIn.is(ACItemRegistry.SEA_STAFF.get())) {
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.SEA_STAFF_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             if (heldIn3d) {
@@ -276,7 +287,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         }
 
         if (itemStackIn.is(ACItemRegistry.ORTHOLANCE.get())) {
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(ACItemRegistry.ORTHOLANCE_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             if (heldIn3d) {
@@ -317,7 +328,7 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
         if (itemStackIn.is(ACItemRegistry.DREADBOW.get())) {
             float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
             float pullAmount = DreadbowItem.getPullingAmount(itemStackIn, partialTick);
-            poseStack.translate(0.5F, 0.5f, 0.5f);
+            poseStack.translate(0.5F, 0.5F, 0.5F);
             ItemStack spriteItem = new ItemStack(pullAmount >= 0.8F ? ACItemRegistry.DREADBOW_PULLING_2_SPRITE.get() : pullAmount >= 0.5F ? ACItemRegistry.DREADBOW_PULLING_1_SPRITE.get() : pullAmount > 0.0F ? ACItemRegistry.DREADBOW_PULLING_0_SPRITE.get() : ACItemRegistry.DREADBOW_SPRITE.get());
             spriteItem.setTag(itemStackIn.getTag());
             if (heldIn3d) {
@@ -355,6 +366,74 @@ public class ACItemstackRenderer extends BlockEntityWithoutLevelRenderer {
             }
         }
 
+        if (itemStackIn.is(ACBlockRegistry.GOBTHUMPER.get().asItem())) {
+            poseStack.pushPose();
+            poseStack.translate(0.5F, 1.5F, 0.5F);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-180));
+            GOBTHUMPER_MODEL.setupAnim(null, 0.0F, 0.0F, 0.0F, 0, 0);
+            GOBTHUMPER_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.entityCutoutNoCull(GOBTHUMPER_TEXTURE),GOBTHUMPER_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            GOBTHUMPER_MODEL.renderToBuffer(poseStack, getVertexConsumer(bufferIn, RenderType.entityTranslucent(GOBTHUMPER_JELLY_TEXTURE), GOBTHUMPER_JELLY_TEXTURE), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            poseStack.popPose();
+        }
+
+        if (itemStackIn.is(ACItemRegistry.SHOT_GUM.get())) {
+            float shootProgress = ShotGumItem.getLerpedShootTime(itemStackIn, partialTick) / 5F;
+            poseStack.pushPose();
+            poseStack.translate(0.5F, 1.5F, 0.5F);
+            poseStack.mulPose(Axis.XP.rotationDegrees(-180));
+            poseStack.mulPose(Axis.YP.rotationDegrees(180));
+            poseStack.pushPose();
+            poseStack.scale(0.8F, 0.8F, 0.8F);
+
+            SHOT_GUM_MODEL.setupAnim(null, shootProgress, ShotGumItem.getGumballsLeft(itemStackIn),  ShotGumItem.getLerpedCrankAngle(itemStackIn, partialTick), 0, 0);
+            SHOT_GUM_MODEL.renderToBuffer(poseStack, getVertexConsumerFoil(bufferIn, RenderType.entityCutoutNoCull(SHOT_GUM_TEXTURE), SHOT_GUM_TEXTURE, itemStackIn.hasFoil()), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            SHOT_GUM_MODEL.renderToBuffer(poseStack, getVertexConsumerFoil(bufferIn, RenderType.entityTranslucent(SHOT_GUM_GLASS_TEXTURE), SHOT_GUM_GLASS_TEXTURE, itemStackIn.hasFoil()), combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+            poseStack.popPose();
+            poseStack.popPose();
+        }
+
+        if (itemStackIn.is(ACItemRegistry.SUGAR_STAFF.get())) {
+            float ageInTicks = Minecraft.getInstance().player == null ? 0F : Minecraft.getInstance().player.tickCount + partialTick;
+            poseStack.translate(0.5F, 0.5F, 0.5F);
+            ItemStack spriteItem = new ItemStack(ACItemRegistry.SUGAR_STAFF_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if (heldIn3d) {
+                poseStack.pushPose();
+                poseStack.mulPose(Axis.XP.rotationDegrees(-180));
+                poseStack.translate(0, -1.0F, 0);
+                if (transformType.firstPerson()) {
+                    poseStack.translate(0, 0.4F, 0);
+                    poseStack.scale(0.6F, 0.6F, 0.6F);
+                }
+                VertexConsumer vertexconsumer = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.armorCutoutNoCull(SUGAR_STAFF_TEXTURE), false, itemStackIn.hasFoil());
+                SUGAR_STAFF_MODEL.setupAnim(null, 0.0F, 0.0F,  ageInTicks, 0, 0);
+                SUGAR_STAFF_MODEL.renderToBuffer(poseStack, vertexconsumer, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                poseStack.popPose();
+            } else {
+                renderStaticItemSprite(spriteItem, transformType, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, level);
+            }
+        }
+
+        if (itemStackIn.is(ACItemRegistry.FROSTMINT_SPEAR.get())) {
+            poseStack.translate(0.5F, 0.5F, 0.5F);
+            ItemStack spriteItem = new ItemStack(ACItemRegistry.FROSTMINT_SPEAR_SPRITE.get());
+            spriteItem.setTag(itemStackIn.getTag());
+            if (heldIn3d) {
+                poseStack.pushPose();
+                poseStack.mulPose(Axis.XP.rotationDegrees(-180));
+                poseStack.translate(0, -0.85F, -0.1F);
+                if (transformType.firstPerson()) {
+                    poseStack.translate(0, 0.5F, 0F);
+                    poseStack.scale(0.75F, 0.75F, 0.75F);
+                }
+                FROSTMINT_SPEAR_MODEL.resetToDefaultPose();
+                VertexConsumer vertexconsumer1 = ItemRenderer.getArmorFoilBuffer(bufferIn, RenderType.entityCutoutNoCull(FROSTMINT_SPEAR_TEXTURE), false, itemStackIn.hasFoil());
+                FROSTMINT_SPEAR_MODEL.renderToBuffer(poseStack, vertexconsumer1, combinedLightIn, combinedOverlayIn, 1.0F, 1.0F, 1.0F, 1.0F);
+                poseStack.popPose();
+            } else {
+                renderStaticItemSprite(spriteItem, transformType, combinedLightIn, combinedOverlayIn, poseStack, bufferIn, level);
+            }
+        }
     }
 
     private void renderStaticItemSprite(ItemStack spriteItem, ItemDisplayContext transformType, int combinedLightIn, int combinedOverlayIn, PoseStack poseStack, MultiBufferSource bufferIn, ClientLevel level) {

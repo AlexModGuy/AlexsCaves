@@ -1,0 +1,23 @@
+{
+    "parent": "block/block",
+    "textures": {
+        "1": "alexscaves:block/confection_oven_side",
+        "2": "alexscaves:block/confection_oven_top",
+        "3": "alexscaves:block/confection_oven_bottom",
+        "particle": "alexscaves:block/confection_oven_top"
+    },
+    "elements": [
+        {
+            "from": [0, 0, 0],
+            "to": [16, 16, 16],
+            "faces": {
+                "north": {"uv": [0, 0, 16, 16], "texture": "#front"},
+                "east": {"uv": [16, 0, 0, 16], "texture": "#1"},
+                "south": {"uv": [0, 0, 16, 16], "texture": "#1"},
+                "west": {"uv": [0, 0, 16, 16], "texture": "#1"},
+                "up": {"uv": [0, 0, 16, 16], "texture": "#2"},
+                "down": {"uv": [0, 0, 16, 16], "texture": "#3"}
+            }
+        }
+    ]
+}

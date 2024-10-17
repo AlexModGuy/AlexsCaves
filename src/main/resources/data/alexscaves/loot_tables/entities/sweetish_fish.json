@@ -1,0 +1,34 @@
+{
+  "pools": [
+    {
+      "name": "sweetish_fish",
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "alexscaves:gummy_colors"
+            },
+            {
+              "conditions": [
+                {
+                  "condition": "minecraft:entity_properties",
+                  "entity": "this",
+                  "predicate": {
+                    "flags": {
+                      "is_on_fire": true
+                    }
+                  }
+                }
+              ],
+              "function": "minecraft:furnace_smelt"
+            }
+          ],
+          "name": "alexscaves:sweetish_fish_red"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

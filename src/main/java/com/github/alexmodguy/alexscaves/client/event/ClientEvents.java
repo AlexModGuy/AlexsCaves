@@ -2,10 +2,12 @@ package com.github.alexmodguy.alexscaves.client.event;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
+import com.github.alexmodguy.alexscaves.client.beta.UserVerification;
 import com.github.alexmodguy.alexscaves.client.gui.ACAdvancementTabs;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.AmbersolBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.blockentity.HologramProjectorBlockRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.CorrodentRenderer;
+import com.github.alexmodguy.alexscaves.client.render.entity.LicowitchRenderer;
 import com.github.alexmodguy.alexscaves.client.render.entity.SubmarineRenderer;
 import com.github.alexmodguy.alexscaves.client.render.item.RaygunRenderHelper;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
@@ -25,9 +27,12 @@ import com.github.alexthe666.citadel.client.event.EventGetOutlineColor;
 import com.github.alexthe666.citadel.client.event.EventLivingRenderer;
 import com.github.alexthe666.citadel.client.event.EventPosePlayerHand;
 import com.github.alexthe666.citadel.client.event.EventRenderSplashText;
+import com.github.alexthe666.citadel.client.tick.ClientTickRateTracker;
+import com.github.alexthe666.citadel.server.tick.TickRateTracker;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.datafixers.util.Either;
 import com.mojang.math.Axis;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
@@ -84,6 +89,7 @@ public class ClientEvents {
     public static final ResourceLocation ARMOR_HUD_OVERLAYS = new ResourceLocation(AlexsCaves.MODID, "textures/misc/armor_hud_overlays.png");
     private static final ResourceLocation SUBMARINE_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/submarine_light.json");
     private static final ResourceLocation WATCHER_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/watcher_perspective.json");
+    private static final ResourceLocation SUGAR_RUSH_SHADER = new ResourceLocation(AlexsCaves.MODID, "shaders/post/sugar_rush.json");
     private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/teletor_trail.png");
 
     private static float lastSampledFogNearness = 0.0F;
@@ -100,7 +106,7 @@ public class ClientEvents {
             float prevProg = 1F - progress;
             float bodyRot = 180.0F - event.getBodyYRot();
             if (magnetic.getMagneticAttachmentFace().getAxis() != Direction.Axis.Y) {
-                event.getPoseStack().mulPose(Axis.YN.rotationDegrees(1F * bodyRot));
+                event.getPoseStack().mulPose(Axis.YN.rotationDegrees(bodyRot));
             }
             rotateForAngle(event.getEntity(), event.getPoseStack(), magnetic.getPrevMagneticAttachmentFace(), prevProg, width, height);
             rotateForAngle(event.getEntity(), event.getPoseStack(), magnetic.getMagneticAttachmentFace(), progress, width, height);
@@ -204,6 +210,13 @@ public class ClientEvents {
             } else if (renderer.currentEffect() != null && WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
             }
+            if (player instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.SUGAR_RUSH.get()) && AlexsCaves.CLIENT_CONFIG.sugarRushSaturationEffect.get()) {
+                if (renderer.currentEffect() == null || !SUGAR_RUSH_SHADER.toString().equals(renderer.currentEffect().getName())) {
+                    attemptLoadShader(SUGAR_RUSH_SHADER);
+                }
+            } else if (renderer.currentEffect() != null && SUGAR_RUSH_SHADER.toString().equals(renderer.currentEffect().getName())) {
+                renderer.checkEntityPostEffect(null);
+            }
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES) {
             if (firstPerson && player instanceof LivingEntity living) {
@@ -215,6 +228,7 @@ public class ClientEvents {
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_CUTOUT_BLOCKS) {
             RenderSystem.runAsFancy(() -> CorrodentRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
+            RenderSystem.runAsFancy(() -> LicowitchRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
         }
         if (event.getStage() == RenderLevelStageEvent.Stage.AFTER_TRANSLUCENT_BLOCKS && AlexsCaves.CLIENT_CONFIG.ambersolShines.get()) {
             RenderSystem.runAsFancy(() -> AmbersolBlockRenderer.renderEntireBatch(event.getLevelRenderer(), event.getPoseStack(), event.getRenderTick(), event.getCamera(), event.getPartialTick()));
@@ -267,6 +281,9 @@ public class ClientEvents {
         if (player != null && player.isPassenger() && player.getVehicle() instanceof TremorzillaEntity && event.getCamera().isDetached()) {
             event.getCamera().move(-event.getCamera().getMaxZoom(10F), 0, 0);
         }
+        if (player != null && player.isPassenger() && player.getVehicle() instanceof GumWormSegmentEntity && event.getCamera().isDetached()) {
+            event.getCamera().move(-event.getCamera().getMaxZoom(12F), 0, 0);
+        }
         if (player != null && player instanceof LivingEntity livingEntity && livingEntity.hasEffect(ACEffectRegistry.STUNNED.get())) {
             event.setRoll((float) (Math.sin((player.tickCount + partialTick) * 0.2F) * 10F));
         }
@@ -316,7 +333,7 @@ public class ClientEvents {
         if (player instanceof PossessesCamera && (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.JUMP_BAR.id()) || event.getOverlay().id().equals(VanillaGuiOverlay.ITEM_NAME.id()))) {
             event.setCanceled(true);
         }
-        if (player != null && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter() && event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id())) {
+        if (player != null && player.getVehicle() instanceof RidingMeterMount dinosaur && dinosaur.hasRidingMeter() && event.getOverlay().id().equals(VanillaGuiOverlay.EXPERIENCE_BAR.id())) {
             event.setCanceled(true);
         }
     }
@@ -363,7 +380,7 @@ public class ClientEvents {
             }
         }
         if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof SpearItem && player.isUsingItem() && player.getUseItemRemainingTicks() > 0) {
-            float f7 = (float) (player.getItemInHand(InteractionHand.MAIN_HAND).getUseDuration() - ((float) player.getUseItemRemainingTicks() - f + 1.0F)) / 10.0F;
+            float f7 = (player.getItemInHand(InteractionHand.MAIN_HAND).getUseDuration() - ((float) player.getUseItemRemainingTicks() - f + 1.0F)) / 10.0F;
             if (player.getMainArm() == HumanoidArm.RIGHT) {
                 rightHandSpearUseProgress = Math.max(rightHandSpearUseProgress, f7);
             } else {
@@ -371,7 +388,7 @@ public class ClientEvents {
             }
         }
         if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof SpearItem && player.isUsingItem() && player.getUseItemRemainingTicks() > 0) {
-            float f7 = (float) (player.getItemInHand(InteractionHand.OFF_HAND).getUseDuration() - ((float) player.getUseItemRemainingTicks() - f + 1.0F)) / 10.0F;
+            float f7 = (player.getItemInHand(InteractionHand.OFF_HAND).getUseDuration() - ((float) player.getUseItemRemainingTicks() - f + 1.0F)) / 10.0F;
             if (player.getMainArm() == HumanoidArm.RIGHT) {
                 leftHandSpearUseProgress = Math.max(leftHandSpearUseProgress, f7);
             } else {
@@ -470,17 +487,87 @@ public class ClientEvents {
             event.getModel().rightArm.zRot = 0;
             event.setResult(Event.Result.ALLOW);
         }
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof ShotGumItem && ShotGumItem.shouldBeHeldUpright(player.getItemInHand(InteractionHand.MAIN_HAND))) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                event.getModel().rightArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(70F));
+                event.getModel().rightArm.yRot = event.getModel().head.yRot;
+                event.getModel().rightArm.zRot = 0;
+                event.getModel().leftArm.xRot = event.getModel().head.xRot - (float) Math.toRadians(70F);
+                event.getModel().leftArm.yRot = event.getModel().head.yRot + (float) Math.toRadians(40F);
+                event.getModel().leftArm.zRot = (float) Math.toRadians(20F);
+            } else {
+                event.getModel().leftArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(70F));
+                event.getModel().leftArm.yRot = event.getModel().head.yRot;
+                event.getModel().leftArm.zRot = 0;
+                event.getModel().rightArm.xRot = event.getModel().head.xRot - (float) Math.toRadians(70F);
+                event.getModel().rightArm.yRot = event.getModel().head.yRot + (float) Math.toRadians(-40F);
+                event.getModel().rightArm.zRot = (float) Math.toRadians(-20F);
+            }
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof ShotGumItem && ShotGumItem.shouldBeHeldUpright(player.getItemInHand(InteractionHand.OFF_HAND))) {
+            if (player.getMainArm() == HumanoidArm.RIGHT) {
+                event.getModel().leftArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(70F));
+                event.getModel().leftArm.yRot = event.getModel().head.yRot;
+                event.getModel().leftArm.zRot = 0;
+                event.getModel().rightArm.xRot = event.getModel().head.xRot - (float) Math.toRadians(70F);
+                event.getModel().rightArm.yRot = event.getModel().head.yRot + (float) Math.toRadians(-40F);
+                event.getModel().rightArm.zRot = (float) Math.toRadians(-20F);
+
+            } else {
+                event.getModel().rightArm.xRot = (event.getModel().head.xRot - (float) Math.toRadians(70F));
+                event.getModel().rightArm.yRot = event.getModel().head.yRot;
+                event.getModel().rightArm.zRot = 0;
+                event.getModel().leftArm.xRot = event.getModel().head.xRot - (float) Math.toRadians(70F);
+                event.getModel().leftArm.yRot = event.getModel().head.yRot + (float) Math.toRadians(40F);
+                event.getModel().leftArm.zRot = (float) Math.toRadians(20F);
+            }
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() instanceof CandyCaneHookItem && CandyCaneHookItem.isActive(player.getItemInHand(InteractionHand.MAIN_HAND)) && player.getItemInHand(InteractionHand.OFF_HAND).getItem() instanceof CandyCaneHookItem && CandyCaneHookItem.isActive(player.getItemInHand(InteractionHand.OFF_HAND)) && player.getVehicle() instanceof GumWormSegmentEntity) {
+            float rightWiggle = -Math.min(player.xxa, 0F) * (float) Math.sin(player.tickCount + AlexsCaves.PROXY.getPartialTicks()) * 25;
+            float leftWiggle = Math.max(player.xxa, 0F) * (float) Math.sin(player.tickCount + AlexsCaves.PROXY.getPartialTicks()) * 25;
+            event.getModel().rightArm.xRot = (float) Math.toRadians(-100F + rightWiggle);
+            event.getModel().leftArm.xRot = (float) Math.toRadians(-100F + leftWiggle);
+            event.getModel().rightArm.yRot = (float) Math.toRadians(20F);
+            event.getModel().leftArm.yRot = (float) Math.toRadians(-20F);
+            event.getModel().rightLeg.xRot = (float) Math.toRadians(-20F);
+            event.getModel().leftLeg.xRot = (float) Math.toRadians(20F);
+            event.setResult(Event.Result.ALLOW);
+        }
+        if (event.getResult() != Event.Result.ALLOW && player.hasEffect(ACEffectRegistry.SUGAR_RUSH.get()) && !AlexsCaves.PROXY.isFirstPersonPlayer(player)) {
+            float speedModifier = 0.35F;
+            if(AlexsCaves.COMMON_CONFIG.sugarRushSlowsTime.get() && AlexsCaves.PROXY.isTickRateModificationActive(Minecraft.getInstance().level)){
+                float tickRate = ClientTickRateTracker.getForClient(Minecraft.getInstance()).getClientTickRate() / 50.0F;
+                speedModifier *= tickRate;
+            }
+            float deltaSpeed = 1.0F;
+            float partialTicks = AlexsCaves.PROXY.getPartialTicks();
+            float walkPos = player.walkAnimation.position(partialTicks);
+            float walkSpeed = player.walkAnimation.speed(partialTicks);
+            float headXRot = player.getViewXRot(partialTicks);
+            float headYRot = Mth.lerp(partialTicks, player.yHeadRotO, player.yHeadRot) - Mth.lerp(partialTicks, player.yBodyRotO, player.yBodyRot);
+            event.getModel().rightArm.xRot = Mth.cos(walkPos * speedModifier + (float) Math.PI * 0.5F) * 2.0F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().leftArm.xRot = Mth.cos(walkPos * speedModifier) * 2.0F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().rightArm.zRot = (Mth.sin(walkPos * -speedModifier + (float) Math.PI * 0.5F) + 2.5F) * 1.5F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().leftArm.zRot = (Mth.sin(walkPos * -speedModifier) - 2.5F) * 1.5F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().head.xRot = headXRot * ((float) Math.PI / 180F) + Mth.cos(walkPos * speedModifier + (float) Math.PI) * 1.0F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().head.yRot = headYRot * ((float) Math.PI / 180F) + Mth.sin(walkPos * speedModifier + (float) Math.PI) * 1.0F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().leftLeg.xRot = Mth.cos(walkPos * speedModifier + (float) Math.PI) * 4.0F * walkSpeed * 0.5F / deltaSpeed;
+            event.getModel().rightLeg.xRot = Mth.cos(walkPos * speedModifier) * 4.0F * walkSpeed * 0.5F / deltaSpeed;
+            event.setResult(Event.Result.ALLOW);
+        }
     }
 
     @SubscribeEvent
     public void onPostRenderGuiOverlay(RenderGuiOverlayEvent.Post event) {
         Player player = AlexsCaves.PROXY.getClientSidePlayer();
         int hudY = 0;
-        if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && player.getVehicle() instanceof DinosaurEntity dinosaur && dinosaur.hasRidingMeter()) {
+        if (event.getOverlay().id().equals(VanillaGuiOverlay.CROSSHAIR.id()) && player.getVehicle() instanceof RidingMeterMount mount && mount.hasRidingMeter()) {
             int screenWidth = event.getWindow().getGuiScaledWidth();
             int screenHeight = event.getWindow().getGuiScaledHeight();
             int forgeGuiY = Minecraft.getInstance().gui instanceof ForgeGui forgeGui ? Math.max(forgeGui.leftHeight, forgeGui.rightHeight) : 0;
-            if (player.getArmorValue() > 0 && dinosaur instanceof SubterranodonEntity) {
+            if (player.getArmorValue() > 0 && mount instanceof SubterranodonEntity) {
                 forgeGuiY += 25;
             }
             if (forgeGuiY < 53) {
@@ -488,21 +575,21 @@ public class ClientEvents {
             }
             int j = screenWidth / 2 - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorX.get();
             int k = screenHeight - forgeGuiY - AlexsCaves.CLIENT_CONFIG.subterranodonIndicatorY.get();
-            float f = dinosaur.getMeterAmount();
+            float f = mount.getMeterAmount();
             float invProgress = 1 - f;
             int uOffset = 0;
             int vOffset = 0;
             int dinoHeight = 31;
-            if (dinosaur instanceof TremorsaurusEntity) {
+            if (mount instanceof TremorsaurusEntity) {
                 vOffset = 63;
                 k += 5;
                 hudY = 20;
-            } else if (dinosaur instanceof AtlatitanEntity) {
+            } else if (mount instanceof AtlatitanEntity) {
                 vOffset = 126;
                 dinoHeight = 32;
                 k += 3;
                 hudY = 40;
-            } else if (dinosaur instanceof TremorzillaEntity tremorzilla) {
+            } else if (mount instanceof TremorzillaEntity tremorzilla) {
                 vOffset = 193;
                 if (tremorzilla.isPowered() && !tremorzilla.isFiring() && tremorzilla.getSpikesDownAmount() > 0) {
                     if (tremorzilla.tickCount / 2 % 2 == 1) {
@@ -513,6 +600,11 @@ public class ClientEvents {
                 dinoHeight = 29;
                 k += 5;
                 hudY = 20;
+            } else if (mount instanceof CandicornEntity) {
+                vOffset = 280;
+                dinoHeight = 25;
+                hudY = 40;
+                k += 4;
             } else {
                 hudY = 40;
             }
@@ -552,7 +644,7 @@ public class ClientEvents {
             int healthRows = Mth.ceil((healthMax + absorb) / 2.0F / 10.0F);
             int rowHeight = Math.max(10 - (healthRows - 2), 3);
 
-            ClientProxy.random.setSeed((long) (forgeGuiTick * 312871));
+            ClientProxy.random.setSeed(forgeGuiTick * 312871L);
             int left = width / 2 - 91;
             int top = height - leftHeight;
             int regen = -1;
@@ -645,6 +737,19 @@ public class ClientEvents {
             event.setNearPlaneDistance(0.0F);
             return;
         }
+        if (!fluidstate.isEmpty() && fluidstate.getType().getFluidType().equals(ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get())) {
+            event.setCanceled(true);
+            float farness = 20.0F;
+            float nearness = -8.0F;
+            if (Minecraft.getInstance().player.hasEffect(ACEffectRegistry.DEEPSIGHT.get())) {
+                float f = DeepsightEffect.getIntensity(Minecraft.getInstance().player, (float) event.getPartialTick());
+                farness *= 1.0F + 1.5F * f;
+                nearness *= 1.0F - f;
+            }
+            event.setFarPlaneDistance(farness);
+            event.setNearPlaneDistance(nearness);
+            return;
+        }
         if (blockState.is(ACBlockRegistry.PRIMAL_MAGMA.get()) || blockState.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
             event.setCanceled(true);
             float farness = 2.0F;
@@ -684,13 +789,17 @@ public class ClientEvents {
         Entity player = Minecraft.getInstance().player;
         BlockState blockState = player.level().getBlockState(event.getCamera().getBlockPosition());
         if (blockState.is(ACBlockRegistry.PRIMAL_MAGMA.get()) || blockState.is(ACBlockRegistry.FISSURE_PRIMAL_MAGMA.get())) {
-            event.setRed((float) (1F));
-            event.setGreen((float) (0.4F));
+            event.setRed(1F);
+            event.setGreen(0.4F);
             event.setBlue((float) (0));
         } else if (player.getEyeInFluidType() != null && player.getEyeInFluidType().equals(ACFluidRegistry.ACID_FLUID_TYPE.get())) {
             event.setRed((float) (0));
             event.setGreen((float) (1));
             event.setBlue((float) (0));
+        } else if (player.getEyeInFluidType() != null && player.getEyeInFluidType().equals(ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get())) {
+            event.setRed(0.6F);
+            event.setGreen(0.1F);
+            event.setBlue(0.85F);
         } else if (event.getCamera().getFluidInCamera() == FogType.NONE && AlexsCaves.CLIENT_CONFIG.biomeSkyFogOverrides.get()) {
             float override = ClientProxy.acSkyOverrideAmount;
             float setR = event.getRed();
@@ -708,9 +817,9 @@ public class ClientEvents {
             float primordialBossAmount = AlexsCaves.PROXY.getPrimordialBossActiveAmount((float) event.getPartialTick());
             if (primordialBossAmount > 0.0F) {
                 flag = true;
-                setR = (float) (0.8F - setR) * primordialBossAmount + setR;
-                setG = (float) (0.2F - setG) * primordialBossAmount + setG;
-                setB = (float) (0.15F - setB) * primordialBossAmount + setB;
+                setR = (0.8F - setR) * primordialBossAmount + setR;
+                setG = (0.2F - setG) * primordialBossAmount + setG;
+                setB = (0.15F - setB) * primordialBossAmount + setB;
             }
             if (flag) {
                 event.setRed(setR);
@@ -954,7 +1063,7 @@ public class ClientEvents {
         Player player = Minecraft.getInstance().player;
         FogType fogtype = event.getCamera().getFluidInCamera();
         if (player.isPassenger() && player.getVehicle() instanceof SubmarineEntity && fogtype == FogType.WATER) {
-            float f = (float) Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get(), 1.0D, (double) 0.85714287F);
+            float f = (float) Mth.lerp(Minecraft.getInstance().options.fovEffectScale().get(), 1.0D, 0.85714287F);
             event.setFOV(event.getFOV() / f);
         }
     }
@@ -1000,6 +1109,16 @@ public class ClientEvents {
                 event.setResult(Event.Result.ALLOW);
                 event.setColor(0XFFDB00);
             }
+            if (item.getItem().is(ACItemRegistry.SWEET_TOOTH.get())) {
+                event.setResult(Event.Result.ALLOW);
+                event.setColor(0XFF8ACD);
+            }
         }
+    }
+
+    //TODO remove
+    @SubscribeEvent
+    public void onScreenOpen(ScreenEvent.Init event) {
+        UserVerification.onGameStart();
     }
 }

@@ -1,0 +1,64 @@
+{
+  "pools": [
+    {
+      "name": "gummy_bear_gelatin",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "alexscaves:gelatin_red",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 3
+              }
+            },
+            {
+              "function": "alexscaves:gummy_colors"
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "gummy_bear_fish",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "alexscaves:sweetish_fish_red",
+          "weight": 1,
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            },
+            {
+              "function": "alexscaves:gummy_colors"
+            },
+            {
+              "function": "looting_enchant",
+              "count": {
+                "min": 0,
+                "max": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

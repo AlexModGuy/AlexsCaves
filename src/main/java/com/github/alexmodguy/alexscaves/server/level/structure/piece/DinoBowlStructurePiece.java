@@ -22,8 +22,6 @@ import org.apache.commons.lang3.mutable.MutableBoolean;
 
 public class DinoBowlStructurePiece extends AbstractCaveGenerationStructurePiece {
 
-    private VoronoiGenerator voronoiGenerator;
-
     public DinoBowlStructurePiece(BlockPos chunkCorner, BlockPos holeCenter, int bowlHeight, int bowlRadius) {
         super(ACStructurePieceRegistry.DINO_BOWL.get(), chunkCorner, holeCenter, bowlHeight, bowlRadius);
     }
@@ -37,10 +35,6 @@ public class DinoBowlStructurePiece extends AbstractCaveGenerationStructurePiece
     }
 
     public void postProcess(WorldGenLevel level, StructureManager featureManager, ChunkGenerator chunkGen, RandomSource random, BoundingBox boundingBox, ChunkPos chunkPos, BlockPos blockPos) {
-        if (voronoiGenerator == null) {
-            voronoiGenerator = new VoronoiGenerator(level.getSeed());
-            voronoiGenerator.setOffsetAmount(0.6F);
-        }
         int cornerX = this.chunkCorner.getX();
         int cornerY = this.chunkCorner.getY();
         int cornerZ = this.chunkCorner.getZ();

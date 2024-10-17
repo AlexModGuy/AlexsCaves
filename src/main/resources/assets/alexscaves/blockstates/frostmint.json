@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "alexscaves:block/frostmint_slab"
+    },
+    "type=double": {
+      "model": "alexscaves:block/frostmint"
+    },
+    "type=top": {
+      "model": "alexscaves:block/frostmint_slab_top"
+    }
+  }
+}

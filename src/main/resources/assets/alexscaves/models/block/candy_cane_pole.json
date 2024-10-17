@@ -1,0 +1,23 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"textures": {
+		"0": "alexscaves:block/candy_cane_block",
+		"1": "alexscaves:block/large_peppermint_front",
+		"particle": "alexscaves:block/candy_cane_block"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 6],
+			"to": [10, 16, 10],
+			"faces": {
+				"north": {"uv": [12, 0, 16, 16], "texture": "#0"},
+				"east": {"uv": [8, 0, 12, 16], "texture": "#0"},
+				"south": {"uv": [4, 0, 8, 16], "texture": "#0"},
+				"west": {"uv": [0, 0, 4, 16], "texture": "#0"},
+				"up": {"uv": [0, 0, 4, 4], "texture": "#0"},
+				"down": {"uv": [6, 6, 10, 10], "texture": "#1"}
+			}
+		}
+	]
+}

@@ -42,6 +42,12 @@
     "alexscaves:thornwood_button",
     "alexscaves:thornwood_fence_gate",
     "alexscaves:thornwood_door",
-    "alexscaves:beholder"
+    "alexscaves:beholder",
+    "alexscaves:cookie_block",
+    "alexscaves:wafer_cookie_block",
+    "alexscaves:wafer_cookie_stairs",
+    "alexscaves:wafer_cookie_slab",
+    "alexscaves:wafer_cookie_wall",
+    "alexscaves:licoroot"
   ]
 }

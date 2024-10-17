@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "alexscaves:confection_oven"
+        },
+        "title": {
+            "translate": "advancements.alexscaves.confection_oven.title"
+        },
+        "description": {
+            "translate": "advancements.alexscaves.confection_oven.desc"
+        }
+    },
+    "parent": "alexscaves:alexscaves/gingerbread_crumbs",
+    "criteria": {
+        "mussel": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "alexscaves:confection_oven"
+                    }
+                ]
+            }
+        }
+    }
+}

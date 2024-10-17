@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A",
+    "A"
+  ],
+  "key": {
+    "A": {
+      "item": "alexscaves:block_of_polished_chocolate"
+    }
+  },
+  "result": {
+    "item": "alexscaves:block_of_chiseled_chocolate",
+    "count": 2
+  }
+}

@@ -1,0 +1,45 @@
+{
+	"parent": "block/block",
+	"render_type": "cutout",
+	"textures": {
+		"0": "alexscaves:block/giant_sweetberry",
+		"particle": "alexscaves:block/giant_sweetberry"
+	},
+	"elements": [
+		{
+			"from": [5, 0, 5],
+			"to": [11, 6, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 7, 9]},
+			"faces": {
+				"north": {"uv": [6, 0, 0, 6], "texture": "#0"},
+				"east": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"south": {"uv": [6, 0, 0, 6], "texture": "#0"},
+				"west": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#0"},
+				"down": {"uv": [6, 0, 0, 6], "texture": "#0"}
+			}
+		},
+		{
+			"from": [8, 6, 4],
+			"to": [8, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 7, 9]},
+			"shade": false,
+			"faces": {
+				"north": {"uv": [0, 0, 0, 10], "texture": "#0"},
+				"east": {"uv": [12, 6, 0, 16], "texture": "#0"},
+				"south": {"uv": [0, 0, 0, 10], "texture": "#0"},
+				"west": {"uv": [0, 6, 12, 16], "texture": "#0"},
+				"up": {"uv": [0, 16, 0, 0], "texture": "#0"},
+				"down": {"uv": [0, 0, 0, 16], "texture": "#0"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "cherry",
+			"origin": [4, 6, 12],
+			"color": 0,
+			"children": [0, 1]
+		}
+	]
+}

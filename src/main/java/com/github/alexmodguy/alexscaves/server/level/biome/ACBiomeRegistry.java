@@ -20,12 +20,14 @@ public class ACBiomeRegistry {
     public static final ResourceKey<Biome> TOXIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "toxic_caves"));
     public static final ResourceKey<Biome> ABYSSAL_CHASM = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "abyssal_chasm"));
     public static final ResourceKey<Biome> FORLORN_HOLLOWS = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "forlorn_hollows"));
+    public static final ResourceKey<Biome> CANDY_CAVITY = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "candy_cavity"));
 
-    public static final List<ResourceKey<Biome>> ALEXS_CAVES_BIOMES = List.of(MAGNETIC_CAVES, PRIMORDIAL_CAVES, TOXIC_CAVES, ABYSSAL_CHASM, FORLORN_HOLLOWS);
+    public static final List<ResourceKey<Biome>> ALEXS_CAVES_BIOMES = List.of(MAGNETIC_CAVES, PRIMORDIAL_CAVES, TOXIC_CAVES, ABYSSAL_CHASM, FORLORN_HOLLOWS, CANDY_CAVITY);
     private static final Vec3 DEFAULT_LIGHT_COLOR = new Vec3(1, 1, 1);
     private static final Vec3 TOXIC_CAVES_LIGHT_COLOR = new Vec3(0.5, 1.5, 0.5);
     private static final Vec3 ABYSSAL_CHASM_LIGHT_COLOR = new Vec3(0.5, 0.5, 1);
     private static final Vec3 FORLORN_HOLLOWS_LIGHT_COLOR = new Vec3(0.35, 0.32, 0.3);
+    private static final Vec3 CANDY_CAVITY_LIGHT_COLOR = new Vec3(1.1, 0.9, 1.0);
 
     public static void init() {
         ExpandedBiomes.addExpandedBiome(MAGNETIC_CAVES, LevelStem.OVERWORLD);
@@ -33,14 +35,16 @@ public class ACBiomeRegistry {
         ExpandedBiomes.addExpandedBiome(TOXIC_CAVES, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(ABYSSAL_CHASM, LevelStem.OVERWORLD);
         ExpandedBiomes.addExpandedBiome(FORLORN_HOLLOWS, LevelStem.OVERWORLD);
+        ExpandedBiomes.addExpandedBiome(CANDY_CAVITY, LevelStem.OVERWORLD);
     }
 
     public static float getBiomeAmbientLight(Holder<Biome> value) {
         if (value.is(PRIMORDIAL_CAVES)) {
             return 0.125F;
-        }
-        if (value.is(TOXIC_CAVES)) {
+        }else if (value.is(TOXIC_CAVES)) {
             return 0.01F;
+        }else if (value.is(CANDY_CAVITY)) {
+            return 0.125F;
         }
         return 0.0F;
     }
@@ -58,6 +62,9 @@ public class ACBiomeRegistry {
         if (value.is(FORLORN_HOLLOWS)) {
             return -0.2F;
         }
+        if (value.is(CANDY_CAVITY)) {
+            return 0.75F;
+        }
         return 1.0F;
     }
 
@@ -69,15 +76,7 @@ public class ACBiomeRegistry {
     }
 
     public static float getBiomeSkyOverride(Holder<Biome> value) {
-        if (value.is(MAGNETIC_CAVES)) {
-            return 1.0F;
-        } else if (value.is(PRIMORDIAL_CAVES)) {
-            return 1.0F;
-        } else if (value.is(TOXIC_CAVES)) {
-            return 1.0F;
-        } else if (value.is(ABYSSAL_CHASM)) {
-            return 1.0F;
-        } else if (value.is(FORLORN_HOLLOWS)) {
+        if (value.is(MAGNETIC_CAVES) || value.is(PRIMORDIAL_CAVES) || value.is(TOXIC_CAVES) || value.is(ABYSSAL_CHASM) || value.is(FORLORN_HOLLOWS) || value.is(CANDY_CAVITY)) {
             return 1.0F;
         }
         return 0.0F;
@@ -92,6 +91,9 @@ public class ACBiomeRegistry {
         }
         if (value.is(FORLORN_HOLLOWS)) {
             return FORLORN_HOLLOWS_LIGHT_COLOR;
+        }
+        if(value.is(CANDY_CAVITY)){
+            return CANDY_CAVITY_LIGHT_COLOR;
         }
         return DEFAULT_LIGHT_COLOR;
     }
@@ -111,6 +113,9 @@ public class ACBiomeRegistry {
         }
         if (value.equals(FORLORN_HOLLOWS)) {
             return 0X705632;
+        }
+        if(value.equals(CANDY_CAVITY)){
+            return 0XFF5BC0;
         }
         return -1;
     }
