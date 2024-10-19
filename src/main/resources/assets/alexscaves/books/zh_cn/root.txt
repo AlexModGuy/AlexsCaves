@@ -14,13 +14,14 @@
 
 
     在这些生物群系中，已知存在
-的共有5种，它们分别是：
+的共有6种，它们分别是：
 
     • {磁场洞穴|magnetic_caves/chapter.json}
     • {原始洞穴|primordial_caves/chapter.json}
     • {毒化洞穴|toxic_caves/chapter.json}
     • {渊海陷窟|abyssal_chasm/chapter.json}
     • {异寂空谷|forlorn_hollows/chapter.json}
+    • {糖果龋洞|candy_cavity/chapter.json}
 
     想要探寻这些洞穴的秘密，你
 就得先找到一座§l地下小屋§r……
