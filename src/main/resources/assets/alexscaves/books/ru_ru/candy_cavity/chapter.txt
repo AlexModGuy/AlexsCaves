@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Добро пожаловать в конфетную полость...
+
+    • {Вступление|candy_cavity/general.json}
+    • {Ресурсы|candy_cavity/resources.json}
+    • Обитатели
+        • {Сладковатая рыбка|candy_cavity/sweetish_fish.json}
+        • {Тростеньяк|candy_cavity/caniac.json}
+        • {Жвачный автомат|candy_cavity/gumbeeper.json}
+        • {Конфетонорог|candy_cavity/candicorn.json}
+        • {Жвачный червь|candy_cavity/gum_worm.json}
+        • {Карамельный куб|candy_cavity/caramel_cube.json}
+        • {Мармеладный мишка|candy_cavity/gummy_bear.json}
+        • {Лакриведьма|candy_cavity/licowitch.json}
+        • {Пряничный человечек|candy_cavity/gingerbread_man.json}
+    • {Применения|candy_cavity/utilities.json}
