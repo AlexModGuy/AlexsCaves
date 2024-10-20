@@ -168,6 +168,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                         entity.setConvertingToBiome(BiomeTreatItem.getCaveBiome(item.getItem()));
                         entity.setFilledLevel(1);
                         entity.rerollWantedItem();
+                        item.getItem().shrink(1);
                         flag = true;
                     } else if (item.getItem().is(entity.wantStack.getItem())) {
                         flag = true;
