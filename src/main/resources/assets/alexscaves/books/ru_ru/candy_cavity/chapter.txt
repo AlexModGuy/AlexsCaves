@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Добро пожаловать в конфетный котлован...
+
+    • {Вступление|candy_cavity/general.json}
+    • {Ресурсы|candy_cavity/resources.json}
+    • Обитатели
+        • {Сладкая рыбка|candy_cavity/sweetish_fish.json}
+        • {Тростоньяк|candy_cavity/caniac.json}
+        • {Жвачкрипер|candy_cavity/gumbeeper.json}
+        • {Леденорог|candy_cavity/candicorn.json}
+        • {Мармеладный червь|candy_cavity/gum_worm.json}
+        • {Карамельный куб|candy_cavity/caramel_cube.json}
+        • {Мармеладный мишка|candy_cavity/gummy_bear.json}
+        • {Конфедьма|candy_cavity/licowitch.json}
+        • {Пряничный человечек|candy_cavity/gingerbread_man.json}
+    • {Применения|candy_cavity/utilities.json}
