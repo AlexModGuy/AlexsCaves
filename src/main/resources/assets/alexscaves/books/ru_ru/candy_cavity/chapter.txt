@@ -20,7 +20,7 @@
     • Обитатели
         • {Сладковатая рыбка|candy_cavity/sweetish_fish.json}
         • {Тростеньяк|candy_cavity/caniac.json}
-        • {Жвачный автомат|candy_cavity/gumbeeper.json}
+        • {Жвачрипер|candy_cavity/gumbeeper.json}
         • {Конфетонорог|candy_cavity/candicorn.json}
         • {Жвачный червь|candy_cavity/gum_worm.json}
         • {Карамельный куб|candy_cavity/caramel_cube.json}
