@@ -4,6 +4,7 @@ package com.github.alexmodguy.alexscaves.mixin.client;
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.server.entity.util.PossessesCamera;
+import com.github.alexmodguy.alexscaves.server.misc.ACLoadedMods;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.DeepsightEffect;
 import com.mojang.blaze3d.platform.NativeImage;
@@ -101,7 +102,7 @@ public abstract class LightTextureMixin {
             at = @At(value = "HEAD")
     )
     private void ac_updateLightTexture(float partialTicks, CallbackInfo ci) {
-        if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get() && !ClientProxy.disabledBiomeAmbientLightByOtherMod) {
+        if (AlexsCaves.CLIENT_CONFIG.biomeAmbientLightColoring.get() && !ACLoadedMods.isDistantHorizonsLoaded()) {
             ci.cancel();
             if (this.updateLightTexture) {
                 this.updateLightTexture = false;

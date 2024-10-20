@@ -1079,8 +1079,5 @@ public class ClientProxy extends CommonProxy {
     public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index){
         ClientEvents.renderVanillaMapDecoration(mapDecoration, index + 1);
     }
-    public void checkModCompatibility(){
-        disabledBiomeAmbientLightByOtherMod = ModList.get().isLoaded("distanthorizons");
-    }
 }
 

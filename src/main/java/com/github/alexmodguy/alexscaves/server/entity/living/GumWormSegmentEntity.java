@@ -9,7 +9,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CandyCaneHookItem;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
-import com.github.alexmodguy.alexscaves.server.message.MultipartEntityMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACLoadedMods;
 import com.github.alexthe666.citadel.server.entity.collision.ICustomCollisions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -27,7 +27,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -76,6 +75,9 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
 
     public GumWormSegmentEntity(EntityType entityType, Level level) {
         super(entityType, level);
+        if(ACLoadedMods.isEntityCullingLoaded()){
+            this.noCulling = true;
+        }
     }
 
     public GumWormSegmentEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
@@ -510,7 +512,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
     }
 
     public AABB getBoundingBoxForCulling() {
-        return this.getBoundingBox().inflate(1);
+        return super.getBoundingBoxForCulling().inflate(8.0F);
     }
 
     public float getBodyZRot(float partialTicks) {
