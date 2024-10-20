@@ -201,7 +201,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 prev.setBackEntityUUID(current.getUUID());
             }
             current.setIndex(i);
-            current.setPos(current.getIdealPosition(prev == null ? gumWorm : null));
+            current.setPos(current.getIdealPosition(prev == null ? gumWorm : prev));
             gumWorm.level().addFreshEntity(current);
             prev = current;
             if(i == 3){
@@ -342,6 +342,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 }
             }
         }
+        this.setNoGravity(true);
         this.pushEntities();
         if (zRotTickOffset < 0) {
             int i = (lastZRotDirection ? -1 : 1) * (getIndex() * 5 + 15);

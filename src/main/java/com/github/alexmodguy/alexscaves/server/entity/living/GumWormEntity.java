@@ -40,6 +40,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.*;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.pathfinder.Node;
@@ -248,8 +249,11 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
         }
         if(isRidingMode()){
             boolean flag1 = false;
-            if((level().getBlockState(this.blockPosition()).isSolid() || this.horizontalCollision || ridingPlayer != null && ridingPlayer.getY() > this.getY() + this.getBbHeight() + 2.0F) && !this.isLeaping()){
-                int worldHeight = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (int) this.getX(), (int) this.getZ());
+            int worldHeight = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, (int) this.getX(), (int) this.getZ());
+            if(isTouchingBedrock()){
+                noPhysics = false;
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.9).add(0, this.getY() < worldHeight - 6.0F ? 0.2F : -0.2F, 0));
+            }else if((level().getBlockState(this.blockPosition()).isSolid() || this.horizontalCollision || ridingPlayer != null && ridingPlayer.getY() > this.getY() + this.getBbHeight() + 2.0F) && !this.isLeaping()){
                 float upOrDown = 0.4F;
                 if(surfaceY < worldHeight - 10.0F || surfaceY > worldHeight - 3){
                     upOrDown = 0.8F;
@@ -296,6 +300,16 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
         }
     }
 
+    private boolean isTouchingBedrock() {
+        float f = 1.0F;
+        float f1 = 1.0F;
+        AABB aabb = this.getBoundingBox().inflate(f, f1, f);
+        return BlockPos.betweenClosedStream(aabb).anyMatch((collisionShape) -> {
+            BlockState blockstate = this.level().getBlockState(collisionShape);
+            return blockstate.is(Blocks.BEDROCK);
+        });
+    }
+
     public boolean isDigLogic() {
         float f = 4.0F;
         float f1 = 4.0F;
@@ -319,7 +333,13 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
     }
 
     public void onMounted(){
-        this.setPos(this.getX(), this.surfaceY + 1, this.getZ());
+        BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+        mutableBlockPos.set(this.getBlockX(), this.getBlockY() - 1, this.getBlockZ());
+        while (!level().getBlockState(mutableBlockPos).is(Blocks.BEDROCK)  && mutableBlockPos.getY() < level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutableBlockPos.getX(), mutableBlockPos.getZ())) {
+            mutableBlockPos.move(0, 1, 0);
+        }
+
+        this.setPos(this.getX(), mutableBlockPos.getY(), this.getZ());
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {

@@ -250,6 +250,9 @@ public class ClientProxy extends CommonProxy {
             return new ThrownItemRenderer<>(render, 1.25F, true);
         });
         EntityRenderers.register(ACEntityRegistry.FROSTMINT_SPEAR.get(), FrostmintSpearRenderer::new);
+        EntityRenderers.register(ACEntityRegistry.THROWN_ICE_CREAM_SCOOP.get(), (context) -> {
+            return new ThrownItemRenderer<>(context, 1.25F, false);
+        });
         Sheets.addWoodType(ACBlockRegistry.PEWEN_WOOD_TYPE);
         Sheets.addWoodType(ACBlockRegistry.THORNWOOD_WOOD_TYPE);
         ItemProperties.register(ACItemRegistry.HOLOCODER.get(), new ResourceLocation("bound"), (stack, level, living, j) -> {
@@ -276,14 +279,11 @@ public class ClientProxy extends CommonProxy {
         ItemProperties.register(ACItemRegistry.TOTEM_OF_POSSESSION.get(), new ResourceLocation("totem"), (stack, level, living, j) -> {
             return TotemOfPossessionItem.isBound(stack) ? living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.5F : 0.0F;
         });
-        EntityRenderers.register(ACEntityRegistry.THROWN_ICE_CREAM_SCOOP.get(), (context) -> {
-            return new ThrownItemRenderer<>(context, 1.25F, false);
-        });
-        ItemProperties.register(ACItemRegistry.CANDY_CANE_HOOK.get(), new ResourceLocation("cast"), (stack, lvl, holder, i) -> {
+        ItemProperties.register(ACItemRegistry.CANDY_CANE_HOOK.get(), new ResourceLocation("cast"), (stack, level, holder, i) -> {
             return holder != null && CandyCaneHookItem.isActive(stack) ? 1.0F : 0.0F;
         });
         ItemProperties.register(ACItemRegistry.SACK_OF_SATING.get(), new ResourceLocation("open"), (stack, level, living, j) -> {
-            return SackOfSatingItem.isChewing(stack, level.getGameTime()) ? 1.0F : stack.getTag() == null || living instanceof Player player && player.containerMenu != null && SackOfSatingItem.calculateWholeStackHungerValue(player.containerMenu.getCarried(), player) > 0 ? 0.5F : 0.0F;
+            return level != null && SackOfSatingItem.isChewing(stack, level.getGameTime()) ? 1.0F : stack.getTag() == null || living instanceof Player player && player.containerMenu != null && SackOfSatingItem.calculateWholeStackHungerValue(player.containerMenu.getCarried(), player) > 0 ? 0.5F : 0.0F;
         });
         ItemProperties.register(ACItemRegistry.FROSTMINT_SPEAR.get(), new ResourceLocation("throwing"), (stack, level, living, j) -> {
             return living != null && living.isUsingItem() && living.getUseItem() == stack ? 1.0F : 0.0F;

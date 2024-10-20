@@ -148,7 +148,7 @@ public class ACEntityRegistry {
         event.put(CANIAC.get(), CaniacEntity.createAttributes().build());
         event.put(GUMBEEPER.get(), GumbeeperEntity.createAttributes().build());
         event.put(CANDICORN.get(), CandicornEntity.createAttributes().build());
-        event.put(GUM_WORM.get(), CandicornEntity.createAttributes().build());
+        event.put(GUM_WORM.get(), GumWormEntity.createAttributes().build());
         event.put(CARAMEL_CUBE.get(), CaramelCubeEntity.createAttributes().build());
         event.put(GUMMY_BEAR.get(), GummyBearEntity.createAttributes().build());
         event.put(LICOWITCH.get(), LicowitchEntity.createAttributes().build());
