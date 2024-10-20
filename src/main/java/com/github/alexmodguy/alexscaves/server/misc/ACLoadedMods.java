@@ -8,7 +8,7 @@ public class ACLoadedMods {
     private static boolean entityCullingLoaded;
 
 
-    public void init(){
+    public static void init(){
         distantHorizonsLoaded = ModList.get().isLoaded("distanthorizons");
         entityCullingLoaded = ModList.get().isLoaded("entityculling");
 

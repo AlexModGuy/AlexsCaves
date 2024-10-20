@@ -321,11 +321,14 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
     }
 
     public void convertBiome() {
-        Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(convertingToBiome);
+        Optional<Holder.Reference<Biome>> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolder(convertingToBiome);
+        if(biomeHolder.isEmpty()){
+            return;
+        }
         AABB aabb = new AABB(this.getBlockPos().offset(-32, -32, -32), this.getBlockPos().offset(32, 32, 32));
         for (Player player : level.getEntitiesOfClass(Player.class, aabb, EntitySelector.NO_SPECTATORS)) {
             ACAdvancementTriggerRegistry.CONVERT_BIOME.triggerForEntity(player);
-            if (biomeHolder.is(BiomeTags.IS_NETHER) && this.level.dimensionType().bedWorks()) {
+            if (biomeHolder.get().is(BiomeTags.IS_NETHER) && this.level.dimensionType().bedWorks()) {
                 ACAdvancementTriggerRegistry.CONVERT_NETHER_BIOME.triggerForEntity(player);
             }
         }
@@ -352,7 +355,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                                         for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
                                             BlockPos recobbled = chunkAccess.getPos().getBlockAt(biomeX * 4, k1 + biomeY * 4, biomeZ * 4);
                                             if (recobbled.distSqr(this.getBlockPos()) < sqWidth) {
-                                                container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
+                                                container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder.get());
                                             }
                                         }
                                     }

@@ -159,6 +159,6 @@ public class CommonProxy {
     }
 
     public void checkModCompatibility(){
-
+        ACLoadedMods.init();
     }
 }
