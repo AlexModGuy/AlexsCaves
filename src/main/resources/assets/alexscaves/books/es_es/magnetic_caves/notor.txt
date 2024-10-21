@@ -13,6 +13,6 @@
     • 6.0 ♥
 
 
-    The Notor is a strange, hovering passive creature found in the Magnetic Caves. Although it cannot attack, they are definitely nuisances in their own right, as Notors will attempt to scan any foreign beings nearby.
-    Notors will use these scans to build a hologram, in order to report back to monsters in this biome about possible invaders. Any monster witnessing these holograms will instantly know where to focus its aggressive energy on.
-    When killed, Notors can drop a §lNotor §lGizmo§r, the source of their holographic abilities...
+    El notor es una extraña criatura pasiva que flota en el aire y que se encuentra en las cuevas magnéticas. Aunque no puede atacar, es una molestia por sí mismo, ya que los notores intentarán escanear a cualquier ser extraño que se encuentre cerca.
+    Los notores usarán estos escaneos para crear un holograma, con el fin de informar a los monstruos en este bioma sobre posibles invasores. Cualquier monstruo que presencie estos hologramas sabrá instantáneamente en qué concentrar su energía agresiva.
+    Al morir, los notores pueden dejar caer un §lnotificador§r, la fuente de sus habilidades holográficas...

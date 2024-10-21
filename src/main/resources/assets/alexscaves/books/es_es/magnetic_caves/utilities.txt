@@ -1,6 +1,6 @@
 
 
-    From Neodymium Ingots, both Azure and Scarlet Magnets can be crafted.
+    A partir de lingotes de neodimio se pueden fabricar imanes azures y escarlatas.
 
 
 
@@ -8,11 +8,11 @@
 
 
 
-    These magnets are very powerful, as azure ones can move magnetic blocks away from them, and scarlet ones can attract magnetic blocks to them.
-    A magnet can move up to 27 adjacent blocks at a time, provided they have enough clearance and are all either metallic or connected to metallic blocks by a slime block.
-    These magnets have limited range of usually only a few blocks. This can be incremented by one by using the respective neodymium ingot on the block, and decreased by using the opposite ingot.
+    Estos imanes son muy poderosos, ya que los de color azul pueden alejar los bloques magnéticos de ellos, y los de color escarlata pueden atraerlos hacia ellos.
+    Un imán puede mover hasta 27 bloques adyacentes a la vez, siempre que tengan suficiente espacio libre y sean todos metálicos o estén conectados mediante un bloque de slime.
+    Estos imanes tienen un alcance limitado, generalmente de solo unos pocos bloques. Este alcance se puede aumentar utilizando el lingote de neodimio respectivo en el bloque, y reducir utilizando el lingote opuesto.
 
-    The Telecore, obtained from a Teletor, can be used to create new Tesla Bulbs by combining it with Energized Galena.
+    El telenúcleo, obtenido de un teletor, se puede utilizar para crear nuevas bombillas de Tesla combinándolo con galena cargada.
 
 
 
@@ -21,15 +21,15 @@
 
 
 
-    It can also be used to create a very powerful tool known as the §lGalena §lGauntlet§r.
+    También se puede usar para crear una poderosa herramienta conocida como §lguante §lde §lgalena§r.
 
 
 
 
 
 
-    The Galena Guantlet can be used in the offhand while a magnetic tool, such as one made of iron or netherite, is held in the main hand. When used, it will launch the tool forwards, up to around 20 blocks in distance. From here, the tool will damage any entity it is rammed into, or begin to mine any block if it is the matching kind for the tool. The guantlet will slowly lose durability during use, but can be repaired with a Telecore.
-    Asides from being used to make the Galena Guantlet, Ferrouslimeballs can be used to make Metal Swarf, which can then in turn be smelted into Scrap Metal. It can also be used to brew a potion of Magnetizing - which renders the inflicted with the ability to be pushed or pulled by magnetic forces without wearing metal armor.
+    El guante de galena se puede usar en la mano secundaria mientras se sostiene una herramienta magnética, como un hacha de hierro, en la mano principal. Al usarse, lanzará la herramienta hacia adelante, hasta unos 20 bloques. La herramienta dañará a cualquier criatura contra la que se golpee, o comenzará a minar cualquier bloque si es del tipo adecuado. El guante se gastará lentamente durante el uso, pero se puede reparar con un telenúcleo.
+    Además de usarse para hacer el guante de galena, las bolas de ferroslime se pueden usar para hacer virutas de metal, que luego se pueden fundir para obtener chatarra. También se pueden usar para preparar una poción de magnetización, que otorga la capacidad de reaccionar a fuerzas magnéticas sin usar armadura de metal.
 
 
 
@@ -41,7 +41,7 @@
 
 
 
-    Notor Gizmos can be combined with a Telecore and an Azure Neodymium Ingot to make a §lHolocoder§r. This Holocoder can be bound to any entity by using it on them. When placed in a §lHologram §lProjector§r, a Hologram of the bound entity will be displayed. If the Holocoder is unbound, then the user of the Holocoder will be shown instead.
+    Los notificadores se pueden combinar con un telenúcleo y un lingote de neodimio azur para crear un §lholocodificador§r. Este objeto se puede vincular a cualquier criatura al usarse sobre ella. Cuando se coloca en un §lproyector §lholográfico§r, se mostrará un holograma de la criatura vinculada. Si no está vinculado, se mostrará en su lugar el usuario del holocodificador.
 
 
 
@@ -53,8 +53,8 @@
 
 
 
-    Notor Gizmos can also be combined with an Iron Ingot to create four Magnetic Lights.
-    The Heavyweight, obtained from Boundroids, can be used to create a §lMagnetic §lQuarry §lSmasher§r.
+    Los notificadores también se pueden combinar con un lingote de hierro para crear cuatro luces magnéticas.
+    El peso pesado, obtenido de los dividroides, se puede usar para crear un §ldemoledor §lde §lcantera §lmagnética§r.
 
 
 
@@ -62,23 +62,23 @@
 
 
 
-     This device is only useful when combined with four Magnetic Lights and the §lMagnetic §lQuarry§r itself.
+    Este dispositivo solo es útil cuando se combina con cuatro luces magnéticas y la propia §lcantera §lmagnética§r.
 
 
 
 
 
 
-     When a Magnetic Quarry is placed, the bounds of the area to be automatically mined out by it can be marked by creating a rectangle with four Magnetic Lights behind the Magnetic Quarry Block. Once lightning is seen darting between all four lights, the Quarry Smasher can be placed inside these bounds to activate the quarry.
-     The quarry will continue to mine out any breakable blocks underneath its designated area, and once smashed these blocks' drops will be sent flying out of the top of the main Magnetic Quarry Block. Once there are no more blocks to mine, the quarry will become dormant.
+    Cuando se coloca una cantera magnética, los límites del área que se va a explotar automáticamente se pueden marcar creando un rectángulo con cuatro luces magnéticas detrás del bloque de cantera magnética. Una vez que se vea un rayo entre las cuatro luces, se puede colocar el demoledor dentro de estos límites para activar la cantera.
+    La cantera seguirá extrayendo todos los bloques rompibles que se encuentren debajo de su área designada y, una vez destrozados, los bloques saldrán volando por la parte superior del bloque principal. Una vez que no haya más bloques para explotar, la cantera quedará inactiva.
 
 
 
-     The Magnetron's Heart of Iron has one more remaining use, too - it can be crafted into a §lResistor §lShield§r.
+    El corazón de hierro del magnetrón también tiene un uso más: se puede transformar en un §lescudo §lresistor§r.
 
 
 
 
 
 
-     The Resistor Shield can be used as an ordinary shield, except that it creates a magnetic pulse while used that damages nearby foes. The polarity of this pulse can be switched by using the shield and sneaking at the same time. If the azure side is used, the pulse will repel afflicted entities, and if the scarlet side is used it will pull them closer.
+    El escudo resistor se puede utilizar como un escudo normal, excepto que crea un pulso magnético mientras se utiliza que daña a los enemigos cercanos. La polaridad de este pulso se puede cambiar al agacharse mientras se usa el escudo. Si se utiliza el lado azur, el pulso repelerá a las entidades afectadas, y si se utiliza el lado escarlata, las atraerá.

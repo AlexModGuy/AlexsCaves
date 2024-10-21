@@ -13,7 +13,7 @@
 
 
 
-    Welcome to the Magnetic Caves...
+    Te damos la bienvenida a las cuevas magnéticas...
 
     • {Introduction|magnetic_caves/general.json}
     • {Resources|magnetic_caves/resources.json}

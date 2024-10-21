@@ -1,35 +1,35 @@
 
 
-    Galena is a type of stone with a significant iron composition. It can be crafted into numerous kinds of bricks, pillars, and other blocks, and Packed Galena.
+    La galena es un tipo de piedra con una significativa composición de hierro. Se puede fabricar con ella numerosos tipos de ladrillos, pilares y otros bloques, así como galena comprimida.
 
 
 
 
 
 
-    Packed Galena can then be smelted to produce a single nugget of iron.
+    La galena comprimida se puede fundir para producir una sola pepita de hierro.
 
 
 
 
 
-    Although this requires a great deal of Galena to create a single ingot of iron, it exists in such vast quantities in this cave biome that make it a good alternative to seeking out iron ore.
-    Far more valuable of a resource than Galena is Neodymium though. The raw form of both Scarlet and Azure Neodymium can be obtained by breaking both pillars and nodes that make up the giant crystals of this biome.
-    These can be crafted back into the nodes or used to make Neodymium Ingots.
-
-
-
-
-
-
-    Neodymium Ingots have many uses. The Azure Neodymium Ingot can be used to create Magnetic Levitation Rails, which lift any minecart that rolls over them into the air - and moves it faster than any normal rail.
+    Aunque se necesita una gran cantidad de galena para crear un solo lingote de hierro, existe en cantidades tan grandes en este bioma que la convierten en una buena alternativa a la búsqueda de menas de hierro.
+    Sin embargo, el neodimio es un recurso mucho más valioso que la galena. La forma bruta del neodimio escarlata y azur se puede obtener rompiendo los pilares y los nodos que forman los cristales gigantes de este bioma.
+    Con estos se pueden volver a fabricar en los nodos, o crear lingotes de neodimio.
 
 
 
 
 
 
-    The Scarlet Neodymium Ingot crafted into create Seeking Arrows, which will curve towards any nearby entity they fly past.
+    Los lingotes de neodimio tienen muchos usos. El lingote de neodimio azur se puede utilizar para crear raíles de levitación magnética, que elevan cualquier vagoneta que pase por encima de ellos y la mueven más rápido que cualquier raíl normal.
+
+
+
+
+
+
+    El lingote de neodimio escarlata se fabrica para crear flechas rastreadoras, que se curvarán hacia cualquier entidad cercana.
 
 
 
@@ -37,4 +37,4 @@
 
 
 
-    Neodymium has other powerful uses, but most of these require the remains of powerful beings...
+    El neodimio tiene otros usos poderosos, pero la mayoría de ellos requieren los restos de seres poderosos...
