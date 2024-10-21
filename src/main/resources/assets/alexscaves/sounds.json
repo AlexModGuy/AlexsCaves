@@ -3769,7 +3769,17 @@
   "gum_worm_dig_stop": {
     "sounds": [
       {
-        "name": "alexscaves:mob/gum_worm/gum_worm_dig_stop",
+        "name": "alexscaves:mob/gum_worm/gum_worm_dig_stop_0",
+        "attenuation_distance": 96,
+        "stream": true
+      },
+      {
+        "name": "alexscaves:mob/gum_worm/gum_worm_dig_stop_1",
+        "attenuation_distance": 96,
+        "stream": true
+      },
+      {
+        "name": "alexscaves:mob/gum_worm/gum_worm_dig_stop_2",
         "attenuation_distance": 96,
         "stream": true
       }

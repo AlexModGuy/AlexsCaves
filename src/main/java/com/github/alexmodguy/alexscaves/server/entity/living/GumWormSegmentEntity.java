@@ -305,6 +305,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 }
             }
         } else {
+            boolean riddenFlag = false;
             this.entityData.set(HEAD_ENTITY_ID, head != null ? head.getId() : -1);
             this.entityData.set(FRONT_ENTITY_ID, front != null ? front.getId() : -1);
             this.entityData.set(BACK_ENTITY_ID, back != null ? back.getId() : -1);
@@ -320,9 +321,9 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 float extraLength = (float) Math.max(distVec.length() - maxDistFromFront, 0F);
                 Vec3 vec31 = distVec.length() > 1F ? distVec.normalize().scale(1F + extraLength) : distVec;
                 Vec3 vec32 = this.position().add(vec31);
-                boolean riding = head instanceof GumWormEntity gumWorm && gumWorm.isRidingMode();
-                if ((!front.isInWall() || riding) && !(head instanceof GumWormEntity gumWorm && gumWorm.isLeaping())) {
-                    float f = Mth.approach((float) this.getY(), riding ? (float) Math.max(surfaceY, ideal.y) :  (float) Math.min(surfaceY, vec31.y), 1F);
+                riddenFlag = head instanceof GumWormEntity gumWorm && gumWorm.isRidingMode();
+                if ((!front.isInWall() || riddenFlag) && !(head instanceof GumWormEntity gumWorm && gumWorm.isLeaping())) {
+                    float f = Mth.approach((float) this.getY(), riddenFlag ? (float) Math.max(surfaceY, ideal.y) :  (float) Math.min(surfaceY, vec31.y), 1F);
                     vec32 = new Vec3(vec32.x, f, vec32.z);
                 }
                 this.setPos(vec32);
@@ -343,8 +344,8 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                     }
                 }
             }
+            this.setNoGravity(!riddenFlag);
         }
-        this.setNoGravity(true);
         this.pushEntities();
         if (zRotTickOffset < 0) {
             int i = (lastZRotDirection ? -1 : 1) * (getIndex() * 5 + 15);
