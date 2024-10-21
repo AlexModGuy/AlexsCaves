@@ -186,7 +186,9 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                     RecursiveBlockPlacement recursiveBlockPlacement = iterator.next();
                     recursiveBlockPlacement.setPlaceIn(recursiveBlockPlacement.getPlaceIn() - 1);
                     if (recursiveBlockPlacement.getPlaceIn() <= 0) {
-                        level.setBlockAndUpdate(recursiveBlockPlacement.getPos(), recursiveBlockPlacement.getToPlace());
+                        if(!level.getBlockState(recursiveBlockPlacement.getPos()).is(ACTagRegistry.UNMOVEABLE)){
+                            level.setBlockAndUpdate(recursiveBlockPlacement.getPos(), recursiveBlockPlacement.getToPlace());
+                        }
                         iterator.remove();
                     }
 
