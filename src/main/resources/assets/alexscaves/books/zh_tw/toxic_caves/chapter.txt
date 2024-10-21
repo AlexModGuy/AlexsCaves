@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    歡迎來到毒化洞穴……
+
+    • {綜合介紹|toxic_caves/general.json}
+    • {自然資源|toxic_caves/resources.json}
+    • 棲息物種
+        • {核力怕|toxic_caves/nucleeper.json}
+        • {輻腮魚|toxic_caves/radgill.json}
+        • {嗜腦魔|toxic_caves/brainiac.json}
+        • {伽馬蟑螂|toxic_caves/gammaroach.json}
+        • {射線貓|toxic_caves/raycat.json}
+        • {撼地吉拉|toxic_caves/tremorzilla.json}
+    • {實用物品|toxic_caves/utilities.json}
