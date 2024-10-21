@@ -359,6 +359,11 @@ public class ACItemRegistry {
                 return itemStack;
             }
         });
+        DispenserBlock.registerBehavior(SWEETISH_FISH_RED_BUCKET.get(), new FluidContainerDispenseItemBehavior());
+        DispenserBlock.registerBehavior(SWEETISH_FISH_GREEN_BUCKET.get(), new FluidContainerDispenseItemBehavior());
+        DispenserBlock.registerBehavior(SWEETISH_FISH_BLUE_BUCKET.get(), new FluidContainerDispenseItemBehavior());
+        DispenserBlock.registerBehavior(SWEETISH_FISH_YELLOW_BUCKET.get(), new FluidContainerDispenseItemBehavior());
+        DispenserBlock.registerBehavior(SWEETISH_FISH_PINK_BUCKET.get(), new FluidContainerDispenseItemBehavior());
         LecternBooks.BOOKS.put(CAVE_BOOK.getId(), new LecternBooks.BookData(0X81301C, 0XFDF8EC));
         ComposterBlock.COMPOSTABLES.put(PINE_NUTS.get(), 0.5F);
         ComposterBlock.COMPOSTABLES.put(PEWEN_SAP.get(), 0.2F);
