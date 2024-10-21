@@ -1059,14 +1059,6 @@ public class ClientProxy extends CommonProxy {
         bossBarRenderTypes.put(bossBar, renderType);
     }
 
-    public void updateBiomeVisuals(int sectionX, int sectionY, int sectionZ) {
-        ClientLevel clientLevel = Minecraft.getInstance().level;
-        if (clientLevel != null) {
-            clientLevel.clearTintCaches();
-            Minecraft.getInstance().levelRenderer.setSectionDirty(sectionX, sectionY, sectionZ);
-        }
-    }
-
     public boolean isTickRateModificationActive(Level level){
         return ClientTickRateTracker.getForClient(Minecraft.getInstance()).getClientTickRate() != 50;
     }
