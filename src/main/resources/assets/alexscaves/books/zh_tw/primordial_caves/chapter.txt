@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    歡迎來到原始洞穴……
+
+    • {綜合介紹|primordial_caves/general.json}
+    • {自然資源|primordial_caves/resources.json}
+    • 棲息物種
+        • {洞穴翼手龍|primordial_caves/subterranodon.json}
+        • {括鼻迅猛龍|primordial_caves/vallumraptor.json}
+        • {洞穴三角龍|primordial_caves/grottoceratops.json}
+        • {奇蝦|primordial_caves/trilocaris.json}
+        • {撼地龍|primordial_caves/tremorsaurus.json}
+        • {洞穴恐手龍|primordial_caves/relicheirus.json}
+        • {暝煌龍|primordial_caves/luxtructosaurus.json}
+        • {擎天龍|primordial_caves/atlatitan.json}
+    • {實用物品|primordial_caves/utilities.json}
