@@ -189,11 +189,9 @@ public class LicowitchUseCrucibleGoal extends Goal {
                         mob.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
                         Vec3 from = mob.getSwingArmPosition();
                         ItemStack stack = crucibleBlock.getWantItem().copy();
-                        CompoundTag tag = new CompoundTag();
-                        tag.putBoolean("ThrownByLicowitch", true);
-                        stack.setTag(tag);
                         tossedItem = new ItemEntity(mob.level(), from.x, from.y, from.z, stack);
                         Vec3 delta = center.subtract(from).normalize().scale(0.13F).add(0, 0.4F, 0);
+                        tossedItem.setNeverPickUp();
                         tossedItem.setDeltaMovement(delta);
                         tossedItem.checkDespawn();
                         mob.level().addFreshEntity(tossedItem);

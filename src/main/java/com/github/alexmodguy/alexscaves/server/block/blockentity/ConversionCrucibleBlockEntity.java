@@ -569,7 +569,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
         this.updateTopAndBottomBlocks();
         this.level.playSound(null, this.getBlockPos(), getFilledLevel() >= MAX_FILL_AMOUNT ? ACSoundRegistry.CONVERSION_CRUCIBLE_ACTIVATE.get() : ACSoundRegistry.CONVERSION_CRUCIBLE_ADD.get(), SoundSource.BLOCKS);
         if (this.isWitchMode()) {
-            this.wantStack = new ItemStack(ACItemRegistry.RADIANT_ESSENCE.get());
+            this.wantStack = new ItemStack(ACItemRegistry.LICOWITCH_RADIANT_ESSENCE.get());
         } else if (getFilledLevel() > MAX_FILL_AMOUNT - 2) {
             Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
             Optional<Holder.Reference<Biome>> biomeHolder = registry.getHolder(this.convertingToBiome);
