@@ -3,9 +3,7 @@ package com.github.alexmodguy.alexscaves.client.render.entity;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.*;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
-import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneMageEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.FerrouslimeEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.NotorEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.*;
 import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import com.github.alexthe666.citadel.client.shader.PostEffectRegistry;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -144,7 +142,14 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                 entityIn.yRotO = 0;
                 if (render instanceof LivingEntityRenderer renderer && renderer.getModel() != null) {
                     EntityModel model = renderer.getModel();
-                    VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(entityIn instanceof DeepOneMageEntity ? DeepOneMageRenderer.TEXTURE : render.getTextureLocation(entityIn)));
+                    ResourceLocation texture = render.getTextureLocation(entityIn);
+                    if(entityIn instanceof DeepOneMageEntity){
+                        texture = DeepOneMageRenderer.TEXTURE;
+                    }else if(entityIn instanceof GummyBearEntity gummyBearEntity && renderer instanceof GummyBearRenderer gummyBearRenderer){
+                        texture = gummyBearRenderer.getOutsideTextureLocation(gummyBearEntity);
+                        model = GummyBearRenderer.OUTSIDE_MODEL;
+                    }
+                    VertexConsumer ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getHologram(texture));
                     matrixStack.pushPose();
                     boolean shouldSit = entityIn.isPassenger() && (entityIn.getVehicle() != null && entityIn.getVehicle().shouldRiderSit());
                     model.young = living.isBaby();
@@ -181,12 +186,22 @@ public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
                     if(model instanceof TremorzillaModel tremorzillaModel){
                         tremorzillaModel.straighten = false;
                     }
+                    if(model instanceof GummyBearModel gummyBearModel){
+                        gummyBearModel.ignoreColor = true;
+                    }
                     matrixStack.scale(-living.getScale(), -living.getScale(), living.getScale());
                     ((LivingEntityRendererAccessor)renderer).scaleForHologram(living, matrixStack, partialTicks);
+                    if(entityIn instanceof CaramelCubeEntity caramelCubeEntity){
+                        float scaleBy = caramelCubeEntity.getSlimeSize() == 2 ? 4 : caramelCubeEntity.getSlimeSize() == 1 ? 2 : 1;
+                        matrixStack.translate(0, -scaleBy * 0.25F, 0);
+                    }
                     model.renderToBuffer(matrixStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
                     matrixStack.popPose();
                     if (model instanceof HumanoidModel<?> humanoidModel) {
                         humanoidModel.crouching = prevCrouching;
+                    }
+                    if(model instanceof GummyBearModel gummyBearModel){
+                        gummyBearModel.ignoreColor = false;
                     }
                 }else if(render instanceof FerrouslimeRenderer && living instanceof FerrouslimeEntity ferrouslime){
                     matrixStack.pushPose();
