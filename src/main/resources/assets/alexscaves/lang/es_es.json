@@ -1261,7 +1261,7 @@
   "alexscaves.sound.subtitle.darkness_incarnate_idle": "Oscuridad Encarnada se estremece",
   "alexscaves.sound.subtitle.disappointment": "Womp womp",
   "alexscaves.sound.subtitle.nuclear_siren": "Sirena nuclear llora",
-  "alexscaves.startup_warning.generation_incompatible": "La generación de terreno de Alex's Caves es incompatible con el mod (ID:%s). Puede que no aparezcan biomas de cuevas en este mundo, o causar crasheos o congelamientos en un servidor. Este aviso puede ser desactivado en la configuración de Alex's Caves."
+  "alexscaves.startup_warning.generation_incompatible": "La generación de terreno de Alex's Caves es incompatible con el mod (ID:%s). Puede que no aparezcan biomas de cuevas en este mundo, o causar crasheos o congelamientos en un servidor. Este aviso puede ser desactivado en la configuración de Alex's Caves.",
   "enchantment.alexscaves.field_extension": "Extensión de campo",
   "enchantment.alexscaves.field_extension.desc": "El guante de galena puede mover objetos a mayor distancia",
   "enchantment.alexscaves.crystallization": "Cristalización",
