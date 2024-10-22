@@ -253,9 +253,9 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
             if(isTouchingBedrock()){
                 noPhysics = false;
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9).add(0, this.getY() < worldHeight - 6.0F ? 0.2F : -0.2F, 0));
-            }else if((level().getBlockState(this.blockPosition()).isSolid() || this.horizontalCollision || ridingPlayer != null && ridingPlayer.getY() > this.getY() + this.getBbHeight() + 2.0F) && !this.isLeaping()){
+            }else if((centralState.isSolid() || this.horizontalCollision || ridingPlayer != null && ridingPlayer.getY() > this.getY() + this.getBbHeight() + 4.0F) && !this.isLeaping()){
                 float upOrDown = 0.4F;
-                if(surfaceY < worldHeight - 10.0F || surfaceY > worldHeight - 3){
+                if(surfaceY < worldHeight - 10.0F){
                     upOrDown = 0.8F;
                 }else if(this.getY() > level().getMinBuildHeight() + 3.0F){
                     upOrDown = -0.1F;
@@ -335,10 +335,9 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
     public void onMounted(){
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
         mutableBlockPos.set(this.getBlockX(), this.getBlockY() - 1, this.getBlockZ());
-        while (!level().getBlockState(mutableBlockPos).is(Blocks.BEDROCK)  && mutableBlockPos.getY() < level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutableBlockPos.getX(), mutableBlockPos.getZ())) {
+        while (!level().getBlockState(mutableBlockPos).is(Blocks.BEDROCK) && !level().getBlockState(mutableBlockPos).isAir() && mutableBlockPos.getY() < level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutableBlockPos.getX(), mutableBlockPos.getZ())) {
             mutableBlockPos.move(0, 1, 0);
         }
-
         this.setPos(this.getX(), mutableBlockPos.getY(), this.getZ());
     }
 

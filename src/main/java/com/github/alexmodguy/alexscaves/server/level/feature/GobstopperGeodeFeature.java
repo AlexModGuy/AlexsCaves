@@ -53,7 +53,7 @@ public class GobstopperGeodeFeature extends Feature<NoneFeatureConfiguration> {
                         float sprinkleNoise = Math.abs(ACMath.sampleNoise3D(pos1.getX() + 231, pos1.getY() + 221, pos1.getZ() + 3211, 3.0F));
                         int exteriorShellBy = (int)Mth.absMax(x, Mth.absMax(y, z));
                         int taxicab = pos1.distManhattan(pos);
-                        if((eatenQuadX ? x > 0 : x < 0) && (eatenQuadY ? y > 0 : y < 0) && (eatenQuadZ ? z > 0 : z < 0)){
+                        if((eatenQuadX ? x > 0 : x < 0) && (eatenQuadY ? y > 0 : y < 0) && (eatenQuadZ ? z > 0 : z < 0) || level.getBlockState(pos1).is(Blocks.BEDROCK)){
                             continue;
                         }else if(exteriorShellBy < width){
                             int gradientBy = (int)((exteriorShellBy / (float)width) * GRADIENT_BLOCKS.length);

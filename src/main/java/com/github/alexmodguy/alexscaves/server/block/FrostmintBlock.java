@@ -69,7 +69,7 @@ public class FrostmintBlock extends SlabBlock implements Fallable {
     }
 
     public void onLand(Level level, BlockPos blockPos, BlockState blockState, BlockState blockState1, FallingBlockEntity fallingBlockEntity) {
-        if(blockState1.getFluidState().getFluidType() == ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get()){
+        if(blockState1.getFluidState().getFluidType() == ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get() && !level.isClientSide){
             FrostmintExplosion explosion = new FrostmintExplosion(level, fallingBlockEntity, blockPos.getX() + 0.5F, blockPos.getY() + 0.5F, blockPos.getZ() + 0.5F, 4.0F, Explosion.BlockInteraction.DESTROY_WITH_DECAY, false);
             explosion.explode();
             explosion.finalizeExplosion(true);

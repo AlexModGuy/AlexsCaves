@@ -209,15 +209,13 @@ public class ClientEvents {
                 }
             } else if (renderer.currentEffect() != null && SUBMARINE_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
-            }
-            if (firstPerson && player instanceof PossessesCamera || player instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get())) {
+            }else if (firstPerson && player instanceof PossessesCamera || player instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.DARKNESS_INCARNATE.get())) {
                 if (renderer.currentEffect() == null || !WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
                     attemptLoadShader(WATCHER_SHADER);
                 }
             } else if (renderer.currentEffect() != null && WATCHER_SHADER.toString().equals(renderer.currentEffect().getName())) {
                 renderer.checkEntityPostEffect(null);
-            }
-            if (player instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.SUGAR_RUSH.get()) && AlexsCaves.CLIENT_CONFIG.sugarRushSaturationEffect.get()) {
+            }else if (player instanceof LivingEntity afflicted && afflicted.hasEffect(ACEffectRegistry.SUGAR_RUSH.get()) && AlexsCaves.CLIENT_CONFIG.sugarRushSaturationEffect.get()) {
                 if (renderer.currentEffect() == null || !SUGAR_RUSH_SHADER.toString().equals(renderer.currentEffect().getName())) {
                     attemptLoadShader(SUGAR_RUSH_SHADER);
                 }

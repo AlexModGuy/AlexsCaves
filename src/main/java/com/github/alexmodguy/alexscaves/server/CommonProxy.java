@@ -144,9 +144,6 @@ public class CommonProxy {
     public void setBossBarRender(UUID bossBar, int renderType) {
     }
 
-    public void updateBiomeVisuals(int sectionX, int sectionY, int sectionZ) {
-    }
-
     public boolean isTickRateModificationActive(Level level){
         return ServerTickRateTracker.getForServer(level.getServer()).getServerTickLengthMs() != 50;
     }

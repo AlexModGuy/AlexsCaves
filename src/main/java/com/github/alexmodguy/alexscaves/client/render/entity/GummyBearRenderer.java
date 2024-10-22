@@ -23,6 +23,7 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class GummyBearRenderer extends MobRenderer<GummyBearEntity, GummyBearModel> implements CustomBookEntityRenderer {
+    public static final GummyBearModel OUTSIDE_MODEL = new GummyBearModel(0.0F);
     private static final ResourceLocation TEXTURE_RED = new ResourceLocation("alexscaves:textures/entity/gummy_bear_red.png");
     private static final ResourceLocation TEXTURE_GREEN = new ResourceLocation("alexscaves:textures/entity/gummy_bear_green.png");
     private static final ResourceLocation TEXTURE_YELLOW = new ResourceLocation("alexscaves:textures/entity/gummy_bear_yellow.png");
@@ -88,7 +89,6 @@ public class GummyBearRenderer extends MobRenderer<GummyBearEntity, GummyBearMod
 
     class LayerOutside extends RenderLayer<GummyBearEntity, GummyBearModel> {
 
-        private GummyBearModel model = new GummyBearModel(0.0F);
 
         public LayerOutside() {
             super(GummyBearRenderer.this);
@@ -96,9 +96,9 @@ public class GummyBearRenderer extends MobRenderer<GummyBearEntity, GummyBearMod
 
         public void render(PoseStack matrixStackIn, MultiBufferSource bufferIn, int packedLightIn, GummyBearEntity entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
             if (!entitylivingbaseIn.isInvisible()) {
-                this.getParentModel().copyPropertiesTo(model);
-                model.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-                model.renderToBuffer(matrixStackIn, bufferIn.getBuffer(sepia ? ACRenderTypes.getBookWidget(getOutsideTextureLocation(entitylivingbaseIn), true) : RenderType.entityTranslucent(getOutsideTextureLocation(entitylivingbaseIn))), packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
+                this.getParentModel().copyPropertiesTo(OUTSIDE_MODEL);
+                OUTSIDE_MODEL.setupAnim(entitylivingbaseIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+                OUTSIDE_MODEL.renderToBuffer(matrixStackIn, bufferIn.getBuffer(sepia ? ACRenderTypes.getBookWidget(getOutsideTextureLocation(entitylivingbaseIn), true) : RenderType.entityTranslucent(getOutsideTextureLocation(entitylivingbaseIn))), packedLightIn, LivingEntityRenderer.getOverlayCoords(entitylivingbaseIn, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);
             }
         }
     }

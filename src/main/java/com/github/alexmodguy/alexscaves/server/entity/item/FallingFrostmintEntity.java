@@ -76,9 +76,11 @@ public class FallingFrostmintEntity extends FallingBlockEntity {
             }
             BlockPos blockpos = this.blockPosition();
             if(level().getFluidState(blockpos).getFluidType() == ACFluidRegistry.PURPLE_SODA_FLUID_TYPE.get()){
-                FrostmintExplosion explosion = new FrostmintExplosion(level(), this, this.getX(), this.getY() + 0.5F, this.getZ(), 4.0F, Explosion.BlockInteraction.DESTROY_WITH_DECAY, false);
-                explosion.explode();
-                explosion.finalizeExplosion(true);
+                if(!level().isClientSide){
+                    FrostmintExplosion explosion = new FrostmintExplosion(level(), this, this.getX(), this.getY() + 0.5F, this.getZ(), 4.0F, Explosion.BlockInteraction.DESTROY_WITH_DECAY, false);
+                    explosion.explode();
+                    explosion.finalizeExplosion(true);
+                }
                 this.discard();
                 for (Player player : level().getEntitiesOfClass(Player.class, this.getBoundingBox().inflate(32))) {
                     ACAdvancementTriggerRegistry.FROSTMINT_EXPLOSION.triggerForEntity(player);

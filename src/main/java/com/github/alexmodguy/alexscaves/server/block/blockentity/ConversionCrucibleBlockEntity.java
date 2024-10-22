@@ -15,11 +15,9 @@ import com.github.alexthe666.citadel.server.generation.SurfaceRulesManager;
 import net.minecraft.Util;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.DimensionTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,20 +31,19 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -186,7 +183,9 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                     RecursiveBlockPlacement recursiveBlockPlacement = iterator.next();
                     recursiveBlockPlacement.setPlaceIn(recursiveBlockPlacement.getPlaceIn() - 1);
                     if (recursiveBlockPlacement.getPlaceIn() <= 0) {
-                        level.setBlockAndUpdate(recursiveBlockPlacement.getPos(), recursiveBlockPlacement.getToPlace());
+                        if(!level.getBlockState(recursiveBlockPlacement.getPos()).is(ACTagRegistry.UNMOVEABLE)){
+                            level.setBlockAndUpdate(recursiveBlockPlacement.getPos(), recursiveBlockPlacement.getToPlace());
+                        }
                         iterator.remove();
                     }
 
@@ -333,41 +332,40 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
             }
         }
         int width = (int) Math.ceil(getConversionAreaWidth() * 0.5F) + 1;
-        double sqWidth = this.getConversionAreaWidth() * this.getConversionAreaWidth();
-        int maxPossibleWidth = 32;
-        for (ChunkPos chunkPos : ChunkPos.rangeClosed(new ChunkPos(this.getBlockPos().offset(-maxPossibleWidth, -maxPossibleWidth, -maxPossibleWidth)), new ChunkPos(this.getBlockPos().offset(maxPossibleWidth, maxPossibleWidth, maxPossibleWidth))).toList()) {
-            ChunkAccess chunkAccess = level.getChunk(chunkPos.x, chunkPos.z);
-            if (chunkAccess != null) {
-                int lastSectionIndex = -999;
-                for (int yAdd = -width; yAdd < width; yAdd++) {
-                    int blockY = this.getBlockPos().getY() + yAdd;
-                    int sectionIndex = chunkAccess.getSectionIndex(blockY);
-                    if (sectionIndex != lastSectionIndex) {
-                        lastSectionIndex = sectionIndex;
-                        int j1 = chunkAccess.getSectionYFromSectionIndex(sectionIndex);
-                        if (sectionIndex >= 0 && sectionIndex < chunkAccess.getSections().length) {
-                            LevelChunkSection section = chunkAccess.getSection(sectionIndex);
-                            int k1 = SectionPos.sectionToBlockCoord(j1);
-                            PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
-                            if (container != null) {
-                                for (int biomeX = 0; biomeX < 4; ++biomeX) {
-                                    for (int biomeY = 0; biomeY < 4; ++biomeY) {
-                                        for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
-                                            BlockPos recobbled = chunkAccess.getPos().getBlockAt(biomeX * 4, k1 + biomeY * 4, biomeZ * 4);
-                                            if (recobbled.distSqr(this.getBlockPos()) < sqWidth) {
-                                                container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder.get());
-                                            }
-                                        }
-                                    }
-                                }
-                                section.biomes = container;
-                            }
-                        }
-                        AlexsCaves.PROXY.updateBiomeVisuals(chunkPos.x, j1, chunkPos.z);
+
+        List<ChunkAccess> list = new ArrayList<>();
+        BoundingBox biomeConversionBox = new BoundingBox(this.getBlockPos().getX() - width, this.getBlockPos().getY() - width, this.getBlockPos().getZ() - width, this.getBlockPos().getX() + width, this.getBlockPos().getY() + width, this.getBlockPos().getZ() + width);
+        if(level instanceof ServerLevel serverLevel){
+            for(int k = SectionPos.blockToSectionCoord(biomeConversionBox.minZ()); k <= SectionPos.blockToSectionCoord(biomeConversionBox.maxZ()); ++k) {
+                for(int l = SectionPos.blockToSectionCoord(biomeConversionBox.minX()); l <= SectionPos.blockToSectionCoord(biomeConversionBox.maxX()); ++l) {
+                    ChunkAccess chunkaccess = serverLevel.getChunk(l, k, ChunkStatus.FULL, false);
+                    if (chunkaccess != null) {
+                        list.add(chunkaccess);
                     }
                 }
             }
+            MutableInt mutableint = new MutableInt(0);
+            for(ChunkAccess chunkaccess1 : list) {
+                chunkaccess1.fillBiomesFromNoise(makeResolver(mutableint, chunkaccess1, biomeConversionBox, width, biomeHolder.get()), serverLevel.getChunkSource().randomState().sampler());
+                chunkaccess1.setUnsaved(true);
+            }
+            serverLevel.getChunkSource().chunkMap.resendBiomesForChunks(list);
         }
+    }
+
+    private static BiomeResolver makeResolver(MutableInt biomeCounter, ChunkAccess chunkAccess, BoundingBox boundingBox, int width, Holder<Biome> biomeHolder) {
+        return (quartX, quartY, quartZ, sampler) -> {
+            int i = QuartPos.toBlock(quartX);
+            int j = QuartPos.toBlock(quartY);
+            int k = QuartPos.toBlock(quartZ);
+            Holder<Biome> holder = chunkAccess.getNoiseBiome(quartX, quartY, quartZ);
+            if (boundingBox.isInside(i, j, k)) {
+                biomeCounter.increment();
+                return biomeHolder;
+            } else {
+                return holder;
+            }
+        };
     }
 
     public void setConvertingToBiome(ResourceKey<Biome> resourceKey) {
@@ -571,7 +569,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
         this.updateTopAndBottomBlocks();
         this.level.playSound(null, this.getBlockPos(), getFilledLevel() >= MAX_FILL_AMOUNT ? ACSoundRegistry.CONVERSION_CRUCIBLE_ACTIVATE.get() : ACSoundRegistry.CONVERSION_CRUCIBLE_ADD.get(), SoundSource.BLOCKS);
         if (this.isWitchMode()) {
-            this.wantStack = new ItemStack(ACItemRegistry.RADIANT_ESSENCE.get());
+            this.wantStack = new ItemStack(ACItemRegistry.LICOWITCH_RADIANT_ESSENCE.get());
         } else if (getFilledLevel() > MAX_FILL_AMOUNT - 2) {
             Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
             Optional<Holder.Reference<Biome>> biomeHolder = registry.getHolder(this.convertingToBiome);
