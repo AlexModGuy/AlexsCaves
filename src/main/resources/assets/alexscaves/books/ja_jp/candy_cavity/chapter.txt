@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    キャンディ・キャビティに
+                    ようこそ...
+    • {基本情報|candy_cavity/general.json}
+    • {資源|candy_cavity/resources.json}
+    • 生態系
+        • {甘帯魚|candy_cavity/sweetish_fish.json}
+        • {ケイニアック|candy_cavity/caniac.json}
+        • {ガミーパー|candy_cavity/gumbeeper.json}
+        • {キャンディコーン|candy_cavity/candicorn.json}
+        • {ガムワーム|candy_cavity/gum_worm.json}
+        • {キャラメルキューブ|candy_cavity/caramel_cube.json}
+        • {グミベア|candy_cavity/gummy_bear.json}
+        • {リコウィッチ|candy_cavity/licowitch.json}
+        • {ジンジャーブレッドマン|candy_cavity/gingerbread_man.json}
+    • {ユーティリティ|candy_cavity/utilities.json}

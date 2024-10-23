@@ -15,13 +15,14 @@
 
 
     今現在知られている
-バイオームは以下の5つである。
+バイオームは以下の6つである。
 
     • {磁気洞窟|magnetic_caves/chapter.json}
     • {原始の洞窟|primordial_caves/chapter.json}
     • {有毒な洞窟|toxic_caves/chapter.json}
     • {深淵峡谷|abyssal_chasm/chapter.json}
     • {荒れ果てた空洞|forlorn_hollows/chapter.json}
+    • {キャンディ・キャビティ|candy_cavity/chapter.json}
 
 
     それぞれの洞窟についてよ
