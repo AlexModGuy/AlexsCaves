@@ -255,7 +255,7 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
                 this.setDeltaMovement(this.getDeltaMovement().scale(0.9).add(0, this.getY() < worldHeight - 6.0F ? 0.2F : -0.2F, 0));
             }else if((centralState.isSolid() || this.horizontalCollision || ridingPlayer != null && ridingPlayer.getY() > this.getY() + this.getBbHeight() + 4.0F) && !this.isLeaping()){
                 float upOrDown = 0.4F;
-                if(surfaceY < worldHeight - 10.0F){
+                if(surfaceY < worldHeight + 1.0F){
                     upOrDown = 0.8F;
                 }else if(this.getY() > level().getMinBuildHeight() + 3.0F){
                     upOrDown = -0.1F;
