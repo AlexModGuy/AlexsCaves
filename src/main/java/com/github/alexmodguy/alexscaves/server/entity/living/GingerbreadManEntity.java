@@ -243,6 +243,10 @@ public class GingerbreadManEntity extends Monster implements IAnimatedEntity, ID
         if(this.isOvenSpawned()){
             if(despawnFromOvenCooldown-- < 0){
                 this.kill();
+                this.spawnAtLocation(this.getItemInHand(InteractionHand.MAIN_HAND));
+                this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+                this.spawnAtLocation(this.getItemInHand(InteractionHand.OFF_HAND));
+                this.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
             }
         }
         lastStepX = this.xo;
