@@ -182,7 +182,10 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
         if (digestingEffect != null) {
             compound.putString("DigestingEffect", digestingEffect.toString());
         }
-
+        compound.putBoolean("BearSleeping", this.isBearSleeping());
+        compound.putBoolean("BearSitting", this.isSitting());
+        compound.putInt("SleepTime", sleepFor);
+        compound.putInt("SitTime", sitFor);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -191,6 +194,10 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
         if (compound.contains("DigestingEffect")) {
             digestingEffect = new ResourceLocation(compound.getString("DigestingEffect"));
         }
+        this.setBearSleeping(compound.getBoolean("BearSleeping"));
+        this.setStanding(compound.getBoolean("BearSitting"));
+        this.sleepFor = compound.getInt("SleepTime");
+        this.sitFor = compound.getInt("SitTime");
     }
 
     @Override
