@@ -1251,7 +1251,7 @@
   "alexscaves.sound.subtitle.darkness_incarnate_idle": "Karanlığın Enkarnesi zangırdıyor",
   "alexscaves.sound.subtitle.disappointment": "Vah vah vah",
   "alexscaves.sound.subtitle.nuclear_siren": "Nükleer Siren bağırıyor", 
-  "alexscaves.startup_warning.generation_incompatible": "Alex'in Mağaraları dünya oluşumu (ID:%s) adlı modla uyumlu değil. Mağara biyomları dünyada hiç ortaya çıkmayabilir. Bu nezaket uyarı mesajı Alex's Caves yapılandırmasında devre dışı bırakılabilir."  "alexscaves.startup_warning.generation_incompatible": "Alex's Caves world generation is incompatible with the mod (ID:%s). Cave biomes may not spawn in the world at all, or cause crashes or server hanging. This courtesy warning message can be disabled in the Alex's Caves config.",
+  "alexscaves.startup_warning.generation_incompatible": "Alex'in Mağaraları dünya oluşumu (ID:%s) adlı modla uyumlu değil. Mağara biyomları dünyada hiç ortaya çıkmayabilir. Bu nezaket uyarı mesajı Alex's Caves yapılandırmasında devre dışı bırakılabilir.",
   "enchantment.alexscaves.field_extension": "Alan Uzatması",
   "enchantment.alexscaves.field_extension.desc": "Galen Eldiven eşyaları daha uzağa taşıyabilir",
   "enchantment.alexscaves.crystallization": "Kristalleşme",
