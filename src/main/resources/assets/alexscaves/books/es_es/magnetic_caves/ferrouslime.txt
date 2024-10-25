@@ -13,6 +13,6 @@
     • 10.0 ♥ (per head)
     • 2.0 🗡 (per head)
 
-    What first appears to be an innocuous slime in the Magnetic Caves is actually a Ferrouslime - a variant of slime that has adapted to this biome's natural ferromagnetic properties. Due to this, the Ferrouslime is able to levitate to get around - although it can only move in straight lines on the cardinal axis.
-    Unlike other slimes that simply split when slain, the Ferrouslime is able to merge with outer Ferrouslimes in order to grow in size in strength. The more heads inside the Ferrouslime, the harder it will be to defeat.
-    Once slain, Ferrouslime will split into smaller versions of themselves. They will also drop a §lFerrouslimeball§r at the smallest size...
+    Lo que a primera vista parece un slime inofensivo en las cuevas magnéticas es en realidad un ferroslime, una variante de slime que se ha adaptado a las propiedades ferromagnéticas naturales de este bioma. Debido a esto, el ferroslime puede levitar para desplazarse, aunque solo puede moverse en línea recta sobre el eje cardinal.
+    A diferencia de otros slimes que simplemente se dividen cuando son atacados, el ferroslime puede fusionarse con otros ferroslimes para aumentar su tamaño y su fuerza. Cuantas más cabezas haya dentro del ferroslime, más difícil será derrotarlo.
+    Al morir, el ferroslime se dividirá en versiones más pequeñas de sí mismo. Los más pequeños dejarán caer una §lbola §lde §lferroslime§r...
