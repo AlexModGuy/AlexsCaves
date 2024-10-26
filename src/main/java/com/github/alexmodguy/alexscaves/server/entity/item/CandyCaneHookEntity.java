@@ -151,7 +151,7 @@ public class CandyCaneHookEntity extends ThrowableProjectile {
             this.entityData.set(OWNER_ID, owner == null ? -1 : owner.getId());
             this.entityData.set(HOOKED_ENTITY_ID, hooked == null ? -1 : hooked.getId());
             boolean reelingFromHook = isOwnerHoldingHook(false);
-            if (!isReeling() && reelingFromHook || playerOwner.isShiftKeyDown()) {
+            if (!isReeling() && reelingFromHook || playerOwner != null && playerOwner.isShiftKeyDown()) {
                 this.setReeling(true);
             }
             if(isReeling() && !reelingFromHook){

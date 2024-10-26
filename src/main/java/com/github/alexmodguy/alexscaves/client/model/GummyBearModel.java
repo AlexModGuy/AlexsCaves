@@ -29,6 +29,7 @@ public class GummyBearModel extends AdvancedEntityModel<GummyBearEntity> impleme
     private float green = 1.0F;
     private float blue = 1.0F;
     private float alpha = 1.0F;
+    public boolean ignoreColor;
     private final ModelAnimator animator;
 
     public GummyBearModel(float scale) {
@@ -100,8 +101,12 @@ public class GummyBearModel extends AdvancedEntityModel<GummyBearEntity> impleme
         this.alpha = alpha;
     }
 
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alphaIn) {
-        if (alphaIn * this.alpha > 0.0F) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
+        if (alpha * this.alpha > 0.0F || ignoreColor) {
+            float redIn = ignoreColor ? 1.0F : red * this.red;
+            float greenIn = ignoreColor ? 1.0F : green * this.green;
+            float blueIn = ignoreColor ? 1.0F : blue * this.blue;
+            float alphaIn = ignoreColor ? 1.0F : alpha * this.alpha;
             if (this.young) {
                 float f = 1.5F;
                 head.setScale(f, f, f);
@@ -110,14 +115,14 @@ public class GummyBearModel extends AdvancedEntityModel<GummyBearEntity> impleme
                 matrixStackIn.scale(0.5F, 0.5F, 0.5F);
                 matrixStackIn.translate(0.0D, 1.5D, 0D);
                 parts().forEach((part) -> {
-                    part.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red * this.red, green * this.green, blue * this.blue, alphaIn * this.alpha);
+                    part.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, redIn, greenIn, blueIn, alphaIn);
                 });
                 matrixStackIn.popPose();
                 head.setScale(1, 1, 1);
             } else {
                 matrixStackIn.pushPose();
                 parts().forEach((part) -> {
-                    part.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red * this.red, green * this.green, blue * this.blue, alphaIn * this.alpha);
+                    part.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, redIn, greenIn, blueIn, alphaIn);
                 });
                 matrixStackIn.popPose();
             }

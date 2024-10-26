@@ -58,6 +58,7 @@ public class GumbeeperEntity extends Monster implements PowerableMob, PossessedB
     private static final float MAX_DIAL_ROT = 450;
     private int catScareTime = 0;
     private int postShootTime = 0;
+    private boolean hasExploded;
     private static final EntityDataAccessor<Boolean> EXPLODING = SynchedEntityData.defineId(GumbeeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> SHOOTING = SynchedEntityData.defineId(GumbeeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> ATTACK_CHARGE = SynchedEntityData.defineId(GumbeeperEntity.class, EntityDataSerializers.FLOAT);
@@ -149,7 +150,7 @@ public class GumbeeperEntity extends Monster implements PowerableMob, PossessedB
                 }
             }
             if(explodeProgress >= 20.0F){
-                if(!level().isClientSide){
+                if(!level().isClientSide && !hasExploded){
                     int gumballs = this.isCharged() ? 30 : 15;
                     for(int i = 0; i < gumballs + random.nextInt(5); i++){
                         GumballEntity gumball = new GumballEntity(this.level(), this);
@@ -164,6 +165,7 @@ public class GumbeeperEntity extends Monster implements PowerableMob, PossessedB
                             gumball.setDamage((float) this.getAttribute(Attributes.ATTACK_DAMAGE).getValue());
                         }
                     }
+                    hasExploded = true;
                     this.discard();
                 }
                 this.playSound(ACSoundRegistry.GUMBEEPER_EXPLODE.get());

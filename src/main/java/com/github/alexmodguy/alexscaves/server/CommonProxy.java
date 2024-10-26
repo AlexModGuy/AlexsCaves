@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.level.storage.ACWorldData;
+import com.github.alexmodguy.alexscaves.server.misc.ACLoadedMods;
 import com.github.alexthe666.citadel.server.entity.pathfinding.raycoms.PathfindingConstants;
 import com.github.alexthe666.citadel.server.tick.ServerTickRateTracker;
 import net.minecraft.core.BlockPos;
@@ -14,6 +15,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -142,9 +144,6 @@ public class CommonProxy {
     public void setBossBarRender(UUID bossBar, int renderType) {
     }
 
-    public void updateBiomeVisuals(int sectionX, int sectionY, int sectionZ) {
-    }
-
     public boolean isTickRateModificationActive(Level level){
         return ServerTickRateTracker.getForServer(level.getServer()).getServerTickLengthMs() != 50;
     }
@@ -157,6 +156,6 @@ public class CommonProxy {
     }
 
     public void checkModCompatibility(){
-
+        ACLoadedMods.init();
     }
 }

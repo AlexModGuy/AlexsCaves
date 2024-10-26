@@ -78,6 +78,10 @@ public class GumWormDestroyGobthumperGoal extends Goal {
             if(distance < 40.0F){
                 entity.setBiting(true);
             }
+            if(distance < 200.0F){
+                Vec3 wiggleExtraVec = gobthumperPos.getCenter().subtract(entity.position()).normalize().scale(0.1F);
+                entity.setDeltaMovement(entity.getDeltaMovement().add(wiggleExtraVec));
+            }
         }else if(continueLeapFor > 0 && entity.isLeaping()){
             continueLeapFor--;
             Vec3 leapDelta = new Vec3(0,  continueLeapFor < 24 ? -0.3F : 0.1F, 0.2F).yRot((float) -Math.toRadians(entity.yBodyRot));

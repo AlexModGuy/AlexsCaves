@@ -67,7 +67,7 @@ public class ACFoods {
     public static final FoodProperties CARAMEL = (new FoodProperties.Builder()).nutrition(2).saturationMod(0.3F).effect(() -> new MobEffectInstance(ACEffectRegistry.SUGAR_RUSH.get(), 200), 0.04F).build();
     public static final FoodProperties CARAMEL_APPLE = (new FoodProperties.Builder()).nutrition(6).saturationMod(0.2F).effect(() -> new MobEffectInstance(ACEffectRegistry.SUGAR_RUSH.get(), 200), 0.02F).build();
     public static final FoodProperties GUMBALL_PILE = (new FoodProperties.Builder()).nutrition(3).saturationMod(0.2F).effect(() -> new MobEffectInstance(ACEffectRegistry.SUGAR_RUSH.get(), 200), 0.01F).build();
-    public static final FoodProperties ALEX_MEAL = (new FoodProperties.Builder()).nutrition(100).saturationMod(5.0F).effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200), 1.0F).effect(() -> new MobEffectInstance(MobEffects.BAD_OMEN, 48000), 1.0F).build();
+    public static final FoodProperties ALEX_MEAL = (new FoodProperties.Builder()).nutrition(40).saturationMod(5.0F).effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200), 1.0F).effect(() -> new MobEffectInstance(MobEffects.BAD_OMEN, 48000), 1.0F).build();
     public static final FoodProperties BIOME_TREAT = (new FoodProperties.Builder()).nutrition(20).saturationMod(0.1F).build();
     public static final FoodProperties BIOME_TREAT_DONE = (new FoodProperties.Builder()).nutrition(1).saturationMod(0.1F).build();
 

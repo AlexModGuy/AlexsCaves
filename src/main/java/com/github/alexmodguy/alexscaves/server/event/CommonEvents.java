@@ -217,6 +217,10 @@ public class CommonEvents {
             event.setCanceled(true);
             player.playSound(SoundEvents.SHIELD_BLOCK);
         }
+        if (event.getEntity() instanceof Player player && event.getSource().is(DamageTypes.FALL) && player.getItemBySlot(EquipmentSlot.FEET).is(ACItemRegistry.RAINBOUNCE_BOOTS.get())) {
+            player.fallDistance = 0.0F;
+            event.setCanceled(true);
+        }
     }
 
 

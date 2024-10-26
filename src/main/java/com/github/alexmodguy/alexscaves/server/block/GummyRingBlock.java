@@ -1,9 +1,12 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.fluid.ACFluidRegistry;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -24,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.Optional;
 
-public class GummyRingBlock extends DirectionalBlock implements SimpleWaterloggedBlock {
+public class GummyRingBlock extends DirectionalBlock implements BucketPickup, LiquidBlockContainer {
     public static final IntegerProperty LIQUID_LOGGED = IntegerProperty.create("liquid_logged", 0, 2);
     public static final BooleanProperty FLOATING = BooleanProperty.create("floating");
     private static final VoxelShape SHAPE_UP = Shapes.join(
@@ -59,11 +62,6 @@ public class GummyRingBlock extends DirectionalBlock implements SimpleWaterlogge
         if (!level.isClientSide) {
             level.scheduleTick(pos, this, 1);
         }
-    }
-
-    @Override
-    public Optional<SoundEvent> getPickupSound() {
-        return Fluids.WATER.getPickupSound();
     }
 
     public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos1) {
@@ -149,6 +147,21 @@ public class GummyRingBlock extends DirectionalBlock implements SimpleWaterlogge
         } else {
             return false;
         }
+    }
+
+    public ItemStack pickupBlock(LevelAccessor levelAccessor, BlockPos blockPos, BlockState state) {
+        int liquidType = state.getValue(LIQUID_LOGGED);
+        levelAccessor.setBlock(blockPos, state.setValue(LIQUID_LOGGED, 0), 3);
+        if (liquidType > 0) {
+            return new ItemStack(liquidType == 1 ? Items.WATER_BUCKET : ACItemRegistry.PURPLE_SODA_BUCKET.get());
+        } else {
+            return ItemStack.EMPTY;
+        }
+    }
+
+    @Override
+    public Optional<SoundEvent> getPickupSound() {
+        return Fluids.WATER.getPickupSound();
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockStateBuilder) {

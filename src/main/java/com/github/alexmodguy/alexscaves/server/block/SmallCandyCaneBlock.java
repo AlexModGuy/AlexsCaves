@@ -32,7 +32,8 @@ public class SmallCandyCaneBlock extends Block {
     }
 
     public BlockState rotate(BlockState state, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+        Direction direction = rotation.rotate(state.getValue(FACING));
+        return direction.getAxis() == Direction.Axis.Y ? state : state.setValue(FACING, direction);
     }
 
     public BlockState mirror(BlockState state, Mirror mirror) {

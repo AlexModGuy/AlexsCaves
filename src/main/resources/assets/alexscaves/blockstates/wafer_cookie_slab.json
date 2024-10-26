@@ -4,7 +4,7 @@
       "model": "alexscaves:block/wafer_cookie_slab"
     },
     "type=double": {
-      "model": "alexscaves:block/wafer_cookie"
+      "model": "alexscaves:block/wafer_cookie_block"
     },
     "type=top": {
       "model": "alexscaves:block/wafer_cookie_slab_top"
