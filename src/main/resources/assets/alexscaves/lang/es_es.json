@@ -1600,7 +1600,7 @@
   "alexscaves.sound.subtitle.sugar_rush_exit": "Fiebre dulce se desactiva",
   "alexscaves.sound.subtitle.sugar_rush_loop": "Fiebre dulce brilla",
   "alexscaves.sound.subtitle.disappointment": "Womp womp",
-  "alexscaves.sound.subtitle.nuclear_siren": "Sirena nuclear suena",
+  "alexscaves.sound.subtitle.nuclear_siren": "Sirena nuclear llora",
   "alexscaves.startup_warning.generation_incompatible": "La generación de terreno de Alex's Caves es incompatible con el mod (ID:%s). Puede que no aparezcan biomas de cuevas en este mundo, o causar crasheos o congelamientos en un servidor. Este aviso puede ser desactivado en la configuración de Alex's Caves.",
   "enchantment.alexscaves.field_extension": "Extensión de campo",
   "enchantment.alexscaves.field_extension.desc": "El guante de galena puede mover objetos a mayor distancia",
