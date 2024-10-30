@@ -1,0 +1,29 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Вітаємо в цукерковій порожнині...
+    • {Вступ|candy_cavity/general.json}
+    • {Ресурси|candy_cavity/resources.json}
+    • Мешканці
+        • {Ґамбіпер|candy_cavity/gumbeeper.json}
+        • {Жуйний хробак|candy_cavity/gum_worm.json}
+        • {Карамелекуб|candy_cavity/caramel_cube.json}
+        • {Карамеліяк|candy_cavity/caniac.json}
+        • {Лакрична відьма|candy_cavity/licowitch.json}
+        • {Мармелад. ведмідь|candy_cavity/gummy_bear.json}
+        • {Пряник. чоловічок|candy_cavity/gingerbread_man.json}
+        • {Солодкувата риба|candy_cavity/sweetish_fish.json}
+        • {Цукеркоріг|candy_cavity/candicorn.json}
+    • {Приладдя|candy_cavity/utilities.json}
