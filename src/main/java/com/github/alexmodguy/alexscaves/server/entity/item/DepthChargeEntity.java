@@ -86,7 +86,7 @@ public class DepthChargeEntity extends ThrowableItemProjectile {
         }
         if(hitGround){
             this.setDeltaMovement(this.getDeltaMovement().multiply(0, 0, 0));
-            if(groundTime++ > 30){
+            if(groundTime++ > 30 && !level().isClientSide){
                 this.explode();
             }
         }

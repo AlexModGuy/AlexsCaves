@@ -44,7 +44,7 @@ public class DeepOneKnightEntity extends DeepOneBaseEntity {
 
     public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_knight_barter");
 
-    public DeepOneKnightEntity(EntityType<? extends Monster> entityType, Level level) {
+    public DeepOneKnightEntity(EntityType entityType, Level level) {
         super(entityType, level);
     }
 

@@ -15,6 +15,7 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -25,9 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class GingerbreadManStoreStolenItemsGoal extends Goal {
@@ -138,14 +137,14 @@ public class GingerbreadManStoreStolenItemsGoal extends Goal {
                     ItemStack itemstack1 = HopperBlockEntity.addItem(null, barrel, itemstack, null);
                     if(!mob.isOvenSpawned()){
                         int i = barrel.getContainerSize();
-                        int candyItems = 0;
+                        Set<Item> candyItems = new HashSet<>();
                         for(int j = 0; j < i && !barrel.isEmpty(); ++j) {
                            ItemStack itemStack = barrel.getItem(j);
                            if(itemStack.is(ACTagRegistry.GINGERBREAD_MAN_STEALS)){
-                               candyItems++;
+                               candyItems.add(itemStack.getItem());
                            }
                         }
-                        if(candyItems >= 9){
+                        if(candyItems.size() >= 9){
                             for(int j = 0; j < i && !barrel.isEmpty(); ++j) {
                                 ItemStack itemStack = barrel.getItem(j);
                                 if(itemStack.is(ACTagRegistry.GINGERBREAD_MAN_STEALS)){

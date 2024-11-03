@@ -15,11 +15,9 @@ import com.github.alexthe666.citadel.server.generation.SurfaceRulesManager;
 import net.minecraft.Util;
 import net.minecraft.core.*;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.DimensionTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -33,19 +31,19 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeResolver;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.chunk.LevelChunkSection;
-import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.*;
 import net.minecraft.world.level.levelgen.blending.Blender;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.phys.AABB;
+import org.apache.commons.lang3.mutable.MutableInt;
 
 import javax.annotation.Nullable;
 import java.awt.*;
@@ -61,7 +59,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
     public static final int MAX_CONVERSION_TIME = 100;
     private static final int PLAINS_FOG_COLOR = 12638463;
 
-    private List<RecursiveBlockPlacement> recursiveBlockPlacements = new ArrayList<>();
+    private final List<RecursiveBlockPlacement> recursiveBlockPlacements = new ArrayList<>();
 
     public int tickCount;
     private float prevConversionProgress;
@@ -125,15 +123,15 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
             entity.displayStack = ItemStack.EMPTY;
             entity.wantStack = ItemStack.EMPTY;
             if (entity.conversionTime < MAX_CONVERSION_TIME) {
-                if(entity.conversionTime % (MAX_CONVERSION_TIME / 10) == 0 && entity.conversionTime >= 20 && !level.isClientSide){
+                if (entity.conversionTime % (MAX_CONVERSION_TIME / 10) == 0 && entity.conversionTime >= 20 && !level.isClientSide) {
                     entity.updateTopAndBottomBlocks();
                     entity.recursivelySpreadBiomeBlocks(new ArrayList<>(), entity.getBlockPos().below(), 10, 10);
                 }
-                if(entity.conversionTime == 0){
+                if (entity.conversionTime == 0) {
                     entity.level.playSound(null, entity.getBlockPos(), ACSoundRegistry.CONVERSION_CRUCIBLE_CONVERT.get(), SoundSource.BLOCKS);
                 }
                 entity.conversionTime++;
-            }else{
+            } else {
                 entity.convertBiome();
                 entity.markUpdated();
                 entity.conversionTime = 0;
@@ -146,7 +144,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
         if (entity.itemDisplayProgress == 0.0F) {
             entity.displayStack = entity.wantStack;
         }
-        if(entity.isWitchMode() && entity.splashProgress == 0){
+        if (entity.isWitchMode() && entity.splashProgress == 0) {
             entity.witchFillTextIndex = entity.filledLevel;
         }
         entity.tickCount++;
@@ -163,12 +161,13 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
             if (entity.tickCount % 5 == 0) {
                 boolean flag = false;
                 for (ItemEntity item : entity.getItemsAtAndAbove(level, pos)) {
-                    if(entity.getConvertingToBiome() == null && item.getItem().is(ACItemRegistry.BIOME_TREAT.get()) && BiomeTreatItem.getCaveBiome(item.getItem()) != null){
+                    if (entity.getConvertingToBiome() == null && item.getItem().is(ACItemRegistry.BIOME_TREAT.get()) && BiomeTreatItem.getCaveBiome(item.getItem()) != null) {
                         entity.setConvertingToBiome(BiomeTreatItem.getCaveBiome(item.getItem()));
                         entity.setFilledLevel(1);
                         entity.rerollWantedItem();
+                        item.getItem().shrink(1);
                         flag = true;
-                    }else if (item.getItem().is(entity.wantStack.getItem())) {
+                    } else if (item.getItem().is(entity.wantStack.getItem())) {
                         flag = true;
                         entity.consumeItem(item.getItem());
                         break;
@@ -178,21 +177,23 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                     entity.markUpdated();
                 }
             }
-            if(!entity.recursiveBlockPlacements.isEmpty()){
+            if (!entity.recursiveBlockPlacements.isEmpty()) {
                 Iterator<RecursiveBlockPlacement> iterator = entity.recursiveBlockPlacements.iterator();
-                while(iterator.hasNext()){
+                while (iterator.hasNext()) {
                     RecursiveBlockPlacement recursiveBlockPlacement = iterator.next();
                     recursiveBlockPlacement.setPlaceIn(recursiveBlockPlacement.getPlaceIn() - 1);
-                    if(recursiveBlockPlacement.getPlaceIn() <= 0){
-                        level.setBlockAndUpdate(recursiveBlockPlacement.getPos(), recursiveBlockPlacement.getToPlace());
+                    if (recursiveBlockPlacement.getPlaceIn() <= 0) {
+                        if(!level.getBlockState(recursiveBlockPlacement.getPos()).is(ACTagRegistry.UNMOVEABLE)){
+                            level.setBlockAndUpdate(recursiveBlockPlacement.getPos(), recursiveBlockPlacement.getToPlace());
+                        }
                         iterator.remove();
                     }
 
                 }
             }
-            if(entity.witchModeDuration > 0){
+            if (entity.witchModeDuration > 0) {
                 entity.witchModeDuration--;
-                if(entity.witchModeDuration == 0){
+                if (entity.witchModeDuration == 0) {
                     entity.convertingToBiome = null;
                     entity.biomeColor = -1;
                     entity.rerollWantedItem();
@@ -203,7 +204,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                 }
             }
         }
-        entity.witchRainbowColor = Color.HSBtoRGB( (entity.tickCount % 100) / 100F, 1F, 1F);
+        entity.witchRainbowColor = Color.HSBtoRGB((entity.tickCount % 100) / 100F, 1F, 1F);
     }
 
     private List<ItemEntity> getItemsAtAndAbove(Level level, BlockPos pos) {
@@ -247,6 +248,9 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                     } else if (biomeHolder.get().is(BiomeTags.IS_END)) {
                         dimensionType = NoiseGeneratorSettings.END;
                     }
+                    topBlockForBiome = getFallbackTopBlock(biomeHolder.get());
+                    middleBlockForBiome = getFallbackMiddleBlock(biomeHolder.get());
+                    bottomBlockForBiome = getFallbackBottomBlock(biomeHolder.get());
                 }
                 Holder<NoiseGeneratorSettings> settings = serverLevel.registryAccess().registryOrThrow(Registries.NOISE_SETTINGS).getHolderOrThrow(dimensionType);
                 //for compat with other world types, like flat worlds, we cannot assume the chunk generator of the world is noise-based so we must create a new one
@@ -268,98 +272,100 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
                 surfacerulesContext.updateXZ(x, z);
                 surfacerulesContext.updateY(1, 1, topHeight, x, topHeight, z);
                 BlockState grass = rule.tryApply(x, topHeight, z);
-                if (grass != null) {
+                if (grass != null && !grass.is(Blocks.BEDROCK)) {
                     topBlockForBiome = grass;
                 }
                 //tell it that there is a block about the top position
                 surfacerulesContext.updateY(1, 1, topHeight + 1, x, topHeight, z);
                 BlockState dirt = rule.tryApply(x, topHeight, z);
-                if (dirt != null) {
+                if (dirt != null && !dirt.is(Blocks.BEDROCK)) {
                     middleBlockForBiome = dirt;
                 }
                 //tell it that there is many blocks about the top position
                 surfacerulesContext.updateY(1, 1, topHeight + 20, x, topHeight, z);
                 BlockState stone = rule.tryApply(x, topHeight, z);
-                if (stone != null) {
+                if (stone != null && !stone.is(Blocks.BEDROCK)) {
                     bottomBlockForBiome = stone;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 AlexsCaves.LOGGER.warn("Encountered error finding the surface blocks of a biome");
             }
         }
     }
 
-    private boolean isBiomeBlock(BlockState blockState){
+    private boolean isBiomeBlock(BlockState blockState) {
         return blockState.is(topBlockForBiome.getBlock()) || blockState.is(bottomBlockForBiome.getBlock()) || blockState.is(middleBlockForBiome.getBlock());
     }
 
-    public void recursivelySpreadBiomeBlocks(List<BlockPos> crossed, BlockPos to, int maxDistance, int distanceIn){
-        if(distanceIn > 0){
-            if(!isBiomeBlock(level.getBlockState(to))){
+    public void recursivelySpreadBiomeBlocks(List<BlockPos> crossed, BlockPos to, int maxDistance, int distanceIn) {
+        if (distanceIn > 0) {
+            if (!isBiomeBlock(level.getBlockState(to))) {
                 BlockState blockState = level.getBlockState(to.above()).canBeReplaced() ? topBlockForBiome : level.getBlockState(to.above(2)).canBeReplaced() ? middleBlockForBiome : bottomBlockForBiome;
                 recursiveBlockPlacements.add(new RecursiveBlockPlacement(2 * (maxDistance - distanceIn), to, blockState));
             }
             crossed.add(to);
             distanceIn--;
             List<BlockPos> possibles = new ArrayList<>();
-            for(Direction direction : Direction.values()){
+            for (Direction direction : Direction.values()) {
                 BlockPos offset = to.relative(direction);
                 BlockState state = level.getBlockState(offset);
-                if(!state.canBeReplaced() && !crossed.contains(offset) && !state.is(ACTagRegistry.UNMOVEABLE) && level.getBlockEntity(offset) == null && (direction != Direction.DOWN || level.random.nextInt(3) == 0)){
+                if (!state.canBeReplaced() && !crossed.contains(offset) && !state.is(ACTagRegistry.UNMOVEABLE) && level.getBlockEntity(offset) == null && (direction != Direction.DOWN || level.random.nextInt(3) == 0)) {
                     possibles.add(offset);
                 }
             }
-            if(possibles.size() > 0){
+            if (possibles.size() > 0) {
                 recursivelySpreadBiomeBlocks(crossed, Util.getRandom(possibles, level.random), maxDistance, distanceIn);
             }
         }
     }
 
-    public void convertBiome(){
-        Holder<Biome> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolderOrThrow(convertingToBiome);
+    public void convertBiome() {
+        Optional<Holder.Reference<Biome>> biomeHolder = level.registryAccess().registryOrThrow(Registries.BIOME).getHolder(convertingToBiome);
+        if(biomeHolder.isEmpty()){
+            return;
+        }
         AABB aabb = new AABB(this.getBlockPos().offset(-32, -32, -32), this.getBlockPos().offset(32, 32, 32));
-        for(Player player : level.getEntitiesOfClass(Player.class, aabb, EntitySelector.NO_SPECTATORS)){
+        for (Player player : level.getEntitiesOfClass(Player.class, aabb, EntitySelector.NO_SPECTATORS)) {
             ACAdvancementTriggerRegistry.CONVERT_BIOME.triggerForEntity(player);
-            if(biomeHolder.is(BiomeTags.IS_NETHER) && this.level.dimensionType().bedWorks()){
+            if (biomeHolder.get().is(BiomeTags.IS_NETHER) && this.level.dimensionType().bedWorks()) {
                 ACAdvancementTriggerRegistry.CONVERT_NETHER_BIOME.triggerForEntity(player);
             }
         }
         int width = (int) Math.ceil(getConversionAreaWidth() * 0.5F) + 1;
-        double sqWidth = this.getConversionAreaWidth() * this.getConversionAreaWidth();
-        int maxPossibleWidth = 32;
-        for(ChunkPos chunkPos : ChunkPos.rangeClosed(new ChunkPos(this.getBlockPos().offset(-maxPossibleWidth, -maxPossibleWidth, -maxPossibleWidth)), new ChunkPos(this.getBlockPos().offset(maxPossibleWidth, maxPossibleWidth, maxPossibleWidth))).toList()) {
-            ChunkAccess chunkAccess = level.getChunk(chunkPos.x, chunkPos.z);
-            if (chunkAccess != null) {
-                int lastSectionIndex = -999;
-                for(int yAdd = -width; yAdd < width; yAdd++){
-                    int blockY = this.getBlockPos().getY() + yAdd;
-                    int sectionIndex = chunkAccess.getSectionIndex(blockY);
-                    if(sectionIndex != lastSectionIndex){
-                        lastSectionIndex = sectionIndex;
-                        int j1 = chunkAccess.getSectionYFromSectionIndex(sectionIndex);
-                        if (sectionIndex >= 0 && sectionIndex < chunkAccess.getSections().length) {
-                            LevelChunkSection section = chunkAccess.getSection(sectionIndex);
-                            int k1 = SectionPos.sectionToBlockCoord(j1);
-                            PalettedContainer<Holder<Biome>> container = section.getBiomes().recreate();
-                            if (container != null) {
-                                for (int biomeX = 0; biomeX < 4; ++biomeX) {
-                                    for (int biomeY = 0; biomeY < 4; ++biomeY) {
-                                        for (int biomeZ = 0; biomeZ < 4; ++biomeZ) {
-                                            BlockPos recobbled = chunkAccess.getPos().getBlockAt(biomeX * 4, k1 + biomeY * 4, biomeZ * 4);
-                                            if(recobbled.distSqr(this.getBlockPos()) < sqWidth){
-                                                container.getAndSetUnchecked(biomeX, biomeY, biomeZ, biomeHolder);
-                                            }
-                                        }
-                                    }
-                                }
-                                section.biomes = container;
-                            }
-                        }
-                        AlexsCaves.PROXY.updateBiomeVisuals(chunkPos.x, j1, chunkPos.z);
+
+        List<ChunkAccess> list = new ArrayList<>();
+        BoundingBox biomeConversionBox = new BoundingBox(this.getBlockPos().getX() - width, this.getBlockPos().getY() - width, this.getBlockPos().getZ() - width, this.getBlockPos().getX() + width, this.getBlockPos().getY() + width, this.getBlockPos().getZ() + width);
+        if(level instanceof ServerLevel serverLevel){
+            for(int k = SectionPos.blockToSectionCoord(biomeConversionBox.minZ()); k <= SectionPos.blockToSectionCoord(biomeConversionBox.maxZ()); ++k) {
+                for(int l = SectionPos.blockToSectionCoord(biomeConversionBox.minX()); l <= SectionPos.blockToSectionCoord(biomeConversionBox.maxX()); ++l) {
+                    ChunkAccess chunkaccess = serverLevel.getChunk(l, k, ChunkStatus.FULL, false);
+                    if (chunkaccess != null) {
+                        list.add(chunkaccess);
                     }
                 }
             }
+            MutableInt mutableint = new MutableInt(0);
+            for(ChunkAccess chunkaccess1 : list) {
+                chunkaccess1.fillBiomesFromNoise(makeResolver(mutableint, chunkaccess1, biomeConversionBox, width, biomeHolder.get()), serverLevel.getChunkSource().randomState().sampler());
+                chunkaccess1.setUnsaved(true);
+            }
+            serverLevel.getChunkSource().chunkMap.resendBiomesForChunks(list);
         }
+    }
+
+    private static BiomeResolver makeResolver(MutableInt biomeCounter, ChunkAccess chunkAccess, BoundingBox boundingBox, int width, Holder<Biome> biomeHolder) {
+        return (quartX, quartY, quartZ, sampler) -> {
+            int i = QuartPos.toBlock(quartX);
+            int j = QuartPos.toBlock(quartY);
+            int k = QuartPos.toBlock(quartZ);
+            Holder<Biome> holder = chunkAccess.getNoiseBiome(quartX, quartY, quartZ);
+            if (boundingBox.isInside(i, j, k)) {
+                biomeCounter.increment();
+                return biomeHolder;
+            } else {
+                return holder;
+            }
+        };
     }
 
     public void setConvertingToBiome(ResourceKey<Biome> resourceKey) {
@@ -407,11 +413,11 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
         return wantStack;
     }
 
-    public boolean isWitchMode(){
+    public boolean isWitchMode() {
         return witchModeDuration > 0;
     }
 
-    public void setWitchModeDuration(int duration){
+    public void setWitchModeDuration(int duration) {
         this.witchModeDuration = duration;
     }
 
@@ -467,7 +473,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
     }
 
     public AABB getRenderBoundingBox() {
-        int f = (int) 16;
+        int f = 16;
         return new AABB(worldPosition.offset(-f, 0, -f), worldPosition.offset(f, 3, f));
     }
 
@@ -499,32 +505,62 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
     }
 
     @Nullable
-    public Component getDisplayText(){
-        if(this.getDisplayItem().isEmpty() || this.isWitchMode()){
+    public Component getDisplayText() {
+        if (this.getDisplayItem().isEmpty() || this.isWitchMode()) {
             return null;
-        }else{
+        } else {
             return this.getDisplayItem().getHoverName();
         }
     }
 
-    public static ItemStack getFinalSacrificeForBiome(Holder<Biome> biome){
-        if(biome.is(ACBiomeRegistry.MAGNETIC_CAVES)){
+    public static BlockState getFallbackTopBlock(Holder<Biome> biome) {
+        if (biome.is(BiomeTags.IS_NETHER)) {
+            return Blocks.NETHERRACK.defaultBlockState();
+        } else if (biome.is(BiomeTags.IS_END)) {
+            return Blocks.END_STONE.defaultBlockState();
+        } else {
+            return Blocks.GRASS_BLOCK.defaultBlockState();
+        }
+    }
+
+    public static BlockState getFallbackMiddleBlock(Holder<Biome> biome) {
+        if (biome.is(BiomeTags.IS_NETHER)) {
+            return Blocks.NETHERRACK.defaultBlockState();
+        } else if (biome.is(BiomeTags.IS_END)) {
+            return Blocks.END_STONE.defaultBlockState();
+        } else {
+            return Blocks.DIRT.defaultBlockState();
+        }
+    }
+
+    public static BlockState getFallbackBottomBlock(Holder<Biome> biome) {
+        if (biome.is(BiomeTags.IS_NETHER)) {
+            return Blocks.NETHERRACK.defaultBlockState();
+        } else if (biome.is(BiomeTags.IS_END)) {
+            return Blocks.END_STONE.defaultBlockState();
+        } else {
+            return Blocks.STONE.defaultBlockState();
+        }
+    }
+
+    public static ItemStack getFinalSacrificeForBiome(Holder<Biome> biome) {
+        if (biome.is(ACBiomeRegistry.MAGNETIC_CAVES)) {
             return new ItemStack(ACBlockRegistry.HEART_OF_IRON.get());
-        }else if(biome.is( ACBiomeRegistry.PRIMORDIAL_CAVES)){
+        } else if (biome.is(ACBiomeRegistry.PRIMORDIAL_CAVES)) {
             return new ItemStack(ACItemRegistry.TECTONIC_SHARD.get());
-        }else if(biome.is( ACBiomeRegistry.TOXIC_CAVES)){
+        } else if (biome.is(ACBiomeRegistry.TOXIC_CAVES)) {
             return new ItemStack(ACBlockRegistry.NUCLEAR_BOMB.get());
-        }else if(biome.is( ACBiomeRegistry.ABYSSAL_CHASM)){
+        } else if (biome.is(ACBiomeRegistry.ABYSSAL_CHASM)) {
             return new ItemStack(ACBlockRegistry.ENIGMATIC_ENGINE.get());
-        }else if(biome.is( ACBiomeRegistry.FORLORN_HOLLOWS)){
+        } else if (biome.is(ACBiomeRegistry.FORLORN_HOLLOWS)) {
             return new ItemStack(ACItemRegistry.PURE_DARKNESS.get());
-        }else if(biome.is( ACBiomeRegistry.CANDY_CAVITY)){
+        } else if (biome.is(ACBiomeRegistry.CANDY_CAVITY)) {
             return new ItemStack(ACItemRegistry.SWEET_TOOTH.get());
-        }else if(biome.is(BiomeTags.IS_NETHER)){
+        } else if (biome.is(BiomeTags.IS_NETHER)) {
             return new ItemStack(Items.NETHERITE_INGOT);
-        }else if(biome.is(BiomeTags.IS_END)){
+        } else if (biome.is(BiomeTags.IS_END)) {
             return new ItemStack(Items.DRAGON_BREATH);
-        }else{
+        } else {
             return new ItemStack(Items.DIAMOND);
         }
     }
@@ -532,15 +568,15 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
     public void rerollWantedItem() {
         this.updateTopAndBottomBlocks();
         this.level.playSound(null, this.getBlockPos(), getFilledLevel() >= MAX_FILL_AMOUNT ? ACSoundRegistry.CONVERSION_CRUCIBLE_ACTIVATE.get() : ACSoundRegistry.CONVERSION_CRUCIBLE_ADD.get(), SoundSource.BLOCKS);
-        if(this.isWitchMode()){
-            this.wantStack = new ItemStack(ACItemRegistry.RADIANT_ESSENCE.get());
-        }else if(getFilledLevel() > MAX_FILL_AMOUNT - 2){
+        if (this.isWitchMode()) {
+            this.wantStack = new ItemStack(ACItemRegistry.LICOWITCH_RADIANT_ESSENCE.get());
+        } else if (getFilledLevel() > MAX_FILL_AMOUNT - 2) {
             Registry<Biome> registry = level.registryAccess().registryOrThrow(Registries.BIOME);
             Optional<Holder.Reference<Biome>> biomeHolder = registry.getHolder(this.convertingToBiome);
             this.wantStack = biomeHolder.isPresent() ? getFinalSacrificeForBiome(biomeHolder.get()) : new ItemStack(Items.DIAMOND);
-        }else{
+        } else {
             int choice = level.random.nextInt(2);
-            switch (choice){
+            switch (choice) {
                 case 0:
                     this.wantStack = new ItemStack(topBlockForBiome.getBlock().asItem());
                     break;
@@ -554,10 +590,10 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
         }
     }
 
-    private class RecursiveBlockPlacement{
+    private class RecursiveBlockPlacement {
         private int placeIn;
-        private BlockPos pos;
-        private BlockState toPlace;
+        private final BlockPos pos;
+        private final BlockState toPlace;
 
         public RecursiveBlockPlacement(int placeIn, BlockPos pos, BlockState toPlace) {
             this.placeIn = placeIn;
@@ -580,19 +616,19 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
         public BlockState getToPlace() {
             return toPlace;
         }
-    };
+    }
 
-    public static int calculateBiomeColor(Optional<Holder.Reference<Biome>> holder){
-        if(BIOME_COLORS.containsKey(holder)){
+    public static int calculateBiomeColor(Optional<Holder.Reference<Biome>> holder) {
+        if (BIOME_COLORS.containsKey(holder)) {
             return BIOME_COLORS.get(holder);
-        }else{
+        } else {
             int fogColor = holder.get().get().getFogColor();
             int color;
-            if(ACBiomeRegistry.getBiomeTabletColor(holder.get().key()) != -1){
+            if (ACBiomeRegistry.getBiomeTabletColor(holder.get().key()) != -1) {
                 color = ACBiomeRegistry.getBiomeTabletColor(holder.get().key());
-            }else if(fogColor == PLAINS_FOG_COLOR){
+            } else if (fogColor == PLAINS_FOG_COLOR) {
                 color = holder.get().get().getGrassColor(0.0D, 0.0D);
-            }else {
+            } else {
                 fogColor = 0xff000000 | fogColor;
                 float[] hsb = Color.RGBtoHSB(fogColor >> 16 & 0xFF, fogColor >> 8 & 0xFF, fogColor & 0xFF, null);
                 float saturationModifier = 1.0F;

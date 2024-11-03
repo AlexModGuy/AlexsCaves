@@ -48,6 +48,7 @@ public class ACTagRegistry {
     public static final TagKey<Block> GUM_WORM_FAVORED_DIGGING = registerBlockTag("gum_worm_favored_digging");
     public static final TagKey<Block> ROCK_CANDIES = registerBlockTag("rock_candies");
     public static final TagKey<Block> GINGERBREAD_TOWN_GEN_REPLACEABLES = registerBlockTag("gingerbread_town_gen_replaceables");
+    public static final TagKey<Block> REDUCE_RAINBOUNCE_BOOTS_EFFECT_ON = registerBlockTag("reduce_rainbounce_boots_effect_on");
     public static final TagKey<Item> MAGNETIC_ITEMS = registerItemTag("ferromagnetic_items");
     public static final TagKey<Item> GALENA_GAUNTLET_CRYSTALLIZATION_ITEMS = registerItemTag("galena_gauntlet_crystallization_items");
     public static final TagKey<Item> TELETOR_SPAWNS_WITH = registerItemTag("teletor_spawns_with");

@@ -102,7 +102,8 @@ public class GingerbreadManEntity extends Monster implements IAnimatedEntity, ID
 
     public GingerbreadManEntity(EntityType<? extends Monster> entityType, Level level) {
         super(entityType, level);
-        Arrays.fill(this.handDropChances, 1F);
+        this.setGuaranteedDrop(EquipmentSlot.MAINHAND);
+        this.setGuaranteedDrop(EquipmentSlot.OFFHAND);
         if(this.getNavigation() instanceof GroundPathNavigation groundPathNavigation){
             groundPathNavigation.setCanOpenDoors(true);
             groundPathNavigation.setCanPassDoors(true);
@@ -243,6 +244,10 @@ public class GingerbreadManEntity extends Monster implements IAnimatedEntity, ID
         if(this.isOvenSpawned()){
             if(despawnFromOvenCooldown-- < 0){
                 this.kill();
+                this.spawnAtLocation(this.getItemInHand(InteractionHand.MAIN_HAND));
+                this.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+                this.spawnAtLocation(this.getItemInHand(InteractionHand.OFF_HAND));
+                this.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
             }
         }
         lastStepX = this.xo;

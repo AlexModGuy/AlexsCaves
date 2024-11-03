@@ -51,9 +51,9 @@ public class NucleeperEntity extends Monster implements ActivatesSirens, Powerab
     private float prevExplodeProgress;
     private float sirenAngle;
     private float prevSirenAngle;
-
     private int catScareTime = 0;
 
+    private boolean spawnedExplosion = false;
     private static final EntityDataAccessor<Boolean> TRIGGERED = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> CLOSE_TIME = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> EXPLODING = SynchedEntityData.defineId(NucleeperEntity.class, EntityDataSerializers.BOOLEAN);
@@ -202,8 +202,9 @@ public class NucleeperEntity extends Monster implements ActivatesSirens, Powerab
         }
         if (this.isExploding() && explodeProgress >= 5F) {
             this.discard();
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide && !spawnedExplosion) {
                 this.explode();
+                spawnedExplosion = true;
             }
         }
         if(this.isCharged() && this.isAlive() && this.tickCount % 150 == 0){
