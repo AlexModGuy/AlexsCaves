@@ -74,7 +74,6 @@ public class ACTagRegistry {
     public static final TagKey<EntityType<?>> RESISTS_RADIATION = registerEntityTag("resists_radiation");
     public static final TagKey<EntityType<?>> SEAFLOOR_DENIZENS = registerEntityTag("seafloor_denizens");
     public static final TagKey<EntityType<?>> GLOWING_ENTITIES = registerEntityTag("glowing_entities");
-    public static final TagKey<Biome> HAS_NO_UNDERGROUND_CABINS = registerBiomeTag("has_no_underground_cabins");
     public static final TagKey<Biome> CAVE_MAP_BORDER_ON = registerBiomeTag("cave_map_border_on");
     public static final TagKey<Biome> TRENCH_IGNORES_STONE_IN = registerBiomeTag("trench_ignores_stone_in");
     public static final TagKey<Biome> OVERRIDE_ALL_VANILLA_MUSIC_IN = registerBiomeTag("override_all_vanilla_music_in");
