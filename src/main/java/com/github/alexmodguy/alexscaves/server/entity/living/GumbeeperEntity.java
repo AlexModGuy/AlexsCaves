@@ -402,42 +402,44 @@ public class GumbeeperEntity extends Monster implements PowerableMob, PossessedB
         public void tick() {
             LivingEntity target = GumbeeperEntity.this.getTarget();
             boolean canRange = GumbeeperEntity.this.getGumballsLeft() > 0;
-            double dist = GumbeeperEntity.this.distanceTo(target);
-            if(!canRange){
-                if(dist < target.getBbWidth() + 1.5F){
-                    GumbeeperEntity.this.setExploding(true);
+            if(target != null){
+                double dist = GumbeeperEntity.this.distanceTo(target);
+                if(!canRange){
+                    if(dist < target.getBbWidth() + 1.5F){
+                        GumbeeperEntity.this.setExploding(true);
+                    }else{
+                        GumbeeperEntity.this.getNavigation().moveTo(target, 1.5F);
+                    }
+                }else if(dist < 16.0F && hasLineOfSightToGumballHole(target)){
+                    GumbeeperEntity.this.getNavigation().stop();
+                    strafingTime++;
                 }else{
-                    GumbeeperEntity.this.getNavigation().moveTo(target, 1.5F);
+                    GumbeeperEntity.this.getNavigation().moveTo(target, 1F);
+                    strafingTime = -1;
                 }
-            }else if(dist < 16.0F && canRange && hasLineOfSightToGumballHole(target)){
-                GumbeeperEntity.this.getNavigation().stop();
-                strafingTime++;
-            }else{
-                GumbeeperEntity.this.getNavigation().moveTo(target, canRange ? 1F : 1.5F);
-                strafingTime = -1;
-            }
-            if (this.strafingTime >= 20) {
-                if ((double)GumbeeperEntity.this.getRandom().nextFloat() < 0.3D) {
-                    this.strafingClockwise = !this.strafingClockwise;
+                if (this.strafingTime >= 20) {
+                    if ((double)GumbeeperEntity.this.getRandom().nextFloat() < 0.3D) {
+                        this.strafingClockwise = !this.strafingClockwise;
+                    }
+                    if ((double)GumbeeperEntity.this.getRandom().nextFloat() < 0.3D) {
+                        this.strafingBackwards = !this.strafingBackwards;
+                    }
+                    this.strafingTime = 0;
                 }
-                if ((double)GumbeeperEntity.this.getRandom().nextFloat() < 0.3D) {
-                    this.strafingBackwards = !this.strafingBackwards;
+                if(this.strafingTime > -1){
+                    if (dist > 12.0F) {
+                        this.strafingBackwards = false;
+                    } else if (dist < 5.0F) {
+                        this.strafingBackwards = true;
+                    }
+                    GumbeeperEntity.this.getMoveControl().strafe(this.strafingBackwards ? -1F : 1F, this.strafingClockwise ? 0.5F : -0.5F);
+                    GumbeeperEntity.this.lookAt(target, 30.0F, 30.0F);
                 }
-                this.strafingTime = 0;
-            }
-            if(this.strafingTime > -1){
-                if (dist > 12.0F) {
-                    this.strafingBackwards = false;
-                } else if (dist < 5.0F) {
-                    this.strafingBackwards = true;
-                }
-                GumbeeperEntity.this.getMoveControl().strafe(this.strafingBackwards ? -1F : 1F, this.strafingClockwise ? 0.5F : -0.5F);
-                GumbeeperEntity.this.lookAt(target, 30.0F, 30.0F);
-            }
-            if(canRange && GumbeeperEntity.this.hasLineOfSightToGumballHole(target)){
-                GumbeeperEntity.this.setAttackCharge(Math.min(1F, GumbeeperEntity.this.getAttackCharge() + (GumbeeperEntity.this.isCharged() ? 0.3F : 0.1F)));
-                if(GumbeeperEntity.this.canShootGumball()){
-                    GumbeeperEntity.this.shootGumball(target);
+                if(canRange && GumbeeperEntity.this.hasLineOfSightToGumballHole(target)){
+                    GumbeeperEntity.this.setAttackCharge(Math.min(1F, GumbeeperEntity.this.getAttackCharge() + (GumbeeperEntity.this.isCharged() ? 0.3F : 0.1F)));
+                    if(GumbeeperEntity.this.canShootGumball()){
+                        GumbeeperEntity.this.shootGumball(target);
+                    }
                 }
             }
         }

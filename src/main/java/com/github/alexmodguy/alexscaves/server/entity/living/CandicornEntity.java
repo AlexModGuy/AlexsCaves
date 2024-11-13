@@ -555,6 +555,7 @@ public class CandicornEntity extends TamableAnimal implements KeybindUsingMount,
                 });
                 this.level().playSound((Player) null, this, SoundEvents.SHEEP_SHEAR, SoundSource.PLAYERS, 1.0F, 1.0F);
                 this.setSaddled(false);
+                this.spawnAtLocation(Items.SADDLE);
                 return InteractionResult.SUCCESS;
             } else if (isTame() && isOwnedBy(player) && !isFood(itemstack)) {
                 if (player.isShiftKeyDown()) {
@@ -718,7 +719,7 @@ public class CandicornEntity extends TamableAnimal implements KeybindUsingMount,
         }
     }
 
-
+    @Override
     protected void dropEquipment() {
         super.dropEquipment();
         if (this.isSaddled()) {
@@ -817,7 +818,6 @@ public class CandicornEntity extends TamableAnimal implements KeybindUsingMount,
     public boolean canBeAffected(MobEffectInstance effectInstance) {
         return super.canBeAffected(effectInstance) && effectInstance.getEffect() != MobEffects.HUNGER;
     }
-
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
         if (!blockState.liquid()) {
             BlockState blockstate = this.level().getBlockState(blockPos.above());
