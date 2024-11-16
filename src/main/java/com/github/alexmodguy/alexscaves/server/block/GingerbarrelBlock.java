@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.block;
 
 import com.github.alexmodguy.alexscaves.server.block.blockentity.GingerbarrelBlockEntity;
+import com.github.alexmodguy.alexscaves.server.entity.living.GingerbreadManEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -10,6 +11,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
@@ -25,8 +27,10 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.spongepowered.asm.mixin.Unique;
 
 import javax.annotation.Nullable;
+import java.util.Iterator;
 
 public class GingerbarrelBlock extends BarrelBlock {
 
@@ -42,13 +46,28 @@ public class GingerbarrelBlock extends BarrelBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
-            BlockEntity blockentity = level.getBlockEntity(blockPos);
-            if (blockentity instanceof GingerbarrelBlockEntity) {
-                player.openMenu((GingerbarrelBlockEntity) blockentity);
+            BlockEntity blockEntity = level.getBlockEntity(blockPos);
+            if (blockEntity instanceof GingerbarrelBlockEntity gingerbarrelBlockEntity) {
+                if (!player.isSpectator() && !player.isCreative()) {
+                    angerGingerbreadMen(level, player);
+                }
+                player.openMenu((GingerbarrelBlockEntity) gingerbarrelBlockEntity);
                 player.awardStat(Stats.OPEN_BARREL);
-                PiglinAi.angerNearbyPiglins(player, true);
             }
             return InteractionResult.CONSUME;
+        }
+    }
+
+    @Unique
+    private void angerGingerbreadMen(Level level, Entity opener) {
+        if (opener instanceof Player player) {
+            Iterator<GingerbreadManEntity> var4 = level.getEntitiesOfClass(GingerbreadManEntity.class, player.getBoundingBox().inflate(10, 5, 10)).iterator();
+            while (var4.hasNext()) {
+                LivingEntity entity = var4.next();
+                if (entity instanceof GingerbreadManEntity gingerbreadMan && !gingerbreadMan.isOvenSpawned()) {
+                    gingerbreadMan.setTarget(player);
+                }
+            }
         }
     }
 
