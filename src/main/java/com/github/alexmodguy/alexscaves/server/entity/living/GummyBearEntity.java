@@ -83,6 +83,7 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
     private static final EntityDataAccessor<Float> STOMACH_BLUE = SynchedEntityData.defineId(GummyBearEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> HELD_MOB_ID = SynchedEntityData.defineId(GummyBearEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> POSSESSOR_LICOWITCH_ID = SynchedEntityData.defineId(GummyBearEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> JELLYBEANS = SynchedEntityData.defineId(GummyBearEntity.class, EntityDataSerializers.INT);
 
     public static final Animation ANIMATION_FISH = Animation.create(35);
     public static final Animation ANIMATION_EAT = Animation.create(40);
@@ -107,8 +108,7 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
     private int standFor = 0;
     private int sitFor = 0;
     private int sleepFor = 0;
-
-    private int jellybeansToMake = 5;
+    private int jellybeansToMake;
 
     public GummyBearEntity(EntityType<? extends Animal> entityType, Level level) {
         super(entityType, level);
@@ -125,6 +125,7 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
         this.entityData.define(STOMACH_RED, 0.0F);
         this.entityData.define(STOMACH_GREEN, 0.0F);
         this.entityData.define(STOMACH_BLUE, 0.0F);
+        this.entityData.define(JELLYBEANS, 0);
         this.entityData.define(HELD_MOB_ID, -1);
         this.entityData.define(POSSESSOR_LICOWITCH_ID, -1);
     }
@@ -186,6 +187,7 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
         compound.putBoolean("BearSitting", this.isSitting());
         compound.putInt("SleepTime", sleepFor);
         compound.putInt("SitTime", sitFor);
+        compound.putInt("Jellybeans", jellybeansToMake);
     }
 
     public void readAdditionalSaveData(CompoundTag compound) {
@@ -198,6 +200,7 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
         this.setStanding(compound.getBoolean("BearSitting"));
         this.sleepFor = compound.getInt("SleepTime");
         this.sitFor = compound.getInt("SitTime");
+        this.jellybeansToMake = compound.getInt("Jellybeans");
     }
 
     @Override
