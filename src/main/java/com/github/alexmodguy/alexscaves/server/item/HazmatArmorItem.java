@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -52,16 +53,16 @@ public class HazmatArmorItem extends ArmorItem {
 
     public static int getWornAmount(LivingEntity entity) {
         int i = 0;
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.HAZMAT_PROT.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.HAZMAT_PROT)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.HAZMAT_PROT.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.HAZMAT_PROT)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.HAZMAT_PROT.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.HAZMAT_PROT)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.HAZMAT_PROT.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.HAZMAT_PROT)) {
             i++;
         }
         return i;
