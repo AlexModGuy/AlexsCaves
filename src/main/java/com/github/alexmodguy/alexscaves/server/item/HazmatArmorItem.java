@@ -52,16 +52,16 @@ public class HazmatArmorItem extends ArmorItem {
 
     public static int getWornAmount(LivingEntity entity) {
         int i = 0;
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.HAZMAT_MASK.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.HAZMAT_PROT.get())) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACItemRegistry.HAZMAT_CHESTPLATE.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.HAZMAT_PROT.get())) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACItemRegistry.HAZMAT_LEGGINGS.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.HAZMAT_PROT.get())) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACItemRegistry.HAZMAT_BOOTS.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.HAZMAT_PROT.get())) {
             i++;
         }
         return i;
