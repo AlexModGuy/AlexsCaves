@@ -51,35 +51,35 @@ public class HazmatArmorItem extends ArmorItem {
         }
     }
 
-    public static int getWornAmount(LivingEntity entity) {
+    public static int getRadProtection(LivingEntity entity) {
         int i = 0;
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.HAZMAT_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.HAZMAT_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.HAZMAT_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.HAZMAT_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
         return i;
     }
 
-    public static int getAcidAmount(LivingEntity entity) {
+    public static int getAcidProtection(LivingEntity entity) {
         int i = 0;
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.ACID_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.ACID_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.ACID_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.ACID_PROT)) {
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
             i++;
         }
         return i;

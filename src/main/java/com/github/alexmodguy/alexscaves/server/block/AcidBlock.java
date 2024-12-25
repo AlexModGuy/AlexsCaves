@@ -59,7 +59,7 @@ public class AcidBlock extends LiquidBlock {
                 for (EquipmentSlot slot : EquipmentSlot.values()) {
                     if (slot.isArmor()) {
                         ItemStack item = living.getItemBySlot(slot);
-                        if (item != null && item.isDamageableItem() && !(living.getItemBySlot(slot).is(ACTagRegistry.ACID_PROT))) {
+                        if (item != null && item.isDamageableItem() && !(item.is(ACTagRegistry.ACID_PROTECTIVE_ARMOR))) {
                             armor = true;
                             if (living.getRandom().nextFloat() < 0.05F && !(entity instanceof Player player && player.isCreative())) {
                                 item.hurtAndBreak(1, living, e -> e.broadcastBreakEvent(slot));
@@ -67,7 +67,7 @@ public class AcidBlock extends LiquidBlock {
                         }
                     }
                 }
-                dmgMultiplier = 1.0F - (HazmatArmorItem.getAcidAmount(living) / 4F);
+                dmgMultiplier = 1.0F - (HazmatArmorItem.getAcidProtection(living) / 4F);
             }
             if (armor) {
                 ACAdvancementTriggerRegistry.ENTER_ACID_WITH_ARMOR.triggerForEntity(entity);

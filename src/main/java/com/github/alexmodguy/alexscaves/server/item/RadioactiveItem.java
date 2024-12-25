@@ -24,7 +24,7 @@ public class RadioactiveItem extends Item {
         super.inventoryTick(stack, level, entity, i, held);
         if (!level.isClientSide && entity instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())) {
             float stackChance = stack.getCount() * randomChanceOfRadiation;
-            float hazmatMultiplier = 1F - HazmatArmorItem.getWornAmount(living) / 4F;
+            float hazmatMultiplier = 1F - HazmatArmorItem.getRadProtection(living) / 4F;
             if (!living.hasEffect(ACEffectRegistry.IRRADIATED.get()) && level.random.nextFloat() < stackChance * hazmatMultiplier) {
                 MobEffectInstance instance = new MobEffectInstance(ACEffectRegistry.IRRADIATED.get(), 1800);
                 living.addEffect(instance);

@@ -93,8 +93,8 @@ public class ACTagRegistry {
     public static final TagKey<Structure> GINGERBREAD_MEN_WANDER_THROUGH = registerStructureTag("gingerbread_men_wander_through");
     public static final TagKey<DamageType> DEEP_ONE_IGNORES = registerDamageTypeTag("deep_one_ignores");
     public static final TagKey<Fluid> DOES_NOT_FLOW_INTO_WATERLOGGABLE_BLOCKS = registerFluidTag("does_not_flow_into_waterloggable_blocks");
-    public static final TagKey<Item> HAZMAT_PROT = registerItemTag("hazmat_prot");
-    public static final TagKey<Item> ACID_PROT = registerItemTag("acid_prot");
+    public static final TagKey<Item> RAD_PROTECTIVE_ARMOR = registerItemTag("rad_protective_armor");
+    public static final TagKey<Item> ACID_PROTECTIVE_ARMOR = registerItemTag("acid_protective_armor");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
