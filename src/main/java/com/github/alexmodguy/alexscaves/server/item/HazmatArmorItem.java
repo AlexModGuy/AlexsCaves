@@ -67,4 +67,21 @@ public class HazmatArmorItem extends ArmorItem {
         }
         return i;
     }
+
+    public static int getAcidAmount(LivingEntity entity) {
+        int i = 0;
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.ACID_PROT)) {
+            i++;
+        }
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.ACID_PROT)) {
+            i++;
+        }
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.ACID_PROT)) {
+            i++;
+        }
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.ACID_PROT)) {
+            i++;
+        }
+        return i;
+    }
 }
