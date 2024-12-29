@@ -709,6 +709,7 @@
   "entity.alexscaves.candy_cane_hook": "Candy Cane Hook",
   "entity.alexscaves.soda_bottle_rocket": "Purple Soda Bottle Rocket",
   "entity.alexscaves.frostmint_spear": "Frostmint Spear",
+  "entity.alexscaves.depth_charge": "Depth Charge",
   "entity.alexscaves.all.command_0": "%s is wandering",
   "entity.alexscaves.all.command_1": "%s is staying",
   "entity.alexscaves.all.command_2": "%s is following",
