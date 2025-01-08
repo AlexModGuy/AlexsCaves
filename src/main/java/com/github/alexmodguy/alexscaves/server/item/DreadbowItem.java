@@ -21,6 +21,8 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -210,13 +212,15 @@ public class DreadbowItem extends ProjectileWeaponItem implements UpdatesStackTa
                     int maxArrows = darkArrows ? 30 : 8;
                     abstractArrow.pickup = AbstractArrow.Pickup.ALLOWED;
                     for(int j = 0; j < Math.ceil(maxArrows * f); j++){
+                        double power = 1;
+                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, itemStack) > 0) power = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, itemStack) * 0.5 + 0.5;
                         if(darkArrows){
                             DarkArrowEntity darkArrowEntity = new DarkArrowEntity(level, livingEntity);
-                            darkArrowEntity.setShadowArrowDamage(precise ? 2.0F : 3.0F);
+                            darkArrowEntity.setShadowArrowDamage(precise ? (float) (2.0F * power) : (float) (3.0F * power));
                             darkArrowEntity.setPerfectShot(perfectShot);
                             abstractArrow = darkArrowEntity;
                         }else if(perfectShot){
-                            abstractArrow.setBaseDamage(abstractArrow.getBaseDamage() * 2.0F);
+                            abstractArrow.setBaseDamage(abstractArrow.getBaseDamage() * 2.0F * power);
                         }
                         Vec3 vec3 = mutableSkyPos.getCenter().add(level.random.nextFloat() * 16 - 8, level.random.nextFloat() * 4 - 2, level.random.nextFloat() * 16 - 8);
                         int clearTries = 0;
