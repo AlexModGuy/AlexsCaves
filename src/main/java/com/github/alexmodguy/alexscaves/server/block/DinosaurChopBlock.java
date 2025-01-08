@@ -186,7 +186,11 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
             pos = pos.below();
         }
         BlockState fireState = level.getBlockState(pos);
-        return fireState.is(ACTagRegistry.COOKS_MEAT_BLOCKS);
+        if (fireState.getBlock() instanceof CampfireBlock){
+            return fireState.getValue(CampfireBlock.LIT) && fireState.is(ACTagRegistry.COOKS_MEAT_BLOCKS);
+        } else {
+            return fireState.is(ACTagRegistry.COOKS_MEAT_BLOCKS);
+        }
     }
 
     public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos blockPos) {
