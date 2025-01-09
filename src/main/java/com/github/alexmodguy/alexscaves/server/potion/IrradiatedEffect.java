@@ -20,7 +20,7 @@ public class IrradiatedEffect extends MobEffect {
     }
 
     public void applyEffectTick(LivingEntity entity, int tick) {
-        int hazmat = HazmatArmorItem.getWornAmount(entity);
+        int hazmat = HazmatArmorItem.getRadProtection(entity);
         float damageScale = 1F - hazmat * 0.25F;
         if (entity instanceof Player player && hazmat == 0) {
             player.causeFoodExhaustion(0.4F);
