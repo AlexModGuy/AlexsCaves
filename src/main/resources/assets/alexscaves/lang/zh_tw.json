@@ -1562,7 +1562,7 @@
   "alexscaves.sound.subtitle.candy_cane_hook_launch": "拐杖糖鉤索發射",
   "alexscaves.sound.subtitle.candy_cane_hook_reel": "拐杖糖鉤索收回",
   "alexscaves.sound.subtitle.rainbounce_boots_bounce": "彩虹靴子彈跳",
-  "alexscaves.sound.subtitle.sugar_staff_cast_peppermint": "糖果法杖召唤薄荷糖",
+  "alexscaves.sound.subtitle.sugar_staff_cast_peppermint": "糖果法杖召喚薄荷糖",
   "alexscaves.sound.subtitle.sugar_staff_cast_hex": "糖果法杖施咒",
   "alexscaves.sound.subtitle.frostmint_spear_throw": "薄荷糖長矛擲出",
   "alexscaves.sound.subtitle.frostmint_spear_hit": "薄荷糖長矛穿刺",
@@ -1688,11 +1688,11 @@
   "enchantment.alexscaves.spell_lasting": "持久吟唱",
   "enchantment.alexscaves.spell_lasting.desc": "每等級使法術持續時間延長三秒",
   "enchantment.alexscaves.peppermint_punting": "凌空抽射",
-  "enchantment.alexscaves.peppermint_punting.desc": "召唤的薄荷糖直接向前發射，而不是環繞攻擊者運動",
+  "enchantment.alexscaves.peppermint_punting.desc": "召喚的薄荷糖直接向前發射，而不是環繞攻擊者運動",
   "enchantment.alexscaves.humungous_hex": "膨化魔法",
   "enchantment.alexscaves.humungous_hex.desc": "每等級使糖果咒術的半徑增加一整個方塊",
   "enchantment.alexscaves.multiple_mint": "雙倍薄荷",
   "enchantment.alexscaves.multiple_mint.desc": "每等級增加一個召喚出的薄荷糖",
   "enchantment.alexscaves.seekcandy": "糖果制導",
-  "enchantment.alexscaves.seekcandy.desc": "召唤的薄荷糖會主動搜尋正在看向的實體"
+  "enchantment.alexscaves.seekcandy.desc": "召喚的薄荷糖會主動搜尋正在看向的實體"
 }
