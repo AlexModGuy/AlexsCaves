@@ -14,7 +14,7 @@ import java.util.EnumSet;
 
 public class UnderzealotSacrificeGoal extends Goal {
 
-    private UnderzealotEntity entity;
+    private final UnderzealotEntity entity;
     private int executionCooldown = 10;
     private int attemptToFollowTicks = 0;
     private BlockPos center;
@@ -170,7 +170,8 @@ public class UnderzealotSacrificeGoal extends Goal {
                     }
                     this.entity.setDeltaMovement(this.entity.getDeltaMovement().add(slightOffset.scale(0.04F)));
                     entity.lookAt(EntityAnchorArgument.Anchor.EYES, Vec3.atCenterOf(center));
-                    this.entity.setParticlePos(leader.getLastSacrificePos().above(5));
+                    BlockPos pos = leader.getLastSacrificePos() == null ? leader.blockPosition().above(5) : leader.getLastSacrificePos().above(5);
+                    this.entity.setParticlePos(pos);
                     entity.level().broadcastEntityEvent(entity, (byte) 77);
                     if (worshippingTicks % 10 == 0) {
                         this.entity.level().broadcastEntityEvent(entity, (byte) 61);
@@ -233,7 +234,7 @@ public class UnderzealotSacrificeGoal extends Goal {
     public void stop() {
         attemptToFollowTicks = 0;
         this.entity.setWorshipTime(0);
-        if(this.entity.sacrificeCooldown == 0){
+        if (this.entity.sacrificeCooldown == 0) {
             this.entity.sacrificeCooldown = 100;
         }
         this.entity.getNavigation().stop();

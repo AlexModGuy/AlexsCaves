@@ -9,7 +9,7 @@ import com.github.alexmodguy.alexscaves.server.entity.util.KeybindUsingMount;
 import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
 import com.github.alexmodguy.alexscaves.server.item.CandyCaneHookItem;
 import com.github.alexmodguy.alexscaves.server.message.MountedEntityKeyMessage;
-import com.github.alexmodguy.alexscaves.server.message.MultipartEntityMessage;
+import com.github.alexmodguy.alexscaves.server.misc.ACLoadedMods;
 import com.github.alexthe666.citadel.server.entity.collision.ICustomCollisions;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -27,7 +27,6 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -76,6 +75,9 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
 
     public GumWormSegmentEntity(EntityType entityType, Level level) {
         super(entityType, level);
+        if(ACLoadedMods.isEntityCullingLoaded()){
+            this.noCulling = true;
+        }
     }
 
     public GumWormSegmentEntity(PlayMessages.SpawnEntity spawnEntity, Level level) {
@@ -201,7 +203,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 prev.setBackEntityUUID(current.getUUID());
             }
             current.setIndex(i);
-            current.setPos(current.getIdealPosition(prev == null ? gumWorm : null));
+            current.setPos(current.getIdealPosition(prev == null ? gumWorm : prev));
             gumWorm.level().addFreshEntity(current);
             prev = current;
             if(i == 3){
@@ -289,7 +291,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
             }
             spawnDustParticles(false);
             Player clientPlayer = AlexsCaves.PROXY.getClientSidePlayer();
-            if (clientPlayer != null) {
+            if (clientPlayer != null && clientPlayer.isPassengerOfSameVehicle(this)) {
                 if (AlexsCaves.PROXY.isKeyDown(4)){
                     clientPlayer.stopRiding();
                     AlexsCaves.sendMSGToServer(new MountedEntityKeyMessage(this.getId(), clientPlayer.getId(), 0));
@@ -303,6 +305,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 }
             }
         } else {
+            boolean riddenFlag = false;
             this.entityData.set(HEAD_ENTITY_ID, head != null ? head.getId() : -1);
             this.entityData.set(FRONT_ENTITY_ID, front != null ? front.getId() : -1);
             this.entityData.set(BACK_ENTITY_ID, back != null ? back.getId() : -1);
@@ -318,9 +321,9 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                 float extraLength = (float) Math.max(distVec.length() - maxDistFromFront, 0F);
                 Vec3 vec31 = distVec.length() > 1F ? distVec.normalize().scale(1F + extraLength) : distVec;
                 Vec3 vec32 = this.position().add(vec31);
-                boolean riding = head instanceof GumWormEntity gumWorm && gumWorm.isRidingMode();
-                if ((!front.isInWall() || riding) && !(head instanceof GumWormEntity gumWorm && gumWorm.isLeaping())) {
-                    float f = Mth.approach((float) this.getY(), riding ? (float) Math.max(surfaceY, ideal.y) :  (float) Math.min(surfaceY, vec31.y), 1F);
+                riddenFlag = head instanceof GumWormEntity gumWorm && gumWorm.isRidingMode();
+                if ((!front.isInWall() || riddenFlag) && !(head instanceof GumWormEntity gumWorm && gumWorm.isLeaping())) {
+                    float f = Mth.approach((float) this.getY(), riddenFlag ? (float) Math.max(surfaceY, ideal.y) :  (float) Math.min(surfaceY, vec31.y), 1F);
                     vec32 = new Vec3(vec32.x, f, vec32.z);
                 }
                 this.setPos(vec32);
@@ -341,6 +344,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
                     }
                 }
             }
+            this.setNoGravity(!riddenFlag);
         }
         this.pushEntities();
         if (zRotTickOffset < 0) {
@@ -509,7 +513,7 @@ public class GumWormSegmentEntity extends Entity implements ICustomCollisions, K
     }
 
     public AABB getBoundingBoxForCulling() {
-        return this.getBoundingBox().inflate(1);
+        return super.getBoundingBoxForCulling().inflate(8.0F);
     }
 
     public float getBodyZRot(float partialTicks) {

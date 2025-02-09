@@ -38,6 +38,7 @@ public class NuclearBombEntity extends Entity {
 
     private static final EntityDataAccessor<Integer> TIME = SynchedEntityData.defineId(NuclearBombEntity.class, EntityDataSerializers.INT);
     public static final int MAX_TIME = 300;
+    private boolean spawnedExplosion = false;
 
     public NuclearBombEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -78,8 +79,9 @@ public class NuclearBombEntity extends Entity {
         int i = this.getTime() + 1;
         if (i > MAX_TIME) {
             this.discard();
-            if (!this.level().isClientSide) {
+            if (!this.level().isClientSide && !spawnedExplosion) {
                 this.explode();
+                spawnedExplosion = true;
             }
         } else {
             this.setTime(i);

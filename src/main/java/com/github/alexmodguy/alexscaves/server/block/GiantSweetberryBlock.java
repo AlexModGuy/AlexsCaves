@@ -83,7 +83,6 @@ public class GiantSweetberryBlock extends Block implements SimpleWaterloggedBloc
         if (!state.canSurvive(level, pos)) {
             level.destroyBlock(pos, true);
         }
-
     }
 
     public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos pos, PathComputationType type) {

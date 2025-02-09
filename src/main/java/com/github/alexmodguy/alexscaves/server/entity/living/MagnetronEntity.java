@@ -344,7 +344,7 @@ public class MagnetronEntity extends Monster {
 
     public boolean hurt(DamageSource damageSource, float f) {
         boolean prev = super.hurt(damageSource, f);
-        if (prev && damageSource.getEntity() instanceof Player player && !player.isCreative() && !isFormed()) {
+        if (prev && damageSource.getEntity() instanceof Player player && !player.isCreative() && !isFormed() && !this.isNoAi()) {
             this.startForming();
         }
         return prev;

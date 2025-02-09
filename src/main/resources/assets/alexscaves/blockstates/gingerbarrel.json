@@ -42,7 +42,6 @@
     },
     "facing=west,open=true": {
       "model": "alexscaves:block/gingerbarrel_side_open",
-      "x": 90,
       "y": 270
     }
   }

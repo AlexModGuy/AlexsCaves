@@ -13,6 +13,7 @@ import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.particles.ParticleGroup;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -22,13 +23,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
+import java.util.Optional;
+
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class RainbowParticle extends Particle {
+    public static final ParticleGroup PARTICLE_GROUP = new ParticleGroup(100);
+    private static final RenderType RAINBOW_RENDER_TYPE = ACRenderTypes.getTeslaBulb(new ResourceLocation(AlexsCaves.MODID, "textures/particle/rainbow.png"));
     public int rainbowVecCount = 64;
     public int fadeSpeed = 15;
     public int fillSpeed = 40;
-    private static final RenderType RAINBOW_RENDER_TYPE = ACRenderTypes.getTeslaBulb(new ResourceLocation(AlexsCaves.MODID, "textures/particle/rainbow.png"));
     public Vec3 origin;
 
     public Vec3 target;
@@ -142,6 +146,11 @@ public class RainbowParticle extends Particle {
             this.alphaProgression = ageClamp * rainbowVecCount;
         }
 
+    }
+
+    @Override
+    public Optional<ParticleGroup> getParticleGroup() {
+        return Optional.of(PARTICLE_GROUP);
     }
 
     @OnlyIn(Dist.CLIENT)

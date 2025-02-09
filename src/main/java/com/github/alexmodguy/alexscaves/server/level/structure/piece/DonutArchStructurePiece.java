@@ -120,7 +120,7 @@ public class DonutArchStructurePiece extends StructurePiece {
                         float distForwardsSmin = ACMath.smin((float)(distForwardsClamped * distForwardsClamped), 1.0F, 0.3F);
                         float outerForwardsSmooth = 1F - distForwardsSmin;
                         float innerForwardsSmooth = distForwardsSmin + 0.5F;
-                        if(distSides < (outerWidth - widthShrink) * outerForwardsSmooth && distSides > (innerWidth + widthShrink) * innerForwardsSmooth){
+                        if(distSides < (outerWidth - widthShrink) * outerForwardsSmooth && distSides > (innerWidth + widthShrink) * innerForwardsSmooth && !level.getBlockState(pos).is(Blocks.BEDROCK)){
                             if(frosted){
                                 if(!placeSprinklesAt(level, pos)){
                                     checkedSetBlock(level, pos, frosting);
