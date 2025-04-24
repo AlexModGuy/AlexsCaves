@@ -95,8 +95,12 @@ public class ACTagRegistry {
     public static final TagKey<Fluid> DOES_NOT_FLOW_INTO_WATERLOGGABLE_BLOCKS = registerFluidTag("does_not_flow_into_waterloggable_blocks");
     public static final TagKey<Item> RAD_PROTECTIVE_ARMOR = registerItemTag("rad_protective_armor");
     public static final TagKey<Item> ACID_PROTECTIVE_ARMOR = registerItemTag("acid_protective_armor");
+    public static final TagKey<Item> WEAK_RADIOACTIVE_ITEMS = registerItemTag("weak_radioactive_items");
+    public static final TagKey<Item> WEAK_RADIOACTIVE_BLOCKS = registerItemTag("weak_radioactive_blocks");
     public static final TagKey<Item> RADIOACTIVE_ITEMS = registerItemTag("radioactive_items");
     public static final TagKey<Item> RADIOACTIVE_BLOCKS = registerItemTag("radioactive_blocks");
+    public static final TagKey<Item> STRONG_RADIOACTIVE_ITEMS = registerItemTag("strong_radioactive_items");
+    public static final TagKey<Item> STRONG_RADIOACTIVE_BLOCKS = registerItemTag("strong_radioactive_blocks");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
