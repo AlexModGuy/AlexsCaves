@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#weak_radioactive_blocks",
+    "#radioactive_blocks",
+    "#strong_radioactive_blocks"
+  ]
+}
