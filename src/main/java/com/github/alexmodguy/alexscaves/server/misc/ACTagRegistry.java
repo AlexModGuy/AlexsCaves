@@ -101,6 +101,8 @@ public class ACTagRegistry {
     public static final TagKey<Item> RADIOACTIVE_BLOCKS = registerBlockTag("radioactive_blocks"); // 0.001F
     public static final TagKey<Item> STRONG_RADIOACTIVE_ITEMS = registerItemTag("strong_radioactive_items"); // 0.01F
     public static final TagKey<Item> STRONG_RADIOACTIVE_BLOCKS = registerBlockTag("strong_radioactive_blocks"); // 0.01F
+    public static final TagKey<Item> ALL_RADIOACTIVE_ITEMS = registerItemTag("all_radioactive_items"); // contains a list of all radioactive items
+    public static final TagKey<Item> ALL_RADIOACTIVE_BLOCKS = registerBlockTag("all_radioactive_blocks"); // contains a list of all radioactive blocks
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
