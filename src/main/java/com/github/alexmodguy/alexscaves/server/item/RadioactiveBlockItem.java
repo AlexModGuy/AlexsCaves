@@ -22,7 +22,7 @@ public class RadioactiveBlockItem extends BlockItemWithSupplier {
         this.randomChanceOfRadiation = randomChanceOfRadiation;
     }
 
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
+    /*public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean held) {
         super.inventoryTick(stack, level, entity, i, held);
         if (!level.isClientSide && entity instanceof LivingEntity living && !(living instanceof Player player && player.isCreative())) {
             float stackChance = stack.getCount() * randomChanceOfRadiation;
@@ -33,7 +33,7 @@ public class RadioactiveBlockItem extends BlockItemWithSupplier {
                 AlexsCaves.sendMSGToAll(new UpdateEffectVisualityEntityMessage(entity.getId(), entity.getId(), 0, instance.getDuration()));
             }
         }
-    }
+    }*/
 
 
 }
