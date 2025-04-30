@@ -1,4 +1,4 @@
-package com.github.alexmodguy.alexscaves.server.item;
+/*package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.message.UpdateEffectVisualityEntityMessage;
@@ -33,3 +33,4 @@ public class RadioactiveItem extends Item {
         }
     }
 }
+*/
