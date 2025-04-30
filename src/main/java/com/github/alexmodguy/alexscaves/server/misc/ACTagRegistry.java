@@ -96,13 +96,13 @@ public class ACTagRegistry {
     public static final TagKey<Item> RAD_PROTECTIVE_ARMOR = registerItemTag("rad_protective_armor");
     public static final TagKey<Item> ACID_PROTECTIVE_ARMOR = registerItemTag("acid_protective_armor");
     public static final TagKey<Item> WEAK_RADIOACTIVE_ITEMS = registerItemTag("weak_radioactive_items"); // 0.0005F
-    public static final TagKey<Item> WEAK_RADIOACTIVE_BLOCKS = registerBlockTag("weak_radioactive_blocks"); // 0.0005F
+    public static final TagKey<Block> WEAK_RADIOACTIVE_BLOCKS = registerBlockTag("weak_radioactive_blocks"); // 0.0005F
     public static final TagKey<Item> RADIOACTIVE_ITEMS = registerItemTag("radioactive_items"); // 0.001F
-    public static final TagKey<Item> RADIOACTIVE_BLOCKS = registerBlockTag("radioactive_blocks"); // 0.001F
+    public static final TagKey<Block> RADIOACTIVE_BLOCKS = registerBlockTag("radioactive_blocks"); // 0.001F
     public static final TagKey<Item> STRONG_RADIOACTIVE_ITEMS = registerItemTag("strong_radioactive_items"); // 0.01F
-    public static final TagKey<Item> STRONG_RADIOACTIVE_BLOCKS = registerBlockTag("strong_radioactive_blocks"); // 0.01F
+    public static final TagKey<Block> STRONG_RADIOACTIVE_BLOCKS = registerBlockTag("strong_radioactive_blocks"); // 0.01F
     public static final TagKey<Item> ALL_RADIOACTIVE_ITEMS = registerItemTag("all_radioactive_items"); // contains a list of all radioactive items
-    public static final TagKey<Item> ALL_RADIOACTIVE_BLOCKS = registerBlockTag("all_radioactive_blocks"); // contains a list of all radioactive blocks
+    public static final TagKey<Block> ALL_RADIOACTIVE_BLOCKS = registerBlockTag("all_radioactive_blocks"); // contains a list of all radioactive blocks
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
         return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
