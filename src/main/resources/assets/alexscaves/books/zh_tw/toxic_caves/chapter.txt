@@ -21,7 +21,7 @@
         • {核力怕|toxic_caves/nucleeper.json}
         • {輻腮魚|toxic_caves/radgill.json}
         • {嗜腦魔|toxic_caves/brainiac.json}
-        • {伽馬蟑螂|toxic_caves/gammaroach.json}
+        • {射線蟑螂|toxic_caves/gammaroach.json}
         • {射線貓|toxic_caves/raycat.json}
         • {撼地吉拉|toxic_caves/tremorzilla.json}
     • {實用物品|toxic_caves/utilities.json}
