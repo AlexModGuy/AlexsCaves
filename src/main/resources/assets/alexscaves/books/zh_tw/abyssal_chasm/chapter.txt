@@ -18,7 +18,7 @@
     • {綜合介紹|abyssal_chasm/general.json}
     • {自然資源|abyssal_chasm/resources.json}
     • 棲息物種
-        • {燈籠魚|abyssal_chasm/lanternfish.json}
+        • {安康魚|abyssal_chasm/lanternfish.json}
         • {海豬|abyssal_chasm/sea_pig.json}
         • {碎船獸|abyssal_chasm/hullbreaker.json}
         • {浮蠶|abyssal_chasm/gossamer_worm.json}
