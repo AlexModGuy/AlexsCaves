@@ -1602,7 +1602,7 @@
   "alexscaves.sound.subtitle.sugar_rush_loop": "甜蜜急迫閃爍",
   "alexscaves.sound.subtitle.disappointment": "嗚嗚聲",
   "alexscaves.sound.subtitle.nuclear_siren": "核能警報聲",
-  "alexscaves.startup_warning.generation_incompatible": "Alex的洞穴模組在世界生成階段與以下模組存在衝突（ID:%s）。洞穴生態域可能最終不會在當前世界生成，也可能在遊戲時引發崩潰或伺服器掛起。此條警示信息可在Alex的洞穴的配置文件中關閉。",
+  "alexscaves.startup_warning.generation_incompatible": "Alex的洞穴模組在世界生成階段與以下模組存在衝突（ID:%s）。洞穴生態域可能最終不會在當前世界生成，也可能在遊戲時引發崩潰或伺服器停滯。此警示訊息可在Alex的洞穴的配置文件中關閉。",
   "enchantment.alexscaves.field_extension": "場域延伸",
   "enchantment.alexscaves.field_extension.desc": "控磁護手可以操控更遠的物品",
   "enchantment.alexscaves.crystallization": "晶化力場",
