@@ -23,7 +23,7 @@
         • {泡泡糖苦力怕|candy_cavity/gumbeeper.json}
         • {糖角獸|candy_cavity/candicorn.json}
         • {泡泡糖蠕蟲|candy_cavity/gum_worm.json}
-        • {焦糖史萊姆|candy_cavity/caramel_cube.json}
+        • {焦糖立方怪|candy_cavity/caramel_cube.json}
         • {軟糖熊|candy_cavity/gummy_bear.json}
         • {甘草女巫|candy_cavity/licowitch.json}
         • {薑餅人|candy_cavity/gingerbread_man.json}
