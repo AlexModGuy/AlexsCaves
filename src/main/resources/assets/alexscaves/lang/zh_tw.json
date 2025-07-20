@@ -374,7 +374,7 @@
   "item.alexscaves.cave_map_inventory": "洞穴生態域地圖",
   "item.alexscaves.cave_map_filled": "洞穴生態域地圖",
   "item.alexscaves.cave_map_loading": "洞穴生態域地圖",
-  "item.alexscaves.cave_map.error": "並未在周圍找到 %s 。請在更遠的地方重試。",
+  "item.alexscaves.cave_map.error": "並未在 %s 公尺內找到。請在更遠的地方重試。",
   "item.alexscaves.underground_cabin_explorer_map": "地底小屋地圖",
   "item.alexscaves.raw_scarlet_neodymium": "赤釹原礦",
   "item.alexscaves.raw_azure_neodymium": "青釹原礦",
