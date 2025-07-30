@@ -1,0 +1,26 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    歡迎來到磁場洞穴……
+
+    • {綜合介紹|magnetic_caves/general.json}
+    • {自然資源|magnetic_caves/resources.json}
+    • 棲息物種
+        • {控磁靈|magnetic_caves/teletor.json}
+        • {聚磁靈|magnetic_caves/magnetron.json}
+        • {吊垂靈|magnetic_caves/boundroid.json}
+        • {富鐵史萊姆|magnetic_caves/ferrouslime.json}
+        • {機靈磁|magnetic_caves/notor.json}
+    • {實用物品|magnetic_caves/utilities.json}

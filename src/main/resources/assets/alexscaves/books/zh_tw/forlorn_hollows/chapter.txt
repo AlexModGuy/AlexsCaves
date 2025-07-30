@@ -1,0 +1,27 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    歡迎來到異寂空谷……
+
+    • {綜合介紹|forlorn_hollows/general.json}
+    • {自然資源|forlorn_hollows/resources.json}
+    • 棲息物種
+        • {幽暗蛾|forlorn_hollows/gloomoth.json}
+        • {地底異教徒|forlorn_hollows/underzealot.json}
+        • {窺心者|forlorn_hollows/watcher.json}
+        • {蝕牙獸|forlorn_hollows/corrodent.json}
+        • {夜行蝠蝠|forlorn_hollows/vesper.json}
+        • {遺棄者|forlorn_hollows/forsaken.json}
+    • {實用物品|forlorn_hollows/utilities.json}
