@@ -12,6 +12,7 @@
     "CoralFeatureMixin",
     "EnchantRandomlyFunctionMixin",
     "EntityMixin",
+    "ItemMixin",
     "FallingBlockEntityMixin",
     "FlowingFluidMixin",
     "FoodDataMixin",

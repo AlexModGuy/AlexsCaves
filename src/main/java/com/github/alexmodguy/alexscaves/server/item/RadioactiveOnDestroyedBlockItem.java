@@ -2,6 +2,7 @@ package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.AreaEffectCloud;
@@ -18,6 +19,10 @@ public class RadioactiveOnDestroyedBlockItem extends RadioactiveBlockItem {
 
     @Override
     public void onDestroyed(ItemEntity itemEntity, DamageSource damageSource){
+        var stack = itemEntity.getItem();
+        if (!stack.is(ACTagRegistry.ALL_RADIOACTIVE_ITEMS)) {
+            return;
+        }
         super.onDestroyed(itemEntity, damageSource);
         if(!damageSource.isCreativePlayer() && !itemEntity.isRemoved()){
             itemEntity.discard();

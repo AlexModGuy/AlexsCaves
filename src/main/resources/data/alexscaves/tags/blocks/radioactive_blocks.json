@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "alexscaves:radrock_uranium_ore",
+    "alexscaves:block_of_uranium",
+    "alexscaves:unrefined_waste"
+  ]
+}

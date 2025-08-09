@@ -113,8 +113,8 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> RADGILL_BUCKET = DEF_REG.register("radgill_bucket", () -> new ModFishBucketItem(ACEntityRegistry.RADGILL, ACFluidRegistry.ACID_FLUID_SOURCE, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
     public static final RegistryObject<Item> RADGILL = DEF_REG.register("radgill", () -> new Item(new Item.Properties().food(ACFoods.RADGILL)));
     public static final RegistryObject<Item> COOKED_RADGILL = DEF_REG.register("cooked_radgill", () -> new Item(new Item.Properties().food(ACFoods.RADGILL_COOKED)));
-    public static final RegistryObject<Item> URANIUM = DEF_REG.register("uranium", () -> new RadioactiveItem(new Item.Properties(), 0.001F));
-    public static final RegistryObject<Item> URANIUM_SHARD = DEF_REG.register("uranium_shard", () -> new RadioactiveItem(new Item.Properties(), 0.001F));
+    public static final RegistryObject<Item> URANIUM = DEF_REG.register("uranium", () -> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> URANIUM_SHARD = DEF_REG.register("uranium_shard", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SULFUR_DUST = DEF_REG.register("sulfur_dust", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> RADON_BOTTLE = DEF_REG.register("radon_bottle", () -> new Item(new Item.Properties().craftRemainder(Items.GLASS_BOTTLE).stacksTo(16)));
     public static final RegistryObject<Item> CINDER_BRICK = DEF_REG.register("cinder_brick", () -> new ThrownProjectileItem(new Item.Properties(), player -> new CinderBrickEntity(player.level(), player), -20.0F, 0.65F, 0.9F));
@@ -127,8 +127,8 @@ public class ACItemRegistry {
     public static final RegistryObject<Item> HAZMAT_CHESTPLATE = DEF_REG.register("hazmat_chestplate", () -> new HazmatArmorItem(HAZMAT_SUIT_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE));
     public static final RegistryObject<Item> HAZMAT_LEGGINGS = DEF_REG.register("hazmat_leggings", () -> new HazmatArmorItem(HAZMAT_SUIT_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS));
     public static final RegistryObject<Item> HAZMAT_BOOTS = DEF_REG.register("hazmat_boots", () -> new HazmatArmorItem(HAZMAT_SUIT_ARMOR_MATERIAL, ArmorItem.Type.BOOTS));
-    public static final RegistryObject<Item> FISSILE_CORE = DEF_REG.register("fissile_core", () -> new RadioactiveItem(new Item.Properties().rarity(Rarity.UNCOMMON), 0.001F));
-    public static final RegistryObject<Item> CHARRED_REMNANT = DEF_REG.register("charred_remnant", () -> new RadioactiveItem(new Item.Properties(), 0.0005F));
+    public static final RegistryObject<Item> FISSILE_CORE = DEF_REG.register("fissile_core", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> CHARRED_REMNANT = DEF_REG.register("charred_remnant", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> REMOTE_DETONATOR = DEF_REG.register("remote_detonator", () -> new RemoteDetonatorItem());
     public static final RegistryObject<Item> RAYGUN = DEF_REG.register("raygun", () -> new RaygunItem());
     public static final RegistryObject<Item> MUSIC_DISC_FUSION_FRAGMENT = DEF_REG.register("disc_fragment_fusion", () -> new DiscFragmentItem(new Item.Properties()));
