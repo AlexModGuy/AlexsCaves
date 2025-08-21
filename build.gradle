@@ -51,8 +51,6 @@ minecraft {
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
-            properties 'mixin.env.remapRefMap': 'true'
-            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             arg "-mixin.config=" + "citadel.mixins.json"
             arg "-mixin.config=" + "alexscaves.mixins.json"
 
