@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.VesperModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.VesperEntity;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;

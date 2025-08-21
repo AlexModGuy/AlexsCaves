@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.VallumraptorModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.mojang.blaze3d.vertex.PoseStack;

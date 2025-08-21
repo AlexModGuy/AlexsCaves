@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.GummyBearModel;
 import com.github.alexmodguy.alexscaves.client.model.GummyBearModel;
 import com.github.alexmodguy.alexscaves.client.model.SweetishFishModel;

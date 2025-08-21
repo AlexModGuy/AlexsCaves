@@ -34,7 +34,7 @@ public class QuarrySmasherRenderer extends EntityRenderer<QuarrySmasherEntity> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/quarry_smasher.png");
     private static final ResourceLocation TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/quarry_smasher_glow.png");
     private static final ResourceLocation TEXTURE_BOUNDROID = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/boundroid_quarry.png");
-    private static final ResourceLocation TEXTURE_CHAIN = ResourceLocation.fromNamespaceAndPath("minecraft:textures/block/chain.png");
+    private static final ResourceLocation TEXTURE_CHAIN = ResourceLocation.withDefaultNamespace("minecraft:textures/block/chain.png");
     private static final Map<UUID, LightningRender> lightningRenderMap = new HashMap<>();
     private static final LightningBoltData.BoltRenderInfo LIGHTNING_BOLT_INFO = new LightningBoltData.BoltRenderInfo(0.0F, 0.01F, 0.3F, 0.6F, new Vector4f(0.71F, 0.76F, 0.95F, 0.3F), 0);
 
