@@ -186,8 +186,9 @@ public class AlexsCaves {
         }
     }
 
-    public void loadComplete(FMLLoadCompleteEvent event) {
+    private void loadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(ACFluidRegistry::postInit);
+        event.enqueueWork(ACLoadedMods::afterAllModsLoaded);
     }
 
     public static <MSG> void sendNonLocal(MSG msg, ServerPlayer player) {

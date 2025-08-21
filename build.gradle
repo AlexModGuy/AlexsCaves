@@ -77,7 +77,7 @@ minecraft {
             arg "-mixin.config="+"citadel.mixins.json"
             arg "-mixin.config="+"alexscaves.mixins.json"
 
-
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
 
             mods {
