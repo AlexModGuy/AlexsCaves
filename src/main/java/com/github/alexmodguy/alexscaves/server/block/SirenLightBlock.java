@@ -6,6 +6,7 @@ import com.github.alexmodguy.alexscaves.server.misc.ACMath;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -149,6 +150,7 @@ public class SirenLightBlock extends BaseEntityBlock {
         ItemStack heldItem = player.getItemInHand(handIn);
         if (worldIn.getBlockEntity(pos) instanceof SirenLightBlockEntity sirenLightBlock && !player.isShiftKeyDown() && heldItem.getItem() instanceof DyeItem dyeItem) {
             DyeColor dyeColor = dyeItem.getDyeColor();
+            player.playSound(SoundEvents.DYE_USE);
             sirenLightBlock.setColor(dyeColor.getTextColor());
             if (!player.getAbilities().instabuild) {
                 heldItem.shrink(1);

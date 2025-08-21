@@ -30,7 +30,7 @@ public class MultiNoiseBiomeSourceMixin implements MultiNoiseBiomeSourceAccessor
             method = "Lnet/minecraft/world/level/biome/MultiNoiseBiomeSource;getNoiseBiome(IIILnet/minecraft/world/level/biome/Climate$Sampler;)Lnet/minecraft/core/Holder;",
             cancellable = true
     )
-    private void citadel_getNoiseBiomeCoords(int x, int y, int z, Climate.Sampler sampler, CallbackInfoReturnable<Holder<Biome>> cir) {
+    private void ac_getNoiseBiomeCoords(int x, int y, int z, Climate.Sampler sampler, CallbackInfoReturnable<Holder<Biome>> cir) {
         VoronoiGenerator.VoronoiInfo voronoiInfo = ACBiomeRarity.getRareBiomeInfoForQuad(lastSampledWorldSeed, x, z);
         if(voronoiInfo != null){
             float unquantizedDepth = Climate.unquantizeCoord(sampler.sample(x, y, z).depth());
