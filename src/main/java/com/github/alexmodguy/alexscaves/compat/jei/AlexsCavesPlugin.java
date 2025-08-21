@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @JeiPlugin
 public class AlexsCavesPlugin implements IModPlugin {
-    public static final ResourceLocation MOD = new ResourceLocation(AlexsCaves.MODID, AlexsCaves.MODID);
+    public static final ResourceLocation MOD = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, AlexsCaves.MODID);
     public static final RecipeType<SpelunkeryTableRecipe> SPELUNKERY_TABLE_RECIPE_TYPE = RecipeType.create(AlexsCaves.MODID, "spelunkery_table", SpelunkeryTableRecipe.class);
     public static final RecipeType<AbstractCookingRecipe> NUCLEAR_FURNACE_RECIPE_TYPE = RecipeType.create(AlexsCaves.MODID, "nuclear_furnace", AbstractCookingRecipe.class);
 
@@ -59,7 +59,7 @@ public class AlexsCavesPlugin implements IModPlugin {
     @Override
     public void registerRuntime(IRuntimeRegistration registration) {
         if(Minecraft.getInstance().level != null){
-            Optional<? extends Recipe> alexMealRecipe = Minecraft.getInstance().level.getRecipeManager().byKey(new ResourceLocation("alexscaves:alex_meal"));
+            Optional<? extends Recipe> alexMealRecipe = Minecraft.getInstance().level.getRecipeManager().byKey(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "alex_meal"));
             if(alexMealRecipe.isPresent() && alexMealRecipe.get() instanceof CraftingRecipe craftingRecipe){
                 registration.getRecipeManager().hideRecipes(RecipeTypes.CRAFTING, List.of(craftingRecipe));
             }

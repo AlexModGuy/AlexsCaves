@@ -18,7 +18,7 @@ import net.minecraft.util.Mth;
 
 public class FrostmintSpearRenderer extends EntityRenderer<FrostmintSpearEntity> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/frostmint_spear.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/frostmint_spear.png");
     private static final FrostmintSpearModel MODEL = new FrostmintSpearModel();
 
     public FrostmintSpearRenderer(EntityRendererProvider.Context renderManagerIn) {

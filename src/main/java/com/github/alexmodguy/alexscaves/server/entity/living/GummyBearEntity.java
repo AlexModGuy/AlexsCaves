@@ -192,7 +192,7 @@ public class GummyBearEntity extends Animal implements IDancesToJukebox, IAnimat
         super.readAdditionalSaveData(compound);
         this.setGummyColor(GummyColors.fromOrdinal(compound.getInt("GummyColor")));
         if (compound.contains("DigestingEffect")) {
-            digestingEffect = new ResourceLocation(compound.getString("DigestingEffect"));
+            digestingEffect = ResourceLocation.parse(compound.getString("DigestingEffect"));
         }
         this.setBearSleeping(compound.getBoolean("BearSleeping"));
         this.setStanding(compound.getBoolean("BearSitting"));

@@ -36,12 +36,12 @@ import java.util.*;
 
 public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTableMenu> {
 
-    protected static final Style GLYPH_FONT = Style.EMPTY.withFont(new ResourceLocation("minecraft", "alt"));
+    protected static final Style GLYPH_FONT = Style.EMPTY.withFont(ResourceLocation.fromNamespaceAndPath("minecraft", "alt"));
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/spelunkery_table.png");
-    public static final ResourceLocation TABLET_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/spelunkery_table_tablet.png");
-    public static final ResourceLocation WIDGETS_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/spelunkery_table_widgets.png");
-    public static final ResourceLocation DEFAULT_WORDS = new ResourceLocation(AlexsCaves.MODID, "minigame/en_us/magnetic_caves.txt");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/gui/spelunkery_table.png");
+    public static final ResourceLocation TABLET_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/gui/spelunkery_table_tablet.png");
+    public static final ResourceLocation WIDGETS_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/gui/spelunkery_table_widgets.png");
+    public static final ResourceLocation DEFAULT_WORDS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "minigame/en_us/magnetic_caves.txt");
     private int tickCount = 0;
 
     private int attemptsLeft = 0;
@@ -410,13 +410,13 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
         }
         String s1 = getMinigameStr(stack) + ".txt";
         String lang = Minecraft.getInstance().getLanguageManager().getSelected().toLowerCase();
-        ResourceLocation resourceLocation = new ResourceLocation(AlexsCaves.MODID, "minigame/" + lang + "/" + s1);
+        ResourceLocation resourceLocation = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "minigame/" + lang + "/" + s1);
         try {
             InputStream is = Minecraft.getInstance().getResourceManager().open(resourceLocation);
             is.close();
         } catch (Exception var4) {
             AlexsCaves.LOGGER.warn("Could not find language file for translation, defaulting to english");
-            resourceLocation = new ResourceLocation(AlexsCaves.MODID, "minigame/en_us/" + s1);
+            resourceLocation = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "minigame/en_us/" + s1);
         }
         return resourceLocation;
     }

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.SplashModel;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -20,8 +21,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
 public class BigSplashParticle extends Particle {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/particle/splash.png");
-    private static final ResourceLocation TEXTURE_OVERLAY = new ResourceLocation("alexscaves:textures/particle/splash_overlay.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/splash.png");
+    private static final ResourceLocation TEXTURE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/splash_overlay.png");
     private static final SplashModel MODEL = new SplashModel();
     private float scale;
     private final int waterColor;

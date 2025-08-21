@@ -16,14 +16,14 @@ import net.minecraft.util.Mth;
 
 public class WaveRenderer extends EntityRenderer<WaveEntity> {
 
-    private static final ResourceLocation TEXTURE_0 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_0.png");
-    private static final ResourceLocation TEXTURE_1 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_1.png");
-    private static final ResourceLocation TEXTURE_2 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_2.png");
-    private static final ResourceLocation TEXTURE_3 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_3.png");
-    private static final ResourceLocation OVERLAY_TEXTURE_0 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_0.png");
-    private static final ResourceLocation OVERLAY_TEXTURE_1 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_1.png");
-    private static final ResourceLocation OVERLAY_TEXTURE_2 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_2.png");
-    private static final ResourceLocation OVERLAY_TEXTURE_3 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_3.png");
+    private static final ResourceLocation TEXTURE_0 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_0.png");
+    private static final ResourceLocation TEXTURE_1 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_1.png");
+    private static final ResourceLocation TEXTURE_2 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_2.png");
+    private static final ResourceLocation TEXTURE_3 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_3.png");
+    private static final ResourceLocation OVERLAY_TEXTURE_0 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_0.png");
+    private static final ResourceLocation OVERLAY_TEXTURE_1 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_1.png");
+    private static final ResourceLocation OVERLAY_TEXTURE_2 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_2.png");
+    private static final ResourceLocation OVERLAY_TEXTURE_3 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/wave_overlay_3.png");
     private static final WaveModel MODEL = new WaveModel();
 
     public WaveRenderer(EntityRendererProvider.Context renderManagerIn) {

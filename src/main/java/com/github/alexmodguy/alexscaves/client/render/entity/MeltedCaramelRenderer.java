@@ -15,7 +15,7 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 public class MeltedCaramelRenderer extends EntityRenderer<MeltedCaramelEntity> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/caramel_cube/melted_caramel.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/melted_caramel.png");
 
     public MeltedCaramelRenderer(EntityRendererProvider.Context context) {
         super(context);

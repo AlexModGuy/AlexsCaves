@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class VesperRenderer extends MobRenderer<VesperEntity, VesperModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/vesper.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vesper.png");
 
     public VesperRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new VesperModel(), 0.35F);

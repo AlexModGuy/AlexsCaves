@@ -95,30 +95,30 @@ public class ACTagRegistry {
     public static final TagKey<Fluid> DOES_NOT_FLOW_INTO_WATERLOGGABLE_BLOCKS = registerFluidTag("does_not_flow_into_waterloggable_blocks");
 
     private static TagKey<EntityType<?>> registerEntityTag(String name) {
-        return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Item> registerItemTag(String name) {
-        return TagKey.create(Registries.ITEM, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Block> registerBlockTag(String name) {
-        return TagKey.create(Registries.BLOCK, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Biome> registerBiomeTag(String name) {
-        return TagKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Structure> registerStructureTag(String name) {
-        return TagKey.create(Registries.STRUCTURE, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.STRUCTURE, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 
     private static TagKey<DamageType> registerDamageTypeTag(String name) {
-        return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.DAMAGE_TYPE, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 
     private static TagKey<Fluid> registerFluidTag(String name) {
-        return TagKey.create(Registries.FLUID, new ResourceLocation(AlexsCaves.MODID, name));
+        return TagKey.create(Registries.FLUID, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name));
     }
 }

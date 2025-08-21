@@ -14,8 +14,8 @@ import net.minecraft.resources.ResourceLocation;
 public class GobthumperBlockRenderer<T extends GobthumperBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final GobthumperModel MODEL = new GobthumperModel();
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gobthumper.png");
-    private static final ResourceLocation TEXTURE_JELLY = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gobthumper_jelly.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gobthumper.png");
+    private static final ResourceLocation TEXTURE_JELLY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gobthumper_jelly.png");
 
     public GobthumperBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
     }

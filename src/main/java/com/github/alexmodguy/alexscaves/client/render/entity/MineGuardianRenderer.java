@@ -21,10 +21,10 @@ import org.joml.Matrix4f;
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class MineGuardianRenderer extends MobRenderer<MineGuardianEntity, MineGuardianModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/mine_guardian.png");
-    private static final ResourceLocation TEXTURE_SLEEPING = new ResourceLocation("alexscaves:textures/entity/mine_guardian_sleeping.png");
-    private static final ResourceLocation TEXTURE_EYE = new ResourceLocation("alexscaves:textures/entity/mine_guardian_eye.png");
-    private static final ResourceLocation TEXTURE_EXPLODE = new ResourceLocation("alexscaves:textures/entity/mine_guardian_explode.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/mine_guardian.png");
+    private static final ResourceLocation TEXTURE_SLEEPING = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/mine_guardian_sleeping.png");
+    private static final ResourceLocation TEXTURE_EYE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/mine_guardian_eye.png");
+    private static final ResourceLocation TEXTURE_EXPLODE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/mine_guardian_explode.png");
 
 
     public MineGuardianRenderer(EntityRendererProvider.Context renderManagerIn) {

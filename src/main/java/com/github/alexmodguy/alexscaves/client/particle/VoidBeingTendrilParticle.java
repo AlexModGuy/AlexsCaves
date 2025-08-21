@@ -27,7 +27,7 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class VoidBeingTendrilParticle extends Particle {
 
-    private static final ResourceLocation TENDRIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/void_being_cloud_tendril.png");
+    private static final ResourceLocation TENDRIL_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/void_being_cloud_tendril.png");
 
     private Vec3 tipTarget;
     private double tipX;

@@ -38,10 +38,10 @@ import java.util.List;
 public class ConversionCrucibleBlockRenderer<T extends ConversionCrucibleBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final ConversionCrucibleModel MODEL = new ConversionCrucibleModel();
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/conversion_crucible.png");
-    private static final ResourceLocation TEXTURE_OVERLAY = new ResourceLocation(AlexsCaves.MODID, "textures/entity/conversion_crucible_active.png");
-    private static final ResourceLocation TEXTURE_FLUID = new ResourceLocation(AlexsCaves.MODID, "textures/entity/conversion_crucible_fluid.png");
-    private static final ResourceLocation TEXTURE_HEX = new ResourceLocation(AlexsCaves.MODID, "textures/entity/sugar_staff_hex.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/conversion_crucible.png");
+    private static final ResourceLocation TEXTURE_OVERLAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/conversion_crucible_active.png");
+    private static final ResourceLocation TEXTURE_FLUID = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/conversion_crucible_fluid.png");
+    private static final ResourceLocation TEXTURE_HEX = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sugar_staff_hex.png");
 
     protected final RandomSource random = RandomSource.create();
 

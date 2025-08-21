@@ -1,10 +1,10 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.CaramelCubeModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.LicowitchPossessionLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.CaramelCubeEntity;
-import com.github.alexmodguy.alexscaves.server.entity.living.GumbeeperEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -17,12 +17,12 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class CaramelCubeRenderer extends MobRenderer<CaramelCubeEntity, CaramelCubeModel> implements CustomBookEntityRenderer {
-    private static final ResourceLocation TEXTURE_SMALL = new ResourceLocation("alexscaves:textures/entity/caramel_cube/caramel_cube_small.png");
-    private static final ResourceLocation TEXTURE_SMALL_OUTSIDE = new ResourceLocation("alexscaves:textures/entity/caramel_cube/caramel_cube_small_outside.png");
-    private static final ResourceLocation TEXTURE_MEDIUM = new ResourceLocation("alexscaves:textures/entity/caramel_cube/caramel_cube_medium.png");
-    private static final ResourceLocation TEXTURE_MEDIUM_OUTSIDE = new ResourceLocation("alexscaves:textures/entity/caramel_cube/caramel_cube_medium_outside.png");
-    private static final ResourceLocation TEXTURE_LARGE = new ResourceLocation("alexscaves:textures/entity/caramel_cube/caramel_cube_large.png");
-    private static final ResourceLocation TEXTURE_LARGE_OUTSIDE = new ResourceLocation("alexscaves:textures/entity/caramel_cube/caramel_cube_large_outside.png");
+    private static final ResourceLocation TEXTURE_SMALL = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/caramel_cube_small.png");
+    private static final ResourceLocation TEXTURE_SMALL_OUTSIDE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/caramel_cube_small_outside.png");
+    private static final ResourceLocation TEXTURE_MEDIUM = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/caramel_cube_medium.png");
+    private static final ResourceLocation TEXTURE_MEDIUM_OUTSIDE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/caramel_cube_medium_outside.png");
+    private static final ResourceLocation TEXTURE_LARGE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/caramel_cube_large.png");
+    private static final ResourceLocation TEXTURE_LARGE_OUTSIDE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/caramel_cube/caramel_cube_large_outside.png");
     private boolean sepia = false;
 
     public CaramelCubeRenderer(EntityRendererProvider.Context renderManagerIn) {

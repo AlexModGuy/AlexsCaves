@@ -16,7 +16,7 @@ import net.minecraftforge.client.ForgeRenderTypes;
 
 public class ExtinctionSpearRenderer extends EntityRenderer<ExtinctionSpearEntity> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/extinction_spear.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/extinction_spear.png");
     private static final ExtinctionSpearModel MODEL = new ExtinctionSpearModel();
 
     public ExtinctionSpearRenderer(EntityRendererProvider.Context renderManagerIn) {

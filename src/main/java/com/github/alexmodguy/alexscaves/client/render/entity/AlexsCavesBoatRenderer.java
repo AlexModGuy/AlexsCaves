@@ -26,7 +26,7 @@ public class AlexsCavesBoatRenderer<T extends Boat & AlexsCavesBoat> extends Ent
     private final HashMap<AlexsCavesBoat.Type, ResourceLocation> textureMap = new HashMap<>();
     private final HashMap<AlexsCavesBoat.Type, ACBoatModel> modelMap = new HashMap<>();
 
-    private static final ResourceLocation CHEST_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/boat/chest.png");
+    private static final ResourceLocation CHEST_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/boat/chest.png");
     private static final ACBoatChestModel CHEST_MODEL = new ACBoatChestModel();
 
     private final boolean isChest;
@@ -34,7 +34,7 @@ public class AlexsCavesBoatRenderer<T extends Boat & AlexsCavesBoat> extends Ent
     public AlexsCavesBoatRenderer(EntityRendererProvider.Context context, boolean isChest) {
         super(context);
         for (AlexsCavesBoat.Type type : AlexsCavesBoat.Type.values()) {
-            textureMap.put(type, new ResourceLocation(AlexsCaves.MODID, "textures/entity/boat/" + type.getName() + "_boat.png"));
+            textureMap.put(type, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/boat/" + type.getName() + "_boat.png"));
         }
         modelMap.put(AlexsCavesBoat.Type.PEWEN, new PewenBoatModel());
         modelMap.put(AlexsCavesBoat.Type.THORNWOOD, new ThornwoodBoatModel());

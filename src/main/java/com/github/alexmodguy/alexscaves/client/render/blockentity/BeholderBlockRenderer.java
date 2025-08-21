@@ -16,8 +16,8 @@ import net.minecraft.util.RandomSource;
 public class BeholderBlockRenderer<T extends BeholderBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final BeholderModel MODEL = new BeholderModel();
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder.png");
-    private static final ResourceLocation TEXTURE_EYE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/beholder_eye.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/beholder.png");
+    private static final ResourceLocation TEXTURE_EYE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/beholder_eye.png");
 
     protected final RandomSource random = RandomSource.create();
 

@@ -35,9 +35,9 @@ import java.util.List;
 
 
 public class NotorRenderer extends MobRenderer<NotorEntity, NotorModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/notor.png");
-    private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/notor_glow.png");
-    private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/notor_eyes.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/notor.png");
+    private static final ResourceLocation TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/notor_glow.png");
+    private static final ResourceLocation TEXTURE_EYES = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/notor_eyes.png");
     private static final List<NotorEntity> allOnScreen = new ArrayList<>();
 
     public NotorRenderer(EntityRendererProvider.Context renderManagerIn) {

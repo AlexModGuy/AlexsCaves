@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class RelicheirusRenderer extends MobRenderer<RelicheirusEntity, RelicheirusModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/relicheirus.png");
-    private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/relicheirus_retro.png");
-    private static final ResourceLocation TEXTURE_TECTONIC = new ResourceLocation("alexscaves:textures/entity/relicheirus_tectonic.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/relicheirus.png");
+    private static final ResourceLocation TEXTURE_RETRO = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/relicheirus_retro.png");
+    private static final ResourceLocation TEXTURE_TECTONIC = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/relicheirus_tectonic.png");
 
     public RelicheirusRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new RelicheirusModel(), 1.0F);

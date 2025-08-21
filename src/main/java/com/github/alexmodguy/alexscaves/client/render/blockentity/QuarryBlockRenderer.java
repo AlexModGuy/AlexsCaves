@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class QuarryBlockRenderer<T extends QuarryBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final QuarryGrinderModel GRINDER_MODEL = new QuarryGrinderModel();
-    private static final ResourceLocation GRINDER_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/quarry_grinder.png");
+    private static final ResourceLocation GRINDER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/quarry_grinder.png");
 
     public QuarryBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
     }

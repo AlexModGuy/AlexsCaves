@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.CorrodentModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.CorrodentEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -24,8 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CorrodentRenderer extends MobRenderer<CorrodentEntity, CorrodentModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/corrodent.png");
-    private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/corrodent_eyes.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/corrodent.png");
+    private static final ResourceLocation TEXTURE_EYES = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/corrodent_eyes.png");
     private static final Map<BlockPos, Integer> allDugBlocksOnScreen = new HashMap<>();
 
     public CorrodentRenderer(EntityRendererProvider.Context renderManagerIn) {

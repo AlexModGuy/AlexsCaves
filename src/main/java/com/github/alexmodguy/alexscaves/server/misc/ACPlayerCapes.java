@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class ACPlayerCapes {
 
-    private static final ResourceLocation DEVELOPER_CAPE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/cape/developer.png");
-    private static final ResourceLocation CONTRIBUTOR_CAPE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/cape/contributor.png");
+    private static final ResourceLocation DEVELOPER_CAPE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/cape/developer.png");
+    private static final ResourceLocation CONTRIBUTOR_CAPE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/cape/contributor.png");
     private static final List<UUID> DEVS = List.of(
             UUID.fromString("380df991-f603-344c-a090-369bad2a924a"), /*Dev*/
             UUID.fromString("4a463319-625c-4b86-a4e7-8b700f023a60"), /*Noonyeyz*/

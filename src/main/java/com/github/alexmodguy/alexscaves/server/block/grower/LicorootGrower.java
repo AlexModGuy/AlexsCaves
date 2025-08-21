@@ -10,7 +10,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class LicorootGrower extends AbstractTreeGrower {
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> LICOROOT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AlexsCaves.MODID, "licoroot_tree"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LICOROOT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "licoroot_tree"));
 
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource randomSource, boolean b) {
         return LICOROOT_TREE;

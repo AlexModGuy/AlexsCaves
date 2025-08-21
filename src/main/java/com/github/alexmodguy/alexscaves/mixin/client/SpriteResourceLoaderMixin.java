@@ -26,8 +26,8 @@ public abstract class SpriteResourceLoaderMixin {
             SpriteResourceLoader ret = cir.getReturnValue();
             for (SpriteSource source : ((SpriteResourceLoaderMixin) (Object) ret).getSources()) {
                 if (source instanceof PalettedPermutationsAccessor permutations && permutations.getPaletteKey().getPath().equals("trims/color_palettes/trim_palette")) {
-                    ResourceLocation trimLocation = new ResourceLocation(AlexsCaves.MODID, "trims/models/armor/polarity");
-                    ResourceLocation leggingsTrimLocation = new ResourceLocation(AlexsCaves.MODID, "trims/models/armor/polarity").withSuffix("_leggings");
+                    ResourceLocation trimLocation = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "trims/models/armor/polarity");
+                    ResourceLocation leggingsTrimLocation = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "trims/models/armor/polarity").withSuffix("_leggings");
                     permutations.setTextures(ImmutableList.<ResourceLocation>builder().addAll(permutations.getTextures()).add(trimLocation, leggingsTrimLocation).build());
                 }
             }

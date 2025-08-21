@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.DarkArrowModel;
 import com.github.alexmodguy.alexscaves.server.entity.item.DarkArrowEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,7 +17,7 @@ import net.minecraftforge.client.ForgeRenderTypes;
 
 public class DarkArrowRenderer extends EntityRenderer<DarkArrowEntity> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/dark_arrow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/dark_arrow.png");
     private static final DarkArrowModel MODEL = new DarkArrowModel();
 
     public DarkArrowRenderer(EntityRendererProvider.Context context) {

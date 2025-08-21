@@ -27,7 +27,7 @@ public class ACRecipeMaker {
         for (ResourceKey<Biome> biome : ACBiomeRegistry.ALEXS_CAVES_BIOMES) {
             ItemStack scroll = CaveInfoItem.create(ACItemRegistry.CAVE_CODEX.get(), biome);
             ItemStack map = CaveMapItem.createMap(biome);
-            ResourceLocation id = new ResourceLocation(AlexsCaves.MODID, "jei.cave_map_" + biome.location().getPath());
+            ResourceLocation id = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "jei.cave_map_" + biome.location().getPath());
             Ingredient paper = Ingredient.of(Items.PAPER);
             NonNullList<Ingredient> inputs = NonNullList.of(Ingredient.EMPTY,
                     paper, paper, paper,

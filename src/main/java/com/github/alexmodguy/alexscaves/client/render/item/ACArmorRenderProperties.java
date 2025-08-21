@@ -22,7 +22,7 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 
 public class ACArmorRenderProperties implements IClientItemExtensions {
 
-    private static final ResourceLocation DARKNESS_ARMOR_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/armor/darkness_armor_glow.png");
+    private static final ResourceLocation DARKNESS_ARMOR_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/armor/darkness_armor_glow.png");
     private static boolean init;
     public static PrimordialArmorModel PRIMORDIAL_ARMOR_MODEL;
     public static HazmatArmorModel HAZMAT_ARMOR_MODEL;

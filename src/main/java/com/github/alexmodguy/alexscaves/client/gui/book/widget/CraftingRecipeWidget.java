@@ -34,8 +34,8 @@ public class CraftingRecipeWidget extends BookWidget {
     @Expose(serialize = false, deserialize = false)
     private boolean smelting = false;
 
-    private static final ResourceLocation CRAFTING_GRID_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/book/crafting_grid.png");
-    private static final ResourceLocation SMELTING_GRID_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/book/smelting_grid.png");
+    private static final ResourceLocation CRAFTING_GRID_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/gui/book/crafting_grid.png");
+    private static final ResourceLocation SMELTING_GRID_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/gui/book/smelting_grid.png");
 
     public CraftingRecipeWidget(int displayPage, String recipeId, boolean sepia, int x, int y, float scale) {
         super(displayPage, Type.CRAFTING_RECIPE, x, y, scale);
@@ -148,8 +148,8 @@ public class CraftingRecipeWidget extends BookWidget {
     private Recipe getRecipeByName(String registryName) {
         try {
             RecipeManager manager = Minecraft.getInstance().level.getRecipeManager();
-            if (manager.byKey(new ResourceLocation(registryName)).isPresent()) {
-                return manager.byKey(new ResourceLocation(registryName)).get();
+            if (manager.byKey(ResourceLocation.parse(registryName)).isPresent()) {
+                return manager.byKey(ResourceLocation.parse(registryName)).get();
             }
         } catch (Exception e) {
             e.printStackTrace();

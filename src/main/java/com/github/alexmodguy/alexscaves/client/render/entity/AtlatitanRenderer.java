@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.AtlatitanModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.AtlatitanRiderLayer;
@@ -16,9 +17,9 @@ import net.minecraftforge.entity.PartEntity;
 import javax.annotation.Nullable;
 
 public class AtlatitanRenderer extends MobRenderer<AtlatitanEntity, AtlatitanModel> implements CustomBookEntityRenderer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/atlatitan.png");
-    private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/atlatitan_retro.png");
-    private static final ResourceLocation TEXTURE_TECTONIC = new ResourceLocation("alexscaves:textures/entity/atlatitan_tectonic.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/atlatitan.png");
+    private static final ResourceLocation TEXTURE_RETRO = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/atlatitan_retro.png");
+    private static final ResourceLocation TEXTURE_TECTONIC = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/atlatitan_tectonic.png");
 
     private boolean sepia;
 

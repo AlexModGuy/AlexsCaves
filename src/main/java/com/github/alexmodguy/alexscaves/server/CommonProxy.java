@@ -154,8 +154,4 @@ public class CommonProxy {
 
     public void renderVanillaMapDecoration(MapDecoration mapDecoration, int index) {
     }
-
-    public void checkModCompatibility(){
-        ACLoadedMods.init();
-    }
 }

@@ -53,7 +53,7 @@ public class ItemWidget extends BookWidget {
 
     public void render(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, float partialTicks, boolean onFlippingPage) {
         if (actualItem == null && item != null) {
-            actualItem = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(item)));
+            actualItem = new ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation.parse(item)));
             if (nbt != null && !nbt.isEmpty()) {
                 CompoundTag tag = null;
                 try {

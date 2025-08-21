@@ -13,7 +13,7 @@ buildscript {
 }
 apply plugin: 'net.minecraftforge.gradle'
 
-repositories{
+repositories {
     maven {
         name = "CurseForge"
         url = "https://minecraft.curseforge.com/api/maven/"
@@ -48,15 +48,15 @@ minecraft {
 
 
     // Default run configurations.
-    // These can be tweaked, removed, or duplicated as h  needed.
+    // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
-            workingDirectory project.file('run')
+            properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
-            arg "-mixin.config="+"citadel.mixins.json"
-            arg "-mixin.config="+"alexscaves.mixins.json"
+            arg "-mixin.config=" + "citadel.mixins.json"
+            arg "-mixin.config=" + "alexscaves.mixins.json"
 
-            // Recommended logging data f  or a userdev environment
+            // Recommended logging data for a userdev environment
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
 
             // Recommended logging level for the console
@@ -73,14 +73,14 @@ minecraft {
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run')
-            arg "-mixin.config="+"citadel.mixins.json"
-            arg "-mixin.config="+"alexscaves.mixins.json"
+            arg "-mixin.config=" + "citadel.mixins.json"
+            arg "-mixin.config=" + "alexscaves.mixins.json"
 
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                citadel {
+                alexscaves {
                     source sourceSets.main
                 }
             }
@@ -90,14 +90,14 @@ minecraft {
             properties 'mixin.env.remapRefMap': 'true'
             property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
             workingDirectory project.file('run')
-            arg "-mixin.config="+"citadel.mixins.json"
-            arg "-mixin.config="+"alexscaves.mixins.json"
+            arg "-mixin.config=" + "citadel.mixins.json"
+            arg "-mixin.config=" + "alexscaves.mixins.json"
 
 
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                citadel {
+                alexscaves {
                     source sourceSets.main
                 }
             }
@@ -115,8 +115,6 @@ dependencies {
     compileOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge-api:${jei_version}"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${jei_mc_version}-forge:${jei_version}"))
     runtimeOnly(fg.deobf("curse.maven:spark-361579:4587309"))
-//    runtimeOnly fg.deobf("curse.maven:naturescompass-252848:4175025")
-//    runtimeOnly fg.deobf("curse.maven:structure-compass-319598:4946417")
 }
 
 mixin {
@@ -129,13 +127,13 @@ mixin {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "alexscaves",
-            "Specification-Vendor": "alexthe668",
-            "Specification-Version": "1.0", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"alexthe668",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : "alexscaves",
+                "Specification-Vendor"    : "alexthe668",
+                "Specification-Version"   : "1.0", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : "${version}",
+                "Implementation-Vendor"   : "alexthe668",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }

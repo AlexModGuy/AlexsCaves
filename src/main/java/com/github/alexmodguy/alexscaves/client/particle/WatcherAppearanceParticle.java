@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.particle;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.WatcherModel;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -19,7 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraftforge.client.ForgeRenderTypes;
 
 public class WatcherAppearanceParticle extends Particle {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/watcher_appearance.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/watcher_appearance.png");
     private final WatcherModel model = new WatcherModel();
 
     private WatcherAppearanceParticle(ClientLevel lvl, double x, double y, double z) {

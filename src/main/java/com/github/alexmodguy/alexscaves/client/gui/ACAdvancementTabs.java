@@ -111,13 +111,13 @@ public class ACAdvancementTabs {
     }
 
     public enum Type {
-        DEFAULT(new ResourceLocation(AlexsCaves.MODID,"alexscaves/root"), 0, new ResourceLocation("textures/block/stone.png")),
-        MAGNETIC(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_magnetic_caves"), 0X060607, new ResourceLocation(AlexsCaves.MODID, "textures/block/galena.png")),
-        PRIMORDIAL(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_primordial_caves"), 0XF2D860, new ResourceLocation(AlexsCaves.MODID, "textures/block/limestone.png")),
-        TOXIC(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_toxic_caves"), 0X7EFF00, new ResourceLocation(AlexsCaves.MODID, "textures/block/radrock.png")),
-        ABYSSAL(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_abyssal_chasm"), 0X011437, new ResourceLocation(AlexsCaves.MODID, "textures/block/abyssmarine.png")),
-        FORLORN(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_forlorn_hollows"), 0X15110E, new ResourceLocation(AlexsCaves.MODID, "textures/block/guanostone.png")),
-        CANDY(new ResourceLocation(AlexsCaves.MODID,"alexscaves/discover_candy_cavity"), 0XF795CA, new ResourceLocation(AlexsCaves.MODID, "textures/block/block_of_chocolate.png"));
+        DEFAULT(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/root"), 0, ResourceLocation.withDefaultNamespace("textures/block/stone.png")),
+        MAGNETIC(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/discover_magnetic_caves"), 0X060607, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/block/galena.png")),
+        PRIMORDIAL(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/discover_primordial_caves"), 0XF2D860, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/block/limestone.png")),
+        TOXIC(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/discover_toxic_caves"), 0X7EFF00, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/block/radrock.png")),
+        ABYSSAL(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/discover_abyssal_chasm"), 0X011437, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/block/abyssmarine.png")),
+        FORLORN(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/discover_forlorn_hollows"), 0X15110E, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/block/guanostone.png")),
+        CANDY(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,"alexscaves/discover_candy_cavity"), 0XF795CA, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/block/block_of_chocolate.png"));
 
         ResourceLocation root;
 
@@ -136,7 +136,7 @@ public class ACAdvancementTabs {
         }
 
         private ResourceLocation generateTexture(String type) {
-            return this == DEFAULT ? null : new ResourceLocation(AlexsCaves.MODID, "textures/misc/advancement/" + this.name().toLowerCase(Locale.ROOT) + "_" + type + ".png");
+            return this == DEFAULT ? null : ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/misc/advancement/" + this.name().toLowerCase(Locale.ROOT) + "_" + type + ".png");
         }
 
         private static Type getDirectType(Advancement advancement) {

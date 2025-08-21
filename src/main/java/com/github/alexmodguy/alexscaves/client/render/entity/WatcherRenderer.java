@@ -21,9 +21,9 @@ import net.minecraft.world.entity.Pose;
 import javax.annotation.Nullable;
 
 public class WatcherRenderer extends MobRenderer<WatcherEntity, WatcherModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/watcher.png");
-    private static final ResourceLocation TEXTURE_MOTH = new ResourceLocation("alexscaves:textures/entity/watcher_moth.png");
-    private static final ResourceLocation TEXTURE_EYESPOTS = new ResourceLocation("alexscaves:textures/entity/watcher_eyespots.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/watcher.png");
+    private static final ResourceLocation TEXTURE_MOTH = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/watcher_moth.png");
+    private static final ResourceLocation TEXTURE_EYESPOTS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/watcher_eyespots.png");
 
     public WatcherRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new WatcherModel(), 0.5F);

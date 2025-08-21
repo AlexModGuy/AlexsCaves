@@ -28,10 +28,10 @@ import javax.annotation.Nullable;
 import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class GumbeeperRenderer extends MobRenderer<GumbeeperEntity, GumbeeperModel> implements CustomBookEntityRenderer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/gumbeeper.png");
-    private static final ResourceLocation TEXTURE_GLASS = new ResourceLocation("alexscaves:textures/entity/gumbeeper_glass.png");
-    private static final ResourceLocation TEXTURE_EXPLODE = new ResourceLocation("alexscaves:textures/entity/gumbeeper_explode.png");
-    private static final ResourceLocation TEXTURE_POSSESSED = new ResourceLocation("alexscaves:textures/entity/gumbeeper_possessed.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gumbeeper.png");
+    private static final ResourceLocation TEXTURE_GLASS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gumbeeper_glass.png");
+    private static final ResourceLocation TEXTURE_EXPLODE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gumbeeper_explode.png");
+    private static final ResourceLocation TEXTURE_POSSESSED = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gumbeeper_possessed.png");
     private boolean sepia = false;
 
     public GumbeeperRenderer(EntityRendererProvider.Context renderManagerIn) {

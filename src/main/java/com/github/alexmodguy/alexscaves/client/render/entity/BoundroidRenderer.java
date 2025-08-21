@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.BoundroidModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.BoundroidEntity;
@@ -13,8 +14,8 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class BoundroidRenderer extends MobRenderer<BoundroidEntity, BoundroidModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/boundroid.png");
-    private static final ResourceLocation TEXTURE_SCARED = new ResourceLocation("alexscaves:textures/entity/boundroid_scared.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/boundroid.png");
+    private static final ResourceLocation TEXTURE_SCARED = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/boundroid_scared.png");
 
     public BoundroidRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new BoundroidModel(), 0.8F);

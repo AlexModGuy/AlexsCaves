@@ -25,8 +25,8 @@ public class SodaBottleStructure extends Structure {
     public static final Codec<SodaBottleStructure> CODEC = simpleCodec((settings) -> new SodaBottleStructure(settings));
 
     private static final ResourceLocation[] SODA_NBT = new ResourceLocation[]{
-            new ResourceLocation(AlexsCaves.MODID, "soda_bottle"),
-            new ResourceLocation(AlexsCaves.MODID, "soda_bottle_side")
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "soda_bottle"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "soda_bottle_side")
     };
 
     private static final int Y = 19;

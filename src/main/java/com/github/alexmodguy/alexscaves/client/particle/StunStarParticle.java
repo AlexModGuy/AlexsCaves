@@ -28,8 +28,8 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class StunStarParticle extends AbstractTrailParticle {
 
-    private static final ResourceLocation CENTER_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/stun_star.png");
-    private static final ResourceLocation TRAIL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/teletor_trail.png");
+    private static final ResourceLocation CENTER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/stun_star.png");
+    private static final ResourceLocation TRAIL_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/teletor_trail.png");
 
     private final int entityId;
 

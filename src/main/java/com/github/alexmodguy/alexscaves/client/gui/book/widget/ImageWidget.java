@@ -52,7 +52,7 @@ public class ImageWidget extends BookWidget {
 
     public void render(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, float partialTicks, boolean onFlippingPage) {
         if(this.actualTexture == null){
-            this.actualTexture = new ResourceLocation(image);
+            this.actualTexture = ResourceLocation.parse(image);
         }
         VertexConsumer vertexconsumer = bufferSource.getBuffer(ACRenderTypes.getBookWidget(this.actualTexture, sepia));
         float scale = getScale();

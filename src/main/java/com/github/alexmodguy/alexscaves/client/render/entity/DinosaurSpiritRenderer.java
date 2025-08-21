@@ -20,9 +20,9 @@ import net.minecraft.world.phys.Vec3;
 
 public class DinosaurSpiritRenderer  extends EntityRenderer<DinosaurSpiritEntity> {
 
-    private static final ResourceLocation SUBTERRANODON_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/subterranodon.png");
-    private static final ResourceLocation TREMORSAURUS_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/tremorsaurus.png");
-    private static final ResourceLocation GROTTOCERATOPS_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/grottoceratops.png");
+    private static final ResourceLocation SUBTERRANODON_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/subterranodon.png");
+    private static final ResourceLocation TREMORSAURUS_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/tremorsaurus.png");
+    private static final ResourceLocation GROTTOCERATOPS_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/grottoceratops.png");
     private static final SubterranodonModel SUBTERRANODON_MODEL = new SubterranodonModel();
     private static final TremorsaurusModel TREMORSAURUS_MODEL = new TremorsaurusModel();
     private static final GrottoceratopsModel  GROTTOCERATOPS_MODEL = new GrottoceratopsModel();

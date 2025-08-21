@@ -24,8 +24,8 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 public class SirenLightBlockRenderer<T extends SirenLightBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final SirenLightModel MODEL = new SirenLightModel();
-    private static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/siren_light.png");
-    private static final ResourceLocation COLOR_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/siren_light_color.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/siren_light.png");
+    private static final ResourceLocation COLOR_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/siren_light_color.png");
 
 
     public SirenLightBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
