@@ -22,6 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -256,6 +257,19 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
         }
     }
 
+    @Inject(
+            method = {"Lnet/minecraft/world/entity/Entity;isAlliedTo(Lnet/minecraft/world/entity/Entity;)Z"},
+            at = @At(value = "HEAD"),
+            remap = true,
+            cancellable = true
+    )
+    public void ac_isAlliedTo(Entity entity, CallbackInfoReturnable<Boolean> cir) {
+        if (isPossessed((Entity) (Object) this) || (entity != null && isPossessed(entity))) {
+            cir.setReturnValue(false);
+        }
+    }
+
+
     @Override
     public float getMagneticDeltaX() {
         return entityData.hasItem(MAGNET_DELTA_X) ? entityData.get(MAGNET_DELTA_X) : 0.0F;
@@ -330,5 +344,10 @@ public abstract class EntityMixin implements MagneticEntityAccessor {
             this.lastStepPos = pos;
             this.playStepSound(pos, level.getBlockState(pos));
         }
+    }
+
+    @Unique
+    private static boolean isPossessed(Entity e) {
+        return e.getPersistentData().getBoolean("TotemPossessed");
     }
 }
