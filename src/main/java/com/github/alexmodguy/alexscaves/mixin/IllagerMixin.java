@@ -31,7 +31,6 @@ public abstract class IllagerMixin {
         }
     }
 
-
     @Unique
     private static boolean isPossessed(Entity e) {
         return e.getPersistentData().getBoolean("TotemPossessed");
