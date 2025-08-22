@@ -66,6 +66,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
         }
         Entity controlledEntity = getControlledEntity(level, itemstack);
         if (isBound(itemstack) && (controlledEntity == null || !controlledEntity.isAlive()) && !level.isClientSide) {
+            setPossessed(controlledEntity, false);
             resetBound(itemstack);
         }
         if (isBound(itemstack) && controlledEntity != null && (isEntityLookingAt(player, controlledEntity, 5F) || itemstack.getEnchantmentLevel(ACEnchantmentRegistry.SIGHTLESS.get()) > 0)) {
@@ -100,6 +101,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
                 explosion.explode();
                 explosion.finalizeExplosion(true);
             }
+            setPossessed(controlledEntity, false);
             resetBound(stack);
             user.stopUsingItem();
             if (level.isClientSide) {
@@ -170,6 +172,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
                                 mob.setTarget(target);
                                 mob.setLastHurtByMob(target);
                                 if (i % 4 == 0 && target.getHealth() > mob.getHealth() && !target.getType().is(ACTagRegistry.RESISTS_TOTEM_OF_POSSESSION) && stack.getEnchantmentLevel(ACEnchantmentRegistry.ASTRAL_TRANSFERRING.get()) > 0) {
+                                    setPossessed(target, true);
                                     CompoundTag tag = stack.getOrCreateTag();
                                     tag.putUUID("BoundEntityUUID", target.getUUID());
                                     CompoundTag entityTag = target.serializeNBT();
@@ -283,6 +286,7 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
                 player.displayClientMessage(Component.translatable("item.alexscaves.totem_of_possession.invalid"), true);
             }
         } else {
+            setPossessed(hurtMob, true);
             CompoundTag tag = stack.getOrCreateTag();
             tag.putUUID("BoundEntityUUID", hurtMob.getUUID());
             CompoundTag entityTag = hurtMob.serializeNBT();
@@ -293,4 +297,16 @@ public class TotemOfPossessionItem extends Item implements Vanishable, UpdatesSt
 
         return true;
     }
+
+    private static void setPossessed(@Nullable Entity e, boolean v) {
+        if (e == null) return;
+        if (v) {
+            e.getPersistentData().putBoolean("TotemPossessed", true);
+        } else {
+            e.getPersistentData().remove("TotemPossessed");
+        }
+    }
+
 }
+
+

@@ -16,6 +16,7 @@
     "FlowingFluidMixin",
     "FoodDataMixin",
     "FrogMixin",
+    "IllagerMixin",
     "JigsawStructureMixin",
     "KelpFeatureMixin",
     "LivingEntityMixin",
