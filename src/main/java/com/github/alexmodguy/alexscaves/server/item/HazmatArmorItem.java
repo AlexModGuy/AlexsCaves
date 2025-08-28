@@ -1,6 +1,7 @@
 package com.github.alexmodguy.alexscaves.server.item;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -50,18 +51,35 @@ public class HazmatArmorItem extends ArmorItem {
         }
     }
 
-    public static int getWornAmount(LivingEntity entity) {
+    public static int getRadProtection(LivingEntity entity) {
         int i = 0;
-        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACItemRegistry.HAZMAT_MASK.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACItemRegistry.HAZMAT_CHESTPLATE.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACItemRegistry.HAZMAT_LEGGINGS.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
             i++;
         }
-        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACItemRegistry.HAZMAT_BOOTS.get())) {
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.RAD_PROTECTIVE_ARMOR)) {
+            i++;
+        }
+        return i;
+    }
+
+    public static int getAcidProtection(LivingEntity entity) {
+        int i = 0;
+        if (entity.getItemBySlot(EquipmentSlot.HEAD).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
+            i++;
+        }
+        if (entity.getItemBySlot(EquipmentSlot.CHEST).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
+            i++;
+        }
+        if (entity.getItemBySlot(EquipmentSlot.LEGS).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
+            i++;
+        }
+        if (entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.ACID_PROTECTIVE_ARMOR)) {
             i++;
         }
         return i;

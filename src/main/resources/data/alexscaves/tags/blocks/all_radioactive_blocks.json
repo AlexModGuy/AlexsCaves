@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#alexscaves:weak_radioactive_blocks",
+    "#alexscaves:radioactive_blocks",
+    "#alexscaves:strong_radioactive_blocks"
+  ]
+}
