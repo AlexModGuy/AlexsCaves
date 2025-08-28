@@ -38,6 +38,7 @@ public class ACServerConfig {
     public final ForgeConfigSpec.DoubleValue abyssalTabletLootChance;
     public final ForgeConfigSpec.DoubleValue forlornTabletLootChance;
     public final ForgeConfigSpec.DoubleValue candyTabletLootChance;
+    public final ForgeConfigSpec.BooleanValue purpleSodaRightClickBottling;
     public final ForgeConfigSpec.DoubleValue cabinMapLootChance;
     public final ForgeConfigSpec.BooleanValue cartographersSellCabinMaps;
     public final ForgeConfigSpec.BooleanValue wanderingTradersSellCabinMaps;
@@ -82,6 +83,7 @@ public class ACServerConfig {
         totemOfPossessionPlayers = builder.comment("Whether the Totem of Possession can be applied to players.").translation("totem_of_possession_works_on_players").define("totem_of_possession_works_on_players", true);
         darknessCloakChargeTime = builder.comment("The amount of time (in ticks) it takes to charge up the Cloak of Darkness ability.").translation("darkness_cloak_charge_time").defineInRange("darkness_cloak_charge_time", 1000, 20, Integer.MAX_VALUE);
         darknessCloakFlightTime = builder.comment("The amount of time (in ticks) that players can fly with the Cloak of Darkness ability.").translation("darkness_cloak_fly_time").defineInRange("darkness_cloak_fly_time", 200, 20, Integer.MAX_VALUE);
+        purpleSodaRightClickBottling = builder.comment("Whether purple soda can be bottled with a right click of a glass bottle.").translation("purple_soda_right_click_bottling").define("purple_soda_right_click_bottling", true);
         builder.pop();
         builder.push("potion-behavior");
         sugarRushSlowsTime = builder.comment("Whether the Sugar Rush changes the tick rate of the game in the area of affected players.").translation("sugar_rush_slows_time").define("sugar_rush_slows_time", true);

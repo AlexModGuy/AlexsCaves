@@ -438,7 +438,7 @@ public class CommonEvents {
     @SubscribeEvent
     public void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         Player player = event.getEntity();
-        if (event.getItemStack().getItem() == Items.GLASS_BOTTLE) {
+        if (event.getItemStack().getItem() == Items.GLASS_BOTTLE && AlexsCaves.COMMON_CONFIG.purpleSodaRightClickBottling.get()) {
             HitResult raytraceresult = getPlayerPOVHitResult(event.getLevel(), player, ClipContext.Fluid.SOURCE_ONLY);
             if (raytraceresult.getType() == HitResult.Type.BLOCK) {
                 BlockPos blockpos = ((BlockHitResult) raytraceresult).getBlockPos();
