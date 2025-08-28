@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.CaniacModel;
 import com.github.alexmodguy.alexscaves.client.model.GingerbreadManModel;
 import com.github.alexmodguy.alexscaves.client.model.GumbeeperModel;
@@ -32,20 +33,20 @@ import net.minecraft.world.item.ItemStack;
 
 public class GingerbreadManRenderer extends MobRenderer<GingerbreadManEntity, GingerbreadManModel> {
     private static final ResourceLocation[] TEXTURES_FOR_VARIANT = new ResourceLocation[GingerbreadManEntity.MAX_VARIANTS + 1];
-    private static final ResourceLocation TEXTURE_ALEX = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_alex.png");
-    private static final ResourceLocation TEXTURE_CARRO = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_carro.png");
-    private static final ResourceLocation TEXTURE_DENO = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_deno.png");
-    private static final ResourceLocation TEXTURE_GATETOH = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_gatetoh.png");
-    private static final ResourceLocation TEXTURE_HOLIDAY = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_holiday.png");
-    private static final ResourceLocation TEXTURE_PINKY = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_pinky.png");
-    private static final ResourceLocation TEXTURE_PLUMMET = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_plummet.png");
-    private static final ResourceLocation TEXTURE_VAKY = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_vaky.png");
-    private static final ResourceLocation TEXTURE_BLANK = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_blank.png");
-    private static final ResourceLocation TEXTURE_TEAM_OVERLAY = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_team_overlay.png");
+    private static final ResourceLocation TEXTURE_ALEX = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_alex.png");
+    private static final ResourceLocation TEXTURE_CARRO = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_carro.png");
+    private static final ResourceLocation TEXTURE_DENO = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_deno.png");
+    private static final ResourceLocation TEXTURE_GATETOH = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_gatetoh.png");
+    private static final ResourceLocation TEXTURE_HOLIDAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_holiday.png");
+    private static final ResourceLocation TEXTURE_PINKY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_pinky.png");
+    private static final ResourceLocation TEXTURE_PLUMMET = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_plummet.png");
+    private static final ResourceLocation TEXTURE_VAKY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_vaky.png");
+    private static final ResourceLocation TEXTURE_BLANK = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_blank.png");
+    private static final ResourceLocation TEXTURE_TEAM_OVERLAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_team_overlay.png");
 
     static {
         for (int i = 0; i <= GingerbreadManEntity.MAX_VARIANTS; i++) {
-            TEXTURES_FOR_VARIANT[i] = new ResourceLocation("alexscaves:textures/entity/gingerbread_man/gingerbread_man_" + i + ".png");
+            TEXTURES_FOR_VARIANT[i] = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gingerbread_man/gingerbread_man_" + i + ".png");
         }
     }
 

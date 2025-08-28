@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.ClientProxy;
 import com.github.alexmodguy.alexscaves.client.model.GumbeeperModel;
 import com.github.alexmodguy.alexscaves.client.model.LicowitchModel;
@@ -40,7 +41,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.*;
 
 public class LicowitchRenderer extends MobRenderer<LicowitchEntity, LicowitchModel> {
-    public static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/licowitch.png");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/licowitch.png");
 
     private static final Set<LicowitchEntity> allTeleportingLicowitchOnScreen = new HashSet<>();
 

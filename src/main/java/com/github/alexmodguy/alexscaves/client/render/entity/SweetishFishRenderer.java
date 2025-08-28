@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.SweetishFishModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.SweetishFishEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,11 +9,11 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
 public class SweetishFishRenderer extends MobRenderer<SweetishFishEntity, SweetishFishModel> {
-    private static final ResourceLocation TEXTURE_RED = new ResourceLocation("alexscaves:textures/entity/sweetish_fish_red.png");
-    private static final ResourceLocation TEXTURE_GREEN = new ResourceLocation("alexscaves:textures/entity/sweetish_fish_green.png");
-    private static final ResourceLocation TEXTURE_YELLOW = new ResourceLocation("alexscaves:textures/entity/sweetish_fish_yellow.png");
-    private static final ResourceLocation TEXTURE_BLUE = new ResourceLocation("alexscaves:textures/entity/sweetish_fish_blue.png");
-    private static final ResourceLocation TEXTURE_PINK = new ResourceLocation("alexscaves:textures/entity/sweetish_fish_pink.png");
+    private static final ResourceLocation TEXTURE_RED = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sweetish_fish_red.png");
+    private static final ResourceLocation TEXTURE_GREEN = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sweetish_fish_green.png");
+    private static final ResourceLocation TEXTURE_YELLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sweetish_fish_yellow.png");
+    private static final ResourceLocation TEXTURE_BLUE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sweetish_fish_blue.png");
+    private static final ResourceLocation TEXTURE_PINK = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sweetish_fish_pink.png");
 
     public SweetishFishRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new SweetishFishModel(), 0.35F);

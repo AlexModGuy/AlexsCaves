@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.VallumraptorModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.VallumraptorEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,15 +19,15 @@ import net.minecraft.world.item.ItemStack;
 import javax.annotation.Nullable;
 
 public class VallumraptorRenderer extends MobRenderer<VallumraptorEntity, VallumraptorModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/vallumraptor.png");
-    private static final ResourceLocation TEXTURE_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_elder.png");
-    private static final ResourceLocation TEXTURE_ALAN = new ResourceLocation("alexscaves:textures/entity/vallumraptor_alan.png");
-    private static final ResourceLocation TEXTURE_ALAN_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_alan_elder.png");
-    private static final ResourceLocation TEXTURE_RETRO = new ResourceLocation("alexscaves:textures/entity/vallumraptor_retro.png");
-    private static final ResourceLocation TEXTURE_RETRO_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_retro_elder.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor.png");
+    private static final ResourceLocation TEXTURE_ELDER = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_elder.png");
+    private static final ResourceLocation TEXTURE_ALAN = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_alan.png");
+    private static final ResourceLocation TEXTURE_ALAN_ELDER = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_alan_elder.png");
+    private static final ResourceLocation TEXTURE_RETRO = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_retro.png");
+    private static final ResourceLocation TEXTURE_RETRO_ELDER = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_retro_elder.png");
 
-    private static final ResourceLocation TEXTURE_TECTONIC = new ResourceLocation("alexscaves:textures/entity/vallumraptor_tectonic.png");
-    private static final ResourceLocation TEXTURE_TECTONIC_ELDER = new ResourceLocation("alexscaves:textures/entity/vallumraptor_tectonic_elder.png");
+    private static final ResourceLocation TEXTURE_TECTONIC = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_tectonic.png");
+    private static final ResourceLocation TEXTURE_TECTONIC_ELDER = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/vallumraptor_tectonic_elder.png");
 
     public VallumraptorRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new VallumraptorModel(), 0.3F);

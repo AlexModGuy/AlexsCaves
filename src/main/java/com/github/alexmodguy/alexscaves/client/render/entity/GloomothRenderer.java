@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.GloomothModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.GloomothEntity;
@@ -13,8 +14,8 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class GloomothRenderer extends MobRenderer<GloomothEntity, GloomothModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/gloomoth.png");
-    private static final ResourceLocation TEXTURE_EYESPOTS = new ResourceLocation("alexscaves:textures/entity/gloomoth_eyespots.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID,  "textures/entity/gloomoth.png");
+    private static final ResourceLocation TEXTURE_EYESPOTS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gloomoth_eyespots.png");
 
     public GloomothRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new GloomothModel(), 0.35F);

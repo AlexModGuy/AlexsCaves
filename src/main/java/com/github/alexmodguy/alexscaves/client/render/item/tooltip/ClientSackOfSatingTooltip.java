@@ -9,7 +9,7 @@ import net.minecraft.util.Mth;
 
 public class ClientSackOfSatingTooltip implements ClientTooltipComponent {
 
-    private static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation("textures/gui/icons.png");
+    private static final ResourceLocation GUI_ICONS_LOCATION = ResourceLocation.withDefaultNamespace("textures/gui/icons.png");
     private final SackOfSatingTooltip tooltipComponent;
 
     public ClientSackOfSatingTooltip(SackOfSatingTooltip tooltipComponent) {

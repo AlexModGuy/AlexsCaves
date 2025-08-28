@@ -30,11 +30,11 @@ import org.joml.Matrix4f;
 
 public class ACPotionEffectLayer extends RenderLayer {
 
-    private static final ResourceLocation TEXTURE_BUBBLE = new ResourceLocation("alexscaves:textures/entity/deep_one/bubble.png");
-    private static final ResourceLocation TEXTURE_WATER = new ResourceLocation("textures/block/water_still.png");
-    public static final ResourceLocation INSIDE_BUBBLE_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/misc/inside_bubble.png");
-    public static final ResourceLocation TEXTURE_DARKNESS = new ResourceLocation(AlexsCaves.MODID, "textures/entity/darkness_incarnate.png");
-    public static final ResourceLocation TEXTURE_SUGAR_RUSH = new ResourceLocation(AlexsCaves.MODID, "textures/entity/sugar_rush.png");
+    private static final ResourceLocation TEXTURE_BUBBLE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/bubble.png");
+    private static final ResourceLocation TEXTURE_WATER = ResourceLocation.parse("textures/block/water_still.png");
+    public static final ResourceLocation INSIDE_BUBBLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/misc/inside_bubble.png");
+    public static final ResourceLocation TEXTURE_DARKNESS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/darkness_incarnate.png");
+    public static final ResourceLocation TEXTURE_SUGAR_RUSH = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sugar_rush.png");
     private RenderLayerParent parent;
 
 

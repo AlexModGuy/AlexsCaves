@@ -165,7 +165,7 @@ public class CaveMapItem extends Item implements UpdatesStackTags {
     public static ResourceKey<Biome> getBiomeTarget(ItemStack stack) {
         if (stack.getTag() != null) {
             String s = stack.getTag().getString("BiomeTargetResourceKey");
-            return s == null ? null : ResourceKey.create(Registries.BIOME, new ResourceLocation(s));
+            return s == null ? null : ResourceKey.create(Registries.BIOME, ResourceLocation.parse(s));
         }
         return null;
     }

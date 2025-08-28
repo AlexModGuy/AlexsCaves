@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.GummyBearModel;
 import com.github.alexmodguy.alexscaves.client.model.GummyBearModel;
 import com.github.alexmodguy.alexscaves.client.model.SweetishFishModel;
@@ -24,12 +25,12 @@ import javax.annotation.Nullable;
 
 public class GummyBearRenderer extends MobRenderer<GummyBearEntity, GummyBearModel> implements CustomBookEntityRenderer {
     public static final GummyBearModel OUTSIDE_MODEL = new GummyBearModel(0.0F);
-    private static final ResourceLocation TEXTURE_RED = new ResourceLocation("alexscaves:textures/entity/gummy_bear_red.png");
-    private static final ResourceLocation TEXTURE_GREEN = new ResourceLocation("alexscaves:textures/entity/gummy_bear_green.png");
-    private static final ResourceLocation TEXTURE_YELLOW = new ResourceLocation("alexscaves:textures/entity/gummy_bear_yellow.png");
-    private static final ResourceLocation TEXTURE_BLUE = new ResourceLocation("alexscaves:textures/entity/gummy_bear_blue.png");
-    private static final ResourceLocation TEXTURE_PINK = new ResourceLocation("alexscaves:textures/entity/gummy_bear_pink.png");
-    private static final ResourceLocation TEXTURE_INNARDS = new ResourceLocation("alexscaves:textures/entity/gummy_bear_innards.png");
+    private static final ResourceLocation TEXTURE_RED = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gummy_bear_red.png");
+    private static final ResourceLocation TEXTURE_GREEN = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gummy_bear_green.png");
+    private static final ResourceLocation TEXTURE_YELLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gummy_bear_yellow.png");
+    private static final ResourceLocation TEXTURE_BLUE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gummy_bear_blue.png");
+    private static final ResourceLocation TEXTURE_PINK = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gummy_bear_pink.png");
+    private static final ResourceLocation TEXTURE_INNARDS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gummy_bear_innards.png");
     private boolean sepia = false;
 
     public GummyBearRenderer(EntityRendererProvider.Context renderManagerIn) {

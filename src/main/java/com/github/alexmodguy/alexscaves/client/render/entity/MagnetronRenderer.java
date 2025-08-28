@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.MagnetronModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.MagnetronEntity;
@@ -35,10 +36,10 @@ import java.util.UUID;
 
 
 public class MagnetronRenderer extends MobRenderer<MagnetronEntity, MagnetronModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/magnetron.png");
-    private static final ResourceLocation TEXTURE_GLOW_RED = new ResourceLocation("alexscaves:textures/entity/magnetron_glow_red.png");
-    private static final ResourceLocation TEXTURE_GLOW_BLUE = new ResourceLocation("alexscaves:textures/entity/magnetron_glow_blue.png");
-    private static final ResourceLocation TEXTURE_GLOW_EYES = new ResourceLocation("alexscaves:textures/entity/magnetron_glow_eyes.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/magnetron.png");
+    private static final ResourceLocation TEXTURE_GLOW_RED = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/magnetron_glow_red.png");
+    private static final ResourceLocation TEXTURE_GLOW_BLUE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/magnetron_glow_blue.png");
+    private static final ResourceLocation TEXTURE_GLOW_EYES = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/magnetron_glow_eyes.png");
     private Map<UUID, LightningRender> lightningRenderMap = new HashMap<>();
 
     public MagnetronRenderer(EntityRendererProvider.Context renderManagerIn) {

@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.LanternfishModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.LanternfishEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -13,8 +14,8 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class LanternfishRenderer extends MobRenderer<LanternfishEntity, LanternfishModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/lanternfish.png");
-    private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/lanternfish_glow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/lanternfish.png");
+    private static final ResourceLocation TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/lanternfish_glow.png");
 
     public LanternfishRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new LanternfishModel(), 0.25F);

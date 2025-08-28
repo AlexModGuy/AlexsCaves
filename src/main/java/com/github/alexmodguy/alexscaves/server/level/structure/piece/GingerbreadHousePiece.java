@@ -31,18 +31,18 @@ import java.util.Set;
 
 public class GingerbreadHousePiece extends UndergroundTemplateStructurePiece {
 
-    public static final ResourceLocation TOWN_CENTER_TEMPLATE = new ResourceLocation(AlexsCaves.MODID, "gingerbread_town_center");
+    public static final ResourceLocation TOWN_CENTER_TEMPLATE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_town_center");
     public static final ResourceLocation[] HOUSE_TEMPLATES = new ResourceLocation[]{
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_0"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_1"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_2"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_3"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_4"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_5"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_6"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_7"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_8"),
-            new ResourceLocation(AlexsCaves.MODID, "gingerbread_house_9")
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_0"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_1"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_2"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_3"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_4"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_5"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_6"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_7"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_8"),
+            ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gingerbread_house_9")
     };
 
     public GingerbreadHousePiece(StructureTemplateManager manager, ResourceLocation resourceLocation, BlockPos pos, Rotation rotation) {

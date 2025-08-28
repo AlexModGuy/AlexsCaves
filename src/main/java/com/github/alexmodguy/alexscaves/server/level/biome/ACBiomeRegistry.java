@@ -15,12 +15,12 @@ import net.minecraft.world.phys.Vec3;
 import java.util.List;
 
 public class ACBiomeRegistry {
-    public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "magnetic_caves"));
-    public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "primordial_caves"));
-    public static final ResourceKey<Biome> TOXIC_CAVES = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "toxic_caves"));
-    public static final ResourceKey<Biome> ABYSSAL_CHASM = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "abyssal_chasm"));
-    public static final ResourceKey<Biome> FORLORN_HOLLOWS = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "forlorn_hollows"));
-    public static final ResourceKey<Biome> CANDY_CAVITY = ResourceKey.create(Registries.BIOME, new ResourceLocation(AlexsCaves.MODID, "candy_cavity"));
+    public static final ResourceKey<Biome> MAGNETIC_CAVES = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "magnetic_caves"));
+    public static final ResourceKey<Biome> PRIMORDIAL_CAVES = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "primordial_caves"));
+    public static final ResourceKey<Biome> TOXIC_CAVES = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "toxic_caves"));
+    public static final ResourceKey<Biome> ABYSSAL_CHASM = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "abyssal_chasm"));
+    public static final ResourceKey<Biome> FORLORN_HOLLOWS = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "forlorn_hollows"));
+    public static final ResourceKey<Biome> CANDY_CAVITY = ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "candy_cavity"));
 
     public static final List<ResourceKey<Biome>> ALEXS_CAVES_BIOMES = List.of(MAGNETIC_CAVES, PRIMORDIAL_CAVES, TOXIC_CAVES, ABYSSAL_CHASM, FORLORN_HOLLOWS, CANDY_CAVITY);
     private static final Vec3 DEFAULT_LIGHT_COLOR = new Vec3(1, 1, 1);

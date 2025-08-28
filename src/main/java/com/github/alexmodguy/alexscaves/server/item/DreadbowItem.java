@@ -40,7 +40,7 @@ public class DreadbowItem extends ProjectileWeaponItem implements UpdatesStackTa
     public static EntityType getTypeOfArrow(ItemStack itemStackIn) {
         if(itemStackIn.getTag() != null && itemStackIn.getTag().contains("LastUsedArrowType")) {
             String str = itemStackIn.getTag().getString("LastUsedArrowType");
-            return ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(str));
+            return ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.parse(str));
         }
         return null;
     }

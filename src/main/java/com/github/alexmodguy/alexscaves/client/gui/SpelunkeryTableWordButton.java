@@ -16,7 +16,7 @@ import net.minecraft.util.StringDecomposer;
 
 public class SpelunkeryTableWordButton extends AbstractWidget {
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/gui/spelunkery_table.png");
+    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/gui/spelunkery_table.png");
     private SpelunkeryTableScreen parent;
 
     private Font font;

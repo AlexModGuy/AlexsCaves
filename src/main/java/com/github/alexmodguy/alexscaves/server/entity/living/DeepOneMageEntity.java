@@ -48,7 +48,7 @@ public class DeepOneMageEntity extends DeepOneBaseEntity {
     private int spinCooldown = 0;
     private int rangedCooldown = 0;
     private Vec3 strafeTarget = null;
-    public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_mage_barter");
+    public static final ResourceLocation BARTER_LOOT = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gameplay/deep_one_mage_barter");
     private boolean isMageInWater = true;
 
     public DeepOneMageEntity(EntityType entityType, Level level) {

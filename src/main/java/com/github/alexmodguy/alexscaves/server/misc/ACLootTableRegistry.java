@@ -19,10 +19,10 @@ public class ACLootTableRegistry {
     public static final RegistryObject<Codec<CabinMapLootModifier>> CABIN_MAP_LOOT_MODIFIER = GLOBAL_LOOT_MODIFIER_DEF_REG.register("cabin_map", CabinMapLootModifier.CODEC);
     public static final RegistryObject<LootItemFunctionType> GUMMY_COLORS_LOOT_FUNCTION = LOOT_FUNCTION_DEF_REG.register("gummy_colors", () -> new LootItemFunctionType(new GummyColorLootFunction.Serializer()));
 
-    public static final ResourceLocation ABYSSAL_RUINS_CHEST = new ResourceLocation("alexscaves:chests/abyssal_ruins");
-    public static final ResourceLocation WITCH_HUT_CHEST = new ResourceLocation("alexscaves:chests/witch_hut");
-    public static final ResourceLocation LICOWITCH_TOWER_CHEST = new ResourceLocation("alexscaves:chests/licowitch_tower");
-    public static final ResourceLocation SECRET_LICOWITCH_TOWER_CHEST = new ResourceLocation("alexscaves:chests/licowitch_tower_secret");
-    public static final ResourceLocation GINGERBREAD_TOWN_CHEST = new ResourceLocation("alexscaves:chests/gingerbread_town");
+    public static final ResourceLocation ABYSSAL_RUINS_CHEST = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "chests/abyssal_ruins");
+    public static final ResourceLocation WITCH_HUT_CHEST = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "chests/witch_hut");
+    public static final ResourceLocation LICOWITCH_TOWER_CHEST = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "chests/licowitch_tower");
+    public static final ResourceLocation SECRET_LICOWITCH_TOWER_CHEST = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "chests/licowitch_tower_secret");
+    public static final ResourceLocation GINGERBREAD_TOWN_CHEST = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "chests/gingerbread_town");
 
 }

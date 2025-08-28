@@ -18,17 +18,17 @@ import net.minecraft.world.level.block.state.BlockState;
 public class NuclearFurnaceBlockRenderer<T extends NuclearFurnaceBlockEntity> implements BlockEntityRenderer<T> {
 
     private static final NuclearFurnaceModel MODEL = new NuclearFurnaceModel();
-    private static final ResourceLocation OFF_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_off.png");
-    private static final ResourceLocation ON_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_on.png");
-    private static final ResourceLocation SUBCRITICAL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_subcritical.png");
-    private static final ResourceLocation CRITICAL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_critical.png");
-    private static final ResourceLocation SUPERCRITICAL_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_supercritical.png");
+    private static final ResourceLocation OFF_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_off.png");
+    private static final ResourceLocation ON_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_on.png");
+    private static final ResourceLocation SUBCRITICAL_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_subcritical.png");
+    private static final ResourceLocation CRITICAL_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_critical.png");
+    private static final ResourceLocation SUPERCRITICAL_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_supercritical.png");
 
-    private static final ResourceLocation OFF_TEXTURE_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_off_glow.png");
-    private static final ResourceLocation ON_TEXTURE_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_on_glow.png");
-    private static final ResourceLocation SUBCRITICAL_TEXTURE_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_subcritical_glow.png");
-    private static final ResourceLocation CRITICAL_TEXTURE_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_critical_glow.png");
-    private static final ResourceLocation SUPERCRITICAL_TEXTURE_GLOW = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_supercritical_glow.png");
+    private static final ResourceLocation OFF_TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_off_glow.png");
+    private static final ResourceLocation ON_TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_on_glow.png");
+    private static final ResourceLocation SUBCRITICAL_TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_subcritical_glow.png");
+    private static final ResourceLocation CRITICAL_TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_critical_glow.png");
+    private static final ResourceLocation SUPERCRITICAL_TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nuclear_furnace/nuclear_furnace_supercritical_glow.png");
 
     public NuclearFurnaceBlockRenderer(BlockEntityRendererProvider.Context rendererDispatcherIn) {
     }

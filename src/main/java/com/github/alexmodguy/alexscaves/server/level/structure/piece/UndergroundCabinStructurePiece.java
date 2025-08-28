@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.level.structure.piece;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import com.github.alexmodguy.alexscaves.server.config.BiomeGenerationConfig;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
@@ -72,7 +73,7 @@ public class UndergroundCabinStructurePiece extends UndergroundTemplateStructure
         accessor.setBlock(pos, Blocks.CAVE_AIR.defaultBlockState(), 0);
         switch (string) {
             case "loot_chest":
-                ResourceLocation chestLoot = pickedBiome == null ? BuiltInLootTables.SIMPLE_DUNGEON : new ResourceLocation("alexscaves:chests/underground_cabin_" + pickedBiome.location().getPath());
+                ResourceLocation chestLoot = pickedBiome == null ? BuiltInLootTables.SIMPLE_DUNGEON : ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "chests/underground_cabin_" + pickedBiome.location().getPath());
                 RandomizableContainerBlockEntity.setLootTable(accessor, random, pos.below(), chestLoot);
                 break;
         }

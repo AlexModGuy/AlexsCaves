@@ -66,7 +66,7 @@ public class AlexsCaves {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static CommonProxy PROXY = DistExecutor.runForDist(() -> ClientProxy::new, () -> CommonProxy::new);
     private static final String PROTOCOL_VERSION = Integer.toString(1);
-    private static final ResourceLocation PACKET_NETWORK_NAME = new ResourceLocation("alexscaves:main_channel");
+    private static final ResourceLocation PACKET_NETWORK_NAME = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "main_channel");
     public static final SimpleChannel NETWORK_WRAPPER = NetworkRegistry.ChannelBuilder
             .named(PACKET_NETWORK_NAME)
             .clientAcceptedVersions(PROTOCOL_VERSION::equals)
@@ -186,8 +186,9 @@ public class AlexsCaves {
         }
     }
 
-    public void loadComplete(FMLLoadCompleteEvent event) {
+    private void loadComplete(FMLLoadCompleteEvent event) {
         event.enqueueWork(ACFluidRegistry::postInit);
+        event.enqueueWork(ACLoadedMods::afterAllModsLoaded);
     }
 
     public static <MSG> void sendNonLocal(MSG msg, ServerPlayer player) {

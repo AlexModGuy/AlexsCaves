@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.server.block.fluid;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.particle.ACParticleRegistry;
 import com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry;
 import net.minecraft.client.Minecraft;
@@ -27,9 +28,9 @@ import java.util.function.Consumer;
 
 public class PurpleSodaFluidType extends FluidType {
 
-    public static final ResourceLocation FLUID_STILL = new ResourceLocation("alexscaves:block/purple_soda_still");
-    public static final ResourceLocation FLUID_FLOWING = new ResourceLocation("alexscaves:block/purple_soda_flowing");
-    public static final ResourceLocation OVERLAY = new ResourceLocation("alexscaves:textures/misc/under_purple_soda.png");
+    public static final ResourceLocation FLUID_STILL = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "block/purple_soda_still");
+    public static final ResourceLocation FLUID_FLOWING = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "block/purple_soda_flowing");
+    public static final ResourceLocation OVERLAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/misc/under_purple_soda.png");
 
     public PurpleSodaFluidType(Properties properties) {
         super(properties);

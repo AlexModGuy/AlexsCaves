@@ -86,13 +86,13 @@ public class BookEntry {
         String lang = Minecraft.getInstance().getLanguageManager().getSelected().toLowerCase();
         ResourceLocation fileRes;
         try {
-            fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
+            fileRes = ResourceLocation.parse(CaveBookScreen.getBookFileDirectory() + lang + "/" + fileName);
             //test if it exists. if no exception, then the language is supported
             InputStream is = Minecraft.getInstance().getResourceManager().open(fileRes);
             is.close();
         } catch (Exception e) {
             AlexsCaves.LOGGER.warn("Could not find language file for translation, defaulting to en_us");
-            fileRes = new ResourceLocation(CaveBookScreen.getBookFileDirectory() + "en_us/" + fileName);
+            fileRes = ResourceLocation.parse(CaveBookScreen.getBookFileDirectory() + "en_us/" + fileName);
         }
         List<String> strings = new ArrayList<>();
         Font font = Minecraft.getInstance().font;
@@ -186,7 +186,7 @@ public class BookEntry {
         for(BookLink link : bookLinks) {
             int minLine = screen.getEntryPageNumber() * CaveBookScreen.PAGE_SIZE_IN_LINES;
             if(link.isEnabled() && link.isHovered() && link.getLineNumber() >= minLine && link.getLineNumber() <= minLine + CaveBookScreen.PAGE_SIZE_IN_LINES * 2) {
-                return screen.attemptChangePage(new ResourceLocation(CaveBookScreen.getBookFileDirectory() + link.getLinksTo()), true);
+                return screen.attemptChangePage(ResourceLocation.parse(CaveBookScreen.getBookFileDirectory() + link.getLinksTo()), true);
             }
         }
         return false;

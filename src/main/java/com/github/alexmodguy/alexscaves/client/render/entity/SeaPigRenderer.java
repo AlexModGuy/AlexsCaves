@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.SeaPigModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.SeaPigEntity;
@@ -22,8 +23,8 @@ import javax.annotation.Nullable;
 
 public class SeaPigRenderer extends MobRenderer<SeaPigEntity, SeaPigModel> implements CustomBookEntityRenderer {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/sea_pig.png");
-    private static final ResourceLocation TEXTURE_INNARDS = new ResourceLocation("alexscaves:textures/entity/sea_pig_innards.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sea_pig.png");
+    private static final ResourceLocation TEXTURE_INNARDS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/sea_pig_innards.png");
     private boolean sepia = false;
 
     public SeaPigRenderer(EntityRendererProvider.Context renderManagerIn) {

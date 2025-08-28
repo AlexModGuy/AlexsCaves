@@ -63,7 +63,7 @@ public class EntityWidget extends BookWidget {
 
     public void render(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, float partialTicks, boolean onFlippingPage) {
         if (actualRenderEntity == null) {
-            EntityType type = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(entityId));
+            EntityType type = ForgeRegistries.ENTITY_TYPES.getValue(ResourceLocation.parse(entityId));
             if (type != null) {
                 actualRenderEntity = type.create(Minecraft.getInstance().level);
                 if (actualRenderEntity instanceof LivingEntity living && nbt != null && !nbt.isEmpty()) {

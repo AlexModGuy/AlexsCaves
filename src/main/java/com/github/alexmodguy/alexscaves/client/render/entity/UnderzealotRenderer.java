@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.UnderzealotModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.UnderzealotEntity;
@@ -13,7 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nullable;
 
 public class UnderzealotRenderer extends MobRenderer<UnderzealotEntity, UnderzealotModel> implements CustomBookEntityRenderer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/underzealot.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/underzealot.png");
 
     private boolean sepia = false;
     public UnderzealotRenderer(EntityRendererProvider.Context renderManagerIn) {

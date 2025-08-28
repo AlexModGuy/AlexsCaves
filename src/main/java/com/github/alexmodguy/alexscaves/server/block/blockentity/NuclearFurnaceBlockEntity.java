@@ -370,7 +370,7 @@ public class NuclearFurnaceBlockEntity extends BaseContainerBlockEntity implemen
         barrelTime = compoundTag.getInt("BarrelTime");
         CompoundTag compoundtag = compoundTag.getCompound("RecipesUsed");
         for(String s : compoundtag.getAllKeys()) {
-            this.recipesUsed.put(new ResourceLocation(s), compoundtag.getInt(s));
+            this.recipesUsed.put(ResourceLocation.parse(s), compoundtag.getInt(s));
         }
     }
 

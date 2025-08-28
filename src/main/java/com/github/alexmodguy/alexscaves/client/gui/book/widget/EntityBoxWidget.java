@@ -53,7 +53,7 @@ public class EntityBoxWidget extends EntityWidget {
 
     public void render(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, float partialTicks, boolean onFlippingPage) {
         if (this.borderTexture == null) {
-            this.borderTexture = new ResourceLocation(borderImage);
+            this.borderTexture = ResourceLocation.parse(borderImage);
         }
         poseStack.pushPose();
         poseStack.translate(this.entityXOffset * getScale(), this.entityYOffset * getScale(), 0);

@@ -11,6 +11,6 @@ public class ACFrogRegistry {
 
     public static final DeferredRegister<FrogVariant> DEF_REG = DeferredRegister.create(Registries.FROG_VARIANT, AlexsCaves.MODID);
 
-    public static final RegistryObject<FrogVariant> PRIMORDIAL = DEF_REG.register("primordial", () -> new FrogVariant(new ResourceLocation(AlexsCaves.MODID, "textures/entity/primordial_frog.png")));
+    public static final RegistryObject<FrogVariant> PRIMORDIAL = DEF_REG.register("primordial", () -> new FrogVariant(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/primordial_frog.png")));
 
 }

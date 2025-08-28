@@ -23,10 +23,10 @@ import org.joml.Matrix4f;
 
 public class GumWormSegmentRenderer extends EntityRenderer<GumWormSegmentEntity> {
 
-    private static final ResourceLocation TEXTURE_0 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gum_worm_segment_0.png");
-    private static final ResourceLocation TEXTURE_1 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gum_worm_segment_1.png");
-    private static final ResourceLocation TEXTURE_2 = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gum_worm_segment_2.png");
-    private static final ResourceLocation TEXTURE_CONNECTOR = new ResourceLocation(AlexsCaves.MODID, "textures/entity/gum_worm_connection.png");
+    private static final ResourceLocation TEXTURE_0 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gum_worm_segment_0.png");
+    private static final ResourceLocation TEXTURE_1 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gum_worm_segment_1.png");
+    private static final ResourceLocation TEXTURE_2 = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gum_worm_segment_2.png");
+    private static final ResourceLocation TEXTURE_CONNECTOR = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gum_worm_connection.png");
     private static final GumWormSegmentModel MODEL = new GumWormSegmentModel();
 
     public GumWormSegmentRenderer(EntityRendererProvider.Context renderManagerIn) {

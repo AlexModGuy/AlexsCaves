@@ -29,7 +29,7 @@ import static net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY;
 
 public class RainbowParticle extends Particle {
     public static final ParticleGroup PARTICLE_GROUP = new ParticleGroup(100);
-    private static final RenderType RAINBOW_RENDER_TYPE = ACRenderTypes.getTeslaBulb(new ResourceLocation(AlexsCaves.MODID, "textures/particle/rainbow.png"));
+    private static final RenderType RAINBOW_RENDER_TYPE = ACRenderTypes.getTeslaBulb(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/rainbow.png"));
     public int rainbowVecCount = 64;
     public int fadeSpeed = 15;
     public int fillSpeed = 40;

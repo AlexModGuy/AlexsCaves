@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.ForsakenModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.ForsakenHeldMobLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.ForsakenEntity;
@@ -19,10 +20,10 @@ import net.minecraft.world.phys.Vec3;
 import java.util.HashMap;
 
 public class ForsakenRenderer extends MobRenderer<ForsakenEntity, ForsakenModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/forsaken.png");
-    private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/forsaken_eyes.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/forsaken.png");
+    private static final ResourceLocation TEXTURE_EYES = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/forsaken_eyes.png");
 
-    private static final ResourceLocation TEXTURE_DARKNESS = new ResourceLocation("alexscaves:textures/entity/forsaken_darkness.png");
+    private static final ResourceLocation TEXTURE_DARKNESS = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/forsaken_darkness.png");
 
     private static final HashMap<Integer, Vec3> mouthParticlePositions = new HashMap<>();
 

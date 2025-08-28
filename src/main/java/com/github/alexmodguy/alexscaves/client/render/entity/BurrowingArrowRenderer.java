@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.BurrowingArrowModel;
 import com.github.alexmodguy.alexscaves.server.entity.item.BurrowingArrowEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,7 +16,7 @@ import net.minecraft.util.Mth;
 
 public class BurrowingArrowRenderer extends EntityRenderer<BurrowingArrowEntity> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/burrowing_arrow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/burrowing_arrow.png");
     private static final BurrowingArrowModel MODEL = new BurrowingArrowModel();
 
     public BurrowingArrowRenderer(EntityRendererProvider.Context context) {

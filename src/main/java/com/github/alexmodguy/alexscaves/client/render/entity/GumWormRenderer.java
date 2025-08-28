@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.CaniacModel;
 import com.github.alexmodguy.alexscaves.client.model.GumWormModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.CaniacEntity;
@@ -20,7 +21,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 public class GumWormRenderer extends MobRenderer<GumWormEntity, GumWormModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/gum_worm.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/gum_worm.png");
 
     public GumWormRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new GumWormModel(), 1.2F);

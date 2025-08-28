@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.DeepOneKnightModel;
 import com.github.alexmodguy.alexscaves.server.entity.living.DeepOneKnightEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -14,9 +15,9 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class DeepOneKnightRenderer extends MobRenderer<DeepOneKnightEntity, DeepOneKnightModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_knight.png");
-    private static final ResourceLocation TEXTURE_NOON = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_knight_noon.png");
-    private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/deep_one/deep_one_knight_glow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/deep_one_knight.png");
+    private static final ResourceLocation TEXTURE_NOON = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/deep_one_knight_noon.png");
+    private static final ResourceLocation TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/deep_one/deep_one_knight_glow.png");
 
     public DeepOneKnightRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new DeepOneKnightModel(), 0.45F);

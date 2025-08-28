@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.BrainiacModel;
 import com.github.alexmodguy.alexscaves.client.render.entity.layer.BrainiacBackBarrelLayer;
 import com.github.alexmodguy.alexscaves.server.entity.living.BrainiacEntity;
@@ -15,8 +16,8 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 
 public class BrainiacRenderer extends MobRenderer<BrainiacEntity, BrainiacModel> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/brainiac.png");
-    private static final ResourceLocation TEXTURE_EYES = new ResourceLocation("alexscaves:textures/entity/brainiac_glow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/brainiac.png");
+    private static final ResourceLocation TEXTURE_EYES = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/brainiac_glow.png");
 
     public BrainiacRenderer(EntityRendererProvider.Context renderManagerIn) {
         super(renderManagerIn, new BrainiacModel(), 0.25F);

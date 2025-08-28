@@ -2,7 +2,6 @@ package com.github.alexmodguy.alexscaves.mixin;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
-import com.github.alexmodguy.alexscaves.server.potion.SugarRushEffect;
 import com.github.alexthe666.citadel.server.entity.IModifiesTime;
 import com.github.alexthe666.citadel.server.tick.modifier.LocalEntityTickRateModifier;
 import com.github.alexthe666.citadel.server.tick.modifier.TickRateModifier;

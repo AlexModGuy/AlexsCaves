@@ -56,7 +56,7 @@ public class SeaPigEntity extends WaterAnimal implements Bucketable {
 
     private float squishProgress;
     private float prevSquishProgress;
-    public static final ResourceLocation DIGESTION_LOOT_TABLE = new ResourceLocation("alexscaves", "gameplay/sea_pig_digestion");
+    public static final ResourceLocation DIGESTION_LOOT_TABLE = ResourceLocation.fromNamespaceAndPath("alexscaves", "gameplay/sea_pig_digestion");
 
     public SeaPigEntity(EntityType entityType, Level level) {
         super(entityType, level);

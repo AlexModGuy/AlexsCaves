@@ -1,5 +1,6 @@
 package com.github.alexmodguy.alexscaves.client.render.entity;
 
+import com.github.alexmodguy.alexscaves.AlexsCaves;
 import com.github.alexmodguy.alexscaves.client.model.HullbreakerModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
 import com.github.alexmodguy.alexscaves.server.entity.living.HullbreakerEntity;
@@ -18,8 +19,8 @@ import net.minecraftforge.entity.PartEntity;
 import javax.annotation.Nullable;
 
 public class HullbreakerRenderer extends MobRenderer<HullbreakerEntity, HullbreakerModel> implements CustomBookEntityRenderer {
-    private static final ResourceLocation TEXTURE = new ResourceLocation("alexscaves:textures/entity/hullbreaker.png");
-    private static final ResourceLocation TEXTURE_GLOW = new ResourceLocation("alexscaves:textures/entity/hullbreaker_glow.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/hullbreaker.png");
+    private static final ResourceLocation TEXTURE_GLOW = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/hullbreaker_glow.png");
     private boolean sepia;
 
     public HullbreakerRenderer(EntityRendererProvider.Context renderManagerIn) {

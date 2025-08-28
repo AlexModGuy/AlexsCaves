@@ -30,7 +30,7 @@ public class DeepOneEntity extends DeepOneBaseEntity {
     public static final Animation ANIMATION_TRADE = Animation.create(55);
 
     private static final EntityDimensions SWIMMING_SIZE = new EntityDimensions(0.99F, 0.99F, false);
-    public static final ResourceLocation BARTER_LOOT = new ResourceLocation(AlexsCaves.MODID, "gameplay/deep_one_barter");
+    public static final ResourceLocation BARTER_LOOT = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "gameplay/deep_one_barter");
 
     public DeepOneEntity(EntityType entityType, Level level) {
         super(entityType, level);

@@ -13,7 +13,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class TremorzillaProtonParticle extends ProtonParticle {
 
-    private static final ResourceLocation CENTER_TEXTURE = new ResourceLocation(AlexsCaves.MODID, "textures/particle/tremorzilla_proton.png");
+    private static final ResourceLocation CENTER_TEXTURE = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/particle/tremorzilla_proton.png");
     private final int tremorzillaId;
     private final float initialXRot;
     private final float initialYRot;

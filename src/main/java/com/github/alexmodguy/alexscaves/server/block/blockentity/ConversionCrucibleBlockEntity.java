@@ -435,7 +435,7 @@ public class ConversionCrucibleBlockEntity extends BlockEntity {
             this.displayStack = ItemStack.of(compound.getCompound("DisplayStack"));
         }
         if (compound.contains("ConvertingToBiome")) {
-            convertingToBiome = ResourceKey.create(Registries.BIOME, new ResourceLocation(compound.getString("ConvertingToBiome")));
+            convertingToBiome = ResourceKey.create(Registries.BIOME, ResourceLocation.parse(compound.getString("ConvertingToBiome")));
         }
         filledLevel = compound.getInt("FilledLevel");
         biomeColor = compound.getInt("BiomeColor");

@@ -24,8 +24,8 @@ import org.joml.Matrix4f;
 
 public class RaygunRenderHelper {
 
-    private static final ResourceLocation RAYGUN_RAY = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_ray.png");
-    private static final ResourceLocation RAYGUN_BLUE_RAY = new ResourceLocation("alexscaves:textures/entity/raygun/raygun_blue_ray.png");
+    private static final ResourceLocation RAYGUN_RAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/raygun/raygun_ray.png");
+    private static final ResourceLocation RAYGUN_BLUE_RAY = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/raygun/raygun_blue_ray.png");
     private static void renderRay(PoseStack poseStack, MultiBufferSource bufferSource, Vec3 vec3, float useAmount, float offset, boolean irradiated, boolean blue) {
         float f2 = -1.0F * (offset * 0.25F % 1.0F);
         poseStack.pushPose();

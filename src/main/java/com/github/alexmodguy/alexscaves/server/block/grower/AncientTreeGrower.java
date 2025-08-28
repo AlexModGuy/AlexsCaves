@@ -18,8 +18,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class AncientTreeGrower extends AbstractTreeGrower {
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> ANCIENT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AlexsCaves.MODID, "ancient_tree"));
-    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_ANCIENT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, new ResourceLocation(AlexsCaves.MODID, "giant_ancient_tree"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> ANCIENT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "ancient_tree"));
+    public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_ANCIENT_TREE = ResourceKey.create(Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "giant_ancient_tree"));
 
     public boolean growTree(ServerLevel serverLevel, ChunkGenerator chunkGenerator, BlockPos blockPos, BlockState state, RandomSource randomSource) {
         for (int i = 0; i >= -2; --i) {

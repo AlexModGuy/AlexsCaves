@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Creeper;
 
 public class NucleeperEnergySwirlLayer  extends EnergySwirlLayer<NucleeperEntity, NucleeperModel> {
-    private static final ResourceLocation POWER_LOCATION = new ResourceLocation(AlexsCaves.MODID, "textures/entity/nucleeper/nucleeper_charged.png");
+    private static final ResourceLocation POWER_LOCATION = ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, "textures/entity/nucleeper/nucleeper_charged.png");
     private final NucleeperModel model = new NucleeperModel(1.0F);
 
     public NucleeperEnergySwirlLayer(RenderLayerParent<NucleeperEntity, NucleeperModel> renderer) {
