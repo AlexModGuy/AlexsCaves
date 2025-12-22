@@ -13,6 +13,7 @@ import net.minecraft.world.level.pathfinder.BlockPathTypes;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.fluids.FluidInteractionRegistry;
+import net.minecraftforge.fluids.FluidInteractionRegistry.InteractionInformation;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.DeferredRegister;
@@ -79,6 +80,26 @@ public class ACFluidRegistry {
         FluidInteractionRegistry.addInteraction(ACID_FLUID_TYPE.get(), new FluidInteractionRegistry.InteractionInformation(
                 PURPLE_SODA_FLUID_TYPE.get(),
                 fluidState -> ACBlockRegistry.GREEN_ROCK_CANDY.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new InteractionInformation(
+                (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(ACBlockRegistry.BLOCK_OF_SCARLET_NEODYMIUM.get()) && level.getBlockState(relativePos).is(Blocks.BLUE_ICE),
+                ACBlockRegistry.GALENA.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new InteractionInformation(
+                (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(ACBlockRegistry.BLOCK_OF_AZURE_NEODYMIUM.get()) && level.getBlockState(relativePos).is(Blocks.BLUE_ICE),
+                ACBlockRegistry.GALENA.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new InteractionInformation(
+                (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(ACBlockRegistry.DRAIN.get()) && level.getBlockState(relativePos).is(Blocks.BLUE_ICE),
+                ACBlockRegistry.ABYSSMARINE.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new InteractionInformation(
+                (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(ACBlockRegistry.AMBER.get()) && level.getBlockState(relativePos).is(Blocks.BLUE_ICE),
+                ACBlockRegistry.LIMESTONE.get().defaultBlockState()
+        ));
+        FluidInteractionRegistry.addInteraction(ForgeMod.LAVA_TYPE.get(), new InteractionInformation(
+                (level, currentPos, relativePos, currentState) -> level.getBlockState(currentPos.below()).is(ACBlockRegistry.PRIMAL_MAGMA.get()) && level.getBlockState(relativePos).is(Blocks.BLUE_ICE),
+                ACBlockRegistry.FLOOD_BASALT.get().defaultBlockState()
         ));
     }
 }
