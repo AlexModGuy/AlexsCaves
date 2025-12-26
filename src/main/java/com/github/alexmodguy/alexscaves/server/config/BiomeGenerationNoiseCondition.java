@@ -52,8 +52,8 @@ public class BiomeGenerationNoiseCondition {
         Climate.TargetPoint centerTargetPoint = event.getClimateSampler().sample((int)Math.floor(rareBiomeCenter.x), event.getY(), (int)Math.floor(rareBiomeCenter.z));
         float f = Climate.unquantizeCoord(centerTargetPoint.continentalness());
         float f1 = Climate.unquantizeCoord(centerTargetPoint.erosion());
-        float f2 = Climate.unquantizeCoord(centerTargetPoint.temperature());
-        float f3 = Climate.unquantizeCoord(centerTargetPoint.humidity());
+        float f2 = Climate.unquantizeCoord(centerTargetPoint.humidity());
+        float f3 = Climate.unquantizeCoord(centerTargetPoint.temperature());
         float f4 = Climate.unquantizeCoord(centerTargetPoint.weirdness());
         //for these values, sample the center of the possible biome instead of every quad
         if (continentalness != null && continentalness.length >= 2 && (f < continentalness[0] || f > continentalness[1])) {
@@ -102,8 +102,8 @@ public class BiomeGenerationNoiseCondition {
         Climate.TargetPoint centerTargetPoint = climateSampler.sample((int)Math.floor(rareBiomeCenter.x), y, (int)Math.floor(rareBiomeCenter.z));
         float f = Climate.unquantizeCoord(centerTargetPoint.continentalness());
         float f1 = Climate.unquantizeCoord(centerTargetPoint.erosion());
-        float f2 = Climate.unquantizeCoord(centerTargetPoint.temperature());
-        float f3 = Climate.unquantizeCoord(centerTargetPoint.humidity());
+        float f2 = Climate.unquantizeCoord(centerTargetPoint.humidity());
+        float f3 = Climate.unquantizeCoord(centerTargetPoint.temperature());
         float f4 = Climate.unquantizeCoord(centerTargetPoint.weirdness());
         //for these values, sample the center of the possible biome instead of every quad
         if (continentalness != null && continentalness.length >= 2 && (f < continentalness[0] || f > continentalness[1])) {
