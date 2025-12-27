@@ -13,7 +13,7 @@
 
 
 
-    Вітаємо в жалюгідних порожнечах...
+    Вітаємо в жалюгідних дірах...
 
     • {Вступ|forlorn_hollows/general.json}
     • {Ресурси|forlorn_hollows/resources.json}
