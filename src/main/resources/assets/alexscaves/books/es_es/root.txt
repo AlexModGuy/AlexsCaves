@@ -1,51 +1,24 @@
 
 
-    §lESCONDIDO §lBAJO §lEL §lSUBSUELO §lDE §lLA §lTIERRA §rhay muchos biomas únicos, todos raros en la naturaleza.
+    §lESCONDIDOS §lBAJO §LA §lFAZ §lDE §lLA §lSUPERFICIE §ryacen muchos biomas de cuevas únicos, todos raros en naturaleza.
 
-    estos biomas de cuuevas son buscados no solo por ser raros, sino tambien por los contenidos legendarios que hay en cada una de ellas.
-    de estos biomas, solo se conocen cinco:
+    Estos biomas de las cuevas son buscados no sólo por su primicia, sino también por los varios poderosos y legendarios contenidos que hay en cada uno.
+    De estos biomas, sólo se conocen cinco:
 
-    • {Cuevas Mangnéticas|magnetic_caves/chapter.json}
-    • {Cuevas Primordiales|primordial_caves/chapter.json}
-    • {Cuevas Tóxicas|toxic_caves/chapter.json}
-    • {Fosas Abisales|abyssal_chasm/chapter.json}
-    • {Criptas Desamparadas|forlorn_hollows/chapter.json}
-
-
-
-    para descubrir más de estas cuevas, busca una §lCabina §lSubterránea§r...
-    las Cabina subterránea pueden ser comunmente encontradas en las cuevas del mundo superior.
-
-    los cartografos pueden vender mapas a estas estructuras, que tambien pueden ser encontrados en cofres de minas abandonadas.
-
-    Aparte de botín normal, las Cabinas  Subterráneas contienen §lTabletas §lde §lEspeología§r.
+    • {Cueva magnética|magnetic_caves/chapter.json}
+    • {Cueva primordial|primordial_caves/chapter.json}
+    • {Cueva tóxica|toxic_caves/chapter.json}
+    • {Fosa abisal|abyssal_chasm/chapter.json}
+    • {Depresión desolada|forlorn_hollows/chapter.json}
+    • {Cavidad caramelo|candy_cavity/chapter.json}
 
 
+    Para descubrir más sobre cada una de estas cuevas, busca una §lcabina §lsubterránea§r...
+    Las cabinas subterráneas pueden ser ocasionalmente encontradas en cuevas alrededor de la Superficie.
 
+    Los cartógrafos pueden ocasionalmente vender mapas hacia ellas, que también pueden ser encontrados en cofres en minas abandonadas.
 
-
-
-
-    Las Tabletas de Espeología pueden ser colocadas con papel en una §lMesa §lde §lEspeologíar, otro objeto que solo se encuentra en las Cabinas Subterráneas.
-
-    Entonces, ya podras traducir las Tabletas de Espeología...
-    Cuando el papel y la tableta estan en la mesa, las runas de la tableta seran visibles.
-
-    Interactuando con una runa la revelara. la traducción de una runa se puede ver colocando la lente sobre la palabra. Solo tienes cinco intentos si fallas la tableta se rompera.
-
-
-
-
-    Usar el conocimiento de las runas que representan letras puedenla palabra que buscas. Si este proceso ha sido realizado tres veces, la tableta y el papel se convertiran en un §lCódice §lde §llas §lCuevas §r.
-
-    Estos códices tienen muchos usos. pueden ser usados para ganar conocimiento sobre las cuevas que corresponde con el códice.
-
-
-
-
-
-
-    Adicionalmente, se pueden fabricar códices extras para fabricas  §lMapas §lde §Exploración §lde §lCuevas§r.
+    Además de botín corriente, las cabinas subterráneas contienen §ltablillas §lde §llas §lcuevas§r.
 
 
 
@@ -53,5 +26,32 @@
 
 
 
+    Las tablillas de las cuevas pueden ser colocadas junto a un papel en una §lmesa §lde §lespeología§r, otro hallazgo único en una cabina.
 
-    Los Mapas de Exploración de Cuevas pueden llevarte al bioma mas cercano detallado por el códice. El proceso de crear un Códice de las Cuevas parece dotar a este mapa de un alcance y una capacidad de respuesta asombrosas.
+    Entonces, uno puede empezar a traducir la tablilla de las cuevas...
+    Cuando el papel y la tablilla están sobre la mesa, varias runas sobre la tablilla se harán visibles.
+
+    Interactuando con cualquier runa la revelará. La traducción de una runa revelada se puede ver colocando la lente sobre la palabra. Sólo se tienen cinco intentos antes de que se destruya la tablilla.
+
+
+
+
+    Usando el conocimiento de qué runas representan qué letras puede ayudar a encontrar la palabra buscada. Si este proceso ha sido realizado tres veces, la tablilla y el papel se convertiran en un §lcódice §lde §llas §lcuevas§r.
+
+    Estos códices tienen múltiples usos. Pueden ser usados para adquirir más conocimiento sobre el bioma de cueva específico con el que se corresponden.
+
+
+
+
+
+
+    Adicionalmente, se pueden combinar los códices extra con papel para fabricar un  §lmapa §lde §bioma §lde §llas §lcuevas§r.
+
+
+
+
+
+
+
+
+    Los mapas de biomas de las cuevas pueden apuntar al bioma de cuevas más cercano detallado por el códice. El proceso de crear un códice de las cuevas parece imbuir a este mapa de un alcance y una capacidad de respuesta asombrosas.
