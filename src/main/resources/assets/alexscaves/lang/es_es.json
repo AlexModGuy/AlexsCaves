@@ -1104,7 +1104,7 @@
   "advancements.alexscaves.caramel_apple.title": "Un día en la feria",
   "advancements.alexscaves.caramel_apple.desc": "Fabrica una manzana acaramelada",
   "advancements.alexscaves.tame_candicorn.title": "Arcoíris y caramelicornios",
-  "advancements.alexscaves.tame_candicorn.desc": "Domestica un caramelicornio alimentándolo con una manzana acaramelada",
+  "advancements.alexscaves.tame_candicorn.desc": "Domestica un caramelicornio alimentándolo con una manzana caramelizada",
   "advancements.alexscaves.sundae.title": "Fácil como un Helado-mingo por la Mañana",
   "advancements.alexscaves.sundae.desc": "Fabrica un sundae. Intenta no disfrutarlo mucho",
   "advancements.alexscaves.feed_gummy_bear.title": "Dulce hibernación",
@@ -1705,4 +1705,5 @@
   "enchantment.alexscaves.seekcandy": "Mentas buscadoras",
   "enchantment.alexscaves.seekcandy.desc": "Las mentas de la vara de caramelo se dirigen hacia cualquier entidad que el jugador haya mirado"
 }
+
 
