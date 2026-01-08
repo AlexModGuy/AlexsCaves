@@ -11,6 +11,7 @@
     • {lupa wawa|toxic_caves/chapter.json}
     • {telo pi anpa mute|abyssal_chasm/chapter.json}
     • {lupa pimeja|forlorn_hollows/chapter.json}
+    • {lupa suwi|candy_cavity/chapter.json}
 
     sina wile sona e lupa ni la, o alasa e §ltomo §lanpa §lsona§r a!
     tomo anpa sona mute li lon lupa ma. monsuta anpa li alasa e sina la ona li tomo awen pona!
