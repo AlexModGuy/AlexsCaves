@@ -1556,7 +1556,7 @@
   "alexscaves.sound.subtitle.sea_staff": "Chorro de agua emerge",
   "alexscaves.sound.subtitle.sea_staff_hit": "Chorro de agua golpea",
   "alexscaves.sound.subtitle.sea_staff_bubble": "Chorro de agua burbujea",
-  "alexscaves.sound.subtitle.ortholance_wave": "Ortolanzaa zumba",
+  "alexscaves.sound.subtitle.ortholance_wave": "Ortolanza zumba",
   "alexscaves.sound.subtitle.desolate_dagger_summon": "Daga desolada aparece",
   "alexscaves.sound.subtitle.desolate_dagger_hit": "Daga desolada apuñala",
   "alexscaves.sound.subtitle.totem_of_possession": "Tótem de posesión se activa",
@@ -1705,6 +1705,7 @@
   "enchantment.alexscaves.seekcandy": "Mentas buscadoras",
   "enchantment.alexscaves.seekcandy.desc": "Las mentas de la vara de caramelo se dirigen hacia cualquier entidad que el jugador haya mirado"
 }
+
 
 
 
