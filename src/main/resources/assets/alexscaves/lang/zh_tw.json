@@ -1671,7 +1671,7 @@
   "enchantment.alexscaves.sightless": "盲控",
   "enchantment.alexscaves.sightless.desc": "被縱偶圖騰控制的生物在視線被阻隔時仍然保持被控制狀態",
   "enchantment.alexscaves.astral_transferring": "星移斗轉",
-  "enchantment.alexscaves.astral_transferring.desc": "被縱偶圖騰控制的生物血量低於攻擊目標時，被控制壯態會轉移到後者",
+  "enchantment.alexscaves.astral_transferring.desc": "被縱偶圖騰控制的生物血量低於攻擊目標時，被控制狀態會轉移到後者",
   "enchantment.alexscaves.impending_stab": "懸刃",
   "enchantment.alexscaves.impending_stab.desc": "幻影匕首的攻擊推遲，傷害更高",
   "enchantment.alexscaves.sated_blade": "飲血",
