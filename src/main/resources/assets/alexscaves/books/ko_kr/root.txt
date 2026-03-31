@@ -14,6 +14,7 @@
     • {독성 동굴|toxic_caves/chapter.json}
     • {심연의 틈새|abyssal_chasm/chapter.json}
     • {외로운 공허|forlorn_hollows/chapter.json}
+    • {사탕 골짜기|candy_cavity/chapter.json}
 
 
 

@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    어서오세요 사탕 골짜기에...
+
+    • {소개|candy_cavity/general.json}
+    • {자원|candy_cavity/resources.json}
+    • 생물들
+        • {달콤한 생선|candy_cavity/sweetish_fish.json}
+        • {캐니악|candy_cavity/caniac.json}
+        • {껌비퍼|candy_cavity/gumbeeper.json}
+        • {캔디콘|candy_cavity/candicorn.json}
+        • {껌 벌레|candy_cavity/gum_worm.json}
+        • {캐러맬 큐브|candy_cavity/caramel_cube.json}
+        • {구미 베어|candy_cavity/gummy_bear.json}
+        • {감초 마녀|candy_cavity/licowitch.json}
+        • {생강빵 인간|candy_cavity/gingerbread_man.json}
+    • {유용한 것들|candy_cavity/utilities.json}

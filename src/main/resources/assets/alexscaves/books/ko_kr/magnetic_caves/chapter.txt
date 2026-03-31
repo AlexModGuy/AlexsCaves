@@ -21,6 +21,6 @@
         • {텔레터|magnetic_caves/teletor.json}
         • {마그네트론|magnetic_caves/magnetron.json}
         • {바운드로이드|magnetic_caves/boundroid.json}
-        • {페러슬라임|magnetic_caves/ferrouslime.json}
+        • {철가루 슬라임|magnetic_caves/ferrouslime.json}
         • {노터|magnetic_caves/notor.json}
     • {유용한 것들|magnetic_caves/utilities.json}
