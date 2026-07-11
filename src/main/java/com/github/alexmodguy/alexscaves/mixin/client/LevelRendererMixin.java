@@ -115,6 +115,8 @@ public abstract class LevelRendererMixin {
         
         // In 1.21, we need to create our own PoseStack since it's no longer passed
         PoseStack poseStack = new PoseStack();
+        // Added mulPose to fix the skybox moving with the camera incorrectly
+        poseStack.mulPose(frustumMatrix);
         
         runnable.run();
         if (!foggy) {
