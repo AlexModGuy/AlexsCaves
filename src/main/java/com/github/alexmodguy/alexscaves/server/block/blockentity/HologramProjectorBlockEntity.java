@@ -138,7 +138,7 @@ public class HologramProjectorBlockEntity extends BlockEntity {
         }
     }
 
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag compoundtag = new CompoundTag();
         if (this.entityType != null) {
             compoundtag.putString("EntityType", BuiltInRegistries.ENTITY_TYPE.getKey(this.entityType).toString());
