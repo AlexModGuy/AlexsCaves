@@ -5,6 +5,7 @@ import com.github.alexmodguy.alexscaves.client.model.GrottoceratopsModel;
 import com.github.alexmodguy.alexscaves.client.model.SubterranodonModel;
 import com.github.alexmodguy.alexscaves.client.model.TremorsaurusModel;
 import com.github.alexmodguy.alexscaves.client.render.ACRenderTypes;
+import com.github.alexmodguy.alexscaves.client.render.ColorUtil;
 import com.github.alexmodguy.alexscaves.server.entity.item.DinosaurSpiritEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -58,7 +59,7 @@ public class DinosaurSpiritRenderer  extends EntityRenderer<DinosaurSpiritEntity
                 SUBTERRANODON_MODEL.young = false;
                 ivertexbuilder = bufferIn.getBuffer(ACRenderTypes.getRedGhost(SUBTERRANODON_TEXTURE));
                 SUBTERRANODON_MODEL.animateSpirit(entityIn, partialTicks);
-                SUBTERRANODON_MODEL.renderToBuffer(poseStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, ghostAlpha);
+                SUBTERRANODON_MODEL.renderToBuffer(poseStack, ivertexbuilder, 240, OverlayTexture.NO_OVERLAY, ColorUtil.packColor(1.0F, 1.0F, 1.0F, ghostAlpha));
                 SUBTERRANODON_MODEL.young = prevBaby;
                 break;
             case GROTTOCERATOPS:
