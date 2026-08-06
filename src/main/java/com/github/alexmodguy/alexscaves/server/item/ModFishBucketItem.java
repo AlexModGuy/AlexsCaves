@@ -52,7 +52,7 @@ public class ModFishBucketItem extends MobBucketItem {
         Entity entity = getFishType().spawn(serverLevel, stack, (Player) null, pos, MobSpawnType.BUCKET, true, false);
         if (entity instanceof Bucketable) {
             Bucketable bucketable = (Bucketable) entity;
-            bucketable.loadFromBucketTag(stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag());
+            bucketable.loadFromBucketTag(stack.getOrDefault(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY).copyTag());
             bucketable.setFromBucket(true);
         }
         addExtraAttributes(entity, stack);
