@@ -101,8 +101,6 @@ public class SpelunkeryTableScreen extends AbstractContainerScreen<SpelunkeryTab
     }
 
     public void render(GuiGraphics guiGraphics, int x, int y, float partialTick) {
-        this.renderBackground(guiGraphics, x, y, partialTick);
-        this.renderBg(guiGraphics, partialTick, x, y);
         super.render(guiGraphics, x, y, partialTick);
         this.renderMagnify(guiGraphics, partialTick);
         this.renderTooltip(guiGraphics, x, y);
