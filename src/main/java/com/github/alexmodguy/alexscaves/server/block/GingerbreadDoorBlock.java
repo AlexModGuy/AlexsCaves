@@ -69,7 +69,7 @@ public class GingerbreadDoorBlock extends Block {
         return !blockState.canSurvive(levelAccessor, otherPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(blockState, direction, state, levelAccessor, otherPos, blockPos);
     }
 
-    public boolean isPathfindable(BlockState blockState, BlockGetter getter, BlockPos blockPos, PathComputationType type) {
+    public boolean isPathfindable(BlockState blockState, PathComputationType type) {
         switch (type) {
             case LAND:
                 return blockState.getValue(OPEN);

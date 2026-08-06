@@ -172,7 +172,7 @@ public class FissurePrimalMagmaBlock extends Block {
         return new ItemStack(ACBlockRegistry.PRIMAL_MAGMA.get());
     }
 
-    public boolean isPathfindable(BlockState blockState, BlockGetter getter, BlockPos blockPos, PathComputationType computationType) {
+    public boolean isPathfindable(BlockState blockState, PathComputationType computationType) {
         return false;
     }
 

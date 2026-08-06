@@ -140,7 +140,7 @@ public class PrimalMagmaBlock extends Block {
         }
     }
 
-    public boolean isPathfindable(BlockState blockState, BlockGetter getter, BlockPos blockPos, PathComputationType computationType) {
+    public boolean isPathfindable(BlockState blockState, PathComputationType computationType) {
         return false;
     }
 
