@@ -11,6 +11,7 @@
     "ChunkStatusMixin",
     "CoralFeatureMixin",
     "CorrodentCollisionMixin",
+    "DecoratedPotPatternsMixin",
     "EnchantRandomlyFunctionMixin",
     "EntityMixin",
     "FallingBlockEntityMixin",

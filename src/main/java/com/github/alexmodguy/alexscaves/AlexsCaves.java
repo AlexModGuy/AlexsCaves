@@ -138,7 +138,7 @@ public class AlexsCaves {
         ACLootTableRegistry.LOOT_FUNCTION_DEF_REG.register(modEventBus);
         ACCreativeTabRegistry.DEF_REG.register(modEventBus);
         ACDataComponentRegistry.init(modEventBus);
-        ACPotPatternRegistry.init(); // Pot patterns are now data-driven in 1.21
+        ACPotPatternRegistry.DEF_REG.register(modEventBus);
         this.modEventBus = modEventBus; // Store for later use
         PROXY.commonInit(modEventBus);
         ACBiomeRegistry.init();
