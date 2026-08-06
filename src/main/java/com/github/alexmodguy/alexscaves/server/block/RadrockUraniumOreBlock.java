@@ -9,6 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -27,9 +28,8 @@ public class RadrockUraniumOreBlock extends Block {
         }
     }
 
-    // In 1.21+, experience drops are handled via loot tables, not this method
-    public int getExpDrop(BlockState state, Level level, BlockPos pos, BlockEntity blockEntity, Entity breaker, ItemStack tool) {
+    public int getExpDrop(BlockState state, LevelAccessor level, BlockPos pos, BlockEntity blockEntity, Entity breaker, ItemStack tool) {
         int silkTouchLevel = tool.getEnchantmentLevel(level.holderLookup(net.minecraft.core.registries.Registries.ENCHANTMENT).getOrThrow(Enchantments.SILK_TOUCH));
-        return silkTouchLevel == 0 ? level.random.nextInt(2) : 0;
+        return silkTouchLevel == 0 ? level.getRandom().nextInt(2) : 0;
     }
 }
