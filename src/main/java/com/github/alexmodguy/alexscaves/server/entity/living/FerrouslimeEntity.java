@@ -292,7 +292,7 @@ public class FerrouslimeEntity extends Monster {
         return this.isAlive() && mergeCooldown <= 0;
     }
 
-    public int getExperienceReward() {
+    public int getBaseExperienceReward() {
         return 2;
     }
 

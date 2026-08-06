@@ -334,7 +334,7 @@ public class CaramelCubeEntity extends Monster implements PossessedByLicowitch {
         }
     }
 
-    public int getExperienceReward() {
+    public int getBaseExperienceReward() {
         return 2;
     }
 

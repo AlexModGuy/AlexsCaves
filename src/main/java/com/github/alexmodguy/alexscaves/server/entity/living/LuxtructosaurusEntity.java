@@ -705,7 +705,7 @@ public class LuxtructosaurusEntity extends SauropodBaseEntity implements Enemy {
         return ACSoundRegistry.LUXTRUCTOSAURUS_DEATH.get();
     }
 
-    public int getExperienceReward() {
+    public int getBaseExperienceReward() {
         return 100;
     }
 
