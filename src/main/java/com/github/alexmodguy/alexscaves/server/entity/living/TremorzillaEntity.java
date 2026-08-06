@@ -1029,7 +1029,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
     }
 
 
-    public void lerpTo(double x, double y, double z, float yr, float xr, int steps, boolean b) {
+    public void lerpTo(double x, double y, double z, float yr, float xr, int steps) {
         this.lx = x;
         this.ly = y;
         this.lz = z;
@@ -1383,7 +1383,7 @@ public class TremorzillaEntity extends DinosaurEntity implements KeybindUsingMou
         }
     }
 
-    public int getExperienceReward() {
+    public int getBaseExperienceReward() {
         return 70;
     }
 
