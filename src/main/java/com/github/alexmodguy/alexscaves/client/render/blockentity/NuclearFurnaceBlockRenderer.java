@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 public class NuclearFurnaceBlockRenderer<T extends NuclearFurnaceBlockEntity> implements BlockEntityRenderer<T> {
 
@@ -60,5 +61,9 @@ public class NuclearFurnaceBlockRenderer<T extends NuclearFurnaceBlockEntity> im
             }
             return glow ? ACRenderTypes.getEyesAlphaEnabled(ON_TEXTURE_GLOW) : RenderType.entityCutoutNoCull(ON_TEXTURE);
         }
+    }
+
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return blockEntity.getRenderBoundingBox();
     }
 }

@@ -14,6 +14,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
 
 public class AbyssalAltarBlockRenderer<T extends AbyssalAltarBlockEntity> implements BlockEntityRenderer<T> {
 
@@ -91,5 +92,9 @@ public class AbyssalAltarBlockRenderer<T extends AbyssalAltarBlockEntity> implem
 
     public int getViewDistance() {
         return 128;
+    }
+
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return blockEntity.getRenderBoundingBox();
     }
 }
