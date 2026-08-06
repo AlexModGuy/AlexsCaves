@@ -60,6 +60,7 @@
     "client.LivingEntityRendererMixin",
     "client.LocalPlayerMixin",
     "client.MapRendererMapInstanceMixin",
+    "client.MinecartSoundInstanceMixin",
     "client.MinecraftMixin",
     "client.OptionsMixin",
     "client.RidingMinecartSoundInstanceMixin",
