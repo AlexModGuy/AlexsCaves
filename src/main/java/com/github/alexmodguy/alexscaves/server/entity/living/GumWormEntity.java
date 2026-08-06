@@ -160,8 +160,9 @@ public class GumWormEntity extends Monster implements ICustomCollisions, KaijuMo
         builder.define(RETURNING_TO_GROUND, false);
     }
 
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return 0.4F * dimensions.height();
+    public EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(0.4F * dimensions.height());
     }
 
     protected PathNavigation createNavigation(Level level) {

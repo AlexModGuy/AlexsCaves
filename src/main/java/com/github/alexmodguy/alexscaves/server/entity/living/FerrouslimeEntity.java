@@ -185,10 +185,6 @@ public class FerrouslimeEntity extends Monster {
         this.setPos(d0, d1, d2);
     }
 
-    protected float getStandingEyeHeight(Pose p_33614_, EntityDimensions dimensions) {
-        return 0.625F * dimensions.height();
-    }
-
     public void onSyncedDataUpdated(EntityDataAccessor<?> entityDataAccessor) {
         super.onSyncedDataUpdated(entityDataAccessor);
         if (HEADS.equals(entityDataAccessor)) {
@@ -237,7 +233,8 @@ public class FerrouslimeEntity extends Monster {
 
     @Override
     public EntityDimensions getDefaultDimensions(Pose poseIn) {
-        return super.getDefaultDimensions(poseIn).scale(getSlimeSize(1.0F));
+        EntityDimensions dimensions = super.getDefaultDimensions(poseIn).scale(getSlimeSize(1.0F));
+        return dimensions.withEyeHeight(0.625F * dimensions.height());
     }
 
     public float getSlimeSize(float partialTicks) {

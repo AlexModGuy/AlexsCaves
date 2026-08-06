@@ -100,8 +100,9 @@ public class RelicheirusEntity extends DinosaurEntity implements IAnimatedEntity
         }
     }
 
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return 0.99F * dimensions.height();
+    public EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(0.99F * dimensions.height());
     }
 
     @Override
