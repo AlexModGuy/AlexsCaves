@@ -269,8 +269,6 @@ public class TremorzillaModel extends AdvancedEntityModel<TremorzillaEntity> {
             head.setScale(f, f, f);
             head.setShouldScaleChildren(true);
             matrixStackIn.pushPose();
-            matrixStackIn.scale(0.15F, 0.15F, 0.15F);
-            matrixStackIn.translate(0.0D, 8.55F, 0D);
             parts().forEach((p_228292_8_) -> {
                 p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
             });

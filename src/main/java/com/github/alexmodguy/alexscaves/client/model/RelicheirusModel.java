@@ -266,8 +266,6 @@ public class RelicheirusModel extends AdvancedEntityModel<RelicheirusEntity> {
             head.setScale(f, f, f);
             head.setShouldScaleChildren(true);
             matrixStackIn.pushPose();
-            matrixStackIn.scale(0.25F, 0.25F, 0.25F);
-            matrixStackIn.translate(0.0D, 4.5F, 0D);
             parts().forEach((p_228292_8_) -> {
                 p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
             });

@@ -113,8 +113,6 @@ public class AtlatitanModel extends SauropodBaseModel<AtlatitanEntity> {
             head.setShouldScaleChildren(true);
             head.setRotationPoint(0.8F, 3.0F, -75.0F);
             matrixStackIn.pushPose();
-            matrixStackIn.scale(0.15F, 0.15F, 0.15F);
-            matrixStackIn.translate(0.0D, 8.55F, 0D);
             parts().forEach((p_228292_8_) -> {
                 p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, color);
             });
