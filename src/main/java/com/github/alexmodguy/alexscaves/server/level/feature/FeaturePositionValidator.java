@@ -19,7 +19,7 @@ public class FeaturePositionValidator {
         try {
             BlockPos origin = context.origin();
             int oceanFloorY = context.level().getHeight(Heightmap.Types.OCEAN_FLOOR, origin.getX(), origin.getZ());
-            int checkY = Math.min(context.level().getMinBuildHeight(), oceanFloorY - 30);
+            int checkY = Math.max(context.level().getMinBuildHeight(), oceanFloorY - 30);
             return context.level().getBiome(origin.atY(checkY)).is(biomeResourceKey);
         } catch (Exception e) {
             return true;

@@ -126,7 +126,7 @@ public class BoundroidWinchEntity extends Monster {
     public void addAdditionalSaveData(CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         if (this.getHeadUUID() != null) {
-            compound.putUUID("BodyUUID", this.getHeadUUID());
+            compound.putUUID("HeadUUID", this.getHeadUUID());
         }
     }
 

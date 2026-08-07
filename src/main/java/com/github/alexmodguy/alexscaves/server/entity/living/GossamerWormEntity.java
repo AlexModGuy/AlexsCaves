@@ -92,8 +92,9 @@ public class GossamerWormEntity extends WaterAnimal implements Bucketable {
 
     }
 
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return 0.5F * dimensions.height();
+    public EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(0.5F * dimensions.height());
     }
 
 

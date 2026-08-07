@@ -146,8 +146,9 @@ public class TeletorEntity extends Monster {
         return checkAnyLightMonsterSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource);
     }
 
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return 0.55F * dimensions.height();
+    public EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(0.55F * dimensions.height());
     }
 
     public boolean areLegsCrossed(float limbSwing) {
@@ -208,7 +209,7 @@ public class TeletorEntity extends Monster {
         return true;
     }
 
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 

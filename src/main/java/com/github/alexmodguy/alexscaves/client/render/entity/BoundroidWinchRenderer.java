@@ -52,7 +52,8 @@ public class BoundroidWinchRenderer extends MobRenderer<BoundroidWinchEntity, Bo
         }
     }
 
-    protected void setupRotations(BoundroidWinchEntity entity, PoseStack poseStack, float ptich, float yaw, float partialTicks) {
+    @Override
+    protected void setupRotations(BoundroidWinchEntity entity, PoseStack poseStack, float ptich, float yaw, float partialTicks, float scale) {
         if (isEntityUpsideDown(entity)) {
             poseStack.translate(0.0F, entity.getBbHeight() + 0.1F, 0.0F);
             poseStack.mulPose(Axis.ZP.rotationDegrees(180.0F));

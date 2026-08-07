@@ -211,8 +211,9 @@ public class HullbreakerEntity extends WaterAnimal implements IAnimatedEntity, K
 
     }
 
-    protected float getStandingEyeHeight(Pose pose, EntityDimensions dimensions) {
-        return 0.45F * dimensions.height();
+    public EntityDimensions getDefaultDimensions(Pose pose) {
+        EntityDimensions dimensions = super.getDefaultDimensions(pose);
+        return dimensions.withEyeHeight(0.45F * dimensions.height());
     }
 
 

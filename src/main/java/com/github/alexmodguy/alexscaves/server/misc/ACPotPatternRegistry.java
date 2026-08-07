@@ -1,24 +1,41 @@
 package com.github.alexmodguy.alexscaves.server.misc;
 
 import com.github.alexmodguy.alexscaves.AlexsCaves;
+import com.github.alexmodguy.alexscaves.server.item.ACItemRegistry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.entity.DecoratedPotPattern;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-/**
- * In 1.21, DecoratedPotPatterns has completely changed.
- * Pot patterns are now data-driven and should be defined via JSON files.
- * 
- * Custom pot patterns need to be registered through data packs:
- * - Pattern data in: data/alexscaves/decorated_pot_pattern/*.json
- * - Textures in: assets/alexscaves/textures/entity/decorated_pot/*.png
- * 
- * The ITEM_TO_POT_TEXTURE map is now private and final, and cannot be modified at runtime.
- * Instead, use the data-driven approach.
- */
+import javax.annotation.Nullable;
+
 public class ACPotPatternRegistry {
 
-    public static void init() {
-        AlexsCaves.LOGGER.info("ACPotPatternRegistry: Decorated pot patterns are now data-driven in 1.21");
+    public static final DeferredRegister<DecoratedPotPattern> DEF_REG = DeferredRegister.create(Registries.DECORATED_POT_PATTERN, AlexsCaves.MODID);
+
+    public static final DeferredHolder<DecoratedPotPattern, DecoratedPotPattern> DINOSAUR = register("dinosaur_pottery_pattern");
+    public static final DeferredHolder<DecoratedPotPattern, DecoratedPotPattern> FOOTPRINT = register("footprint_pottery_pattern");
+    public static final DeferredHolder<DecoratedPotPattern, DecoratedPotPattern> GUARDIAN = register("guardian_pottery_pattern");
+    public static final DeferredHolder<DecoratedPotPattern, DecoratedPotPattern> HERO = register("hero_pottery_pattern");
+
+    private static DeferredHolder<DecoratedPotPattern, DecoratedPotPattern> register(String name) {
+        return DEF_REG.register(name, () -> new DecoratedPotPattern(ResourceLocation.fromNamespaceAndPath(AlexsCaves.MODID, name)));
     }
-    
-    // Pot pattern registration is now handled through data packs
-    // See: data/alexscaves/decorated_pot_pattern/
+
+    @Nullable
+    public static ResourceKey<DecoratedPotPattern> getPatternForSherd(Item item) {
+        if (item == ACItemRegistry.DINOSAUR_POTTERY_SHERD.get()) {
+            return DINOSAUR.getKey();
+        } else if (item == ACItemRegistry.FOOTPRINT_POTTERY_SHERD.get()) {
+            return FOOTPRINT.getKey();
+        } else if (item == ACItemRegistry.GUARDIAN_POTTERY_SHERD.get()) {
+            return GUARDIAN.getKey();
+        } else if (item == ACItemRegistry.HERO_POTTERY_SHERD.get()) {
+            return HERO.getKey();
+        }
+        return null;
+    }
 }

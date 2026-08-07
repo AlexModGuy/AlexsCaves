@@ -16,6 +16,7 @@ import com.github.alexmodguy.alexscaves.server.item.ExtinctionSpearItem;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRarity;
 import com.github.alexmodguy.alexscaves.server.level.biome.ACBiomeRegistry;
 import com.github.alexmodguy.alexscaves.server.level.biome.BiomeSourceAccessor;
+import com.github.alexmodguy.alexscaves.server.level.biome.MultiNoiseBiomeSourceAccessor;
 import com.github.alexmodguy.alexscaves.server.misc.ACSoundRegistry;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
@@ -381,6 +382,7 @@ public class CommonEvents {
         RegistryAccess registryAccess = event.getServer().registryAccess();
         Registry<Biome> allBiomes = registryAccess.registryOrThrow(Registries.BIOME);
         Registry<LevelStem> levelStems = registryAccess.registryOrThrow(Registries.LEVEL_STEM);
+        long worldSeed = event.getServer().getWorldData().worldGenOptions().seed();
         Map<ResourceKey<Biome>, Holder<Biome>> biomeMap = new HashMap<>();
         for (ResourceKey<Biome> biomeResourceKey : allBiomes.registryKeySet()) {
             Optional<Holder.Reference<Biome>> holderOptional = allBiomes.getHolder(biomeResourceKey);
@@ -390,6 +392,10 @@ public class CommonEvents {
             Optional<Holder.Reference<LevelStem>> holderOptional = levelStems.getHolder(levelStemResourceKey);
             if (holderOptional.isPresent() && holderOptional.get().value().generator().getBiomeSource() instanceof BiomeSourceAccessor expandedBiomeSource) {
                 expandedBiomeSource.setResourceKeyMap(biomeMap);
+                if (expandedBiomeSource instanceof MultiNoiseBiomeSourceAccessor multiNoiseBiomeSource) {
+                    multiNoiseBiomeSource.setLastSampledSeed(worldSeed);
+                    multiNoiseBiomeSource.setLastSampledDimension(ResourceKey.create(Registries.DIMENSION, levelStemResourceKey.location()));
+                }
                 if (levelStemResourceKey.equals(LevelStem.OVERWORLD)) {
                     ImmutableSet.Builder<Holder<Biome>> biomeHolders = ImmutableSet.builder();
                     for (ResourceKey<Biome> biomeResourceKey : ACBiomeRegistry.ALEXS_CAVES_BIOMES) {

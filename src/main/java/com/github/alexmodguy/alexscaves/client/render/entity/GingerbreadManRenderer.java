@@ -83,7 +83,8 @@ public class GingerbreadManRenderer extends MobRenderer<GingerbreadManEntity, Gi
     }
 
 
-    protected void setupRotations(GingerbreadManEntity entity, PoseStack poseStack, float bob, float yawIn, float partialTicks) {
+    @Override
+    protected void setupRotations(GingerbreadManEntity entity, PoseStack poseStack, float bob, float yawIn, float partialTicks, float scale) {
         if (this.isShaking(entity)) {
             yawIn += (float) (Math.cos((double) entity.tickCount * 3.25D) * Math.PI * (double) 0.4F);
         }

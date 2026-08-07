@@ -179,7 +179,8 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
         this.alpha = alpha;
     }
 
-    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alphaIn) {
+    public void renderToBuffer(PoseStack matrixStackIn, VertexConsumer bufferIn, int packedLightIn, int packedOverlayIn, int color) {
+        int tintedColor = ColorUtil.packColor(ColorUtil.unpackRed(color), ColorUtil.unpackGreen(color), ColorUtil.unpackBlue(color), ColorUtil.unpackAlpha(color) * this.alpha);
         if (this.young) {
             float f = 1.5F;
             head.setScale(f, f, f);
@@ -188,14 +189,14 @@ public class VallumraptorModel extends AdvancedEntityModel<VallumraptorEntity> {
             matrixStackIn.scale(0.5F, 0.5F, 0.5F);
             matrixStackIn.translate(0.0D, 1.5D, 0D);
             parts().forEach((p_228292_8_) -> {
-                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, ColorUtil.packColor(red, green, blue, alphaIn * this.alpha));
+                p_228292_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, tintedColor);
             });
             matrixStackIn.popPose();
             head.setScale(1, 1, 1);
         } else {
             matrixStackIn.pushPose();
             parts().forEach((p_228290_8_) -> {
-                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, ColorUtil.packColor(red, green, blue, alphaIn * this.alpha));
+                p_228290_8_.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, tintedColor);
             });
             matrixStackIn.popPose();
         }

@@ -7,6 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -116,7 +117,7 @@ public class SulfurBudBlock extends Block implements SimpleWaterloggedBlock {
         return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
-    public boolean canPlaceLiquid(BlockGetter getter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
+    public boolean canPlaceLiquid(Player player, BlockGetter getter, BlockPos blockPos, BlockState blockState, Fluid fluid) {
         return fluid == Fluids.WATER || fluid.getFluidType() == ACFluidRegistry.ACID_FLUID_TYPE.get();
     }
 
@@ -138,7 +139,7 @@ public class SulfurBudBlock extends Block implements SimpleWaterloggedBlock {
         }
     }
 
-    public ItemStack pickupBlock(LevelAccessor levelAccessor, BlockPos blockPos, BlockState state) {
+    public ItemStack pickupBlock(Player player, LevelAccessor levelAccessor, BlockPos blockPos, BlockState state) {
         int liquidType = state.getValue(LIQUID_LOGGED);
         if (liquidType > 0) {
             levelAccessor.setBlock(blockPos, state.setValue(LIQUID_LOGGED, 0), 3);

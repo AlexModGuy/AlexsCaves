@@ -152,10 +152,6 @@ public class ACEnchantmentRegistry {
         return java.util.Optional.of(reference.get());
     }
     
-    public static void init() {
-        AlexsCaves.LOGGER.info("ACEnchantmentRegistry: Enchantments are now data-driven in 1.21");
-    }
-    
     /**
      * In 1.21, enchantments are data-driven and EnchantmentCategory no longer exists.
      * This method is now a no-op. Enchanted books should be added through data packs

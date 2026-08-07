@@ -138,7 +138,7 @@ public class AlexsCaves {
         ACLootTableRegistry.LOOT_FUNCTION_DEF_REG.register(modEventBus);
         ACCreativeTabRegistry.DEF_REG.register(modEventBus);
         ACDataComponentRegistry.init(modEventBus);
-        ACPotPatternRegistry.init(); // Pot patterns are now data-driven in 1.21
+        ACPotPatternRegistry.DEF_REG.register(modEventBus);
         this.modEventBus = modEventBus; // Store for later use
         PROXY.commonInit(modEventBus);
         ACBiomeRegistry.init();
@@ -192,34 +192,9 @@ public class AlexsCaves {
             ACEffectRegistry.setup();
             ACBlockRegistry.setup();
             ACItemRegistry.setup();
-            // ACPotPatternRegistry.expandVanillaDefinitions(); // Pot patterns are now data-driven in 1.21
             ACBlockEntityRegistry.expandVanillaDefinitions();
-            // Debug: verify POI registration
-            verifyPoiRegistration();
         });
         readModIncompatibilities();
-    }
-
-    private void verifyPoiRegistration() {
-        try {
-            var attractingMagnets = com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry.ATTRACTING_MAGNETS.get();
-            var repellingMagnets = com.github.alexmodguy.alexscaves.server.block.poi.ACPOIRegistry.REPELLING_MAGNETS.get();
-            LOGGER.info("POI Verification - Attracting Magnets: {} states registered", attractingMagnets.matchingStates().size());
-            LOGGER.info("POI Verification - Repelling Magnets: {} states registered", repellingMagnets.matchingStates().size());
-            
-            // Verify that PoiTypes.hasPoi returns true for our blocks
-            var scarletNode = com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry.SCARLET_NEODYMIUM_NODE.get().defaultBlockState();
-            var azureNode = com.github.alexmodguy.alexscaves.server.block.ACBlockRegistry.AZURE_NEODYMIUM_NODE.get().defaultBlockState();
-            boolean scarletHasPoi = net.minecraft.world.entity.ai.village.poi.PoiTypes.hasPoi(scarletNode);
-            boolean azureHasPoi = net.minecraft.world.entity.ai.village.poi.PoiTypes.hasPoi(azureNode);
-            LOGGER.info("POI Verification - Scarlet Node hasPoi: {}, Azure Node hasPoi: {}", scarletHasPoi, azureHasPoi);
-            
-            if (!scarletHasPoi || !azureHasPoi) {
-                LOGGER.error("POI registration failed! Neodymium blocks are not registered as POI types!");
-            }
-        } catch (Exception e) {
-            LOGGER.error("Failed to verify POI registration", e);
-        }
     }
 
     private void registerTicketControllers(RegisterTicketControllersEvent event) {

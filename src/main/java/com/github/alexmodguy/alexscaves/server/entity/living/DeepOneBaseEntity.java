@@ -375,8 +375,8 @@ public abstract class DeepOneBaseEntity extends PathfinderMob implements IAnimat
         if (compound.contains("AltarX") && compound.contains("AltarY") && compound.contains("AltarZ")) {
             this.setLastAltarPos(new BlockPos(compound.getInt("AltarX"), compound.getInt("AltarY"), compound.getInt("AltarZ")));
         }
-        if (compound.contains("SwappedWeapon")) {
-            swappedItem = ItemStack.parseOptional(this.registryAccess(), compound.getCompound("SwappedWeapon"));
+        if (compound.contains("SwappedItem")) {
+            swappedItem = ItemStack.parseOptional(this.registryAccess(), compound.getCompound("SwappedItem"));
         }
         this.setSummoned(compound.getBoolean("ConchSummoned"));
         if (compound.contains("ConchUUID")) {

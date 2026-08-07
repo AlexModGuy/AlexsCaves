@@ -24,6 +24,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -168,11 +169,11 @@ public class FissurePrimalMagmaBlock extends Block {
         }
     }
 
-    public ItemStack getCloneItemStack(BlockGetter blockGetter, BlockPos blockPos, BlockState blockState) {
+    public ItemStack getCloneItemStack(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
         return new ItemStack(ACBlockRegistry.PRIMAL_MAGMA.get());
     }
 
-    public boolean isPathfindable(BlockState blockState, BlockGetter getter, BlockPos blockPos, PathComputationType computationType) {
+    public boolean isPathfindable(BlockState blockState, PathComputationType computationType) {
         return false;
     }
 

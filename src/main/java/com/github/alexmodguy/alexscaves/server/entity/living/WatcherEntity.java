@@ -292,7 +292,7 @@ public class WatcherEntity extends Monster implements IAnimatedEntity, Possesses
         AnimationHandler.INSTANCE.updateAnimations(this);
     }
 
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return false;
     }
 

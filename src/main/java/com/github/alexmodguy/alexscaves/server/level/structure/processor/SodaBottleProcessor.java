@@ -40,6 +40,6 @@ public class SodaBottleProcessor extends StructureProcessor {
 
     @Override
     protected StructureProcessorType<?> getType() {
-        return ACStructureProcessorRegistry.UNDERGROUND_CABIN.get();
+        return ACStructureProcessorRegistry.SODA_BOTTLE.get();
     }
 }

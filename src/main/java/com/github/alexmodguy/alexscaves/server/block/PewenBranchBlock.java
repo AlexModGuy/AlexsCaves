@@ -116,7 +116,7 @@ public class PewenBranchBlock extends Block implements SimpleWaterloggedBlock {
 
     }
 
-    public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos pos, PathComputationType type) {
+    public boolean isPathfindable(BlockState state, PathComputationType type) {
         return false;
     }
 

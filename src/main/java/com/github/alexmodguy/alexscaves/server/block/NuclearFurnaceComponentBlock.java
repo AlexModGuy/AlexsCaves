@@ -92,7 +92,7 @@ public class NuclearFurnaceComponentBlock extends Block implements WorldlyContai
         }
     }
 
-    public boolean isPathfindable(BlockState state, BlockGetter getter, BlockPos blockPos, PathComputationType pathComputationType) {
+    public boolean isPathfindable(BlockState state, PathComputationType pathComputationType) {
         return false;
     }
 

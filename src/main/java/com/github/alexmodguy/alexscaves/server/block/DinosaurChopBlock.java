@@ -198,11 +198,11 @@ public class DinosaurChopBlock extends Block implements SimpleWaterloggedBlock {
         return (7 - i) * 2;
     }
 
-    public boolean canPlaceLiquid(BlockGetter blockGetter, BlockPos pos, BlockState blockState, Fluid fluid) {
+    public boolean canPlaceLiquid(Player player, BlockGetter blockGetter, BlockPos pos, BlockState blockState, Fluid fluid) {
         return blockState.getValue(BITES) != 0 && fluid == Fluids.WATER;
     }
 
-    public ItemStack pickupBlock(LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState) {
+    public ItemStack pickupBlock(Player player, LevelAccessor levelAccessor, BlockPos blockPos, BlockState blockState) {
         if (blockState.getValue(BITES) != 0 && blockState.getValue(BlockStateProperties.WATERLOGGED)) {
             levelAccessor.setBlock(blockPos, blockState.setValue(BlockStateProperties.WATERLOGGED, Boolean.valueOf(false)), 3);
             if (!blockState.canSurvive(levelAccessor, blockPos)) {

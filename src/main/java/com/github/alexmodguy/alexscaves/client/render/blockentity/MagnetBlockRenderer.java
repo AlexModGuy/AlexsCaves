@@ -65,4 +65,7 @@ public class MagnetBlockRenderer<T extends MagnetBlockEntity> implements BlockEn
     }
 
 
+    public AABB getRenderBoundingBox(T blockEntity) {
+        return blockEntity.getRenderBoundingBox();
+    }
 }
