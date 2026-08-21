@@ -34,16 +34,25 @@ import java.util.UUID;
 public class BeholderEyeEntity extends Entity implements PossessesCamera {
 
     private static final int LOAD_CHUNK_DISTANCE = 2;
-    private static final EntityDataAccessor<Optional<UUID>> USING_PLAYER_ID = SynchedEntityData.defineId(BeholderEyeEntity.class, EntityDataSerializers.OPTIONAL_UUID);
-    private static final EntityDataAccessor<Float> Y_ROT = SynchedEntityData.defineId(BeholderEyeEntity.class, EntityDataSerializers.FLOAT);
-    private static final EntityDataAccessor<Float> X_ROT = SynchedEntityData.defineId(BeholderEyeEntity.class, EntityDataSerializers.FLOAT);
+
+    private static final EntityDataAccessor<Optional<UUID>> USING_PLAYER_ID =
+            SynchedEntityData.defineId(
+                    BeholderEyeEntity.class,
+                    EntityDataSerializers.OPTIONAL_UUID
+            );
 
     private boolean loadingChunks = false;
     private boolean stopPossession;
     private boolean prevStopPossession = true;
 
+    private float eyeXRot;
+    private float eyeYRot;
     private float prevEyeXRot;
     private float prevEyeYRot;
+
+    private UUID lastUsingPlayerUUID;
+
+    private static final int PLAYER_CHUNK_DISTANCE = 1;
 
     public boolean hasTakenFullControlOfCamera;
 
@@ -58,47 +67,77 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
     @Override
     protected void defineSynchedData() {
         this.getEntityData().define(USING_PLAYER_ID, Optional.empty());
-        this.getEntityData().define(X_ROT, 0F);
-        this.getEntityData().define(Y_ROT, 0F);
     }
 
+    @Override
     public void tick() {
         super.tick();
+
         Entity usingPlayer = getUsingPlayer();
+
         if (usingPlayer == null) {
+
             if (!level().isClientSide && loadingChunks) {
                 loadingChunks = false;
+
                 loadChunksAround(false);
+
+                if (lastUsingPlayerUUID != null) {
+                    ServerPlayer serverPlayer =
+                            level().getServer().getPlayerList().getPlayer(lastUsingPlayerUUID);
+
+                    if (serverPlayer != null) {
+                        restorePlayerChunks(serverPlayer);
+                    }
+                }
             }
+
             if (this.tickCount > 3) {
                 this.discard();
             }
+
         } else {
-            if (!level().isClientSide && hasTakenFullControlOfCamera && !loadingChunks) {
+
+            lastUsingPlayerUUID = usingPlayer.getUUID();
+
+            if (!level().isClientSide
+                    && hasTakenFullControlOfCamera
+                    && !loadingChunks) {
+
                 loadingChunks = true;
                 loadChunksAround(true);
             }
+
             if (usingPlayer instanceof LivingEntity living) {
                 living.zza = 0;
                 living.yya = 0;
                 living.xxa = 0;
             }
+
             if (level().isClientSide) {
                 Player clientSidePlayer = AlexsCaves.PROXY.getClientSidePlayer();
+
                 if (usingPlayer == clientSidePlayer) {
                     if (AlexsCaves.PROXY.isKeyDown(4)) {
-                        AlexsCaves.sendMSGToServer(new PossessionKeyMessage(this.getId(), usingPlayer.getId(), 0));
+                        AlexsCaves.sendMSGToServer(
+                                new PossessionKeyMessage(
+                                        this.getId(),
+                                        usingPlayer.getId(),
+                                        0
+                                )
+                        );
                     }
                 }
-
             } else {
                 if (prevStopPossession != stopPossession) {
                     handleCameraServerSide(usingPlayer, !stopPossession);
                     prevStopPossession = stopPossession;
                 }
+
                 if (stopPossession) {
                     this.setUsingPlayerUUID(null);
                 }
+
                 if (usingPlayer.isShiftKeyDown()) {
                     stopPossession = true;
                 }
@@ -106,46 +145,68 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
         }
     }
 
+    @Override
     public Vec3 getDeltaMovement() {
         return Vec3.ZERO;
     }
 
+    @Override
     public void setDeltaMovement(Vec3 vec3) {
     }
 
     public void handleCameraServerSide(Entity usingPlayer, boolean turnOn) {
         if (usingPlayer.level().equals(this.level())) {
-            AlexsCaves.sendMSGToAll(new BeholderSyncMessage(this.getId(), turnOn));
+
+            AlexsCaves.sendMSGToAll(
+                    new BeholderSyncMessage(this.getId(), turnOn)
+            );
+
             if (turnOn) {
                 this.level().broadcastEntityEvent(this, (byte) 77);
             } else {
                 this.level().broadcastEntityEvent(this, (byte) 78);
             }
-            if(turnOn){
+
+            if (turnOn) {
                 hasTakenFullControlOfCamera = true;
             }
+
         } else {
             this.discard();
         }
     }
 
+    @Override
     public void remove(Entity.RemovalReason removalReason) {
         this.level().broadcastEntityEvent(this, (byte) 78);
         super.remove(removalReason);
     }
 
+    @Override
     public void handleEntityEvent(byte b) {
         if (b == 77 || b == 78) {
+
             Entity usingPlayer = getUsingPlayer();
+
             if (usingPlayer instanceof Player player) {
+
                 if (b == 77) {
+
                     player.playSound(ACSoundRegistry.BEHOLDER_ENTER.get());
-                    AlexsCaves.PROXY.setRenderViewEntity(player, this);
+
+                    AlexsCaves.PROXY.setRenderViewEntity(
+                            player,
+                            this
+                    );
+
                 } else {
+
                     player.playSound(ACSoundRegistry.BEHOLDER_EXIT.get());
+
                     AlexsCaves.PROXY.resetRenderViewEntity(player);
                 }
             }
+
         } else {
             super.handleEntityEvent(b);
         }
@@ -154,90 +215,215 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
         if (tag.contains("UsingPlayerUUID")) {
-            this.setUsingPlayerUUID(tag.getUUID("UsingPlayerUUID"));
+            this.setUsingPlayerUUID(
+                    tag.getUUID("UsingPlayerUUID")
+            );
         }
     }
 
     @Override
     protected void addAdditionalSaveData(CompoundTag tag) {
         UUID uuid1 = getUsingPlayerUUID();
+
         if (uuid1 != null) {
             tag.putUUID("UsingPlayerUUID", uuid1);
         }
     }
 
     public void setUsingPlayerUUID(UUID uuid) {
-        this.entityData.set(USING_PLAYER_ID, Optional.ofNullable(uuid));
+        this.entityData.set(
+                USING_PLAYER_ID,
+                Optional.ofNullable(uuid)
+        );
     }
 
     public UUID getUsingPlayerUUID() {
-        return this.entityData.get(USING_PLAYER_ID).orElse(null);
+        return this.entityData
+                .get(USING_PLAYER_ID)
+                .orElse(null);
     }
 
     public Entity getUsingPlayer() {
         UUID id = getUsingPlayerUUID();
+
         if (id == null) {
             return null;
+        }
+
+        if (level().isClientSide) {
+            return level().getPlayerByUUID(id);
         } else {
-            if (level().isClientSide) {
-                return level().getPlayerByUUID(id);
-            } else {
-                return level().getServer().getPlayerList().getPlayer(id);
-            }
+            return level().getServer().getPlayerList().getPlayer(id);
         }
     }
 
+
+    @Override
     public float getYRot() {
-        return this.entityData.get(Y_ROT);
+        return eyeYRot;
     }
 
+    @Override
     public float getXRot() {
-        return this.entityData.get(X_ROT);
-    }
-
-    public float getViewXRot(float f) {
-        return f == 1.0F ? this.getXRot() : Mth.lerp(f, this.prevEyeXRot, this.getXRot());
-    }
-
-    public float getViewYRot(float f) {
-        return f == 1.0F ? this.getYRot() : Mth.lerp(f, this.prevEyeYRot, this.getYRot());
+        return eyeXRot;
     }
 
     public void setEyeYRot(float f) {
-        this.entityData.set(Y_ROT, f);
+        this.eyeYRot = f;
     }
 
     public void setEyeXRot(float f) {
-        this.entityData.set(X_ROT, f);
+        this.eyeXRot = f;
+    }
+
+    public float getViewXRot(float partialTicks) {
+        return partialTicks == 1.0F
+                ? this.getXRot()
+                : Mth.lerp(
+                partialTicks,
+                this.prevEyeXRot,
+                this.getXRot()
+        );
+    }
+
+    public float getViewYRot(float partialTicks) {
+        return partialTicks == 1.0F
+                ? this.getYRot()
+                : Mth.lerp(
+                partialTicks,
+                this.prevEyeYRot,
+                this.getYRot()
+        );
     }
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return (Packet<ClientGamePacketListener>) NetworkHooks.getEntitySpawningPacket(this);
+        return (Packet<ClientGamePacketListener>)
+                NetworkHooks.getEntitySpawningPacket(this);
     }
 
+    @Override
     public void onPossessionKeyPacket(Entity keyPresser, int type) {
         Entity possessed = this.getUsingPlayer();
+
         if (possessed != null && possessed.equals(keyPresser)) {
             stopPossession = true;
         }
     }
 
     private void loadChunksAround(boolean load) {
+
         if (this.level() instanceof ServerLevel serverLevel) {
-            if(this.getUsingPlayer() instanceof ServerPlayer serverPlayer){
-                ChunkPos playerChunkPos = new ChunkPos(serverPlayer.blockPosition());
-                ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, playerChunkPos.x, playerChunkPos.z, load, load);
-            }
-            ChunkPos chunkPos = new ChunkPos(this.blockPosition());
-            int dist = Math.max(LOAD_CHUNK_DISTANCE, serverLevel.getServer().getPlayerList().getViewDistance() / 2);
-            for (int i = -dist; i <= dist; i++) {
-                for (int j = -dist; j <= dist; j++) {
-                    ForgeChunkManager.forceChunk(serverLevel, AlexsCaves.MODID, this, chunkPos.x + i, chunkPos.z + j, load, load);
-                    if (load && this.getUsingPlayer() instanceof ServerPlayer serverPlayer) {
-                        serverPlayer.connection.send(new ClientboundLevelChunkWithLightPacket(level().getChunk(chunkPos.x + i, chunkPos.z + j), level().getLightEngine(), (BitSet)null, (BitSet)null));
+
+            if (this.getUsingPlayer() instanceof ServerPlayer serverPlayer) {
+
+                ChunkPos playerChunkPos =
+                        new ChunkPos(serverPlayer.blockPosition());
+
+                for (int i = -PLAYER_CHUNK_DISTANCE;
+                     i <= PLAYER_CHUNK_DISTANCE; i++) {
+
+                    for (int j = -PLAYER_CHUNK_DISTANCE;
+                         j <= PLAYER_CHUNK_DISTANCE; j++) {
+
+                        int chunkX = playerChunkPos.x + i;
+                        int chunkZ = playerChunkPos.z + j;
+
+                        ForgeChunkManager.forceChunk(
+                                serverLevel,
+                                AlexsCaves.MODID,
+                                this,
+                                chunkX,
+                                chunkZ,
+                                load,
+                                load
+                        );
+
+                        if (load) {
+                            serverPlayer.connection.send(
+                                    new ClientboundLevelChunkWithLightPacket(
+                                            serverLevel.getChunk(chunkX, chunkZ),
+                                            serverLevel.getLightEngine(),
+                                            (BitSet) null,
+                                            (BitSet) null
+                                    )
+                            );
+                        }
                     }
                 }
+            }
+
+            ChunkPos chunkPos =
+                    new ChunkPos(this.blockPosition());
+
+            int dist = Math.max(
+                    LOAD_CHUNK_DISTANCE,
+                    serverLevel.getServer()
+                            .getPlayerList()
+                            .getViewDistance() / 2
+            );
+
+            for (int i = -dist; i <= dist; i++) {
+                for (int j = -dist; j <= dist; j++) {
+
+                    int chunkX = chunkPos.x + i;
+                    int chunkZ = chunkPos.z + j;
+
+                    ForgeChunkManager.forceChunk(
+                            serverLevel,
+                            AlexsCaves.MODID,
+                            this,
+                            chunkX,
+                            chunkZ,
+                            load,
+                            load
+                    );
+
+                    if (load
+                            && this.getUsingPlayer() instanceof ServerPlayer serverPlayer) {
+
+                        serverPlayer.connection.send(
+                                new ClientboundLevelChunkWithLightPacket(
+                                        serverLevel.getChunk(chunkX, chunkZ),
+                                        serverLevel.getLightEngine(),
+                                        (BitSet) null,
+                                        (BitSet) null
+                                )
+                        );
+                    }
+                }
+            }
+        }
+    }
+
+    private void restorePlayerChunks(ServerPlayer serverPlayer) {
+
+        ServerLevel serverLevel = serverPlayer.serverLevel();
+
+        ChunkPos playerChunkPos =
+                new ChunkPos(serverPlayer.blockPosition());
+
+        int dist = Math.max(
+                LOAD_CHUNK_DISTANCE,
+                serverLevel.getServer()
+                        .getPlayerList()
+                        .getViewDistance()
+        );
+
+        for (int i = -dist; i <= dist; i++) {
+            for (int j = -dist; j <= dist; j++) {
+
+                int chunkX = playerChunkPos.x + i;
+                int chunkZ = playerChunkPos.z + j;
+
+                serverPlayer.connection.send(
+                        new ClientboundLevelChunkWithLightPacket(
+                                serverLevel.getChunk(chunkX, chunkZ),
+                                serverLevel.getLightEngine(),
+                                (BitSet) null,
+                                (BitSet) null
+                        )
+                );
             }
         }
     }
@@ -245,12 +431,14 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
     @Override
     public float getPossessionStrength(float partialTicks) {
         float age = tickCount + partialTicks;
+
         if (age > 10) {
             return 0.0F;
-        } else {
-            float j = age / 10F;
-            return 1F - j;
         }
+
+        float j = age / 10F;
+
+        return 1F - j;
     }
 
     @Override
@@ -264,7 +452,7 @@ public class BeholderEyeEntity extends Entity implements PossessesCamera {
     }
 
     public void setOldRots() {
-        prevEyeYRot = getYRot();
-        prevEyeXRot = getXRot();
+        prevEyeYRot = eyeYRot;
+        prevEyeXRot = eyeXRot;
     }
 }

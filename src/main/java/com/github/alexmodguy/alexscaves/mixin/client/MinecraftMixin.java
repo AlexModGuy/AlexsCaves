@@ -66,4 +66,15 @@ public abstract class MinecraftMixin {
             }
         }
     }
+
+    @Inject(
+            method = "handleKeybinds",
+            at = @At("HEAD"),
+            cancellable = true
+    )
+    private void ac_handleKeybinds(CallbackInfo ci) {
+        if (getCameraEntity() instanceof PossessesCamera) {
+            ci.cancel();
+        }
+    }
 }
