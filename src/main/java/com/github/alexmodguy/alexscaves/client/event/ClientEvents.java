@@ -39,6 +39,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.screens.advancements.AdvancementsScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -240,6 +241,8 @@ public class ClientEvents {
         }
     }
 
+    private static final RandomSource CAMERA_RNG = RandomSource.create();
+
     @SubscribeEvent
     public void computeCameraAngles(ViewportEvent.ComputeCameraAngles event) {
         Entity player = Minecraft.getInstance().getCameraEntity();
@@ -264,10 +267,9 @@ public class ClientEvents {
             }
             if (tremorAmount > 0) {
                 if (ClientProxy.lastTremorTick != player.tickCount) {
-                    RandomSource rng = player.level().random;
-                    ClientProxy.randomTremorOffsets[0] = rng.nextFloat();
-                    ClientProxy.randomTremorOffsets[1] = rng.nextFloat();
-                    ClientProxy.randomTremorOffsets[2] = rng.nextFloat();
+                    ClientProxy.randomTremorOffsets[0] = CAMERA_RNG.nextFloat();
+                    ClientProxy.randomTremorOffsets[1] = CAMERA_RNG.nextFloat();
+                    ClientProxy.randomTremorOffsets[2] = CAMERA_RNG.nextFloat();
                     ClientProxy.lastTremorTick = player.tickCount;
                 }
                 double intensity = tremorAmount * Minecraft.getInstance().options.screenEffectScale().get();
@@ -1020,11 +1022,21 @@ public class ClientEvents {
                     }
                 }
                 if (watcherEntity instanceof BeholderEyeEntity beholderEye) {
+                    LocalPlayer player = Minecraft.getInstance().player;
+
                     beholderEye.setOldRots();
-                    beholderEye.setEyeYRot(Minecraft.getInstance().player.getYHeadRot());
-                    beholderEye.setEyeXRot(Minecraft.getInstance().player.getXRot());
+                    beholderEye.setEyeYRot(player.getYHeadRot());
+                    beholderEye.setEyeXRot(player.getXRot());
+
+                    player.input.leftImpulse = 0.0F;
+                    player.input.forwardImpulse = 0.0F;
+                    player.input.jumping = false;
+
+                    player.setDeltaMovement(Vec3.ZERO);
+                    player.fallDistance = 0.0F;
+
                     if (AlexsCaves.PROXY.isKeyDown(4)) {
-                        AlexsCaves.PROXY.resetRenderViewEntity(Minecraft.getInstance().player);
+                        AlexsCaves.PROXY.resetRenderViewEntity(player);
                     }
                 }
             } else if (ClientProxy.possessionStrengthAmount > 0F) {
