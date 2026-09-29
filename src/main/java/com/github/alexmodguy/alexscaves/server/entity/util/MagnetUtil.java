@@ -7,14 +7,15 @@ import com.github.alexmodguy.alexscaves.server.entity.item.MovingMetalBlockEntit
 import com.github.alexmodguy.alexscaves.server.message.PlayerJumpFromMagnetMessage;
 import com.github.alexmodguy.alexscaves.server.misc.ACTagRegistry;
 import com.github.alexmodguy.alexscaves.server.potion.ACEffectRegistry;
-import com.google.common.base.Predicates;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -26,25 +27,30 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class MagnetUtil {
 
-    private static Stream<BlockPos> getNearbyAttractingMagnets(BlockPos blockpos, ServerLevel world, int range) {
-        PoiManager pointofinterestmanager = world.getPoiManager();
-        return pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(ACPOIRegistry.ATTRACTING_MAGNETS.getKey()), Predicates.alwaysTrue(), blockpos, range, PoiManager.Occupancy.ANY);
-    }
+    private static final EquipmentSlot[] EQUIPMENT_SLOTS = EquipmentSlot.values();
 
-    private static Stream<BlockPos> getNearbyRepellingMagnets(BlockPos blockpos, ServerLevel world, int range) {
+    private static void getNearbyMagnets(BlockPos blockpos, ServerLevel world, int range, List<BlockPos> attracting, List<BlockPos> repelling) {
         PoiManager pointofinterestmanager = world.getPoiManager();
-        return pointofinterestmanager.findAll(poiTypeHolder -> poiTypeHolder.is(ACPOIRegistry.REPELLING_MAGNETS.getKey()), Predicates.alwaysTrue(), blockpos, range, PoiManager.Occupancy.ANY);
+        ResourceKey<PoiType> attractingKey = ACPOIRegistry.ATTRACTING_MAGNETS.getKey();
+        ResourceKey<PoiType> repellingKey = ACPOIRegistry.REPELLING_MAGNETS.getKey();
+        pointofinterestmanager.getInRange(poiTypeHolder -> poiTypeHolder.is(attractingKey) || poiTypeHolder.is(repellingKey), blockpos, range, PoiManager.Occupancy.ANY).forEach(poiRecord -> {
+            if (poiRecord.getPoiType().is(attractingKey)) {
+                attracting.add(poiRecord.getPos());
+            } else if (poiRecord.getPoiType().is(repellingKey)) {
+                repelling.add(poiRecord.getPos());
+            }
+        });
     }
 
     public static void tickMagnetism(Entity entity) {
         if (!entity.level().isClientSide && entity.level() instanceof ServerLevel serverLevel) {
             int range = 5;
-            Stream<BlockPos> attracts = getNearbyAttractingMagnets(entity.blockPosition(), serverLevel, range);
-            Stream<BlockPos> repels = getNearbyRepellingMagnets(entity.blockPosition(), serverLevel, range);
+            List<BlockPos> attracts = new ArrayList<>();
+            List<BlockPos> repels = new ArrayList<>();
+            getNearbyMagnets(entity.blockPosition(), serverLevel, range, attracts, repels);
             attracts.forEach((magnet) -> {
                 Vec3 center = Vec3.atCenterOf(magnet);
                 double distance = Mth.clamp(Math.sqrt(entity.distanceToSqr(center)) / range, 0, 1);
@@ -241,7 +247,7 @@ public class MagnetUtil {
         } else if (legsOnly) {
             return entity.getItemBySlot(EquipmentSlot.FEET).is(ACTagRegistry.MAGNETIC_ITEMS);
         } else {
-            for (EquipmentSlot slot : EquipmentSlot.values()) {
+            for (EquipmentSlot slot : EQUIPMENT_SLOTS) {
                 if (entity.getItemBySlot(slot).is(ACTagRegistry.MAGNETIC_ITEMS)) {
                     return true;
                 }
