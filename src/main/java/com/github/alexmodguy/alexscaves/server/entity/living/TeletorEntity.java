@@ -221,16 +221,16 @@ public class TeletorEntity extends Monster {
     @javax.annotation.Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficultyIn, MobSpawnType reason, @javax.annotation.Nullable SpawnGroupData spawnDataIn, @javax.annotation.Nullable CompoundTag dataTag) {
         MagneticWeaponEntity magneticWeapon = ACEntityRegistry.MAGNETIC_WEAPON.get().create(this.level());
-        ItemStack stack = createItemStack(level().getRandom());
+        ItemStack stack = createItemStack(level.getRandom());
         float f = difficultyIn.getSpecialMultiplier();
-        if (level().getRandom().nextFloat() < 0.25F * (f + 0.5F)) {
-            stack = EnchantmentHelper.enchantItem(level().getRandom(), stack, (int) (5.0F + f * (float) level().getRandom().nextInt(18)), false);
+        if (level.getRandom().nextFloat() < 0.25F * (f + 0.5F)) {
+            stack = EnchantmentHelper.enchantItem(level.getRandom(), stack, (int) (5.0F + f * (float) level.getRandom().nextInt(18)), false);
         }
         magneticWeapon.setItemStack(stack);
         magneticWeapon.setPos(this.getWeaponPosition());
         magneticWeapon.setControllerUUID(this.getUUID());
         this.setWeaponUUID(magneticWeapon.getUUID());
-        level().addFreshEntity(magneticWeapon);
+        level.addFreshEntity(magneticWeapon);
         return super.finalizeSpawn(level, difficultyIn, reason, spawnDataIn, dataTag);
     }
 
