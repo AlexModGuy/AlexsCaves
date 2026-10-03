@@ -9,8 +9,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 
@@ -29,11 +31,21 @@ public class DarkArrowEntity extends AbstractArrow {
     }
 
     public DarkArrowEntity(Level level, LivingEntity shooter) {
-        super(ACEntityRegistry.DARK_ARROW.get(), shooter, level, ItemStack.EMPTY, null);
+        super(ACEntityRegistry.DARK_ARROW.get(), shooter, level, new ItemStack(Items.ARROW), null);
     }
 
     public DarkArrowEntity(Level level, double x, double y, double z) {
-        super(ACEntityRegistry.DARK_ARROW.get(), x, y, z, level, ItemStack.EMPTY, null);
+        super(ACEntityRegistry.DARK_ARROW.get(), x, y, z, level, new ItemStack(Items.ARROW), null);
+    }
+
+    @Override
+    protected ItemStack getDefaultPickupItem() {
+        return new ItemStack(Items.ARROW);
+    }
+
+    @Override
+    protected boolean tryPickup(Player player) {
+        return false;
     }
 
     @Override
@@ -41,11 +53,6 @@ public class DarkArrowEntity extends AbstractArrow {
         super.defineSynchedData(builder);
         builder.define(SHADOW_ARROW_DAMAGE, 0.0F);
         builder.define(PERFECT_SHOT, false);
-    }
-
-    @Override
-    protected ItemStack getDefaultPickupItem() {
-        return ItemStack.EMPTY;
     }
 
     public void startFalling() {
