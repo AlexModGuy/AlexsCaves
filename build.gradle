@@ -112,6 +112,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
+    testImplementation 'junit:junit:4.13.2'
     minecraft 'net.minecraftforge:forge:1.20.1-47.4.1'
     annotationProcessor 'org.spongepowered:mixin:0.8.7:processor'
     implementation fg.deobf("curse.maven:citadel-331936:6702068")
