@@ -52,8 +52,10 @@ public class VoronoiGenerator {
 
         int xPrimed = (xr - 1) * PrimeX;
         int zPrimedBase = (zr - 1) * PrimeZ;
-        Vec3 localPos = new Vec3(xr, 0, zr);
-        Vec3 cellPos = new Vec3(xr, 0, zr);
+        double localX = xr;
+        double localZ = zr;
+        double cellX = xr;
+        double cellZ = zr;
         for (int xi = xr - 1; xi <= xr + 1; xi++)
         {
             int zPrimed = zPrimedBase;
@@ -63,8 +65,10 @@ public class VoronoiGenerator {
                 int hash = hash((int) seed, xPrimed, zPrimed);
                 int idx = hash & (255 << 1);
 
-                double vecX = (xi - x) + RandVecs2D[idx] * cellularJitter;
-                double vecZ = (zi - z) + RandVecs2D[idx | 1] * cellularJitter;
+                double offsetX = RandVecs2D[idx] * cellularJitter;
+                double offsetZ = RandVecs2D[idx | 1] * cellularJitter;
+                double vecX = (xi - x) + offsetX;
+                double vecZ = (zi - z) + offsetZ;
 
                 double newDistance = distanceType.getComparisonLength(vecX, 0, vecZ);
 
@@ -76,15 +80,17 @@ public class VoronoiGenerator {
                     distance1 = distance0;
                     distance0 = newDistance;
                     closestHash = hash;
-                    localPos = new Vec3(vecX, 0.0, vecZ);
-                    cellPos = new Vec3(xi + RandVecs2D[idx] * cellularJitter, 0,  zi + RandVecs2D[idx | 1] * cellularJitter);
+                    localX = vecX;
+                    localZ = vecZ;
+                    cellX = xi + offsetX;
+                    cellZ = zi + offsetZ;
                 }
                 zPrimed += PrimeZ;
             }
             xPrimed += PrimeX;
         }
 
-        return new VoronoiInfo(distanceType.getDistance(distance0), distanceType.getDistance(distance1), closestHash * (1 / 2147483648.0D), cellPos, localPos);
+        return new VoronoiInfo(distanceType.getDistance(distance0), distanceType.getDistance(distance1), closestHash * (1 / 2147483648.0D), new Vec3(cellX, 0, cellZ), new Vec3(localX, 0.0, localZ));
     }
 
     public VoronoiInfo get3(double x, double y, double z) {
@@ -102,8 +108,12 @@ public class VoronoiGenerator {
         int yPrimedBase = (yr - 1) * PrimeY;
         int zPrimedBase = (zr - 1) * PrimeZ;
 
-        Vec3 localPos = new Vec3(xr, yr, zr);
-        Vec3 cellPos = new Vec3(xr, yr, zr);
+        double localX = xr;
+        double localY = yr;
+        double localZ = zr;
+        double cellX = xr;
+        double cellY = yr;
+        double cellZ = zr;
         for (int xi = xr - 1; xi <= xr + 1; xi++)
         {
             int yPrimed = yPrimedBase;
@@ -117,11 +127,13 @@ public class VoronoiGenerator {
                     int hash = hash((int) seed, xPrimed, yPrimed, zPrimed);
                     int idx = hash & (255 << 2);
 
-                    double vecX = (xi - x) + RandVecs3D[idx] * cellularJitter;
-                    double vecY = (yi - y) + RandVecs3D[idx | 1] * cellularJitter;
-                    double vecZ = (zi - z) + RandVecs3D[idx | 2] * cellularJitter;
+                    double offsetX = RandVecs3D[idx] * cellularJitter;
+                    double offsetY = RandVecs3D[idx | 1] * cellularJitter;
+                    double offsetZ = RandVecs3D[idx | 2] * cellularJitter;
 
-                    Vec3 cell = new Vec3(xi + RandVecs3D[idx] * cellularJitter, yi + RandVecs3D[idx | 1] * cellularJitter, zi + RandVecs3D[idx | 2] * cellularJitter);
+                    double vecX = (xi - x) + offsetX;
+                    double vecY = (yi - y) + offsetY;
+                    double vecZ = (zi - z) + offsetZ;
 
                     double newDistance = distanceType.getComparisonLength(vecX, vecY, vecZ);
 
@@ -130,8 +142,12 @@ public class VoronoiGenerator {
                     {
                         distance0 = newDistance;
                         closestHash = hash;
-                        localPos = new Vec3(vecX, vecY, vecZ);
-                        cellPos = cell;
+                        localX = vecX;
+                        localY = vecY;
+                        localZ = vecZ;
+                        cellX = xi + offsetX;
+                        cellY = yi + offsetY;
+                        cellZ = zi + offsetZ;
                     }
                     zPrimed += PrimeZ;
                 }
@@ -140,15 +156,17 @@ public class VoronoiGenerator {
             xPrimed += PrimeX;
         }
 
-        return new VoronoiInfo(distanceType.getDistance(distance0), distanceType.getDistance(distance1), closestHash * (1 / 2147483648.0D), cellPos, localPos);
+        return new VoronoiInfo(distanceType.getDistance(distance0), distanceType.getDistance(distance1), closestHash * (1 / 2147483648.0D), new Vec3(cellX, cellY, cellZ), new Vec3(localX, localY, localZ));
     }
 
-    private static int hash(int seed, int... primedCoords) {
-        int hash = seed;
-        for (int primedCoord : primedCoords) {
-            hash = hash ^ primedCoord;
-        }
+    private static int hash(int seed, int xPrimed, int zPrimed) {
+        int hash = seed ^ xPrimed ^ zPrimed;
+        hash *= 0x27d4eb2d;
+        return hash;
+    }
 
+    private static int hash(int seed, int xPrimed, int yPrimed, int zPrimed) {
+        int hash = seed ^ xPrimed ^ yPrimed ^ zPrimed;
         hash *= 0x27d4eb2d;
         return hash;
     }
